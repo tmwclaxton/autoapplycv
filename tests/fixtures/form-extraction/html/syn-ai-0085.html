@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Senior AI Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; }
+  .apply-wrapper { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 24px 28px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; color: #1a1a2e; }
+  .subhead { color: #6b7280; margin-bottom: 20px; font-size: 14px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px; }
+  dl { display: grid; grid-template-columns: 1fr 2fr; gap: 14px 16px; align-items: start; }
+  dt { font-size: 13px; font-weight: 500; color: #374151; padding-top: 6px; text-align: right; white-space: nowrap; }
+  dd { margin: 0; }
+  input, textarea, select { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+  input:focus, textarea:focus, .custom-combo:focus-within { border-color: #2563eb; outline: 2px solid #bfdbfe; }
+  .two-cols { display: flex; gap: 8px; }
+  .two-cols > * { flex: 1; }
+  .phone-group { display: flex; gap: 6px; }
+  .phone-group select { width: 110px; flex-shrink: 0; }
+  .phone-group input { flex: 1; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 6px 0; }
+  .btn-pill { border: 1px solid #d1d5db; border-radius: 20px; padding: 6px 18px; font-size: 13px; background: #fff; cursor: pointer; }
+  .btn-pill.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .btn-pill:focus { outline: 2px solid #bfdbfe; }
+  .checkbox-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .checkbox-grid label { display: flex; align-items: center; gap: 4px; font-size: 14px; }
+  .hidden-reveal { display: none; margin-top: 8px; }
+  .hidden-reveal.open { display: block; }
+  .custom-combo { position: relative; }
+  .combo-trigger { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; cursor: pointer; min-height: 38px; font-size: 14px; }
+  .combo-trigger[aria-expanded="true"] + .combo-listbox { display: block; }
+  .combo-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .combo-listbox .option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combo-listbox .option:hover, .combo-listbox .option.active { background: #eff6ff; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-weight: 500; }
+  .details-accordion summary { font-weight: 500; cursor: pointer; padding: 4px 0; }
+  .decoy-form { background: #f9fafb; border: 1px dashed #ccc; border-radius: 8px; padding: 12px 16px; margin-bottom: 18px; }
+  .decoy-form h3 { font-size: 14px; color: #6b7280; margin-bottom: 6px; }
+  .decoy-form input { margin-bottom: 6px; }
+  .error-message { color: #b91c1c; font-size: 12px; margin-top: 2px; display: none; }
+  .submit-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; }
+  .submit-btn { background: #2563eb; color: #fff; border: 0; padding: 10px 28px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .submit-btn:hover { background: #1d4ed8; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  iframe.apply-shell { width: 100%; height: 520px; border: 1px solid #e5e7eb; border-radius: 8px; }
+  .glue-label { display: inline; font-size: 13px; color: #374151; }
+</style>
+</head>
+<body>
+<div class="apply-wrapper">
+  <h1>Senior AI Engineer</h1>
+  <div class="subhead">San Francisco, CA · Full-time · Apply below</div>
+
+  <!-- DECOY NEWSLETTER FORM (multiple forms on page) -->
+  <div class="decoy-form">
+    <h3>📬 Stay updated (not part of application)</h3>
+    <input type="email" placeholder="you@example.com" style="width:70%;display:inline;" />
+    <button type="button" style="padding:6px 14px;">Subscribe</button>
+  </div>
+
+  <!-- IFRAME APPLY SHELL (srcdoc) -->
+  <iframe class="apply-shell" srcdoc='
+    <html><head><style>
+      body { font-family: inherit; padding: 12px; }
+      dl { display: grid; grid-template-columns: 1fr 2fr; gap: 10px 12px; }
+      dt { font-size: 13px; text-align: right; color: #374151; }
+      dd { margin:0; }
+      input, textarea, select { width: 100%; padding: 6px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:13px; }
+      .phone-group { display:flex; gap:4px; }
+      .phone-group select { width:100px; }
+      .custom-combo { position:relative; }
+      .combo-trigger { display:flex; align-items:center; justify-content:space-between; padding:6px 8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
+      .combo-trigger[aria-expanded="true"]+.combo-listbox { display:block; }
+      .combo-listbox { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #d1d5db; max-height:150px; overflow-y:auto; z-index:99; }
+      .combo-listbox .option { padding:6px 10px; }
+      .combo-listbox .option:hover { background:#eff6ff; }
+      .checkbox-grid { display:flex; flex-wrap:wrap; gap:6px; }
+      .checkbox-grid label { display:flex; align-items:center; gap:3px; }
+      .btn-pill { border:1px solid #d1d5db; border-radius:20px; padding:4px 14px; background:#fff; cursor:pointer; font-size:12px; }
+      .btn-pill.active { background:#2563eb; color:#fff; }
+      .hidden-reveal { display:none; }
+      .hidden-reveal.open { display:block; }
+      .details-accordion summary { cursor:pointer; font-weight:500; }
+      .error-message { color:#b91c1c; font-size:11px; display:none; }
+      .glue-label { display:inline; font-size:12px; }
+      .submit-btn { background:#2563eb; color:white; border:0; padding:8px 20px; border-radius:6px; cursor:pointer; }
+    </style></head><body>
+    <form id="applicationForm">
+      <dl>
+        <!-- Full Name: native input with label-for -->
+        <dt><label for="fullname">Full name</label></dt>
+        <dd><input id="fullname" name="fullname" required /></dd>
+
+        <!-- Email: aria-labelledby hidden span -->
+        <dt><span id="emailLabel" class="sr-only">Email address</span><span aria-hidden="true">Email</span></dt>
+        <dd><input type="email" aria-labelledby="emailLabel" name="email" required /></dd>
+
+        <!-- Split phone: country code + local number -->
+        <dt><span aria-hidden="true">Phone</span></dt>
+        <dd>
+          <div class="phone-group">
+            <select aria-label="Country code" name="phone_code">
+              <option value="+1">US +1</option>
+              <option value="+44">UK +44</option>
+              <option value="+91">IN +91</option>
+            </select>
+            <input type="tel" placeholder="(555) 123-4567" aria-label="Local phone number" name="phone_number" />
+          </div>
+        </dd>
+
+        <!-- Combobox: Years of Experience (custom listbox) -->
+        <dt><label>Years exp</label></dt>
+        <dd>
+          <div class="custom-combo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select years of experience">
+            <div class="combo-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false" data-value="">
+              <span class="combo-selected">Choose...</span>
+              <span>▾</span>
+            </div>
+            <div class="combo-listbox" role="listbox" aria-label="Experience years">
+              <div class="option" role="option" data-value="0-2">0-2 years</div>
+              <div class="option" role="option" data-value="3-5">3-5 years</div>
+              <div class="option" role="option" data-value="5-10">5-10 years</div>
+              <div class="option" role="option" data-value="10+">10+ years</div>
+            </div>
+          </div>
+          <input type="hidden" name="years_exp" id="yearsExpHidden" />
+        </dd>
+
+        <!-- Native select (not combobox): preferred industry -->
+        <dt><label for="industry">Industry</label></dt>
+        <dd>
+          <select id="industry" name="industry">
+            <option value="">Select...</option>
+            <option value="tech">Technology</option>
+            <option value="finance">Finance</option>
+            <option value="healthcare">Healthcare</option>
+          </select>
+        </dd>
+
+        <!-- Checkbox group without fieldset (bare label>input) -->
+        <dt>Skills</dt>
+        <dd>
+          <div class="checkbox-grid">
+            <label><input type="checkbox" name="skills" value="ML" /> ML</label>
+            <label><input type="checkbox" name="skills" value="NLP" /> NLP</label>
+            <label><input type="checkbox" name="skills" value="Cloud" /> Cloud</label>
+            <label><input type="checkbox" name="skills" value="Python" /> Python</label>
+          </div>
+        </dd>
+
+        <!-- Pill buttons (yes/no) for remote preference -->
+        <dt>Remote</dt>
+        <dd>
+          <div class="btn-row" role="radiogroup" aria-label="Remote preference">
+            <button type="button" class="btn-pill active" data-value="yes" role="radio" aria-checked="true">Yes</button>
+            <button type="button" class="btn-pill" data-value="no" role="radio" aria-checked="false">No</button>
+            <button type="button" class="btn-pill" data-value="hybrid" role="radio" aria-checked="false">Hybrid</button>
+          </div>
+          <input type="hidden" name="remote" value="yes" />
+        </dd>
+
+        <!-- Cover letter: div role=textbox contenteditable with aria-label -->
+        <dt><span aria-hidden="true">Cover letter</span></dt>
+        <dd>
+          <div role="textbox" contenteditable="true" aria-label="Cover letter" style="min-height:70px;border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px;background:#fff;"></div>
+        </dd>
+
+        <!-- Linkedin: aria-labelledby distant hidden span -->
+        <dt><span id="linkedinLabel" style="display:none;">LinkedIn profile URL</span>LinkedIn</dt>
+        <dd><input type="url" aria-labelledby="linkedinLabel" placeholder="https://linkedin.com/in/..." /></dd>
+
+        <!-- GitHub: glued span label -->
+        <dt><span class="glue-label">GitHub</span></dt>
+        <dd><input type="url" placeholder="https://github.com/..." /></dd>
+
+        <!-- Details accordion: additional questions (hidden until click) -->
+        <dt></dt>
+        <dd>
+          <details class="details-accordion">
+            <summary>Additional questions (click to reveal)</summary>
+            <div style="margin-top:8px;">
+              <dl style="display:block;">
+                <dt>Start date</dt>
+                <dd><input type="date" name="start_date" /></dd>
+                <dt>Visa sponsor needed?</dt>
+                <dd>
+                  <label><input type="radio" name="visa" value="yes" /> Yes</label>
+                  <label><input type="radio" name="visa" value="no" /> No</label>
+                </dd>
+              </dl>
+            </div>
+          </details>
+        </dd>
+
+        <!-- Glued span again for referral source -->
+        <dt><span class="glue-label">How did you hear?</span></dt>
+        <dd>
+          <select name="referral">
+            <option>LinkedIn</option>
+            <option>Referral</option>
+            <option>Other</option>
+          </select>
+        </dd>
+
+        <!-- hidden field for CSRF (production-like) -->
+        <dt></dt>
+        <dd><input type="hidden" name="csrf_token" value="a1b2c3d4" /></dd>
+      </dl>
+
+      <div class="submit-section">
+        <button type="submit" class="submit-btn">Submit application</button>
+      </div>
+    </form>
+    <script>
+      // Combobox logic
+      document.querySelectorAll(".custom-combo").forEach(function(combo) {
+        var trigger = combo.querySelector(".combo-trigger");
+        var listbox = combo.querySelector(".combo-listbox");
+        var hidden = document.getElementById("yearsExpHidden");
+        var selectedSpan = trigger.querySelector(".combo-selected");
+        trigger.addEventListener("click", function(e) {
+          e.stopPropagation();
+          var expanded = trigger.getAttribute("aria-expanded") === "true";
+          trigger.setAttribute("aria-expanded", !expanded);
+          combo.setAttribute("aria-expanded", !expanded);
+        });
+        listbox.querySelectorAll(".option").forEach(function(opt) {
+          opt.addEventListener("click", function(e) {
+            selectedSpan.textContent = opt.textContent;
+            trigger.setAttribute("aria-expanded", "false");
+            combo.setAttribute("aria-expanded", "false");
+            if (hidden) hidden.value = opt.getAttribute("data-value");
+          });
+        });
+        document.addEventListener("click", function(e) {
+          if (!combo.contains(e.target)) {
+            trigger.setAttribute("aria-expanded", "false");
+            combo.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+      // Pill buttons as radio
+      document.querySelectorAll(".btn-row").forEach(function(row) {
+        var hidden = row.nextElementSibling;
+        row.querySelectorAll(".btn-pill").forEach(function(btn) {
+          btn.addEventListener("click", function() {
+            row.querySelectorAll(".btn-pill").forEach(function(b) { 
+              b.classList.remove("active"); b.setAttribute("aria-checked", "false"); 
+            });
+            btn.classList.add("active"); btn.setAttribute("aria-checked", "true");
+            if (hidden) hidden.value = btn.getAttribute("data-value");
+          });
+        });
+      });
+    </script>
+    </body></html>
+  '></iframe>
+
+</div><!-- end apply-wrapper -->
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0073",
+    "seed": 1447766918,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "SVG icon labels",
+                "notes": "Label contains SVG icon; accessible name via aria-labelledby only",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>SVG icon labels<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"svg_name_lbl\"><svg aria-hidden=\"true\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\"\/><\/svg> Full name<\/span> <input type=\"text\" name=\"svg_name\" aria-labelledby=\"svg_name_lbl\"> <span id=\"svg_email_lbl\"><svg aria-hidden=\"true\" width=\"16\" h",
+                "requires_interaction": false
+            },
+            {
+                "title": "Aria-label only",
+                "notes": "No visible labels; fields use aria-label exclusively",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Aria-label only<\/h1> <form action=\"\/apply\" method=\"post\"> <input type=\"text\" name=\"given_name\" aria-label=\"Given name\"> <input type=\"text\" name=\"family_name\" aria-label=\"Family name\"> <input type=\"email\" name=\"personal_email\" aria-label=\"Personal email address\"> <textarea name=\"bio\" aria-label=\"Short biograph",
+                "requires_interaction": false
+            },
+            {
+                "title": "Search type for name",
+                "notes": "Name field uses input type=search instead of text",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Search type name<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"search_name\">Search your name (type=search)<\/label><input type=\"search\" id=\"search_name\" name=\"search_name\"> <label for=\"search_email\">Email<\/label><input type=\"email\" id=\"search_email\" name=\"search_email\"> <label for=\"search_notes\">Additi",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: At least one readonly or disabled input with prefilled profile value Required: At least two fields with aria-label only and no visible label element Reference DOM (SVG icon labels): Label contains SVG icon; accessible name via aria-labelledby only Reference DOM (Aria-label only): No visible labels; fields use aria-label exclusively Reference DOM (Search type for name): Name field uses input type=search instead of text Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: iframe-apply, custom-combobox, aria-labelledby-hidden, readonly-prefill, aria-label-only. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: SVG icon labels; Aria-label only; Search type for name."
+}

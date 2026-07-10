@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior Application - Ashby Clone</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+    .app-shell { max-width: 780px; margin: 0 auto; background: #fff; border: 1px solid #d0d5dd; border-radius: 8px; padding: 24px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 6px 4px; vertical-align: top; }
+    .field-label { font-size: 13px; font-weight: 600; color: #1d2939; margin-bottom: 4px; display: block; }
+    input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #c2c9d1; border-radius: 4px; font-size: 14px; background: white; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid #1561f0; outline-offset: -1px; }
+    .pill-group { display: flex; gap: 6px; }
+    .pill-btn { padding: 6px 18px; border: 1px solid #c2c9d1; border-radius: 20px; background: white; font-size: 13px; cursor: pointer; color: #1d2939; }
+    .pill-btn.active { background: #1561f0; color: white; border-color: #1561f0; }
+    .country-code-wrap { display: flex; gap: 4px; }
+    .country-code-wrap select { width: 110px; flex-shrink: 0; }
+    .country-code-wrap input { flex: 1; }
+    .custom-combobox { position: relative; }
+    .combobox-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #c2c9d1; border-radius: 4px; font-size: 14px; background: white; display: flex; align-items: center; justify-content: space-between; cursor: default; }
+    .combobox-input:focus { outline: 2px solid #1561f0; }
+    .combobox-listbox { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #c2c9d1; border-top: none; max-height: 160px; overflow-y: auto; display: none; z-index: 10; }
+    .combobox-listbox.open { display: block; }
+    .combobox-option { padding: 7px 10px; font-size: 14px; cursor: pointer; }
+    .combobox-option:hover, .combobox-option.highlighted { background: #f0f2f5; }
+    .meter-container { display: flex; align-items: center; gap: 10px; }
+    .meter-container meter { width: 100px; height: 12px; }
+    .salary-slider-wrap { display: flex; align-items: center; gap: 8px; }
+    .salary-slider-wrap input[type=range] { flex: 1; }
+    .salary-slider-wrap input[type=number] { width: 80px; }
+    .currency-prefix { font-weight: 600; font-size: 14px; }
+    .hidden-field { display: none; }
+    .date-split { display: flex; gap: 4px; }
+    .date-split select { width: 32%; }
+    .cluster-group { display: flex; flex-wrap: wrap; gap: 12px; }
+    .cluster-group label { font-weight: normal; font-size: 13px; }
+    hr { margin: 16px 0; border: none; border-top: 1px solid #e4e7ec; }
+    .glued-label { font-size: 13px; font-weight: 600; color: #1d2939; padding-right: 4px; white-space: nowrap; }
+    .glued-wrap { display: flex; align-items: center; }
+    .glued-wrap input { flex: 1; }
+    .inline-error { color: #d92d20; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="app-shell" role="application" aria-label="Senior Frontend Engineer Application">
+  <h2 style="margin-top:0; font-size:20px; color:#1d2939;">Apply for Senior Frontend Engineer</h2>
+  <p style="font-size:13px; color:#5f6b7a;">All fields required unless marked optional</p>
+
+  <!-- table-layout: most inputs inside table cells -->
+  <table>
+    <tbody>
+      <tr>
+        <td style="width:50%; padding-right:8px;">
+          <span class="field-label" id="label-first">First name</span>
+          <input type="text" placeholder="First name" aria-labelledby="label-first" style="width:100%;" name="firstName" autocomplete="given-name">
+        </td>
+        <td style="width:50%;">
+          <span class="field-label" id="label-last">Last name</span>
+          <input type="text" placeholder="Last name" aria-labelledby="label-last" style="width:100%;" name="lastName" autocomplete="family-name">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <span class="field-label" id="label-email">Email</span>
+          <input type="email" placeholder="you@example.com" aria-labelledby="label-email" style="width:100%;" name="email" autocomplete="email">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- split-phone: country code select + local number separate wrappers -->
+          <span class="field-label" id="label-phone">Phone</span>
+          <div class="country-code-wrap" role="group" aria-labelledby="label-phone">
+            <select name="phoneCountryCode" aria-label="Country code">
+              <option value="+1">US +1</option>
+              <option value="+44">UK +44</option>
+              <option value="+91">IN +91</option>
+              <option value="+61">AU +61</option>
+              <option value="+49">DE +49</option>
+            </select>
+            <input type="tel" placeholder="Phone number" name="phoneLocal" aria-label="Local phone number" autocomplete="tel-national">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- custom combobox (native-select-not-combobox rule: listbox, not native select) -->
+          <span class="field-label" id="label-position">Position applying for</span>
+          <div class="custom-combobox" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="label-position">
+            <div class="combobox-input" tabindex="0" role="textbox" aria-multiline="false" aria-label="Position applying for" data-value="">
+              <span class="combobox-selected">Select a position</span>
+              <span style="font-size:12px; color:#5f6b7a;">▼</span>
+            </div>
+            <div class="combobox-listbox" role="listbox" aria-label="Available positions">
+              <div class="combobox-option" role="option" data-value="frontend">Senior Frontend Engineer</div>
+              <div class="combobox-option" role="option" data-value="backend">Senior Backend Engineer</div>
+              <div class="combobox-option" role="option" data-value="fullstack">Full Stack Engineer</div>
+              <div class="combobox-option" role="option" data-value="devops">DevOps Engineer</div>
+              <div class="combobox-option" role="option" data-value="ml">ML Engineer</div>
+            </div>
+          </div>
+          <input type="hidden" name="position" id="position-hidden" value="">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- split date selects (day/month/year) -->
+          <span class="field-label" id="label-startdate">Earliest start date</span>
+          <div class="date-split" role="group" aria-labelledby="label-startdate">
+            <select name="startDay" aria-label="Day">
+              <option value="">Day</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+              <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+              <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+              <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+              <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+              <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+              <option>31</option>
+            </select>
+            <select name="startMonth" aria-label="Month">
+              <option value="">Month</option>
+              <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+              <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+              <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+              <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+            </select>
+            <select name="startYear" aria-label="Year">
+              <option value="">Year</option>
+              <option>2025</option><option>2026</option><option>2027</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- salary range slider with currency prefix and number -->
+          <span class="field-label" id="label-salary">Expected salary (USD)</span>
+          <div class="salary-slider-wrap">
+            <span class="currency-prefix" aria-hidden="true">$</span>
+            <input type="range" min="50000" max="250000" step="5000" value="120000" aria-label="Salary range slider" name="salaryRange" oninput="document.getElementById('salary-number').value=this.value">
+            <input type="number" id="salary-number" name="salaryExact" value="120000" min="50000" max="250000" step="5000" aria-label="Exact salary" style="width:90px;">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- meter self assessment: meter near text input -->
+          <span class="field-label" id="label-selfassess">Self-assessment: React expertise</span>
+          <div class="meter-container">
+            <meter min="0" max="10" low="3" high="7" optimum="9" value="6" style="width:120px; height:14px;"></meter>
+            <input type="text" placeholder="Describe your experience" aria-labelledby="label-selfassess" style="flex:1;" name="reactSelfAssessment">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- pill-yes-no: paired button elements for yes/no question -->
+          <span class="field-label" id="label-remote">Are you willing to work remotely?</span>
+          <div class="pill-group" role="radiogroup" aria-labelledby="label-remote" data-selected="">
+            <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'yes')">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'no')">No</button>
+          </div>
+          <input type="hidden" name="remoteOk" id="remote-hidden" value="">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- duplicate-name-attrs: checkbox cluster with same name (skills) -->
+          <span class="field-label" id="label-skills">Skills (select all that apply)</span>
+          <div class="cluster-group" role="group" aria-labelledby="label-skills">
+            <label><input type="checkbox" name="skills" value="react"> React</label>
+            <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+            <label><input type="checkbox" name="skills" value="python"> Python</label>
+            <label><input type="checkbox" name="skills" value="aws"> AWS</label>
+            <label><input type="checkbox" name="skills" value="ts"> TypeScript</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- glued span labels (non-semantic label glued to input) -->
+          <span class="field-label">LinkedIn profile</span>
+          <div class="glued-wrap">
+            <span class="glued-label" aria-hidden="true">linkedin.com/in/</span>
+            <input type="text" placeholder="username" name="linkedin" aria-label="LinkedIn username" style="flex:1;">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- decoy secondary form: hidden via details/reveal (conditional reveal) -->
+          <details style="margin-top:6px;">
+            <summary style="font-size:13px; cursor:pointer; color:#1561f0;">Add referral (optional)</summary>
+            <div style="margin-top:8px; padding:8px; background:#f9fafb; border:1px solid #e4e7ec; border-radius:4px;">
+              <span class="field-label" id="label-ref-name">Referral name</span>
+              <input type="text" placeholder="Full name" aria-labelledby="label-ref-name" style="width:100%;" name="referralName">
+              <span class="field-label" id="label-ref-email" style="margin-top:6px;">Referral email</span>
+              <input type="email" placeholder="email@example.com" aria-labelledby="label-ref-email" style="width:100%;" name="referralEmail">
+            </div>
+          </details>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- additional non-table field: textarea with aria-label only (non-semantic label) -->
+  <div style="margin-top:14px;">
+    <span class="field-label" id="label-cover">Cover letter (optional)</span>
+    <textarea rows="3" placeholder="Tell us why you're interested..." aria-label="Cover letter" name="coverLetter" style="width:100%; box-sizing:border-box; padding:8px 10px; border:1px solid #c2c9d1; border-radius:4px; font-size:14px;"></textarea>
+  </div>
+
+  <!-- readonly prefilled field (non-editable) -->
+  <div style="margin-top:12px; display:flex; align-items:center; gap:8px;">
+    <span class="field-label" style="margin:0;">Source:</span>
+    <span style="background:#f2f4f7; padding:6px 10px; border-radius:4px; font-size:13px; color:#475467;">LinkedIn</span>
+    <input type="hidden" name="source" value="LinkedIn">
+  </div>
+
+  <hr>
+  <div style="display:flex; justify-content:flex-end;">
+    <button type="button" onclick="alert('Form submitted (demo)');" style="background:#1561f0; color:white; border:none; padding:10px 28px; border-radius:6px; font-size:14px; cursor:pointer;">Submit Application</button>
+  </div>
+</div>
+
+<script>
+  // combobox logic
+  document.querySelectorAll('.custom-combobox').forEach(function(combobox) {
+    var input = combobox.querySelector('.combobox-input');
+    var listbox = combobox.querySelector('.combobox-listbox');
+    var hidden = combobox.parentElement.querySelector('input[type=hidden]') || document.getElementById('position-hidden');
+    var selectedSpan = combobox.querySelector('.combobox-selected');
+    var options = listbox.querySelectorAll('.combobox-option');
+
+    function closeListbox() {
+      listbox.classList.remove('open');
+      combobox.setAttribute('aria-expanded', 'false');
+    }
+
+    function openListbox() {
+      listbox.classList.add('open');
+      combobox.setAttribute('aria-expanded', 'true');
+    }
+
+    function selectOption(opt) {
+      var val = opt.getAttribute('data-value');
+      selectedSpan.textContent = opt.textContent;
+      input.setAttribute('data-value', val);
+      if (hidden) hidden.value = val;
+      options.forEach(function(o) { o.classList.remove('highlighted'); });
+      opt.classList.add('highlighted');
+      closeListbox();
+    }
+
+    input.addEventListener('click', function(e) {
+      if (listbox.classList.contains('open')) {
+        closeListbox();
+      } else {
+        openListbox();
+      }
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        selectOption(opt);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combobox.contains(e.target)) {
+        closeListbox();
+      }
+    });
+
+    // keyboard navigation
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!listbox.classList.contains('open')) openListbox();
+        var current = listbox.querySelector('.highlighted');
+        var next;
+        if (e.key === 'ArrowDown') {
+          next = current ? current.nextElementSibling : options[0];
+        } else {
+          next = current ? current.previousElementSibling : options[options.length-1];
+        }
+        if (next) {
+          if (current) current.classList.remove('highlighted');
+          next.classList.add('highlighted');
+        }
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var highlighted = listbox.querySelector('.highlighted');
+        if (highlighted) selectOption(highlighted);
+        else if (listbox.classList.contains('open')) closeListbox();
+      } else if (e.key === 'Escape') {
+        closeListbox();
+      }
+    });
+  });
+
+  // pill buttons
+  function handlePill(btn, value) {
+    var group = btn.parentElement;
+    var hidden = document.getElementById('remote-hidden');
+    var pills = group.querySelectorAll('.pill-btn');
+    pills.forEach(function(p) {
+      p.classList.remove('active');
+      p.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    group.setAttribute('data-selected', value);
+    if (hidden) hidden.value = value;
+  }
+
+  // sync salary range and number
+  document.getElementById('salary-number').addEventListener('input', function() {
+    var range = document.querySelector('input[name=salaryRange]');
+    if (range) range.value = this.value;
+  });
+</script>
+</body>
+</html>

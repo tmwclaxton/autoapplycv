@@ -1,0 +1,200 @@
+{
+  "id": "https-jobs-ashbyhq-com-firecrawl-0d7a5f64-4da7-4f68-844f-7c4748c5f847-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:20:02.839Z",
+  "page_url": "https://jobs.ashbyhq.com/firecrawl/0d7a5f64-4da7-4f68-844f-7c4748c5f847/application",
+  "page_title": "Revenue Operations Lead @ Firecrawl",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you located in the americas and able to work during us business hours (et–pt)?",
+        "ai": "Are you located in the Americas and able to work during US business hours (ET–PT)?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedln",
+        "ai": "Linkedln",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "describe a revenue-impacting function, team, or system you built from scratch — not inherited or optimized, but created. include: what it was, how you staffed it, and one specific metric that changed as a result.",
+        "ai": "Describe a revenue-impacting function, team, or system you built from scratch — not inherited or optimized, but created. Include: what it was, how you staffed it, and one specific metric that changed as a result.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "give us an example of a workflow or automation you personally built (not specced, not managed — built) that directly improved a growth or revenue outcome. what tools did you use, and what was the before/after?",
+        "ai": "Give us an example of a workflow or automation you personally built (not specced, not managed — built) that directly improved a growth or revenue outcome. What tools did you use, and what was the before/after?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "for this role, it is important to be able to communicate effectively with in english both by writing and speaking. how comfortable are you with writing and speaking in english?",
+        "ai": "For this role, it is important to be able to communicate effectively with in English both by writing and speaking. How comfortable are you with writing and speaking in English?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what interests you about working at firecrawl? what should we know about you?",
+        "ai": "What interests you about working at Firecrawl? What should we know about you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The 'Are you located in the Americas' field uses custom button elements that toggle a hidden checkbox; it is treated as a checkbox/radio hybrid.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedln",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe a revenue-impacting function, team, or system you built from scratch — not inherited or optimized, but created. Include: what it was, how you staffed it, and one specific metric that changed as a result.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Give us an example of a workflow or automation you personally built (not specced, not managed — built) that directly improved a growth or revenue outcome. What tools did you use, and what was the before/after?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "For this role, it is important to be able to communicate effectively with in English both by writing and speaking. How comfortable are you with writing and speaking in English?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I'm not very comfortable with writing and speaking in English.",
+          "I'm pretty comfortable with writing and speaking in English.",
+          "I'm very comfortable with writing and speaking in English."
+        ]
+      },
+      {
+        "question": "Are you located in the Americas and able to work during US business hours (ET–PT)?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What interests you about working at Firecrawl? What should we know about you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you located in the americas and able to work during us business hours (et–pt)?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedln",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "describe a revenue-impacting function, team, or system you built from scratch — not inherited or optimized, but created. include: what it was, how you staffed it, and one specific metric that changed as a result.",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "give us an example of a workflow or automation you personally built (not specced, not managed — built) that directly improved a growth or revenue outcome. what tools did you use, and what was the before/after?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "for this role, it is important to be able to communicate effectively with in english both by writing and speaking. how comfortable are you with writing and speaking in english?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "what interests you about working at firecrawl? what should we know about you?",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

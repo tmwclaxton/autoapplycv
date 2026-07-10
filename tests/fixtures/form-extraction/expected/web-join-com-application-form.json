@@ -1,0 +1,211 @@
+{
+  "id": "web-join-com-application-form",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "first name jane",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cf-modal-firstname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Jane",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name smith",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cf-modal-lastname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Smith",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work email jane@company.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cf-modal-email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "jane@company.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone +44 20 1234 5678",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cf-modal-phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+44 20 1234 5678",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "company acme inc.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cf-modal-company",
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Acme Inc.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current job openings 5",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "cf-modal-open-jobs",
+        "name": "form_open_jobs",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "5",
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "employees 50",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "cf-modal-employees",
+        "name": "form_employees_count",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "50",
+        "min": "1",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "comment anything you'd like to add (optional).",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cf-modal-message",
+        "name": "form_text",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Anything you'd like to add (optional).",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "website (leave blank)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cf-modal-hp",
+        "name": "join_website",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree to join's privacy policy.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree to Join's privacy policy."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "join_consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

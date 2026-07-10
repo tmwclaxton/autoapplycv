@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application – Product Designer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f2f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      max-width: 620px;
+      width: 100%;
+      padding: 2rem 2rem 2.5rem;
+    }
+    .form-card h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0b1a2f;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .form-card .subtitle {
+      font-size: 0.9rem;
+      color: #5b6779;
+      margin-bottom: 1.8rem;
+      border-bottom: 1px solid #eef2f6;
+      padding-bottom: 0.9rem;
+    }
+    .field-group {
+      margin-bottom: 1.25rem;
+    }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #1e2a3a;
+      margin-bottom: 0.35rem;
+    }
+    label .required {
+      color: #d73a49;
+      margin-left: 2px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.9rem;
+      border: 1px solid #d0d7de;
+      border-radius: 10px;
+      background: #fff;
+      transition: border 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #265bff;
+      box-shadow: 0 0 0 3px rgba(38, 91, 255, 0.15);
+    }
+    .phone-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .phone-row select {
+      width: 5.5rem;
+      flex-shrink: 0;
+    }
+    .phone-row input {
+      flex: 1;
+    }
+    .combobox-wrapper {
+      position: relative;
+    }
+    .combobox-wrapper input {
+      padding-right: 2.2rem;
+    }
+    .combobox-wrapper::after {
+      content: '&#9660;';
+      font-size: 0.6rem;
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6e7b8c;
+      pointer-events: none;
+    }
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.8rem;
+      margin-top: 0.25rem;
+    }
+    .radio-group label, .checkbox-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: #1e2a3a;
+      margin-bottom: 0;
+    }
+    .radio-group input, .checkbox-group input {
+      width: auto;
+      margin: 0;
+    }
+    .drag-zone {
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      background: #fafcff;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .drag-zone:hover {
+      border-color: #265bff;
+      background: #f0f5ff;
+    }
+    .drag-zone input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .drag-zone .zone-label {
+      pointer-events: none;
+      font-size: 0.85rem;
+      color: #4a5a6e;
+    }
+    .drag-zone .zone-label strong {
+      color: #265bff;
+      font-weight: 600;
+    }
+    .drag-zone .zone-icon {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .hidden-reveal {
+      margin-top: 0.6rem;
+      display: none;
+    }
+    .hidden-reveal.visible {
+      display: block;
+    }
+    .hidden-reveal input {
+      width: 100%;
+    }
+    .submit-btn {
+      width: 100%;
+      margin-top: 0.4rem;
+      padding: 0.8rem;
+      background: #0b1a2f;
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .submit-btn:hover {
+      background: #1f334b;
+    }
+    small {
+      color: #6f7d91;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+<div class="form-card">
+  <h1>Application · Product Designer</h1>
+  <div class="subtitle">Remote · Full-time · Acme Studio</div>
+
+  <form action="#" method="post" enctype="multipart/form-data">
+    
+    <!-- Full Name (text) -->
+    <div class="field-group">
+      <label for="fullname">Full name <span class="required">*</span></label>
+      <input type="text" id="fullname" name="fullname" placeholder="e.g. Alex Rivera" required>
+    </div>
+
+    <!-- Email (email) -->
+    <div class="field-group">
+      <label for="email">Email address <span class="required">*</span></label>
+      <input type="email" id="email" name="email" placeholder="alex@example.com" required>
+    </div>
+
+    <!-- Phone: country code + local number (weirdness #1) -->
+    <div class="field-group">
+      <label>Phone <span class="required">*</span></label>
+      <div class="phone-row">
+        <select id="phone_country" name="phone_country" required>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+49">🇩🇪 +49</option>
+          <option value="+81">🇯🇵 +81</option>
+          <option value="+91">🇮🇳 +91</option>
+          <option value="+61">🇦🇺 +61</option>
+          <option value="+55">🇧🇷 +55</option>
+        </select>
+        <input type="tel" id="phone_local" name="phone_local" placeholder="555-0123" required>
+      </div>
+    </div>
+
+    <!-- Current position (text) -->
+    <div class="field-group">
+      <label for="current_position">Current position</label>
+      <input type="text" id="current_position" name="current_position" placeholder="e.g. Senior Designer">
+    </div>
+
+    <!-- Years of experience (combobox) – widget: combobox -->
+    <div class="field-group">
+      <label for="experience">Years of experience <span class="required">*</span></label>
+      <div class="combobox-wrapper">
+        <input list="exp-list" id="experience" name="experience" placeholder="Select or type" required>
+        <datalist id="exp-list">
+          <option value="0-1">
+          <option value="2-3">
+          <option value="4-6">
+          <option value="7-10">
+          <option value="10+">
+        </datalist>
+      </div>
+    </div>
+
+    <!-- Portfolio URL (url) -->
+    <div class="field-group">
+      <label for="portfolio">Portfolio URL</label>
+      <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.design">
+    </div>
+
+    <!-- Work preference (radio) -->
+    <div class="field-group">
+      <label>Work preference <span class="required">*</span></label>
+      <div class="radio-group">
+        <label><input type="radio" name="work_preference" value="remote" required> Remote</label>
+        <label><input type="radio" name="work_preference" value="hybrid"> Hybrid</label>
+        <label><input type="radio" name="work_preference" value="onsite"> On-site</label>
+      </div>
+    </div>
+
+    <!-- Skills / tools (checkbox) -->
+    <div class="field-group">
+      <label>Design tools you use</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="tools" value="figma"> Figma</label>
+        <label><input type="checkbox" name="tools" value="sketch"> Sketch</label>
+        <label><input type="checkbox" name="tools" value="adobe_xd"> Adobe XD</label>
+        <label><input type="checkbox" name="tools" value="framer"> Framer</label>
+      </div>
+    </div>
+
+    <!-- Resume upload (drag-and-drop with hidden file input + custom button) weirdness #2 -->
+    <div class="field-group">
+      <label>Resume / CV <span class="required">*</span></label>
+      <div class="drag-zone" id="dragZone">
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+        <div class="zone-label">
+          <span class="zone-icon">📄</span>
+          <strong>Choose file</strong> or drag it here
+          <br><small>PDF or Word, max 10 MB</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cover letter (textarea) -->
+    <div class="field-group">
+      <label for="cover">Cover letter <span class="required">*</span></label>
+      <textarea id="cover" name="cover" rows="4" placeholder="Tell us why you're a great fit…" required></textarea>
+    </div>
+
+    <!-- Referral source (select) + Other checkbox reveals text input weirdness #3 -->
+    <div class="field-group">
+      <label for="referral">How did you hear about us?</label>
+      <select id="referral" name="referral">
+        <option value="">Select…</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="google">Google</option>
+        <option value="friend">Friend / colleague</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="checkbox-group" style="margin-top: 0.5rem;">
+        <label>
+          <input type="checkbox" id="referral_other_check" name="referral_other_check">
+          I selected “Other” – reveal custom field
+        </label>
+      </div>
+      <div class="hidden-reveal" id="otherReferralReveal">
+        <input type="text" name="referral_other" placeholder="Please specify (e.g. event, newsletter)">
+      </div>
+    </div>
+
+    <!-- Start date (date) -->
+    <div class="field-group">
+      <label for="start_date">Earliest start date</label>
+      <input type="date" id="start_date" name="start_date">
+    </div>
+
+    <button type="submit" class="submit-btn">Submit application</button>
+  </form>
+</div>
+
+<script>
+  (function() {
+    // Reveal 'Other' referral free-text when checkbox is ticked
+    const check = document.getElementById('referral_other_check');
+    const reveal = document.getElementById('otherReferralReveal');
+    if (check && reveal) {
+      check.addEventListener('change', function() {
+        reveal.classList.toggle('visible', this.checked);
+      });
+    }
+
+    // Drag-and-drop visual feedback (optional enhancement)
+    const zone = document.getElementById('dragZone');
+    const fileInput = document.getElementById('resume');
+    if (zone && fileInput) {
+      zone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        zone.style.borderColor = '#265bff';
+        zone.style.background = '#eef4ff';
+      });
+      zone.addEventListener('dragleave', function() {
+        zone.style.borderColor = '#cbd5e1';
+        zone.style.background = '#fafcff';
+      });
+      zone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zone.style.borderColor = '#cbd5e1';
+        zone.style.background = '#fafcff';
+        if (e.dataTransfer.files.length) {
+          fileInput.files = e.dataTransfer.files;
+          // update label text to show filename
+          const label = zone.querySelector('.zone-label strong');
+          if (label) label.innerText = e.dataTransfer.files[0].name;
+        }
+      });
+      // Also update label on file selection via browse
+      fileInput.addEventListener('change', function() {
+        const label = zone.querySelector('.zone-label strong');
+        if (label && this.files.length) {
+          label.innerText = this.files[0].name;
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>

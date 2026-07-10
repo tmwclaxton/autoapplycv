@@ -1,0 +1,65 @@
+{
+  "started_at": "2026-07-10T05:34:05.900Z",
+  "updated_at": "2026-07-10T05:55:14.059Z",
+  "target_total": 2500,
+  "batch_size": 50,
+  "max_batches_per_run": 3,
+  "baseline_bridge_scrape_count": 10,
+  "baseline_web_count": 1610,
+  "generated_count": 150,
+  "batches": [
+    {
+      "limit": 50,
+      "exit_code": 0,
+      "duration_ms": 336560,
+      "bridge_scrape_count": 60,
+      "web_count": 1660,
+      "accepted": 50
+    },
+    {
+      "limit": 50,
+      "exit_code": 0,
+      "duration_ms": 328061,
+      "bridge_scrape_count": 111,
+      "web_count": 1711,
+      "accepted": 50
+    },
+    {
+      "limit": 50,
+      "exit_code": 0,
+      "duration_ms": 325226,
+      "bridge_scrape_count": 161,
+      "web_count": 1761,
+      "accepted": 50
+    }
+  ],
+  "last_batch": {
+    "limit": 50,
+    "exit_code": 0,
+    "duration_ms": 325226,
+    "bridge_scrape_count": 161,
+    "web_count": 1761,
+    "accepted": 50
+  },
+  "running_summary": {
+    "batches_completed": 3,
+    "net_accepted": 150,
+    "target_total": 2500,
+    "last_batch": {
+      "limit": 50,
+      "exit_code": 0,
+      "duration_ms": 325226,
+      "bridge_scrape_count": 161,
+      "web_count": 1761,
+      "accepted": 50
+    },
+    "scrape_checkpoint": {
+      "scraped": 11,
+      "accepted": 50,
+      "skipped_count": 278,
+      "attempted_count": 75,
+      "last_url": "https://jobs.ashbyhq.com/buspatrol"
+    },
+    "updated_at": "2026-07-10T05:55:14.059Z"
+  }
+}

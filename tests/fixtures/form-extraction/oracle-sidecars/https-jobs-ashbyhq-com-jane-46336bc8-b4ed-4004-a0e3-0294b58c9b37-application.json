@@ -1,0 +1,306 @@
+{
+  "id": "https-jobs-ashbyhq-com-jane-46336bc8-b4ed-4004-a0e3-0294b58c9b37-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:22:02.223Z",
+  "page_url": "https://jobs.ashbyhq.com/jane/46336bc8-b4ed-4004-a0e3-0294b58c9b37/application",
+  "page_title": "Staff Developer - Communications @ Jane",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.6111,
+      "type_agree_rate": 0.8571,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "work eligibility in canada 🇨🇦",
+        "ai": "Work Eligibility in Canada",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "ai consent for interviews",
+        "ai": "AI Consent for Interviews",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following best describes your gender?",
+        "ai": "Which of the following best describes your gender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you selected “other\", you can describe your gender in your own words below (optional).",
+        "ai": "If you selected “Other\", you can describe your gender in your own words below (optional).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you part of the 2slgbtqia+ community?",
+        "ai": "Are you part of the 2SLGBTQIA+ community?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please select the race or ethnicity that you identify with most.",
+        "ai": "Please select the race or ethnicity that you identify with most.",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+        "ai": "If you selected “Another racial or ethnic identity not listed\", you can describe your identity in your own words below (optional).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "do you identify as a person with a disability (including apparent or non-apparent)?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses comboboxes for location and race/ethnicity which are likely populated via dynamic API calls. The demographic survey is optional.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Work Eligibility in Canada",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I currently live and work in Canada and do not require sponsorship",
+          "No, I am not currently based in Canada"
+        ]
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "AI Consent for Interviews",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes, I’m comfortable with this and excited to move forward",
+          "No, this approach isn’t for me right now."
+        ]
+      },
+      {
+        "question": "Which of the following best describes your gender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Woman",
+          "Man",
+          "Non-Binary / Gender-Non-conforming",
+          "Prefer Not To Say",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you selected “Other\", you can describe your gender in your own words below (optional).",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you part of the 2SLGBTQIA+ community?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer Not To Say"
+        ]
+      },
+      {
+        "question": "Please select the race or ethnicity that you identify with most.",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If you selected “Another racial or ethnic identity not listed\", you can describe your identity in your own words below (optional).",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "work eligibility in canada 🇨🇦",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "url",
+      "ref": "f7"
+    },
+    {
+      "question": "ai consent for interviews",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "which of the following best describes your gender?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "if you selected “other\", you can describe your gender in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you part of the 2slgbtqia+ community?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "please select the race or ethnicity that you identify with most.",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "do you identify as a person with a disability (including apparent or non-apparent)?",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

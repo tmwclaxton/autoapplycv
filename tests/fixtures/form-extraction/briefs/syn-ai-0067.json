@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0067",
+    "seed": 3374720137,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Triple nested fieldsets",
+                "notes": "Fieldset inside fieldset inside fieldset with legends at each level",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Nested fieldsets<\/h1> <form action=\"\/apply\" method=\"post\"> <fieldset><legend>Personal<\/legend> <fieldset><legend>Identity<\/legend> <fieldset><legend>Legal name<\/legend> <label for=\"nest_first\">First name<\/label><input type=\"text\" id=\"nest_first\" name=\"nest_first\"> <label for=\"nest_last\">Last name<\/label><inpu",
+                "requires_interaction": false
+            },
+            {
+                "title": "Split date selects",
+                "notes": "Start date as three separate day\/month\/year select elements",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Split date selects<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"date_name\">Name<\/label><input type=\"text\" id=\"date_name\" name=\"date_name\"> <fieldset><legend>Earliest start date<\/legend> <label for=\"start_day\">Day<\/label><select id=\"start_day\" name=\"start_day\"><option>1<\/option><option>15<\/option><\/se",
+                "requires_interaction": false
+            },
+            {
+                "title": "Radio styled as buttons",
+                "notes": "Native radios hidden; visible pill buttons styled via CSS class",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Radio pill buttons<\/h1> <form action=\"\/apply\" method=\"post\"> <p>Are you authorized to work in the UK?<\/p> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"yes\" style=\"position:absolute;opacity:0\"> Yes<\/label> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"no\" style=\"position:absolu",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Newsletter or login decoy form separate from job application form Required: Fields inside a shadow DOM host or declarative shadow root Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Reference DOM (Triple nested fieldsets): Fieldset inside fieldset inside fieldset with legends at each level Reference DOM (Split date selects): Start date as three separate day\/month\/year select elements Reference DOM (Radio styled as buttons): Native radios hidden; visible pill buttons styled via CSS class Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: decoy-form, shadow-host, custom-combobox, aria-labelledby-hidden, duplicate-name-attrs. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Triple nested fieldsets; Split date selects; Radio styled as buttons."
+}

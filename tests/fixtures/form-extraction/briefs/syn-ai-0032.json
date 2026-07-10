@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0032",
+    "seed": 2272150288,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Custom div dropdown",
+                "notes": "Location picked from custom div dropdown, not native select",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Custom dropdown<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dd_name\">Name<\/label><input type=\"text\" id=\"dd_name\" name=\"dd_name\"> <div class=\"custom-select\"> <span id=\"dd_loc_lbl\">Preferred office location<\/span> <button type=\"button\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"dd_loc_list\" ",
+                "requires_interaction": false
+            },
+            {
+                "title": "Greenhouse progress dots",
+                "notes": "Greenhouse-inspired multi-section form with progress indicator dots",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Greenhouse progress<\/h1> <form action=\"\/apply\" method=\"post\"> <nav aria-label=\"Application progress\"><ol><li aria-current=\"step\">Personal<\/li><li>Questions<\/li><li>Review<\/li><\/ol><\/nav> <section data-section=\"personal\"> <label for=\"gh_first\">First name<\/label><input type=\"text\" id=\"gh_first\" name=\"gh_first\">",
+                "requires_interaction": false
+            },
+            {
+                "title": "Input inside nested label spans",
+                "notes": "Input nested inside label which contains multiple inline spans",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Nested label spans<\/h1> <form action=\"\/apply\" method=\"post\"> <label><span class=\"prefix\">Your<\/span> <span class=\"field-name\">name<\/span> <input type=\"text\" name=\"nested_label_name\"><\/label> <label><span>Email<\/span> <input type=\"email\" name=\"nested_label_email\"><\/label> <label for=\"nested_phone\">Phone<\/label",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Inputs laid out in table cells, not flex card stacks only Required: At least two fields with aria-label only and no visible label element Required: Newsletter or login decoy form separate from job application form Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Reference DOM (Custom div dropdown): Location picked from custom div dropdown, not native select Reference DOM (Greenhouse progress dots): Greenhouse-inspired multi-section form with progress indicator dots Reference DOM (Input inside nested label spans): Input nested inside label which contains multiple inline spans Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: table-layout, aria-label-only, decoy-form, div-role-textbox, duplicate-name-attrs. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Custom div dropdown; Greenhouse progress dots; Input inside nested label spans."
+}

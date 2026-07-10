@@ -1,0 +1,386 @@
+{
+  "id": "syn-ai-0009",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "full name jane doe",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name",
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Jane Doe",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "+1 (555) 000-0000",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+1 (555) 000-0000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. acme corp",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "currentCompany",
+        "name": "currentCompany",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Acme Corp",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select or type",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "expComboInput",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Select or type",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter paste or type...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "coverLetter",
+        "name": "coverLetter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Paste or type...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "— Select —",
+        "Yes",
+        "No",
+        "I have OPT/STEM OPT"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "visa",
+        "name": "visa",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url portfolio url (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "portfolio",
+        "name": "portfolio",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Portfolio URL (optional)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url https://github.com/username",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github",
+        "name": "github",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://github.com/username",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "twitter/x handle @username",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "twitter",
+        "name": "twitter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "@username",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "salary expectation (usd) e.g. 150,000",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "salary",
+        "name": "salary",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 150,000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "available start date",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "startDate",
+        "name": "startDate",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "— Select —",
+        "LinkedIn",
+        "Indeed",
+        "Employee referral",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "referral",
+        "name": "referral",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work authorization",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "— Select —",
+        "US Citizen",
+        "Green Card",
+        "H1B",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "workAuth",
+        "name": "workAuth",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Prefer not to say",
+        "Male",
+        "Female",
+        "Non-binary"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "gender",
+        "name": "gender",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ethnicity (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Prefer not to say",
+        "Asian",
+        "Black or African American",
+        "Hispanic or Latino",
+        "White",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ethnicity",
+        "name": "ethnicity",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran status (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Prefer not to say",
+        "I am a veteran",
+        "I am not a veteran"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "veteran",
+        "name": "veteran",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "disability status (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Prefer not to say",
+        "I have a disability",
+        "I do not have a disability"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disability",
+        "name": "disability",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

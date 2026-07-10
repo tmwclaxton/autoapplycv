@@ -1,0 +1,71 @@
+{
+    "id": "syn-ai-0002",
+    "seed": 4212895901,
+    "variety": {
+        "ats_style": "pracuj",
+        "widgets": [
+            "date",
+            "native-inputs",
+            "react-select"
+        ],
+        "structure": "shadow-dom",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Other option reveal",
+                "notes": "Referral source Other checkbox reveals free-text input",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Other option reveal<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"oth_name\">Name<\/label><input type=\"text\" id=\"oth_name\" name=\"oth_name\"> <p>How did you hear about us?<\/p> <label><input type=\"checkbox\" name=\"referral\" value=\"linkedin\"> LinkedIn<\/label> <label><input type=\"checkbox\" name=\"referral\" val",
+                "requires_interaction": false
+            },
+            {
+                "title": "Readonly prefilled email",
+                "notes": "Email input is readonly with prefilled value from profile import",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Readonly email<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ro_name\">Name<\/label><input type=\"text\" id=\"ro_name\" name=\"ro_name\"> <label for=\"ro_email\">Email (from profile)<\/label><input type=\"email\" id=\"ro_email\" name=\"ro_email\" value=\"candidate@example.com\" readonly> <label for=\"ro_phone\">Phone<\/lab",
+                "requires_interaction": false
+            },
+            {
+                "title": "Placeholder-only identification",
+                "notes": "Empty label element; field identified only by placeholder attribute",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Placeholder only<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\"><\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\" placeholder=\"Full name\"> <label for=\"ph_email\"><\/label><input type=\"email\" id=\"ph_email\" name=\"ph_email\" placeholder=\"Email address\"> <label for=\"ph_phone\"><\/label><input type",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real pracuj-style job application (shadow-dom, large, tier=high). Widgets: date, native-inputs, react-select. Required: Yes\/no question as paired button elements, not native radio inputs Required: Fields inside details\/summary or hidden until click Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Label text split across multiple spans with no space between words Required: Inputs laid out in table cells, not flex card stacks only Reference DOM (Other option reveal): Referral source Other checkbox reveals free-text input Reference DOM (Readonly prefilled email): Email input is readonly with prefilled value from profile import Reference DOM (Placeholder-only identification): Empty label element; field identified only by placeholder attribute Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: pill-yes-no, details-accordion, duplicate-name-attrs, glued-label-text, table-layout. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Other option reveal; Readonly prefilled email; Placeholder-only identification."
+}

@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0071",
+    "seed": 3941146950,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "definition list dl\/dt\/dd label pairs",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Visibility hidden input",
+                "notes": "Input uses visibility:hidden instead of display:none",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Visibility hidden input<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"vis_hidden\">Internal reference<\/label><input type=\"text\" id=\"vis_hidden\" name=\"vis_hidden\" style=\"visibility:hidden\"> <label for=\"vis_name\">Your name<\/label><input type=\"text\" id=\"vis_name\" name=\"vis_name\"> <label for=\"vis_phone\">Mo",
+                "requires_interaction": false
+            },
+            {
+                "title": "Duplicate element IDs",
+                "notes": "Two inputs share id=\"email\" - tests disambiguation by name or DOM order",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Duplicate element IDs<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"email\">Primary email<\/label><input type=\"email\" id=\"email\" name=\"primary_email\"> <label for=\"email\">Backup email<\/label><input type=\"email\" id=\"email\" name=\"backup_email\"> <label for=\"phone_dup\">Phone<\/label><input type=\"tel\" id=\"phon",
+                "requires_interaction": false
+            },
+            {
+                "title": "SVG icon labels",
+                "notes": "Label contains SVG icon; accessible name via aria-labelledby only",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>SVG icon labels<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"svg_name_lbl\"><svg aria-hidden=\"true\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\"\/><\/svg> Full name<\/span> <input type=\"text\" name=\"svg_name\" aria-labelledby=\"svg_name_lbl\"> <span id=\"svg_email_lbl\"><svg aria-hidden=\"true\" width=\"16\" h",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Label wraps input through nested divs without for attribute Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Newsletter or login decoy form separate from job application form Required: Field labeled via aria-labelledby pointing at hidden or distant span Reference DOM (Visibility hidden input): Input uses visibility:hidden instead of display:none Reference DOM (Duplicate element IDs): Two inputs share id=\"email\" - tests disambiguation by name or DOM order Reference DOM (SVG icon labels): Label contains SVG icon; accessible name via aria-labelledby only Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: native-select-not-combobox, label-wraps-deep, iframe-apply, decoy-form, aria-labelledby-hidden. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: definition list dl\/dt\/dd label pairs. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Visibility hidden input; Duplicate element IDs; SVG icon labels."
+}

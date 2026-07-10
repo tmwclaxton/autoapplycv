@@ -1,0 +1,281 @@
+{
+  "id": "syn-ai-0007",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "full name e.g. alex rivera full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "full_name",
+        "name": "full_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Alex Rivera",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email you@example.com email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "you@example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Code",
+        "🇺🇸 +1",
+        "🇬🇧 +44",
+        "🇸🇪 +46",
+        "🇩🇪 +49",
+        "🇫🇷 +33",
+        "🇯🇵 +81"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "phone_country",
+        "name": "phone_country",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "national number phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone_number",
+        "name": "phone_number",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "National number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position applied for",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose a role",
+        "Frontend Engineer",
+        "Backend Engineer",
+        "Full Stack Engineer",
+        "DevOps Engineer",
+        "Product Designer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "position",
+        "name": "position",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "år av erfarenhet (years of experience) t.ex. 5 år av erfarenhet (years of experience)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "years_exp",
+        "name": "years_exp",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "t.ex. 5",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "citizen / pr citizen / pr work authorization",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Citizen / PR",
+        "Need visa sponsorship",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "work_auth",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this role?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select one",
+        "LinkedIn",
+        "Ashby board",
+        "Employee referral",
+        "Company website",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "referral_source",
+        "name": "referral_source",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "earliest start date",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "start_date",
+        "name": "start_date",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "react react skills & tools (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Python",
+        "Figma"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "skills",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter tell us why you're a great fit... cover letter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover_letter",
+        "name": "cover_letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Tell us why you're a great fit...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "visa status / details e.g. h1b, tn, etc. visa status / details",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "visa_status",
+        "name": "visa_status",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. H1B, TN, etc.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

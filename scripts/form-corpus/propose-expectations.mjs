@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertBatchLimit, parseLimitArg } from './lib/batch-cap.mjs';
+import { applyBatchScenarioFilter, parseStartIdArg } from './lib/batch-id-range.mjs';
 import { loadManifest } from './lib/manifest.mjs';
 import { normalizeQuestion, normalizeOptions } from './lib/normalize.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
@@ -9,19 +11,28 @@ import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 const force = process.argv.includes('--force');
 const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
 const idPrefixArg = process.argv.find((arg) => arg.startsWith('--id-prefix='))?.split('=')[1];
+const startIdArg = parseStartIdArg();
+const batchLimit = parseLimitArg() ? assertBatchLimit(parseLimitArg()) : null;
 mkdirSync(EXPECTED_DIR, { recursive: true });
 
 const manifest = loadManifest();
+const batchScenarios = applyBatchScenarioFilter(
+    manifest.scenarios.filter((scenario) => {
+        if (idArg && scenario.id !== idArg) {
+            return false;
+        }
+
+        if (idPrefixArg && !scenario.id.startsWith(idPrefixArg)) {
+            return false;
+        }
+
+        return true;
+    }),
+    { startId: startIdArg, limit: batchLimit },
+);
 let written = 0;
 
-for (const scenario of manifest.scenarios) {
-    if (idArg && scenario.id !== idArg) {
-        continue;
-    }
-
-    if (idPrefixArg && !scenario.id.startsWith(idPrefixArg)) {
-        continue;
-    }
+for (const scenario of batchScenarios) {
 
     const expectedPath = join(EXPECTED_DIR, `${scenario.id}.json`);
 

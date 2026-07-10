@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; }
+  body { background: #f0f2f5; padding: 32px 16px; }
+  .app-split { display: flex; max-width: 960px; margin: 0 auto; gap: 24px; align-items: flex-start; }
+  .sidebar { width: 240px; flex-shrink: 0; background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .sidebar h2 { font-size: 14px; font-weight: 600; color: #0d0f12; margin-bottom: 12px; }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar li { padding: 6px 0; font-size: 13px; color: #5e6a7a; border-bottom: 1px solid #eef1f5; }
+  .main-col { flex: 1; max-width: 680px; }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04); padding: 32px 28px; margin-bottom: 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; color: #0d0f12; }
+  .subtitle { color: #5e6a7a; font-size: 14px; margin-bottom: 20px; }
+  fieldset { border: none; padding: 0; margin: 0 0 24px 0; }
+  legend.section-title { font-weight: 600; font-size: 16px; padding: 0 0 10px 0; border-bottom: 1px solid #e2e6ec; width: 100%; margin-bottom: 16px; color: #1a1d24; }
+  .field-group { margin-bottom: 16px; }
+  .field-row { display: flex; gap: 12px; }
+  .field-row > * { flex: 1; }
+  .input-wrap { display: flex; flex-direction: column; }
+  .input-wrap label, .label-mimic { font-size: 13px; font-weight: 500; color: #2e3746; margin-bottom: 4px; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #c7ced8; border-radius: 8px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #3b6fc5; box-shadow: 0 0 0 3px rgba(59,111,197,0.12); }
+  .pill-group { display: flex; gap: 8px; margin-top: 4px; }
+  .pill-btn { padding: 8px 20px; border-radius: 100px; border: 1px solid #c7ced8; background: #fff; font-size: 14px; font-weight: 500; cursor: pointer; color: #2e3746; transition: all 0.15s; }
+  .pill-btn.active { background: #0d0f12; color: #fff; border-color: #0d0f12; }
+  .pill-btn:focus-visible { outline: 2px solid #3b6fc5; outline-offset: 2px; }
+  .custom-textbox { padding: 10px 12px; border: 1px solid #c7ced8; border-radius: 8px; min-height: 42px; font-size: 14px; background: #fff; cursor: text; word-break: break-word; }
+  .custom-textbox:focus { outline: none; border-color: #3b6fc5; box-shadow: 0 0 0 3px rgba(59,111,197,0.12); }
+  .glue-label { display: flex; align-items: center; border: 1px solid #c7ced8; border-radius: 8px; overflow: hidden; }
+  .glue-label span { background: #f5f7fa; padding: 10px 12px; font-size: 13px; color: #2e3746; white-space: nowrap; border-right: 1px solid #c7ced8; font-weight: 500; }
+  .glue-label input { border: none; border-radius: 0; flex: 1; padding: 10px 12px; }
+  .glue-label input:focus { box-shadow: none; outline: none; }
+  .submit-bar { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .btn-primary { background: #0d0f12; color: #fff; border: none; padding: 12px 32px; border-radius: 100px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: #2e3746; }
+  .btn-primary:focus-visible { outline: 2px solid #3b6fc5; outline-offset: 2px; }
+  .shadow-host { display: block; margin-bottom: 16px; }
+  .note { font-size: 12px; color: #7a869a; margin-top: 4px; }
+  .combobox-wrap { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #c7ced8; border-radius: 8px; font-size: 14px; background: #fff; cursor: text; }
+  .combobox-input:focus { outline: none; border-color: #3b6fc5; box-shadow: 0 0 0 3px rgba(59,111,197,0.12); }
+  .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #c7ced8; border-radius: 8px; margin-top: 4px; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .listbox.open { display: block; }
+  .listbox-option { padding: 10px 12px; cursor: pointer; font-size: 14px; color: #2e3746; }
+  .listbox-option:hover, .listbox-option.active { background: #f0f2f5; }
+  .listbox-option[aria-selected="true"] { background: #e2e6ec; font-weight: 500; }
+  .hidden-field { display: none; }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; font-size: 13px; font-weight: 500; color: #2e3746; }
+  hr { border: none; border-top: 1px solid #e2e6ec; margin: 20px 0; }
+</style>
+</head>
+<body>
+<div class="app-split">
+  <aside class="sidebar">
+    <h2>Application Progress</h2>
+    <ul>
+      <li>Personal Info</li>
+      <li>Experience</li>
+      <li>Skills & Availability</li>
+      <li>Additional Questions</li>
+    </ul>
+  </aside>
+  <main class="main-col">
+    <div class="card">
+      <h1>Senior Frontend Engineer</h1>
+      <div class="subtitle">Ashby · Remote · Full-time</div>
+
+      <form id="apply-form" novalidate>
+        <!-- Section: Personal Info -->
+        <fieldset>
+          <legend class="section-title">Personal Information</legend>
+
+          <!-- Full Name: native input with label[for] -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="fullname">Full Name</label>
+              <input type="text" id="fullname" name="fullname" placeholder="e.g. Alex Rivera" required>
+            </div>
+          </div>
+
+          <!-- Email: aria-label only (no visible label) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <input type="email" id="email" name="email" placeholder="you@company.com" aria-label="Email Address" required>
+            </div>
+          </div>
+
+          <!-- Phone: split-phone pattern -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <span class="label-mimic" style="margin-bottom:4px; display:block;">Phone</span>
+              <div class="field-row">
+                <select id="phone-country" name="phone_country" style="flex:0 0 120px;" aria-label="Country code">
+                  <option value="+1">US +1</option>
+                  <option value="+44">UK +44</option>
+                  <option value="+91">IN +91</option>
+                  <option value="+49">DE +49</option>
+                </select>
+                <input type="tel" id="phone-local" name="phone_local" placeholder="555-0123" aria-label="Phone number" style="flex:1;">
+              </div>
+            </div>
+          </div>
+
+          <!-- LinkedIn: aria-label only (second aria-label-only field) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <input type="text" id="linkedin" name="linkedin" placeholder="LinkedIn URL (optional)" aria-label="LinkedIn Profile">
+            </div>
+          </div>
+
+          <!-- New field: Preferred pronouns (aria-label only) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <input type="text" id="pronouns" name="pronouns" placeholder="e.g. they/them" aria-label="Preferred Pronouns">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Section: Experience -->
+        <fieldset>
+          <legend class="section-title">Experience</legend>
+
+          <!-- Years of experience: number with min/max, label[for] -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="years-exp">Years of experience</label>
+              <input type="number" id="years-exp" name="years_exp" min="0" max="30" step="1" placeholder="0" required>
+              <div class="note">Min 0, max 30</div>
+            </div>
+          </div>
+
+          <!-- Current role: aria-label only (third aria-label-only field) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <input type="text" id="current-role" name="current_role" placeholder="e.g. Senior Developer" aria-label="Current Job Title">
+            </div>
+          </div>
+
+          <!-- Portfolio: custom div[role=textbox] contenteditable -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <span class="label-mimic">Portfolio / Links</span>
+              <div id="portfolio-textbox" class="custom-textbox" role="textbox" contenteditable="true" aria-label="Portfolio links or summary" aria-multiline="true"></div>
+              <div class="note">Paste links or describe your work</div>
+            </div>
+          </div>
+
+          <!-- Willing to relocate? Yes/no pill buttons (Ashby style) -->
+          <div class="field-group">
+            <span class="label-mimic" style="margin-bottom:4px; display:block;">Willing to relocate?</span>
+            <div class="pill-group" role="radiogroup" aria-label="Willing to relocate">
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes" onclick="togglePill(this)">Yes</button>
+              <button type="button" class="pill-btn active" role="radio" aria-checked="true" data-value="no" onclick="togglePill(this)">No</button>
+            </div>
+            <input type="hidden" name="relocate" id="relocate-input" value="no">
+          </div>
+
+          <!-- New field: Highest degree (select with label[for]) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="degree">Highest Degree</label>
+              <select id="degree" name="degree">
+                <option value="">Select...</option>
+                <option value="high_school">High School</option>
+                <option value="bachelors">Bachelor's</option>
+                <option value="masters">Master's</option>
+                <option value="phd">PhD</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Section: Skills & Availability -->
+        <fieldset>
+          <legend class="section-title">Skills & Availability</legend>
+
+          <!-- Primary skill: custom combobox with listbox -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <span class="label-mimic" id="skill-label">Primary Skill</span>
+              <div class="combobox-wrap">
+                <div id="skill-combobox" class="combobox-input" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="skill-label" aria-controls="skill-listbox" tabindex="0" contenteditable="false" data-value="">Select...</div>
+                <div id="skill-listbox" class="listbox" role="listbox" aria-labelledby="skill-label">
+                  <div class="listbox-option" role="option" aria-selected="false" data-value="react" onclick="selectSkill(this)">React</div>
+                  <div class="listbox-option" role="option" aria-selected="false" data-value="vue" onclick="selectSkill(this)">Vue</div>
+                  <div class="listbox-option" role="option" aria-selected="false" data-value="angular" onclick="selectSkill(this)">Angular</div>
+                  <div class="listbox-option" role="option" aria-selected="false" data-value="svelte" onclick="selectSkill(this)">Svelte</div>
+                </div>
+                <input type="hidden" name="primary_skill" id="skill-hidden" value="">
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability: glued span label with input -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <span class="label-mimic">Start date</span>
+              <div class="glue-label">
+                <span>📅</span>
+                <input type="text" id="start-date" name="start_date" placeholder="e.g. 2 weeks" aria-label="Start date availability">
+              </div>
+            </div>
+          </div>
+
+          <!-- Referral: hidden reveal pattern with details/summary -->
+          <div class="field-group">
+            <details>
+              <summary>+ Add referral or source</summary>
+              <div style="margin-top:8px;">
+                <input type="text" id="referral" name="referral" placeholder="How did you hear about us?" style="width:100%;">
+              </div>
+            </details>
+          </div>
+
+          <!-- Cover letter: textarea with label[for] -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="cover-letter">Cover Letter (optional)</label>
+              <textarea id="cover-letter" name="cover_letter" rows="3" placeholder="Tell us why you're a great fit..."></textarea>
+            </div>
+          </div>
+
+          <!-- New field: Desired salary (number with min/max) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="salary">Desired Salary (USD)</label>
+              <input type="number" id="salary" name="salary" min="50000" max="300000" step="1000" placeholder="e.g. 150000">
+              <div class="note">Min 50k, max 300k</div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Section: Additional Questions (Shadow DOM host) -->
+        <fieldset>
+          <legend class="section-title">Additional Questions</legend>
+          
+          <!-- Shadow host: declarative shadow root with content -->
+          <div class="shadow-host">
+            <template shadowrootmode="open">
+              <style>
+                .shadow-field { margin-bottom: 12px; }
+                .shadow-label { font-size: 13px; font-weight: 500; color: #2e3746; display: block; margin-bottom: 4px; }
+                .shadow-input { width: 100%; padding: 10px 12px; border: 1px solid #c7ced8; border-radius: 8px; font-size: 14px; background: #fff; }
+                .shadow-input:focus { outline: none; border-color: #3b6fc5; box-shadow: 0 0 0 3px rgba(59,111,197,0.12); }
+              </style>
+              <div class="shadow-field">
+                <span class="shadow-label" id="shadow-label-github">GitHub Profile</span>
+                <input class="shadow-input" type="text" placeholder="https://github.com/yourname" aria-labelledby="shadow-label-github">
+              </div>
+              <div class="shadow-field">
+                <span class="shadow-label" id="shadow-label-twitter">X / Twitter</span>
+                <input class="shadow-input" type="text" placeholder="@handle" aria-labelledby="shadow-label-twitter">
+              </div>
+              <slot></slot>
+            </template>
+          </div>
+          <div class="note">Social links (shadow DOM)</div>
+
+          <!-- Work authorization: radio buttons with visible label -->
+          <div class="field-group">
+            <span class="label-mimic" style="margin-bottom:4px; display:block;">Work Authorization</span>
+            <div style="display:flex; gap:16px;">
+              <label style="font-size:14px; display:flex; align-items:center; gap:4px;">
+                <input type="radio" name="work_auth" value="us_citizen"> US Citizen
+              </label>
+              <label style="font-size:14px; display:flex; align-items:center; gap:4px;">
+                <input type="radio" name="work_auth" value="green_card"> Green Card
+              </label>
+              <label style="font-size:14px; display:flex; align-items:center; gap:4px;">
+                <input type="radio" name="work_auth" value="visa"> Visa
+              </label>
+            </div>
+          </div>
+
+          <!-- New field: How many years in current role (number with min/max) -->
+          <div class="field-group">
+            <div class="input-wrap">
+              <label for="years-current-role">Years in current role</label>
+              <input type="number" id="years-current-role" name="years_current_role" min="0" max="20" step="1" placeholder="0">
+              <div class="note">Min 0, max 20</div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Decoy secondary form (non-semantic, fake) -->
+        <div style="display:none;">
+          <form id="decoy-form">
+            <input type="text" name="fake_field" placeholder="decoy">
+          </form>
+        </div>
+      </form>
+
+      <!-- Submit outside form using form= attribute -->
+      <div class="submit-bar">
+        <button type="submit" class="btn-primary" form="apply-form">Submit Application</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  function togglePill(btn) {
+    var group = btn.closest('.pill-group');
+    var btns = group.querySelectorAll('.pill-btn');
+    btns.forEach(function(b) {
+      b.classList.remove('active');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    var hidden = document.getElementById('relocate-input');
+    if (hidden) hidden.value = btn.getAttribute('data-value');
+  }
+
+  // Custom combobox logic
+  var combobox = document.getElementById('skill-combobox');
+  var listbox = document.getElementById('skill-listbox');
+  var hidden = document.getElementById('skill-hidden');
+  var options = listbox.querySelectorAll('.listbox-option');
+
+  combobox.addEventListener('click', function() {
+    var expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    listbox.classList.toggle('open');
+  });
+
+  combobox.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      this.click();
+    }
+    if (e.key === 'Escape') {
+      this.setAttribute('aria-expanded', 'false');
+      listbox.classList.remove('open');
+    }
+    if (e.key === 'ArrowDown' && listbox.classList.contains('open')) {
+      e.preventDefault();
+      var active = listbox.querySelector('.active');
+      var next = active ? active.nextElementSibling : options[0];
+      if (next) {
+        if (active) active.classList.remove('active');
+        next.classList.add('active');
+        next.scrollIntoView({ block: 'nearest' });
+      }
+    }
+    if (e.key === 'ArrowUp' && listbox.classList.contains('open')) {
+      e.preventDefault();
+      var active = listbox.querySelector('.active');
+      var prev = active ? active.previousElementSibling : options[options.length - 1];
+      if (prev) {
+        if (active) active.classList.remove('active');
+        prev.classList.add('active');
+        prev.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  });
+
+  function selectSkill(el) {
+    options.forEach(function(opt) {
+      opt.setAttribute('aria-selected', 'false');
+    });
+    el.setAttribute('aria-selected', 'true');
+    combobox.textContent = el.textContent;
+    combobox.setAttribute('data-value', el.getAttribute('data-value'));
+    hidden.value = el.getAttribute('data-value');
+    combobox.setAttribute('aria-expanded', 'false');
+    listbox.classList.remove('open');
+  }
+
+  // Close listbox on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrap')) {
+      listbox.classList.remove('open');
+      combobox.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>
+</body>
+</html>

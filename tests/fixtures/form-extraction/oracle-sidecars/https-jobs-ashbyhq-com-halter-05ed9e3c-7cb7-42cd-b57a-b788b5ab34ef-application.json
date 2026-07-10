@@ -1,0 +1,224 @@
+{
+  "id": "https-jobs-ashbyhq-com-halter-05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:18:27.994Z",
+  "page_url": "https://jobs.ashbyhq.com/halter/05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef/application",
+  "page_title": "Territory Manager (Georgia) @ Halter",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 6,
+      "count_delta": 14,
+      "label_jaccard": 0.3,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "full legal name",
+        "ai": "Full Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you legally authorized to work in the us?",
+      "will you now or in the future require a work visa sponsorship?",
+      "what are your salary expectations?",
+      "halter is an equal opportunities employer. where possible, we will provide reasonable adjustments throughout the recruitment and selection process to ensure equal participation. is there anything you’d like to note to ensure you can perform at your best?",
+      "what is your notice period?",
+      "where are you located?",
+      "which region best describes where you live in your home state?",
+      "linkedin url",
+      "why are you excited about this opportunity at halter?",
+      "we want to get to know you! record a 60 second video sharing something about you beyond the resume.",
+      "anything else you want to share?",
+      "what is your current age?",
+      "i identify my ethnicity as",
+      "what gender do you identify as?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated mid-form, so additional fields (like LinkedIn or screening questions) may exist in the full form.",
+    "fields": [
+      {
+        "question": "Full Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the us?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require a work visa sponsorship?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "halter is an equal opportunities employer. where possible, we will provide reasonable adjustments throughout the recruitment and selection process to ensure equal participation. is there anything you’d like to note to ensure you can perform at your best?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "which region best describes where you live in your home state?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "why are you excited about this opportunity at halter?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "we want to get to know you! record a 60 second video sharing something about you beyond the resume.",
+      "field_type": "url",
+      "ref": "f15"
+    },
+    {
+      "question": "anything else you want to share?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f19"
+    }
+  ]
+}

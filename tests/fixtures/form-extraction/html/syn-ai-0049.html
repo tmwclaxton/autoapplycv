@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashby Application - Senior Platform Engineer</title>
+<style>
+  * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+  body { background: #f2f4f6; margin: 0; padding: 24px; }
+  .app-shell { max-width: 760px; margin: 0 auto; background: #fff; border: 1px solid #d0d5dd; border-radius: 8px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .field-group { margin-bottom: 20px; }
+  .fake-label { display: block; font-size: 14px; font-weight: 500; color: #1f2937; margin-bottom: 6px; }
+  .req-ast { color: #d92d20; margin-left: 2px; font-size: 16px; line-height: 1; }
+  .text-input { width: 100%; padding: 10px 12px; border: 1px solid #98a2b3; border-radius: 6px; font-size: 15px; background: #fff; }
+  .text-input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+  .error-border { border-color: #d92d20; }
+  .checkbox-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .checkbox-grid label { display: flex; align-items: center; gap: 6px; font-size: 15px; color: #1f2937; cursor: pointer; }
+  .hidden-reveal { display: none; }
+  .hidden-reveal.open { display: block; }
+  .pill-group { display: flex; gap: 8px; margin-top: 6px; }
+  .pill-btn { border: 1px solid #98a2b3; border-radius: 20px; padding: 6px 18px; background: #fff; cursor: pointer; font-size: 14px; color: #1f2937; }
+  .pill-btn.selected { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .combobox-wrapper { position: relative; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #98a2b3; border-top: none; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; display: none; }
+  .listbox.open { display: block; }
+  .listbox-option { padding: 10px 12px; cursor: pointer; font-size: 15px; }
+  .listbox-option:hover, .listbox-option.highlighted { background: #f0f4ff; }
+  .listbox-option[aria-selected="true"] { background: #e8edff; font-weight: 500; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .shadow-host { display: block; }
+  .split-label span { display: inline; }
+  .glue-label span { display: inline; margin-right: 0; }
+  .glue-label .gap { display: inline-block; width: 0; }
+  details { margin-bottom: 16px; }
+  summary { cursor: pointer; font-weight: 500; color: #1f2937; padding: 8px 0; font-size: 15px; }
+  .flex-row { display: flex; gap: 16px; align-items: flex-start; }
+  .flex-row > * { flex: 1; }
+  .error-msg { color: #d92d20; font-size: 13px; margin-top: 4px; }
+  .btn-primary { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 10px 24px; font-size: 15px; cursor: pointer; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .mt-8 { margin-top: 8px; }
+  .mb-4 { margin-bottom: 4px; }
+  .text-sm { font-size: 13px; color: #5f6b7a; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <h2 style="font-size: 20px; margin: 0 0 4px 0;">Senior Platform Engineer</h2>
+  <p style="font-size: 14px; color: #5f6b7a; margin: 0 0 20px 0;">Ashby · Remote · Full-time</p>
+
+  <form id="jobAppForm" novalidate>
+    
+    <!-- 1. Full name: native input, label-for, asterisk in sibling span (reference) -->
+    <div class="field-group">
+      <span class="fake-label" id="nameLabel">Full name<span class="req-ast" aria-hidden="true">*</span></span>
+      <input type="text" id="fullName" class="text-input" placeholder="e.g. Taylor Smith" aria-labelledby="nameLabel" required>
+    </div>
+
+    <!-- 2. Email: native, aria-label only (non-semantic pattern) -->
+    <div class="field-group">
+      <span class="fake-label">Email<span class="req-ast" aria-hidden="true">*</span></span>
+      <input type="email" class="text-input" aria-label="Email address" placeholder="you@example.com" required>
+    </div>
+
+    <!-- 3. Phone: div role=textbox contenteditable (REQUIRED div-role-textbox) -->
+    <div class="field-group">
+      <span class="fake-label" id="phoneLabel">Phone<span class="req-ast" aria-hidden="true">*</span></span>
+      <div role="textbox" contenteditable="true" 
+           class="text-input" 
+           aria-labelledby="phoneLabel" 
+           data-placeholder="+1 (555) 000-0000"
+           style="min-height: 44px; white-space: nowrap; overflow-x: auto;"
+      ></div>
+      <span class="text-sm">Enter digits only, we'll format</span>
+    </div>
+
+    <!-- 4. Current company: glued-label-text (split across spans, no space between words) -->
+    <div class="field-group">
+      <span class="fake-label glue-label">
+        <span>Current</span><span>company</span><span> (optional)</span>
+      </span>
+      <input type="text" class="text-input" placeholder="Acme Inc." aria-label="Current company">
+    </div>
+
+    <!-- 5. LinkedIn: placeholder-only labeling (no label-for, no aria) -->
+    <div class="field-group">
+      <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+        <span>LinkedIn URL</span><span class="req-ast" style="display: none;" aria-hidden="true">*</span>
+      </div>
+      <input type="url" class="text-input" placeholder="https://linkedin.com/in/yourprofile" style="font-size: 15px;">
+    </div>
+
+    <!-- 6. Work authorization: yes/no pill buttons (non-semantic pill pattern) -->
+    <div class="field-group">
+      <span class="fake-label" id="authLabel">Authorized to work in US?<span class="req-ast" aria-hidden="true">*</span></span>
+      <div class="pill-group" role="radiogroup" aria-labelledby="authLabel">
+        <button type="button" class="pill-btn selected" role="radio" aria-checked="true" data-value="yes">Yes</button>
+        <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no">No</button>
+      </div>
+      <input type="hidden" name="workAuth" value="yes" id="workAuthHidden">
+    </div>
+
+    <!-- 7. How did you hear? custom listbox combobox (REQUIRED native-select-not-combobox + combobox widget) -->
+    <div class="field-group">
+      <span class="fake-label" id="sourceLabel">How did you hear about us?<span class="req-ast" aria-hidden="true">*</span></span>
+      <div class="combobox-wrapper">
+        <div 
+          role="combobox" 
+          aria-haspopup="listbox" 
+          aria-expanded="false" 
+          aria-labelledby="sourceLabel"
+          id="sourceCombobox"
+          class="text-input"
+          tabindex="0"
+          data-value=""
+          style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+        >
+          <span id="sourceDisplay" style="color: #98a2b3;">Select an option</span>
+          <span style="font-size: 12px;">▼</span>
+        </div>
+        <div class="listbox" id="sourceListbox" role="listbox" aria-labelledby="sourceLabel">
+          <div class="listbox-option" role="option" data-value="linkedin">LinkedIn</div>
+          <div class="listbox-option" role="option" data-value="referral">Employee referral</div>
+          <div class="listbox-option" role="option" data-value="indeed">Indeed</div>
+          <div class="listbox-option" role="option" data-value="other">Other</div>
+        </div>
+      </div>
+      <input type="hidden" name="source" id="sourceHidden" value="">
+    </div>
+
+    <!-- 8. Salary expectation: native input with aria-labelledby referencing split label spans (glued pattern + aria-labelledby) -->
+    <div class="field-group">
+      <span class="fake-label" id="salaryLabel1">Salary expectation</span>
+      <span class="fake-label" id="salaryLabel2" style="display: none;"> (annual)</span>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span>$</span>
+        <input type="text" class="text-input" style="width: 180px;" placeholder="100,000" aria-labelledby="salaryLabel1">
+        <span style="font-size: 13px; color: #5f6b7a;">/yr</span>
+      </div>
+    </div>
+
+    <!-- 9. Resume upload (file input) -->
+    <div class="field-group">
+      <span class="fake-label">Resume<span class="req-ast" aria-hidden="true">*</span></span>
+      <input type="file" class="text-input" accept=".pdf,.doc,.docx" style="padding: 8px;">
+    </div>
+
+    <!-- 10. Checkbox group no fieldset (reference): skills -->
+    <div class="field-group">
+      <span class="fake-label">Skills (select all that apply)</span>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" name="skills" value="k8s"> Kubernetes</label>
+        <label><input type="checkbox" name="skills" value="aws"> AWS</label>
+        <label><input type="checkbox" name="skills" value="terraform"> Terraform</label>
+        <label><input type="checkbox" name="skills" value="cicd"> CI/CD</label>
+        <label><input type="checkbox" name="skills" value="python"> Python</label>
+      </div>
+    </div>
+
+    <!-- 11. Shadow DOM host (REQUIRED shadow-host) -->
+    <div class="field-group">
+      <span class="fake-label" id="shadowLabel">Preferred tool</span>
+      <div id="shadowHost" class="shadow-host" style="border: 1px dashed #98a2b3; border-radius: 6px; padding: 12px; background: #fafbfc;"></div>
+    </div>
+
+    <!-- 12. Details/accordion with hidden fields (REQUIRED details-accordion) -->
+    <details>
+      <summary style="font-size: 15px; font-weight: 500;">Additional information <span style="font-weight: normal; color: #5f6b7a;">(optional)</span></summary>
+      <div style="margin-top: 12px; padding: 8px 0;">
+        <!-- 13. field inside details: native select -->
+        <div class="field-group">
+          <span class="fake-label">How soon can you start?</span>
+          <select class="text-input" style="appearance: auto;">
+            <option>Immediately</option>
+            <option>2 weeks</option>
+            <option>1 month</option>
+            <option>Negotiable</option>
+          </select>
+        </div>
+        <!-- 14. Another field inside details: textarea -->
+        <div class="field-group">
+          <span class="fake-label">Cover letter or notes</span>
+          <textarea class="text-input" rows="3" placeholder="Anything you'd like us to know..."></textarea>
+        </div>
+      </div>
+    </details>
+
+    <!-- 15. Decoy secondary form (non-semantic pattern) -->
+    <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px; margin: 16px 0; background: #f9fafb;">
+      <span style="font-size: 13px; font-weight: 500; color: #5f6b7a;">Referral (optional) — not part of application</span>
+      <div style="display: flex; gap: 8px; margin-top: 6px;">
+        <input type="text" placeholder="Referrer name" style="flex:1; padding: 6px 10px; border:1px solid #d1d5db; border-radius:4px; font-size:13px;">
+        <input type="email" placeholder="Referrer email" style="flex:1; padding: 6px 10px; border:1px solid #d1d5db; border-radius:4px; font-size:13px;">
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">This info is not stored with your application</span>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      <button type="button" style="background: none; border: 1px solid #d0d5dd; border-radius: 6px; padding: 8px 20px; cursor: pointer;">Cancel</button>
+      <button type="submit" class="btn-primary">Submit application</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  (function(){
+    // ----- Pill toggle -----
+    const pills = document.querySelectorAll('.pill-btn');
+    const hiddenAuth = document.getElementById('workAuthHidden');
+    pills.forEach(btn => {
+      btn.addEventListener('click', function(){
+        pills.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-checked','false'); });
+        this.classList.add('selected');
+        this.setAttribute('aria-checked','true');
+        hiddenAuth.value = this.getAttribute('data-value');
+      });
+    });
+
+    // ----- Combobox (custom listbox) -----
+    const combobox = document.getElementById('sourceCombobox');
+    const listbox = document.getElementById('sourceListbox');
+    const display = document.getElementById('sourceDisplay');
+    const hidden = document.getElementById('sourceHidden');
+    const options = listbox.querySelectorAll('.listbox-option');
+    let open = false;
+    let highlightedIdx = -1;
+
+    function toggleListbox(force) {
+      open = (force !== undefined) ? force : !open;
+      combobox.setAttribute('aria-expanded', open);
+      listbox.classList.toggle('open', open);
+    }
+
+    function selectOption(el) {
+      const value = el.getAttribute('data-value');
+      const text = el.textContent.trim();
+      display.textContent = text;
+      display.style.color = '#1f2937';
+      hidden.value = value;
+      combobox.setAttribute('data-value', value);
+      options.forEach(o => o.removeAttribute('aria-selected'));
+      el.setAttribute('aria-selected', 'true');
+      toggleListbox(false);
+    }
+
+    combobox.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleListbox();
+    });
+
+    options.forEach((opt, idx) => {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(this);
+        highlightedIdx = idx;
+      });
+      opt.addEventListener('mouseenter', function() {
+        options.forEach(o => o.classList.remove('highlighted'));
+        this.classList.add('highlighted');
+        highlightedIdx = Array.from(options).indexOf(this);
+      });
+    });
+
+    combobox.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!open) toggleListbox(true);
+        const dir = e.key === 'ArrowDown' ? 1 : -1;
+        highlightedIdx = Math.max(0, Math.min(options.length-1, highlightedIdx + dir));
+        options.forEach((o,i) => o.classList.toggle('highlighted', i===highlightedIdx));
+        options[highlightedIdx].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (open && highlightedIdx >= 0) {
+          selectOption(options[highlightedIdx]);
+        } else {
+          toggleListbox();
+        }
+      } else if (e.key === 'Escape') {
+        toggleListbox(false);
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combobox.contains(e.target) && !listbox.contains(e.target)) {
+        toggleListbox(false);
+      }
+    });
+
+    // ----- Shadow DOM host (declarative shadow root) -----
+    const host = document.getElementById('shadowHost');
+    if (host) {
+      const shadow = host.attachShadow({ mode: 'open' });
+      shadow.innerHTML = `
+        <style>
+          .shadow-field { padding: 4px 0; }
+          .shadow-label { font-size: 13px; color: #1f2937; display: block; margin-bottom: 4px; }
+          .shadow-input { width: 100%; padding: 8px 10px; border: 1px solid #98a2b3; border-radius: 4px; font-size: 14px; background: #fff; }
+        </style>
+        <div class="shadow-field">
+          <label class="shadow-label" for="shadowSelect">Which tool do you prefer?</label>
+          <select id="shadowSelect" class="shadow-input">
+            <option>Docker</option>
+            <option selected>Kubernetes</option>
+            <option>Helm</option>
+            <option>ArgoCD</option>
+          </select>
+        </div>
+        <div class="shadow-field" style="margin-top: 8px;">
+          <label class="shadow-label" for="shadowYears">Years of experience</label>
+          <input type="number" id="shadowYears" class="shadow-input" placeholder="3" min="0" step="1">
+        </div>
+      `;
+    }
+
+    // ----- Form validation (basic) -----
+    document.getElementById('jobAppForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('fullName');
+      const email = document.querySelector('input[type="email"]');
+      const phoneDiv = document.querySelector('[role="textbox"]');
+      const source = document.getElementById('sourceHidden');
+      let firstError = null;
+
+      document.querySelectorAll('.error-msg').forEach(el => el.remove());
+      document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+
+      if (!name.value.trim()) {
+        showError(name, 'Full name is required');
+        if (!firstError) firstError = name;
+      }
+      if (!email.value.trim()) {
+        showError(email, 'Email is required');
+        if (!firstError) firstError = email;
+      }
+      if (!phoneDiv.textContent.trim()) {
+        showError(phoneDiv, 'Phone is required');
+        if (!firstError) firstError = phoneDiv;
+      }
+      if (!source.value) {
+        showError(document.getElementById('sourceCombobox'), 'Please select an option');
+        if (!firstError) firstError = document.getElementById('sourceCombobox');
+      }
+
+      if (firstError) {
+        firstError.focus();
+      } else {
+        alert('Application submitted! (Demo)');
+      }
+    });
+
+    function showError(el, msg) {
+      el.classList.add('error-border');
+      const err = document.createElement('div');
+      err.className = 'error-msg';
+      err.textContent = msg;
+      el.parentNode.appendChild(err);
+    }
+
+  })();
+</script>
+</body>
+</html>

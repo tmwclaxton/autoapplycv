@@ -1,0 +1,71 @@
+{
+    "id": "syn-ai-0004",
+    "seed": 778607651,
+    "variety": {
+        "ats_style": "personio",
+        "widgets": [
+            "react-select",
+            "combobox",
+            "location-typeahead"
+        ],
+        "structure": "iframe-hosted",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            },
+            {
+                "title": "Fields inside details accordion",
+                "notes": "Cover letter and visa fields hidden inside closed details element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Details accordion<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"acc_name\">Name<\/label><input type=\"text\" id=\"acc_name\" name=\"acc_name\"> <details> <summary>Additional questions (click to expand)<\/summary> <label for=\"acc_cover\">Cover letter<\/label><textarea id=\"acc_cover\" name=\"acc_cover\" rows=\"4\"><\/te",
+                "requires_interaction": true
+            },
+            {
+                "title": "Emoji unicode labels",
+                "notes": "Labels contain flag emoji and unicode; Swedish field marked required",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Emoji labels<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"emoji_name\">Full name<\/label><input type=\"text\" id=\"emoji_name\" name=\"emoji_name\"> <label for=\"emoji_sv\">🇸🇪 Swedish fluency level (required)<\/label><select id=\"emoji_sv\" name=\"emoji_sv\"><option value=\"\">Select<\/option><option>Native<\/option>",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real personio-style job application (iframe-hosted, small, tier=high). Widgets: react-select, combobox, location-typeahead. Required: Label wraps input through nested divs without for attribute Required: Custom text field: div with role=textbox and contenteditable, no native input Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: At least one readonly or disabled input with prefilled profile value Required: Field labeled via aria-labelledby pointing at hidden or distant span Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Reference DOM (Fields inside details accordion): Cover letter and visa fields hidden inside closed details element Reference DOM (Emoji unicode labels): Labels contain flag emoji and unicode; Swedish field marked required Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: label-wraps-deep, div-role-textbox, native-select-not-combobox, readonly-prefill, aria-labelledby-hidden. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Question number prefixes; Fields inside details accordion; Emoji unicode labels."
+}

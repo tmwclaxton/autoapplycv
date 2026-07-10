@@ -1,0 +1,245 @@
+{
+  "id": "web-www-stepstone-de-bewerbung-auf-empfehlung",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "(jobtitel, kompetenz oder firmenname)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "genesis-autocomplete-:R59kcqkq:",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "(Jobtitel, Kompetenz oder Firmenname)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "(ort oder 5-stellige plz)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "genesis-autocomplete-:Rqkcqkq:",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "(Ort oder 5-stellige PLZ)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-mail hier eingeben",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "E-Mail hier eingeben",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "formalia erfüllt: erfüllt meine bewerbung alle wichtigen formalia?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Formalia erfüllt: Erfüllt meine Bewerbung alle wichtigen Formalia?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-4",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ansprechendes layout: hat meine bewerbung ein ansprechendes layout?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Ansprechendes Layout: Hat meine Bewerbung ein ansprechendes Layout?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-8",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sprachlich gut formuliert: ist mein bewerbungsschreiben sprachlich gut formuliert?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sprachlich gut formuliert: Ist mein Bewerbungsschreiben sprachlich gut formuliert?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-12",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "qualifikationen sprechen für mich: sprechen auch meine angegebenen qualifikationen für mich?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Qualifikationen sprechen für mich: Sprechen auch meine angegebenen Qualifikationen für mich?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-16",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "geeignete und angesehene quelle: ist die quelle meiner empfehlung geeignet und genießt ein gutes ansehen?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Geeignete und angesehene Quelle: Ist die Quelle meiner Empfehlung geeignet und genießt ein gutes Ansehen?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-20",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "positives feedback vom empfehlungsgeber: kann mein empfehlungsgeber bei nachfrage positives über mich berichten?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Positives Feedback vom Empfehlungsgeber: Kann mein Empfehlungsgeber bei Nachfrage Positives über mich berichten?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-24",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "einverständnis des empfehlungsgebers: darf und will meine quelle genannt werden?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Einverständnis des Empfehlungsgebers: Darf und will meine Quelle genannt werden?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-28",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "originell und individuell eingegliedert: habe ich die empfehlung originell und individuell eingegliedert?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Originell und individuell eingegliedert: Habe ich die Empfehlung originell und individuell eingegliedert?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "stepstone-checkbox-1-32",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

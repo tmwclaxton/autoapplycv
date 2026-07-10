@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Ashby Application</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; margin: 0; padding: 24px; color: #1a1a2e; }
+  .app-shell { max-width: 760px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 32px; position: relative; }
+  .form-header { margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; }
+  .form-header h1 { font-size: 22px; font-weight: 600; margin: 0; }
+  .form-header p { font-size: 14px; color: #64748b; margin: 4px 0 0; }
+  .field-group { margin-bottom: 18px; display: flex; flex-direction: column; gap: 4px; }
+  .field-row { display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+  input, textarea, .custom-listbox-trigger { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; box-sizing: border-box; transition: border 0.15s; }
+  input:focus, textarea:focus, .custom-listbox-trigger:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,0.15); }
+  .readonly-field { background: #f8fafc; color: #475569; cursor: not-allowed; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #d1d5db; border-radius: 20px; background: white; font-size: 13px; cursor: pointer; transition: all 0.1s; }
+  .pill-btn.active { background: #6366f1; color: white; border-color: #6366f1; }
+  .label-span { font-size: 13px; font-weight: 500; color: #334155; display: flex; align-items: center; gap: 4px; }
+  .asterisk { color: #ef4444; margin-left: 2px; font-size: 14px; line-height: 1; }
+  .hint-text { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  details { border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; }
+  summary { cursor: pointer; font-size: 14px; font-weight: 500; color: #1e293b; }
+  .hidden-fieldset { display: none; margin-top: 12px; }
+  .custom-listbox-container { position: relative; width: 100%; }
+  .custom-listbox-trigger { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .custom-listbox-arrow { font-size: 10px; color: #64748b; transition: transform 0.15s; }
+  .custom-listbox-arrow.open { transform: rotate(180deg); }
+  .custom-listbox-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d1d5db; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 20; max-height: 200px; overflow-y: auto; }
+  .custom-listbox-dropdown.open { display: block; }
+  .custom-listbox-option { padding: 10px 12px; font-size: 14px; cursor: pointer; transition: background 0.1s; }
+  .custom-listbox-option:hover, .custom-listbox-option.active { background: #eef2ff; }
+  .custom-listbox-option[aria-selected="true"] { background: #6366f1; color: white; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .shadow-host-area { margin: 16px 0; padding: 12px; border: 1px dashed #a5b4fc; border-radius: 6px; background: #f8faff; }
+  .decoy-form { margin-top: 32px; padding-top: 20px; border-top: 2px dashed #e2e8f0; opacity: 0.5; }
+  .decoy-form input { background: #f1f5f9; }
+  .btn-submit { background: #6366f1; color: white; border: none; padding: 12px 24px; font-size: 15px; border-radius: 6px; cursor: pointer; font-weight: 500; }
+  .btn-submit:hover { background: #4f46e5; }
+</style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="form-header">
+      <h1>Senior Frontend Engineer</h1>
+      <p>Apply to Acme Corp · Full-time · Remote</p>
+    </div>
+
+    <!-- main form -->
+    <form id="mainForm">
+      <!-- 1. Full Name: label + asterisk in sibling span -->
+      <div class="field-group">
+        <div class="field-row">
+          <label for="fullname" class="label-span">Full name<span class="asterisk">*</span></label>
+        </div>
+        <input type="text" id="fullname" name="fullname" placeholder="e.g. Jane Doe" required>
+      </div>
+
+      <!-- 2. Email: aria-label only field (no visible label) -->
+      <div class="field-group">
+        <label for="email" aria-label="Email address" style="display:none;"></label>
+        <input type="email" id="email" name="email" placeholder="Email address" aria-label="Email address" required>
+      </div>
+
+      <!-- 3. Phone: aria-label only field (no visible label) -->
+      <div class="field-group">
+        <label for="phone" aria-label="Phone number" style="display:none;"></label>
+        <input type="tel" id="phone" name="phone" placeholder="Phone number" aria-label="Phone number" required>
+      </div>
+
+      <!-- 4. Current company: readonly-prefill (disabled with prefilled value) -->
+      <div class="field-group">
+        <div class="field-row">
+          <span class="label-span">Current company</span>
+        </div>
+        <input type="text" id="currentCompany" name="currentCompany" value="Acme Corp (current employee)" disabled class="readonly-field" aria-label="Current employer (prefilled from profile)">
+      </div>
+
+      <!-- 5. Years of experience: native select -->
+      <div class="field-group">
+        <div class="field-row">
+          <span class="label-span">Years of experience<span class="asterisk">*</span></span>
+        </div>
+        <select id="experience" name="experience" style="width:100%; padding: 10px; border:1px solid #d1d5db; border-radius:6px; font-size:14px;">
+          <option value="">Select years</option>
+          <option value="1">0-1</option>
+          <option value="2">2-3</option>
+          <option value="3">4-6</option>
+          <option value="4">7-10</option>
+          <option value="5">10+</option>
+        </select>
+      </div>
+
+      <!-- 6. Location: custom div dropdown (combobox) using custom listbox -->
+      <div class="field-group">
+        <div class="field-row">
+          <span class="label-span">Location<span class="asterisk">*</span></span>
+        </div>
+        <div class="custom-listbox-container" id="locationComboboxContainer">
+          <div class="custom-listbox-trigger" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Location" id="locationTrigger" data-value="">
+            <span id="locationDisplay">Select location</span>
+            <span class="custom-listbox-arrow" id="locationArrow">▼</span>
+          </div>
+          <div class="custom-listbox-dropdown" role="listbox" id="locationDropdown" aria-label="Location options">
+            <div class="custom-listbox-option" role="option" aria-selected="false" data-value="remote">Remote</div>
+            <div class="custom-listbox-option" role="option" aria-selected="false" data-value="nyc">New York, NY</div>
+            <div class="custom-listbox-option" role="option" aria-selected="false" data-value="sf">San Francisco, CA</div>
+            <div class="custom-listbox-option" role="option" aria-selected="false" data-value="aus">Austin, TX</div>
+            <div class="custom-listbox-option" role="option" aria-selected="false" data-value="london">London, UK</div>
+          </div>
+          <input type="hidden" id="locationValue" name="location" value="">
+        </div>
+      </div>
+
+      <!-- 7. Portfolio / LinkedIn: glued span labels -->
+      <div class="field-group">
+        <span class="label-span">Portfolio / LinkedIn</span>
+        <input type="url" id="portfolio" name="portfolio" placeholder="https://linkedin.com/in/..." style="width:100%;">
+      </div>
+
+      <!-- 8. Availability: pill buttons (yes/no) for visa sponsorship -->
+      <div class="field-group">
+        <span class="label-span">Require visa sponsorship?<span class="asterisk">*</span></span>
+        <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true">No</button>
+        </div>
+        <input type="hidden" name="visaSponsorship" id="visaSponsorship" value="no">
+      </div>
+
+      <!-- 9. Details/accordion: hidden until click (additional questions) -->
+      <details id="additionalDetails">
+        <summary>Additional questions (optional)</summary>
+        <div style="margin-top:12px;">
+          <div class="field-group">
+            <span class="label-span">How did you hear about this role?</span>
+            <input type="text" id="referral" name="referral" placeholder="e.g. LinkedIn, referral" style="width:100%;">
+          </div>
+          <div class="field-group">
+            <span class="label-span">Expected salary (USD)</span>
+            <input type="number" id="salary" name="salary" placeholder="e.g. 150000" min="0" style="width:100%;">
+          </div>
+        </div>
+      </details>
+
+      <!-- 10. Shadow DOM host: custom element with declarative shadow root for embedded field -->
+      <div class="shadow-host-area">
+        <span class="label-span" style="margin-bottom:4px;">Internal note (shadow DOM)</span>
+        <div id="shadowHost" style="width:100%;">
+          <template shadowrootmode="open">
+            <style>
+              .shadow-input { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; box-sizing: border-box; }
+              .shadow-input:focus { outline: none; border-color: #6366f1; }
+            </style>
+            <input class="shadow-input" type="text" placeholder="Recruiter note (hidden from applicant)" aria-label="Recruiter note">
+          </template>
+        </div>
+      </div>
+
+      <!-- 11. Resume upload: file input with aria-labelledby -->
+      <div class="field-group">
+        <span id="resumeLabel" class="label-span">Resume / CV<span class="asterisk">*</span></span>
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" aria-labelledby="resumeLabel" style="padding:6px; border:1px solid #d1d5db; border-radius:6px; width:100%;">
+      </div>
+
+      <!-- 12. Cover letter: placeholder-only identification (empty label) -->
+      <div class="field-group">
+        <label for="coverletter" style="display:none;"></label>
+        <textarea id="coverletter" name="coverletter" placeholder="Cover letter (optional)" aria-label="Cover letter" rows="4" style="width:100%; resize:vertical; padding:10px; border:1px solid #d1d5db; border-radius:6px; font-family:inherit; font-size:14px;"></textarea>
+      </div>
+
+      <!-- 13. Pronouns -->
+      <div class="field-group">
+        <span class="label-span">Pronouns</span>
+        <input type="text" id="pronouns" name="pronouns" placeholder="e.g. she/her, they/them" style="width:100%;">
+      </div>
+
+      <!-- 14. LinkedIn URL (additional field to meet min 14) -->
+      <div class="field-group">
+        <span class="label-span">LinkedIn URL</span>
+        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." style="width:100%;">
+      </div>
+
+      <!-- 15. GitHub URL (additional field to meet min 14) -->
+      <div class="field-group">
+        <span class="label-span">GitHub URL</span>
+        <input type="url" id="github" name="github" placeholder="https://github.com/..." style="width:100%;">
+      </div>
+
+      <!-- 16. Start date availability (additional field) -->
+      <div class="field-group">
+        <span class="label-span">Earliest start date</span>
+        <input type="date" id="startDate" name="startDate" style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:6px;">
+      </div>
+
+      <!-- 17. Additional field: How many years in React? -->
+      <div class="field-group">
+        <span class="label-span">Years of React experience<span class="asterisk">*</span></span>
+        <input type="number" id="reactYears" name="reactYears" placeholder="e.g. 3" min="0" required style="width:100%;">
+      </div>
+
+      <button type="submit" class="btn-submit">Submit application</button>
+    </form>
+
+    <!-- Decoy secondary form -->
+    <div class="decoy-form">
+      <span style="font-size:13px; color:#94a3b8;">Internal tools (not part of application)</span>
+      <div style="margin-top:8px;">
+        <span class="label-span">Admin note</span>
+        <input type="text" placeholder="Decoy field — ignored">
+      </div>
+      <button type="button" style="margin-top:8px; padding:6px 12px; background:#e2e8f0; border:none; border-radius:4px; font-size:12px;">Save (inactive)</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // custom listbox combobox
+      const trigger = document.getElementById('locationTrigger');
+      const dropdown = document.getElementById('locationDropdown');
+      const display = document.getElementById('locationDisplay');
+      const hiddenInput = document.getElementById('locationValue');
+      const arrow = document.getElementById('locationArrow');
+      const options = dropdown.querySelectorAll('.custom-listbox-option');
+      let open = false;
+
+      function toggleDropdown(e) {
+        e.stopPropagation();
+        open = !open;
+        dropdown.classList.toggle('open', open);
+        arrow.classList.toggle('open', open);
+        trigger.setAttribute('aria-expanded', open);
+      }
+
+      function selectOption(opt) {
+        const value = opt.getAttribute('data-value');
+        const text = opt.textContent;
+        display.textContent = text;
+        hiddenInput.value = value;
+        trigger.setAttribute('data-value', value);
+        options.forEach(o => o.setAttribute('aria-selected', 'false'));
+        opt.setAttribute('aria-selected', 'true');
+        open = false;
+        dropdown.classList.remove('open');
+        arrow.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+
+      trigger.addEventListener('click', toggleDropdown);
+      trigger.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleDropdown(e);
+        }
+        if (e.key === 'Escape' && open) {
+          open = false;
+          dropdown.classList.remove('open');
+          arrow.classList.remove('open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      options.forEach(opt => {
+        opt.addEventListener('click', function(e) {
+          selectOption(this);
+        });
+        opt.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            selectOption(this);
+          }
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+          open = false;
+          dropdown.classList.remove('open');
+          arrow.classList.remove('open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // pill buttons (visa sponsorship)
+      const pillGroup = document.querySelector('.pill-group');
+      const pillInput = document.getElementById('visaSponsorship');
+      pillGroup.addEventListener('click', function(e) {
+        const btn = e.target.closest('.pill-btn');
+        if (!btn) return;
+        const value = btn.getAttribute('data-value');
+        pillGroup.querySelectorAll('.pill-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        pillInput.value = value;
+      });
+
+      // form submit (prevent actual submission for demo)
+      document.getElementById('mainForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Application submitted (demo). Hidden location value: ' + document.getElementById('locationValue').value);
+      });
+    })();
+  </script>
+</body>
+</html>

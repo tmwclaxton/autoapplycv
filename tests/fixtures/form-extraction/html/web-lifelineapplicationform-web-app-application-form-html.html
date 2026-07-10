@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Job Application – LifeLine Logistics</title>
+</head>
+<body>
+<form>
+<header>
+        <div class="header-container">
+            <a href="index.html" class="logo-section" style="text-decoration: none; color: inherit;">
+                <img src="lifeline-logo.png" alt="LifeLine Logistics" class="logo-img">
+                <div class="logo-text">LifeLine <span>Logistics</span></div>
+            </a>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h1>Join Our Team</h1>
+            <p>Apply for exciting opportunities</p>
+        </div>
+
+        <div class="form-container">
+            <form id="jobApplicationForm">
+                
+                <div class="form-row">
+                    <div class="field-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required="">
+                    </div>
+                    <div class="field-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required="">
+                    </div>
+                </div>
+
+                
+                <div class="field-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required="">
+                </div>
+
+                
+                <div class="form-row">
+                    <div class="field-group">
+                        <label for="countryCode">Country Code *</label>
+                        <select id="countryCode" name="countryCode" required="">
+                            <option value="">Select country code...</option>
+                            <option value="+92">+92 (Pakistan)</option>
+                            <option value="+964">+964 (Iraq)</option>
+                            <option value="+961">+961 (Lebanon)</option>
+                            <option value="+1">+1 (USA)</option>
+                            <option value="+44">+44 (UK)</option>
+                            <option value="+971">+971 (UAE)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="phoneNumber">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter digits only" required="">
+                        <small>Enter numbers only, between 3-11 digits</small>
+                    </div>
+                </div>
+
+                
+                <div class="field-group">
+                    <label for="countryApplying">Country/Location Applying For *</label>
+                    <select id="countryApplying" name="countryApplying" required="">
+                        <option value="">Please select a location...</option>
+                    </select>
+                </div>
+
+                
+                <div class="field-group">
+                    <label for="jobTitle">Position *</label>
+                    <select id="jobTitle" name="jobTitle" required="">
+                        <option value="">Please select a position...</option>
+                    </select>
+                </div>
+
+                
+                <div id="jobDescription" class="job-description" style="display: none;"></div>
+
+                
+                <div class="field-group">
+                    <label for="resume">Resume/CV (PDF or Word) *</label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required="">
+                    <small>Max file size: 15MB. Accepted formats: PDF, DOC, DOCX</small>
+                </div>
+
+                
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+
+            
+            <div id="successMessage" class="success-message">
+                <p><strong>✓ Application Submitted Successfully!</strong></p>
+                <p>Thank you for applying. We will review your application and get back to you soon.</p>
+            </div>
+
+            
+            <div id="errorMessage" class="error-message">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

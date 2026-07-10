@@ -1,0 +1,217 @@
+{
+  "id": "https-jobs-ashbyhq-com-hinge-health-e206ad9f-58ab-4dea-afa6-77a2240293c9-applica",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "will you now or in the future require any immigration related support or sponsorship from hinge health? this could include support (such as j-1, f-1 cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-3, o-1, or tn), and/or any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). by selecting this option, you certify that this information provided regarding your sponsorship needs is true and accurate. providing false or misleading information may result in the withdrawal of a job application or termination of employment.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "208d5d83-c79f-40ff-b7c3-cfa4ea95976d",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4de7dd35-89a9-4843-87d4-3a2216c454b7",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal first & last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b66b020c-766a-4164-8ba5-77ab957fbdaf",
+        "name": "b66b020c-766a-4164-8ba5-77ab957fbdaf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b66b020c-766a-4164-8ba5-77ab957fbdaf",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "96512cdb-84d4-4443-82f1-fba4c0132704",
+        "name": "96512cdb-84d4-4443-82f1-fba4c0132704",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "96512cdb-84d4-4443-82f1-fba4c0132704",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "targeted compensation range (base comp only)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e09a5375-707e-496b-9b2a-6a55ba47bb7d",
+        "name": "e09a5375-707e-496b-9b2a-6a55ba47bb7d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e09a5375-707e-496b-9b2a-6a55ba47bb7d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile link",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "9b10a247-2323-4f49-bf73-00fb7dca86d4",
+        "name": "9b10a247-2323-4f49-bf73-00fb7dca86d4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9b10a247-2323-4f49-bf73-00fb7dca86d4",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

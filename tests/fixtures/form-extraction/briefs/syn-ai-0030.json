@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0030",
+    "seed": 4252257435,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Pattern constrained tel",
+                "notes": "Phone input has title hint for UK format (pattern attribute omitted so mock fill passes)",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Pattern tel<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"pat_name\">Name<\/label><input type=\"text\" id=\"pat_name\" name=\"pat_name\"> <label for=\"pat_phone\">UK phone (07xxx xxxxxx)<\/label> <input type=\"tel\" id=\"pat_phone\" name=\"pat_phone\" title=\"UK mobile starting with 07\"> <label for=\"pat_email\">Email<\/l",
+                "requires_interaction": false
+            },
+            {
+                "title": "Reverse DOM field order",
+                "notes": "Input element appears before its label in DOM (float-right layout pattern)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Reverse DOM order<\/h1> <form action=\"\/apply\" method=\"post\"> <input type=\"text\" id=\"rev_name\" name=\"rev_name\"><label for=\"rev_name\">Full name<\/label> <input type=\"email\" id=\"rev_email\" name=\"rev_email\"><label for=\"rev_email\">Email address<\/label> <input type=\"tel\" id=\"rev_phone\" name=\"rev_phone\"><label for=\"re",
+                "requires_interaction": false
+            },
+            {
+                "title": "Tab panel hidden fields",
+                "notes": "Fields in inactive tab panel hidden until tab clicked",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Tab panels<\/h1> <form action=\"\/apply\" method=\"post\"> <div role=\"tablist\"> <button type=\"button\" role=\"tab\" aria-selected=\"true\" id=\"tab-basic\">Basic<\/button> <button type=\"button\" role=\"tab\" aria-selected=\"false\" id=\"tab-details\" data-reveal=\"#panel-details\" data-hide=\"#panel-basic\">Details<\/button> <\/div> <d",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Newsletter or login decoy form separate from job application form Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Label text split across multiple spans with no space between words Required: At least one readonly or disabled input with prefilled profile value Reference DOM (Pattern constrained tel): Phone input has title hint for UK format (pattern attribute omitted so mock fill passes) Reference DOM (Reverse DOM field order): Input element appears before its label in DOM (float-right layout pattern) Reference DOM (Tab panel hidden fields): Fields in inactive tab panel hidden until tab clicked Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: div-role-textbox, decoy-form, aria-labelledby-hidden, glued-label-text, readonly-prefill. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Pattern constrained tel; Reverse DOM field order; Tab panel hidden fields."
+}

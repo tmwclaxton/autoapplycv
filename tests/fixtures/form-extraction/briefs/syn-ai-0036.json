@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0036",
+    "seed": 1778665122,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Collapsible section animation",
+                "notes": "Additional questions in collapsible section toggled by aria-expanded button",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Collapsible section<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"col_name\">Name<\/label><input type=\"text\" id=\"col_name\" name=\"col_name\"> <label for=\"col_email\">Email<\/label><input type=\"email\" id=\"col_email\" name=\"col_email\"> <button type=\"button\" id=\"expand-more\" aria-expanded=\"false\" data-reveal=\"#",
+                "requires_interaction": true
+            },
+            {
+                "title": "Form inside dialog",
+                "notes": "Application fields live inside a native dialog element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Dialog form<\/h1> <form action=\"\/apply\" method=\"post\" id=\"outer-form\"> <label for=\"dlg_name\">Name<\/label><input type=\"text\" id=\"dlg_name\" name=\"dlg_name\"> <button type=\"button\" id=\"open-dialog\" onclick=\"document.getElementById('apply-dialog').showModal()\">Open application<\/button> <dialog id=\"apply-dialog\"> <l",
+                "requires_interaction": true
+            },
+            {
+                "title": "Conditional radio reveal",
+                "notes": "Selecting Yes on sponsorship reveals follow-up textarea",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Conditional radio<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"cond_name\">Name<\/label><input type=\"text\" id=\"cond_name\" name=\"cond_name\"> <p>Do you require visa sponsorship?<\/p> <label><input type=\"radio\" name=\"visa_need\" value=\"no\"> No<\/label> <label><input type=\"radio\" name=\"visa_need\" value=\"yes\" ",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: At least one readonly or disabled input with prefilled profile value Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Fields inside details\/summary or hidden until click Required: Newsletter or login decoy form separate from job application form Required: Inputs laid out in table cells, not flex card stacks only Reference DOM (Collapsible section animation): Additional questions in collapsible section toggled by aria-expanded button Reference DOM (Form inside dialog): Application fields live inside a native dialog element Reference DOM (Conditional radio reveal): Selecting Yes on sponsorship reveals follow-up textarea Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: readonly-prefill, iframe-apply, details-accordion, decoy-form, table-layout. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Collapsible section animation; Form inside dialog; Conditional radio reveal."
+}

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ashby Job Application – Senior Frontend Engineer</title>
+<style>
+  body { background: #f0f2f5; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; margin:0; padding:20px; }
+  .app-wrapper { max-width: 960px; margin:0 auto; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:24px; }
+  table { width:100%; border-collapse: collapse; }
+  td, th { padding:6px 8px; vertical-align:top; border-bottom:1px solid #e9eaeb; }
+  tr:last-child td { border-bottom:none; }
+  .field-label { font-size:13px; font-weight:500; color:#1c1e21; width:30%; white-space:nowrap; padding-top:12px; }
+  .field-input { width:70%; padding-top:8px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], input[type=url], input[type=date], select, textarea { width:100%; padding:8px 10px; border:1px solid #ccd0d5; border-radius:6px; font-size:14px; box-sizing:border-box; background:#fff; }
+  input[readonly], input:disabled { background:#f0f2f5; color:#606770; }
+  .pill-group { display:flex; gap:6px; flex-wrap:wrap; }
+  .pill { display:inline-flex; align-items:center; padding:6px 14px; border-radius:20px; border:1px solid #dadde1; font-size:13px; cursor:pointer; background:#fff; color:#1c1e21; user-select:none; }
+  .pill.active { background:#e7f3ff; border-color:#1877f2; color:#1877f2; }
+  .pill-btn-yes, .pill-btn-no { min-width:50px; justify-content:center; }
+  .combobox-container { position:relative; }
+  .combobox-trigger { display:flex; align-items:center; justify-content:space-between; width:100%; padding:8px 10px; border:1px solid #ccd0d5; border-radius:6px; background:#fff; cursor:pointer; font-size:14px; }
+  .combobox-trigger:focus { border-color:#1877f2; outline:none; }
+  .combobox-listbox { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #dadde1; border-radius:6px; margin-top:4px; max-height:180px; overflow-y:auto; z-index:10; box-shadow:0 4px 12px rgba(0,0,0,0.10); }
+  .combobox-listbox.open { display:block; }
+  .combobox-option { padding:8px 12px; cursor:pointer; font-size:14px; }
+  .combobox-option:hover { background:#f0f2f5; }
+  .combobox-option[aria-selected=true] { background:#e7f3ff; font-weight:500; }
+  .hidden-field { display:none; }
+  .hidden-field.revealed { display:block; margin-top:8px; }
+  details { margin:8px 0; }
+  details summary { cursor:pointer; font-weight:500; font-size:14px; color:#1877f2; }
+  .details-content { padding:8px 0 0 12px; }
+  .shadow-host { display:block; min-height:44px; border:1px dashed #a0a4a8; border-radius:6px; padding:8px; background:#fafbfc; }
+  .glued-span-label { font-size:12px; color:#606770; display:block; margin-bottom:2px; }
+  .error-text { color:#e41e3f; font-size:12px; margin-top:4px; display:none; }
+  .section-title { font-size:16px; font-weight:600; margin:20px 0 8px; color:#1c1e21; border-bottom:2px solid #e4e6eb; padding-bottom:4px; }
+  .note { font-size:12px; color:#65676b; }
+  .btn-submit { background:#1877f2; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; margin-top:16px; }
+  .btn-submit:hover { background:#166fe5; }
+  .flex-row { display:flex; gap:12px; align-items:center; }
+  .decoy-form { margin-top:24px; padding:16px; border:1px solid #e4e6eb; border-radius:8px; background:#fafbfc; opacity:0.6; pointer-events:none; }
+  .decoy-form td { border-bottom:1px dashed #dadde1; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <h2 style="margin:0 0 4px; font-size:20px;">Senior Frontend Engineer</h2>
+  <p style="margin:0 0 16px; font-size:14px; color:#65676b;">Remote – Full-time – Apply by 2025-06-01</p>
+  
+  <form id="mainAppForm">
+    <div class="section-title">Contact Information</div>
+    <table>
+      <tr>
+        <td class="field-label"><label for="fullName">Full Name</label></td>
+        <td class="field-input"><input type="text" id="fullName" name="fullName" placeholder="e.g. Jane Doe" value="Alex Rivera" readonly></td>
+      </tr>
+      <tr>
+        <td class="field-label"><span class="glued-span-label">Email *</span></td>
+        <td class="field-input"><input type="email" name="email" aria-label="Email address" placeholder="you@company.com" required></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="phone">Phone</label></td>
+        <td class="field-input"><input type="tel" id="phone" name="phone" title="UK format: 07700 900123" placeholder="07700 900123"></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="linkedin">LinkedIn URL</label></td>
+        <td class="field-input"><input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..."></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="github">GitHub URL</label></td>
+        <td class="field-input"><input type="url" id="github" name="github" placeholder="https://github.com/..."></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="portfolio">Portfolio URL</label></td>
+        <td class="field-input"><input type="url" id="portfolio" name="portfolio" placeholder="https://..."></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="currentCompany">Current Company</label></td>
+        <td class="field-input"><input type="text" id="currentCompany" name="currentCompany" placeholder="e.g. Acme Corp"></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="currentRole">Current Role</label></td>
+        <td class="field-input"><input type="text" id="currentRole" name="currentRole" placeholder="e.g. Senior Engineer"></td>
+      </tr>
+    </table>
+
+    <div class="section-title">Skills & Experience</div>
+    <table>
+      <tr>
+        <td class="field-label">Years of experience</td>
+        <td class="field-input"><input type="number" name="yearsExp" aria-label="Years of professional experience" min="0" max="30" placeholder="e.g. 5"></td>
+      </tr>
+      <tr>
+        <td class="field-label">Top skills (custom textbox)</td>
+        <td class="field-input">
+          <div role="textbox" contenteditable="true" aria-label="Top skills, comma separated" style="border:1px solid #ccd0d5; border-radius:6px; padding:8px 10px; min-height:40px; background:#fff; font-size:14px;">React, TypeScript, CSS</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label">Department (optgroup)</td>
+        <td class="field-input">
+          <select name="department" aria-labelledby="dept-label">
+            <optgroup label="Engineering">
+              <option value="frontend">Frontend</option>
+              <option value="backend">Backend</option>
+              <option value="infra">Infrastructure</option>
+            </optgroup>
+            <optgroup label="Design">
+              <option value="product-design">Product Design</option>
+              <option value="brand">Brand</option>
+            </optgroup>
+            <optgroup label="Operations">
+              <option value="hr">People</option>
+              <option value="finance">Finance</option>
+            </optgroup>
+          </select>
+          <span id="dept-label" style="display:none;">Department</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label">Referral source (combobox)</td>
+        <td class="field-input">
+          <div class="combobox-container" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Referral source">
+            <div class="combobox-trigger" tabindex="0" role="textbox" aria-autocomplete="list" data-value="">Select source</div>
+            <div class="combobox-listbox" role="listbox" aria-label="Referral sources">
+              <div class="combobox-option" role="option" aria-selected="false" data-value="linkedin">LinkedIn</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="github">GitHub</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="friend">Friend referral</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="other">Other</div>
+            </div>
+          </div>
+          <input type="hidden" name="referralSource" value="">
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="skillsDetail">Skills Detail</label></td>
+        <td class="field-input"><textarea id="skillsDetail" name="skillsDetail" rows="3" placeholder="Describe your key skills in detail"></textarea></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="certifications">Certifications</label></td>
+        <td class="field-input"><input type="text" id="certifications" name="certifications" placeholder="e.g. AWS Certified, Scrum Master"></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="languages">Languages</label></td>
+        <td class="field-input"><input type="text" id="languages" name="languages" placeholder="e.g. English, Spanish"></td>
+      </tr>
+    </table>
+
+    <div class="section-title">Work Eligibility</div>
+    <table>
+      <tr>
+        <td class="field-label">Authorised to work in UK?</td>
+        <td class="field-input">
+          <div class="pill-group" role="radiogroup" aria-label="Work authorisation">
+            <span class="pill pill-btn-yes" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</span>
+            <span class="pill pill-btn-no" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</span>
+          </div>
+          <input type="hidden" name="workAuth" value="">
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label">Sponsorship needed?</td>
+        <td class="field-input">
+          <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship required">
+            <span class="pill pill-btn-yes" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</span>
+            <span class="pill pill-btn-no" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</span>
+          </div>
+          <input type="hidden" name="sponsorship" value="">
+          <div class="hidden-field" id="sponsorshipDetails">
+            <label for="visaDetails">If yes, provide details</label>
+            <textarea id="visaDetails" name="visaDetails" rows="2" placeholder="Current visa type, expiry, etc."></textarea>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="rightToWork">Right to Work Document</label></td>
+        <td class="field-input"><input type="text" id="rightToWork" name="rightToWork" placeholder="e.g. Passport, BRP"></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="visaType">Visa Type (if applicable)</label></td>
+        <td class="field-input"><input type="text" id="visaType" name="visaType" placeholder="e.g. Skilled Worker"></td>
+      </tr>
+    </table>
+
+    <div class="section-title">Additional Information</div>
+    <table>
+      <tr>
+        <td class="field-label">Salary expectation</td>
+        <td class="field-input"><input type="text" name="salary" aria-label="Salary expectation in GBP" placeholder="e.g. £90,000 - £110,000"></td>
+      </tr>
+      <tr>
+        <td class="field-label">Earliest start date</td>
+        <td class="field-input"><input type="text" name="startDate" aria-label="Earliest start date" placeholder="e.g. 2025-07-01"></td>
+      </tr>
+      <tr>
+        <td class="field-label">Notice period</td>
+        <td class="field-input"><input type="text" name="noticePeriod" aria-label="Notice period" placeholder="e.g. 1 month"></td>
+      </tr>
+      <tr>
+        <td class="field-label">How did you hear?</td>
+        <td class="field-input">
+          <select name="hearAbout" aria-label="How did you hear about this role?">
+            <option value="">-- select --</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="friend">Friend</option>
+            <option value="jobboard">Job board</option>
+            <option value="other">Other</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="coverLetter">Cover Letter</label></td>
+        <td class="field-input"><textarea id="coverLetter" name="coverLetter" rows="4" placeholder="Optional cover letter"></textarea></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="references">References</label></td>
+        <td class="field-input"><textarea id="references" name="references" rows="3" placeholder="Names and contact info"></textarea></td>
+      </tr>
+      <tr>
+        <td class="field-label"><label for="additionalInfo">Additional Info</label></td>
+        <td class="field-input"><textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Anything else we should know?"></textarea></td>
+      </tr>
+      <tr>
+        <td class="field-label">
+          <details>
+            <summary>Equal opportunity (click to fill)</summary>
+            <div class="details-content">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender" style="margin-bottom:4px;">
+                <option value="">Prefer not to say</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="nonbinary">Non-binary</option>
+              </select>
+              <label for="ethnicity">Ethnicity</label>
+              <input type="text" id="ethnicity" name="ethnicity" placeholder="Optional" style="margin-bottom:4px;">
+              <label for="veteran">Veteran status</label>
+              <select id="veteran" name="veteran">
+                <option value="">Select</option>
+                <option value="yes">I am a veteran</option>
+                <option value="no">Not a veteran</option>
+              </select>
+              <label for="disability">Disability status</label>
+              <select id="disability" name="disability">
+                <option value="">Select</option>
+                <option value="yes">I have a disability</option>
+                <option value="no">No disability</option>
+              </select>
+            </div>
+          </details>
+        </td>
+        <td class="field-input"></td>
+      </tr>
+      <tr>
+        <td class="field-label">
+          <div class="shadow-host" id="shadowHost">
+          </div>
+        </td>
+        <td class="field-input">
+          <span style="font-size:12px; color:#65676b;">Internal notes (shadow DOM)</span>
+        </td>
+      </tr>
+    </table>
+
+    <button type="submit" class="btn-submit">Submit application</button>
+  </form>
+
+  <div class="decoy-form">
+    <div style="font-weight:500; margin-bottom:8px;">Internal referral portal (legacy)</div>
+    <table>
+      <tr><td>Candidate ID</td><td><input type="text" value="A-38291" disabled></td></tr>
+      <tr><td>Reviewer</td><td><input type="text" value="Hiring Manager" disabled></td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      var pills = group.querySelectorAll('.pill');
+      var hiddenInput = group.nextElementSibling;
+      pills.forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          pills.forEach(function(p) { p.classList.remove('active'); p.setAttribute('aria-checked', 'false'); });
+          this.classList.add('active');
+          this.setAttribute('aria-checked', 'true');
+          if (hiddenInput) hiddenInput.value = this.getAttribute('data-value');
+          if (group.getAttribute('aria-label') === 'Visa sponsorship required') {
+            var detailsDiv = document.getElementById('sponsorshipDetails');
+            if (this.getAttribute('data-value') === 'yes') {
+              detailsDiv.classList.add('revealed');
+            } else {
+              detailsDiv.classList.remove('revealed');
+            }
+          }
+        });
+        pill.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+        });
+      });
+    });
+
+    var comboboxContainers = document.querySelectorAll('.combobox-container');
+    comboboxContainers.forEach(function(container) {
+      var trigger = container.querySelector('.combobox-trigger');
+      var listbox = container.querySelector('.combobox-listbox');
+      var hiddenInput = container.nextElementSibling;
+      var options = listbox.querySelectorAll('.combobox-option');
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = listbox.classList.contains('open');
+        closeAllComboboxes();
+        if (!isOpen) {
+          listbox.classList.add('open');
+          container.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      options.forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var value = this.getAttribute('data-value');
+          var label = this.textContent;
+          trigger.textContent = label;
+          trigger.setAttribute('data-value', value);
+          if (hiddenInput) hiddenInput.value = value;
+          options.forEach(function(o) { o.setAttribute('aria-selected', 'false'); });
+          this.setAttribute('aria-selected', 'true');
+          listbox.classList.remove('open');
+          container.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      trigger.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (!listbox.classList.contains('open')) {
+            listbox.classList.add('open');
+            container.setAttribute('aria-expanded', 'true');
+          }
+          var current = listbox.querySelector('[aria-selected="true"]');
+          var first = options[0];
+          var last = options[options.length - 1];
+          if (e.key === 'ArrowDown') {
+            var next = current ? current.nextElementSibling : first;
+            if (!next) next = first;
+            if (current) current.setAttribute('aria-selected', 'false');
+            next.setAttribute('aria-selected', 'true');
+          } else {
+            var prev = current ? current.previousElementSibling : last;
+            if (!prev) prev = last;
+            if (current) current.setAttribute('aria-selected', 'false');
+            prev.setAttribute('aria-selected', 'true');
+          }
+        }
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          var selected = listbox.querySelector('[aria-selected="true"]');
+          if (selected) selected.click();
+        }
+        if (e.key === 'Escape') {
+          listbox.classList.remove('open');
+          container.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!container.contains(e.target)) {
+          listbox.classList.remove('open');
+          container.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    function closeAllComboboxes() {
+      document.querySelectorAll('.combobox-listbox').forEach(function(lb) { lb.classList.remove('open'); });
+      document.querySelectorAll('.combobox-container').forEach(function(c) { c.setAttribute('aria-expanded', 'false'); });
+    }
+
+    var host = document.getElementById('shadowHost');
+    if (host && host.shadowRoot === null) {
+      var shadow = host.attachShadow({ mode: 'open' });
+      shadow.innerHTML = '<style>:host { display:block; } .inner-field { margin:4px 0; } label { font-size:12px; color:#606770; } input { width:100%; padding:6px; border:1px solid #ccd0d5; border-radius:4px; }</style><div class="inner-field"><label for="shadowNotes">Recruiter notes</label><input type="text" id="shadowNotes" placeholder="Internal only" value="Strong candidate" readonly></div>';
+    }
+
+    document.getElementById('mainAppForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo). In production this would send data.');
+    });
+  })();
+</script>
+
+</body>
+</html>

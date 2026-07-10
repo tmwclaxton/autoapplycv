@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply - Senior Frontend Engineer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+  body { background: #f4f5f7; padding: 24px; }
+  .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 700px) { .app-grid { grid-template-columns: 1fr; } }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 6px 8px; vertical-align: top; }
+  .field-group { margin-bottom: 2px; }
+  .deco-wrapper { display: inline-block; width: 100%; }
+  .deco-wrapper label { display: block; font-size: 13px; color: #1a1a1a; font-weight: 500; margin-bottom: 2px; }
+  .deco-wrapper .input-wrap { display: flex; flex-direction: column; }
+  .deco-wrapper .input-wrap input, .deco-wrapper .input-wrap select, .deco-wrapper .input-wrap textarea { width: 100%; padding: 8px 10px; border: 1px solid #b0b0b0; border-radius: 6px; font-size: 14px; background: white; }
+  .deco-wrapper .input-wrap input:focus { border-color: #2a5c8a; outline: none; box-shadow: 0 0 0 2px rgba(42,92,138,0.2); }
+  [role="textbox"][contenteditable] { min-height: 40px; border: 1px solid #b0b0b0; border-radius: 6px; padding: 8px 10px; background: white; font-size: 14px; cursor: text; white-space: pre-wrap; word-wrap: break-word; }
+  [role="textbox"][contenteditable]:focus { border-color: #2a5c8a; outline: none; box-shadow: 0 0 0 2px rgba(42,92,138,0.2); }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { padding: 6px 16px; border-radius: 20px; border: 1px solid #7a7a7a; background: white; cursor: pointer; font-size: 13px; color: #1a1a1a; transition: all 0.15s; }
+  .pill.selected { background: #2a5c8a; color: white; border-color: #2a5c8a; }
+  .drag-zone { border: 2px dashed #9a9a9a; border-radius: 12px; padding: 24px 16px; text-align: center; background: #fafafa; cursor: pointer; transition: border-color 0.2s; }
+  .drag-zone:hover { border-color: #2a5c8a; }
+  .drag-zone.dragover { border-color: #2a5c8a; background: #eef4fa; }
+  .drag-zone input[type="file"] { display: none; }
+  .drag-zone .fake-btn { display: inline-block; margin-top: 8px; background: #e0e0e0; padding: 6px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .hidden-field { display: none; }
+  .reveal-field { margin-top: 8px; }
+  .decoy-form { background: #f9f9f9; border: 1px solid #d0d0d0; border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+  .decoy-form h3 { font-size: 15px; margin-bottom: 12px; color: #2c2c2c; }
+  .decoy-form input { width: 100%; padding: 8px 10px; border: 1px solid #bbb; border-radius: 6px; margin-bottom: 8px; }
+  .decoy-form button { background: #555; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  .submit-bar { text-align: right; margin-top: 24px; }
+  .submit-bar button { background: #2a5c8a; color: white; border: none; padding: 12px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .submit-bar button:hover { background: #1e456b; }
+  details { margin-bottom: 4px; }
+  details summary { font-weight: 500; cursor: pointer; color: #2a5c8a; font-size: 14px; padding: 6px 0; }
+  .combobox-container { position: relative; }
+  .combobox-container input { width: 100%; padding: 8px 10px; border: 1px solid #b0b0b0; border-radius: 6px; font-size: 14px; }
+  .combobox-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #b0b0b0; border-top: none; border-radius: 0 0 6px 6px; max-height: 160px; overflow-y: auto; z-index: 10; display: none; }
+  .combobox-list.show { display: block; }
+  .combobox-list div { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .combobox-list div:hover { background: #e9eef3; }
+  [aria-label] { }
+  .glue-label span { display: inline; font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .glue-label input { display: inline; width: auto; margin-left: 4px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .legend-box { font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #1a1a1a; }
+  .note { font-size: 11px; color: #7a7a7a; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- DECOY FORM: newsletter signup (non-job form) -->
+<div class="decoy-form" style="max-width: 340px;">
+  <h3>📬 Stay updated on new roles</h3>
+  <form>
+    <input type="email" placeholder="you@example.com" aria-label="Email for newsletter">
+    <input type="text" placeholder="First name" aria-label="First name">
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+
+<div class="app-grid">
+  <!-- LEFT COLUMN: main application fields -->
+  <div style="background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+    <h2 style="font-size: 20px; margin-bottom: 16px; font-weight: 600;">Apply: Senior Frontend Engineer</h2>
+
+    <form id="job-app-form">
+      <!-- TABLE LAYOUT for some fields -->
+      <table>
+        <tr>
+          <td style="width: 50%;">
+            <div class="field-group">
+              <div class="deco-wrapper">
+                <label>Full name</label>
+                <div class="input-wrap">
+                  <input type="text" placeholder="e.g. Alex Rivera" aria-label="Full name">
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style="width: 50%;">
+            <div class="field-group">
+              <div class="deco-wrapper">
+                <label>Email</label>
+                <div class="input-wrap">
+                  <input type="email" placeholder="a.rivera@example.com" aria-label="Email">
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="field-group">
+              <div class="deco-wrapper">
+                <label>Phone</label>
+                <div class="input-wrap">
+                  <input type="tel" placeholder="+1 555 123 4567" aria-label="Phone">
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="field-group">
+              <div class="deco-wrapper">
+                <label>Current company</label>
+                <div class="input-wrap">
+                  <input type="text" placeholder="Optional" aria-label="Current company">
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- label-wraps-deep: label wraps input through nested divs without for -->
+      <div class="field-group">
+        <div class="deco-wrapper">
+          <label>LinkedIn profile (URL)</label>
+          <div class="input-wrap">
+            <div class="input-wrap">
+              <input type="url" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- custom combobox (custom widget) -->
+      <div class="field-group">
+        <div class="legend-box">How did you hear about us?</div>
+        <div class="combobox-container">
+          <input type="text" id="source-input" placeholder="Select or type" autocomplete="off" aria-autocomplete="list" aria-haspopup="listbox" aria-label="Referral source">
+          <div class="combobox-list" id="source-list" role="listbox">
+            <div role="option" data-value="linkedin">LinkedIn</div>
+            <div role="option" data-value="twitter">Twitter / X</div>
+            <div role="option" data-value="friend">Friend referral</div>
+            <div role="option" data-value="other">Other</div>
+          </div>
+        </div>
+        <!-- Other reveal (free-text) -->
+        <div id="other-source-reveal" class="hidden-field reveal-field">
+          <div class="deco-wrapper">
+            <label>Please specify</label>
+            <div class="input-wrap">
+              <input type="text" placeholder="e.g. conference" aria-label="Other source">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- details-accordion: fields inside details/summary -->
+      <details>
+        <summary>Additional info (optional)</summary>
+        <div style="margin-top: 8px;">
+          <div class="field-group">
+            <div class="deco-wrapper">
+              <label>Portfolio URL</label>
+              <div class="input-wrap">
+                <input type="url" placeholder="https://..." aria-label="Portfolio">
+              </div>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="deco-wrapper">
+              <label>Years of experience</label>
+              <div class="input-wrap">
+                <select aria-label="Experience level">
+                  <option value="">Select</option>
+                  <option>0-2</option>
+                  <option>3-5</option>
+                  <option>6-9</option>
+                  <option>10+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- div role=textbox contenteditable -->
+      <div class="field-group">
+        <div class="legend-box">Cover letter or note (optional)</div>
+        <div role="textbox" contenteditable="true" aria-label="Cover letter text" style="min-height: 90px;"></div>
+        <div class="note">Supports plain text only</div>
+      </div>
+
+      <!-- Drag-drop file upload -->
+      <div class="field-group">
+        <div class="legend-box">Resume / CV</div>
+        <div class="drag-zone" id="dragZone">
+          <input type="file" id="fileInput" accept=".pdf,.doc,.docx" aria-label="Upload resume">
+          <div style="pointer-events: none;">
+            <span style="font-size: 24px;">📄</span>
+            <p style="margin: 4px 0;">Drag & drop or <span class="fake-btn">Browse</span></p>
+            <span style="font-size: 12px; color: #6a6a6a;">PDF, DOC up to 10MB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- pill buttons (custom widget) for work authorization -->
+      <div class="field-group">
+        <div class="legend-box">Work authorization</div>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <span class="pill" role="radio" aria-checked="false" tabindex="0">US Citizen</span>
+          <span class="pill" role="radio" aria-checked="false" tabindex="-1">Green Card</span>
+          <span class="pill" role="radio" aria-checked="false" tabindex="-1">Visa holder</span>
+          <span class="pill" role="radio" aria-checked="false" tabindex="-1">Need sponsorship</span>
+        </div>
+        <input type="hidden" name="work_auth" id="work-auth-hidden">
+      </div>
+    </form>
+
+    <!-- Submit button outside form linked via form= attribute -->
+    <div class="submit-bar">
+      <button type="button" id="submitBtn" form="job-app-form">Submit application</button>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN: decoy form / extra junk -->
+  <div style="background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+    <h3 style="font-size: 16px; margin-bottom: 12px;">📌 Quick profile</h3>
+    <!-- glued span labels -->
+    <div style="margin-bottom: 12px;">
+      <div class="glue-label">
+        <span>GitHub: </span><input type="text" placeholder="username" aria-label="GitHub username" style="width: 140px;">
+      </div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <div class="glue-label">
+        <span>Twitter: </span><input type="text" placeholder="@handle" aria-label="Twitter handle" style="width: 140px;">
+      </div>
+    </div>
+    <div style="margin-top: 20px; padding: 14px; background: #f4f6fa; border-radius: 10px; font-size: 13px; color: #333;">
+      <strong>Equal opportunity</strong><br>
+      <span>We welcome all applicants.</span>
+    </div>
+    <!-- another decoy: fake login -->
+    <div style="margin-top: 24px; border-top: 1px solid #ddd; padding-top: 16px;">
+      <h4 style="font-size: 14px; margin-bottom: 8px;">🔐 Existing applicant? Sign in</h4>
+      <form>
+        <input type="email" placeholder="Email" aria-label="Sign in email" style="width: 100%; padding: 8px; border: 1px solid #b0b0b0; border-radius: 6px; margin-bottom: 6px;">
+        <input type="password" placeholder="Password" aria-label="Password" style="width: 100%; padding: 8px; border: 1px solid #b0b0b0; border-radius: 6px;">
+        <button type="submit" style="margin-top: 8px; background: #3a3a3a; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer;">Sign in</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // combobox
+    var input = document.getElementById('source-input');
+    var list = document.getElementById('source-list');
+    var reveal = document.getElementById('other-source-reveal');
+    var options = list.querySelectorAll('[role="option"]');
+
+    function showList() { list.classList.add('show'); }
+    function hideList() { setTimeout(function() { list.classList.remove('show'); }, 150); }
+
+    input.addEventListener('focus', showList);
+    input.addEventListener('blur', hideList);
+    input.addEventListener('input', function() {
+      var val = input.value.toLowerCase();
+      options.forEach(function(opt) {
+        var txt = opt.textContent.toLowerCase();
+        opt.style.display = txt.indexOf(val) > -1 ? 'block' : 'none';
+      });
+      showList();
+      if (val === 'other') {
+        reveal.classList.remove('hidden-field');
+      } else {
+        reveal.classList.add('hidden-field');
+      }
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        var val = opt.getAttribute('data-value');
+        input.value = opt.textContent;
+        list.classList.remove('show');
+        if (val === 'other') {
+          reveal.classList.remove('hidden-field');
+        } else {
+          reveal.classList.add('hidden-field');
+        }
+      });
+    });
+
+    // pill buttons (custom radio)
+    var pills = document.querySelectorAll('.pill[role="radio"]');
+    var hiddenAuth = document.getElementById('work-auth-hidden');
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('selected'); p.setAttribute('aria-checked','false'); });
+        pill.classList.add('selected');
+        pill.setAttribute('aria-checked','true');
+        hiddenAuth.value = pill.textContent.trim();
+      });
+      pill.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pill.click();
+        }
+      });
+    });
+
+    // drag-drop file upload
+    var zone = document.getElementById('dragZone');
+    var fileInput = document.getElementById('fileInput');
+    zone.addEventListener('click', function() { fileInput.click(); });
+    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', function() { zone.classList.remove('dragover'); });
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        zone.querySelector('p').innerHTML = '📎 ' + e.dataTransfer.files[0].name;
+      }
+    });
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length) {
+        zone.querySelector('p').innerHTML = '📎 ' + fileInput.files[0].name;
+      }
+    });
+
+    // submit outside form
+    var submitBtn = document.getElementById('submitBtn');
+    submitBtn.addEventListener('click', function() {
+      var form = document.getElementById('job-app-form');
+      // simple validation simulation
+      var reqFields = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+      var allFilled = true;
+      reqFields.forEach(function(f) {
+        if (f.hasAttribute('required') && !f.value.trim()) allFilled = false;
+      });
+      if (!allFilled) {
+        alert('Please fill in required fields.');
+      } else {
+        alert('Application submitted (demo).');
+      }
+    });
+
+  })();
+</script>
+
+</body>
+</html>

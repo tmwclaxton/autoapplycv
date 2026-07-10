@@ -1,0 +1,24 @@
+{
+    "id": "syn-ai-0007",
+    "seed": 1414226605,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "min_fields": 8,
+        "min_field_types": 4,
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "weirdness": [
+            "Cover letter and visa fields hidden inside closed details element",
+            "One field has lang=sv with Swedish label among English fields",
+            "react-phone-number-input style: separate dial code combobox and national number"
+        ]
+    },
+    "prompt_summary": "Create a ashby-style job application form (single-page, small size) using widgets: combobox. Include weirdness: Cover letter and visa fields hidden inside closed details element; One field has lang=sv with Swedish label among English fields; react-phone-number-input style: separate dial code combobox and national number."
+}

@@ -1,0 +1,241 @@
+{
+  "id": "https-jobs-ashbyhq-com-mercor-05765640-394b-48b0-9dd0-cbcc201dffb1-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:23:27.353Z",
+  "page_url": "https://jobs.ashbyhq.com/mercor/05765640-394b-48b0-9dd0-cbcc201dffb1/application",
+  "page_title": "Recruiter @ Mercor",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.9091,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you require work sponsorship now and/or in the future?",
+        "ai": "Will you require work sponsorship now and/or in the future?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located in the san francisco-area and/or willing to relocate?",
+        "ai": "Are you located in the San Francisco-area and/or willing to relocate?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work on-site in our san francisco office monday-friday?",
+        "ai": "Are you willing to work on-site in our San Francisco office Monday-Friday?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located?",
+        "ai": "Where are you currently located?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of full cycle recruiting experience do you have?",
+        "ai": "How many years of full cycle recruiting experience do you have?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of technical recruiting experience do you have?",
+        "ai": "How many years of technical recruiting experience do you have?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs. The 'Yes/No' fields are implemented as pairs of buttons that toggle a hidden checkbox.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you currently located?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of full cycle recruiting experience do you have?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of technical recruiting experience do you have?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you require work sponsorship now and/or in the future?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located in the San Francisco-area and/or willing to relocate?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to work on-site in our San Francisco office Monday-Friday?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you require work sponsorship now and/or in the future?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you located in the san francisco-area and/or willing to relocate?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you willing to work on-site in our san francisco office monday-friday?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how many years of full cycle recruiting experience do you have?",
+      "field_type": "number",
+      "ref": "f9"
+    },
+    {
+      "question": "how many years of technical recruiting experience do you have?",
+      "field_type": "number",
+      "ref": "f10"
+    }
+  ]
+}

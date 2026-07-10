@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0044",
+    "seed": 4151293709,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Multiple select skills",
+                "notes": "Skills field uses select multiple for multi-value selection",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Multiple select<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ms_name\">Name<\/label><input type=\"text\" id=\"ms_name\" name=\"ms_name\"> <label for=\"ms_skills\">Select all skills that apply<\/label> <select id=\"ms_skills\" name=\"ms_skills\" multiple size=\"4\"> <option>JavaScript<\/option><option>TypeScript<\/optio",
+                "requires_interaction": false
+            },
+            {
+                "title": "Table layout form",
+                "notes": "Form laid out as HTML table with labels in td cells",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Table layout<\/h1> <form action=\"\/apply\" method=\"post\"> <table><tbody> <tr><td><label for=\"tbl_name\">Full name<\/label><\/td><td><input type=\"text\" id=\"tbl_name\" name=\"tbl_name\"><\/td><\/tr> <tr><td><label for=\"tbl_email\">Email<\/label><\/td><td><input type=\"email\" id=\"tbl_email\" name=\"tbl_email\"><\/td><\/tr> <tr><td>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Other option reveal",
+                "notes": "Referral source Other checkbox reveals free-text input",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Other option reveal<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"oth_name\">Name<\/label><input type=\"text\" id=\"oth_name\" name=\"oth_name\"> <p>How did you hear about us?<\/p> <label><input type=\"checkbox\" name=\"referral\" value=\"linkedin\"> LinkedIn<\/label> <label><input type=\"checkbox\" name=\"referral\" val",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Newsletter or login decoy form separate from job application form Required: Fields inside a shadow DOM host or declarative shadow root Required: Inputs laid out in table cells, not flex card stacks only Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Phone split into country code select and local number input in separate wrappers Reference DOM (Multiple select skills): Skills field uses select multiple for multi-value selection Reference DOM (Table layout form): Form laid out as HTML table with labels in td cells Reference DOM (Other option reveal): Referral source Other checkbox reveals free-text input Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: decoy-form, shadow-host, table-layout, custom-combobox, split-phone. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Multiple select skills; Table layout form; Other option reveal."
+}

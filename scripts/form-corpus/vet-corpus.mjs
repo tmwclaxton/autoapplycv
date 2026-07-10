@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertBatchLimit, parseLimitArg } from './lib/batch-cap.mjs';
+import { applyBatchScenarioFilter, parseStartIdArg } from './lib/batch-id-range.mjs';
 import { loadManifest, saveManifest } from './lib/manifest.mjs';
 import { normalizeQuestion, questionsMatch, normalizeOptions, domReferenceKey } from './lib/normalize.mjs';
 import { EXPECTED_DIR, HTML_DIR, VET_REPORT_PATH } from './lib/paths.mjs';
@@ -9,6 +11,8 @@ import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 const manifest = loadManifest();
 const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
 const idPrefixArg = process.argv.find((arg) => arg.startsWith('--id-prefix='))?.split('=')[1];
+const startIdArg = parseStartIdArg();
+const batchLimit = parseLimitArg() ? assertBatchLimit(parseLimitArg()) : null;
 const pendingOnly = process.argv.includes('--pending-only');
 const reportOnly = process.argv.includes('--report-only');
 const slimReport = process.argv.includes('--slim-report');
@@ -177,16 +181,21 @@ function vetScenario(scenario) {
         return { status: 'vetted', issues: [] };
     }
 
+    if (scenario.id.startsWith('syn-ai-')) {
+        return { status: 'draft', issues };
+    }
+
     return { status: scenario.source === 'synthetic' ? 'rejected' : 'pending', issues };
 }
 
 if (! reportOnly) {
     const updates = new Map();
+    const batchScenarios = applyBatchScenarioFilter(
+        manifest.scenarios.filter(matchesFilter),
+        { startId: startIdArg, limit: batchLimit },
+    );
 
-    for (const scenario of manifest.scenarios) {
-        if (! matchesFilter(scenario)) {
-            continue;
-        }
+    for (const scenario of batchScenarios) {
 
         const result = vetScenario(scenario);
         updates.set(scenario.id, {

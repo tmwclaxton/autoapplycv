@@ -1,0 +1,289 @@
+{
+  "id": "syn-ai-0021",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "e.g. alex rivera",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name",
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Alex Rivera",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email you@company.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "you@company.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "+1 (555) 000-9999",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+1 (555) 000-9999",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience e.g. 6",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "experience",
+        "name": "experience",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 6",
+        "min": "0",
+        "max": "30",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. acme corp",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "current_company",
+        "name": "current_company",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Acme Corp",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin.com/in/... or custom",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "linkedinInput",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "linkedin.com/in/... or custom",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. linkedin, friend, ad",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "source",
+        "name": "source",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. LinkedIn, friend, ad",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "optional",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "referral",
+        "name": "referral",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Optional",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. figma, ux research",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "skillsInput",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Figma, UX research",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "https://github.com/yourhandle",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github",
+        "name": "github",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://github.com/yourhandle",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. they/them, he/him, she/her",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "pronouns",
+        "name": "pronouns",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. they/them, he/him, she/her",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "https://yourportfolio.com",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "portfolio",
+        "name": "portfolio",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://yourportfolio.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "decoy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "decoy_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "decoy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "decoy@fake.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "decoy_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "decoy@fake.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

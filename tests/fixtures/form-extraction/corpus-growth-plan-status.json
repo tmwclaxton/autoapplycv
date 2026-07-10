@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-07-10T05:41:43.557Z",
+  "totals": {
+    "manifest_scenarios": 5814,
+    "syn_ai": 85,
+    "web_scraped": 1661,
+    "web": 1661,
+    "bridge_scrape": 61,
+    "bridge_manual": 62,
+    "bridge": 62,
+    "syn_hq": 0,
+    "web_flow_ai": 0,
+    "wizard_flow_groups": 0
+  },
+  "targets": {
+    "syn_ai": 4000,
+    "bridge_scrape_web_net_new": 2500,
+    "bridge_manual_net_new": 1500,
+    "targeted_hq": 500,
+    "wizard_flows": 500
+  },
+  "progress_files": {
+    "ai": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/ai-corpus-bulk-progress.json",
+    "bridge_scrape": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/bridge-scrape-bulk-progress.json",
+    "bridge_scrape_batch": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/bridge-scrape-progress.json",
+    "bridge_manual": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/bridge-capture-sprint.json",
+    "firecrawl": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/firecrawl-bulk-progress.json"
+  }
+}

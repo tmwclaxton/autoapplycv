@@ -1,0 +1,355 @@
+{
+  "id": "https-jobs-ashbyhq-com-directive-e469eb7b-e450-49c3-abee-bd2f90a47de4-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T14:33:02.848Z",
+  "page_url": "https://jobs.ashbyhq.com/directive/e469eb7b-e450-49c3-abee-bd2f90a47de4/application",
+  "page_title": "Paid Social Manager (Remote Canada) @ Directive",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 17,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.9412,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in canada?",
+        "ai": "Are you legally authorized to work in Canada?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently reside in canada?",
+        "ai": "Do you currently reside in Canada?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current Company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have working at a performance marketing agency?",
+        "ai": "How many years of experience do you have working at a performance marketing agency?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please list which of the following applies to you and how many years of experience you have: lead generation, b2b, and/or saas experience:",
+        "ai": "Please list which of the following applies to you and how many years of experience you have: Lead generation, B2B, and/or SaaS experience:",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how many client relationships do you personally own and manage?",
+        "ai": "How many client relationships do you personally own and manage?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how much ad spend on average are you managing for each individual account?",
+        "ai": "How much ad spend on average are you managing for each individual account?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what paid social channels do you have experience with?",
+        "ai": "What paid social channels do you have experience with?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information (optional):",
+        "ai": "Additional Information (Optional):",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your minimum annual salary expectation in cad?",
+        "ai": "What is your minimum annual salary expectation in CAD?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were to receive an offer of employment, how much notice will you need to give your current employer?",
+        "ai": "If you were to receive an offer of employment, how much notice will you need to give your current employer?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio/yes-no inputs that trigger hidden checkboxes/inputs. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have working at a performance marketing agency?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "None",
+          "Less than 2 years",
+          "2-3 years",
+          "3-4 years",
+          "4+ years"
+        ]
+      },
+      {
+        "question": "Please list which of the following applies to you and how many years of experience you have: Lead generation, B2B, and/or SaaS experience:",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many client relationships do you personally own and manage?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How much ad spend on average are you managing for each individual account?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What paid social channels do you have experience with?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Meta",
+          "YouTube",
+          "Twitter/X",
+          "TikTok"
+        ]
+      },
+      {
+        "question": "Additional Information (Optional):",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your minimum annual salary expectation in CAD?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in Canada?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you currently reside in Canada?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you were to receive an offer of employment, how much notice will you need to give your current employer?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in canada?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you currently reside in canada?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how many years of experience do you have working at a performance marketing agency?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "please list which of the following applies to you and how many years of experience you have: lead generation, b2b, and/or saas experience:",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "how many client relationships do you personally own and manage?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how much ad spend on average are you managing for each individual account?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what paid social channels do you have experience with?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "additional information (optional):",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your minimum annual salary expectation in cad?",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "if you were to receive an offer of employment, how much notice will you need to give your current employer?",
+      "field_type": "textarea",
+      "ref": "f16"
+    }
+  ]
+}

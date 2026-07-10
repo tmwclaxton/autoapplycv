@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application - Senior Editor</title>
+  <style>
+    * { font-family: Arial, Helvetica, sans-serif; box-sizing: border-box; }
+    body { background: #f4f6f9; margin: 30px; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
+    .app-container { max-width: 750px; width: 100%; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .decoy-box { max-width: 280px; width: 100%; background: #fff9e6; padding: 20px; border: 1px solid #e0d5b0; border-radius: 8px; align-self: start; }
+    h2 { margin-top: 0; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+    .field-group { margin-bottom: 14px; position: relative; }
+    label { display: inline-block; font-size: 13px; font-weight: 600; margin-bottom: 3px; color: #222; }
+    input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #bcc0c4; border-radius: 4px; font-size: 14px; background: white; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .row .field-group { flex: 1; min-width: 120px; }
+    .hidden-tab { display: none; }
+    .tab-buttons { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab-btn { padding: 8px 16px; background: #e9edf0; border: 1px solid #cbd0d6; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; }
+    .tab-btn.active { background: white; border-bottom: 2px solid #0073b1; font-weight: bold; }
+    .pill-group { display: flex; gap: 8px; margin: 8px 0; }
+    .pill-btn { padding: 5px 18px; border-radius: 20px; border: 1px solid #818b92; background: white; cursor: pointer; font-size: 13px; }
+    .pill-btn.selected { background: #0073b1; color: white; border-color: #005a8c; }
+    .combobox-wrapper { position: relative; }
+    .combobox-wrapper input { width: 100%; padding-right: 32px; }
+    .combobox-wrapper button { position: absolute; right: 2px; top: 2px; width: 28px; height: 28px; border: none; background: transparent; cursor: pointer; font-size: 16px; }
+    .listbox { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #bcc0c4; border-top: none; max-height: 160px; overflow-y: auto; z-index: 10; display: none; }
+    .listbox[aria-expanded="true"] { display: block; }
+    .listbox .option { padding: 8px 10px; cursor: pointer; font-size: 13px; }
+    .listbox .option:hover, .listbox .option.active { background: #dce4ec; }
+    .glued-label { font-size: 12px; color: #444; margin-bottom: 2px; display: inline-block; }
+    .glued-span { display: inline; }
+    .note { font-size: 11px; color: #666; margin-top: 2px; }
+    .error { border-color: #c0392b; }
+    .mt-4 { margin-top: 16px; }
+    hr { margin: 18px 0; }
+    .btn-primary { background: #0073b1; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 15px; cursor: pointer; }
+    .decoy-box input { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <h2>Apply: Senior Editor (REQ-2025-0384)</h2>
+  
+  <!-- Tabs with hidden fields pattern -->
+  <div class="tab-buttons" role="tablist" aria-label="Application sections">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab1" aria-controls="panel1" id="tab-btn-1">Your Details</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab2" aria-controls="panel2" id="tab-btn-2">Experience</button>
+  </div>
+
+  <div id="panel1" role="tabpanel" aria-labelledby="tab-btn-1">
+    <div class="row">
+      <div class="field-group">
+        <label for="fname">First Name <span aria-hidden="true">*</span></label>
+        <input id="fname" name="fname" required autocomplete="given-name">
+      </div>
+      <div class="field-group">
+        <label for="lname">Last Name <span aria-hidden="true">*</span></label>
+        <input id="lname" name="lname" required autocomplete="family-name">
+      </div>
+    </div>
+
+    <!-- aria-label only field (no visible label) -->
+    <div class="field-group">
+      <input type="email" aria-label="Email Address" placeholder="email@company.com" required autocomplete="email" style="margin-bottom:2px;">
+      <span class="note" style="display:block;">We'll send confirmation</span>
+    </div>
+
+    <!-- Phone: glued span label -->
+    <div class="field-group">
+      <span class="glued-label"><span class="glued-span">Phone</span> (include country code) <span aria-hidden="true">*</span></span>
+      <input type="tel" name="phone" placeholder="+1 555 000 000" required autocomplete="tel">
+    </div>
+
+    <!-- Location with datalist + combobox (datalist autocomplete reference) -->
+    <div class="field-group">
+      <label for="location">Location</label>
+      <input id="location" list="loc-list" placeholder="City, State" autocomplete="off" required>
+      <datalist id="loc-list">
+        <option value="New York, NY">
+        <option value="San Francisco, CA">
+        <option value="Chicago, IL">
+        <option value="Austin, TX">
+        <option value="Boston, MA">
+        <option value="Denver, CO">
+      </datalist>
+      <span class="note">Nearby offices will be suggested</span>
+    </div>
+
+    <div class="row">
+      <div class="field-group">
+        <label for="city">City</label>
+        <input id="city" name="city" autocomplete="address-level2">
+      </div>
+      <div class="field-group">
+        <label for="state">State</label>
+        <select id="state" name="state">
+          <option value="">--</option>
+          <option>California</option>
+          <option>New York</option>
+          <option>Texas</option>
+          <option>Colorado</option>
+          <option>Illinois</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="zip">ZIP</label>
+        <input id="zip" name="zip" autocomplete="postal-code" style="width:100px;">
+      </div>
+    </div>
+  </div>
+
+  <div id="panel2" role="tabpanel" aria-labelledby="tab-btn-2" class="hidden-tab">
+    <!-- Fields in the hidden tab until clicked -->
+    <div class="field-group">
+      <label for="job-title">Current / Last Job Title <span aria-hidden="true">*</span></label>
+      <input id="job-title" name="jobtitle" required>
+    </div>
+    <div class="field-group">
+      <label for="company">Company</label>
+      <input id="company" name="company">
+    </div>
+    <div class="field-group">
+      <label for="exp-years">Years of experience</label>
+      <input id="exp-years" name="expyears" type="number" min="0" max="50">
+    </div>
+    <!-- aria-label only field inside hidden tab -->
+    <div class="field-group">
+      <textarea rows="3" aria-label="Brief summary of your background" placeholder="Summarize your relevant experience..."></textarea>
+    </div>
+
+    <!-- Custom combobox (aria-haspopup listbox) for highest degree -->
+    <div class="field-group">
+      <span class="glued-label">Highest Degree</span>
+      <div class="combobox-wrapper">
+        <input id="degree-input" type="text" aria-haspopup="listbox" aria-expanded="false" aria-autocomplete="list" role="combobox" aria-label="Select your highest degree" placeholder="Select degree">
+        <button aria-label="Open degree options" onclick="toggleCombobox()">▼</button>
+        <div id="degree-listbox" class="listbox" role="listbox" aria-label="Degree options" aria-expanded="false">
+          <div class="option" role="option" onclick="selectDegree('High School')">High School</div>
+          <div class="option" role="option" onclick="selectDegree('Associate')">Associate</div>
+          <div class="option" role="option" onclick="selectDegree('Bachelor')">Bachelor</div>
+          <div class="option" role="option" onclick="selectDegree('Master')">Master</div>
+          <div class="option" role="option" onclick="selectDegree('Doctorate')">Doctorate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pill yes/no buttons for relocation -->
+    <div class="field-group">
+      <span class="glued-label">Willing to relocate?</span>
+      <div class="pill-group" role="radiogroup" aria-label="Relocation preference">
+        <button class="pill-btn" role="radio" aria-checked="false" onclick="setPill(this,'reloc-yes')">Yes</button>
+        <button class="pill-btn selected" role="radio" aria-checked="true" onclick="setPill(this,'reloc-no')">No</button>
+        <button class="pill-btn" role="radio" aria-checked="false" onclick="setPill(this,'reloc-maybe')">Maybe</button>
+      </div>
+      <input type="hidden" id="reloc-yes" name="relocate" value="No">
+    </div>
+
+    <div class="field-group">
+      <label for="url-portfolio">Portfolio URL</label>
+      <input id="url-portfolio" name="portfolio" type="url" placeholder="https://...">
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Cover letter: div role=textbox contenteditable (custom widget) -->
+  <div class="field-group">
+    <span class="glued-label">Cover Letter (optional)</span>
+    <div id="cover-letter" role="textbox" contenteditable="true" aria-multiline="true" aria-label="Write your cover letter here" style="border:1px solid #bcc0c4; border-radius:4px; padding:10px; min-height:80px; background:white; font-size:14px;"></div>
+    <span class="note">You can format text </span>
+  </div>
+
+  <!-- Hidden reveal for additional info (details) -->
+  <details style="margin: 14px 0;">
+    <summary style="cursor:pointer; font-weight:bold; font-size:13px;">+ Additional information</summary>
+    <div style="margin-top:10px;">
+      <div class="field-group">
+        <input type="text" aria-label="LinkedIn profile" placeholder="LinkedIn URL (optional)">
+      </div>
+      <div class="field-group">
+        <label for="source">How did you hear about us?</label>
+        <select id="source" name="source">
+          <option value="">Select</option>
+          <option>LinkedIn</option>
+          <option>Indeed</option>
+          <option>Referral</option>
+          <option>Company website</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+  </details>
+
+  <div class="row">
+    <div class="field-group">
+      <label for="startdate">Available start date</label>
+      <input id="startdate" name="startdate" type="date">
+    </div>
+    <div class="field-group">
+      <label for="visa">Visa status</label>
+      <select id="visa" name="visa">
+        <option value="">--</option>
+        <option>US Citizen</option>
+        <option>Green Card</option>
+        <option>H1-B</option>
+        <option>F1-OPT</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <button class="btn-primary" onclick="alert('Application submitted (demo)')">Submit Application</button>
+  </div>
+
+  <p style="margin-top:20px; font-size:11px; color:#888;">By submitting you agree to our processing of data.</p>
+</div>
+
+<!-- Decoy secondary form (newsletter signup) -->
+<div class="decoy-box">
+  <h2 style="font-size:16px; border-bottom:none;">📬 Stay updated</h2>
+  <p style="font-size:12px; margin:0 0 10px;">Get job alerts and career tips</p>
+  <form onsubmit="alert('Newsletter signup demo'); return false;">
+    <input type="text" placeholder="Your name" aria-label="Your name for newsletter">
+    <input type="email" placeholder="Email address" aria-label="Email for newsletter" required>
+    <button type="submit" style="background:#00875a; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;">Subscribe</button>
+    <p style="font-size:10px; margin:6px 0 0;">We won't spam</p>
+  </form>
+</div>
+
+<script>
+  // Tab switching (reveal hidden fields)
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      this.classList.add('active'); this.setAttribute('aria-selected','true');
+      document.querySelectorAll('[role="tabpanel"]').forEach(p => p.classList.add('hidden-tab'));
+      const target = document.getElementById(this.dataset.tab === 'tab1' ? 'panel1' : 'panel2');
+      if (target) target.classList.remove('hidden-tab');
+    });
+  });
+
+  // Combobox toggle and selection
+  function toggleCombobox() {
+    const listbox = document.getElementById('degree-listbox');
+    const current = listbox.getAttribute('aria-expanded') === 'true';
+    listbox.setAttribute('aria-expanded', !current);
+    document.getElementById('degree-input').setAttribute('aria-expanded', !current);
+  }
+
+  function selectDegree(val) {
+    document.getElementById('degree-input').value = val;
+    document.getElementById('degree-listbox').setAttribute('aria-expanded', 'false');
+    document.getElementById('degree-input').setAttribute('aria-expanded', 'false');
+  }
+
+  // Pill buttons / radio group
+  function setPill(el, hiddenId) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.pill-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-checked','false'); });
+    el.classList.add('selected'); el.setAttribute('aria-checked','true');
+    const hidden = document.getElementById(hiddenId);
+    if (hidden) hidden.value = el.textContent.trim();
+  }
+
+  // Close combobox on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrapper')) {
+      document.getElementById('degree-listbox').setAttribute('aria-expanded', 'false');
+      document.getElementById('degree-input').setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Select degree from input keydown basic support
+  document.getElementById('degree-input').addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const listbox = document.getElementById('degree-listbox');
+      listbox.setAttribute('aria-expanded', 'true');
+      this.setAttribute('aria-expanded', 'true');
+      const first = listbox.querySelector('.option');
+      if (first) { first.classList.add('active'); }
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+{
+  "id": "https-jobs-ashbyhq-com-ironcladhq-078648fb-f4a0-4909-98c9-71dcf75abfac-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:21:29.484Z",
+  "page_url": "https://jobs.ashbyhq.com/ironcladhq/078648fb-f4a0-4909-98c9-71dcf75abfac/application",
+  "page_title": "Enterprise Solutions Engineer, EMEA @ Ironclad",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 20,
+      "count_delta": 2,
+      "label_jaccard": 0.8261,
+      "type_agree_rate": 0.9474,
+      "matched_count": 19
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work lawfully in the united kingdom?",
+        "ai": "Are you authorized to work lawfully in the United Kingdom?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you, now or in the future, require ironclad to sponsor an immigration case in order to employ you ?",
+        "ai": "Will you, now or in the future, require Ironclad to sponsor an immigration case in order to employ you ?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently based in the london metro area and able to commute to london two days week?",
+        "ai": "Are you currently based in the London Metro Area and able to commute to London two days week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if other, please let us know your pronouns",
+        "ai": "If other, please let us know your pronouns",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current Company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "additional portfolio/website",
+        "ai": "Additional Portfolio/Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio/website password if applicable",
+        "ai": "Portfolio/Website password if applicable",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional Information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current age?",
+        "ai": "What is your current age?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender identity?",
+        "ai": "What is your gender identity?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as transgender?",
+        "ai": "Do you identify as transgender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you identify your sexual orientation? please select all that apply.",
+        "ai": "How do you identify your sexual orientation? Please select all that apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "phone number",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [
+      "I consent to receiving text messages"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components (buttons/divs) for radio/checkbox inputs. The HTML snippet was truncated, so the full list of sexual orientation options may be incomplete.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "She/her",
+          "He/him",
+          "They/them",
+          "Other (list below)"
+        ]
+      },
+      {
+        "question": "If other, please let us know your pronouns",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you authorized to work lawfully in the United Kingdom?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you, now or in the future, require Ironclad to sponsor an immigration case in order to employ you ?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently based in the London Metro Area and able to commute to London two days week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Additional Portfolio/Website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio/Website password if applicable",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional Information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your current age?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Under 30",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "What is your gender identity?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Do you identify as transgender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "How do you identify your sexual orientation? Please select all that apply.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Bisexual",
+          "Lesbian",
+          "Gay"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work lawfully in the united kingdom?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you, now or in the future, require ironclad to sponsor an immigration case in order to employ you ?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you currently based in the london metro area and able to commute to london two days week?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "if other, please let us know your pronouns",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f7"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f8"
+    },
+    {
+      "question": "phone number",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "additional portfolio/website",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "portfolio/website password if applicable",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    }
+  ]
+}

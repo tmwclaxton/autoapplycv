@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application</title>
+<style>
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f5f5f5; margin: 0; padding: 24px; color: #222; }
+  .app-root { max-width: 780px; margin: 0 auto; background: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+  .app-header { padding: 20px 24px 0; border-bottom: 1px solid #ececec; }
+  .app-header h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .app-header p { font-size: 14px; color: #666; margin: 0 0 12px; }
+  .app-body { padding: 16px 24px 24px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 6px; vertical-align: top; }
+  .field-label { font-size: 13px; font-weight: 500; color: #444; white-space: nowrap; padding-right: 12px; width: 140px; }
+  .field-input { width: 100%; }
+  input, select, textarea, .fake-select { 
+    width: 100%; padding: 9px 12px; border: 1px solid #cfcfcf; border-radius: 6px; font-size: 14px; background: #fff; transition: 0.15s; 
+  }
+  input:focus, select:focus, textarea:focus, .fake-select:focus-within { border-color: #0057b3; outline: none; box-shadow: 0 0 0 2px rgba(0,87,179,0.15); }
+  .required-asterisk { color: #c33; margin-left: 2px; }
+  .note-hint { font-size: 11px; color: #888; margin-top: 2px; }
+  .radio-group { display: flex; gap: 18px; align-items: center; padding: 6px 0; }
+  .radio-group label { font-size: 14px; display: flex; align-items: center; gap: 4px; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #bbb; background: #fafafa; border-radius: 20px; font-size: 13px; cursor: pointer; user-select: none; transition: 0.1s; }
+  .pill-btn.selected { background: #0057b3; color: #fff; border-color: #0057b3; }
+  .combobox-wrapper { position: relative; }
+  .combobox-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 6px; max-height: 180px; overflow-y: auto; z-index: 10; margin-top: 2px; }
+  .combobox-list.show { display: block; }
+  .combobox-item { padding: 8px 12px; font-size: 14px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
+  .combobox-item:hover { background: #eef4ff; }
+  .combobox-item[aria-selected="true"] { background: #dce6f5; }
+  .details-wrapper { margin: 12px 0 0; border: 1px solid #e0e0e0; border-radius: 6px; background: #fafafa; }
+  .details-wrapper summary { padding: 10px 14px; cursor: pointer; font-weight: 500; font-size: 14px; color: #333; background: #f3f3f3; border-radius: 6px; }
+  .details-wrapper[open] summary { border-bottom: 1px solid #e0e0e0; border-radius: 6px 6px 0 0; }
+  .details-content { padding: 12px 14px; }
+  .shadow-host { display: block; min-height: 50px; }
+  .hidden-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .glued-label { display: inline; font-size: 13px; font-weight: 500; color: #444; }
+  .glued-label span { display: inline; }
+  .btn-submit { background: #0057b3; color: #fff; border: none; border-radius: 6px; padding: 11px 28px; font-size: 15px; font-weight: 500; cursor: pointer; transition: 0.15s; margin-top: 16px; }
+  .btn-submit:hover { background: #003d80; }
+  .duplicate-warning { font-size: 11px; color: #b33; margin-top: 2px; }
+  .table-layout-row td { border-bottom: 1px solid #f0f0f0; }
+  .divider-row td { padding: 4px 6px; }
+  .spacer td { height: 6px; border: none; }
+  .error-msg { color: #c33; font-size: 12px; margin-top: 3px; display: none; }
+  .reveal-field { display: none; }
+  .reveal-triggered .reveal-field { display: table-row; }
+</style>
+</head>
+<body>
+<div class="app-root" id="app-root">
+  <div class="app-header">
+    <h1>Senior Product Designer</h1>
+    <p>Design · New York, NY · Full-time · <span style="color:#0057b3;">Apply now</span></p>
+  </div>
+  <div class="app-body">
+    <!-- Shadow DOM host for declarative shadow root (required pattern) -->
+    <div class="shadow-host" id="shadowHost">
+      <template shadowroot="open">
+        <style>
+          .shadow-field { margin-bottom: 12px; }
+          .shadow-label { font-size: 13px; font-weight: 500; color: #e0e0e0; display: block; margin-bottom: 3px; }
+          .shadow-input { width: 100%; padding: 8px 10px; border: 1px solid #555; border-radius: 4px; background: #2a2a2a; color: #eee; font-size: 14px; }
+        </style>
+        <div class="shadow-field">
+          <div class="shadow-label">Portfolio URL (inside shadow)</div>
+          <input class="shadow-input" type="url" id="portfolioShadow" placeholder="https://yourportfolio.com" aria-label="Portfolio URL shadow">
+        </div>
+        <div class="shadow-field">
+          <div class="shadow-label">Salary expectation (shadow)</div>
+          <input class="shadow-input" type="text" id="salaryShadow" placeholder="e.g. 140,000" aria-label="Salary expectation shadow">
+        </div>
+      </template>
+    </div>
+
+    <form id="applicationForm" action="#" method="post">
+      <table>
+        <tbody>
+          <!-- Row 1: Full name (label wrapping three divs deep, no for) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <div><div><div style="font-size:13px;font-weight:500;color:#444;">Full name <span class="required-asterisk">*</span></div></div></div>
+            </td>
+            <td class="field-input">
+              <input type="text" name="name" id="name" placeholder="e.g. Alex Rivera" style="width:100%;" required>
+            </td>
+          </tr>
+          <!-- Row 2: Email (with duplicate id="email" pattern) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <label for="email" style="font-size:13px;font-weight:500;color:#444;">Email <span class="required-asterisk">*</span></label>
+            </td>
+            <td class="field-input">
+              <input type="email" name="email" id="email" placeholder="you@company.com" style="width:100%;" required>
+              <div style="font-size:10px;color:#b33;margin-top:1px;">id="email" (primary)</div>
+            </td>
+          </tr>
+          <!-- Hidden duplicate email row (id="email" again) -->
+          <tr class="table-layout-row" style="display:none;" aria-hidden="true">
+            <td class="field-label">Secondary email</td>
+            <td class="field-input">
+              <input type="email" name="alt_email" id="email" value="backup@example.com" style="width:100%;">
+              <div style="font-size:10px;color:#b33;">id="email" duplicate (hidden)</div>
+            </td>
+          </tr>
+          <!-- Row 3: Phone (glued-label-text pattern: label split across spans no space) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span class="glued-label">
+                <span style="font-size:13px;font-weight:500;color:#444;">Phone</span><span style="font-size:13px;font-weight:500;color:#444;">number</span><span style="font-size:13px;font-weight:500;color:#444;">(optional)</span>
+              </span>
+            </td>
+            <td class="field-input">
+              <input type="tel" name="phone" id="phone" placeholder="+1 (555) 000-9999" style="width:100%;">
+            </td>
+          </tr>
+          <!-- Row 4: Years of experience (number min/max from reference) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <label for="experience" style="font-size:13px;font-weight:500;color:#444;">Years of experience <span class="required-asterisk">*</span></label>
+            </td>
+            <td class="field-input">
+              <input type="number" name="experience" id="experience" min="0" max="30" placeholder="e.g. 6" style="width:100%;" required>
+              <div class="note-hint">Min 0, Max 30</div>
+            </td>
+          </tr>
+          <!-- Row 5: Current company (aria-labelledby pointing at hidden span) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span id="currentCompanyLabel" class="hidden-label" aria-hidden="true">Current employer</span>
+              <span style="font-size:13px;font-weight:500;color:#444;" aria-hidden="true">Current company</span>
+            </td>
+            <td class="field-input">
+              <input type="text" name="current_company" id="current_company" placeholder="e.g. Acme Corp" aria-labelledby="currentCompanyLabel" style="width:100%;">
+            </td>
+          </tr>
+          <!-- Row 6: LinkedIn (combobox custom widget) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">LinkedIn / Profile</span>
+            </td>
+            <td class="field-input">
+              <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Select profile type or enter URL">
+                <input type="text" class="combobox-input" id="linkedinInput" placeholder="linkedin.com/in/... or custom" aria-autocomplete="list" aria-controls="linkedinList" style="width:100%;padding-right:30px;">
+                <div class="combobox-list" id="linkedinList" role="listbox" aria-label="Profile suggestions">
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="linkedin">LinkedIn</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="dribbble">Dribbble</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="behance">Behance</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="personal">Personal site</div>
+                </div>
+              </div>
+              <div class="note-hint">Type or pick a platform</div>
+            </td>
+          </tr>
+          <!-- Row 7: How did you hear? (details/accordion with hidden until click) -->
+          <tr class="divider-row"><td colspan="2"><hr style="border:0;border-top:1px solid #eaeaea;margin:4px 0;"></td></tr>
+          <tr class="table-layout-row">
+            <td colspan="2">
+              <details class="details-wrapper">
+                <summary>More about you <span style="font-weight:400;color:#888;font-size:12px;">(click to expand)</span></summary>
+                <div class="details-content">
+                  <table style="width:100%;">
+                    <tr>
+                      <td style="width:130px;padding:4px 8px 4px 0;font-size:13px;color:#444;">How did you hear?</td>
+                      <td style="padding:4px 0;">
+                        <input type="text" name="source" id="source" placeholder="e.g. LinkedIn, friend, ad" style="width:100%;">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding:4px 8px 4px 0;font-size:13px;color:#444;">Referral code</td>
+                      <td style="padding:4px 0;">
+                        <input type="text" name="referral" id="referral" placeholder="Optional" style="width:100%;">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </details>
+            </td>
+          </tr>
+          <!-- Row 8: Availability (pill buttons – custom widget) -->
+          <tr class="table-layout-row">
+            <td class="field-label" style="padding-top:12px;">
+              <span style="font-size:13px;font-weight:500;color:#444;">Availability <span class="required-asterisk">*</span></span>
+            </td>
+            <td class="field-input" style="padding-top:12px;">
+              <div class="pill-group" role="radiogroup" aria-label="Availability">
+                <span class="pill-btn selected" role="radio" aria-checked="true" tabindex="0" data-value="immediate">Immediate</span>
+                <span class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="2weeks">2 weeks</span>
+                <span class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="month">1 month</span>
+                <span class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="later">Negotiable</span>
+              </div>
+              <input type="hidden" name="availability" id="availability" value="immediate">
+            </td>
+          </tr>
+          <!-- Row 9: Cover letter (div role=textbox contenteditable) -->
+          <tr class="table-layout-row">
+            <td class="field-label" style="padding-top:8px;">
+              <span style="font-size:13px;font-weight:500;color:#444;">Cover letter <span style="font-weight:400;color:#888;">(optional)</span></span>
+            </td>
+            <td class="field-input" style="padding-top:8px;">
+              <div role="textbox" contenteditable="true" aria-label="Cover letter" style="border:1px solid #cfcfcf;border-radius:6px;padding:9px 12px;min-height:72px;font-size:14px;background:#fff;" placeholder="Write a brief note...">
+                <span style="color:#aaa;">Write a brief note...</span>
+              </div>
+              <div class="note-hint">Plain text only</div>
+            </td>
+          </tr>
+          <!-- Row 10: Skills (custom listbox combobox) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">Skills <span class="required-asterisk">*</span></span>
+            </td>
+            <td class="field-input">
+              <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Select skills">
+                <input type="text" class="combobox-input" id="skillsInput" placeholder="e.g. Figma, UX research" aria-autocomplete="list" aria-controls="skillsList" style="width:100%;">
+                <div class="combobox-list" id="skillsList" role="listbox" aria-label="Skills suggestions">
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="figma">Figma</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="sketch">Sketch</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="prototyping">Prototyping</div>
+                  <div class="combobox-item" role="option" aria-selected="false" data-value="user-research">User research</div>
+                </div>
+              </div>
+              <input type="hidden" name="skills" id="skillsHidden" value="">
+            </td>
+          </tr>
+          <!-- Row 11: Resume upload (with decoy secondary form) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">Resume <span class="required-asterisk">*</span></span>
+            </td>
+            <td class="field-input">
+              <input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx" style="width:100%;padding:6px;" required>
+              <div class="note-hint">PDF or Word</div>
+            </td>
+          </tr>
+          <!-- Row 12: GitHub URL (new field to reach 14) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">GitHub URL</span>
+            </td>
+            <td class="field-input">
+              <input type="url" name="github" id="github" placeholder="https://github.com/yourhandle" style="width:100%;">
+            </td>
+          </tr>
+          <!-- Row 13: Preferred pronouns (new field to reach 14) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">Preferred pronouns</span>
+            </td>
+            <td class="field-input">
+              <input type="text" name="pronouns" id="pronouns" placeholder="e.g. they/them, he/him, she/her" style="width:100%;">
+            </td>
+          </tr>
+          <!-- Row 14: Portfolio website (new field to reach 14) -->
+          <tr class="table-layout-row">
+            <td class="field-label">
+              <span style="font-size:13px;font-weight:500;color:#444;">Portfolio website</span>
+            </td>
+            <td class="field-input">
+              <input type="url" name="portfolio" id="portfolio" placeholder="https://yourportfolio.com" style="width:100%;">
+            </td>
+          </tr>
+          <!-- Decoy secondary form (hidden but present) -->
+          <tr style="display:none;" aria-hidden="true">
+            <td colspan="2">
+              <form id="decoyForm">
+                <input type="text" name="decoy_name" placeholder="decoy">
+                <input type="email" name="decoy_email" placeholder="decoy@fake.com">
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Submit row -->
+      <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+        <button type="submit" class="btn-submit">Submit application</button>
+      </div>
+    </form>
+
+    <!-- Hidden aria-labelledby target (distant span) -->
+    <span id="distantLabel" style="position:absolute;left:-9999px;" aria-hidden="true">Distant label for hidden field</span>
+    <!-- Hidden field using aria-labelledby -->
+    <input type="hidden" name="utm_campaign" id="utm_campaign" aria-labelledby="distantLabel" value="direct">
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Pill buttons functionality
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      var btns = group.querySelectorAll('.pill-btn');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          btns.forEach(function(b) { b.classList.remove('selected'); b.setAttribute('aria-checked', 'false'); b.setAttribute('tabindex', '-1'); });
+          btn.classList.add('selected'); btn.setAttribute('aria-checked', 'true'); btn.setAttribute('tabindex', '0');
+          var hidden = document.getElementById('availability');
+          if (hidden) hidden.value = btn.getAttribute('data-value') || '';
+        });
+        btn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+        });
+      });
+    });
+
+    // Combobox functionality (linkedin + skills generic)
+    document.querySelectorAll('.combobox-wrapper').forEach(function(wrapper) {
+      var input = wrapper.querySelector('.combobox-input');
+      var list = wrapper.querySelector('.combobox-list');
+      var items = list ? list.querySelectorAll('.combobox-item') : [];
+      var hidden = wrapper.parentElement.querySelector('input[type="hidden"]');
+      if (input && list) {
+        input.addEventListener('focus', function() { list.classList.add('show'); wrapper.setAttribute('aria-expanded', 'true'); });
+        input.addEventListener('input', function() { list.classList.add('show'); wrapper.setAttribute('aria-expanded', 'true'); });
+        document.addEventListener('click', function(e) { if (!wrapper.contains(e.target)) { list.classList.remove('show'); wrapper.setAttribute('aria-expanded', 'false'); } });
+        items.forEach(function(item) {
+          item.addEventListener('click', function() {
+            var val = item.getAttribute('data-value') || item.textContent.trim();
+            input.value = val;
+            list.classList.remove('show'); wrapper.setAttribute('aria-expanded', 'false');
+            items.forEach(function(i) { i.setAttribute('aria-selected', 'false'); });
+            item.setAttribute('aria-selected', 'true');
+            if (hidden) hidden.value = val;
+          });
+          item.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); item.click(); } });
+        });
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') { list.classList.remove('show'); wrapper.setAttribute('aria-expanded', 'false'); }
+        });
+      }
+    });
+
+    // Skills combobox: update hidden with comma-separated
+    var skillsInput = document.getElementById('skillsInput');
+    var skillsHidden = document.getElementById('skillsHidden');
+    if (skillsInput && skillsHidden) {
+      skillsInput.addEventListener('change', function() { skillsHidden.value = skillsInput.value; });
+      // Also listen to combobox item clicks via delegation
+      document.querySelector('#skillsList').addEventListener('click', function(e) {
+        if (e.target.classList.contains('combobox-item')) {
+          skillsHidden.value = skillsInput.value;
+        }
+      });
+    }
+
+    // Form submit prevent (demo)
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo). In production this would send data.');
+    });
+  })();
+</script>
+
+<!-- Inline style for shadow root polyfill fallback -->
+<style>
+  /* Ensure shadow host visible if shadow not supported */
+  .shadow-host { border: 1px dashed #ccc; padding: 12px; margin-bottom: 12px; background: #1e1e1e; border-radius: 6px; color: #eee; }
+  .shadow-host:empty::before { content: 'Shadow DOM not supported — fallback'; color: #888; font-size: 12px; }
+</style>
+
+<!-- Duplicate id email hidden row for reference pattern -->
+<!-- Already present above -->
+
+</body>
+</html>

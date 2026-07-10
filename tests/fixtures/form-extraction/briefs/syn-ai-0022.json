@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0022",
+    "seed": 2804027056,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Aria describedby hints",
+                "notes": "Fields use aria-describedby for format hints separate from label",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Describedby hints<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"desc_phone\">Phone number<\/label> <span id=\"phone_hint\">Include country code, e.g. +44 7700 900000<\/span> <input type=\"tel\" id=\"desc_phone\" name=\"desc_phone\" aria-describedby=\"phone_hint\"> <label for=\"desc_email\">Email<\/label> <span id=\"em",
+                "requires_interaction": false
+            },
+            {
+                "title": "Micro1 Q label pattern",
+                "notes": "micro1-inspired step-2 labels like Q2.full name with dot separator",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Micro1 Q labels<\/h1> <form action=\"\/apply\" method=\"post\"> <div data-step=\"2\"> <label for=\"m1_q2_name\">Q2.full name<\/label><input type=\"text\" id=\"m1_q2_name\" name=\"m1_q2_name\"> <label for=\"m1_q3_email\">Q3.email address<\/label><input type=\"email\" id=\"m1_q3_email\" name=\"m1_q3_email\"> <label for=\"m1_q4_phone\">Q4.",
+                "requires_interaction": false
+            },
+            {
+                "title": "Other option reveal",
+                "notes": "Referral source Other checkbox reveals free-text input",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Other option reveal<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"oth_name\">Name<\/label><input type=\"text\" id=\"oth_name\" name=\"oth_name\"> <p>How did you hear about us?<\/p> <label><input type=\"checkbox\" name=\"referral\" value=\"linkedin\"> LinkedIn<\/label> <label><input type=\"checkbox\" name=\"referral\" val",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Newsletter or login decoy form separate from job application form Required: At least one readonly or disabled input with prefilled profile value Required: Yes\/no question as paired button elements, not native radio inputs Required: At least two fields with aria-label only and no visible label element Required: Fields inside a shadow DOM host or declarative shadow root Reference DOM (Aria describedby hints): Fields use aria-describedby for format hints separate from label Reference DOM (Micro1 Q label pattern): micro1-inspired step-2 labels like Q2.full name with dot separator Reference DOM (Other option reveal): Referral source Other checkbox reveals free-text input Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: decoy-form, readonly-prefill, pill-yes-no, aria-label-only, shadow-host. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Aria describedby hints; Micro1 Q label pattern; Other option reveal."
+}

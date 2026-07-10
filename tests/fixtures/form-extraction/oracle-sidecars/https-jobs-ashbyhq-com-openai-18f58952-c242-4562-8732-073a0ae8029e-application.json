@@ -1,0 +1,253 @@
+{
+  "id": "https-jobs-ashbyhq-com-openai-18f58952-c242-4562-8732-073a0ae8029e-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T14:43:35.863Z",
+  "page_url": "https://jobs.ashbyhq.com/openai/18f58952-c242-4562-8732-073a0ae8029e/application",
+  "page_title": "Account Director - Tokyo @ OpenAI",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.8462,
+      "type_agree_rate": 0.8182,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work in the country where the job is located?",
+        "ai": "Are you authorized to work in the country where the job is located?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status in this country?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status in this country?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work from our tokyo office three days per week?",
+        "ai": "Are you able to work from our Tokyo office three days per week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "legal name",
+        "ai": "Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name (if applicable)",
+        "ai": "Preferred Name (if applicable)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located?",
+        "ai": "Where are you currently located?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "when can you start a new role?",
+        "ai": "When can you start a new role?",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional Information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "i hereby certify that i have not knowingly withheld any information that might adversely affect my chances for employment and that the answers given by me are true and correct to the best of my knowledge. i further certify that i, the undersigned applicant, have personally completed this application. i understand that, to the extent permitted by applicable law, any omission or misstatement of material fact on this application or on any document used to secure employment shall be grounds for rejection of this application or for immediate discharge if i am employed, regardless of the time elapsed before discovery."
+    ],
+    "ai_only": [
+      "I confirm I have read the above."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs. The location field is a combobox. The date picker is a custom component.",
+    "fields": [
+      {
+        "question": "Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred Name (if applicable)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you currently located?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "When can you start a new role?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the country where the job is located?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status in this country?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to work from our Tokyo office three days per week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Additional Information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I confirm I have read the above.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work in the country where the job is located?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status in this country?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you able to work from our tokyo office three days per week?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "legal name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "preferred name (if applicable)",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "when can you start a new role?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "i hereby certify that i have not knowingly withheld any information that might adversely affect my chances for employment and that the answers given by me are true and correct to the best of my knowledge. i further certify that i, the undersigned applicant, have personally completed this application. i understand that, to the extent permitted by applicable law, any omission or misstatement of material fact on this application or on any document used to secure employment shall be grounds for rejection of this application or for immediate discharge if i am employed, regardless of the time elapsed before discovery.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

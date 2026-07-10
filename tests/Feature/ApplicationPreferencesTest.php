@@ -94,7 +94,7 @@ class ApplicationPreferencesTest extends TestCase
             ],
         ]);
 
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('dashboard', ['tab' => 'extension']));
 
         $this->assertDatabaseHas('cv_profiles', [
             'user_id' => $user->id,

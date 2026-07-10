@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Manager - Ashby Application</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f3f5f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; padding: 24px; color: #1e1e1e; }
+  .app-shell { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #e1e5eb; }
+  .app-header { background: #0f172a; color: white; padding: 24px 28px; }
+  .app-header h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .app-header p { font-size: 14px; opacity: 0.8; }
+  .form-body { padding: 24px 28px 32px; }
+  fieldset { border: none; padding: 0; margin: 0 0 28px 0; }
+  legend { font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e9edf2; width: 100%; }
+  .field-row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .field-group { flex: 1; min-width: 180px; position: relative; }
+  .field-group label, .label-like { display: block; font-size: 13px; font-weight: 500; color: #334155; margin-bottom: 4px; }
+  .field-group input, .field-group select, .field-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; transition: border-color 0.15s; }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .field-group textarea { min-height: 80px; resize: vertical; }
+  .split-phone { display: flex; gap: 8px; }
+  .split-phone .country-code { flex: 0 0 120px; }
+  .split-phone .local-number { flex: 1; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+  .combobox-input .arrow { transition: transform 0.2s; }
+  .combobox-input[aria-expanded="true"] .arrow { transform: rotate(180deg); }
+  .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #cbd5e1; border-top: none; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; }
+  .listbox.open { display: block; }
+  .listbox .option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+  .listbox .option:hover, .listbox .option.highlighted { background: #f1f5f9; }
+  .listbox .option[aria-selected="true"] { background: #e0e7ff; font-weight: 500; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { padding: 8px 16px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 13px; cursor: pointer; background: white; transition: all 0.15s; user-select: none; }
+  .pill:hover { border-color: #94a3b8; }
+  .pill.selected { background: #1e293b; color: white; border-color: #1e293b; }
+  .pill-group[role="radiogroup"] .pill[aria-checked="true"] { background: #1e293b; color: white; border-color: #1e293b; }
+  .hidden-field { display: none; }
+  .details-reveal { margin-bottom: 16px; }
+  .details-reveal summary { cursor: pointer; font-weight: 500; color: #2563eb; font-size: 14px; padding: 4px 0; }
+  .glued-label { font-size: 13px; font-weight: 500; color: #334155; }
+  .glued-label span { display: inline; }
+  .absurdly-long { font-size: 11px; line-height: 1.4; color: #64748b; margin-bottom: 4px; max-height: 40px; overflow-y: auto; word-break: break-word; }
+  .shadow-host { display: block; }
+  .error-text { color: #dc2626; font-size: 12px; margin-top: 4px; display: none; }
+  .btn-submit { background: #0f172a; color: white; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.15s; margin-top: 8px; }
+  .btn-submit:hover { background: #1e293b; }
+  .decoy-form { margin-top: 16px; padding: 12px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 6px; font-size: 12px; color: #64748b; }
+  .decoy-form input { margin-top: 4px; padding: 6px 8px; border: 1px solid #e2e8f0; border-radius: 4px; width: 100%; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  @media (max-width: 600px) { .field-row { flex-direction: column; } .split-phone .country-code { flex: 1; } }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h1>Senior Product Manager</h1>
+    <p>Ashby · Remote (US) · Full-time</p>
+  </div>
+  <div class="form-body">
+    <form id="mainAppForm">
+      <!-- SECTION: Personal Information -->
+      <fieldset>
+        <legend>Personal Information</legend>
+
+        <!-- Field 1: First name with concatenated label bug (glued spans) -->
+        <div class="field-group">
+          <div class="glued-label"><span>first name</span><span style="color:#dc2626;font-size:11px;">required</span></div>
+          <input type="text" id="firstName" name="firstName" placeholder="e.g. Alex" required>
+        </div>
+
+        <!-- Field 2: Last name - normal label -->
+        <div class="field-group">
+          <label for="lastName">Last name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="e.g. Johnson" required>
+        </div>
+
+        <!-- Field 3: Email - aria-label only (no visible label element) -->
+        <div class="field-group">
+          <input type="email" id="email" name="email" aria-label="Email address" placeholder="you@example.com" required>
+        </div>
+
+        <!-- Field 4: Phone split (country code + local) - split-phone pattern -->
+        <div class="field-group">
+          <div class="label-like">Phone number</div>
+          <div class="split-phone">
+            <div class="country-code">
+              <select id="phoneCountry" name="phoneCountry" aria-label="Country code">
+                <option value="+1">+1 (US)</option>
+                <option value="+44" selected>+44 (UK)</option>
+                <option value="+49">+49 (DE)</option>
+                <option value="+81">+81 (JP)</option>
+              </select>
+            </div>
+            <div class="local-number">
+              <input type="tel" id="phoneLocal" name="phoneLocal" placeholder="07700 900000" title="UK format: 07xxx xxxxxx" aria-label="Local phone number" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Field 5: Current location - native select but NOT combobox (for contrast) -->
+        <div class="field-group">
+          <label for="location">Location</label>
+          <select id="location" name="location">
+            <option value="">Select region</option>
+            <option>United Kingdom</option>
+            <option>United States</option>
+            <option>Germany</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <!-- SECTION: Work Eligibility & Experience -->
+      <fieldset>
+        <legend>Eligibility & Experience</legend>
+
+        <!-- Field 6: Work eligibility (pill buttons) - custom widget -->
+        <div class="field-group">
+          <div class="label-like" id="eligLabel">Work authorization</div>
+          <div class="pill-group" role="radiogroup" aria-labelledby="eligLabel">
+            <div class="pill" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes, I can work in UK</div>
+            <div class="pill" role="radio" aria-checked="false" tabindex="-1" data-value="no">Need visa sponsorship</div>
+            <div class="pill" role="radio" aria-checked="false" tabindex="-1" data-value="other">Other arrangement</div>
+          </div>
+          <input type="hidden" id="eligibility" name="eligibility" value="">
+        </div>
+
+        <!-- Field 7: Years of experience (custom listbox combobox) -->
+        <div class="field-group">
+          <div class="label-like" id="expLabel">Years of product experience</div>
+          <div class="combobox-wrapper">
+            <div class="combobox-input" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="expLabel" aria-controls="expListbox" id="expCombobox">
+              <span id="expValue">Select years</span>
+              <span class="arrow">▼</span>
+            </div>
+            <div class="listbox" role="listbox" id="expListbox" aria-labelledby="expLabel">
+              <div class="option" role="option" data-value="0-2">0-2 years</div>
+              <div class="option" role="option" data-value="3-5">3-5 years</div>
+              <div class="option" role="option" data-value="6-8" aria-selected="true">6-8 years</div>
+              <div class="option" role="option" data-value="9+">9+ years</div>
+            </div>
+          </div>
+          <input type="hidden" id="experience" name="experience" value="6-8">
+        </div>
+
+        <!-- Field 8: Current company (normal) -->
+        <div class="field-group">
+          <label for="currentCompany">Current company</label>
+          <input type="text" id="currentCompany" name="currentCompany" placeholder="Optional">
+        </div>
+      </fieldset>
+
+      <!-- SECTION: Links & Documents -->
+      <fieldset>
+        <legend>Links & Documents</legend>
+
+        <!-- Field 9: LinkedIn (aria-label only) -->
+        <div class="field-group">
+          <input type="url" id="linkedin" name="linkedin" aria-label="LinkedIn profile URL" placeholder="https://linkedin.com/in/...">
+        </div>
+
+        <!-- Field 10: Portfolio (normal) -->
+        <div class="field-group">
+          <label for="portfolio">Portfolio / personal site</label>
+          <input type="url" id="portfolio" name="portfolio" placeholder="Optional">
+        </div>
+
+        <!-- Field 11: Resume upload (label wraps deep nested divs) -->
+        <div class="field-group">
+          <label style="display:block;">
+            <div>
+              <span>Resume/CV</span>
+              <div style="margin-top:4px;">
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" style="width:auto;">
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Field 12: Cover letter (details/reveal) -->
+        <div class="details-reveal">
+          <details>
+            <summary>Add cover letter (optional)</summary>
+            <div style="margin-top:8px;">
+              <textarea id="coverLetter" name="coverLetter" placeholder="Write your cover letter..." aria-label="Cover letter text" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></textarea>
+            </div>
+          </details>
+        </div>
+      </fieldset>
+
+      <!-- SECTION: Diversity (with absurdly long label) -->
+      <fieldset>
+        <legend>Demographics (optional)</legend>
+        <!-- Field 13: Absurdly long label field -->
+        <div class="field-group">
+          <div class="absurdly-long" id="genderLabel">We are committed to building a diverse and inclusive workplace. We invite you to self-identify your gender. This information is voluntary and will not affect your application. We use this data to ensure our hiring processes are equitable and to identify areas for improvement. We appreciate your transparency. If you prefer not to disclose, that is completely fine. Your response will be kept confidential and will not be shared with the hiring team. Thank you for taking the time to read this lengthy label that goes on for many many characters to test how the system handles extremely verbose descriptions that most real applications would never actually have but we include it here as a stress test for layout and accessibility tools that may need to parse or truncate such content. This is a contrived example to meet the specification requirements for an absurdly long label field in a production-like job application form. The text will continue to wrap and fill space, pushing the boundaries of typical UI patterns. Please select one of the options below based on your comfort level. We value you regardless of your choice.</div>
+          <select id="gender" name="gender" aria-labelledby="genderLabel">
+            <option value="">Prefer not to say</option>
+            <option>Woman</option>
+            <option>Man</option>
+            <option>Non-binary</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <!-- SHADOW DOM HOST (Field 14): inside declarative shadow root -->
+      <fieldset>
+        <legend>Additional Details</legend>
+        <div class="field-group shadow-host">
+          <template shadowrootmode="open">
+            <style>
+              :host { display: block; }
+              .shadow-label { font-size: 13px; font-weight: 500; color: #334155; margin-bottom: 4px; display: block; }
+              .shadow-input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+              .shadow-input:focus { outline: none; border-color: #2563eb; }
+            </style>
+            <span class="shadow-label" id="refLabel">How did you hear about this role?</span>
+            <input class="shadow-input" id="referralSource" name="referralSource" placeholder="e.g. LinkedIn, referral" aria-labelledby="refLabel">
+          </template>
+        </div>
+
+        <!-- Field 15: Availability (placeholder-only labeling) -->
+        <div class="field-group">
+          <input type="text" id="availability" name="availability" placeholder="Earliest start date, e.g. 2025-04-01" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
+        </div>
+
+        <!-- Field 16: Salary expectation (aria-label only) -->
+        <div class="field-group">
+          <input type="text" id="salary" name="salary" aria-label="Salary expectation" placeholder="e.g. 120000" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
+        </div>
+      </fieldset>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">Submit Application</button>
+    </form>
+
+    <!-- Decoy secondary form (non-semantic) -->
+    <div class="decoy-form">
+      <strong>Refer a friend (separate form)</strong>
+      <input type="text" placeholder="Friend's email" aria-label="Friend referral email">
+      <button type="button" style="margin-top:4px;padding:4px 12px;background:#e2e8f0;border:none;border-radius:4px;">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Pill buttons (radio group)
+    document.querySelectorAll('.pill-group[role="radiogroup"]').forEach(function(group) {
+      var pills = group.querySelectorAll('.pill[role="radio"]');
+      var hiddenInput = group.nextElementSibling; // hidden input
+      pills.forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          pills.forEach(function(p) { p.setAttribute('aria-checked', 'false'); p.classList.remove('selected'); });
+          pill.setAttribute('aria-checked', 'true');
+          pill.classList.add('selected');
+          if (hiddenInput) hiddenInput.value = pill.getAttribute('data-value');
+        });
+        pill.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            pill.click();
+          }
+        });
+      });
+    });
+
+    // Custom combobox
+    var combobox = document.getElementById('expCombobox');
+    var listbox = document.getElementById('expListbox');
+    var hiddenExp = document.getElementById('experience');
+    var expValue = document.getElementById('expValue');
+    var options = listbox.querySelectorAll('.option');
+    var currentIndex = 1; // 6-8 preselected
+
+    function updateSelection(index) {
+      options.forEach(function(opt, i) {
+        opt.removeAttribute('aria-selected');
+        opt.classList.remove('highlighted');
+      });
+      if (index >= 0 && index < options.length) {
+        options[index].setAttribute('aria-selected', 'true');
+        options[index].classList.add('highlighted');
+        var val = options[index].getAttribute('data-value');
+        expValue.textContent = options[index].textContent;
+        hiddenExp.value = val;
+        currentIndex = index;
+      }
+    }
+
+    function toggleListbox(expand) {
+      var isOpen = listbox.classList.contains('open');
+      if (expand === undefined) expand = !isOpen;
+      if (expand) {
+        listbox.classList.add('open');
+        combobox.setAttribute('aria-expanded', 'true');
+        // Highlight current
+        options.forEach(function(opt, i) {
+          if (opt.getAttribute('aria-selected') === 'true') {
+            opt.classList.add('highlighted');
+            currentIndex = i;
+          }
+        });
+      } else {
+        listbox.classList.remove('open');
+        combobox.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    combobox.addEventListener('click', function(e) {
+      toggleListbox();
+    });
+
+    combobox.addEventListener('keydown', function(e) {
+      switch(e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (!listbox.classList.contains('open')) {
+            toggleListbox(true);
+          } else {
+            var newIndex = Math.min(currentIndex + 1, options.length - 1);
+            updateSelection(newIndex);
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (listbox.classList.contains('open')) {
+            var newIndex = Math.max(currentIndex - 1, 0);
+            updateSelection(newIndex);
+          }
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (listbox.classList.contains('open')) {
+            toggleListbox(false);
+          } else {
+            toggleListbox(true);
+          }
+          break;
+        case 'Escape':
+          toggleListbox(false);
+          break;
+      }
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        var index = Array.prototype.indexOf.call(options, opt);
+        updateSelection(index);
+        toggleListbox(false);
+        combobox.focus();
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!combobox.contains(e.target) && !listbox.contains(e.target)) {
+        toggleListbox(false);
+      }
+    });
+
+    // Initialize preselected
+    updateSelection(2); // 6-8
+
+    // Form submit prevention for demo
+    document.getElementById('mainAppForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo). Form data would be sent to server.');
+    });
+  })();
+</script>
+</body>
+</html>

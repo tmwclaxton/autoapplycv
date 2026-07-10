@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Entretien de recrutement | Apec</title>
+</head>
+<body>
+<form>
+<div id="popin-connexion" class="popin popin-candidat" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="popin-labelledby">
+    <div class="popin-container" role="document">
+        <button type="button" onclick="apecLoginPopin.close(); return false;" class="popin-close" aria-label="Close">
+            
+        </button>
+        <div class="popin-col">
+            <div class="popin-form">
+                <h2 class="mb-30" id="popin-labelledby">Vous avez déjà un compte ?</h2>
+
+                <form onsubmit="apecLoginPopin.dologin(); return false;">
+                    <div id="sourceToggle">
+                        <label for="source" onchange="apecLoginPopin.toogle()" id="source-toggle" class="slide-toggle-label slide-toggle-label-popin mb-20">
+                            <span class="slide-toggle-content slide-toggle-content-left active">Candidat</span>
+                            <div class="slide-toggle-bar">
+                                <input type="checkbox" name="source" id="source">
+                                <div class="slide-toggle-thumb"></div>
+                            </div>
+                            <span class="slide-toggle-content slide-toggle-content-right">Recruteur</span>
+                        </label>
+                    </div>
+
+                    <div aria-hidden="true" class="alert alert-danger mb-30 alert-d-none" role="alert">
+                        <div id="no-data" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Vous devez saisir votre identifiant et votre mot de passe.
+                        </div>
+                        <div id="unknown-user" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre identifiant ou votre mot de passe est incorrect.
+                        </div>
+                        <div id="not-valide" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte recruteur est en cours de validation.<br>
+                            Si nécessaire Contactez-nous au 0809 361 414
+                        </div>
+                        <div id="closed" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte n'est plus actif.<br>
+                            Si nécessaire Contactez-nous au 0810 805 805
+                        </div>
+                        <div id="unknown-error" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Une erreur inattendue est survenue. Merci de réessayer ultérieurement.
+                        </div>
+                    </div>
+
+                    <div class="popin-form-group mb-30">
+                        <label for="emailid">Adresse email*</label>
+                        <input type="text" name="emailid" id="emailid" placeholder="Identifiant" style="max-width: initial;">
+                    </div>
+
+                    <div class="popin-form-group mb-10" style="position: relative;">
+                        <label for="password">Mot de passe*</label>
+                        <input type="password" name="password" id="password" placeholder="Mot de passe" style="width: 100%; padding-right: 40px; max-width: initial;">
+                        
+                        <span style="position: absolute; top: 70%; right: 10px; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility()">
+                       <img id="toggle-password-icon" src="/modules/apec-jahia-module/assets/img/edito/eye-icon-open.svg" style="width: 20px; height: 20px;">
+                       </span>
+                    </div>
+                    <p class="mdp mb-37"><a onclick="apecLoginPopin.motDePasseOublie();">Mot de passe oublié ?</a></p>
+                    <div class="row justify-content-center mt-30">
+                        <button type="submit" value="Login" class="popin-btn-primary">Se connecter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="popin-col popin-bg">
+            <div class="popin-new-account">
+                <h2 class="titre">
+                </h2>
+                <p class="desc">
+                </p>
+                <button onclick="apecLoginPopin.creerCompte();return false;" class="popin-btn-primary popin-btn-primary-negative">Créer votre compte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="popin-cgu" class="popin" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="popin-labelledby">
+    <div class="popin-container" role="document">
+        <div class="card">
+            <div class="card-body">
+                <div class="modal-title d-flex ">
+                  <img class="icon-modal candidat" alt="conditions-candidat" src="/modules/apec-jahia-module/assets/img/edito/icone/terms-and-conditions-candidat.png">
+                  <img class="icon-modal recruteur alert-d-none" alt="conditions-recruteur" src="/modules/apec-jahia-module/assets/img/edito/icone/terms-and-conditions-recruteur.png">
+                    <h3 class="card-title">
+                      Les informations légales ont changé
+                    </h3>
+                </div>
+                <hr>
+                <div class="custom-checkbox-input">
+                    <input type="checkbox" id="cguAcceptees">
+                    <label>J'ai pris connaissance des <a class="small-link" target="_blank" href="/infos-legales.html">informations légales</a> que ce soit
+                        les <a class="small-link" target="_blank" href="/infos-legales/infos-cgu.html">conditions générales d'utilisation</a>, les <a class="small-link" target="_blank" href="/recruteur/guide-de-diffusion-des-offres.html"> conditions générales de diffusion des offres </a>
+                    , la <a class="small-link" target="_blank" href="/infos-legales/infos-donnees-personnelles.html">Politique de protection de données à
+                    caractère personnel</a> ainsi que la <a class="small-link" target="_blank" href="/infos-legales/infos-cookies.html">gestion des cookies</a> et je les accepte.</label>
+                </div>
+                <div aria-hidden="true" class="alert alert-danger mb-30 alert-d-none" role="alert">
+                    <div id="not-cocher" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                        Vous devez accepter les informations légales
+                    </div>
+                    <div id="unknown-error-cgu" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                        Une erreur inattendue est survenue. Merci de réessayer ultérieurement.
+                    </div>
+                </div>
+                <div class="mt-20 text-center form-action">
+                    <button onclick="apecCguPopin.logout();return false;" class="btn btn-secondary">ANNULER</button>
+                    <button onclick="apecCguPopin.doAccepted();return false;" type="submit" value="Login" class="btn btn-primary">ACCEPTER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header role="banner">
+    <nav class="navbar navbar-expand navbar-bottom" role="navigation" aria-label="Menu principal">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                        <div class="navbar-bottom__blocmenu">
+                            <button class="navbar-bottom__menu" aria-label="menu">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <p>Menu</p>
+                            </button>
+                        </div>
+                        <div class="navbar-bottom__logo">
+                            <a href="/" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                                <img id="logo_white" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/white.svg" alt="Logo Apec">
+                                <img id="logo_blue" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/blue.svg" alt="Logo Apec">
+                            </a>
+                        </div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <button type="button" data-faciliti-popin="" title="FACIL'iti : Adaptez l'affichage" aria-label="FACIL'iti : Adaptez l'affichage" class="nav-link nav-link-faciliti"></button>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-acceo" title="Acceo : Sourd ou malentendant" href="https://www.acce-o.fr/client/apec" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'accessibilite::acceo', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" target="_blank"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://centre.apec.fr/search" title="Mon centre" aria-label="Mon centre" class="nav-link nav-link-centre">
+                                    <span>Mon centre</span>
+                                </a>
+                            </li>
+                            <li id="header-monespace" class="nav-item">
+                                <a onclick="showloginPopin()" class="nav-link nav-link-espace" aria-haspopup="dialog" aria-controls="dialog" title="Mon espace" aria-label="Mon espace"><span>Mon espace</span></a>
+                            </li>
+                            <li id="header-logout" class="nav-item" style="display:none;">
+                                <a onclick="logout(this);" data-dest="/" class="nav-link nav-link-logout">
+                                    <div data-toggle="tooltip" data-placement="bottom" title="Se déconnecter" class="tooltip-logout"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<nav class="side-nav" role="navigation" aria-label="Menu secondaire">
+    <div class="side-nav__container">
+        <ul class="side-nav__links">
+            <li class="cta cta-candidat">
+                <a href="/candidat.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/profil/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>candidat.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-candidat__links">
+                    <li><a href="/candidat/recherche-emploi.html/emploi"><p>Rechercher une offre</p></a></li>
+                    <li><a href="/candidat/optimiser-votre-candidature.html"><p>Optimiser votre candidature</p></a></li>
+                    <li><a href="/candidat/etre-accompagne-dans-votre-recherche-demploi.html"><p>Être accompagné dans votre recherche d'emploi</p></a></li>
+                    <li><a href="/candidat/faire-le-point--changer-de-voie.html"><p>Faire le point &amp; Changer de voie</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta cta-recruteur">
+                <a href="/recruteur.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/cible/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>recruteur.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-recruteur__links">
+                    <li><a href="/recruteur/mon-espace/candidapec.html"><p>Rechercher un profil</p></a></li>
+                    <li><a href="/recruteur/recruter.html"><p>Recruter</p></a></li>
+                    <li><a href="/recruteur/attirer-les-candidats.html"><p>Attirer les candidats</p></a></li>
+                    <li><a href="/recruteur/accompagner-levolution-professionnelle.html"><p>Accompagner l'évolution professionnelle</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta">
+                <a href="/nos-evenements.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/4fleches/white/4fleches.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Nos <span>Évènements</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-outils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/computer/white/computer.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Outils</span> Apec en ligne</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tendances-emploi-cadre.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/eye/white/eye.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Tendances</span> emploi cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-metiers.html">
+                    <img src="/files/live/sites/www/files/fiche_outil/icone/livre.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Fiches métiers</span> cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-les-conseils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Tous nos <span>conseils</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="https://centre.apec.fr/search">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/pin/white.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Centre <span>Apec</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/candidat/alternance.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/education/education.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Alternance</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/offres-d-emploi-cadres-alternances-et-entreprises-qui-recrutent.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Parcourir <span>les offres</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            </ul>
+        <a href="/tous-nos-services/rencontrer-nous.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'nous_rencontrer::nous_rencontrer_burger', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" class="side-nav__button"><p>Prenez rendez-vous</p></a>
+
+    </div>
+</nav>
+<div class="overlay"></div>
+
+<main role="main">
+		<div class="container-fluid bandeau__head-nav mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <nav class="nav-back">
+                    <div class="nav-back__title">
+                        <a href="/candidat/optimiser-votre-candidature.html" class="backButton d-flex" title="Retour sur la page Optimiser votre candidature">
+                            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/left.svg" alt="bouton retour">
+                            <p>Optimiser votre candidature</p>
+                        </a>
+                        <h1>Entretiens de recrutement</h1>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    </div><div class="container-fluid bandeau__head-nav mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+        <article class="card card-problematic-ateliers">
+    <div class="card-body">
+<img src="/modules/apec-jahia-module/assets/img/symboles/duo/blue/small.svg" alt="icone service">
+        <h2 class="card-title ">Réussir vos entretiens de recrutement</h2>
+        <p>Un atelier pour maîtriser chaque type d'entretien d'embauche et les transformer en opportunités concrètes !</p>
+    </div>
+    <div class="call-to-action">
+        <div class="call-to-action__container">
+            <a class="btn-more" title="Réussir vos entretiens de recrutement" href="/candidat/optimiser-votre-candidature/entretiens-de-recrutement/fiches-services/reussir-vos-entretiens-de-recrutement.html">
+                En savoir plus
+            </a>
+            <a class="btn" href="/candidat/les-services-apec/les-ateliers.html?id-jonction=1628&amp;id-motif=143769#/atelier" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'lead_fiche_service::apec_ficheservice_lead_reussir_vos_entretiens_de_recrutement', level2: '2', type:'navigation'})) || !xitiTagWrapper.tag;">
+            Inscrivez-vous</a>
+    </div>
+    </div>
+</article></div><div class="col-lg-6 col-md-12 col-sm-12">
+        <article class="card card-problematic-ateliers">
+    <div class="card-body">
+<img src="/modules/apec-jahia-module/assets/img/symboles/duo/blue/small.svg" alt="icone service">
+        <h2 class="card-title ">Entretien programmé : entrainez vous avec un consultant !</h2>
+        <p>Préparez-vous sereinement pour votre entretien d'embauche avec une simulation sur-mesure et le feedback d'un professionnel !</p>
+    </div>
+    <div class="call-to-action">
+        <div class="call-to-action__container">
+            <a class="btn-more" title="Entretien programmé : entrainez vous avec un consultant !" href="/candidat/optimiser-votre-candidature/entretiens-de-recrutement/fiches-services/entretien-programme-entrainez-vous-avec-un-consultant.html">
+                En savoir plus
+            </a>
+            <a class="btn" href="/candidat/les-services-apec/training-recrutement.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'lead_fiche_service::apec_ficheservice_lead_entretien_programme_entrainez_vous_avec_un_consultant_', level2: '2', type:'navigation'})) || !xitiTagWrapper.tag;">
+            Prenez rendez-vous</a>
+    </div>
+    </div>
+</article></div><div class="col-lg-6 col-md-12 col-sm-12">
+        <article class="card card-problematic-ateliers">
+    <div class="card-body">
+        <img src="/files/live/sites/www/files/fiche_outil/icone/dialogues.svg" alt="Simulateur d'entretien - Nouvelle version">
+        <h2 class="card-title ">Simulateur d'entretien - Nouvelle version</h2>
+        <p>Un outil pratique pour s'entraîner avant un rdv. Vivez l'entretien de recrutement des 2 côtés pour mieux répondre le jour J.
+</p>
+    </div>
+    <div class="call-to-action">
+        <div class="call-to-action__container">
+            <a class="btn-more" title="Simulateur : s'entraîner à l'entretien de recrutement" href="/tous-nos-outils/fiche-outils/simulateur--sentrainer-a-lentretien-de-recrutement.html">
+                En savoir plus
+            </a>
+            
+<a class="btn " href="/tous-nos-outils/simulateur-dentretien.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'lead_fiche_outil::apec_ficheoutil_lead_simulateur_s_entrainer_a_l_entretien_de_recrutement', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;">
+    Démarrez</a>
+</div>
+    </div>
+</article></div><div class="col-lg-6 col-md-12 col-sm-12">
+        <article class="card card-problematic-ateliers">
+    <div class="card-body">
+        <img src="/files/live/sites/www/files/fiche_outil/icone/support_ecriture.svg" alt="Odiapazon - Nouvel outil ">
+        <h2 class="card-title ">Odiapazon - Nouvel outil </h2>
+        <p>Managers, candidats à l’aide de cet outil, projetez-vous pour préparer une collaboration réussie !
+</p>
+    </div>
+    <div class="call-to-action">
+        <div class="call-to-action__container">
+            <a class="btn-more" title="Odiapazon - L'outil qui met les candidats et les entreprises sur la même longueur d'onde " href="/tous-nos-outils/fiche-outils/odiapazon.html">
+                En savoir plus
+            </a>
+            
+<a class="btn " href="/tous-nos-outils/odiapazon.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'lead_fiche_outil::apec_ficheoutil_lead_odiapazon_l_outil_qui_met_les_candidats_et_les_entreprises_sur_la_meme_longueur_d_onde_', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;">
+    Commencez</a>
+</div>
+    </div>
+</article></div></div>
+    </div>
+</div><div class="container-fluid bandeau__head-nav mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <article class="other-question">
+                    <p>
+                        D’autres questions sur votre recherche d’emploi ou votre projet professionnel ?</p>
+                    <a class="d-flex" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'nous_rencontrer::nous_rencontrer_entretiens_de_recrutement', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" href="/candidat/les-services-apec/rendez-vous-conseil.html">
+                        <div class="small-link">
+                            <span>Prenez rendez-vous</span>
+                            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </div>
+</div><div class="container-fluid bg-secondary-blue">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <article class="problematic-conseil">
+    <div class="d-flex">
+        <div style="margin-right:20px;">
+            <img src="/files/live/sites/www/files/fiche_service/image/autopromo/4fleches.svg" alt="illustration autopromo">
+        </div>
+        <div>
+            <h2>Réussir sa candidature :</h2>
+            <p>Avant de postuler, envoyez-nous votre CV et bénéficiez de conseils personnalisés.</p>
+            <a class="d-flex" href="/candidat/optimiser-votre-candidature/candidature/fiches-services/reussir-sa-candidature.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'autopromos::entretiens_de_recrutement::fiche_service_reussir_sa_candidature', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" title="Réussir sa candidature">
+                <div class="small-link">
+                    <span>En savoir plus</span>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div>
+        <a class="btn" href="/candidat/les-services-apec/objectif-candidature.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'lead_fiche_service::apec_ficheservice_lead_reussir_sa_candidature', level2: '2', type:'navigation'})) || !xitiTagWrapper.tag;">
+            Prenez rendez-vous</a>
+    </div>
+</article></div>
+        </div>
+    </div>
+</div><div class="container bg-white">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="article-preview">
+    <article class="article">
+        <div class="article-l">
+            <a href="/candidat/optimiser-votre-candidature/candidature/fiches-avis/optimisez-votre-cv-pour-passer-le-filtre-des-ats-.html" title="Optimisez votre CV pour passer le filtre des ATS ">
+                <img src="/files/live/sites/www/files/fiche_avis/image/ATS.jpg" width="100%" height="auto">
+            </a>
+            <div class="article-l_imgdetail">
+                <p class="sticker">L’avis de nos experts</p>
+                <div class="block-share">
+                    <div class="author-avatar">
+                        <img style="position: relative;" src="/files/live/sites/www/files/fiche_avis/consultant/Sonia et Matthieu.jpg" alt="Sonia Houtarde &amp; Matthieu Esteve">
+                    </div>
+                    <div class="info-author">
+                        <p>Publié le 13/06/2025<br> par Sonia Houtarde &amp; Matthieu Esteve</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article-r">
+            <div class="author-container">
+                <h2 class="title-2">Optimisez votre CV pour passer le filtre des ATS </h2>
+            </div>
+            <div class="article-body">
+                <p>Les « Applicant Tracking Systems » (ATS), ces logiciels qui filtrent les CV pour détecter les mots-clés et compétences recherchés, sont devenus incontournables pour les RH des entreprises qui recrutent. Bien qu'ils suscitent souvent des craintes, ils peuvent réduire les biais discriminatoires et devenir pour vous de véritables alliés. Optimiser votre CV est essentiel pour en tirer parti. Suivez les conseils de Sonia Houtarde et ...</p>
+            </div>
+            <a class="d-flex" href="/candidat/optimiser-votre-candidature/candidature/fiches-avis/optimisez-votre-cv-pour-passer-le-filtre-des-ats-.html" title="Optimisez votre CV pour passer le filtre des ATS ">
+                <div class="small-link">
+                    <span>Lire l'article</span>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+                </div>
+            </a>
+        </div>
+    </article>
+</div></div>
+    </div>
+</div><section class="end-cards">
+        <div class="container-fluid">
+            <div class="row header-card-preview">
+                <div class="container">
+                    <div class="col-md-12 p-0">
+                        <div>
+                            <h2>Nos conseils</h2>
+                            <p>Pour accompagner votre carrière</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row no-gutters justify-content-between">
+                 <div class="col-md-4 card card-preview p-0">
+                    <a href="/candidat/optimiser-votre-candidature/candidature/fiches-conseils/recrutement-et-ia-comment-candidats-et-recruteurs-peuvent-ils-en-faire-un-allie-.html" title="Recrutement et IA : comment candidats et recruteurs peuvent ils en faire un allié ?">
+    <div class="video-container">
+                
+            </div>
+        <div class="card-body">
+        <h2 class="card-title">Recrutement et IA : comment candidats et recruteurs peuvent ils en faire un allié ?</h2>
+        <p>L’intelligence artificielle générative est désormais au cœur des pratiques de recrutement. Rédaction d’offres d’emploi, tri de ...</p>
+        <div class="right-arrow">
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right_blue.svg" alts="right arrow">
+        </div>
+    </div>
+</a></div>
+                <div class="col-md-4 card card-preview p-0">
+                    <a href="/candidat/optimiser-votre-candidature/entretiens-de-recrutement/fiches-conseils/comment-gerer-les-questions-interdites-en-entretien-de-recrutement-.html" title="Comment gérer les questions interdites en entretien de recrutement ">
+    <div class="card-bg card-bg-16-9" style="background-image: url('/files/live/sites/www/files/Comment gÃ©rer les questions interdites en entretien de recrutement DEF.jpg')">
+            </div>
+        <div class="card-body">
+        <h2 class="card-title">Comment gérer les questions interdites en entretien de recrutement </h2>
+        <p>
+A l’occasion de la journée mondiale contre les discriminations. On fait le point sur les questions que la loi interdit aux ...</p>
+        <div class="right-arrow">
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right_blue.svg" alts="right arrow">
+        </div>
+    </div>
+</a></div>
+                <div class="col-md-4 card card-preview p-0">
+                    <a href="/tendances-emploi-cadre/vie-pro-et-carriere/ia-generative-une-veritable-alliee-quand-les-cadres-recherchent-un-emploi-.html" title="IA générative : une véritable alliée quand les cadres recherchent un emploi  ">
+    <div class="card-bg card-bg-16-9" style="background-image: url('/files/live/sites/www/files/fiche_etude/image/IA et recherche d\'emploi.jpg')">
+            </div>
+        <div class="card-body">
+        <h2 class="card-title">IA générative : une véritable alliée quand les cadres recherchent un emploi  </h2>
+        <p>En matière de recherche d’emploi, l’intelligence artificielle générative s’avère être une aide précieuse pour les candidats et ...</p>
+        <div class="right-arrow">
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right_blue.svg" alts="right arrow">
+        </div>
+    </div>
+</a></div>
+                </div>
+        </div>
+    </section></main>
+
+	<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer__logo footer-container__block">
+                <a href="/" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                    <img src="/modules/apec-jahia-module/assets/img/logo_apec/texte/vertical/white.svg" alt="Logo Apec">
+                </a>
+            </div>
+            <div class="footer__links footer-container__block">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/faq.html" title="FAQ" aria-label="FAQ">
+                                FAQ</a></li>
+                            <li><a href="/tous-nos-services.html" title="Services de conseil" aria-label="Services de conseil">
+                                Services de conseil</a></li>
+                            <li><a href="/infos-legales.html" title="Conditions générales" aria-label="Conditions générales">
+                                Conditions générales</a></li>
+                            <li><a href="/qui-sommes-nous.html" title="Qui sommes nous ?" aria-label="Qui sommes nous ?">
+                                Qui sommes nous ?</a></li>
+                            <li><a href="/accessibilite.html" title="Accessibilité" aria-label="Accessibilité">
+                                Accessibilité</a></li>
+                            </ul>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/partenariats-offres-demploi-cadres.html" title="Partenariats offres" aria-label="Partenariats offres">
+                                Partenariats offres</a></li>
+                            <li><a href="https://corporate.apec.fr" title="Site corporate" aria-label="Site corporate" target="_blank" rel="nofollow">
+                                Site corporate</a></li>
+                            <li><a href="https://corporate.apec.fr/toutes-nos-etudes" title="Études Apec" aria-label="Études Apec" target="_blank" rel="nofollow">
+                                Études Apec</a></li>
+                            <li><a href="https://corporate.apec.fr/home/actus-medias.html" title="Contact presse" aria-label="Contact presse" target="_blank" rel="nofollow">
+                                Contact presse</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__social footer-container__block">
+                <div class="footer-social-icons">
+                    <ul class="social-icons flexbox">
+                        <li><a href="https://fr-fr.facebook.com/apec/" target="_blank" aria-label="Facebook" title="Facebook" rel="noreferrer noopener"><img class="icons icon-facebook" src="/modules/apec-jahia-module/assets/img/social/facebook.svg" alt="Icone Facebook"></a></li>
+                        <li><a href="https://www.instagram.com/apec_officiel/?hl=fr" target="_blank" aria-label="Instagram" title="Instagram" rel="noreferrer noopener"><img class="icons icon-instagram" src="/modules/apec-jahia-module/assets/img/social/instagram.svg" alt="Icone Instagram"></a></li>
+                        <li><a href="https://fr.linkedin.com/company/apec" target="_blank" aria-label="Linkedin" title="Linkedin" rel="noreferrer noopener"><img class="icons icon-linkedin" src="/modules/apec-jahia-module/assets/img/social/linkedin.svg" alt="Icone Linkedin"></a></li>
+                        <li><a href="http://tiktok.com/@apecfr" target="_blank" aria-label="TikTok" title="TikTok" rel="noreferrer noopener"><img class="icons icon-tiktok" src="/modules/apec-jahia-module/assets/img/social/tiktok.svg" alt="Icone TikTok"></a></li>
+                        <li><a href="http://www.youtube.com/@Apec09" target="_blank" aria-label="Youtube" title="Youtube" rel="noreferrer noopener"><img class="icons icon-youtube" src="/modules/apec-jahia-module/assets/img/social/youtube.svg" alt="Icone Youtube"></a></li>
+                    </ul>
+                    <div class="app-badge">
+                        <a href="https://itunes.apple.com/app/apple-store/id387689033?mt=8" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_apple_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans l'App Store">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-app-store.png" alt="Télécharger dans l'App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.apec.jobboard&amp;hl=fr" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_google_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans Google Play">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-google-play.png" alt="Disponible sur Google Play">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__contact footer-container__block">
+                <p class="mb-20">« Vous avez une question ? »</p>
+                <a href="/posez-votre-question.html" class="footer__button">Contactez-nous</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</form>
+</body>
+</html>

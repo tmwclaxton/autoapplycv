@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0056",
+    "seed": 3109807083,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Other option reveal",
+                "notes": "Referral source Other checkbox reveals free-text input",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Other option reveal<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"oth_name\">Name<\/label><input type=\"text\" id=\"oth_name\" name=\"oth_name\"> <p>How did you hear about us?<\/p> <label><input type=\"checkbox\" name=\"referral\" value=\"linkedin\"> LinkedIn<\/label> <label><input type=\"checkbox\" name=\"referral\" val",
+                "requires_interaction": false
+            },
+            {
+                "title": "Aria-labelledby only",
+                "notes": "Email field identified only via aria-labelledby pointing at hidden span",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Aria-labelledby only<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"email-lbl\" hidden>Work email address<\/span> <input type=\"email\" name=\"work_email\" aria-labelledby=\"email-lbl\"> <label for=\"phone_visible\">Phone<\/label><input type=\"tel\" id=\"phone_visible\" name=\"phone_visible\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Collapsible section animation",
+                "notes": "Additional questions in collapsible section toggled by aria-expanded button",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Collapsible section<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"col_name\">Name<\/label><input type=\"text\" id=\"col_name\" name=\"col_name\"> <label for=\"col_email\">Email<\/label><input type=\"email\" id=\"col_email\" name=\"col_email\"> <button type=\"button\" id=\"expand-more\" aria-expanded=\"false\" data-reveal=\"#",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Label wraps input through nested divs without for attribute Required: At least two fields with aria-label only and no visible label element Required: Phone split into country code select and local number input in separate wrappers Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Custom text field: div with role=textbox and contenteditable, no native input Reference DOM (Other option reveal): Referral source Other checkbox reveals free-text input Reference DOM (Aria-labelledby only): Email field identified only via aria-labelledby pointing at hidden span Reference DOM (Collapsible section animation): Additional questions in collapsible section toggled by aria-expanded button Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: label-wraps-deep, aria-label-only, split-phone, native-select-not-combobox, div-role-textbox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Other option reveal; Aria-labelledby only; Collapsible section animation."
+}

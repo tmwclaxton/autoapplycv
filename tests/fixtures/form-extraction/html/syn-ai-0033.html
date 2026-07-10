@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sr. Product Design Application - Ramp</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+  body { background: #f4f5f7; padding: 24px; }
+  .app-wrapper { max-width: 820px; margin: 0 auto; }
+  .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04); padding: 32px; margin-bottom: 28px; }
+  h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: #0b0b0c; }
+  .decoy-card { background: #fafafa; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 16px 24px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .decoy-card input { border: 1px solid #d0d5dd; border-radius: 6px; padding: 8px 12px; font-size: 14px; width: 180px; }
+  .decoy-card button { background: #0b0b0c; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-weight: 500; font-size: 14px; cursor: default; opacity: 0.85; }
+  .decoy-card span { font-size: 13px; color: #475467; display: flex; align-items: center; gap: 4px; }
+  dl { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+  dt { font-size: 13px; font-weight: 500; color: #344054; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+  dd { margin: 0; }
+  .full-width { grid-column: 1 / -1; }
+  input, select, textarea, [role="textbox"], .pill-group { width: 100%; border: 1px solid #d0d5dd; border-radius: 8px; padding: 10px 12px; font-size: 14px; background: white; color: #101828; }
+  input:focus, select:focus, textarea:focus, [role="textbox"]:focus { outline: none; border-color: #6c6cf0; box-shadow: 0 0 0 3px rgba(108,108,240,0.15); }
+  .phone-row { display: flex; gap: 8px; }
+  .phone-row select { flex: 0 0 120px; }
+  .phone-row input { flex: 1; }
+  .pill-group { display: flex; gap: 0; border: none; padding: 0; background: transparent; }
+  .pill-btn { flex: 1; padding: 10px 8px; border: 1px solid #d0d5dd; background: white; font-size: 14px; font-weight: 500; color: #344054; cursor: pointer; transition: all 0.1s; text-align: center; }
+  .pill-btn:first-child { border-radius: 8px 0 0 8px; }
+  .pill-btn:last-child { border-radius: 0 8px 8px 0; }
+  .pill-btn.active { background: #0b0b0c; color: white; border-color: #0b0b0c; z-index: 1; }
+  .pill-btn:not(.active):hover { background: #f2f4f7; }
+  .hidden-span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; border: 1px solid #d0d5dd; border-radius: 8px; padding: 10px 12px; font-size: 14px; background: white; cursor: default; display: flex; align-items: center; justify-content: space-between; }
+  .combobox-input[aria-expanded="true"] + .listbox { display: block; }
+  .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d0d5dd; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 10; max-height: 180px; overflow-y: auto; margin-top: 4px; }
+  .listbox-option { padding: 10px 12px; font-size: 14px; cursor: default; }
+  .listbox-option:hover, .listbox-option.selected { background: #f2f4f7; }
+  details { margin-top: 6px; }
+  details summary { font-size: 14px; font-weight: 500; color: #6c6cf0; cursor: pointer; padding: 6px 0; }
+  details .inner-fieldset { padding: 16px 0 8px 0; display: flex; flex-direction: column; gap: 16px; }
+  fieldset { border: none; padding: 0; margin: 0; }
+  legend { font-size: 13px; font-weight: 500; color: #344054; margin-bottom: 8px; padding: 0; }
+  .triple-nest { border: 1px solid #e5e8eb; border-radius: 10px; padding: 16px; margin-top: 8px; background: #fcfcfd; }
+  .triple-nest fieldset { border-left: 2px solid #e0e3e8; padding-left: 14px; margin-top: 10px; }
+  .triple-nest legend { font-size: 12px; color: #667085; text-transform: uppercase; letter-spacing: 0.3px; }
+  .label-wrap-deep { display: block; }
+  .label-wrap-deep > .deep-wrap { display: flex; flex-direction: column; gap: 2px; }
+  .label-wrap-deep .deep-wrap span { font-size: 13px; font-weight: 500; color: #344054; }
+  .label-wrap-deep .deep-wrap input { margin-top: 2px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .submit-btn { background: #0b0b0c; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 15px; font-weight: 600; width: 100%; margin-top: 20px; cursor: default; }
+  .submit-btn:hover { opacity: 0.9; }
+  .inline-glue { display: flex; align-items: baseline; gap: 2px; }
+  .inline-glue span { font-size: 13px; color: #344054; white-space: nowrap; }
+  .decoy-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .decoy-left input { width: 140px; }
+  @media (max-width: 640px) { dl { grid-template-columns: 1fr; } .decoy-card { flex-direction: column; align-items: stretch; } }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- decoy form: newsletter signup (non-job) -->
+  <div class="decoy-card">
+    <span>📬 Stay updated on Ramp product launches</span>
+    <div class="decoy-left">
+      <input type="email" placeholder="your email" aria-label="Newsletter email">
+      <button type="button">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- main application card -->
+  <div class="card">
+    <h2>Apply for Senior Product Design</h2>
+    <p style="font-size:14px;color:#475467;margin-bottom:20px;">Ramp · Remote (US) · Full-time</p>
+
+    <form>
+      <dl>
+        <!-- full name: label wraps deep (label-wraps-deep) -->
+        <div class="full-width label-wrap-deep">
+          <dt><span style="color:#ef4444;">*</span> Full name</dt>
+          <dd>
+            <label class="deep-wrap">
+              <span>Full name</span>
+              <span style="font-size:12px;color:#667085;">as on legal ID</span>
+              <input type="text" placeholder="e.g. Alex Rivera" required>
+            </label>
+          </dd>
+        </div>
+
+        <!-- email: aria-labelledby hidden distant span (aria-labelledby-hidden) -->
+        <div class="full-width">
+          <dt><span style="color:#ef4444;">*</span> Email</dt>
+          <dd>
+            <span id="email-hint" class="hidden-span">Work email address</span>
+            <input type="email" placeholder="you@company.com" aria-labelledby="email-hint" required>
+          </dd>
+        </div>
+
+        <!-- phone split: country code + local number (split-phone) -->
+        <div class="full-width">
+          <dt><span style="color:#ef4444;">*</span> Phone</dt>
+          <dd class="phone-row">
+            <select aria-label="Country code">
+              <option value="+1" selected>🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+61">🇦🇺 +61</option>
+            </select>
+            <input type="tel" placeholder="(555) 123-4567" aria-label="Local phone number" required>
+          </dd>
+        </div>
+
+        <!-- linkedin: custom combobox widget (listbox combobox) -->
+        <div class="full-width">
+          <dt>LinkedIn profile <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="LinkedIn URL">
+              <div class="combobox-input" tabindex="0" role="textbox" aria-autocomplete="none" data-value="">
+                <span style="color:#98a2b3;">linkedin.com/in/</span><span contenteditable="true" style="flex:1;outline:none;min-width:60px;">yourname</span>
+                <span style="font-size:12px;color:#98a2b3;">▼</span>
+              </div>
+              <div class="listbox" role="listbox">
+                <div class="listbox-option" role="option" data-url="https://linkedin.com/in/">linkedin.com/in/</div>
+                <div class="listbox-option selected" role="option" data-url="https://www.linkedin.com/">www.linkedin.com/</div>
+                <div class="listbox-option" role="option" data-url="https://linkedin.com/company/">linkedin.com/company/</div>
+              </div>
+            </div>
+            <input type="hidden" name="linkedin_url" id="linkedin-hidden">
+          </dd>
+        </div>
+
+        <!-- portfolio / website: glued span label (non-semantic) -->
+        <div class="full-width">
+          <dt>Portfolio <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <div class="inline-glue" style="border:1px solid #d0d5dd; border-radius:8px; padding:8px 12px;background:white;">
+              <span style="color:#98a2b3;font-size:14px;">https://</span>
+              <input type="text" placeholder="yourdomain.com" style="border:none;padding:0;outline:none;flex:1;font-size:14px;background:transparent;" aria-label="Portfolio URL">
+            </div>
+          </dd>
+        </div>
+
+        <!-- eligibility: yes/no pill buttons (Ashby style) -->
+        <div class="full-width">
+          <dt><span style="color:#ef4444;">*</span> Eligible to work in US?</dt>
+          <dd>
+            <div class="pill-group" role="radiogroup" aria-label="Eligibility">
+              <button type="button" class="pill-btn active" role="radio" aria-checked="true" data-value="yes">Yes</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="need-sponsor">Need visa</button>
+            </div>
+          </dd>
+        </div>
+
+        <!-- years of experience: native select, but inside details-accordion (details-accordion) -->
+        <div class="full-width">
+          <details>
+            <summary>Additional experience details <span style="color:#667085;font-weight:400;">(optional)</span></summary>
+            <div class="inner-fieldset">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <label style="font-size:13px;color:#344054;">Years of product design experience</label>
+                <select aria-label="Years of experience">
+                  <option value="">Select</option>
+                  <option>0-1</option>
+                  <option>2-3</option>
+                  <option>4-6</option>
+                  <option>7+</option>
+                </select>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <label style="font-size:13px;color:#344054;">Current company</label>
+                <input type="text" placeholder="Company name" aria-label="Current company">
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- triple nested fieldsets: work authorization deep dive -->
+        <div class="full-width triple-nest">
+          <fieldset>
+            <legend>Work authorization details</legend>
+            <fieldset>
+              <legend>Visa type</legend>
+              <fieldset>
+                <legend>Currently held</legend>
+                <select style="width:100%;border:1px solid #d0d5dd;border-radius:6px;padding:8px;font-size:13px;">
+                  <option>None</option>
+                  <option>H1-B</option>
+                  <option>L-1</option>
+                  <option>OPT</option>
+                  <option>Green card</option>
+                </select>
+              </fieldset>
+            </fieldset>
+          </fieldset>
+        </div>
+
+        <!-- why ramp: textarea with placeholder-only label (non-semantic) -->
+        <div class="full-width">
+          <dt>Why Ramp? <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <textarea placeholder="What excites you about Ramp?" style="min-height:80px;resize:vertical;" aria-label="Why Ramp"></textarea>
+          </dd>
+        </div>
+
+        <!-- referral: label wraps input through nested divs (label-wraps-deep) -->
+        <div class="full-width label-wrap-deep">
+          <dt>Referral <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <label class="deep-wrap">
+              <span>Full name of referrer</span>
+              <input type="text" placeholder="e.g. Jamie Chen">
+            </label>
+          </dd>
+        </div>
+
+        <!-- current role (native select) -->
+        <div class="full-width">
+          <dt>Current role <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <select aria-label="Current role">
+              <option value="">Select</option>
+              <option>Product Designer</option>
+              <option>UX Designer</option>
+              <option>UI Designer</option>
+              <option>Design Lead</option>
+              <option>Other</option>
+            </select>
+          </dd>
+        </div>
+
+        <!-- salary expectation (native input) -->
+        <div class="full-width">
+          <dt>Salary expectation <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <input type="text" placeholder="e.g. $150,000" aria-label="Salary expectation">
+          </dd>
+        </div>
+
+        <!-- start date (native input) -->
+        <div class="full-width">
+          <dt>Earliest start date <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <input type="text" placeholder="e.g. 2025-06-01" aria-label="Earliest start date">
+          </dd>
+        </div>
+
+        <!-- hidden field for source tracking -->
+        <input type="hidden" name="source" value="linkedin">
+
+        <!-- NEW FIELD 14: Gender (select) -->
+        <div class="full-width">
+          <dt>Gender <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <select aria-label="Gender">
+              <option value="">Prefer not to say</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Other</option>
+            </select>
+          </dd>
+        </div>
+
+        <!-- NEW FIELD 15: Race/Ethnicity (select) -->
+        <div class="full-width">
+          <dt>Race/Ethnicity <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <select aria-label="Race/Ethnicity">
+              <option value="">Select</option>
+              <option>Asian</option>
+              <option>Black or African American</option>
+              <option>Hispanic or Latino</option>
+              <option>White</option>
+              <option>Other</option>
+            </select>
+          </dd>
+        </div>
+
+        <!-- NEW FIELD 16: Veteran status (select) -->
+        <div class="full-width">
+          <dt>Veteran status <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <select aria-label="Veteran status">
+              <option value="">Select</option>
+              <option>I am a veteran</option>
+              <option>I am not a veteran</option>
+              <option>Prefer not to say</option>
+            </select>
+          </dd>
+        </div>
+
+        <!-- NEW FIELD 17: Disability status (select) -->
+        <div class="full-width">
+          <dt>Disability status <span style="color:#667085;font-weight:400;">(optional)</span></dt>
+          <dd>
+            <select aria-label="Disability status">
+              <option value="">Select</option>
+              <option>Yes, I have a disability</option>
+              <option>No, I do not have a disability</option>
+              <option>Prefer not to say</option>
+            </select>
+          </dd>
+        </div>
+      </dl>
+
+      <button type="submit" class="submit-btn">Submit application</button>
+    </form>
+  </div>
+
+  <!-- second decoy form: login teaser -->
+  <div class="decoy-card" style="margin-top:0;">
+    <span>🔑 Already have an account? <a href="#" style="color:#6c6cf0;text-decoration:none;">Sign in</a></span>
+    <div style="display:flex;gap:8px;">
+      <input type="password" placeholder="password" aria-label="Decoy password" style="width:140px;">
+      <button type="button">Log in</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // pill toggle
+    document.querySelectorAll('.pill-group').forEach(function(group){
+      group.addEventListener('click', function(e){
+        var btn = e.target.closest('.pill-btn');
+        if (!btn) return;
+        group.querySelectorAll('.pill-btn').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked','true');
+      });
+    });
+
+    // combobox toggle
+    var combos = document.querySelectorAll('.combobox-wrapper');
+    combos.forEach(function(wrapper){
+      var input = wrapper.querySelector('.combobox-input');
+      var listbox = wrapper.querySelector('.listbox');
+      var hidden = wrapper.parentElement.querySelector('input[type="hidden"]') || document.getElementById('linkedin-hidden');
+      var contentSpan = input.querySelector('[contenteditable]');
+      var prefixSpan = input.querySelector('span:first-child');
+
+      function updateHidden() {
+        if (hidden) {
+          var selected = listbox.querySelector('.selected');
+          var prefix = selected ? selected.getAttribute('data-url') : 'https://linkedin.com/in/';
+          var val = prefix + (contentSpan ? contentSpan.textContent.trim() : '');
+          hidden.value = val;
+        }
+      }
+
+      input.addEventListener('click', function(e){
+        var expanded = wrapper.getAttribute('aria-expanded') === 'true';
+        wrapper.setAttribute('aria-expanded', !expanded);
+        if (!expanded) {
+          // close other combos
+          combos.forEach(function(w){ if(w !== wrapper) w.setAttribute('aria-expanded','false'); });
+        }
+        e.stopPropagation();
+      });
+
+      listbox.addEventListener('click', function(e){
+        var option = e.target.closest('.listbox-option');
+        if (!option) return;
+        listbox.querySelectorAll('.listbox-option').forEach(function(o){ o.classList.remove('selected'); });
+        option.classList.add('selected');
+        // update prefix text
+        var prefix = option.getAttribute('data-url');
+        prefixSpan.textContent = prefix;
+        updateHidden();
+        wrapper.setAttribute('aria-expanded','false');
+      });
+
+      if (contentSpan) {
+        contentSpan.addEventListener('input', updateHidden);
+      }
+
+      // close on outside click
+      document.addEventListener('click', function(e){
+        if (!wrapper.contains(e.target)) {
+          wrapper.setAttribute('aria-expanded','false');
+        }
+      });
+    });
+
+    // details-accordion: optional animation hint
+    document.querySelectorAll('details').forEach(function(d){
+      d.addEventListener('toggle', function(){ /* noop */ });
+    });
+
+    // initial hidden set for combobox
+    var firstCombo = document.querySelector('.combobox-wrapper');
+    if (firstCombo) {
+      var hidden = document.getElementById('linkedin-hidden');
+      var prefixSpan = firstCombo.querySelector('.combobox-input span:first-child');
+      var contentSpan = firstCombo.querySelector('[contenteditable]');
+      if (hidden && prefixSpan && contentSpan) {
+        var selected = firstCombo.querySelector('.listbox .selected');
+        var prefix = selected ? selected.getAttribute('data-url') : 'https://linkedin.com/in/';
+        hidden.value = prefix + contentSpan.textContent.trim();
+      }
+    }
+  })();
+</script>
+</body>
+</html>

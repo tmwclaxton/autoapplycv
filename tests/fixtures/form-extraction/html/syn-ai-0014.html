@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application - Ashby</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:0}body{background:#f4f6f9;padding:24px;display:flex;flex-direction:column;gap:32px}.app-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1200px;margin:0 auto;width:100%}@media (max-width:768px){.app-grid{grid-template-columns:1fr}}.form-section{background:#fff;padding:24px;border:1px solid #e0e4e8;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}.decoy-section{background:#f8f9fb;padding:24px;border:1px solid #e0e4e8;border-radius:8px;margin-top:16px;max-width:400px}.decoy-section h3{font-size:14px;color:#5f6b7a;margin-bottom:12px}.decoy-section input{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:6px;margin-bottom:8px;font-size:14px}.decoy-section button{background:#6c5ce7;color:#fff;border:none;padding:10px 16px;border-radius:6px;font-weight:600;cursor:pointer}.form-table{width:100%;border-collapse:collapse}.form-table td{padding:10px 8px;vertical-align:top}.form-table td:first-child{width:140px;font-weight:500;color:#1a1d23;font-size:14px}.form-table td:last-child{width:auto}.form-table input,.form-table select,.form-table textarea{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:6px;font-size:14px;transition:border-color 0.15s}.form-table input:focus,.form-table select:focus,.form-table textarea:focus{outline:none;border-color:#6c5ce7;box-shadow:0 0 0 3px rgba(108,92,231,0.15)}.pill-group{display:flex;gap:8px;margin-top:4px}.pill-btn{padding:8px 20px;border:1px solid #d0d5dd;border-radius:20px;background:#fff;cursor:pointer;font-size:14px;color:#1a1d23;transition:all 0.15s}.pill-btn.active{background:#6c5ce7;color:#fff;border-color:#6c5ce7}.pill-btn:focus{outline:2px solid #6c5ce7;outline-offset:2px}.phone-row{display:flex;gap:8px}.phone-row select{width:120px;flex-shrink:0}.phone-row input{flex:1}.glued-label{font-size:14px;font-weight:500;color:#1a1d23;margin-bottom:6px;display:block}.glued-label span{display:inline}.glue-1{letter-spacing:normal}.glue-2{letter-spacing:normal}.field-list{list-style:none;padding:0;margin:0}.field-list li{margin-bottom:6px}.field-list li:last-child{margin-bottom:0}.combobox-wrapper{position:relative}.combobox-input{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:6px;font-size:14px;cursor:pointer;background:#fff}.combobox-listbox{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d0d5dd;border-radius:0 0 6px 6px;max-height:180px;overflow-y:auto;display:none;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,0.1)}.combobox-listbox.show{display:block}.combobox-option{padding:10px 12px;cursor:pointer;font-size:14px;border-bottom:1px solid #f0f2f5}.combobox-option:last-child{border-bottom:none}.combobox-option:hover,.combobox-option.focused{background:#f4f0ff;color:#6c5ce7}.checkbox-group label{display:inline-flex;align-items:center;gap:6px;margin-right:16px;font-size:14px;cursor:pointer}.checkbox-group input[type='checkbox']{width:16px;height:16px;accent-color:#6c5ce7}.hidden-field{display:none}.hidden-field.revealed{display:block}.field-hint{font-size:12px;color:#6f7a8a;margin-top:4px}.error-text{color:#e03e3e;font-size:12px;margin-top:2px}.btn-submit{background:#6c5ce7;color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:16px;font-weight:600;cursor:pointer;margin-top:16px;transition:background 0.15s}.btn-submit:hover{background:#5a4bd1}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<div class="app-grid">
+  <!-- LEFT COLUMN: Job Application Form (primary) -->
+  <div class="form-section">
+    <h2 style="font-size:18px;margin-bottom:6px;color:#1a1d23;">Senior Frontend Engineer Application</h2>
+    <p style="font-size:13px;color:#5f6b7a;margin-bottom:18px;">Ashby Labs – Remote, Full-time</p>
+    <form id="job-app-form" action="#" method="post">
+      <table class="form-table">
+        <tbody>
+          <!-- Row 1: Full Name (glued label spans) -->
+          <tr>
+            <td><label class="glued-label"><span class="glue-1">Full</span><span class="glue-2">Name</span></label></td>
+            <td>
+              <input type="text" name="fullName" placeholder="e.g. Alex Rivera" aria-label="Full Name" required>
+            </td>
+          </tr>
+          <!-- Row 2: Email (empty label element, placeholder-only) -->
+          <tr>
+            <td><label for="email"></label></td>
+            <td>
+              <input type="email" id="email" name="email" placeholder="Email address*" required>
+            </td>
+          </tr>
+          <!-- Row 3: Phone (split: country code + local number) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Phone</span></td>
+            <td>
+              <div class="phone-row">
+                <select name="phoneCountry" aria-label="Country code">
+                  <option value="+1">US +1</option>
+                  <option value="+44">UK +44</option>
+                  <option value="+91">IN +91</option>
+                  <option value="+61">AU +61</option>
+                  <option value="+49">DE +49</option>
+                </select>
+                <input type="tel" name="phoneLocal" placeholder="Phone number" aria-label="Local phone number" required>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 4: Current Company (list item field) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Current Company</span></td>
+            <td>
+              <ul class="field-list">
+                <li>
+                  <input type="text" name="currentCompany" placeholder="Company name" aria-label="Current company">
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <!-- Row 5: Years Experience (native select) -->
+          <tr>
+            <td><label for="expYears">Experience</label></td>
+            <td>
+              <select id="expYears" name="expYears">
+                <option value="">Select years</option>
+                <option value="0-1">0–1</option>
+                <option value="2-3">2–3</option>
+                <option value="4-6">4–6</option>
+                <option value="7-10">7–10</option>
+                <option value="10+">10+</option>
+              </select>
+            </td>
+          </tr>
+          <!-- Row 6: Skills (custom combobox with role=listbox) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Primary Skill</span></td>
+            <td>
+              <div class="combobox-wrapper" id="skill-combo">
+                <div class="combobox-input" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Select primary skill">
+                  React
+                </div>
+                <div class="combobox-listbox" role="listbox" aria-label="Skill options">
+                  <div class="combobox-option" role="option" data-value="react">React</div>
+                  <div class="combobox-option" role="option" data-value="vue">Vue</div>
+                  <div class="combobox-option" role="option" data-value="angular">Angular</div>
+                  <div class="combobox-option" role="option" data-value="svelte">Svelte</div>
+                  <div class="combobox-option" role="option" data-value="node">Node.js</div>
+                </div>
+                <input type="hidden" name="primarySkill" value="react">
+              </div>
+            </td>
+          </tr>
+          <!-- Row 7: Portfolio URL (aria-labelledby with hidden label) -->
+          <tr>
+            <td><span id="portfolio-label" style="font-weight:500;font-size:14px;color:#1a1d23;">Portfolio</span></td>
+            <td>
+              <input type="url" name="portfolioUrl" placeholder="https://yoursite.com" aria-labelledby="portfolio-label">
+            </td>
+          </tr>
+          <!-- Row 8: Work Authorization (Yes/No pill buttons) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Authorized to work in US?</span></td>
+            <td>
+              <div class="pill-group" role="group" aria-label="Work authorization">
+                <button type="button" class="pill-btn active" data-value="yes" id="auth-yes">Yes</button>
+                <button type="button" class="pill-btn" data-value="no" id="auth-no">No</button>
+              </div>
+              <input type="hidden" name="workAuth" value="yes">
+            </td>
+          </tr>
+          <!-- Row 9: Willing to relocate (Yes/No pill buttons, duplicate name group) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Willing to relocate?</span></td>
+            <td>
+              <div class="pill-group" role="group" aria-label="Relocation willingness">
+                <button type="button" class="pill-btn active" data-value="yes" id="reloc-yes">Yes</button>
+                <button type="button" class="pill-btn" data-value="no" id="reloc-no">No</button>
+              </div>
+              <input type="hidden" name="willingRelocate" value="yes">
+            </td>
+          </tr>
+          <!-- Row 10: Cover Letter (textarea with conditional reveal) -->
+          <tr>
+            <td><label for="coverLetter">Cover Letter</label></td>
+            <td>
+              <textarea id="coverLetter" name="coverLetter" rows="3" placeholder="Optional message..."></textarea>
+            </td>
+          </tr>
+          <!-- Row 11: Referral source (native select, duplicate name group with checkbox cluster) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">How did you hear?</span></td>
+            <td>
+              <select name="referralSource">
+                <option value="">Select</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="referral">Referral</option>
+                <option value="indeed">Indeed</option>
+                <option value="other">Other</option>
+              </select>
+              <div style="margin-top:8px;">
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="referralSource" value="email"> Email</label>
+                  <label><input type="checkbox" name="referralSource" value="social"> Social</label>
+                  <label><input type="checkbox" name="referralSource" value="event"> Event</label>
+                </div>
+                <span class="field-hint">(select all that apply)</span>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 12: LinkedIn (aria-label only) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">LinkedIn</span></td>
+            <td>
+              <input type="url" name="linkedinUrl" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn profile URL">
+            </td>
+          </tr>
+          <!-- Row 13: Gender (optional, native select) -->
+          <tr>
+            <td><label for="gender">Gender</label></td>
+            <td>
+              <select id="gender" name="gender">
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="nonbinary">Non-binary</option>
+                <option value="other">Other</option>
+              </select>
+            </td>
+          </tr>
+          <!-- Row 14: Resume (file upload) -->
+          <tr>
+            <td><label for="resumeUpload">Resume</label></td>
+            <td>
+              <input type="file" id="resumeUpload" name="resume" accept=".pdf,.doc,.docx">
+            </td>
+          </tr>
+          <!-- Row 15: Salary Expectation (new field to reach 14+) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">Salary Expectation</span></td>
+            <td>
+              <input type="text" name="salaryExpectation" placeholder="e.g. $120,000" aria-label="Salary expectation">
+            </td>
+          </tr>
+          <!-- Row 16: Start Date (new field) -->
+          <tr>
+            <td><label for="startDate">Start Date</label></td>
+            <td>
+              <input type="date" id="startDate" name="startDate">
+            </td>
+          </tr>
+          <!-- Row 17: How many years of React? (new field) -->
+          <tr>
+            <td><span style="font-weight:500;font-size:14px;color:#1a1d23;">React Years</span></td>
+            <td>
+              <input type="number" name="reactYears" placeholder="Years" aria-label="Years of React experience" min="0" max="30">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" class="btn-submit">Submit Application</button>
+    </form>
+  </div>
+
+  <!-- RIGHT COLUMN: Decoy Newsletter Signup + Company Info -->
+  <div>
+    <div class="form-section" style="margin-bottom:20px;">
+      <h2 style="font-size:16px;color:#1a1d23;">Stay in the loop</h2>
+      <p style="font-size:13px;color:#5f6b7a;margin-bottom:14px;">Get notified about new opportunities.</p>
+      <form id="newsletter-decoy" action="#" method="post">
+        <input type="text" name="fullName" placeholder="Your name" aria-label="Your name for newsletter">
+        <input type="email" name="email" placeholder="Email address" aria-label="Email for newsletter" required>
+        <button type="submit">Subscribe</button>
+        <p style="font-size:11px;color:#8f9aa9;margin-top:10px;">No spam, unsubscribe anytime.</p>
+      </form>
+    </div>
+    <div class="form-section" style="background:transparent;border:1px dashed #d0d5dd;">
+      <h3 style="font-size:14px;color:#5f6b7a;margin-bottom:10px;">Company Perks</h3>
+      <ul style="font-size:13px;color:#1a1d23;list-style:disc;padding-left:20px;line-height:1.6;">
+        <li>Remote-first team</li>
+        <li>Equity for all full-time</li>
+        <li>Learning budget $2k/yr</li>
+        <li>Home office stipend</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // Pill buttons: toggle active, update hidden input
+  document.querySelectorAll('.pill-group').forEach(function(group) {
+    var btns = group.querySelectorAll('.pill-btn');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var hidden = group.parentElement.querySelector('input[type="hidden"]');
+        if (hidden) hidden.value = btn.getAttribute('data-value');
+      });
+    });
+  });
+
+  // Custom combobox
+  var combo = document.getElementById('skill-combo');
+  if (combo) {
+    var trigger = combo.querySelector('.combobox-input');
+    var listbox = combo.querySelector('.combobox-listbox');
+    var hiddenInput = combo.querySelector('input[type="hidden"]');
+    var options = listbox.querySelectorAll('.combobox-option');
+    var currentIndex = -1;
+
+    function openListbox() {
+      listbox.classList.add('show');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function closeListbox() {
+      listbox.classList.remove('show');
+      trigger.setAttribute('aria-expanded', 'false');
+      currentIndex = -1;
+    }
+    function selectOption(el) {
+      var val = el.getAttribute('data-value');
+      trigger.textContent = el.textContent;
+      hiddenInput.value = val;
+      closeListbox();
+    }
+
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (listbox.classList.contains('show')) {
+        closeListbox();
+      } else {
+        openListbox();
+      }
+    });
+
+    options.forEach(function(opt, idx) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(opt);
+      });
+      opt.addEventListener('mouseenter', function() {
+        options.forEach(function(o) { o.classList.remove('focused'); });
+        opt.classList.add('focused');
+        currentIndex = idx;
+      });
+    });
+
+    trigger.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!listbox.classList.contains('show')) openListbox();
+        var dir = e.key === 'ArrowDown' ? 1 : -1;
+        currentIndex = Math.min(Math.max(currentIndex + dir, 0), options.length - 1);
+        options.forEach(function(o) { o.classList.remove('focused'); });
+        options[currentIndex].classList.add('focused');
+        options[currentIndex].scrollIntoView({block: 'nearest'});
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (currentIndex >= 0 && options[currentIndex]) {
+          selectOption(options[currentIndex]);
+        }
+      } else if (e.key === 'Escape') {
+        closeListbox();
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combo.contains(e.target)) closeListbox();
+    });
+  }
+})();
+</script>
+</body>
+</html>

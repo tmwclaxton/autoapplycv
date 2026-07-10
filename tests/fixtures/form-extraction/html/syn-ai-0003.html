@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>wanted_kr job apply</title>
+<style>
+  * { box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { background: #e9ecef; margin: 0; padding: 20px; }
+  .app-shell { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 24px; }
+  iframe { width: 100%; border: none; height: 2800px; background: #f8f9fa; }
+  .decoy { margin-top: 32px; border-top: 2px dashed #ccc; padding-top: 16px; font-size: 13px; color: #666; }
+  .decoy form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .decoy input { border: 1px solid #bbb; padding: 6px 10px; border-radius: 4px; }
+  .note { font-size: 12px; color: #888; margin: 8px 0 16px; }
+  [data-widget] { border: 1px solid #e0e0e0; padding: 12px; margin: 12px 0; border-radius: 6px; background: #fafafa; }
+</style>
+</head>
+<body>
+  <div class="app-shell">
+    <h2 style="margin:0 0 8px;font-size:22px;">지원하기 (Apply)</h2>
+    <div class="note">내역 실시간 반영 중 • 필수 항목 포함</div>
+
+    <!-- iframe host: apply form inside srcdoc -->
+    <iframe srcdoc='
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: Arial, sans-serif; margin: 12px; }
+        .field-group { margin-bottom: 20px; }
+        label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px; }
+        .req { color: #d33; }
+        input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .inline-flex { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .pill-group { display: flex; gap: 0; border: 1px solid #888; border-radius: 24px; overflow: hidden; }
+        .pill-btn { padding: 6px 20px; border: none; background: #fff; cursor: pointer; font-size: 14px; border-right: 1px solid #ccc; transition:0.2s; }
+        .pill-btn:last-child { border-right: none; }
+        .pill-btn.active { background: #007bff; color: #fff; }
+        [role="textbox"] { min-height: 44px; background: #fff; border: 1px solid #ccc; border-radius: 6px; padding: 8px; }
+        .shadow-root-placeholder { border: 1px dashed #aaa; padding: 10px; background: #f1f3f5; border-radius: 6px; }
+        .repeat-block { border-left: 3px solid #339af0; padding-left: 12px; margin: 12px 0; }
+        .btn-row { margin-top: 24px; display: flex; gap: 12px; }
+        .btn-primary { background: #007bff; color: #fff; border: none; padding: 10px 28px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        .btn-secondary { background: #6c757d; color: #fff; border: none; padding: 10px 28px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        .combobox-container { position: relative; }
+        .combobox-list { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #aaa; z-index: 10; list-style: none; margin: 0; padding: 4px 0; max-height: 120px; overflow-y: auto; }
+        .combobox-list li { padding: 6px 10px; cursor: pointer; }
+        .combobox-list li:hover { background: #e9ecef; }
+      </style>
+      </head>
+      <body>
+        <form id="applyForm">
+          <!-- 1. full name (native + aria-label fallback) -->
+          <div class="field-group">
+            <label for="nameField">성명 <span class="req">*</span></label>
+            <input id="nameField" name="name" placeholder="홍길동" required>
+          </div>
+
+          <!-- 2. email (native) -->
+          <div class="field-group">
+            <label for="emailField">이메일 <span class="req">*</span></label>
+            <input id="emailField" type="email" name="email" placeholder="name@example.com">
+          </div>
+
+          <!-- 3. pill-yes-no: 경력자 여부 (required pattern) -->
+          <div class="field-group">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">경력 1년 이상 <span class="req">*</span></div>
+            <div class="pill-group" role="group" aria-label="경력 여부">
+              <button type="button" class="pill-btn active" data-value="yes" onclick="togglePill(this)">예</button>
+              <button type="button" class="pill-btn" data-value="no" onclick="togglePill(this)">아니오</button>
+            </div>
+            <input type="hidden" name="experience" value="yes" id="expHidden">
+          </div>
+
+          <!-- 4. div role=textbox contenteditable (required pattern) -->
+          <div class="field-group">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">간략 자기소개 <span class="req">*</span></div>
+            <div role="textbox" contenteditable="true" aria-label="자기소개" style="min-height:60px;" data-placeholder="혜신 및 경력을 작성하세요">안녕하세요. 한국 천문인입니다.</div>
+          </div>
+
+          <!-- 5. location-typeahead with datalist (reference + widget) -->
+          <div class="field-group">
+            <label for="locationField">근무 지역 <span class="req">*</span></label>
+            <input id="locationField" list="locationSuggestions" name="location" placeholder="시/구 검색">
+            <datalist id="locationSuggestions">
+              <option value="서울 강남구">
+              <option value="서울 종로구">
+              <option value="서울 서초구">
+              <option value="부산 해운대구">
+              <option value="인천 연수구">
+            </datalist>
+          </div>
+
+          <!-- 6. combobox widget (custom role listbox) -->
+          <div class="field-group">
+            <label for="jobCategoryCombo">직무 분야</label>
+            <div class="combobox-container">
+              <input id="jobCategoryCombo" name="category" placeholder="선택..." autocomplete="off" onfocus="showComboList()" onblur="setTimeout(()=>hideComboList(),150)" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+              <ul class="combobox-list" id="comboList" style="display:none" role="listbox" aria-label="직무 분야">
+                <li role="option" data-value="dev" onclick="selectCombo(this)">개발</li>
+                <li role="option" data-value="design" onclick="selectCombo(this)">디자인</li>
+                <li role="option" data-value="pm" onclick="selectCombo(this)">기획</li>
+                <li role="option" data-value="marketing" onclick="selectCombo(this)">마케팅</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. repeatable-block: 학력 (repeatable) -->
+          <div class="field-group">
+            <div style="font-weight:600;font-size:14px;margin-bottom:6px;">학력 사항</div>
+            <div id="eduBlock" class="repeat-block">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input name="school[]" placeholder="학교명" style="flex:2;">
+                <input name="major[]" placeholder="전공" style="flex:1;">
+                <input name="gradYear[]" placeholder="조업년도" style="width:100px;">
+                <button type="button" onclick="addEduRow()" style="background:#28a745;color:#fff;border:none;padding:6px 14px;border-radius:4px;">+ 추가</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. role group (not fieldset) for 성별 -->
+          <div class="field-group" role="group" aria-labelledby="genderLabel">
+            <span id="genderLabel" style="font-weight:600;font-size:14px;display:block;margin-bottom:4px;">성별</span>
+            <div class="inline-flex">
+              <label><input type="radio" name="gender" value="male"> 남성</label>
+              <label><input type="radio" name="gender" value="female"> 여성</label>
+              <label><input type="radio" name="gender" value="other"> 기타</label>
+            </div>
+          </div>
+
+          <!-- 9. shadow host: declarative shadow root with fields (required) -->
+          <div class="field-group shadow-root-placeholder">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">의무 사항 (shadow DOM)</div>
+            <div id="shadowHost">
+              <template shadowroot="open">
+                <style>
+                  .inner-field { margin: 6px 0; }
+                  input { width: 100%; padding: 6px; border: 1px solid #aaa; border-radius: 4px; }
+                </style>
+                <div class="inner-field">
+                  <label for="military">병역 여부</label>
+                  <select id="military" name="military">
+                    <option value="미필">미필</option>
+                    <option value="필">필</option>
+                    <option value="면제">면제</option>
+                  </select>
+                </div>
+                <div class="inner-field">
+                  <label for="veteran">보훈 대상</label>
+                  <input id="veteran" name="veteran" placeholder="해당 사항" style="margin-top:2px;">
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- 10. glued span labels + aria-labelledby -->
+          <div class="field-group">
+            <span id="portfolioLabel" style="font-weight:600;font-size:14px;">포트폴리오 링크</span>
+            <span style="color:#888;font-size:12px;"> (선택)</span>
+            <input aria-labelledby="portfolioLabel" name="portfolio" placeholder="URL 입력" style="margin-top:4px;">
+          </div>
+
+          <!-- 11. textarea with aria-label only -->
+          <div class="field-group">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">추가 질문</div>
+            <textarea aria-label="추가 질문" name="extra" placeholder="관련 질문이 있으면 작성..." rows="3"></textarea>
+          </div>
+
+          <!-- 12. readonly prefill (glued span label) -->
+          <div class="field-group">
+            <span style="font-weight:600;font-size:14px;">지원 책임</span>
+            <span style="color:#888;font-size:13px;margin-left:4px;">(자동 출력)</span>
+            <input name="referrer" value="지원자 본인" readonly style="background:#f1f3f5;border:1px solid #ddd;margin-top:4px;">
+          </div>
+
+          <!-- 13. phone number field -->
+          <div class="field-group">
+            <label for="phoneField">전화번호 <span class="req">*</span></label>
+            <input id="phoneField" type="tel" name="phone" placeholder="010-1234-5678" required>
+          </div>
+
+          <!-- 14. date of birth -->
+          <div class="field-group">
+            <label for="dobField">생년월일 <span class="req">*</span></label>
+            <input id="dobField" type="date" name="dob" required>
+          </div>
+
+          <!-- 15. address field -->
+          <div class="field-group">
+            <label for="addressField">주소</label>
+            <input id="addressField" name="address" placeholder="서울특별시 강남구...">
+          </div>
+
+          <!-- 16. preferred salary -->
+          <div class="field-group">
+            <label for="salaryField">희망 연봉 (만원)</label>
+            <input id="salaryField" type="number" name="salary" placeholder="5000">
+          </div>
+
+          <!-- 17. available start date -->
+          <div class="field-group">
+            <label for="startDateField">입사 가능일</label>
+            <input id="startDateField" type="date" name="startDate">
+          </div>
+
+          <!-- 18. language proficiency select -->
+          <div class="field-group">
+            <label for="langField">외국어 능력</label>
+            <select id="langField" name="language">
+              <option value="">선택</option>
+              <option value="en">영어</option>
+              <option value="ja">일본어</option>
+              <option value="zh">중국어</option>
+            </select>
+          </div>
+
+          <!-- 19. skill tags (text input) -->
+          <div class="field-group">
+            <label for="skillField">보유 기술</label>
+            <input id="skillField" name="skills" placeholder="Python, JavaScript, ...">
+          </div>
+
+          <!-- 20. linkedin url -->
+          <div class="field-group">
+            <label for="linkedinField">LinkedIn URL</label>
+            <input id="linkedinField" type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
+          </div>
+
+          <!-- 21. github url -->
+          <div class="field-group">
+            <label for="githubField">GitHub URL</label>
+            <input id="githubField" type="url" name="github" placeholder="https://github.com/...">
+          </div>
+
+          <!-- 22. notice period -->
+          <div class="field-group">
+            <label for="noticeField">퇴사 통보 기간 (주)</label>
+            <input id="noticeField" type="number" name="noticePeriod" placeholder="4">
+          </div>
+
+          <!-- 23. work preference (remote/office) -->
+          <div class="field-group" role="group" aria-labelledby="workPrefLabel">
+            <span id="workPrefLabel" style="font-weight:600;font-size:14px;display:block;margin-bottom:4px;">근무 선호</span>
+            <div class="inline-flex">
+              <label><input type="radio" name="workPref" value="remote"> 원격</label>
+              <label><input type="radio" name="workPref" value="office"> 출근</label>
+              <label><input type="radio" name="workPref" value="hybrid"> 혼합</label>
+            </div>
+          </div>
+
+          <!-- 24. checkbox for agreement -->
+          <div class="field-group">
+            <label style="font-weight:400;font-size:14px;">
+              <input type="checkbox" name="agree" required> 개인정보 수집 및 이용에 동의합니다 <span class="req">*</span>
+            </label>
+          </div>
+
+          <!-- 25. hidden field for tracking -->
+          <input type="hidden" name="source" value="wanted_kr_iframe">
+
+          <div class="btn-row">
+            <button type="submit" class="btn-primary" form="applyForm">제출하기</button>
+            <button type="reset" class="btn-secondary">초기화</button>
+          </div>
+        </form>
+
+        <!-- submit outside pattern: hidden submit button outside form referencing form id -->
+        <div style="margin-top:16px; font-size:13px; color:#555;">
+          <button type="submit" form="applyForm" style="background:transparent;border:1px solid #007bff;color:#007bff;padding:6px 20px;border-radius:20px;cursor:pointer;">외부 제출 (신규 창 사용)</button>
+        </div>
+
+        <!-- decoy form inside iframe -->
+        <div style="margin-top:30px; border-top:1px solid #ddd; padding-top:12px;">
+          <div style="font-weight:600;font-size:13px;">기타 문의</div>
+          <form>
+            <input name="q" placeholder="문의 내용" style="width:60%;display:inline;">
+            <button type="submit" style="background:#6c757d;color:#fff;border:none;padding:6px 16px;border-radius:4px;">보내기</button>
+          </form>
+        </div>
+
+        <script>
+          function togglePill(btn) {
+            var parent = btn.parentNode;
+            var btns = parent.querySelectorAll(".pill-btn");
+            btns.forEach(function(b){ b.classList.remove("active"); });
+            btn.classList.add("active");
+            var hidden = document.getElementById("expHidden");
+            if (hidden) hidden.value = btn.getAttribute("data-value");
+          }
+          function showComboList() {
+            var list = document.getElementById("comboList");
+            list.style.display = "block";
+          }
+          function hideComboList() {
+            var list = document.getElementById("comboList");
+            list.style.display = "none";
+          }
+          function selectCombo(el) {
+            var input = document.getElementById("jobCategoryCombo");
+            input.value = el.getAttribute("data-value");
+            hideComboList();
+          }
+          function addEduRow() {
+            var block = document.getElementById("eduBlock");
+            var row = document.createElement("div");
+            row.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;";
+            row.innerHTML = "<input name=\"school[]\" placeholder=\"학교명\" style=\"flex:2;\"><input name=\"major[]\" placeholder=\"전공\" style=\"flex:1;\"><input name=\"gradYear[]\" placeholder=\"조업년도\" style=\"width:100px;\"><button type=\"button\" onclick=\"this.parentElement.remove()\" style=\"background:#dc3545;color:#fff;border:none;padding:4px 8px;border-radius:4px;\">-</button>";
+            block.appendChild(row);
+          }
+        </script>
+      </body>
+      </html>
+    '></iframe>
+
+    <!-- decoy form outside iframe (required) -->
+    <div class="decoy">
+      <div style="font-size:16px;font-weight:600;margin-bottom:8px;">뉴스레터 구독 (decoy)</div>
+      <form>
+        <input type="email" name="newsletter" placeholder="이메일 주소" required>
+        <button type="submit" style="background:#28a745;color:#fff;border:none;padding:6px 16px;border-radius:4px;">구독</button>
+        <span style="font-size:12px;color:#888;">매주 채용 소식 발송</span>
+      </form>
+    </div>
+
+    <!-- second decoy: login form -->
+    <div class="decoy" style="border-top-color:#bbb;">
+      <div style="font-size:16px;font-weight:600;margin-bottom:8px;">기회자 로그인</div>
+      <form>
+        <input name="loginID" placeholder="아이디" style="width:160px;">
+        <input type="password" name="pw" placeholder="비밀번호" style="width:160px;">
+        <button type="submit" style="background:#007bff;color:#fff;border:none;padding:6px 18px;border-radius:4px;">로그인</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

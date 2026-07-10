@@ -1,0 +1,107 @@
+{
+  "id": "https-jobs-jobvite-com-careers-liferay-jobs",
+  "status": "disagree",
+  "captured_at": "2026-07-10T15:21:53.945Z",
+  "page_url": "https://jobs.jobvite.com/careers/liferay/jobs",
+  "page_title": "Liferay, Inc. Careers",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 0.1429,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "search jobs",
+        "ai": "Search Jobs",
+        "detector_type": "search",
+        "ai_type": "text",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "region:",
+      "location:",
+      "category:"
+    ],
+    "ai_only": [
+      "Region",
+      "Location",
+      "Category"
+    ],
+    "reasons": [
+      "label Jaccard 0.143 below 0.7",
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job listing search page, not an application form. The fields identified are for filtering job results.",
+    "fields": [
+      {
+        "question": "Search Jobs",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Region",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Asia Pacific",
+          "Europe",
+          "Latin America"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Brazil, Recife",
+          "Germany, Frankfurt",
+          "Japan, Tokyo",
+          "Spain, Madrid"
+        ]
+      },
+      {
+        "question": "Category",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Company Operations",
+          "Marketing",
+          "Operations",
+          "Sales"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search jobs",
+      "field_type": "search",
+      "ref": "f0"
+    },
+    {
+      "question": "region:",
+      "field_type": "select",
+      "ref": "f1"
+    },
+    {
+      "question": "location:",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "category:",
+      "field_type": "select",
+      "ref": "f3"
+    }
+  ]
+}

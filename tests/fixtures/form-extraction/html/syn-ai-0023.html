@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Product Designer Application</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f3f5f9; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+  .app-shell { max-width: 740px; width: 100%; }
+  .header { background: white; border: 1px solid #d0d5dd; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .header h1 { font-size: 1.5rem; font-weight: 600; color: #101828; }
+  .header p { color: #667085; font-size: 0.9rem; margin-top: 0.25rem; }
+  .form-card { background: white; border: 1px solid #d0d5dd; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  h3 { font-size: 1rem; font-weight: 600; color: #101828; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaecf0; }
+  .field-group { margin-bottom: 1.25rem; }
+  .field-group .label-wrap { display: block; margin-bottom: 0.35rem; font-size: 0.875rem; color: #344054; font-weight: 500; }
+  .field-group .label-wrap span { display: inline; }
+  .text-input, select, .fake-input { width: 100%; padding: 0.625rem 0.75rem; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 0.875rem; background: white; transition: 0.15s; }
+  .text-input:focus, select:focus, .fake-input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108,92,231,0.15); outline: none; }
+  .inp-wrap { position: relative; }
+  .inp-wrap .off-screen { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .combobox-wrap { position: relative; }
+  .combobox-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0.625rem 0.75rem; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 0.875rem; background: white; cursor: pointer; text-align: left; color: #101828; }
+  .combobox-btn:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108,92,231,0.15); outline: none; }
+  .combobox-btn .arrow { margin-left: auto; color: #667085; font-size: 0.7rem; }
+  .listbox { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: white; border: 1px solid #d0d5dd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; max-height: 200px; overflow-y: auto; }
+  .listbox.open { display: block; }
+  .option-item { padding: 0.625rem 0.75rem; cursor: pointer; font-size: 0.875rem; }
+  .option-item:hover, .option-item.active { background: #f4f3ff; }
+  .pill-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pill-btn { padding: 0.5rem 1rem; border: 1px solid #d0d5dd; border-radius: 30px; background: white; font-size: 0.8rem; cursor: pointer; color: #344054; transition: 0.1s; }
+  .pill-btn.active { background: #6c5ce7; color: white; border-color: #6c5ce7; }
+  .decoy-box { background: #f9fafb; border: 1px dashed #d0d5dd; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+  .decoy-box .decoy-input { flex: 1; min-width: 140px; padding: 0.5rem 0.75rem; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 0.8rem; }
+  .decoy-box .decoy-btn { background: #6c5ce7; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; }
+  .reveal-section { margin-top: 0.5rem; }
+  .reveal-trigger { color: #6c5ce7; font-size: 0.85rem; cursor: pointer; text-decoration: underline; background: none; border: none; }
+  .hidden-fields { display: none; margin-top: 0.75rem; padding: 0.75rem; background: #f9fafb; border-radius: 8px; border: 1px solid #eaecf0; }
+  .hidden-fields.visible { display: block; }
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 140px; }
+  .action-bar { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
+  .btn-primary { background: #6c5ce7; color: white; border: none; padding: 0.7rem 1.75rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+  .btn-primary:hover { background: #5b4cdb; }
+  .btn-ghost { background: transparent; color: #344054; border: 1px solid #d0d5dd; padding: 0.7rem 1.75rem; border-radius: 8px; font-size: 0.9rem; cursor: pointer; }
+  .glued-label { display: block; margin-bottom: 0.35rem; font-size: 0.875rem; color: #344054; font-weight: 500; }
+  .glued-label .frag { display: inline; }
+  .glued-label .frag + .frag::before { content: ''; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .note { font-size: 0.75rem; color: #667085; margin-top: 0.25rem; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="header">
+    <h1>Lead Product Designer</h1>
+    <p>Remote · Full-time · Applications close Feb 28</p>
+  </div>
+
+  <!-- DECOY FORM: newsletter signup (separate from main app) -->
+  <div class="decoy-box">
+    <span style="font-size:0.85rem; font-weight:500; color:#344054;">📬 Stay updated on new roles</span>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+      <input type="email" class="decoy-input" placeholder="your@email.com" aria-label="Newsletter email">
+      <button class="decoy-btn" onclick="alert('Subscribed! (demo)');return false;">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION FORM -->
+  <div class="form-card" id="app-form">
+    <h3>Your Information</h3>
+
+    <!-- 1. Contenteditable name field (div role=textbox) -->
+    <div class="field-group">
+      <div class="glued-label" id="name-label">
+        <span class="frag">Full</span><span class="frag">Name</span><span class="frag" style="color:#e03a3a;">*</span>
+      </div>
+      <div class="inp-wrap">
+        <input type="text" class="off-screen" id="name-real" value="Alex Rivera" aria-labelledby="name-label" tabindex="-1">
+        <div role="textbox" contenteditable="true" aria-labelledby="name-label" class="fake-input" id="name-display" style="min-height:2.2rem;">Alex Rivera</div>
+      </div>
+      <div class="note">Legal name as on ID</div>
+    </div>
+
+    <!-- 2. Email (native input, label wraps deep) -->
+    <div class="field-group">
+      <div class="label-wrap">
+        <div style="display:inline;">
+          <span>Email</span>
+          <span style="color:#e03a3a;">*</span>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <input type="email" class="text-input" placeholder="you@company.com" aria-label="Email address" value="alex@riv.design">
+      </div>
+    </div>
+
+    <!-- 3. Phone (native input with aria-label only) -->
+    <div class="field-group">
+      <div class="label-wrap">Phone <span style="color:#667085;">(optional)</span></div>
+      <input type="tel" class="text-input" aria-label="Phone number" placeholder="+1 (555) 000-0000" value="+1 415 555 0199">
+    </div>
+
+    <h3>Professional Details</h3>
+
+    <!-- 4. Combobox: Current company (custom listbox combobox) -->
+    <div class="field-group">
+      <div class="label-wrap" id="company-label">Current company</div>
+      <div class="combobox-wrap" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="company-label">
+        <button class="combobox-btn" id="company-btn" aria-autocomplete="none" aria-controls="company-listbox">
+          <span id="company-selected">Designify</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="listbox" id="company-listbox" role="listbox" aria-labelledby="company-label">
+          <div class="option-item" role="option" data-value="designify" aria-selected="true">Designify</div>
+          <div class="option-item" role="option" data-value="acme">Acme Corp</div>
+          <div class="option-item" role="option" data-value="globex">Globex</div>
+          <div class="option-item" role="option" data-value="other">Other</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Years experience (pill radio group) -->
+    <div class="field-group">
+      <div class="label-wrap">Experience level</div>
+      <div class="pill-group" role="radiogroup" aria-label="Experience level">
+        <button class="pill-btn active" role="radio" aria-checked="true" data-value="junior" onclick="selectPill(this,'exp')">0-2 yrs</button>
+        <button class="pill-btn" role="radio" aria-checked="false" data-value="mid" onclick="selectPill(this,'exp')">3-5 yrs</button>
+        <button class="pill-btn" role="radio" aria-checked="false" data-value="senior" onclick="selectPill(this,'exp')">6+ yrs</button>
+      </div>
+      <input type="hidden" id="exp-value" value="junior">
+    </div>
+
+    <!-- 6. Portfolio URL (label wraps deep) -->
+    <div class="field-group">
+      <div class="label-wrap">
+        <div style="display:inline;">
+          <span>Portfolio</span><span> </span><span style="color:#667085;">(link)</span>
+        </div>
+      </div>
+      <input type="url" class="text-input" placeholder="https://" aria-label="Portfolio URL" value="https://alex.design">
+    </div>
+
+    <h3>Additional</h3>
+
+    <!-- 7. Salary expectation (glued label fragments) -->
+    <div class="field-group">
+      <div class="glued-label" id="salary-label">
+        <span class="frag">Salary</span><span class="frag">expectation</span><span class="frag">(USD)</span>
+      </div>
+      <input type="text" class="text-input" aria-labelledby="salary-label" placeholder="e.g. 120000" value="145000">
+    </div>
+
+    <!-- 8. Referral source (native select) -->
+    <div class="field-group">
+      <div class="label-wrap">How did you hear about us?</div>
+      <div>
+        <select class="text-input" aria-label="Referral source">
+          <option>LinkedIn</option>
+          <option>Glassdoor</option>
+          <option selected>Friend</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 9. Conditional reveal: Work authorization -->
+    <div class="field-group">
+      <div class="label-wrap">Work authorization</div>
+      <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+        <button class="pill-btn active" role="radio" aria-checked="true" data-value="us-citizen" onclick="selectPill(this,'auth');toggleReveal()">US Citizen</button>
+        <button class="pill-btn" role="radio" aria-checked="false" data-value="visa" onclick="selectPill(this,'auth');toggleReveal()">Visa holder</button>
+        <button class="pill-btn" role="radio" aria-checked="false" data-value="other" onclick="selectPill(this,'auth');toggleReveal()">Other</button>
+      </div>
+      <input type="hidden" id="auth-value" value="us-citizen">
+
+      <div class="hidden-fields" id="visa-fields">
+        <div class="field-group" style="margin-bottom:0;">
+          <div class="label-wrap">Visa type / details</div>
+          <input type="text" class="text-input" placeholder="e.g. H1B, L2" aria-label="Visa type">
+        </div>
+        <div class="field-group" style="margin-bottom:0; margin-top:0.5rem;">
+          <div class="label-wrap">Expiration date</div>
+          <input type="text" class="text-input" placeholder="MM/YYYY" aria-label="Visa expiration">
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Custom textarea (div role=textbox, contenteditable) for cover note -->
+    <div class="field-group">
+      <div class="label-wrap" id="cover-label">Cover note <span style="color:#667085;">(optional)</span></div>
+      <div role="textbox" contenteditable="true" aria-labelledby="cover-label" class="fake-input" style="min-height:4rem; white-space:pre-wrap;">I've been designing for 7+ years, passionate about design systems.</div>
+    </div>
+
+    <!-- 11. Resume upload (off-screen input) -->
+    <div class="field-group">
+      <div class="label-wrap">Resume / CV</div>
+      <div style="display:flex; gap:0.5rem; align-items:center;">
+        <input type="file" class="off-screen" id="resume-input" accept=".pdf,.doc,.docx" style="position:absolute;left:-9999px;" aria-label="Resume upload">
+        <button type="button" class="btn-ghost" style="padding:0.5rem 1rem;" onclick="document.getElementById('resume-input').click();">Choose file</button>
+        <span style="font-size:0.8rem;color:#667085;">resume.pdf</span>
+      </div>
+    </div>
+
+    <!-- 12. GitHub/portfolio (glued span label) -->
+    <div class="field-group">
+      <div class="glued-label" style="margin-bottom:0.2rem;">
+        <span class="frag">GitHub</span><span class="frag">/portfolio</span>
+      </div>
+      <input type="text" class="text-input" placeholder="https://github.com/yourhandle" aria-label="GitHub or portfolio link" value="https://github.com/alexr">
+    </div>
+
+    <!-- 13. Another combobox: Preferred tool -->
+    <div class="field-group">
+      <div class="label-wrap" id="tool-label">Primary design tool</div>
+      <div class="combobox-wrap" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="tool-label">
+        <button class="combobox-btn" id="tool-btn" aria-controls="tool-listbox">
+          <span id="tool-selected">Figma</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="listbox" id="tool-listbox" role="listbox" aria-labelledby="tool-label">
+          <div class="option-item" role="option" data-value="figma" aria-selected="true">Figma</div>
+          <div class="option-item" role="option" data-value="sketch">Sketch</div>
+          <div class="option-item" role="option" data-value="xd">Adobe XD</div>
+          <div class="option-item" role="option" data-value="other">Other</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. LinkedIn (aria-label only, no visible label) -->
+    <div class="field-group">
+      <input type="text" class="text-input" aria-label="LinkedIn profile URL" placeholder="LinkedIn URL (optional)" value="https://linkedin.com/in/alexr">
+    </div>
+
+    <!-- 15. Start date (native date input) -->
+    <div class="field-group">
+      <div class="label-wrap">Earliest start date</div>
+      <input type="date" class="text-input" aria-label="Earliest start date" value="2024-04-01">
+    </div>
+
+    <!-- 16. How many years in design (number input) -->
+    <div class="field-group">
+      <div class="label-wrap">Years in design</div>
+      <input type="number" class="text-input" aria-label="Years in design" placeholder="0" value="7" min="0" max="50">
+    </div>
+
+    <!-- 17. Preferred pronouns (text input with placeholder only) -->
+    <div class="field-group">
+      <input type="text" class="text-input" aria-label="Preferred pronouns" placeholder="Pronouns (optional)" value="they/them">
+    </div>
+
+    <!-- 18. Current location (text input) -->
+    <div class="field-group">
+      <div class="label-wrap">Current location</div>
+      <input type="text" class="text-input" aria-label="Current location" placeholder="City, State" value="San Francisco, CA">
+    </div>
+
+    <!-- action buttons -->
+    <div class="action-bar">
+      <button class="btn-ghost" onclick="alert('Draft saved (demo)');return false;">Save draft</button>
+      <button class="btn-primary" onclick="alert('Application submitted! (demo)');return false;">Submit application</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:0.7rem;color:#98a2b3;padding:0.5rem 0;">Ashby-style demo · no data collected</div>
+</div>
+
+<script>
+  function selectPill(el, group) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.pill-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+    el.classList.add('active');
+    el.setAttribute('aria-checked','true');
+    if (group === 'exp') {
+      document.getElementById('exp-value').value = el.dataset.value;
+    } else if (group === 'auth') {
+      document.getElementById('auth-value').value = el.dataset.value;
+    }
+  }
+
+  function toggleReveal() {
+    const authVal = document.getElementById('auth-value').value;
+    const visaFields = document.getElementById('visa-fields');
+    if (authVal === 'visa' || authVal === 'other') {
+      visaFields.classList.add('visible');
+    } else {
+      visaFields.classList.remove('visible');
+    }
+  }
+  toggleReveal();
+
+  document.querySelectorAll('.combobox-wrap').forEach(wrap => {
+    const btn = wrap.querySelector('.combobox-btn');
+    const listbox = wrap.querySelector('.listbox');
+    const selectedSpan = btn.querySelector('span:first-child');
+    const options = listbox.querySelectorAll('.option-item');
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = listbox.classList.contains('open');
+      document.querySelectorAll('.listbox.open').forEach(lb => lb.classList.remove('open'));
+      document.querySelectorAll('.combobox-wrap').forEach(cw => cw.setAttribute('aria-expanded','false'));
+      if (!isOpen) {
+        listbox.classList.add('open');
+        wrap.setAttribute('aria-expanded','true');
+      }
+    });
+    options.forEach(opt => {
+      opt.addEventListener('click', function() {
+        selectedSpan.textContent = this.textContent;
+        listbox.classList.remove('open');
+        wrap.setAttribute('aria-expanded','false');
+        options.forEach(o => o.removeAttribute('aria-selected'));
+        this.setAttribute('aria-selected','true');
+      });
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrap')) {
+      document.querySelectorAll('.listbox.open').forEach(lb => lb.classList.remove('open'));
+      document.querySelectorAll('.combobox-wrap').forEach(cw => cw.setAttribute('aria-expanded','false'));
+    }
+  });
+
+  const nameDisplay = document.getElementById('name-display');
+  const nameReal = document.getElementById('name-real');
+  if (nameDisplay && nameReal) {
+    nameDisplay.addEventListener('input', function() {
+      nameReal.value = this.textContent;
+    });
+    nameReal.value = nameDisplay.textContent;
+  }
+</script>
+</body>
+</html>

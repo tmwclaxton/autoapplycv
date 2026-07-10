@@ -74,8 +74,6 @@ export function isCreditError(message) {
     return /insufficient credits/i.test(message);
 }
 
-const JS_HEAVY_HOST_PATTERN = /greenhouse|lever\.co|workday|ashby|smartrecruit|icims|taleo|bamboohr|jobvite|workable|teamtailor|successfactors|oraclecloud|personio|recruitee|breezy\.hr|nhs\.uk|civil-service/i;
-
 export async function searchWeb(query, limit = 10) {
     const config = resolveFirecrawlConfig();
     const payload = await postJson(config, '/search', { query, limit: Math.min(limit, 25) });
@@ -83,17 +81,32 @@ export async function searchWeb(query, limit = 10) {
     return payload.data || [];
 }
 
+const FIRECRAWL_MAX_TIMEOUT_MS = 300_000;
+
+export function resolveScrapeTiming(config, waitFor, timeoutOverride) {
+    const desiredWait = Math.max(0, waitFor ?? 1000);
+    const timeout = Math.min(
+        Math.max(timeoutOverride ?? 0, config.timeoutMs, desiredWait * 2 + 5000),
+        FIRECRAWL_MAX_TIMEOUT_MS,
+    );
+    const cappedWaitFor = Math.min(desiredWait, Math.floor(timeout / 2));
+
+    return { timeout, waitFor: cappedWaitFor };
+}
+
 /**
  * @param {string} url
- * @param {{ formats?: string[], onlyMainContent?: boolean, waitFor?: number, mobile?: boolean }} [options]
+ * @param {{ formats?: string[], onlyMainContent?: boolean, waitFor?: number, timeout?: number, mobile?: boolean }} [options]
  */
 export async function scrapePage(url, options = {}) {
     const config = resolveFirecrawlConfig();
+    const timing = resolveScrapeTiming(config, options.waitFor, options.timeout);
     const payload = await postJson(config, '/scrape', {
         url,
         formats: options.formats ?? ['markdown'],
         onlyMainContent: options.onlyMainContent ?? true,
-        waitFor: options.waitFor ?? 1000,
+        waitFor: timing.waitFor,
+        timeout: timing.timeout,
         mobile: options.mobile ?? false,
     });
 
@@ -143,39 +156,40 @@ function isRetriableError(message) {
 }
 
 export async function scrapeHtml(url, waitFor = 3000, { directOnly = false } = {}) {
-    let hostname = '';
+    let directHtml = '';
 
     try {
-        hostname = new URL(url).hostname;
-    } catch {
-        // keep empty
-    }
+        directHtml = await fetchHtmlDirect(url);
 
-    const jsHeavy = JS_HEAVY_HOST_PATTERN.test(hostname);
-
-    try {
-        const direct = await fetchHtmlDirect(url);
-
-        if (htmlHasFormControls(direct)) {
-            return direct;
+        if (htmlHasFormControls(directHtml)) {
+            return directHtml;
         }
     } catch {
         // fall through when Firecrawl is allowed
     }
 
-    if (directOnly || !jsHeavy) {
-        return '';
+    if (directOnly) {
+        return directHtml.length >= 500 ? directHtml : '';
     }
+
+    const config = resolveFirecrawlConfig();
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
         try {
+            const attemptWait = waitFor + (attempt * 8000);
+            const timing = resolveScrapeTiming(config, attemptWait);
             const data = await scrapePage(url, {
                 formats: ['rawHtml', 'html'],
                 onlyMainContent: false,
-                waitFor,
+                waitFor: timing.waitFor,
+                timeout: timing.timeout,
             });
 
-            return data.rawHtml || data.html || '';
+            const html = data.rawHtml || data.html || '';
+
+            if (htmlHasFormControls(html) || attempt === 2) {
+                return html;
+            }
         } catch (error) {
             const message = error.message || String(error);
 
@@ -193,7 +207,7 @@ export async function scrapeHtml(url, waitFor = 3000, { directOnly = false } = {
         }
     }
 
-    return '';
+    return directHtml.length >= 500 ? directHtml : '';
 }
 
 export async function healthCheck() {

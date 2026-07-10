@@ -1,0 +1,49 @@
+{
+  "id": "web-www-stepstone-de-stellenangebote-bewerbung-als-lehrkraft-m-w-d-in-bi",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "(jobtitel, kompetenz oder firmenname)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "genesis-autocomplete-:r0:",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "(Jobtitel, Kompetenz oder Firmenname)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "(ort oder 5-stellige plz)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "genesis-autocomplete-:r5:",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "(Ort oder 5-stellige PLZ)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

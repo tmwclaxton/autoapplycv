@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0083",
+    "seed": 2041859130,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "unstyled div soup with inline styles only",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Mixed language attributes",
+                "notes": "One field has lang=sv with Swedish label among English fields",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Mixed languages<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"lang_name\">Full name<\/label><input type=\"text\" id=\"lang_name\" name=\"lang_name\"> <label for=\"lang_sv\" lang=\"sv\">Personnummer (svenskt)<\/label><input type=\"text\" id=\"lang_sv\" name=\"lang_sv\" lang=\"sv\"> <label for=\"lang_email\">Email<\/label><inp",
+                "requires_interaction": false
+            },
+            {
+                "title": "Optgroup select",
+                "notes": "Department select uses optgroup for grouping options",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Optgroup select<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"og_name\">Name<\/label><input type=\"text\" id=\"og_name\" name=\"og_name\"> <label for=\"og_dept\">Preferred department<\/label> <select id=\"og_dept\" name=\"og_dept\"><option value=\"\">Select department<\/option> <optgroup label=\"Engineering\"><option>Bac",
+                "requires_interaction": false
+            },
+            {
+                "title": "Concatenated label words",
+                "notes": "Teamtailor-style bug: \"first namerequired\" with no space before required",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Concatenated label<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"tt_first\">first namerequired<\/label><input type=\"text\" id=\"tt_first\" name=\"tt_first\" required> <label for=\"tt_last\">last namerequired<\/label><input type=\"text\" id=\"tt_last\" name=\"tt_last\" required> <label for=\"tt_email\">email addressrequ",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Newsletter or login decoy form separate from job application form Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Fields inside details\/summary or hidden until click Required: Phone split into country code select and local number input in separate wrappers Reference DOM (Mixed language attributes): One field has lang=sv with Swedish label among English fields Reference DOM (Optgroup select): Department select uses optgroup for grouping options Reference DOM (Concatenated label words): Teamtailor-style bug: \"first namerequired\" with no space before required Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: div-role-textbox, decoy-form, duplicate-name-attrs, details-accordion, split-phone. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: unstyled div soup with inline styles only. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Mixed language attributes; Optgroup select; Concatenated label words."
+}

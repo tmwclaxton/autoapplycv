@@ -177,8 +177,12 @@ function slugifyFixtureId(value) {
 /**
  * @param {{ id?: string, category?: string, notes?: string, instanceId?: string | null }} options
  */
-async function saveFixtureFromExtension({ id, category = 'captured', notes = '', instanceId = null }) {
-    const page = await sendCommand('get_page_html', {}, { timeoutMs: config.commandTimeoutMs, instanceId });
+async function saveFixtureFromExtension({ id, category = 'captured', notes = '', instanceId = null, tabId = null }) {
+    const page = await sendCommand(
+        'get_page_html',
+        tabId ? { tabId } : {},
+        { timeoutMs: config.commandTimeoutMs, instanceId },
+    );
     const html = typeof page?.html === 'string' ? page.html : '';
 
     if (!html.trim()) {
@@ -190,7 +194,10 @@ async function saveFixtureFromExtension({ id, category = 'captured', notes = '',
     const htmlPath = join(HTML_DIR, htmlFile);
 
     mkdirSync(HTML_DIR, { recursive: true });
-    writeHtmlFixture(htmlPath, html, { pageTitle: page.page_title || '' });
+    writeHtmlFixture(htmlPath, html, {
+        pageTitle: page.page_title || '',
+        url: page.page_url || '',
+    });
 
     const manifest = loadManifest();
     upsertScenario(manifest, {

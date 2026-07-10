@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0053",
+    "seed": 867404002,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Disabled decoy field",
+                "notes": "Disabled name field looks required but cannot be filled; active duplicate below",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Disabled decoy<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dis_name_decoy\">Full name<\/label><input type=\"text\" id=\"dis_name_decoy\" name=\"dis_name_decoy\" disabled value=\"Import failed\"> <label for=\"dis_name\">Full name (please enter)<\/label><input type=\"text\" id=\"dis_name\" name=\"dis_name\"> <label for=",
+                "requires_interaction": false
+            },
+            {
+                "title": "Role group not fieldset",
+                "notes": "Grouped radios use div role=group instead of fieldset",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Role group<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"rg_name\">Name<\/label><input type=\"text\" id=\"rg_name\" name=\"rg_name\"> <div role=\"group\" aria-labelledby=\"rg_reloc_lbl\"> <span id=\"rg_reloc_lbl\">Willing to relocate?<\/span> <label><input type=\"radio\" name=\"rg_reloc\" value=\"yes\"> Yes<\/label> <label",
+                "requires_interaction": false
+            },
+            {
+                "title": "Ashby yes no buttons",
+                "notes": "Ashby-inspired yes\/no as two styled buttons instead of native radio",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Ashby yes no<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ash_name\">Name<\/label><input type=\"text\" id=\"ash_name\" name=\"ash_name\"> <div class=\"ashby-yesno\" role=\"radiogroup\" aria-labelledby=\"ash_authorized_lbl\"> <span id=\"ash_authorized_lbl\">Are you authorized to work in this country?<\/span> <button t",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: At least two fields with aria-label only and no visible label element Required: Inputs laid out in table cells, not flex card stacks only Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Fields inside details\/summary or hidden until click Reference DOM (Disabled decoy field): Disabled name field looks required but cannot be filled; active duplicate below Reference DOM (Role group not fieldset): Grouped radios use div role=group instead of fieldset Reference DOM (Ashby yes no buttons): Ashby-inspired yes\/no as two styled buttons instead of native radio Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: aria-label-only, table-layout, div-role-textbox, duplicate-name-attrs, details-accordion. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Disabled decoy field; Role group not fieldset; Ashby yes no buttons."
+}

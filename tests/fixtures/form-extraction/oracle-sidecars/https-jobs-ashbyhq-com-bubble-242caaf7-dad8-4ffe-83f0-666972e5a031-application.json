@@ -1,0 +1,382 @@
+{
+  "id": "https-jobs-ashbyhq-com-bubble-242caaf7-dad8-4ffe-83f0-666972e5a031-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:13:18.822Z",
+  "page_url": "https://jobs.ashbyhq.com/bubble/242caaf7-dad8-4ffe-83f0-666972e5a031/application",
+  "page_title": "Senior Software Engineer, Backend @ Bubble",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 16,
+      "count_delta": 4,
+      "label_jaccard": 0.8,
+      "type_agree_rate": 0.875,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now, or in the future, require sponsorship for employment to work in the united states? (e.g., h1b visa status, stem opt)",
+        "ai": "Will you now, or in the future, require sponsorship for employment to work in the United States? (e.g., H1B visa status, STEM OPT)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with distributed, scalable systems?",
+        "ai": "Do you have experience with distributed, scalable systems?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "what location will you be working from?",
+        "ai": "What location will you be working from?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how would you describe your gender?",
+        "ai": "How would you describe your gender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as transgender?",
+        "ai": "Do you identify as transgender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please describe the sexual orientation category that best respresents you:",
+        "ai": "Please describe the sexual orientation category that best respresents you:",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are your personal pronouns?",
+        "ai": "What are your personal pronouns?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "have you used bubble in the past?",
+        "ai": "Have you used Bubble in the past?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "please select the race/ethnicity category that best represents you:",
+      "are you a veteran?",
+      "do you identify as a person with a disability or other chronic condition?",
+      "by clicking “submit application”, i understand and agree that bubble will collect and process my information in accordance with its privacy policy."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components (divs/buttons) for radio and checkbox inputs. The 'combobox' fields are custom implementations that may require specific interaction to populate.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What location will you be working from?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now, or in the future, require sponsorship for employment to work in the United States? (e.g., H1B visa status, STEM OPT)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience with distributed, scalable systems?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How would you describe your gender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-binary",
+          "Prefer to self-describe as",
+          "I don't wish to answer"
+        ]
+      },
+      {
+        "question": "Do you identify as transgender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "I don't wish to answer"
+        ]
+      },
+      {
+        "question": "Please describe the sexual orientation category that best respresents you:",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your personal pronouns?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "she/her/hers",
+          "he/him/his",
+          "they/them/theirs",
+          "Prefer to self-describe as"
+        ]
+      },
+      {
+        "question": "Have you used Bubble in the past?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "AngleList",
+          "Bubble.io",
+          "Built In",
+          "Canvas",
+          "Glassdoor",
+          "Google",
+          "Handshake",
+          "Indeed",
+          "LinkedIn",
+          "ZipRecruiter"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment to work in the united states? (e.g., h1b visa status, stem opt)",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have experience with distributed, scalable systems?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "what location will you be working from?",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "how would you describe your gender?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "please describe the sexual orientation category that best respresents you:",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "what are your personal pronouns?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "have you used bubble in the past?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "please select the race/ethnicity category that best represents you:",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "are you a veteran?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you identify as a person with a disability or other chronic condition?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "by clicking “submit application”, i understand and agree that bubble will collect and process my information in accordance with its privacy policy.",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}

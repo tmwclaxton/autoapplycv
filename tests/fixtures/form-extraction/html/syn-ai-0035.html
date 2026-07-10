@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Senior Product Manager - Ashby Application</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f1f3f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; }
+  #outer-shell { max-width: 700px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+  iframe { width: 100%; height: 1450px; border: none; display: block; }
+  .hidden-tab { display: none; }
+  .active-tab { display: block; }
+  .tab-bar { display: flex; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
+  .tab-btn { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 14px; border: none; background: transparent; font-weight: 500; color: #495057; border-bottom: 2px solid transparent; }
+  .tab-btn.active { color: #1e7e34; border-bottom-color: #1e7e34; background: white; }
+  .tab-btn:focus { outline: 2px solid #1e7e34; outline-offset: -2px; }
+</style>
+</head>
+<body>
+<div id="outer-shell">
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="apply-tab-panel" id="tab-apply" onclick="switchTab('apply')">Apply</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="referral-tab-panel" id="tab-referral" onclick="switchTab('referral')">Referral</button>
+  </div>
+  <div id="apply-tab-panel" class="active-tab" role="tabpanel" aria-labelledby="tab-apply">
+    <iframe srcdoc='<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { padding: 24px; background: white; color: #212529; }
+  h2 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .subhead { font-size: 13px; color: #6c757d; margin-bottom: 20px; }
+  dl { margin: 0; }
+  dt { font-size: 13px; font-weight: 500; color: #495057; margin-top: 16px; margin-bottom: 4px; }
+  dd { margin: 0 0 4px 0; }
+  .field-group { margin-bottom: 16px; }
+  .reverse-order { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; }
+  .reverse-order label { font-size: 13px; color: #495057; white-space: nowrap; }
+  .reverse-order input { width: 16px; height: 16px; }
+  input[type="text"], input[type="email"], input[type="tel"], select { width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; }
+  input:focus, select:focus { outline: 2px solid #1e7e34; outline-offset: -1px; border-color: #1e7e34; }
+  .pill-group { display: flex; gap: 8px; margin-top: 4px; }
+  .pill-btn { padding: 6px 20px; border: 1px solid #ced4da; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; color: #495057; }
+  .pill-btn.selected { background: #1e7e34; color: white; border-color: #1e7e34; }
+  .pill-btn:focus { outline: 2px solid #1e7e34; outline-offset: 2px; }
+  .combobox-container { position: relative; }
+  .combobox-input { width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; background: white; cursor: default; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input:focus { outline: 2px solid #1e7e34; outline-offset: -1px; border-color: #1e7e34; }
+  .combobox-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ced4da; border-radius: 4px; max-height: 160px; overflow-y: auto; z-index: 10; }
+  .combobox-listbox.open { display: block; }
+  .combobox-option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover, .combobox-option.active { background: #e9ecef; }
+  .combobox-option[aria-selected="true"] { background: #d4edda; font-weight: 500; }
+  .split-label span { display: inline; }
+  .split-label .frag1 { color: #495057; }
+  .split-label .frag2 { color: #1e7e34; }
+  .textbox-div { width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; min-height: 42px; background: white; cursor: text; white-space: pre-wrap; word-wrap: break-word; }
+  .textbox-div:focus { outline: 2px solid #1e7e34; outline-offset: -1px; border-color: #1e7e34; }
+  .required::after { content: "*"; color: #dc3545; margin-left: 2px; }
+  .submit-btn { width: 100%; padding: 12px; background: #1e7e34; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+  .submit-btn:hover { background: #155d27; }
+  .hidden-reveal { display: none; margin-top: 8px; }
+  .hidden-reveal.open { display: block; }
+  .glued-span label { display: inline; font-size: 13px; color: #495057; }
+  .glued-span input { width: 100%; margin-top: 2px; }
+  hr { margin: 20px 0; border: 0; border-top: 1px solid #dee2e6; }
+</style>
+</head>
+<body>
+  <h2>Senior Product Manager</h2>
+  <div class="subhead">Apply to join our product team</div>
+
+  <form onsubmit="event.preventDefault(); alert('Application submitted (demo)');">
+    <dl>
+      <!-- Full Name: reverse DOM order -->
+      <dt class="reverse-order">
+        <input type="text" id="fullname" name="fullname" placeholder="e.g. Jane Doe" required style="width:auto;flex:1;">
+        <label for="fullname" class="required">Full Name</label>
+      </dt>
+      <dd><span style="font-size:11px;color:#6c757d;">Legal first and last name</span></dd>
+
+      <!-- Email: aria-label only -->
+      <dt>Email</dt>
+      <dd>
+        <input type="email" name="email" aria-label="Email address" placeholder="you@company.com" required style="width:100%;">
+      </dd>
+
+      <!-- Phone: aria-label only -->
+      <dt>Phone</dt>
+      <dd>
+        <input type="tel" name="phone" aria-label="Phone number" placeholder="+1 (555) 000-0000">
+      </dd>
+
+      <!-- LinkedIn: reverse DOM + split span label -->
+      <dt class="reverse-order" style="margin-top:12px;">
+        <input type="text" id="linkedin" name="linkedin" placeholder="URL" style="width:auto;flex:1;">
+        <label for="linkedin" class="split-label"><span class="frag1">Linked</span><span class="frag2">In</span> Profile</label>
+      </dt>
+      <dd></dd>
+
+      <!-- Years of experience: native select (NOT combobox, but we also have combobox below for source) -->
+      <dt>Years of experience</dt>
+      <dd>
+        <select name="yoe" required>
+          <option value="">Select</option>
+          <option value="0-2">0-2</option>
+          <option value="3-5">3-5</option>
+          <option value="6-10">6-10</option>
+          <option value="10+">10+</option>
+        </select>
+      </dd>
+
+      <!-- How did you hear about us? Custom combobox (listbox) -->
+      <dt>How did you hear about us?</dt>
+      <dd>
+        <div class="combobox-container" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Source selection">
+          <div class="combobox-input" role="textbox" aria-autocomplete="list" aria-controls="source-listbox" tabindex="0" id="combobox-trigger" onclick="toggleCombobox()" onkeydown="handleComboboxKey(event)">
+            <span id="combobox-value">Select...</span>
+            <span style="font-size:12px;">▼</span>
+          </div>
+          <div class="combobox-listbox" id="source-listbox" role="listbox" aria-label="Available sources">
+            <div role="option" aria-selected="false" class="combobox-option" data-value="linkedin" onclick="selectOption(this,'linkedin')">LinkedIn</div>
+            <div role="option" aria-selected="false" class="combobox-option" data-value="referral" onclick="selectOption(this,'referral')">Referral</div>
+            <div role="option" aria-selected="false" class="combobox-option" data-value="company website" onclick="selectOption(this,'company website')">Company website</div>
+            <div role="option" aria-selected="false" class="combobox-option" data-value="other" onclick="selectOption(this,'other')">Other</div>
+          </div>
+          <input type="hidden" name="source" id="source-hidden" value="">
+        </div>
+      </dd>
+
+      <!-- Willing to relocate? Pill yes/no -->
+      <dt>Willing to relocate?</dt>
+      <dd>
+        <div class="pill-group" role="radiogroup" aria-label="Relocation willingness">
+          <button type="button" class="pill-btn" data-value="yes" onclick="selectPill(this,'relocate')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" onclick="selectPill(this,'relocate')">No</button>
+        </div>
+        <input type="hidden" name="relocate" id="relocate-hidden" value="">
+      </dd>
+
+      <!-- Cover letter: div role=textbox contenteditable (custom text field) -->
+      <dt>Cover letter (optional)</dt>
+      <dd>
+        <div class="textbox-div" role="textbox" contenteditable="true" aria-label="Cover letter text" id="coverletter" style="min-height:80px;"></div>
+        <input type="hidden" name="coverletter" id="coverletter-hidden">
+      </dd>
+
+      <!-- Current company: glued span label -->
+      <dt class="glued-span">
+        <label for="currentcompany">Current <span style="color:#1e7e34;">company</span></label>
+      </dt>
+      <dd>
+        <input type="text" id="currentcompany" name="currentcompany" placeholder="e.g. Acme Corp">
+      </dd>
+
+      <!-- Are you authorized to work? Pill yes/no -->
+      <dt>Authorized to work?</dt>
+      <dd>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <button type="button" class="pill-btn" data-value="yes" onclick="selectPill(this,'workauth')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" onclick="selectPill(this,'workauth')">No</button>
+        </div>
+        <input type="hidden" name="workauth" id="workauth-hidden" value="">
+      </dd>
+
+      <!-- Visa sponsorship needed? Hidden reveal based on authorization -->
+      <dt id="visa-question" style="display:none;">Visa sponsorship needed?</dt>
+      <dd id="visa-question-dd" style="display:none;">
+        <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+          <button type="button" class="pill-btn" data-value="yes" onclick="selectPill(this,'visa')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" onclick="selectPill(this,'visa')">No</button>
+        </div>
+        <input type="hidden" name="visa" id="visa-hidden" value="">
+      </dd>
+
+      <!-- Portfolio URL (aria-labelledby) -->
+      <dt id="port-label">Portfolio</dt>
+      <dd>
+        <input type="text" name="portfolio" aria-labelledby="port-label" placeholder="URL or leave blank">
+      </dd>
+
+      <!-- Salary expectation: reverse order with hidden label -->
+      <dt class="reverse-order" style="margin-top:12px;">
+        <input type="text" id="salary" name="salary" placeholder="e.g. 150000" style="width:auto;flex:1;">
+        <label for="salary" class="required">Salary expectation (USD)</label>
+      </dt>
+      <dd></dd>
+
+      <!-- Gender (decoy optional) -->
+      <dt>Gender (optional)</dt>
+      <dd>
+        <select name="gender">
+          <option value="">Prefer not to say</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="nonbinary">Non-binary</option>
+        </select>
+      </dd>
+
+      <!-- Veteran status: aria-label only -->
+      <dt>Veteran status</dt>
+      <dd>
+        <select name="veteran" aria-label="Veteran status">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </dd>
+
+      <!-- Disability status: aria-label only -->
+      <dt>Disability status</dt>
+      <dd>
+        <select name="disability" aria-label="Disability status">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </dd>
+
+    </dl>
+
+    <button type="submit" class="submit-btn">Submit Application</button>
+  </form>
+
+  <script>
+    function switchTab(tab) {
+      // This runs inside iframe, but we keep for completeness
+    }
+    function toggleCombobox() {
+      const listbox = document.getElementById("source-listbox");
+      const container = listbox.closest(".combobox-container");
+      const isOpen = listbox.classList.contains("open");
+      listbox.classList.toggle("open");
+      container.setAttribute("aria-expanded", !isOpen);
+      if (!isOpen) {
+        document.getElementById("combobox-trigger").focus();
+      }
+    }
+    function selectOption(el, value) {
+      document.getElementById("combobox-value").textContent = el.textContent;
+      document.getElementById("source-hidden").value = value;
+      const listbox = document.getElementById("source-listbox");
+      listbox.querySelectorAll(".combobox-option").forEach(o => o.setAttribute("aria-selected","false"));
+      el.setAttribute("aria-selected","true");
+      listbox.classList.remove("open");
+      listbox.closest(".combobox-container").setAttribute("aria-expanded","false");
+    }
+    function handleComboboxKey(e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleCombobox();
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const listbox = document.getElementById("source-listbox");
+        if (!listbox.classList.contains("open")) toggleCombobox();
+        const options = listbox.querySelectorAll(".combobox-option");
+        let idx = -1;
+        options.forEach((o,i) => { if (o.classList.contains("active")) idx=i; });
+        if (idx < options.length-1) {
+          options[idx+1].classList.add("active");
+          if (idx>=0) options[idx].classList.remove("active");
+        } else {
+          options[0].classList.add("active");
+          if (idx>=0) options[idx].classList.remove("active");
+        }
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const listbox = document.getElementById("source-listbox");
+        if (!listbox.classList.contains("open")) toggleCombobox();
+        const options = listbox.querySelectorAll(".combobox-option");
+        let idx = -1;
+        options.forEach((o,i) => { if (o.classList.contains("active")) idx=i; });
+        if (idx > 0) {
+          options[idx-1].classList.add("active");
+          options[idx].classList.remove("active");
+        } else {
+          options[options.length-1].classList.add("active");
+          if (idx>=0) options[idx].classList.remove("active");
+        }
+      }
+      if (e.key === "Enter" && document.getElementById("source-listbox").classList.contains("open")) {
+        const active = document.querySelector(".combobox-option.active");
+        if (active) selectOption(active, active.getAttribute("data-value"));
+      }
+      if (e.key === "Escape") {
+        document.getElementById("source-listbox").classList.remove("open");
+        document.getElementById("source-listbox").closest(".combobox-container").setAttribute("aria-expanded","false");
+      }
+    }
+    function selectPill(btn, name) {
+      const group = btn.closest(".pill-group");
+      group.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      const hidden = document.getElementById(name + "-hidden");
+      if (hidden) hidden.value = btn.getAttribute("data-value");
+      // Show visa question if workauth=no
+      if (name === "workauth") {
+        const val = btn.getAttribute("data-value");
+        const visaQ = document.getElementById("visa-question");
+        const visaDd = document.getElementById("visa-question-dd");
+        if (val === "no") {
+          visaQ.style.display = "block";
+          visaDd.style.display = "block";
+        } else {
+          visaQ.style.display = "none";
+          visaDd.style.display = "none";
+          // reset visa hidden
+          document.getElementById("visa-hidden").value = "";
+          visaDd.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("selected"));
+        }
+      }
+    }
+    // Sync cover letter div to hidden input on submit
+    document.querySelector("form").addEventListener("submit", function() {
+      const clDiv = document.getElementById("coverletter");
+      document.getElementById("coverletter-hidden").value = clDiv.innerText;
+    });
+    // Close combobox on outside click
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".combobox-container")) {
+        const listbox = document.getElementById("source-listbox");
+        if (listbox.classList.contains("open")) {
+          listbox.classList.remove("open");
+          listbox.closest(".combobox-container").setAttribute("aria-expanded","false");
+        }
+      }
+    });
+  </script>
+</body>
+</html>' style="width:100%; height:1450px; border:none;"></iframe>
+  </div>
+  <div id="referral-tab-panel" class="hidden-tab" role="tabpanel" aria-labelledby="tab-referral">
+    <div style="padding:24px;">
+      <p style="color:#6c757d;">Referral tab content (hidden fields example).</p>
+      <form>
+        <label>Referral code</label>
+        <input type="text" name="refcode" style="width:100%;padding:8px;margin-top:4px;">
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(tab) {
+    const applyPanel = document.getElementById("apply-tab-panel");
+    const referralPanel = document.getElementById("referral-tab-panel");
+    const applyBtn = document.getElementById("tab-apply");
+    const referralBtn = document.getElementById("tab-referral");
+    if (tab === "apply") {
+      applyPanel.classList.remove("hidden-tab");
+      applyPanel.classList.add("active-tab");
+      referralPanel.classList.remove("active-tab");
+      referralPanel.classList.add("hidden-tab");
+      applyBtn.classList.add("active");
+      applyBtn.setAttribute("aria-selected","true");
+      referralBtn.classList.remove("active");
+      referralBtn.setAttribute("aria-selected","false");
+    } else {
+      referralPanel.classList.remove("hidden-tab");
+      referralPanel.classList.add("active-tab");
+      applyPanel.classList.remove("active-tab");
+      applyPanel.classList.add("hidden-tab");
+      referralBtn.classList.add("active");
+      referralBtn.setAttribute("aria-selected","true");
+      applyBtn.classList.remove("active");
+      applyBtn.setAttribute("aria-selected","false");
+    }
+  }
+</script>
+</body>
+</html>

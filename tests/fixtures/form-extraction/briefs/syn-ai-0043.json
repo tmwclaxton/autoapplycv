@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0043",
+    "seed": 402584002,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Asterisk in sibling span",
+                "notes": "Required marker asterisk lives in sibling span, not inside label text",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Sibling asterisk<\/h1> <form action=\"\/apply\" method=\"post\"> <div class=\"field-row\"><label for=\"ast_name\">Full name<\/label><span aria-hidden=\"true\" class=\"required\">*<\/span><input type=\"text\" id=\"ast_name\" name=\"ast_name\" required><\/div> <div class=\"field-row\"><label for=\"ast_email\">Email address<\/label><span c",
+                "requires_interaction": false
+            },
+            {
+                "title": "Submit outside form",
+                "notes": "Submit button outside form linked via form= attribute",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>External submit<\/h1> <form action=\"\/apply\" method=\"post\" id=\"ext-form\"> <label for=\"ext_name\">Name<\/label><input type=\"text\" id=\"ext_name\" name=\"ext_name\"> <label for=\"ext_email\">Email<\/label><input type=\"email\" id=\"ext_email\" name=\"ext_email\"> <label for=\"ext_motivation\">Why this company?<\/label><textarea id",
+                "requires_interaction": false
+            },
+            {
+                "title": "Custom div dropdown",
+                "notes": "Location picked from custom div dropdown, not native select",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Custom dropdown<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dd_name\">Name<\/label><input type=\"text\" id=\"dd_name\" name=\"dd_name\"> <div class=\"custom-select\"> <span id=\"dd_loc_lbl\">Preferred office location<\/span> <button type=\"button\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"dd_loc_list\" ",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Fields inside a shadow DOM host or declarative shadow root Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: At least two fields with aria-label only and no visible label element Required: Yes\/no question as paired button elements, not native radio inputs Required: Newsletter or login decoy form separate from job application form Reference DOM (Asterisk in sibling span): Required marker asterisk lives in sibling span, not inside label text Reference DOM (Submit outside form): Submit button outside form linked via form= attribute Reference DOM (Custom div dropdown): Location picked from custom div dropdown, not native select Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: shadow-host, duplicate-name-attrs, aria-label-only, pill-yes-no, decoy-form. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Asterisk in sibling span; Submit outside form; Custom div dropdown."
+}

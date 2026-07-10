@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; background: #f6f8fa; color: #1e293b; padding: 24px; }
+  .app-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: start; }
+  .main-col { min-width: 0; }
+  .side-col { position: sticky; top: 24px; }
+  
+  .decoy-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .decoy-box h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #334155; }
+  .decoy-box p { font-size: 13px; color: #64748b; margin-bottom: 12px; }
+  .decoy-field { display: flex; gap: 8px; }
+  .decoy-field input { flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+  .decoy-field button { padding: 8px 16px; background: #e2e8f0; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 14px; color: #475569; }
+  .decoy-field button:hover { background: #cbd5e1; }
+
+  .app-form { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px 28px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .app-form h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .app-form .subtitle { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+  
+  ul.field-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  ul.field-list li { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  ul.field-list li.full-width { grid-column: 1 / -1; }
+  
+  .field-label { font-size: 14px; font-weight: 500; color: #1e293b; display: flex; align-items: center; gap: 2px; }
+  .field-label .req { color: #ef4444; margin-left: 2px; }
+  .field-note { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  
+  .glued-label { font-size: 14px; font-weight: 500; color: #1e293b; display: inline; }
+  .glued-label .part1 { display: inline; }
+  .glued-label .part2 { display: inline; }
+  
+  input, select, textarea { font-family: inherit; font-size: 14px; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; width: 100%; transition: border-color 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  
+  div[role="textbox"] { min-height: 80px; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; cursor: text; white-space: pre-wrap; overflow-wrap: break-word; font-size: 14px; line-height: 1.5; transition: border-color 0.15s; }
+  div[role="textbox"]:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  div[role="textbox"]:empty::before { content: "Tell us about a time you shipped something..."; color: #94a3b8; }
+  
+  .phone-group { display: flex; gap: 8px; }
+  .phone-group .country-code { flex: 0 0 110px; }
+  .phone-group .local-number { flex: 1; }
+  
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; }
+  .combobox-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .combobox-listbox.show { display: block; }
+  .combobox-option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover { background: #f1f5f9; }
+  .combobox-option[aria-selected="true"] { background: #eef2ff; font-weight: 500; }
+  
+  .collapsible-section { margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 12px; }
+  .collapsible-trigger { background: none; border: none; font-size: 14px; font-weight: 600; color: #475569; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 4px 0; width: 100%; }
+  .collapsible-trigger:hover { color: #1e293b; }
+  .collapsible-trigger .arrow { transition: transform 0.2s; }
+  .collapsible-trigger[aria-expanded="true"] .arrow { transform: rotate(90deg); }
+  .collapsible-content { display: none; padding-top: 12px; }
+  .collapsible-content.open { display: block; }
+  .collapsible-content ul.field-list { margin-top: 0; }
+  
+  .hidden-vis { position: relative; }
+  .hidden-vis input { visibility: hidden; height: 0; padding: 0; margin: 0; border: none; position: absolute; }
+  .hidden-vis .fake-label { font-size: 13px; color: #94a3b8; }
+  
+  .submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 4px; }
+  .submit-btn { padding: 10px 28px; background: #6366f1; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .submit-btn:hover { background: #4f46e5; }
+  
+  .side-decoy { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .side-decoy h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .side-decoy input { margin-bottom: 8px; }
+  .side-decoy button { width: 100%; padding: 8px; background: #1e293b; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+
+  @media (max-width: 800px) {
+    .app-grid { grid-template-columns: 1fr; }
+    .side-col { position: static; }
+    ul.field-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app-grid">
+  <div class="main-col">
+    <div class="decoy-box" aria-hidden="true">
+      <h3>📬 Stay updated</h3>
+      <p>Get notified about new roles and company news.</p>
+      <div class="decoy-field">
+        <input type="email" placeholder="you@example.com" aria-label="Email for newsletter">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+
+    <form class="app-form" novalidate>
+      <h2>Senior Product Designer</h2>
+      <p class="subtitle">Design · Remote · Full-time</p>
+      
+      <ul class="field-list">
+        <li>
+          <label class="field-label" for="name">Full name <span class="req">*</span></label>
+          <input id="name" type="text" placeholder="Jane Smith" required>
+        </li>
+        
+        <li>
+          <label class="field-label" for="email">Email <span class="req">*</span></label>
+          <input id="email" type="email" placeholder="jane@company.com" required>
+        </li>
+        
+        <li>
+          <label class="field-label" for="phone-local">Phone <span class="req">*</span></label>
+          <div class="phone-group">
+            <select class="country-code" id="phone-code" aria-label="Country code">
+              <option value="+1">US +1</option>
+              <option value="+44">UK +44</option>
+              <option value="+91" selected>IN +91</option>
+              <option value="+61">AU +61</option>
+            </select>
+            <input id="phone-local" type="tel" placeholder="98765 43210" class="local-number" required>
+          </div>
+          <span class="field-note">Include area code if applicable</span>
+        </li>
+        
+        <li>
+          <span class="glued-label"><span class="part1">Port</span><span class="part2">folio</span> <span class="req">*</span></span>
+          <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+            <input class="combobox-input" type="text" placeholder="e.g. behance.net/jane" id="portfolio-input" aria-autocomplete="list" aria-controls="portfolio-listbox" aria-activedescendant="">
+            <ul class="combobox-listbox" id="portfolio-listbox" role="listbox" aria-label="Suggested portfolios">
+              <li role="option" class="combobox-option" aria-selected="false">behance.net/jane</li>
+              <li role="option" class="combobox-option" aria-selected="false">dribbble.com/jane</li>
+              <li role="option" class="combobox-option" aria-selected="false">jane.design</li>
+            </ul>
+          </div>
+          <span class="field-note">Start typing for suggestions</span>
+        </li>
+        
+        <li>
+          <label class="field-label" for="current-role">Current role</label>
+          <input id="current-role" type="text" placeholder="Lead Designer at X">
+        </li>
+        
+        <li>
+          <span id="exp-label-hidden" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Years of experience in design</span>
+          <div class="field-label" aria-hidden="true">Experience (years) <span class="req">*</span></div>
+          <input type="number" min="0" max="30" placeholder="5" required aria-labelledby="exp-label-hidden" id="exp-years">
+        </li>
+        
+        <li class="full-width">
+          <span class="glued-label"><span class="part1">Cover</span><span class="part2"> letter</span></span>
+          <div role="textbox" contenteditable="true" aria-label="Cover letter text" id="cover-text" class="cover-box"></div>
+          <span class="field-note">Optional but recommended</span>
+        </li>
+        
+        <li>
+          <span id="hear-label" style="display:inline">How did you hear about this role? <span class="req">*</span></span>
+          <select aria-labelledby="hear-label" required>
+            <option value="">Select...</option>
+            <option>LinkedIn</option>
+            <option>Twitter</option>
+            <option>Friend</option>
+            <option>Other</option>
+          </select>
+        </li>
+        
+        <li>
+          <div class="field-label">Referral code <span style="color:#94a3b8;font-weight:400;font-size:12px;">(optional)</span></div>
+          <div class="hidden-vis">
+            <input type="text" id="referral-hidden" value="REF-2024-INTERNAL" tabindex="-1" readonly>
+            <span class="fake-label" aria-hidden="true">Internal referral applied automatically</span>
+          </div>
+        </li>
+        
+        <li>
+          <label class="field-label" for="linkedin">LinkedIn profile</label>
+          <input id="linkedin" type="url" placeholder="linkedin.com/in/janesmith">
+        </li>
+        
+        <li>
+          <label class="field-label" for="github">GitHub / portfolio URL</label>
+          <input id="github" type="url" placeholder="github.com/janesmith">
+        </li>
+      </ul>
+      
+      <div class="collapsible-section">
+        <button type="button" class="collapsible-trigger" aria-expanded="false" aria-controls="additional-questions" id="collapsible-btn">
+          <span class="arrow">▶</span> Additional questions
+        </button>
+        <div class="collapsible-content" id="additional-questions" role="region" aria-labelledby="collapsible-btn">
+          <ul class="field-list">
+            <li>
+              <label class="field-label" for="start-date">Earliest start date <span class="req">*</span></label>
+              <input type="date" id="start-date" required>
+            </li>
+            <li>
+              <label class="field-label" for="salary-exp">Salary expectation (USD)</label>
+              <input type="text" id="salary-exp" placeholder="e.g. 120,000">
+            </li>
+            <li>
+              <span class="field-label">Authorized to work in country? <span class="req">*</span></span>
+              <div style="display:flex;gap:12px;padding-top:4px;">
+                <label style="display:flex;align-items:center;gap:4px;font-size:14px;"><input type="radio" name="auth" value="yes" required> Yes</label>
+                <label style="display:flex;align-items:center;gap:4px;font-size:14px;"><input type="radio" name="auth" value="no"> No</label>
+              </div>
+            </li>
+            <li>
+              <label class="field-label" for="visa">Visa sponsorship needed?</label>
+              <select id="visa">
+                <option value="">Select...</option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="margin-top:16px;">
+        <button type="submit" class="submit-btn">Submit application</button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="side-col">
+    <div class="side-decoy" aria-hidden="true">
+      <h3>🔐 Applicant login</h3>
+      <input type="email" placeholder="Email" aria-label="Login email">
+      <input type="password" placeholder="Password" aria-label="Login password">
+      <button type="button">Sign in</button>
+      <p style="font-size:12px;color:#94a3b8;margin-top:8px;">Track your applications</p>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;color:#475569;">
+      <strong>Tip:</strong> Use the cover letter box to tell us about your design philosophy.
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const comboboxWrapper = document.querySelector('.combobox-wrapper');
+    const comboboxInput = document.querySelector('.combobox-input');
+    const listbox = document.getElementById('portfolio-listbox');
+    const options = listbox.querySelectorAll('.combobox-option');
+    let currentIndex = -1;
+
+    function showListbox() {
+      listbox.classList.add('show');
+      comboboxWrapper.setAttribute('aria-expanded', 'true');
+    }
+
+    function hideListbox() {
+      listbox.classList.remove('show');
+      comboboxWrapper.setAttribute('aria-expanded', 'false');
+      comboboxInput.removeAttribute('aria-activedescendant');
+      currentIndex = -1;
+    }
+
+    function selectOption(index) {
+      options.forEach((opt, i) => {
+        opt.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+      if (index >= 0 && options[index]) {
+        comboboxInput.value = options[index].textContent;
+        comboboxInput.setAttribute('aria-activedescendant', options[index].id || '');
+        currentIndex = index;
+      }
+    }
+
+    comboboxInput.addEventListener('focus', showListbox);
+    comboboxInput.addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      options.forEach(opt => {
+        const text = opt.textContent.toLowerCase();
+        opt.style.display = text.includes(filter) ? '' : 'none';
+      });
+      showListbox();
+    });
+
+    comboboxInput.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const visible = Array.from(options).filter(o => o.style.display !== 'none');
+        let idx = visible.findIndex(o => o.getAttribute('aria-selected') === 'true');
+        idx = Math.min(idx + 1, visible.length - 1);
+        if (idx >= 0) {
+          selectOption(Array.from(options).indexOf(visible[idx]));
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const visible = Array.from(options).filter(o => o.style.display !== 'none');
+        let idx = visible.findIndex(o => o.getAttribute('aria-selected') === 'true');
+        idx = Math.max(idx - 1, 0);
+        if (idx >= 0) {
+          selectOption(Array.from(options).indexOf(visible[idx]));
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (currentIndex >= 0) {
+          selectOption(currentIndex);
+        }
+        hideListbox();
+      } else if (e.key === 'Escape') {
+        hideListbox();
+      }
+    });
+
+    options.forEach((opt, i) => {
+      opt.addEventListener('click', function() {
+        selectOption(i);
+        hideListbox();
+        comboboxInput.focus();
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!comboboxWrapper.contains(e.target)) {
+        hideListbox();
+      }
+    });
+
+    const collapsibleBtn = document.getElementById('collapsible-btn');
+    const collapsibleContent = document.getElementById('additional-questions');
+    collapsibleBtn.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+      this.setAttribute('aria-expanded', expanded);
+      collapsibleContent.classList.toggle('open', expanded);
+    });
+
+    const coverBox = document.getElementById('cover-text');
+    coverBox.addEventListener('focus', function() {
+      if (this.textContent.trim() === '') {
+      }
+    });
+  })();
+</script>
+</body>
+</html>

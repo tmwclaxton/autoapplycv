@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f6fa; padding: 24px; color: #1a1d21; }
+  .app-shell { max-width: 920px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; position: relative; }
+  .app-header { padding: 24px 32px 12px; border-bottom: 1px solid #e2e6ec; }
+  .app-header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+  .app-header .sub { color: #5f6775; font-size: 14px; margin-top: 4px; }
+  form { padding: 8px 32px 32px; }
+  fieldset { border: none; padding: 20px 0; margin: 0; border-bottom: 1px solid #eef1f5; }
+  fieldset:last-child { border-bottom: none; }
+  legend { font-size: 16px; font-weight: 600; color: #1a1d21; padding: 0 0 16px; width: 100%; display: flex; align-items: center; gap: 8px; }
+  .field-group { margin-bottom: 20px; }
+  .field-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .field-row > * { flex: 1 1 200px; }
+  label, .label-like { display: block; font-size: 14px; font-weight: 500; color: #2c3039; margin-bottom: 6px; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: 10px 14px; border: 1px solid #cdd3de; border-radius: 8px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  textarea { resize: vertical; min-height: 80px; }
+  .pill-group { display: flex; gap: 8px; }
+  .pill-btn { padding: 8px 24px; border-radius: 100px; border: 1px solid #cdd3de; background: #fff; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+  .pill-btn.active { background: #1a1d21; color: #fff; border-color: #1a1d21; }
+  .pill-btn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .hidden-radio { position: absolute; opacity: 0; width: 0; height: 0; }
+  .custom-textbox { border: 1px solid #cdd3de; border-radius: 8px; padding: 10px 14px; min-height: 80px; background: #fff; font-size: 14px; line-height: 1.5; }
+  .custom-textbox:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  .custom-textbox[contenteditable]:empty:before { content: attr(data-placeholder); color: #8a93a3; }
+  .readonly-input { background: #f4f6fa; color: #5f6775; cursor: not-allowed; }
+  .combobox-container { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 14px; border: 1px solid #cdd3de; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  .combobox-listbox { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cdd3de; border-radius: 8px; margin-top: 4px; max-height: 200px; overflow-y: auto; display: none; z-index: 10; }
+  .combobox-listbox.open { display: block; }
+  .combobox-option { padding: 10px 14px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover, .combobox-option.selected { background: #f0f4ff; }
+  .combobox-option[aria-selected="true"] { background: #e8edfb; font-weight: 500; }
+  .collapsible-trigger { background: none; border: none; color: #3b82f6; cursor: pointer; font-size: 14px; font-weight: 500; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
+  .collapsible-trigger:hover { text-decoration: underline; }
+  .collapsible-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+  .collapsible-content.open { max-height: 800px; }
+  .collapsible-inner { padding: 8px 0 0; }
+  .meter-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  meter { width: 120px; height: 12px; border-radius: 20px; }
+  meter::-webkit-meter-bar { border-radius: 20px; background: #e2e6ec; }
+  meter::-webkit-meter-optimum-value { background: #3b82f6; border-radius: 20px; }
+  .hidden-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .field-error { color: #dc2626; font-size: 12px; margin-top: 4px; }
+  .submit-row { padding: 24px 0 8px; display: flex; justify-content: flex-end; gap: 12px; }
+  .btn-primary { background: #1a1d21; color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .btn-primary:hover { background: #2c3039; }
+  .btn-secondary { background: #fff; border: 1px solid #cdd3de; padding: 12px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .decoy-form { display: none; }
+  @media (max-width: 600px) { form { padding: 8px 16px 24px; } .app-header { padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h1>Senior Product Designer</h1>
+    <div class="sub">Ashby · Remote · Full-time · ID: req-2470</div>
+  </div>
+  <form id="job-app-form" novalidate>
+    <!-- SECTION 1: Personal Info -->
+    <fieldset>
+      <legend>📋 Personal Information</legend>
+      
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <!-- label-wraps-deep: label wraps input through nested divs without for -->
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">First name</div>
+              <div><input type="text" name="firstName" placeholder="Enter first name" required></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Last name</div>
+              <div><input type="text" name="lastName" placeholder="Enter last name" required></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Middle initial</div>
+              <div><input type="text" name="middleInitial" placeholder="Optional" maxlength="1"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Email</div>
+              <div><input type="email" name="email" placeholder="you@company.com" required></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Phone</div>
+              <div><input type="tel" name="phone" placeholder="+1 (555) 000-0000"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Street address</div>
+              <div><input type="text" name="streetAddress" placeholder="123 Main St"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">City</div>
+              <div><input type="text" name="city" placeholder="City"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">State / Province</div>
+              <div><input type="text" name="state" placeholder="State"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">ZIP / Postal code</div>
+              <div><input type="text" name="zipCode" placeholder="12345"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Country</div>
+              <div><input type="text" name="country" placeholder="United States"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <!-- readonly-prefill: disabled/readonly input with prefilled value -->
+        <label style="display:block">
+          <div style="margin-bottom:4px;font-size:14px;font-weight:500">LinkedIn Profile</div>
+          <div><input type="url" name="linkedin" class="readonly-input" readonly value="https://linkedin.com/in/sarah.chen" tabindex="-1"></div>
+          <div style="font-size:12px;color:#8a93a3;margin-top:2px">Pulled from your profile · <a href="#" style="color:#3b82f6">Change</a></div>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Personal website</div>
+              <div><input type="url" name="personalWebsite" placeholder="https://yoursite.com"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">GitHub profile</div>
+              <div><input type="url" name="github" placeholder="https://github.com/yourhandle"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Remote eligible</div>
+        <!-- pill-yes-no: Yes/No question as paired button elements -->
+        <div class="pill-group" role="radiogroup" aria-label="Remote eligible">
+          <button type="button" class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="handlePill(this,'remote-eligible')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'remote-eligible')">No</button>
+          <input type="hidden" name="remoteEligible" value="yes" class="pill-hidden">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 2: Work Authorization & Experience -->
+    <fieldset>
+      <legend>🔧 Work Authorization</legend>
+      
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Authorized to work in the US?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <button type="button" class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="handlePill(this,'work-auth')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'work-auth')">No</button>
+          <input type="hidden" name="workAuth" value="yes" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Require visa sponsorship?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'visa')">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="handlePill(this,'visa')">No</button>
+          <input type="hidden" name="visaSponsor" value="no" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Currently employed?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Currently employed">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'employed')">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="handlePill(this,'employed')">No</button>
+          <input type="hidden" name="currentlyEmployed" value="no" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Willing to undergo background check?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Background check">
+          <button type="button" class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="handlePill(this,'bg-check')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'bg-check')">No</button>
+          <input type="hidden" name="backgroundCheck" value="yes" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <!-- aria-labelledby-hidden: field labeled via aria-labelledby pointing at hidden span -->
+        <span id="exp-years-label" class="visually-hidden">Years of professional design experience</span>
+        <div style="position:relative">
+          <div style="margin-bottom:4px;font-size:14px;font-weight:500">Years of experience</div>
+          <div class="combobox-container">
+            <button type="button" class="combobox-input" id="exp-combo-btn" aria-labelledby="exp-years-label" aria-haspopup="listbox" aria-expanded="false" onclick="toggleCombobox('exp-combo')">
+              <span id="exp-combo-value">3-5 years</span>
+              <span style="opacity:0.5">▾</span>
+            </button>
+            <div class="combobox-listbox" id="exp-combo-listbox" role="listbox" aria-labelledby="exp-years-label" onkeydown="handleComboKeydown(event,'exp-combo')">
+              <div class="combobox-option" role="option" data-value="0-1" onclick="selectComboOption(this,'exp-combo')">Less than 1 year</div>
+              <div class="combobox-option" role="option" data-value="1-2" onclick="selectComboOption(this,'exp-combo')">1-2 years</div>
+              <div class="combobox-option selected" role="option" data-value="3-5" aria-selected="true" onclick="selectComboOption(this,'exp-combo')">3-5 years</div>
+              <div class="combobox-option" role="option" data-value="5-8" onclick="selectComboOption(this,'exp-combo')">5-8 years</div>
+              <div class="combobox-option" role="option" data-value="8+" onclick="selectComboOption(this,'exp-combo')">8+ years</div>
+            </div>
+            <input type="hidden" name="experienceYears" value="3-5" id="exp-combo-hidden">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Current employer</div>
+              <div><input type="text" name="currentEmployer" placeholder="Company name"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Current title</div>
+              <div><input type="text" name="currentTitle" placeholder="Job title"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 3: Portfolio & Skills (meter self-assessment + collapsible) -->
+    <fieldset>
+      <legend>🎨 Portfolio & Skills</legend>
+
+      <div class="field-group">
+        <label style="display:block">
+          <div style="margin-bottom:4px;font-size:14px;font-weight:500">Portfolio URL</div>
+          <div><input type="url" name="portfolio" placeholder="https://yourportfolio.com"></div>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Design tools proficiency</div>
+        <div class="meter-group">
+          <span style="font-size:13px;color:#5f6775;min-width:60px">Figma</span>
+          <meter min="0" max="10" low="4" high="8" optimum="10" value="9"></meter>
+          <span style="font-size:13px;color:#5f6775">9/10</span>
+          <input type="range" min="0" max="10" value="9" step="1" name="figmaRating" style="width:100px" oninput="this.nextElementSibling.value=this.value">
+          <output style="font-size:13px;color:#5f6775">9</output>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="meter-group">
+          <span style="font-size:13px;color:#5f6775;min-width:60px">Sketch</span>
+          <meter min="0" max="10" low="4" high="8" optimum="10" value="7"></meter>
+          <span style="font-size:13px;color:#5f6775">7/10</span>
+          <input type="range" min="0" max="10" value="7" step="1" name="sketchRating" style="width:100px" oninput="this.nextElementSibling.value=this.value">
+          <output style="font-size:13px;color:#5f6775">7</output>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="meter-group">
+          <span style="font-size:13px;color:#5f6775;min-width:60px">Adobe XD</span>
+          <meter min="0" max="10" low="4" high="8" optimum="10" value="6"></meter>
+          <span style="font-size:13px;color:#5f6775">6/10</span>
+          <input type="range" min="0" max="10" value="6" step="1" name="xdRating" style="width:100px" oninput="this.nextElementSibling.value=this.value">
+          <output style="font-size:13px;color:#5f6775">6</output>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <button type="button" class="collapsible-trigger" aria-expanded="false" onclick="toggleCollapsible('additional-skills')">
+          <span>▶</span> Additional skills & certifications
+        </button>
+        <div class="collapsible-content" id="additional-skills">
+          <div class="collapsible-inner">
+            <div class="field-row">
+              <div>
+                <label style="display:block">
+                  <div style="margin-bottom:4px;font-size:14px;font-weight:500">UX Research</div>
+                  <div><input type="text" name="uxResearch" placeholder="Years or level"></div>
+                </label>
+              </div>
+              <div>
+                <label style="display:block">
+                  <div style="margin-bottom:4px;font-size:14px;font-weight:500">Prototyping</div>
+                  <div><input type="text" name="prototyping" placeholder="Tools used"></div>
+                </label>
+              </div>
+              <div>
+                <label style="display:block">
+                  <div style="margin-bottom:4px;font-size:14px;font-weight:500">Design systems</div>
+                  <div><input type="text" name="designSystems" placeholder="Experience level"></div>
+                </label>
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <label style="display:block">
+                <div style="margin-bottom:4px;font-size:14px;font-weight:500">Certifications</div>
+                <div><textarea name="certifications" rows="2" placeholder="List relevant certs..."></textarea></div>
+              </label>
+            </div>
+            <div style="margin-top:12px">
+              <label style="display:block">
+                <div style="margin-bottom:4px;font-size:14px;font-weight:500">Languages spoken</div>
+                <div><input type="text" name="languages" placeholder="e.g. English, Spanish"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 4: Additional Questions (with div-role-textbox and hidden label) -->
+    <fieldset>
+      <legend>📝 Additional Questions</legend>
+
+      <div class="field-group">
+        <!-- div-role-textbox: custom text field with contenteditable -->
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Why are you interested in this role?</div>
+        <div class="custom-textbox" role="textbox" contenteditable="true" data-placeholder="Tell us what excites you about this opportunity..." aria-label="Why are you interested in this role?" name="interestStatement"></div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Describe a challenging design problem you solved</div>
+        <div class="custom-textbox" role="textbox" contenteditable="true" data-placeholder="Describe your approach and outcome..." aria-label="Describe a challenging design problem" name="challengeDescription"></div>
+      </div>
+
+      <div class="field-group">
+        <!-- glued span labels: labels are span elements glued to input without for -->
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">
+          <span style="display:inline">How did you hear about us? </span>
+          <span style="color:#8a93a3;font-weight:400">(optional)</span>
+        </div>
+        <div>
+          <input type="text" name="referralSource" placeholder="e.g. LinkedIn, friend, blog" style="width:100%">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span id="salary-expect-label" class="visually-hidden">Salary expectations in USD per year</span>
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Salary expectation (USD)</div>
+        <div>
+          <input type="text" name="salaryExpectation" aria-labelledby="salary-expect-label" placeholder="e.g. $120,000 - $150,000">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Willing to relocate?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Relocation">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'relocate')">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="handlePill(this,'relocate')">No</button>
+          <button type="button" class="pill-btn" data-value="maybe" role="radio" aria-checked="false" onclick="handlePill(this,'relocate')">Maybe</button>
+          <input type="hidden" name="relocate" value="no" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Available for client travel?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Client travel">
+          <button type="button" class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="handlePill(this,'travel')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'travel')">No</button>
+          <input type="hidden" name="clientTravel" value="yes" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Worked with cross-functional teams?</div>
+        <div class="pill-group" role="radiogroup" aria-label="Cross-functional teams">
+          <button type="button" class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="handlePill(this,'cross-func')">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="handlePill(this,'cross-func')">No</button>
+          <input type="hidden" name="crossFunctional" value="yes" class="pill-hidden">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 5: Self-Assessment (meter) & Diversity -->
+    <fieldset>
+      <legend>📊 Self Assessment</legend>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Systems thinking</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="8" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">Strong</span>
+          <input type="hidden" name="systemsThinking" value="8">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Visual design</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="7" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">7/10</span>
+          <input type="hidden" name="visualDesign" value="7">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Design leadership</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="6" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">6/10</span>
+          <input type="hidden" name="designLeadership" value="6">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">User research</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="8" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">8/10</span>
+          <input type="hidden" name="userResearch" value="8">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Interaction design</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="9" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">9/10</span>
+          <input type="hidden" name="interactionDesign" value="9">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Prototyping</div>
+        <div class="meter-group">
+          <meter min="0" max="10" value="8" optimum="10" high="7"></meter>
+          <span style="font-size:13px;color:#5f6775">8/10</span>
+          <input type="hidden" name="prototypingSkill" value="8">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Gender identity</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <select name="gender" style="flex:1 1 200px">
+            <option value="">Prefer not to say</option>
+            <option value="woman">Woman</option>
+            <option value="man">Man</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Veteran status</div>
+        <div class="pill-group" role="radiogroup" aria-label="Veteran status">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'veteran')">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="handlePill(this,'veteran')">No</button>
+          <button type="button" class="pill-btn" data-value="prefer-not" role="radio" aria-checked="false" onclick="handlePill(this,'veteran')">Prefer not to say</button>
+          <input type="hidden" name="veteranStatus" value="no" class="pill-hidden">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div style="margin-bottom:4px;font-size:14px;font-weight:500">Disability status</div>
+        <div class="pill-group" role="radiogroup" aria-label="Disability status">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="handlePill(this,'disability')">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="handlePill(this,'disability')">No</button>
+          <button type="button" class="pill-btn" data-value="prefer-not" role="radio" aria-checked="false" onclick="handlePill(this,'disability')">Prefer not to say</button>
+          <input type="hidden" name="disabilityStatus" value="no" class="pill-hidden">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 6: Availability & Notes (with decoy secondary form) -->
+    <fieldset>
+      <legend>📅 Availability</legend>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Earliest start date</div>
+              <div><input type="date" name="startDate"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Notice period (weeks)</div>
+              <div><input type="number" name="noticePeriod" min="0" max="12" placeholder="2"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Available hours per week</div>
+              <div><input type="number" name="availableHours" min="1" max="80" placeholder="40"></div>
+            </label>
+          </div>
+          <div>
+            <label style="display:block">
+              <div style="margin-bottom:4px;font-size:14px;font-weight:500">Preferred timezone</div>
+              <div><input type="text" name="preferredTimezone" placeholder="e.g. EST, PST"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label style="display:block">
+          <div style="margin-bottom:4px;font-size:14px;font-weight:500">Additional notes</div>
+          <div><textarea name="notes" rows="3" placeholder="Anything else we should know..."></textarea></div>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <label style="display:block">
+          <div style="margin-bottom:4px;font-size:14px;font-weight:500">Portfolio password (if applicable)</div>
+          <div><input type="text" name="portfolioPassword" placeholder="Enter password"></div>
+        </label>
+      </div>
+
+      <!-- decoy secondary form (hidden visually but in DOM) -->
+      <div class="decoy-form" aria-hidden="true" style="display:none">
+        <input type="text" name="decoyField1" placeholder="decoy">
+        <input type="hidden" name="decoyField2" value="hidden-decoy">
+      </div>
+    </fieldset>
+
+    <!-- Submit -->
+    <div class="submit-row">
+      <button type="button" class="btn-secondary" onclick="document.getElementById('job-app-form').reset();">Cancel</button>
+      <button type="button" class="btn-primary" onclick="alert('Application submitted (demo)');">Submit Application</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Pill button handler
+  function handlePill(btn, groupName) {
+    var parent = btn.closest('.pill-group');
+    if (!parent) return;
+    var buttons = parent.querySelectorAll('.pill-btn');
+    buttons.forEach(function(b) { 
+      b.classList.remove('active'); 
+      b.setAttribute('aria-checked', 'false'); 
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    var hidden = parent.querySelector('.pill-hidden');
+    if (hidden) hidden.value = btn.getAttribute('data-value');
+  }
+
+  // Combobox toggle
+  function toggleCombobox(id) {
+    var listbox = document.getElementById(id + '-listbox');
+    var btn = document.getElementById(id + '-btn');
+    if (!listbox || !btn) return;
+    var isOpen = listbox.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (isOpen) {
+      var selected = listbox.querySelector('[aria-selected="true"]');
+      if (selected) {
+        selected.setAttribute('tabindex', '0');
+        selected.focus();
+      } else {
+        var first = listbox.querySelector('.combobox-option');
+        if (first) { first.setAttribute('tabindex', '0'); first.focus(); }
+      }
+    }
+  }
+
+  // Select combobox option
+  function selectComboOption(el, id) {
+    var listbox = document.getElementById(id + '-listbox');
+    var btn = document.getElementById(id + '-btn');
+    var hidden = document.getElementById(id + '-hidden');
+    var valueSpan = document.getElementById(id + '-value');
+    if (!listbox || !btn || !hidden || !valueSpan) return;
+    listbox.querySelectorAll('.combobox-option').forEach(function(opt) {
+      opt.classList.remove('selected');
+      opt.removeAttribute('aria-selected');
+      opt.setAttribute('tabindex', '-1');
+    });
+    el.classList.add('selected');
+    el.setAttribute('aria-selected', 'true');
+    el.setAttribute('tabindex', '0');
+    hidden.value = el.getAttribute('data-value');
+    valueSpan.textContent = el.textContent.trim();
+    listbox.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.focus();
+  }
+
+  // Keyboard nav for combobox
+  function handleComboKeydown(e, id) {
+    var listbox = document.getElementById(id + '-listbox');
+    if (!listbox || !listbox.classList.contains('open')) return;
+    var options = listbox.querySelectorAll('.combobox-option');
+    var currentIndex = Array.from(options).findIndex(function(o) { return o.getAttribute('tabindex') === '0'; });
+    var newIndex = -1;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % options.length;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + options.length) % options.length;
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (currentIndex >= 0) { selectComboOption(options[currentIndex], id); }
+      return;
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      listbox.classList.remove('open');
+      document.getElementById(id + '-btn').setAttribute('aria-expanded', 'false');
+      document.getElementById(id + '-btn').focus();
+      return;
+    }
+    if (newIndex >= 0) {
+      options.forEach(function(o) { o.setAttribute('tabindex', '-1'); });
+      options[newIndex].setAttribute('tabindex', '0');
+      options[newIndex].focus();
+    }
+  }
+
+  // Collapsible toggle
+  function toggleCollapsible(id) {
+    var content = document.getElementById(id);
+    var trigger = document.querySelector('[onclick*="'+id+'"]');
+    if (!content || !trigger) return;
+    var isOpen = content.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    var arrow = trigger.querySelector('span');
+    if (arrow) arrow.textContent = isOpen ? '▼' : '▶';
+  }
+
+  // Close combobox on outside click
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.combobox-listbox.open').forEach(function(listbox) {
+      var container = listbox.closest('.combobox-container');
+      if (container && !container.contains(e.target)) {
+        listbox.classList.remove('open');
+        var btn = container.querySelector('.combobox-input');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+</body>
+</html>

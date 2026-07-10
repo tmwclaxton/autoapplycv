@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Field Commissioning Engineer - Cambi</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        Cambi and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics and marketing purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://career.cambi.com/cookie-policy">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, which is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://career.cambi.com/cookie-policy">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Marketing</label>
+
+    <p>These cookies are used to make advertising messages more relevant to you. In some cases, they also deliver additional functions on the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Google</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;--navigation-text-color: #000000;--navigation-background-color: #ffffff;--navigation-highlight-color: #ffffff;">
+    <div class="flex items-center h-full">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only @sm:not-sr-only text-sm leading-normal tracking-wider uppercase !whitespace-nowrap">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.cambi.com/">Start</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.cambi.com/locations">Locations</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.cambi.com/jobs">Jobs</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.cambi.com/pages/about-cambi">About Cambi</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://career.cambi.com/sso_login">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://career.cambi.com/connect/login">Log in to Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Homepage</span>
+        <a class="hover:underline focus-visible-header" href="https://www.cambi.com">cambi.com</a>
+</div>  </div>
+</div>
+
+
+    <span class="header__separator hidden @md:block"></span>
+    <div class="absolute right-0 mx-2 @md:right-auto @md:relative">
+                <div data-controller="common--share" data-common--share-url-value="https://career.cambi.com/jobs/7697783-field-commissioning-engineer?promotion=1987678-finn-no" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="You must select an option">
+
+
+  <button type="button" role="button" id="trigger-dropdown-5b3f3fbd" aria-required="false" aria-label="Share page" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-5b3f3fbd" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Share page</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-5b3f3fbd" role="menu" aria-labelledby="trigger-dropdown-5b3f3fbd" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://career.cambi.com/jobs/7697783-field-commissioning-engineer?promotion=1987678-finn-no" href="mailto:?subject=Check out this job at Cambi&amp;body=I found this job and thought I should share it with you:%0D%0A%0D%0Ahttps://career.cambi.com/jobs/7697783-field-commissioning-engineer?promotion=1987678-finn-no">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+    </div>
+</div>
+
+<div class="flex-grow hidden @md:block"></div>
+
+<div class="
+    header__logo absolute @md:inset-0 @md:flex @md:items-center @md:justify-end w-full
+    @md:mx-6 @md:relative pointer-events-none @md:pointer-events-auto
+  ">
+          
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="e2606222dc57e5616bde4d4a2853ce6fc" data-test="company-logo" data-turbo-permanent="true" href="https://career.cambi.com/">
+    <img alt="Cambi career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/7f046302-f8c9-4ac9-973c-76b8f304c5db/original.png">
+</a>
+
+</div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="7697783" data-careersite--jobs--form-overlay-job-application-url-value="https://career.cambi.com/jobs/7697783-field-commissioning-engineer/applications/new?promotion=1987678-finn-no" id="main-content">
+  
+        
+
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] @lg:min-h-[650px] block-cover--with-background-7697783 relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Operations</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Headquarters</span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Field Commissioning Engineer</h1>
+    
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Apply for this job</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay " style="background-color: #000000; opacity: 50%"></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Scroll to content">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <p><span><strong>Would you like to use your skills to accelerate the global transition to a low-carbon circular economy?</strong></span></p><p class="MsoNormal"><span><strong>About Cambi</strong></span></p><p class="MsoNormal"><span>Cambi is a world-leading provider of sustainable technology solutions that enable cities to turn wastewater sludge into valuable resources. We are a medium-size, Norway-based multinational company listed in Oslo on Euronext Growth, with offices in several countries. We have diligent employees from different backgrounds and more than 25 nationalities, and a growing sales network covering all continents.</span></p><p class="MsoNormal"><span>Our core expertise lies in designing, testing, manufacturing, installing, and operating industrial process installations, used mainly for treating sewage sludge before or after anaerobic digestion in wastewater treatment plants. The technology, known as thermal hydrolysis, reduces greenhouse gas emissions and produces renewable energy, organic fertilizers, and various soil products while destroying pathogens and other harmful substances. Our systems have the capacity to cater to over 120 million individuals across more than 28 countries. We are proud of having cities like Oslo, London, Washington, Singapore, and Sydney among our clients.</span></p><p class="MsoNormal"><span><strong>About the Role</strong></span></p><p class="MsoNormal"><span>This is a possibility for you to use your skills to get cities around the world to embrace circular economy and become more sustainable. At Cambi you will experience a varied workday, where you can enhance your knowledge with great speed. Cambi is now hiring a Field Commissioning Engineer to strengthen our team. This is a hands-on role with significant global impact. The role will require you to perform all required site tasks on a Cambi THP system.</span></p><p class="MsoNormal"><span><strong>Key Responsibilities</strong></span></p><ul><li><p class="MsoListParagraphCxSpFirst"><span>Plan and prepare commissioning and start-up activities for assigned projects.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span>Perform and supervise commissioning and start-up activities on Cambi’s brownfield and greenfield projects.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span>Act as site supervisor or site manager for Cambi’s scope of work.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span>Ensure compliance with site safety requirements and take responsibility for personal safety.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span>Ensure that Safe Job Analyses (SJA) are conducted when required.</span></p></li></ul><p class="MsoNormal"><span><strong>Key qualifications and educational background</strong></span></p><ul><li><p class="MsoListParagraphCxSpFirst"><span>Certificate of Craftsmanship, Technical College diploma, or a BSc in electrical, mechanical, pipe welding, machine installation, automation or process engineering. A combination of relevant educational backgrounds is considered an advantage.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span>Several years of relevant practical work experience are preferred. Relevant experience may compensate for formal education requirements.</span></p></li></ul><p class="MsoNormal"><span><strong>We are looking for</strong></span></p><p class="MsoNormal"><span>We are looking for someone who is self-driven, creative in finding solutions and handy. You should enjoy innovation and trouble shooting. The position requires extensive travel in certain periods.</span></p><p class="MsoNormal"><span>At Cambi, we value people who share our commitment to the environment and the positive impact of the circular economy. Your personality should align with Cambi’s core philosophy, which centers around strong customer focus, delivering a high standard of quality in our solutions, products, and services, and always acting with integrity.</span></p><p class="MsoNormal"><span><strong>Why Join Cambi</strong></span></p><ul><li><p class="MsoListParagraphCxSpFirst"><span><strong>Work globally:</strong> Encounter different cultures and work practices when working with the global organization.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span><strong>Make an impact:</strong> Contribute to projects transforming organic waste streams into bioresources, boosting the circular economy, and leading to net-zero emissions in cities worldwide.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span><strong>Immerse in diversity:</strong> Join a multicultural team with a mix of young and experienced colleagues from more than 25 countries and 18 different disciplinary backgrounds.</span></p></li><li><p class="MsoListParagraphCxSpFirst"><span><strong>Grow personally:</strong> Embrace our values: quality, curious, reliable, and teamwork, in a dynamic work environment grounded in a modern Code of Conduct applying to all employees and business partners.</span></p></li></ul><p class="MsoNormal"><span><strong>How to Apply</strong></span></p><p class="MsoNormal"><span>If you’re ready to take the next step in your career with us, we’d love to hear from you. We kindly ask you to upload your CV and answer three questions regarding your motivation for the role.</span></p><p class="MsoNormal"><span>Delivering on our mission to enable a swift global transition to sustainable communities is contingent on attracting and retaining talented employees from diverse backgrounds.</span></p><p class="MsoBodyText"><span><strong>Deadline for applying is the 7th of June 2026</strong>. Please be informed that we will only accept and assess applications through our career site.</span></p><p class="MsoNormal"><span><strong>Contact</strong></span></p><p class="MsoNormal"><span>For any questions about the role, you’re welcome to get in touch with:</span></p><p class="MsoNormal"><span>Tommy Gregersen, Site &amp; Commissioning Manager, </span><a target="_blank" href="mailto:tommy.gregersen@cambi.com"><span>tommy.gregersen@cambi.com</span></a><span> Martine Sunde, Chief People &amp; Culture, </span><a target="_blank" href="mailto:martine.sunde@cambi.com"><span>martine.sunde@cambi.com</span></a></p><p class="MsoNormal"></p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Department</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Operations
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Role</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Field Commissioning Engineer
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Locations</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              <a href="https://career.cambi.com/locations/headquarters">Headquarters</a>
+
+</dd>
+
+
+
+
+
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-14651052" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #ffffff;" class="block--recruiter   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14651052" data-section-name="recruiter" data-section-label="Recruiter">
+</section>
+
+  
+  <section id="section-14651053" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #ffffff;" class="block--colleagues   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14651053" data-section-name="colleagues" data-section-label="Colleagues">
+</section>
+
+  
+  <section id="section-14651054" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #ffffff;" class="block--related-jobs   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14651054" data-section-name="related-jobs" data-section-label="Related jobs">
+    
+  <section id="section-" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #ffffff;" class="block--jobs   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-name="jobs" data-section-label="Jobs">
+    <turbo-frame id="jobs_list">
+
+
+
+
+
+  <div class="w-full text-lg relative block-px" data-layout="thick" data-controller="blocks--jobs" data-blocks--jobs-show-map-value="false" data-blocks--jobs-split-view-value="false" data-blocks--jobs-language-code-value="en-GB" data-blocks--jobs-first-block-value="true" data-blocks--jobs-overflow-auto-class="@lg:overflow-auto" data-blocks--jobs-overflow-hidden-class="@lg:overflow-hidden" data-blocks--jobs-sibling-element-padding-class="@lg:[&amp;.bg-block-preset-primary:not(.keep-block-padding)]:!pt-20" data-blocks--jobs-disabled-map-view-toggle-class="cursor-not-allowed" id="jobs">
+      <div class="block-px jobs-text">
+        <div class="mb-15 @md:mb-18 @lg:mb-20 mx-auto block-max-w--sm">
+            <h1 class="text-4xl text-center font-company-header text-block-title">Current job openings</h1>
+
+</div></div>
+    <div class="relative" data-blocks--jobs-target="jobsContainer">
+
+
+        <div class="bg-company-primary relative z-career-jobs-list @lg:col-span-2 pt-4 @lg:pt-8" data-blocks--jobs-target="jobsListContainer">
+
+          <div>
+              <div class="mx-auto text-lg block-max-w--lg">
+    <ul id="jobs_list_container" class="company-links">
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://career.cambi.com/jobs/8048127-cad-design-technician">
+      <span class="absolute inset-0"></span>
+      CAD Design Technician
+</a>
+    <div class="mt-1 text-md">
+<span>Operations</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Cambi UK office</span>
+
+</div>
+</div>
+    <span class="block w-full h-px bg-gradient-block-base-border"></span>
+</li>
+
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://career.cambi.com/jobs/8025255-senior-principle-engineer">
+      <span class="absolute inset-0"></span>
+      Senior / Principle Engineer
+</a>
+    <div class="mt-1 text-md">
+<span>Operations</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Cambi UK office</span>
+
+</div>
+</div>
+    <span class="block w-full h-px bg-gradient-block-base-border"></span>
+</li>
+
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://career.cambi.com/jobs/7985837-automation-engineer">
+      <span class="absolute inset-0"></span>
+      Automation Engineer
+</a>
+    <div class="mt-1 text-md">
+<span>Operations</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Cambi UK office</span>
+
+</div>
+</div>
+</li>
+
+    </ul>
+</div>
+
+          </div>
+
+
+</div>
+        <div class="flex justify-center mx-auto mt-12 @lg:col-span-2">
+          <a href="/jobs" class="careersite-button min-w-[13.75rem] group" data-turbo="false">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">More jobs</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+        </div>
+</div></div></turbo-frame>
+</section>
+
+
+
+</section>
+
+  
+  <section id="section-14651055" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #ffffff;" class="block--locations-map   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14651055" data-section-name="locations-map" data-section-label="Locations map">
+    <div id="locations-map" class="text-lg locations-map" data-controller="blocks--locations-map" data-blocks--locations-map-selected-location-value="126578" data-blocks--locations-map-locations-value="[{&quot;id&quot;:126578,&quot;lat&quot;:&quot;59.8333399&quot;,&quot;long&quot;:&quot;10.4323646&quot;}]">
+  <template data-blocks--locations-map-target="largeMarkerIcon">
+    <i class="text-3xl filter drop-shadow fas fa-location-dot text-company-link"></i>
+  </template>
+
+  <template data-blocks--locations-map-target="smallMarkerIcon">
+    <i class="filter drop-shadow fas fa-circle-small fa-xs text-company-link"></i>
+  </template>
+
+  <div class="flex flex-col @lg:flex-row">
+    <div class="
+        flex flex-col items-center justify-start w-full py-20 @lg:w-half
+        bg-company-secondary block-px
+      ">
+        <h2 class="mb-5 text-3xl text-center @md:text-4xl font-company-header text-company-secondary">Headquarters</h2>
+
+      <turbo-frame id="location_details" src="https://career.cambi.com/locations/map_details?editor=false&amp;location_id=126578" loading="lazy" data-blocks--locations-map-target="details"></turbo-frame>
+    </div>
+
+    <div class="w-full @lg:w-half h-[320px] @md:h-[450px] z-career-locations-map" data-blocks--locations-map-target="map"></div>
+</div></div>
+</section>
+
+
+
+      <section class="block--about company-links bg-primary-text-background text-company-primary block-px" style="--block-title-color: rgba(var(--company-primary-text-color), 1);">
+    <div class="py-20 mx-auto block-max-w--sm">
+      <div class="mx-auto block-max-w--sm">
+    <h2 class="mb-4 text-4xl text-center font-company-header text-block-title break-words hyphens-auto">About Cambi</h2>
+
+    <div class="prose prose-block font-company-body company-links break-words"><p>Cambi is the leading global provider of thermal hydrolysis solutions for sewage sludge and organic waste management. Since first trialing the thermal hydrolysis process in the early 1990s, we have become a well-known, trusted technology provider for advanced anaerobic digestion and biogas solutions in wastewater treatment.</p></div>
+</div>
+
+
+      <div class="flex flex-wrap mt-8 text-lg gap-y-4">
+
+
+      </div>
+    </div>
+</section>
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Apply for this job</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Operations</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Headquarters</span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Field Commissioning Engineer</h1>
+    
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://career.cambi.com/jobs/7697783-field-commissioning-engineer/applications/new?promotion=1987678-finn-no">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Loading application form
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Close modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-px block-padding @sm:text-base">
+  <div class="flex flex-col items-center mx-auto block-max-w--lg">
+      <ul class="
+          flex flex-col flex-wrap mb-10 text-center footer-nav-menu
+          @sm:flex-row justify-center gap-x-6 gap-y-4
+        ">
+          <li>
+            <a class="block py-1 my-1 @sm:my-0 @sm:py-0 px-4 company-link" href="https://career.cambi.com/">Start</a>
+          </li>
+          <li>
+            <a class="block py-1 my-1 @sm:my-0 @sm:py-0 px-4 company-link" href="https://career.cambi.com/locations">Locations</a>
+          </li>
+          <li>
+            <a class="block py-1 my-1 @sm:my-0 @sm:py-0 px-4 company-link" href="https://career.cambi.com/jobs">Jobs</a>
+          </li>
+          <li>
+            <a class="block py-1 my-1 @sm:my-0 @sm:py-0 px-4 company-link" href="https://career.cambi.com/pages/about-cambi">About Cambi</a>
+          </li>
+          <li>
+            <a class="block py-1 my-1 @sm:my-0 @sm:py-0 px-4 company-link" href="/data-privacy">Data &amp; privacy</a>
+          </li>
+
+          <li>
+            <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Manage cookies" class="company-link font-company-body py-1 my-1 @sm:my-0 @sm:py-0 px-4">Manage cookies</button>
+          </li>
+      </ul>
+
+      <div class="flex mb-8">
+          <a class="text-company-primary hover:text-company-link" target="_blank" title="X" href="https://twitter.com/cambithp?lang=en">
+            <i class="fab fa-x-twitter size-6 p-1 mx-2 text-lg"></i>
+</a>          <a class="text-company-primary hover:text-company-link" target="_blank" title="Facebook" href="https://www.facebook.com/CambiTHP">
+            <i class="fab fa-facebook-square size-6 p-1 mx-2 text-lg"></i>
+</a>          <a class="text-company-primary hover:text-company-link" target="_blank" title="LinkedIn" href="https://www.linkedin.com/company/cambithp/">
+            <i class="fab fa-linkedin size-6 p-1 mx-2 text-lg"></i>
+</a>          <a class="text-company-primary hover:text-company-link" target="_blank" title="Instagram" href="https://www.instagram.com/cambithp/?locale=en_US&amp;hl=ar">
+            <i class="fab fa-instagram size-6 p-1 mx-2 text-lg"></i>
+</a>      </div>
+
+    <a class="text-company-primary hover:text-company-link" href="https://www.cambi.com">cambi.com</a>
+    
+  </div>
+</div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="/sso_login">Employee login</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Candidate Connect login</a>
+
+        </div>
+      </div>
+</footer></div>
+<section class="relative block-px mt-15 z-career-autojoin mb-[27px] @md:mb-[35px]" id="section-auto-join">
+  <div class="w-full px-4 pt-12 mx-auto rounded pb-18 block-max-w--lg bg-company-secondary text-company-secondary block-shadow">
+    <h2 class="text-center font-company-header text-4xl text-shadow">Already working at Cambi?</h2>
+    <p class="text-center text-xl text-opacity-80 text-company-secondary text-shadow">Let’s recruit together and find your next colleague.</p>
+
+      
+
+</div>
+  
+</section>
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e7d68fd2adda857c7886ad6473581caf1" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=career.cambi.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Applicant tracking system</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="career.cambi.com">
+</div>
+</form>
+</body>
+</html>

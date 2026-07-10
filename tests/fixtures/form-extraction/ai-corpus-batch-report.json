@@ -1,0 +1,385 @@
+{
+  "generated_at": "2026-07-10T06:36:35+00:00",
+  "model": "deepseek/deepseek-v4-flash",
+  "limit": 50,
+  "start_id": "syn-ai-0063",
+  "results": [
+    {
+      "id": "syn-ai-0063",
+      "repair_rounds": 2,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 20 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|native-inputs|single-page|large|email,password,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0064",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 23 fields (min 26)"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0065",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|native-inputs,pill-radio|single-page|large|date,email,number,radio,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0066",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0067",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|combobox,native-inputs|single-page|large|number,select,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0068",
+      "repair_rounds": 3,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 23 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|native-inputs|single-page|large|date,email,number,tel,text,textarea"
+    },
+    {
+      "id": "syn-ai-0069",
+      "repair_rounds": 2,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 11 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs|single-page|large|checkbox,email,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0070",
+      "repair_rounds": 1,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 16 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|combobox,native-inputs|single-page|large|date,email,number,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0071",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|native-inputs|single-page|large|date,email,number,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0072",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|combobox,native-inputs,pill-radio|single-page|large|email,number,radio,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0073",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0074",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large|checkbox,date,email,number,radio,select,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0075",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|xl|checkbox,date,email,radio,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0076",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 18 fields (min 26)"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0077",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0078",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large|checkbox,email,radio,select,tel,text"
+    },
+    {
+      "id": "syn-ai-0079",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large|checkbox,date,email,number,radio,select,text"
+    },
+    {
+      "id": "syn-ai-0080",
+      "repair_rounds": 1,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 13 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|combobox,native-inputs,pill-radio|single-page|large|email,number,radio,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0081",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0082",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 6 fields (min 26)"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0083",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0084",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large|checkbox,date,email,number,radio,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0085",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 1 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 1 field types (min 4): email"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0086",
+      "repair_rounds": 2,
+      "regenerated": false,
+      "passed": true,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 24 fields (min 26)"
+        }
+      ],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs|single-page|large|checkbox,email,number,select,tel,text,textarea,url"
+    },
+    {
+      "id": "syn-ai-0087",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": true,
+      "issues": [],
+      "status": "pending",
+      "pattern_signature": "unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large|checkbox,date,email,number,radio,select,tel,text,url"
+    },
+    {
+      "id": "syn-ai-0088",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 16 fields (min 26)"
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0089",
+      "repair_rounds": 4,
+      "regenerated": true,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 6 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 2 field types (min 4): text, date"
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "syn-ai-0090",
+      "repair_rounds": 4,
+      "regenerated": false,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 14 fields (min 26)"
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "status": "draft"
+    }
+  ],
+  "passed": 16,
+  "failed": 12,
+  "orchestrator": {
+    "limit": 50,
+    "start_id": "syn-ai-0063",
+    "target_cell": "ashby,combobox,single-page,large",
+    "batch_index": 1,
+    "dry_run": false,
+    "generate_exit_code": 1,
+    "post_pipeline": {}
+  }
+}

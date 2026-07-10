@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { searchWeb } from './lib/firecrawl-client.mjs';
-import { DISCOVERED_URLS_PATH } from './lib/paths.mjs';
+import { buildForeignDiscoverQueries, buildForeignSeedUrls, foreignBoardCatalogStats } from './lib/foreign-job-boards.mjs';
+import { DISCOVERED_URLS_PATH, FIXTURE_ROOT } from './lib/paths.mjs';
 import { SEED_URLS } from './lib/seed-urls.mjs';
+import { ATS_DISCOVER_QUERIES } from './lib/variety-matrix.mjs';
+
+const useMatrixReport = process.argv.includes('--use-matrix-report');
+const foreignOnly = process.argv.includes('--foreign-only');
+const skipForeign = process.argv.includes('--skip-foreign');
 
 const QUERIES = [
     'job application form html template apply',
@@ -204,10 +211,42 @@ const QUERIES = [
     'job application form site:web.app html',
 ];
 
+function matrixTargetQueries() {
+    const reportPath = join(FIXTURE_ROOT, 'variety-matrix-report.json');
+
+    if (!useMatrixReport || !existsSync(reportPath)) {
+        return [];
+    }
+
+    try {
+        const report = JSON.parse(readFileSync(reportPath, 'utf8'));
+        const queries = [];
+
+        for (const target of report.recommended_next_batch_targets || []) {
+            const ats = String(target.target_cell || '').split(',')[0];
+            const query = ATS_DISCOVER_QUERIES[ats];
+
+            if (query) {
+                queries.push(query);
+            }
+        }
+
+        return [...new Set(queries)];
+    } catch {
+        return [];
+    }
+}
+
+const MATRIX_QUERIES = matrixTargetQueries();
+const FOREIGN_QUERIES = skipForeign ? [] : buildForeignDiscoverQueries();
+const BASE_QUERIES = foreignOnly ? [] : QUERIES;
+const SEARCH_QUERIES = [...MATRIX_QUERIES, ...BASE_QUERIES, ...FOREIGN_QUERIES];
+const ALL_SEEDS = skipForeign ? SEED_URLS : [...SEED_URLS, ...buildForeignSeedUrls()];
+
 const seen = new Set();
 const discovered = [];
 
-for (const seed of SEED_URLS) {
+for (const seed of ALL_SEEDS) {
     if (!seed.url || seen.has(seed.url)) {
         continue;
     }
@@ -244,7 +283,20 @@ if (existsSync(DISCOVERED_URLS_PATH)) {
 
 console.log(`Loaded ${discovered.length} URLs from seeds + previous discoveries.`);
 
-for (const query of QUERIES) {
+if (!skipForeign) {
+    const stats = foreignBoardCatalogStats();
+    console.log(`Foreign board catalog: ${stats.boards} boards, ${stats.queries} queries, ${stats.regions.length} regions, ${stats.languages.length} languages.`);
+}
+
+if (foreignOnly) {
+    console.log('Foreign-only mode: skipping English/default discovery queries.');
+}
+
+if (MATRIX_QUERIES.length > 0) {
+    console.log(`Matrix-target queries (${MATRIX_QUERIES.length}): ${MATRIX_QUERIES.join(' | ')}`);
+}
+
+for (const query of SEARCH_QUERIES) {
     console.log(`Searching: ${query}`);
 
     try {
@@ -271,4 +323,4 @@ for (const query of QUERIES) {
 }
 
 writeFileSync(DISCOVERED_URLS_PATH, `${JSON.stringify({ discovered_at: new Date().toISOString(), urls: discovered }, null, 2)}\n`);
-console.log(`Discovered ${discovered.length} candidate URLs (${SEED_URLS.length} seeds, ${previousCount} previous, ${discovered.length - SEED_URLS.length - previousCount} from search) → ${DISCOVERED_URLS_PATH}`);
+console.log(`Discovered ${discovered.length} candidate URLs (${ALL_SEEDS.length} seeds, ${previousCount} previous, ${discovered.length - ALL_SEEDS.length - previousCount} from search) → ${DISCOVERED_URLS_PATH}`);

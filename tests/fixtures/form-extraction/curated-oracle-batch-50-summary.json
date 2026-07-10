@@ -1,0 +1,910 @@
+{
+  "session_start": "2026-07-10T15:00:00",
+  "agree_events_in_report": 47,
+  "disagree_events": 10,
+  "error_events": 57,
+  "valid_unique_agree_sidecars": 57,
+  "companies": [
+    "angi",
+    "ashby",
+    "aven",
+    "brilliant",
+    "bubble",
+    "camunda",
+    "citizen",
+    "clipboard",
+    "cube",
+    "dandy",
+    "dash0",
+    "eliseai",
+    "firecrawl",
+    "foundational",
+    "fyxer",
+    "hackerone",
+    "halter",
+    "happyco",
+    "hinge-health",
+    "hively",
+    "imprint",
+    "instrumentl",
+    "ironcladhq",
+    "jane",
+    "kindred",
+    "knock",
+    "litmus",
+    "mapbox",
+    "mercor",
+    "mollie",
+    "monogram",
+    "n8n",
+    "nerdwallet",
+    "promenade"
+  ],
+  "fixtures": [
+    {
+      "id": "https-jobs-ashbyhq-com-fyxer-6181dd49-0962-4998-9037-603aa7b043c7-application",
+      "url": "https://jobs.ashbyhq.com/fyxer/6181dd49-0962-4998-9037-603aa7b043c7/application",
+      "company": "fyxer",
+      "fields": 4,
+      "captured_at": "2026-07-10T15:10:04.933Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-ashby-86a60834-ba64-484d-9658-afa1bc97a957-application",
+      "url": "https://jobs.ashbyhq.com/ashby/86a60834-ba64-484d-9658-afa1bc97a957/application",
+      "company": "ashby",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:10:44.000Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-bubble-10a8b4ec-4135-4300-8778-4c450de278c6-application",
+      "url": "https://jobs.ashbyhq.com/bubble/10a8b4ec-4135-4300-8778-4c450de278c6/application",
+      "company": "bubble",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:10:54.909Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-fyxer-16b9b233-314b-4725-b3e1-5c0b4eaa0ed5-application",
+      "url": "https://jobs.ashbyhq.com/fyxer/16b9b233-314b-4725-b3e1-5c0b4eaa0ed5/application",
+      "company": "fyxer",
+      "fields": 4,
+      "captured_at": "2026-07-10T15:11:11.735Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mapbox-2f995b86-60e8-4607-881c-82da5a21e96b-application",
+      "url": "https://jobs.ashbyhq.com/mapbox/2f995b86-60e8-4607-881c-82da5a21e96b/application",
+      "company": "mapbox",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:11:44.032Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hackerone-9721a4c7-ff1e-47ca-a89e-97688ebff96c-applicatio",
+      "url": "https://jobs.ashbyhq.com/hackerone/9721a4c7-ff1e-47ca-a89e-97688ebff96c/application",
+      "company": "hackerone",
+      "fields": 28,
+      "captured_at": "2026-07-10T15:12:05.275Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-bubble-242caaf7-dad8-4ffe-83f0-666972e5a031-application",
+      "url": "https://jobs.ashbyhq.com/bubble/242caaf7-dad8-4ffe-83f0-666972e5a031/application",
+      "company": "bubble",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:13:18.822Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-n8n-062fa075-dbda-4bbf-b264-ac339d5ab9de-application",
+      "url": "https://jobs.ashbyhq.com/n8n/062fa075-dbda-4bbf-b264-ac339d5ab9de/application",
+      "company": "n8n",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:13:50.419Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-clipboard-11673cb5-ab23-467a-95f5-085c3af98411-applicatio",
+      "url": "https://jobs.ashbyhq.com/clipboard/11673cb5-ab23-467a-95f5-085c3af98411/application",
+      "company": "clipboard",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:13:59.328Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-dandy-0d94f585-60c1-4b69-92b8-17dc25a430c3-application",
+      "url": "https://jobs.ashbyhq.com/dandy/0d94f585-60c1-4b69-92b8-17dc25a430c3/application",
+      "company": "dandy",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:14:23.791Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mapbox-9c7a09b2-901a-46a5-aa72-8b045e5ec6c7-application",
+      "url": "https://jobs.ashbyhq.com/mapbox/9c7a09b2-901a-46a5-aa72-8b045e5ec6c7/application",
+      "company": "mapbox",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:15:20.138Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-n8n-04d3fd30-8aef-4c25-bd56-2142b44f8224-application",
+      "url": "https://jobs.ashbyhq.com/n8n/04d3fd30-8aef-4c25-bd56-2142b44f8224/application",
+      "company": "n8n",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:15:30.197Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-clipboard-14a8d657-edae-46cc-b26d-9e51363d7aa9-applicatio",
+      "url": "https://jobs.ashbyhq.com/clipboard/14a8d657-edae-46cc-b26d-9e51363d7aa9/application",
+      "company": "clipboard",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:15:39.548Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-dandy-b396c345-c5f9-424f-9c57-2168a6675a18-application",
+      "url": "https://jobs.ashbyhq.com/dandy/b396c345-c5f9-424f-9c57-2168a6675a18/application",
+      "company": "dandy",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:15:50.366Z"
+    },
+    {
+      "id": "https-jobs-lever-co-hively-429e18b7-e52f-47a8-9ef3-278b677ebaad-apply",
+      "url": "https://jobs.lever.co/Hively/429e18b7-e52f-47a8-9ef3-278b677ebaad/apply",
+      "company": "hively",
+      "fields": 16,
+      "captured_at": "2026-07-10T15:16:30.773Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-foundational-1b8afc60-4b4c-4bf0-bf3c-3e809f0e5688-applica",
+      "url": "https://jobs.ashbyhq.com/foundational/1b8afc60-4b4c-4bf0-bf3c-3e809f0e5688/application",
+      "company": "foundational",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:17:58.814Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-foundational-ce56f304-849f-4448-9381-5631864d6d4f-applica",
+      "url": "https://jobs.ashbyhq.com/foundational/ce56f304-849f-4448-9381-5631864d6d4f/application",
+      "company": "foundational",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:18:07.364Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-halter-05147ed1-97bc-4047-97af-fa32cad7d627-application",
+      "url": "https://jobs.ashbyhq.com/halter/05147ed1-97bc-4047-97af-fa32cad7d627/application",
+      "company": "halter",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:18:17.964Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-halter-05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef-application",
+      "url": "https://jobs.ashbyhq.com/halter/05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef/application",
+      "company": "halter",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:18:27.994Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hinge-health-148e6d63-1fa8-4423-9b16-ac4b85765a65-applica",
+      "url": "https://jobs.ashbyhq.com/hinge-health/148e6d63-1fa8-4423-9b16-ac4b85765a65/application",
+      "company": "hinge-health",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:18:38.005Z"
+    },
+    {
+      "id": "https-jobs-lever-co-promenade-d5121093-233c-4331-802e-603b8512cebf-apply",
+      "url": "https://jobs.lever.co/promenade/d5121093-233c-4331-802e-603b8512cebf/apply",
+      "company": "promenade",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:19:41.242Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-eliseai-de780d8f-98eb-492b-80fc-6687f3cd65e9-application",
+      "url": "https://jobs.ashbyhq.com/eliseai/de780d8f-98eb-492b-80fc-6687f3cd65e9/application",
+      "company": "eliseai",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:19:44.397Z"
+    },
+    {
+      "id": "https-jobs-lever-co-instrumentl-6fa7b6d7-7e64-429a-80ea-4f70469d7584-apply",
+      "url": "https://jobs.lever.co/Instrumentl/6fa7b6d7-7e64-429a-80ea-4f70469d7584/apply",
+      "company": "instrumentl",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:19:51.427Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-firecrawl-0d7a5f64-4da7-4f68-844f-7c4748c5f847-applicatio",
+      "url": "https://jobs.ashbyhq.com/firecrawl/0d7a5f64-4da7-4f68-844f-7c4748c5f847/application",
+      "company": "firecrawl",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:20:02.839Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hinge-health-e206ad9f-58ab-4dea-afa6-77a2240293c9-applica",
+      "url": "https://jobs.ashbyhq.com/hinge-health/e206ad9f-58ab-4dea-afa6-77a2240293c9/application",
+      "company": "hinge-health",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:20:12.672Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-imprint-2f3d2105-4aa4-4182-a405-1d8faf17d6f5-application",
+      "url": "https://jobs.ashbyhq.com/imprint/2f3d2105-4aa4-4182-a405-1d8faf17d6f5/application",
+      "company": "imprint",
+      "fields": 16,
+      "captured_at": "2026-07-10T15:21:07.693Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-imprint-7f024cfa-0554-4ea8-910c-3b28448f69d3-application",
+      "url": "https://jobs.ashbyhq.com/imprint/7f024cfa-0554-4ea8-910c-3b28448f69d3/application",
+      "company": "imprint",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:21:19.029Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-ironcladhq-078648fb-f4a0-4909-98c9-71dcf75abfac-applicati",
+      "url": "https://jobs.ashbyhq.com/ironcladhq/078648fb-f4a0-4909-98c9-71dcf75abfac/application",
+      "company": "ironcladhq",
+      "fields": 22,
+      "captured_at": "2026-07-10T15:21:29.484Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-jane-46336bc8-b4ed-4004-a0e3-0294b58c9b37-application",
+      "url": "https://jobs.ashbyhq.com/jane/46336bc8-b4ed-4004-a0e3-0294b58c9b37/application",
+      "company": "jane",
+      "fields": 15,
+      "captured_at": "2026-07-10T15:22:02.223Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-kindred-72656491-1ede-4814-bf3a-a21f18569fce-application",
+      "url": "https://jobs.ashbyhq.com/kindred/72656491-1ede-4814-bf3a-a21f18569fce/application",
+      "company": "kindred",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:22:12.094Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-kindred-8868c144-1909-47f2-9c1c-e59a9e4ddce0-application",
+      "url": "https://jobs.ashbyhq.com/kindred/8868c144-1909-47f2-9c1c-e59a9e4ddce0/application",
+      "company": "kindred",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:22:22.761Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-knock-5059706e-d9c2-44ec-9a2f-095a7f6e7673-application",
+      "url": "https://jobs.ashbyhq.com/knock/5059706e-d9c2-44ec-9a2f-095a7f6e7673/application",
+      "company": "knock",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:22:31.590Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-knock-594801bd-7903-4e78-8426-8de1907a4288-application",
+      "url": "https://jobs.ashbyhq.com/knock/594801bd-7903-4e78-8426-8de1907a4288/application",
+      "company": "knock",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:22:39.715Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-litmus-03841af7-aa1d-4736-8e84-b34c1dc2e8f6-application",
+      "url": "https://jobs.ashbyhq.com/litmus/03841af7-aa1d-4736-8e84-b34c1dc2e8f6/application",
+      "company": "litmus",
+      "fields": 6,
+      "captured_at": "2026-07-10T15:23:00.188Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-litmus-04cf92ab-6f1d-4498-84cb-26337f06bd23-application",
+      "url": "https://jobs.ashbyhq.com/litmus/04cf92ab-6f1d-4498-84cb-26337f06bd23/application",
+      "company": "litmus",
+      "fields": 6,
+      "captured_at": "2026-07-10T15:23:09.316Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mercor-036c112d-ea5c-4706-97d0-350546635a0f-application",
+      "url": "https://jobs.ashbyhq.com/mercor/036c112d-ea5c-4706-97d0-350546635a0f/application",
+      "company": "mercor",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:23:18.167Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mercor-05765640-394b-48b0-9dd0-cbcc201dffb1-application",
+      "url": "https://jobs.ashbyhq.com/mercor/05765640-394b-48b0-9dd0-cbcc201dffb1/application",
+      "company": "mercor",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:23:27.353Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mollie-dafacc05-dd38-4f1e-9dc0-b2a66d111dc4-application",
+      "url": "https://jobs.ashbyhq.com/mollie/dafacc05-dd38-4f1e-9dc0-b2a66d111dc4/application",
+      "company": "mollie",
+      "fields": 15,
+      "captured_at": "2026-07-10T15:23:37.616Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mollie-ecb45896-a587-4f62-9edc-16ec72bfe9f5-application",
+      "url": "https://jobs.ashbyhq.com/mollie/ecb45896-a587-4f62-9edc-16ec72bfe9f5/application",
+      "company": "mollie",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:23:47.219Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-monogram-0170eb26-8cf3-45aa-854c-44df1d790aa1-application",
+      "url": "https://jobs.ashbyhq.com/monogram/0170eb26-8cf3-45aa-854c-44df1d790aa1/application",
+      "company": "monogram",
+      "fields": 7,
+      "captured_at": "2026-07-10T15:23:56.287Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-monogram-3fa03b4f-ec86-48f5-a247-2c4aa51418e6-application",
+      "url": "https://jobs.ashbyhq.com/monogram/3fa03b4f-ec86-48f5-a247-2c4aa51418e6/application",
+      "company": "monogram",
+      "fields": 8,
+      "captured_at": "2026-07-10T15:24:05.648Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-nerdwallet-09c220bd-1467-4ea3-8e19-b5fd7f1fa7aa-applicati",
+      "url": "https://jobs.ashbyhq.com/nerdwallet/09c220bd-1467-4ea3-8e19-b5fd7f1fa7aa/application",
+      "company": "nerdwallet",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:24:13.952Z"
+    },
+    {
+      "id": "https-jobs-lever-co-happyco-3476809d-787b-40cc-b5a1-9370356e2959-apply",
+      "url": "https://jobs.lever.co/happyco/3476809d-787b-40cc-b5a1-9370356e2959/apply",
+      "company": "happyco",
+      "fields": 22,
+      "captured_at": "2026-07-10T15:24:36.100Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-camunda-1398a476-4160-48df-8b19-ee7977f2eaa2-application",
+      "url": "https://jobs.ashbyhq.com/camunda/1398a476-4160-48df-8b19-ee7977f2eaa2/application",
+      "company": "camunda",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:25:02.452Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-angi-045639ad-cfe4-47b7-9055-924e0a236f61-application",
+      "url": "https://jobs.ashbyhq.com/angi/045639ad-cfe4-47b7-9055-924e0a236f61/application",
+      "company": "angi",
+      "fields": 14,
+      "captured_at": "2026-07-10T15:25:11.339Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-aven-6ef922b2-8bf9-4483-b4df-f4273ab9ea55-application",
+      "url": "https://jobs.ashbyhq.com/aven/6ef922b2-8bf9-4483-b4df-f4273ab9ea55/application",
+      "company": "aven",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:25:42.394Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-jane-95defd2c-1f31-4da7-92fe-691c7babfcff-application",
+      "url": "https://jobs.ashbyhq.com/jane/95defd2c-1f31-4da7-92fe-691c7babfcff/application",
+      "company": "jane",
+      "fields": 19,
+      "captured_at": "2026-07-10T15:27:15.517Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-citizen-31ae881d-80ba-4768-b2c3-490c66a904ee-application",
+      "url": "https://jobs.ashbyhq.com/citizen/31ae881d-80ba-4768-b2c3-490c66a904ee/application",
+      "company": "citizen",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:27:40.386Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-nerdwallet-12d764c9-c54e-4b84-8212-ec1fe3496cdd-applicati",
+      "url": "https://jobs.ashbyhq.com/nerdwallet/12d764c9-c54e-4b84-8212-ec1fe3496cdd/application",
+      "company": "nerdwallet",
+      "fields": 29,
+      "captured_at": "2026-07-10T15:27:50.673Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-camunda-0a280381-d3e8-451c-ae8d-687306505183-application",
+      "url": "https://jobs.ashbyhq.com/camunda/0a280381-d3e8-451c-ae8d-687306505183/application",
+      "company": "camunda",
+      "fields": 23,
+      "captured_at": "2026-07-10T15:28:02.236Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-angi-5fe25aaa-19b8-4dee-9b5e-0112c3c15982-application",
+      "url": "https://jobs.ashbyhq.com/angi/5fe25aaa-19b8-4dee-9b5e-0112c3c15982/application",
+      "company": "angi",
+      "fields": 14,
+      "captured_at": "2026-07-10T15:28:12.095Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-aven-724a3f08-34d3-4305-8135-ea3236224766-application",
+      "url": "https://jobs.ashbyhq.com/aven/724a3f08-34d3-4305-8135-ea3236224766/application",
+      "company": "aven",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:28:22.510Z"
+    },
+    {
+      "id": "https-jobs-lever-co-brilliant-641b4544-757b-4701-866c-d8c2b262d42e-apply",
+      "url": "https://jobs.lever.co/brilliant/641b4544-757b-4701-866c-d8c2b262d42e/apply",
+      "company": "brilliant",
+      "fields": 14,
+      "captured_at": "2026-07-10T15:28:22.783Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-dash0-0ffafa6a-1d48-4f2b-96b6-21423cc475d8-application",
+      "url": "https://jobs.ashbyhq.com/dash0/0ffafa6a-1d48-4f2b-96b6-21423cc475d8/application",
+      "company": "dash0",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:28:33.411Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-citizen-501e770f-abbb-42ca-b926-b3345fc96a61-application",
+      "url": "https://jobs.ashbyhq.com/citizen/501e770f-abbb-42ca-b926-b3345fc96a61/application",
+      "company": "citizen",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:29:18.306Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-cube-3f11b1d9-0e03-46fc-8ad4-03ff4c39bf2d-application",
+      "url": "https://jobs.ashbyhq.com/cube/3f11b1d9-0e03-46fc-8ad4-03ff4c39bf2d/application",
+      "company": "cube",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:29:31.840Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-cube-58aad2ce-bd69-41cd-bd74-f0270d016b06-application",
+      "url": "https://jobs.ashbyhq.com/cube/58aad2ce-bd69-41cd-bd74-f0270d016b06/application",
+      "company": "cube",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:29:42.563Z"
+    }
+  ],
+  "report": "tests/fixtures/form-extraction/curated-oracle-report.json",
+  "summary_path": "tests/fixtures/form-extraction/curated-oracle-batch-50-summary.json",
+  "batch_cap": 50,
+  "batch_fixtures": [
+    {
+      "id": "https-jobs-ashbyhq-com-fyxer-6181dd49-0962-4998-9037-603aa7b043c7-application",
+      "url": "https://jobs.ashbyhq.com/fyxer/6181dd49-0962-4998-9037-603aa7b043c7/application",
+      "company": "fyxer",
+      "fields": 4,
+      "captured_at": "2026-07-10T15:10:04.933Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-ashby-86a60834-ba64-484d-9658-afa1bc97a957-application",
+      "url": "https://jobs.ashbyhq.com/ashby/86a60834-ba64-484d-9658-afa1bc97a957/application",
+      "company": "ashby",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:10:44.000Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-bubble-10a8b4ec-4135-4300-8778-4c450de278c6-application",
+      "url": "https://jobs.ashbyhq.com/bubble/10a8b4ec-4135-4300-8778-4c450de278c6/application",
+      "company": "bubble",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:10:54.909Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-fyxer-16b9b233-314b-4725-b3e1-5c0b4eaa0ed5-application",
+      "url": "https://jobs.ashbyhq.com/fyxer/16b9b233-314b-4725-b3e1-5c0b4eaa0ed5/application",
+      "company": "fyxer",
+      "fields": 4,
+      "captured_at": "2026-07-10T15:11:11.735Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mapbox-2f995b86-60e8-4607-881c-82da5a21e96b-application",
+      "url": "https://jobs.ashbyhq.com/mapbox/2f995b86-60e8-4607-881c-82da5a21e96b/application",
+      "company": "mapbox",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:11:44.032Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hackerone-9721a4c7-ff1e-47ca-a89e-97688ebff96c-applicatio",
+      "url": "https://jobs.ashbyhq.com/hackerone/9721a4c7-ff1e-47ca-a89e-97688ebff96c/application",
+      "company": "hackerone",
+      "fields": 28,
+      "captured_at": "2026-07-10T15:12:05.275Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-bubble-242caaf7-dad8-4ffe-83f0-666972e5a031-application",
+      "url": "https://jobs.ashbyhq.com/bubble/242caaf7-dad8-4ffe-83f0-666972e5a031/application",
+      "company": "bubble",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:13:18.822Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-n8n-062fa075-dbda-4bbf-b264-ac339d5ab9de-application",
+      "url": "https://jobs.ashbyhq.com/n8n/062fa075-dbda-4bbf-b264-ac339d5ab9de/application",
+      "company": "n8n",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:13:50.419Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-clipboard-11673cb5-ab23-467a-95f5-085c3af98411-applicatio",
+      "url": "https://jobs.ashbyhq.com/clipboard/11673cb5-ab23-467a-95f5-085c3af98411/application",
+      "company": "clipboard",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:13:59.328Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-dandy-0d94f585-60c1-4b69-92b8-17dc25a430c3-application",
+      "url": "https://jobs.ashbyhq.com/dandy/0d94f585-60c1-4b69-92b8-17dc25a430c3/application",
+      "company": "dandy",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:14:23.791Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mapbox-9c7a09b2-901a-46a5-aa72-8b045e5ec6c7-application",
+      "url": "https://jobs.ashbyhq.com/mapbox/9c7a09b2-901a-46a5-aa72-8b045e5ec6c7/application",
+      "company": "mapbox",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:15:20.138Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-n8n-04d3fd30-8aef-4c25-bd56-2142b44f8224-application",
+      "url": "https://jobs.ashbyhq.com/n8n/04d3fd30-8aef-4c25-bd56-2142b44f8224/application",
+      "company": "n8n",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:15:30.197Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-clipboard-14a8d657-edae-46cc-b26d-9e51363d7aa9-applicatio",
+      "url": "https://jobs.ashbyhq.com/clipboard/14a8d657-edae-46cc-b26d-9e51363d7aa9/application",
+      "company": "clipboard",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:15:39.548Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-dandy-b396c345-c5f9-424f-9c57-2168a6675a18-application",
+      "url": "https://jobs.ashbyhq.com/dandy/b396c345-c5f9-424f-9c57-2168a6675a18/application",
+      "company": "dandy",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:15:50.366Z"
+    },
+    {
+      "id": "https-jobs-lever-co-hively-429e18b7-e52f-47a8-9ef3-278b677ebaad-apply",
+      "url": "https://jobs.lever.co/Hively/429e18b7-e52f-47a8-9ef3-278b677ebaad/apply",
+      "company": "hively",
+      "fields": 16,
+      "captured_at": "2026-07-10T15:16:30.773Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-foundational-1b8afc60-4b4c-4bf0-bf3c-3e809f0e5688-applica",
+      "url": "https://jobs.ashbyhq.com/foundational/1b8afc60-4b4c-4bf0-bf3c-3e809f0e5688/application",
+      "company": "foundational",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:17:58.814Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-foundational-ce56f304-849f-4448-9381-5631864d6d4f-applica",
+      "url": "https://jobs.ashbyhq.com/foundational/ce56f304-849f-4448-9381-5631864d6d4f/application",
+      "company": "foundational",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:18:07.364Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-halter-05147ed1-97bc-4047-97af-fa32cad7d627-application",
+      "url": "https://jobs.ashbyhq.com/halter/05147ed1-97bc-4047-97af-fa32cad7d627/application",
+      "company": "halter",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:18:17.964Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-halter-05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef-application",
+      "url": "https://jobs.ashbyhq.com/halter/05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef/application",
+      "company": "halter",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:18:27.994Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hinge-health-148e6d63-1fa8-4423-9b16-ac4b85765a65-applica",
+      "url": "https://jobs.ashbyhq.com/hinge-health/148e6d63-1fa8-4423-9b16-ac4b85765a65/application",
+      "company": "hinge-health",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:18:38.005Z"
+    },
+    {
+      "id": "https-jobs-lever-co-promenade-d5121093-233c-4331-802e-603b8512cebf-apply",
+      "url": "https://jobs.lever.co/promenade/d5121093-233c-4331-802e-603b8512cebf/apply",
+      "company": "promenade",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:19:41.242Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-eliseai-de780d8f-98eb-492b-80fc-6687f3cd65e9-application",
+      "url": "https://jobs.ashbyhq.com/eliseai/de780d8f-98eb-492b-80fc-6687f3cd65e9/application",
+      "company": "eliseai",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:19:44.397Z"
+    },
+    {
+      "id": "https-jobs-lever-co-instrumentl-6fa7b6d7-7e64-429a-80ea-4f70469d7584-apply",
+      "url": "https://jobs.lever.co/Instrumentl/6fa7b6d7-7e64-429a-80ea-4f70469d7584/apply",
+      "company": "instrumentl",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:19:51.427Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-firecrawl-0d7a5f64-4da7-4f68-844f-7c4748c5f847-applicatio",
+      "url": "https://jobs.ashbyhq.com/firecrawl/0d7a5f64-4da7-4f68-844f-7c4748c5f847/application",
+      "company": "firecrawl",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:20:02.839Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-hinge-health-e206ad9f-58ab-4dea-afa6-77a2240293c9-applica",
+      "url": "https://jobs.ashbyhq.com/hinge-health/e206ad9f-58ab-4dea-afa6-77a2240293c9/application",
+      "company": "hinge-health",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:20:12.672Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-imprint-2f3d2105-4aa4-4182-a405-1d8faf17d6f5-application",
+      "url": "https://jobs.ashbyhq.com/imprint/2f3d2105-4aa4-4182-a405-1d8faf17d6f5/application",
+      "company": "imprint",
+      "fields": 16,
+      "captured_at": "2026-07-10T15:21:07.693Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-imprint-7f024cfa-0554-4ea8-910c-3b28448f69d3-application",
+      "url": "https://jobs.ashbyhq.com/imprint/7f024cfa-0554-4ea8-910c-3b28448f69d3/application",
+      "company": "imprint",
+      "fields": 17,
+      "captured_at": "2026-07-10T15:21:19.029Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-ironcladhq-078648fb-f4a0-4909-98c9-71dcf75abfac-applicati",
+      "url": "https://jobs.ashbyhq.com/ironcladhq/078648fb-f4a0-4909-98c9-71dcf75abfac/application",
+      "company": "ironcladhq",
+      "fields": 22,
+      "captured_at": "2026-07-10T15:21:29.484Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-jane-46336bc8-b4ed-4004-a0e3-0294b58c9b37-application",
+      "url": "https://jobs.ashbyhq.com/jane/46336bc8-b4ed-4004-a0e3-0294b58c9b37/application",
+      "company": "jane",
+      "fields": 15,
+      "captured_at": "2026-07-10T15:22:02.223Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-kindred-72656491-1ede-4814-bf3a-a21f18569fce-application",
+      "url": "https://jobs.ashbyhq.com/kindred/72656491-1ede-4814-bf3a-a21f18569fce/application",
+      "company": "kindred",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:22:12.094Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-kindred-8868c144-1909-47f2-9c1c-e59a9e4ddce0-application",
+      "url": "https://jobs.ashbyhq.com/kindred/8868c144-1909-47f2-9c1c-e59a9e4ddce0/application",
+      "company": "kindred",
+      "fields": 20,
+      "captured_at": "2026-07-10T15:22:22.761Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-knock-5059706e-d9c2-44ec-9a2f-095a7f6e7673-application",
+      "url": "https://jobs.ashbyhq.com/knock/5059706e-d9c2-44ec-9a2f-095a7f6e7673/application",
+      "company": "knock",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:22:31.590Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-knock-594801bd-7903-4e78-8426-8de1907a4288-application",
+      "url": "https://jobs.ashbyhq.com/knock/594801bd-7903-4e78-8426-8de1907a4288/application",
+      "company": "knock",
+      "fields": 5,
+      "captured_at": "2026-07-10T15:22:39.715Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-litmus-03841af7-aa1d-4736-8e84-b34c1dc2e8f6-application",
+      "url": "https://jobs.ashbyhq.com/litmus/03841af7-aa1d-4736-8e84-b34c1dc2e8f6/application",
+      "company": "litmus",
+      "fields": 6,
+      "captured_at": "2026-07-10T15:23:00.188Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-litmus-04cf92ab-6f1d-4498-84cb-26337f06bd23-application",
+      "url": "https://jobs.ashbyhq.com/litmus/04cf92ab-6f1d-4498-84cb-26337f06bd23/application",
+      "company": "litmus",
+      "fields": 6,
+      "captured_at": "2026-07-10T15:23:09.316Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mercor-036c112d-ea5c-4706-97d0-350546635a0f-application",
+      "url": "https://jobs.ashbyhq.com/mercor/036c112d-ea5c-4706-97d0-350546635a0f/application",
+      "company": "mercor",
+      "fields": 9,
+      "captured_at": "2026-07-10T15:23:18.167Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mercor-05765640-394b-48b0-9dd0-cbcc201dffb1-application",
+      "url": "https://jobs.ashbyhq.com/mercor/05765640-394b-48b0-9dd0-cbcc201dffb1/application",
+      "company": "mercor",
+      "fields": 11,
+      "captured_at": "2026-07-10T15:23:27.353Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mollie-dafacc05-dd38-4f1e-9dc0-b2a66d111dc4-application",
+      "url": "https://jobs.ashbyhq.com/mollie/dafacc05-dd38-4f1e-9dc0-b2a66d111dc4/application",
+      "company": "mollie",
+      "fields": 15,
+      "captured_at": "2026-07-10T15:23:37.616Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-mollie-ecb45896-a587-4f62-9edc-16ec72bfe9f5-application",
+      "url": "https://jobs.ashbyhq.com/mollie/ecb45896-a587-4f62-9edc-16ec72bfe9f5/application",
+      "company": "mollie",
+      "fields": 13,
+      "captured_at": "2026-07-10T15:23:47.219Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-monogram-0170eb26-8cf3-45aa-854c-44df1d790aa1-application",
+      "url": "https://jobs.ashbyhq.com/monogram/0170eb26-8cf3-45aa-854c-44df1d790aa1/application",
+      "company": "monogram",
+      "fields": 7,
+      "captured_at": "2026-07-10T15:23:56.287Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-monogram-3fa03b4f-ec86-48f5-a247-2c4aa51418e6-application",
+      "url": "https://jobs.ashbyhq.com/monogram/3fa03b4f-ec86-48f5-a247-2c4aa51418e6/application",
+      "company": "monogram",
+      "fields": 8,
+      "captured_at": "2026-07-10T15:24:05.648Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-nerdwallet-09c220bd-1467-4ea3-8e19-b5fd7f1fa7aa-applicati",
+      "url": "https://jobs.ashbyhq.com/nerdwallet/09c220bd-1467-4ea3-8e19-b5fd7f1fa7aa/application",
+      "company": "nerdwallet",
+      "fields": 25,
+      "captured_at": "2026-07-10T15:24:13.952Z"
+    },
+    {
+      "id": "https-jobs-lever-co-happyco-3476809d-787b-40cc-b5a1-9370356e2959-apply",
+      "url": "https://jobs.lever.co/happyco/3476809d-787b-40cc-b5a1-9370356e2959/apply",
+      "company": "happyco",
+      "fields": 22,
+      "captured_at": "2026-07-10T15:24:36.100Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-camunda-1398a476-4160-48df-8b19-ee7977f2eaa2-application",
+      "url": "https://jobs.ashbyhq.com/camunda/1398a476-4160-48df-8b19-ee7977f2eaa2/application",
+      "company": "camunda",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:25:02.452Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-angi-045639ad-cfe4-47b7-9055-924e0a236f61-application",
+      "url": "https://jobs.ashbyhq.com/angi/045639ad-cfe4-47b7-9055-924e0a236f61/application",
+      "company": "angi",
+      "fields": 14,
+      "captured_at": "2026-07-10T15:25:11.339Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-aven-6ef922b2-8bf9-4483-b4df-f4273ab9ea55-application",
+      "url": "https://jobs.ashbyhq.com/aven/6ef922b2-8bf9-4483-b4df-f4273ab9ea55/application",
+      "company": "aven",
+      "fields": 12,
+      "captured_at": "2026-07-10T15:25:42.394Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-jane-95defd2c-1f31-4da7-92fe-691c7babfcff-application",
+      "url": "https://jobs.ashbyhq.com/jane/95defd2c-1f31-4da7-92fe-691c7babfcff/application",
+      "company": "jane",
+      "fields": 19,
+      "captured_at": "2026-07-10T15:27:15.517Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-citizen-31ae881d-80ba-4768-b2c3-490c66a904ee-application",
+      "url": "https://jobs.ashbyhq.com/citizen/31ae881d-80ba-4768-b2c3-490c66a904ee/application",
+      "company": "citizen",
+      "fields": 10,
+      "captured_at": "2026-07-10T15:27:40.386Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-nerdwallet-12d764c9-c54e-4b84-8212-ec1fe3496cdd-applicati",
+      "url": "https://jobs.ashbyhq.com/nerdwallet/12d764c9-c54e-4b84-8212-ec1fe3496cdd/application",
+      "company": "nerdwallet",
+      "fields": 29,
+      "captured_at": "2026-07-10T15:27:50.673Z"
+    },
+    {
+      "id": "https-jobs-ashbyhq-com-camunda-0a280381-d3e8-451c-ae8d-687306505183-application",
+      "url": "https://jobs.ashbyhq.com/camunda/0a280381-d3e8-451c-ae8d-687306505183/application",
+      "company": "camunda",
+      "fields": 23,
+      "captured_at": "2026-07-10T15:28:02.236Z"
+    }
+  ],
+  "batch_fixture_ids": [
+    "https-jobs-ashbyhq-com-fyxer-6181dd49-0962-4998-9037-603aa7b043c7-application",
+    "https-jobs-ashbyhq-com-ashby-86a60834-ba64-484d-9658-afa1bc97a957-application",
+    "https-jobs-ashbyhq-com-bubble-10a8b4ec-4135-4300-8778-4c450de278c6-application",
+    "https-jobs-ashbyhq-com-fyxer-16b9b233-314b-4725-b3e1-5c0b4eaa0ed5-application",
+    "https-jobs-ashbyhq-com-mapbox-2f995b86-60e8-4607-881c-82da5a21e96b-application",
+    "https-jobs-ashbyhq-com-hackerone-9721a4c7-ff1e-47ca-a89e-97688ebff96c-applicatio",
+    "https-jobs-ashbyhq-com-bubble-242caaf7-dad8-4ffe-83f0-666972e5a031-application",
+    "https-jobs-ashbyhq-com-n8n-062fa075-dbda-4bbf-b264-ac339d5ab9de-application",
+    "https-jobs-ashbyhq-com-clipboard-11673cb5-ab23-467a-95f5-085c3af98411-applicatio",
+    "https-jobs-ashbyhq-com-dandy-0d94f585-60c1-4b69-92b8-17dc25a430c3-application",
+    "https-jobs-ashbyhq-com-mapbox-9c7a09b2-901a-46a5-aa72-8b045e5ec6c7-application",
+    "https-jobs-ashbyhq-com-n8n-04d3fd30-8aef-4c25-bd56-2142b44f8224-application",
+    "https-jobs-ashbyhq-com-clipboard-14a8d657-edae-46cc-b26d-9e51363d7aa9-applicatio",
+    "https-jobs-ashbyhq-com-dandy-b396c345-c5f9-424f-9c57-2168a6675a18-application",
+    "https-jobs-lever-co-hively-429e18b7-e52f-47a8-9ef3-278b677ebaad-apply",
+    "https-jobs-ashbyhq-com-foundational-1b8afc60-4b4c-4bf0-bf3c-3e809f0e5688-applica",
+    "https-jobs-ashbyhq-com-foundational-ce56f304-849f-4448-9381-5631864d6d4f-applica",
+    "https-jobs-ashbyhq-com-halter-05147ed1-97bc-4047-97af-fa32cad7d627-application",
+    "https-jobs-ashbyhq-com-halter-05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef-application",
+    "https-jobs-ashbyhq-com-hinge-health-148e6d63-1fa8-4423-9b16-ac4b85765a65-applica",
+    "https-jobs-lever-co-promenade-d5121093-233c-4331-802e-603b8512cebf-apply",
+    "https-jobs-ashbyhq-com-eliseai-de780d8f-98eb-492b-80fc-6687f3cd65e9-application",
+    "https-jobs-lever-co-instrumentl-6fa7b6d7-7e64-429a-80ea-4f70469d7584-apply",
+    "https-jobs-ashbyhq-com-firecrawl-0d7a5f64-4da7-4f68-844f-7c4748c5f847-applicatio",
+    "https-jobs-ashbyhq-com-hinge-health-e206ad9f-58ab-4dea-afa6-77a2240293c9-applica",
+    "https-jobs-ashbyhq-com-imprint-2f3d2105-4aa4-4182-a405-1d8faf17d6f5-application",
+    "https-jobs-ashbyhq-com-imprint-7f024cfa-0554-4ea8-910c-3b28448f69d3-application",
+    "https-jobs-ashbyhq-com-ironcladhq-078648fb-f4a0-4909-98c9-71dcf75abfac-applicati",
+    "https-jobs-ashbyhq-com-jane-46336bc8-b4ed-4004-a0e3-0294b58c9b37-application",
+    "https-jobs-ashbyhq-com-kindred-72656491-1ede-4814-bf3a-a21f18569fce-application",
+    "https-jobs-ashbyhq-com-kindred-8868c144-1909-47f2-9c1c-e59a9e4ddce0-application",
+    "https-jobs-ashbyhq-com-knock-5059706e-d9c2-44ec-9a2f-095a7f6e7673-application",
+    "https-jobs-ashbyhq-com-knock-594801bd-7903-4e78-8426-8de1907a4288-application",
+    "https-jobs-ashbyhq-com-litmus-03841af7-aa1d-4736-8e84-b34c1dc2e8f6-application",
+    "https-jobs-ashbyhq-com-litmus-04cf92ab-6f1d-4498-84cb-26337f06bd23-application",
+    "https-jobs-ashbyhq-com-mercor-036c112d-ea5c-4706-97d0-350546635a0f-application",
+    "https-jobs-ashbyhq-com-mercor-05765640-394b-48b0-9dd0-cbcc201dffb1-application",
+    "https-jobs-ashbyhq-com-mollie-dafacc05-dd38-4f1e-9dc0-b2a66d111dc4-application",
+    "https-jobs-ashbyhq-com-mollie-ecb45896-a587-4f62-9edc-16ec72bfe9f5-application",
+    "https-jobs-ashbyhq-com-monogram-0170eb26-8cf3-45aa-854c-44df1d790aa1-application",
+    "https-jobs-ashbyhq-com-monogram-3fa03b4f-ec86-48f5-a247-2c4aa51418e6-application",
+    "https-jobs-ashbyhq-com-nerdwallet-09c220bd-1467-4ea3-8e19-b5fd7f1fa7aa-applicati",
+    "https-jobs-lever-co-happyco-3476809d-787b-40cc-b5a1-9370356e2959-apply",
+    "https-jobs-ashbyhq-com-camunda-1398a476-4160-48df-8b19-ee7977f2eaa2-application",
+    "https-jobs-ashbyhq-com-angi-045639ad-cfe4-47b7-9055-924e0a236f61-application",
+    "https-jobs-ashbyhq-com-aven-6ef922b2-8bf9-4483-b4df-f4273ab9ea55-application",
+    "https-jobs-ashbyhq-com-jane-95defd2c-1f31-4da7-92fe-691c7babfcff-application",
+    "https-jobs-ashbyhq-com-citizen-31ae881d-80ba-4768-b2c3-490c66a904ee-application",
+    "https-jobs-ashbyhq-com-nerdwallet-12d764c9-c54e-4b84-8212-ec1fe3496cdd-applicati",
+    "https-jobs-ashbyhq-com-camunda-0a280381-d3e8-451c-ae8d-687306505183-application"
+  ],
+  "batch_companies": [
+    "angi",
+    "ashby",
+    "aven",
+    "bubble",
+    "camunda",
+    "citizen",
+    "clipboard",
+    "dandy",
+    "eliseai",
+    "firecrawl",
+    "foundational",
+    "fyxer",
+    "hackerone",
+    "halter",
+    "happyco",
+    "hinge-health",
+    "hively",
+    "imprint",
+    "instrumentl",
+    "ironcladhq",
+    "jane",
+    "kindred",
+    "knock",
+    "litmus",
+    "mapbox",
+    "mercor",
+    "mollie",
+    "monogram",
+    "n8n",
+    "nerdwallet",
+    "promenade"
+  ],
+  "overflow_beyond_50": [
+    "https-jobs-ashbyhq-com-angi-5fe25aaa-19b8-4dee-9b5e-0112c3c15982-application",
+    "https-jobs-ashbyhq-com-aven-724a3f08-34d3-4305-8135-ea3236224766-application",
+    "https-jobs-lever-co-brilliant-641b4544-757b-4701-866c-d8c2b262d42e-apply",
+    "https-jobs-ashbyhq-com-dash0-0ffafa6a-1d48-4f2b-96b6-21423cc475d8-application",
+    "https-jobs-ashbyhq-com-citizen-501e770f-abbb-42ca-b926-b3345fc96a61-application",
+    "https-jobs-ashbyhq-com-cube-3f11b1d9-0e03-46fc-8ad4-03ff4c39bf2d-application",
+    "https-jobs-ashbyhq-com-cube-58aad2ce-bd69-41cd-bd74-f0270d016b06-application"
+  ],
+  "heuristics_notes": [
+    "scripts/form-corpus/lib/normalize.mjs: added QUESTION_ALIASES for resume/linkedin/name/phone/portfolio oracle soft-match",
+    "scripts/form-corpus/curated-oracle-capture.mjs: pin navigated tab via setActiveBridgeTab, pass tabId to save-fixture, assertTabMatchesExpectedUrl, reject agree with <2 fields"
+  ],
+  "disagree_triage": [
+    "ashby EM EU: AI hallucinated standard Ashby fields (Phone/Portfolio/etc) not on page - false positive",
+    "firecrawl Product Engineer: ai_only Autofill from resume - UI chrome false positive",
+    "ironcladhq + base-power: ai_only SMS consent checkbox - real detector miss (not fixed this batch)",
+    "hackerone: AI HTML truncation (ai_count=3 vs detector=28)"
+  ],
+  "blockers": [
+    "ECONNRESET frequent on get_page_html / bridge (~57 error events)",
+    "Bridge disconnects mid-batch (extension reconnect required)",
+    "Early tab-override races caused wrong fixture ids (greenhouse/personio/hively) before tabId pin fix",
+    "Fixture slug truncation still truncates long Ashby ids (noted, non-blocking)",
+    "formenergy application URLs returned empty forms (0 fields) - skipped"
+  ]
+}

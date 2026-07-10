@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0047",
+    "seed": 69336107,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Placeholder-only identification",
+                "notes": "Empty label element; field identified only by placeholder attribute",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Placeholder only<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\"><\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\" placeholder=\"Full name\"> <label for=\"ph_email\"><\/label><input type=\"email\" id=\"ph_email\" name=\"ph_email\" placeholder=\"Email address\"> <label for=\"ph_phone\"><\/label><input type",
+                "requires_interaction": false
+            },
+            {
+                "title": "SVG icon labels",
+                "notes": "Label contains SVG icon; accessible name via aria-labelledby only",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>SVG icon labels<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"svg_name_lbl\"><svg aria-hidden=\"true\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\"\/><\/svg> Full name<\/span> <input type=\"text\" name=\"svg_name\" aria-labelledby=\"svg_name_lbl\"> <span id=\"svg_email_lbl\"><svg aria-hidden=\"true\" width=\"16\" h",
+                "requires_interaction": false
+            },
+            {
+                "title": "Ashby yes no buttons",
+                "notes": "Ashby-inspired yes\/no as two styled buttons instead of native radio",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Ashby yes no<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ash_name\">Name<\/label><input type=\"text\" id=\"ash_name\" name=\"ash_name\"> <div class=\"ashby-yesno\" role=\"radiogroup\" aria-labelledby=\"ash_authorized_lbl\"> <span id=\"ash_authorized_lbl\">Are you authorized to work in this country?<\/span> <button t",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Fields inside a shadow DOM host or declarative shadow root Required: At least one readonly or disabled input with prefilled profile value Required: Inputs laid out in table cells, not flex card stacks only Required: Newsletter or login decoy form separate from job application form Required: Phone split into country code select and local number input in separate wrappers Reference DOM (Placeholder-only identification): Empty label element; field identified only by placeholder attribute Reference DOM (SVG icon labels): Label contains SVG icon; accessible name via aria-labelledby only Reference DOM (Ashby yes no buttons): Ashby-inspired yes\/no as two styled buttons instead of native radio Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: shadow-host, readonly-prefill, table-layout, decoy-form, split-phone. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Placeholder-only identification; SVG icon labels; Ashby yes no buttons."
+}

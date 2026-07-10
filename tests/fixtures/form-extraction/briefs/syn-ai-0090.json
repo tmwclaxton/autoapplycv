@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0090",
+    "seed": 3897477579,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Aria-labelledby only",
+                "notes": "Email field identified only via aria-labelledby pointing at hidden span",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Aria-labelledby only<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"email-lbl\" hidden>Work email address<\/span> <input type=\"email\" name=\"work_email\" aria-labelledby=\"email-lbl\"> <label for=\"phone_visible\">Phone<\/label><input type=\"tel\" id=\"phone_visible\" name=\"phone_visible\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Datalist autocomplete",
+                "notes": "Location field uses input list= with datalist suggestions",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Datalist autocomplete<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dl_ac_name\">Name<\/label><input type=\"text\" id=\"dl_ac_name\" name=\"dl_ac_name\"> <label for=\"dl_ac_city\">Current city<\/label> <input type=\"text\" id=\"dl_ac_city\" name=\"dl_ac_city\" list=\"city_suggestions\"> <datalist id=\"city_suggestions\"><",
+                "requires_interaction": false
+            },
+            {
+                "title": "Form inside dialog",
+                "notes": "Application fields live inside a native dialog element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Dialog form<\/h1> <form action=\"\/apply\" method=\"post\" id=\"outer-form\"> <label for=\"dlg_name\">Name<\/label><input type=\"text\" id=\"dlg_name\" name=\"dlg_name\"> <button type=\"button\" id=\"open-dialog\" onclick=\"document.getElementById('apply-dialog').showModal()\">Open application<\/button> <dialog id=\"apply-dialog\"> <l",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Phone split into country code select and local number input in separate wrappers Required: Newsletter or login decoy form separate from job application form Required: Inputs laid out in table cells, not flex card stacks only Required: Fields inside a shadow DOM host or declarative shadow root Required: Fields inside details\/summary or hidden until click Reference DOM (Aria-labelledby only): Email field identified only via aria-labelledby pointing at hidden span Reference DOM (Datalist autocomplete): Location field uses input list= with datalist suggestions Reference DOM (Form inside dialog): Application fields live inside a native dialog element Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: split-phone, decoy-form, table-layout, shadow-host, details-accordion. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Aria-labelledby only; Datalist autocomplete; Form inside dialog."
+}

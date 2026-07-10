@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sr. Product Designer - Ashby Clone</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif}
+body{background:#f5f7fa;color:#1a1a2e;line-height:1.5}
+.app-layout{display:flex;max-width:1280px;margin:0 auto;min-height:100vh;padding:24px 20px;gap:28px}
+.sidebar{width:280px;flex-shrink:0;padding-top:8px}
+.sidebar-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:16px}
+.sidebar-card h3{font-size:14px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+.sidebar-card p{font-size:14px;color:#334155;margin-bottom:6px}
+.sidebar-card .tag{background:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:12px;color:#475569}
+.decoy-newsletter{background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-top:20px}
+.decoy-newsletter h4{font-size:13px;color:#64748b;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.decoy-newsletter input{width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;margin-bottom:8px}
+.decoy-newsletter button{background:#1e293b;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;width:100%}
+.main-content{flex:1;max-width:700px}
+.job-header{margin-bottom:20px}
+.job-header h1{font-size:22px;font-weight:600;color:#0f172a}
+.job-header .company{font-size:15px;color:#475569;margin-top:4px}
+.job-header .location{font-size:14px;color:#64748b;margin-top:2px}
+.form-card{background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);padding:28px 24px;margin-bottom:20px}
+.form-card h2{font-size:18px;font-weight:600;color:#0f172a;margin-bottom:4px}
+.form-card .subhead{font-size:13px;color:#64748b;margin-bottom:20px}
+.field-group{margin-bottom:18px}
+.field-group .q-label{font-size:13px;font-weight:500;color:#334155;margin-bottom:4px;display:block}
+.field-group .q-label .qnum{color:#64748b;font-weight:400;margin-right:2px}
+.field-group .hint{font-size:12px;color:#94a3b8;margin-top:2px}
+.field-group input[type='text'],.field-group input[type='email'],.field-group input[type='tel'],.field-group textarea,.field-group select{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;transition:border 0.15s}
+.field-group input:focus,.field-group textarea:focus,.field-group select:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+.field-group textarea{resize:vertical;min-height:80px}
+.field-row{display:flex;gap:12px}
+.field-row .field-group{flex:1}
+.split-phone{display:flex;gap:10px}
+.split-phone .field-group:first-child{flex:0 0 100px}
+.split-phone .field-group:last-child{flex:1}
+.pill-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.pill-btn{padding:8px 18px;border:1px solid #d1d5db;border-radius:20px;background:#fff;font-size:13px;cursor:pointer;color:#334155;transition:all 0.12s}
+.pill-btn:hover{border-color:#6366f1;color:#6366f1}
+.pill-btn.active{background:#6366f1;color:#fff;border-color:#6366f1}
+.combobox-wrap{position:relative}
+.combobox-wrap .combobox-input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;cursor:default;display:flex;justify-content:space-between;align-items:center}
+.combobox-wrap .combobox-input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+.combobox-wrap .combobox-input .arrow{font-size:10px;color:#94a3b8}
+.combobox-listbox{display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid #d1d5db;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.08);z-index:10;max-height:180px;overflow-y:auto}
+.combobox-listbox.show{display:block}
+.combobox-listbox .option{padding:10px 12px;font-size:14px;cursor:pointer;color:#1e293b}
+.combobox-listbox .option:hover{background:#f1f5f9}
+.combobox-listbox .option.selected{background:#eef2ff;font-weight:500}
+.checkbox-cluster label{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:6px;cursor:pointer}
+.checkbox-cluster input[type='checkbox']{width:16px;height:16px;accent-color:#6366f1}
+.radio-cluster label{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:6px;cursor:pointer}
+.radio-cluster input[type='radio']{width:16px;height:16px;accent-color:#6366f1}
+.details-accordion{background:#f8fafc;border-radius:8px;padding:12px 14px;margin-bottom:18px}
+.details-accordion summary{font-size:14px;font-weight:500;color:#1e293b;cursor:pointer;padding:4px 0}
+.details-accordion .accordion-content{padding-top:12px;border-top:1px solid #e2e8f0;margin-top:10px}
+.glued-span-label{font-size:13px;font-weight:500;color:#334155;margin-bottom:2px;display:block}
+.glued-span-label .dot-sep{color:#6366f1;margin:0 2px}
+.shadow-host-custom{border:1px dashed #cbd5e1;border-radius:10px;padding:14px;background:#fafbfc;margin-bottom:18px;position:relative}
+.shadow-host-custom::before{content:'⚡ shadow host';position:absolute;top:-10px;right:12px;background:#e2e8f0;font-size:10px;padding:2px 8px;border-radius:4px;color:#475569}
+.shadow-host-custom input,.shadow-host-custom textarea,.shadow-host-custom select{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;margin-bottom:10px}
+.shadow-host-custom input:focus,.shadow-host-custom textarea:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+.btn-submit{background:#6366f1;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:15px;font-weight:500;cursor:pointer;width:100%;transition:background 0.15s;margin-top:6px}
+.btn-submit:hover{background:#4f46e5}
+.btn-submit:disabled{background:#a5b4fc;cursor:not-allowed}
+.decoy-divider{height:1px;background:#e2e8f0;margin:20px 0}
+.prefilled-readonly{background:#f1f5f9;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0;color:#475569;font-size:14px;display:flex;justify-content:space-between}
+.prefilled-readonly span:last-child{color:#94a3b8;font-size:12px}
+@media (max-width:800px){.app-layout{flex-direction:column;padding:16px}.sidebar{width:100%}}
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>📌 Job Details</h3>
+      <p><strong>Sr. Product Designer</strong></p>
+      <p>Design • Full-time • Remote (US)</p>
+      <p><span class="tag">ID: REQ-3421</span> <span class="tag">Posted 3d ago</span></p>
+      <p style="margin-top:10px;font-size:13px;color:#64748b;">Applications close Feb 28, 2025</p>
+    </div>
+    <div class="sidebar-card">
+      <h3>🙋 Your Progress</h3>
+      <p style="font-size:13px;"><span style="font-weight:600;">0 of 14</span> fields completed</p>
+      <div style="height:6px;background:#e2e8f0;border-radius:3px;margin-top:8px;overflow:hidden;"><div style="width:0%;height:100%;background:#6366f1;"></div></div>
+    </div>
+    <div class="decoy-newsletter">
+      <h4>📬 <span>Stay updated</span></h4>
+      <form onsubmit="event.preventDefault();alert('Decoy submitted (not real app)');">
+        <label style="font-size:12px;color:#64748b;display:block;margin-bottom:2px;">Email for job alerts</label>
+        <input type="email" placeholder="you@example.com" aria-label="Newsletter email">
+        <button type="submit" style="margin-top:6px;">Subscribe</button>
+      </form>
+      <p style="font-size:11px;color:#94a3b8;margin-top:8px;text-align:center;">We won't spam you. Unsubscribe anytime.</p>
+    </div>
+  </aside>
+  <main class="main-content">
+    <div class="job-header">
+      <h1>Sr. Product Designer</h1>
+      <div class="company">Acme Corp · Design Team</div>
+      <div class="location">Remote (US) · $145k – $175k</div>
+    </div>
+    <form id="applyForm" onsubmit="event.preventDefault();alert('Application submitted (demo)');">
+      <div class="form-card">
+        <h2>Apply for this position</h2>
+        <div class="subhead">All fields marked with * are required unless hidden.</div>
+        
+        <!-- Q1. Full name -->
+        <div class="field-group">
+          <span class="glued-span-label"><span class="qnum">Q1.</span>full name *</span>
+          <input type="text" name="fullname" placeholder="e.g. Jane Smith" aria-label="Q1. Full name" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+        </div>
+        
+        <!-- Q2. Email -->
+        <div class="field-group">
+          <span class="glued-span-label"><span class="qnum">Q2.</span>email *</span>
+          <input type="email" name="email" placeholder="jane@example.com" aria-label="Q2. Email" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+        </div>
+        
+        <!-- Split phone: country code + number (REQUIRED) -->
+        <div class="split-phone">
+          <div class="field-group">
+            <span class="q-label"><span class="qnum">Q3.</span>country code</span>
+            <select name="phone_country" aria-label="Country code" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+61">🇦🇺 +61</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <span class="q-label">phone number *</span>
+            <input type="tel" name="phone_local" placeholder="555-0192" aria-label="Phone number" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+          </div>
+        </div>
+        
+        <!-- Pill buttons (non-semantic: div role=radiogroup, aria-label) -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q4.</span>work authorization</span>
+          <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="us-citizen" onclick="selectPill(this)">US Citizen</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="green-card" onclick="selectPill(this)">Green Card</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="h1b" onclick="selectPill(this)">H1-B</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="other" onclick="selectPill(this)">Other</div>
+          </div>
+          <input type="hidden" name="authorization" id="authHidden" value="">
+        </div>
+        
+        <!-- Custom combobox (listbox) for 'How did you hear?' (REQUIRED: combobox widget) -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q5.</span>how did you hear?</span>
+          <div class="combobox-wrap" id="combobox-wrap">
+            <div class="combobox-input" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="How did you hear about us?" onclick="toggleCombobox()" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCombobox()">
+              <span id="combobox-selected">Select source</span>
+              <span class="arrow">▼</span>
+            </div>
+            <div class="combobox-listbox" id="combobox-listbox" role="listbox" aria-label="Sources">
+              <div class="option" role="option" aria-selected="false" data-value="linkedin" onclick="selectOption(this,'LinkedIn')">LinkedIn</div>
+              <div class="option" role="option" aria-selected="false" data-value="referral" onclick="selectOption(this,'Referral')">Referral</div>
+              <div class="option" role="option" aria-selected="false" data-value="indeed" onclick="selectOption(this,'Indeed')">Indeed</div>
+              <div class="option" role="option" aria-selected="false" data-value="other" onclick="selectOption(this,'Other')">Other</div>
+            </div>
+            <input type="hidden" name="source" id="sourceHidden" value="">
+          </div>
+        </div>
+        
+        <!-- checkbox cluster (duplicate-name-attrs) -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q6.</span>tools you use (select all)</span>
+          <div class="checkbox-cluster">
+            <label><input type="checkbox" name="tools" value="figma"> Figma</label>
+            <label><input type="checkbox" name="tools" value="sketch"> Sketch</label>
+            <label><input type="checkbox" name="tools" value="framer"> Framer</label>
+            <label><input type="checkbox" name="tools" value="photoshop"> Photoshop</label>
+          </div>
+        </div>
+        
+        <!-- radio cluster (duplicate-name-attrs) -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q7.</span>years of experience</span>
+          <div class="radio-cluster">
+            <label><input type="radio" name="experience" value="0-2"> 0-2 yrs</label>
+            <label><input type="radio" name="experience" value="3-5"> 3-5 yrs</label>
+            <label><input type="radio" name="experience" value="6-10"> 6-10 yrs</label>
+            <label><input type="radio" name="experience" value="10+"> 10+ yrs</label>
+          </div>
+        </div>
+        
+        <!-- Details accordion (cover letter & visa) -->
+        <details class="details-accordion">
+          <summary>📎 Additional documents (optional)</summary>
+          <div class="accordion-content">
+            <div class="field-group">
+              <span class="q-label"><span class="qnum">Q8.</span>cover letter (optional)</span>
+              <textarea name="cover_letter" placeholder="Write a brief cover letter..." aria-label="Cover letter" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;min-height:80px;"></textarea>
+            </div>
+            <div class="field-group">
+              <span class="q-label"><span class="qnum">Q9.</span>visa sponsorship needed?</span>
+              <div style="display:flex;gap:12px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;"><input type="radio" name="visa" value="yes"> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;"><input type="radio" name="visa" value="no"> No</label>
+              </div>
+            </div>
+            <div class="field-group">
+              <span class="q-label"><span class="qnum">Q10.</span>current location</span>
+              <input type="text" name="location" placeholder="City, State" aria-label="Current location" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+            </div>
+          </div>
+        </details>
+        
+        <!-- Shadow DOM host (declarative shadow root) -->
+        <div class="shadow-host-custom">
+          <span style="font-size:13px;font-weight:500;color:#334155;display:block;margin-bottom:6px;"><span class="qnum">Q11.</span>portfolio / links</span>
+          <div id="shadow-host">
+            <template shadowrootmode="open">
+              <style>
+                .shadow-field{margin-bottom:8px;}
+                .shadow-field label{display:block;font-size:12px;font-weight:500;color:#475569;margin-bottom:2px;}
+                .shadow-field input{width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;}
+                .shadow-field input:focus{outline:none;border-color:#6366f1;}
+              </style>
+              <div class="shadow-field">
+                <label for="portfolio-input">Portfolio URL</label>
+                <input id="portfolio-input" type="url" placeholder="https://portfolio.dev" name="portfolio_url" aria-label="Portfolio URL">
+              </div>
+              <div class="shadow-field">
+                <label for="github-input">GitHub (optional)</label>
+                <input id="github-input" type="text" placeholder="@username" name="github_handle" aria-label="GitHub handle">
+              </div>
+            </template>
+          </div>
+        </div>
+        
+        <!-- Readonly prefilled (glued span pattern) -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q12.</span>referral code (if any)</span>
+          <div class="prefilled-readonly">
+            <span>REF-2025-ACME</span>
+            <span>🔒 auto-filled</span>
+          </div>
+        </div>
+        
+        <!-- Additional fields to reach 14 -->
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q13.</span>linkedin profile (optional)</span>
+          <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn profile" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+        </div>
+        <div class="field-group">
+          <span class="q-label"><span class="qnum">Q14.</span>how many years in design?</span>
+          <input type="number" name="design_years" placeholder="e.g. 5" aria-label="Years in design" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+        </div>
+        
+        <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
+      </div>
+    </form>
+    
+    <!-- decoy form (second form, login/newsletter) -->
+    <div class="decoy-newsletter" style="margin-top:24px;">
+      <h4>🔐 <span>Recruiter login (decoy)</span></h4>
+      <form onsubmit="event.preventDefault();alert('Decoy login submitted');">
+        <div style="display:flex;gap:10px;">
+          <input type="text" placeholder="Username" aria-label="Username" style="flex:1;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;">
+          <input type="password" placeholder="Password" aria-label="Password" style="flex:1;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;">
+          <button type="submit" style="background:#1e293b;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;">Log in</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+<script>
+  // Pill selection
+  function selectPill(el) {
+    var group = el.parentNode;
+    var pills = group.querySelectorAll('.pill-btn');
+    pills.forEach(function(p){ p.classList.remove('active'); p.setAttribute('aria-checked','false'); });
+    el.classList.add('active');
+    el.setAttribute('aria-checked','true');
+    document.getElementById('authHidden').value = el.getAttribute('data-value');
+  }
+  // Combobox toggle
+  var comboOpen = false;
+  function toggleCombobox() {
+    var listbox = document.getElementById('combobox-listbox');
+    var trigger = document.querySelector('.combobox-input');
+    comboOpen = !comboOpen;
+    listbox.classList.toggle('show', comboOpen);
+    trigger.setAttribute('aria-expanded', comboOpen);
+  }
+  function selectOption(el, label) {
+    document.getElementById('combobox-selected').textContent = label;
+    document.getElementById('sourceHidden').value = el.getAttribute('data-value');
+    var options = document.querySelectorAll('.combobox-listbox .option');
+    options.forEach(function(o){ o.classList.remove('selected'); o.setAttribute('aria-selected','false'); });
+    el.classList.add('selected');
+    el.setAttribute('aria-selected','true');
+    toggleCombobox();
+  }
+  // close combobox on outside click
+  document.addEventListener('click', function(e) {
+    var wrap = document.getElementById('combobox-wrap');
+    if (!wrap.contains(e.target) && comboOpen) {
+      toggleCombobox();
+    }
+  });
+  // Shadow DOM declarative root (polyfill for browsers that don't support declarative shadow)
+  (function(){
+    var host = document.getElementById('shadow-host');
+    if (!host.shadowRoot) {
+      var template = host.querySelector('template');
+      if (template && template.content) {
+        var shadow = host.attachShadow({mode: 'open'});
+        shadow.appendChild(template.content.cloneNode(true));
+      }
+    }
+  })();
+</script>
+</body>
+</html>

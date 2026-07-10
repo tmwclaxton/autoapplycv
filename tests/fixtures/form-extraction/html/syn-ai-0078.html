@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Engineer Application - Ashby Clone</title>
+<style>
+* { box-sizing: border-box; }
+body { background: #f5f6f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; }
+.application-wrapper { max-width: 1000px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 24px; }
+h2 { font-size: 20px; margin: 0 0 4px 0; color: #1a1a1a; }
+.subhead { font-size: 14px; color: #666; margin: 0 0 24px 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.full-width { grid-column: 1 / -1; }
+label, .field-label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; }
+input[type="text"], input[type="email"], input[type="tel"], select, textarea { width: 100%; padding: 8px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; }
+.input-error { border-color: #e03e3e !important; }
+.required-asterisk { color: #e03e3e; margin-left: 2px; }
+/* table layout for address block */
+.address-table { width: 100%; border-collapse: collapse; }
+.address-table td { padding: 4px 0; vertical-align: top; }
+.address-table td + td { padding-left: 8px; }
+.address-table .field-label { margin-bottom: 2px; }
+.address-table input { width: 100%; padding: 8px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; }
+/* pill yes/no */
+.pill-group { display: flex; gap: 8px; }
+.pill-btn { padding: 8px 20px; border: 1px solid #d0d5dd; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; color: #333; transition: all .15s; }
+.pill-btn.active { background: #0a66c2; color: white; border-color: #0a66c2; }
+.pill-btn:focus { outline: 2px solid #0a66c2; outline-offset: 2px; }
+/* combobox custom */
+.combobox-wrapper { position: relative; }
+.combobox-field { display: flex; border: 1px solid #d0d5dd; border-radius: 6px; overflow: hidden; }
+.combobox-field input { border: none; border-radius: 6px 0 0 6px; padding: 8px 12px; width: 100%; outline: none; }
+.combobox-field button { background: white; border: none; border-left: 1px solid #d0d5dd; padding: 8px 12px; cursor: pointer; font-size: 13px; color: #666; }
+.combobox-field button:hover { background: #f0f0f0; }
+[role="listbox"] { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d0d5dd; border-radius: 6px; margin-top: 2px; max-height: 200px; overflow-y: auto; display: none; z-index: 10; }
+[role="listbox"].visible { display: block; }
+[role="option"] { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+[role="option"]:hover { background: #f0f4ff; }
+[role="option"][aria-selected="true"] { background: #e6f0ff; font-weight: 600; }
+/* div role=textbox */
+[contenteditable][role="textbox"] { border: 1px solid #d0d5dd; border-radius: 6px; padding: 8px 12px; min-height: 80px; font-size: 14px; white-space: pre-wrap; word-wrap: break-word; }
+[contenteditable][role="textbox"]:focus { outline: 2px solid #0a66c2; outline-offset: -2px; }
+/* hidden file input lever-style */
+.file-upload-zone { border: 2px dashed #d0d5dd; border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; transition: border-color .2s; background: #fafafa; position: relative; }
+.file-upload-zone:hover { border-color: #0a66c2; background: #f0f6ff; }
+.file-upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.file-upload-zone .fake-btn { display: inline-block; background: #0a66c2; color: white; padding: 8px 24px; border-radius: 6px; font-size: 14px; margin-top: 8px; pointer-events: none; }
+.file-upload-zone .file-name { font-size: 13px; color: #666; margin-top: 8px; }
+/* hidden tab panel fields */
+.tab-container { margin-top: 12px; }
+.tab-buttons { display: flex; gap: 0; border-bottom: 1px solid #d0d5dd; }
+.tab-btn { padding: 8px 20px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; color: #666; transition: all .15s; }
+.tab-btn.active { border-bottom-color: #0a66c2; color: #0a66c2; font-weight: 600; }
+.tab-panel { display: none; padding: 16px 0; }
+.tab-panel.active { display: block; }
+/* decoy secondary form */
+.decoy-section { margin-top: 32px; padding-top: 24px; border-top: 2px solid #eee; opacity: 0.7; pointer-events: none; }
+.decoy-section legend { font-size: 14px; color: #999; }
+/* glue span labels */
+.glue-label { display: inline; font-size: 13px; font-weight: 600; color: #333; }
+.glue-input { display: inline-block; width: auto; min-width: 120px; padding: 4px 8px; border: 1px solid #d0d5dd; border-radius: 4px; font-size: 14px; margin-left: 4px; }
+/* hidden reveal */
+.hidden-reveal { display: none; margin-top: 12px; }
+.hidden-reveal.visible { display: block; }
+/* misc */
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.text-sm { font-size: 13px; color: #666; }
+.submit-row { margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; }
+.btn-primary { background: #0a66c2; color: white; padding: 10px 32px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.btn-primary:hover { background: #084d96; }
+.flex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="application-wrapper">
+  <h2>Apply: Senior Platform Engineer</h2>
+  <p class="subhead">Ashby · Remote · Full-time</p>
+  
+  <form id="mainAppForm" novalidate>
+    <div class="two-col">
+      <!-- LEFT COLUMN -->
+      <div>
+        <div class="mb-2">
+          <label for="firstName">First name <span class="required-asterisk">*</span></label>
+          <input type="text" id="firstName" name="name" placeholder="First" required>
+        </div>
+        <div class="mb-2">
+          <label for="lastName">Last name <span class="required-asterisk">*</span></label>
+          <input type="text" id="lastName" name="name" placeholder="Last" required>
+        </div>
+        <div class="mb-2">
+          <label for="email">Email <span class="required-asterisk">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="mb-2">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+        </div>
+        <!-- TABLE LAYOUT: address block -->
+        <div class="mb-2">
+          <span class="field-label">Current address</span>
+          <table class="address-table">
+            <tr><td colspan="2"><input type="text" name="address1" placeholder="Street address" aria-label="Street address"></td></tr>
+            <tr><td style="width:50%"><input type="text" name="address2" placeholder="Apt/Suite" aria-label="Apt or suite"></td><td style="width:50%"><input type="text" name="city" placeholder="City" aria-label="City"></td></tr>
+            <tr><td><input type="text" name="state" placeholder="State" aria-label="State"></td><td><input type="text" name="zip" placeholder="ZIP" aria-label="ZIP code"></td></tr>
+          </table>
+        </div>
+        <!-- DUPLICATE NAME ATTRS: preferred contact method (radio cluster) -->
+        <div class="mb-2">
+          <span class="field-label">Preferred contact method <span class="required-asterisk">*</span></span>
+          <div class="flex">
+            <label style="font-weight:400"><input type="radio" name="contact_method" value="email" checked> Email</label>
+            <label style="font-weight:400"><input type="radio" name="contact_method" value="phone"> Phone</label>
+            <label style="font-weight:400"><input type="radio" name="contact_method" value="text"> Text</label>
+          </div>
+        </div>
+        <!-- DUPLICATE NAME ATTRS: skills checkboxes -->
+        <div class="mb-2">
+          <span class="field-label">Skills (choose all that apply)</span>
+          <div class="flex">
+            <label style="font-weight:400"><input type="checkbox" name="skill" value="aws"> AWS</label>
+            <label style="font-weight:400"><input type="checkbox" name="skill" value="k8s"> Kubernetes</label>
+            <label style="font-weight:400"><input type="checkbox" name="skill" value="terraform"> Terraform</label>
+            <label style="font-weight:400"><input type="checkbox" name="skill" value="python"> Python</label>
+          </div>
+        </div>
+        <!-- CUSTOM COMBOBOX: years of experience -->
+        <div class="mb-2">
+          <span class="field-label" id="yoeLabel">Years of experience <span class="required-asterisk">*</span></span>
+          <div class="combobox-wrapper">
+            <div class="combobox-field">
+              <input type="text" id="yoeInput" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="yoeListbox" aria-labelledby="yoeLabel" placeholder="Select...">
+              <button type="button" id="yoeToggle" aria-label="Toggle options">▼</button>
+            </div>
+            <div role="listbox" id="yoeListbox" aria-labelledby="yoeLabel">
+              <div role="option" aria-selected="false" data-value="<1">&lt;1 year</div>
+              <div role="option" aria-selected="false" data-value="1-2">1-2 years</div>
+              <div role="option" aria-selected="false" data-value="3-5">3-5 years</div>
+              <div role="option" aria-selected="false" data-value="5-10">5-10 years</div>
+              <div role="option" aria-selected="false" data-value="10+">10+ years</div>
+            </div>
+          </div>
+        </div>
+        <!-- PILL YES/NO: currently employed -->
+        <div class="mb-2">
+          <span class="field-label">Are you currently employed? <span class="required-asterisk">*</span></span>
+          <div class="pill-group" role="radiogroup" aria-label="Currently employed">
+            <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" tabindex="0">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" tabindex="-1">No</button>
+          </div>
+          <input type="hidden" name="currently_employed" id="currentlyEmployedHidden" value="">
+        </div>
+      </div>
+      
+      <!-- RIGHT COLUMN -->
+      <div>
+        <!-- DIV ROLE=TEXTBOX (contenteditable) -->
+        <div class="mb-2">
+          <span class="field-label">Brief cover letter or note <span class="required-asterisk">*</span></span>
+          <div role="textbox" contenteditable="true" aria-label="Cover letter" id="coverLetter" style="min-height:100px;" placeholder="Write something..."></div>
+          <input type="hidden" name="cover_letter" id="coverLetterHidden">
+        </div>
+        
+        <!-- LEVER-STYLE FILE UPLOAD (drag & drop) -->
+        <div class="mb-2">
+          <span class="field-label">Resume / CV <span class="required-asterisk">*</span></span>
+          <div class="file-upload-zone" id="resumeDropZone">
+            <div>Drag & drop your resume here, or</div>
+            <div class="fake-btn">Browse files</div>
+            <div class="file-name" id="resumeFileName">No file chosen</div>
+            <input type="file" name="resume" id="resumeInput" accept=".pdf,.doc,.docx" aria-label="Upload resume">
+          </div>
+        </div>
+        
+        <!-- GLUED SPAN LABELS: LinkedIn + Portfolio inline -->
+        <div class="mb-2">
+          <span class="glue-label">LinkedIn:</span><input type="text" class="glue-input" name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL" style="width:65%;">
+        </div>
+        <div class="mb-2">
+          <span class="glue-label">Portfolio:</span><input type="text" class="glue-input" name="portfolio" placeholder="https://..." aria-label="Portfolio URL" style="width:65%;">
+        </div>
+        
+        <!-- TAB PANEL HIDDEN FIELDS -->
+        <div class="tab-container">
+          <div class="tab-buttons">
+            <button type="button" class="tab-btn active" data-tab="tab1">Work History</button>
+            <button type="button" class="tab-btn" data-tab="tab2">Education</button>
+            <button type="button" class="tab-btn" data-tab="tab3">Additional</button>
+          </div>
+          <div class="tab-panel active" id="tab1">
+            <div class="mb-2">
+              <label for="currentEmployer">Current employer</label>
+              <input type="text" id="currentEmployer" name="current_employer" placeholder="Company name">
+            </div>
+            <div class="mb-2">
+              <label for="currentTitle">Title</label>
+              <input type="text" id="currentTitle" name="current_title" placeholder="e.g. Senior Engineer">
+            </div>
+          </div>
+          <div class="tab-panel" id="tab2">
+            <div class="mb-2">
+              <label for="school">School <span class="required-asterisk">*</span></label>
+              <input type="text" id="school" name="school" placeholder="University/College" required>
+            </div>
+            <div class="mb-2">
+              <label for="degree">Degree</label>
+              <input type="text" id="degree" name="degree" placeholder="e.g. B.S. Computer Science">
+            </div>
+          </div>
+          <div class="tab-panel" id="tab3">
+            <div class="mb-2">
+              <label for="github">GitHub URL</label>
+              <input type="text" id="github" name="github" placeholder="https://github.com/...">
+            </div>
+            <div class="mb-2">
+              <span class="field-label">Pronouns</span>
+              <select name="pronouns" aria-label="Pronouns">
+                <option value="">Select...</option>
+                <option>he/him</option>
+                <option>she/her</option>
+                <option>they/them</option>
+                <option>other</option>
+              </select>
+            </div>
+            <!-- hidden reveal: other pronouns -->
+            <div id="otherPronounsReveal" class="hidden-reveal">
+              <label for="otherPronouns">Specify</label>
+              <input type="text" id="otherPronouns" name="other_pronouns" placeholder="your pronouns">
+            </div>
+          </div>
+        </div>
+        
+        <!-- ARIA-LABELLEDBY example: referral -->
+        <div class="mb-2">
+          <span id="referralLabel" class="field-label">How did you hear about us? <span class="required-asterisk">*</span></span>
+          <input type="text" name="referral_source" aria-labelledby="referralLabel" placeholder="e.g. LinkedIn, friend, etc." style="width:100%;">
+        </div>
+        
+        <!-- PILL YES/NO: willingness to travel -->
+        <div class="mb-2">
+          <span class="field-label">Willing to travel up to 25%? <span class="required-asterisk">*</span></span>
+          <div class="pill-group" role="radiogroup" aria-label="Travel willingness">
+            <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" tabindex="0">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" tabindex="-1">No</button>
+          </div>
+          <input type="hidden" name="willing_to_travel" id="travelHidden" value="">
+        </div>
+      </div>
+    </div>
+    
+    <!-- FULL-WIDTH: Additional questions -->
+    <div class="full-width mt-4">
+      <div class="mb-2">
+        <span class="field-label">Are you legally authorized to work in the country of this position? <span class="required-asterisk">*</span></span>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" tabindex="0">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" tabindex="-1">No</button>
+          <button type="button" class="pill-btn" data-value="need_visa" role="radio" aria-checked="false" tabindex="-1">Need visa sponsorship</button>
+        </div>
+        <input type="hidden" name="work_authorization" id="workAuthHidden" value="">
+      </div>
+      
+      <div class="mb-2">
+        <span class="field-label">Salary expectation (USD) <span class="required-asterisk">*</span></span>
+        <input type="text" name="salary_expectation" placeholder="e.g. 150,000" aria-label="Salary expectation" style="max-width:250px;">
+      </div>
+      
+      <!-- DUPLICATE NAME: checkbox group for diversity (hidden tab panel was above) -->
+      <div class="mb-2">
+        <span class="field-label">Identities (optional, check all that apply)</span>
+        <div class="flex">
+          <label style="font-weight:400"><input type="checkbox" name="identity" value="veteran"> Veteran</label>
+          <label style="font-weight:400"><input type="checkbox" name="identity" value="disability"> Disability</label>
+          <label style="font-weight:400"><input type="checkbox" name="identity" value="lgbtq"> LGBTQ+</label>
+        </div>
+      </div>
+    </div>
+    
+    <!-- DECOY SECONDARY FORM (disabled, non-semantic) -->
+    <div class="decoy-section">
+      <legend>Legacy application (deprecated)</legend>
+      <div style="display:flex; gap:12px;">
+        <input type="text" placeholder="Old username" aria-label="Legacy username" disabled>
+        <input type="password" placeholder="Old password" aria-label="Legacy password" disabled>
+        <button type="button" disabled>Sign in</button>
+      </div>
+    </div>
+    
+    <!-- SUBMIT -->
+    <div class="submit-row">
+      <button type="submit" class="btn-primary">Submit Application</button>
+    </div>
+  </form>
+</div>
+
+<script>
+(function(){
+  // Combobox logic
+  const yoeInput = document.getElementById('yoeInput');
+  const yoeToggle = document.getElementById('yoeToggle');
+  const yoeListbox = document.getElementById('yoeListbox');
+  const yoeOptions = yoeListbox.querySelectorAll('[role="option"]');
+  
+  function showListbox() {
+    yoeListbox.classList.add('visible');
+    yoeInput.setAttribute('aria-expanded', 'true');
+  }
+  function hideListbox() {
+    yoeListbox.classList.remove('visible');
+    yoeInput.setAttribute('aria-expanded', 'false');
+  }
+  
+  yoeInput.addEventListener('focus', showListbox);
+  yoeToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (yoeListbox.classList.contains('visible')) hideListbox(); else showListbox();
+  });
+  
+  yoeOptions.forEach(function(opt){
+    opt.addEventListener('click', function(){
+      yoeOptions.forEach(o => o.setAttribute('aria-selected', 'false'));
+      opt.setAttribute('aria-selected', 'true');
+      yoeInput.value = opt.textContent.trim();
+      hideListbox();
+      yoeInput.focus();
+    });
+  });
+  
+  document.addEventListener('click', function(e){
+    if (!e.target.closest('.combobox-wrapper')) hideListbox();
+  });
+  
+  // Pill buttons (radio group behavior)
+  document.querySelectorAll('.pill-group').forEach(function(group){
+    const btns = group.querySelectorAll('.pill-btn');
+    const hiddenInput = group.parentElement.querySelector('input[type="hidden"]') || 
+                        group.closest('.mb-2').querySelector('input[type="hidden"]');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked', 'false'); b.tabIndex = -1; });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        btn.tabIndex = 0;
+        if (hiddenInput) hiddenInput.value = btn.dataset.value;
+      });
+    });
+  });
+  
+  // Tab panel logic
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const tabId = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    });
+  });
+  
+  // Hidden reveal for pronouns (if 'other' selected)
+  document.querySelector('select[name="pronouns"]')?.addEventListener('change', function(){
+    const reveal = document.getElementById('otherPronounsReveal');
+    if (this.value === 'other') reveal.classList.add('visible'); else reveal.classList.remove('visible');
+  });
+  
+  // Div contenteditable: sync to hidden input on form submit
+  const coverLetterDiv = document.getElementById('coverLetter');
+  const coverLetterHidden = document.getElementById('coverLetterHidden');
+  document.getElementById('mainAppForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    coverLetterHidden.value = coverLetterDiv.innerText;
+    // file name display
+    const resumeInput = document.getElementById('resumeInput');
+    const resumeName = document.getElementById('resumeFileName');
+    if (resumeInput.files.length > 0) {
+      resumeName.textContent = resumeInput.files[0].name;
+    }
+    alert('Application submitted (simulated).\n\nThis is a demo form. In production all fields would be validated.');
+  });
+  
+  // File upload zone: update display
+  document.getElementById('resumeInput').addEventListener('change', function(){
+    const nameEl = document.getElementById('resumeFileName');
+    if (this.files.length > 0) nameEl.textContent = this.files[0].name;
+  });
+  
+  // Duplicate name attrs: note that 'name' is used for first/last (both name="name")
+  // Already implemented in HTML: first name and last name share name="name"
+  
+})();
+</script>
+
+</body>
+</html>

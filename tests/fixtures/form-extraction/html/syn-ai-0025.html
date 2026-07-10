@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application - TechNova</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f4f6f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; line-height: 1.5; }
+  .app-layout { display: flex; min-height: 100vh; max-width: 1400px; margin: 0 auto; }
+  .sidebar { width: 380px; background: #fff; border-right: 1px solid #e0e6ed; padding: 32px 28px; flex-shrink: 0; }
+  .main-panel { flex: 1; padding: 32px 40px; background: #f8fafc; }
+  .job-header h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .job-header .company { color: #475569; font-size: 14px; margin-bottom: 20px; }
+  .job-meta { background: #f1f5f9; border-radius: 8px; padding: 16px; margin-bottom: 24px; font-size: 13px; color: #334155; }
+  .job-meta strong { color: #0f172a; }
+  .decoy-section { margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+  .decoy-section h3 { font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .decoy-form { display: flex; flex-direction: column; gap: 12px; }
+  .decoy-form input { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #fff; }
+  .decoy-form button { background: #1e293b; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .section-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .field-full { grid-column: 1 / -1; }
+  .field-group { display: flex; flex-direction: column; gap: 4px; }
+  .field-group label, .field-group .label-text { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .field-group input, .field-group select, .field-group textarea { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); outline: none; }
+  .field-group textarea { resize: vertical; min-height: 80px; }
+  .split-date-row { display: flex; gap: 8px; }
+  .split-date-row select { flex: 1; }
+  .readonly-box { background: #f1f5f9 !important; color: #1e293b; cursor: not-allowed; }
+  .pill-group { display: flex; gap: 8px; margin-top: 4px; }
+  .pill-btn { padding: 8px 20px; border: 2px solid #cbd5e1; border-radius: 24px; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: #475569; }
+  .pill-btn.active { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+  .pill-btn:hover { border-color: #94a3b8; }
+  .combobox-wrapper { position: relative; }
+  .combobox-wrapper input { width: 100%; }
+  .combobox-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-top: none; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; }
+  .combobox-dropdown.show { display: block; }
+  .combobox-option { padding: 10px 14px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover, .combobox-option.highlighted { background: #f1f5f9; }
+  .hidden-field { display: none; }
+  .hidden-field.visible { display: block; }
+  details { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  details summary { font-weight: 600; font-size: 14px; color: #0f172a; cursor: pointer; padding: 4px 0; }
+  details[open] summary { margin-bottom: 12px; }
+  .shadow-host { border: 1px dashed #94a3b8; border-radius: 6px; padding: 16px; background: #f8fafc; margin-bottom: 16px; }
+  .shadow-host .label { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 8px; display: block; }
+  .fake-textbox { min-height: 80px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 14px; font-size: 14px; color: #1e293b; background: #fff; cursor: text; word-wrap: break-word; white-space: pre-wrap; }
+  .fake-textbox:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); outline: none; }
+  .btn-submit { background: #2563eb; color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s; margin-top: 24px; }
+  .btn-submit:hover { background: #1d4ed8; }
+  .error-msg { color: #dc2626; font-size: 12px; margin-top: 2px; }
+  .inline-flex { display: flex; align-items: center; gap: 8px; }
+  .glue-label { font-size: 13px; font-weight: 600; color: #1e293b; white-space: nowrap; }
+  @media (max-width: 768px) { .app-layout { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e6ed; } }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="job-header">
+      <h1>Senior Frontend Engineer</h1>
+      <div class="company">TechNova · Remote (US/Canada) · Full-time</div>
+    </div>
+    <div class="job-meta">
+      <strong>About this role</strong><br>
+      We're looking for a product-minded engineer who thrives in React ecosystems. You'll own feature work from design to deployment.
+    </div>
+    
+    <!-- DECOY FORM: newsletter signup (not the application) -->
+    <div class="decoy-section">
+      <h3>Stay in the loop</h3>
+      <form class="decoy-form" onsubmit="event.preventDefault(); alert('Newsletter signup (decoy)');">
+        <input type="text" placeholder="Your name" aria-label="Newsletter name">
+        <input type="email" placeholder="you@example.com" aria-label="Newsletter email">
+        <button type="submit">Subscribe to updates</button>
+        <p style="font-size:11px;color:#94a3b8;margin:0;">We'll never share your email. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <form id="applyForm" onsubmit="event.preventDefault(); alert('Application submitted (demo)');">
+      <div class="section-title">Your Information</div>
+      <div class="form-grid">
+        <!-- Full name -->
+        <div class="field-group">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" required>
+        </div>
+        <!-- Email -->
+        <div class="field-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+        </div>
+        <!-- Phone -->
+        <div class="field-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 555 123 4567">
+        </div>
+        <!-- Current company (readonly prefill) -->
+        <div class="field-group">
+          <label for="currentCompany">Current company</label>
+          <input type="text" id="currentCompany" name="currentCompany" value="Acme Corp" readonly class="readonly-box">
+        </div>
+        <!-- LinkedIn (aria-label only) -->
+        <div class="field-full" style="display: flex; flex-direction: column; gap: 4px;">
+          <span class="glue-label">LinkedIn URL</span>
+          <input type="url" aria-label="LinkedIn profile URL" placeholder="https://linkedin.com/in/yourprofile" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
+        </div>
+        <!-- Portfolio (display:none input with visible label) -->
+        <div class="field-group" style="position:relative;">
+          <label for="portfolio">Portfolio URL</label>
+          <input type="url" id="portfolio" name="portfolio" style="display:none;" value="https://myportfolio.dev">
+          <span style="color:#475569;font-size:13px;padding:6px 0;">Portfolio on file: myportfolio.dev <button type="button" onclick="document.getElementById('portfolio').style.display='block';this.parentElement.querySelector('span').style.display='none';" style="background:none;border:none;color:#3b82f6;cursor:pointer;font-size:12px;text-decoration:underline;">edit</button></span>
+        </div>
+        <!-- GitHub profile (aria-labelledby) -->
+        <div class="field-group field-full">
+          <span id="githubLabel" style="font-size:13px;font-weight:600;color:#1e293b;">GitHub profile</span>
+          <input type="url" aria-labelledby="githubLabel" placeholder="https://github.com/yourhandle" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
+        </div>
+        <!-- Years of experience (combobox) -->
+        <div class="field-group combobox-wrapper" id="expCombobox">
+          <label for="expInput">Years of experience</label>
+          <input type="text" id="expInput" autocomplete="off" placeholder="Select or type" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+          <div class="combobox-dropdown" role="listbox" aria-label="Experience options">
+            <div class="combobox-option" role="option" data-value="0-1">0–1 years</div>
+            <div class="combobox-option" role="option" data-value="2-3">2–3 years</div>
+            <div class="combobox-option" role="option" data-value="4-6">4–6 years</div>
+            <div class="combobox-option" role="option" data-value="7-10">7–10 years</div>
+            <div class="combobox-option" role="option" data-value="10+">10+ years</div>
+          </div>
+        </div>
+        <!-- Start date: split selects -->
+        <div class="field-group">
+          <span class="label-text">Available start date</span>
+          <div class="split-date-row">
+            <select aria-label="Start month">
+              <option value="">Mon</option>
+              <option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option>
+            </select>
+            <select aria-label="Start day">
+              <option value="">Day</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option>
+            </select>
+            <select aria-label="Start year">
+              <option value="">Year</option>
+              <option>2025</option><option>2026</option><option>2027</option>
+            </select>
+          </div>
+        </div>
+        <!-- Relocation: pill yes/no -->
+        <div class="field-full field-group">
+          <span class="label-text">Are you willing to relocate?</span>
+          <div class="pill-group">
+            <button type="button" class="pill-btn" data-value="yes" onclick="togglePill(this)">Yes</button>
+            <button type="button" class="pill-btn active" data-value="no" onclick="togglePill(this)">No</button>
+          </div>
+          <input type="hidden" id="relocation" value="no">
+        </div>
+        <!-- Work authorization (pill yes/no) -->
+        <div class="field-full field-group">
+          <span class="label-text">Do you have work authorization in the US?</span>
+          <div class="pill-group">
+            <button type="button" class="pill-btn active" data-value="yes" onclick="togglePill(this)">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" onclick="togglePill(this)">No</button>
+          </div>
+          <input type="hidden" id="workAuth" value="yes">
+        </div>
+        <!-- Salary expectation (placeholder-only label) -->
+        <div class="field-group">
+          <input type="text" placeholder="Salary expectation (e.g., $120,000)" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
+        </div>
+      </div>
+
+      <!-- DETAILS/ACCORDION: hidden until click -->
+      <details id="moreDetails">
+        <summary>Additional information (optional)</summary>
+        <div class="form-grid" style="margin-top:12px;">
+          <div class="field-group field-full">
+            <label for="coverLetter">Cover letter or notes</label>
+            <textarea id="coverLetter" rows="4" placeholder="Anything else you'd like us to know..."></textarea>
+          </div>
+          <div class="field-group">
+            <label for="referral">Referral source</label>
+            <input type="text" id="referral" placeholder="How did you hear about us?">
+          </div>
+          <div class="field-group">
+            <label for="startDateNotes">Start date notes</label>
+            <input type="text" id="startDateNotes" placeholder="Any constraints?">
+          </div>
+        </div>
+      </details>
+
+      <!-- SHADOW DOM HOST: custom component with shadow root -->
+      <div class="shadow-host">
+        <span class="label" id="shadowLabel">Preferred tools (shadow DOM)</span>
+        <div id="shadowHost" style="border: 1px dashed #3b82f6; border-radius: 4px; padding: 12px; background: #fff;">
+          <p style="font-size:13px;color:#64748b;">Shadow DOM container — see devtools</p>
+          <div id="shadowContent"></div>
+        </div>
+      </div>
+
+      <!-- DIV ROLE=TEXTBOX (fake textbox) -->
+      <div class="field-group field-full" style="margin-bottom:16px;">
+        <span class="label-text">Short pitch</span>
+        <div role="textbox" contenteditable="true" class="fake-textbox" aria-label="Short pitch" data-placeholder="Tell us why you're a great fit..." style="min-height:60px;"></div>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit application</button>
+    </form>
+  </main>
+</div>
+
+<script>
+  // Pill toggle
+  function togglePill(btn) {
+    const parent = btn.closest('.pill-group');
+    parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const hidden = btn.closest('.field-group').querySelector('input[type="hidden"]');
+    if (hidden) hidden.value = btn.dataset.value;
+  }
+
+  // Combobox logic
+  (function() {
+    const wrapper = document.getElementById('expCombobox');
+    const input = document.getElementById('expInput');
+    const dropdown = wrapper.querySelector('.combobox-dropdown');
+    const options = dropdown.querySelectorAll('.combobox-option');
+
+    input.addEventListener('focus', () => {
+      dropdown.classList.add('show');
+      input.setAttribute('aria-expanded', 'true');
+    });
+    input.addEventListener('blur', () => setTimeout(() => {
+      dropdown.classList.remove('show');
+      input.setAttribute('aria-expanded', 'false');
+    }, 150));
+    input.addEventListener('input', function() {
+      const val = this.value.toLowerCase();
+      options.forEach(opt => {
+        opt.style.display = opt.textContent.toLowerCase().includes(val) ? 'block' : 'none';
+      });
+      if (!dropdown.classList.contains('show')) {
+        dropdown.classList.add('show');
+        input.setAttribute('aria-expanded', 'true');
+      }
+    });
+    options.forEach(opt => {
+      opt.addEventListener('click', function() {
+        input.value = this.textContent;
+        dropdown.classList.remove('show');
+        input.setAttribute('aria-expanded', 'false');
+        options.forEach(o => o.classList.remove('highlighted'));
+      });
+    });
+    // keyboard nav
+    input.addEventListener('keydown', function(e) {
+      const visible = Array.from(options).filter(o => o.style.display !== 'none');
+      if (!visible.length) return;
+      const current = visible.find(o => o.classList.contains('highlighted'));
+      let idx = current ? visible.indexOf(current) : -1;
+      if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx+1, visible.length-1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx-1, 0); }
+      else if (e.key === 'Enter' && current) { e.preventDefault(); input.value = current.textContent; dropdown.classList.remove('show'); input.setAttribute('aria-expanded', 'false'); return; }
+      visible.forEach(o => o.classList.remove('highlighted'));
+      if (idx >= 0) visible[idx].classList.add('highlighted');
+    });
+  })();
+
+  // Shadow DOM injection
+  (function() {
+    const host = document.getElementById('shadowHost');
+    if (host && host.attachShadow) {
+      const shadow = host.attachShadow({ mode: 'open' });
+      shadow.innerHTML = `
+        <style>
+          .shadow-field { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+          label { font-size: 12px; font-weight: 600; color: #1e293b; }
+          select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #fff; width: 100%; }
+        </style>
+        <div class="shadow-field">
+          <label for="shadowSelect">Which framework do you prefer?</label>
+          <select id="shadowSelect">
+            <option>React</option>
+            <option>Vue</option>
+            <option>Svelte</option>
+            <option>Angular</option>
+          </select>
+        </div>
+      `;
+    }
+  })();
+
+  // Fake textbox placeholder behavior
+  document.querySelectorAll('.fake-textbox').forEach(el => {
+    const placeholder = el.getAttribute('data-placeholder') || '';
+    if (!el.textContent.trim()) {
+      el.textContent = placeholder;
+      el.style.color = '#94a3b8';
+    }
+    el.addEventListener('focus', function() {
+      if (this.textContent === placeholder) { this.textContent = ''; this.style.color = '#1e293b'; }
+    });
+    el.addEventListener('blur', function() {
+      if (!this.textContent.trim()) { this.textContent = placeholder; this.style.color = '#94a3b8'; }
+    });
+  });
+</script>
+
+</body>
+</html>

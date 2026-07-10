@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sr. AI Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f1f4f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #1a1a2e; }
+  .app-wrapper { max-width: 920px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); padding: 32px 40px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .subhead { font-size: 14px; color: #5b677b; margin-bottom: 24px; border-bottom: 1px solid #e2e6ee; padding-bottom: 16px; }
+  .app-table { width: 100%; border-collapse: collapse; }
+  .app-table td { padding: 10px 8px; vertical-align: top; }
+  .app-table .label-cell { width: 160px; color: #2c3e50; font-size: 14px; font-weight: 500; padding-top: 14px; }
+  .app-table .field-cell { width: auto; }
+  .app-table tr:not(:last-child) td { border-bottom: 1px solid #f0f2f5; }
+  .field-wrap { position: relative; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #4f6ef7; box-shadow: 0 0 0 3px rgba(79,110,247,0.12); }
+  .req { color: #d93025; margin-left: 2px; }
+  .help-text { font-size: 12px; color: #6b7a8f; margin-top: 4px; }
+  .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 4px; font-size: 14px; cursor: pointer; }
+  .radio-group input, .checkbox-group input { width: auto; margin-right: 2px; }
+  .combobox-wrap { position: relative; }
+  .combobox-btn { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; background: #fff; text-align: left; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-btn:focus { border-color: #4f6ef7; box-shadow: 0 0 0 3px rgba(79,110,247,0.12); }
+  .combobox-btn .arrow { font-size: 10px; color: #6b7a8f; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; z-index: 10; background: #fff; border: 1px solid #d0d5dd; border-radius: 6px; margin-top: 4px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .listbox.open { display: block; }
+  .option { padding: 10px 12px; font-size: 14px; cursor: pointer; }
+  .option:hover { background: #f0f4ff; }
+  .option[aria-selected="true"] { background: #e8edfe; font-weight: 500; }
+  .pill-group { display: flex; gap: 0; border: 1px solid #d0d5dd; border-radius: 6px; overflow: hidden; }
+  .pill-btn { padding: 8px 20px; font-size: 14px; cursor: pointer; background: #fff; border: none; border-right: 1px solid #d0d5dd; transition: background 0.1s; }
+  .pill-btn:last-child { border-right: none; }
+  .pill-btn.active { background: #4f6ef7; color: #fff; }
+  .reveal-target { display: none; margin-top: 8px; }
+  .reveal-target.open { display: block; }
+  .deep-label-wrap { display: block; }
+  .deep-label-wrap .label-outer { padding: 0; margin: 0; }
+  .deep-label-wrap .label-inner { display: block; font-size: 14px; color: #2c3e50; font-weight: 500; margin-bottom: 4px; }
+  .glued-label { display: inline; font-size: 14px; color: #2c3e50; font-weight: 500; }
+  .glued-label span { display: inline; }
+  .shadow-host { display: block; width: 100%; min-height: 40px; border: 1px dashed #b0bee0; border-radius: 6px; padding: 8px; background: #fafbfd; }
+  .decoy-section { margin-top: 32px; padding-top: 20px; border-top: 2px dashed #dde1e8; opacity: 0.7; }
+  .decoy-section h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #8b9bb5; }
+  .form-actions { margin-top: 28px; display: flex; gap: 12px; justify-content: flex-end; }
+  .btn-primary { background: #4f6ef7; color: #fff; border: none; padding: 12px 32px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .btn-primary:hover { background: #3d5bd9; }
+  .btn-ghost { background: #fff; color: #2c3e50; border: 1px solid #d0d5dd; padding: 12px 24px; border-radius: 6px; font-size: 15px; cursor: pointer; }
+  .btn-ghost:hover { background: #f8f9fc; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <h1>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:#4f6ef7"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+    Sr. AI Engineer Application
+  </h1>
+  <div class="subhead">Neural Systems · San Francisco, CA · Full-time · <span style="color:#4f6ef7">We're hiring!</span></div>
+
+  <form id="mainForm">
+    <table class="app-table">
+      <tbody>
+        <!-- 1. Name (deep label wrap) -->
+        <tr>
+          <td class="label-cell">
+            <label class="deep-label-wrap">
+              <span class="label-outer">
+                <span class="label-inner">Full name <span class="req">*</span></span>
+              </span>
+            </label>
+          </td>
+          <td class="field-cell">
+            <input type="text" name="name" placeholder="e.g. Alex Rivera" aria-required="true">
+          </td>
+        </tr>
+        <!-- 2. Email (aria-label only) -->
+        <tr>
+          <td class="label-cell"><span style="font-weight:500;font-size:14px;">Email <span class="req">*</span></span></td>
+          <td class="field-cell">
+            <input type="email" name="email" aria-label="Email address" placeholder="you@company.com">
+          </td>
+        </tr>
+        <!-- 3. Phone (glued label) -->
+        <tr>
+          <td class="label-cell">
+            <span class="glued-label">
+              <span>Phone</span><span class="req" style="margin-left:0">*</span>
+            </span>
+          </td>
+          <td class="field-cell">
+            <input type="tel" name="phone" placeholder="+1 (555) 000-9999">
+          </td>
+        </tr>
+        <!-- 4. LinkedIn (aria-labelledby) -->
+        <tr>
+          <td class="label-cell"><span id="li-label">LinkedIn URL</span></td>
+          <td class="field-cell">
+            <input type="url" name="linkedin" aria-labelledby="li-label" placeholder="linkedin.com/in/yourprofile">
+          </td>
+        </tr>
+        <!-- 5. Portfolio (placeholder-only label) -->
+        <tr>
+          <td class="label-cell"><span style="font-weight:500;font-size:14px;">Portfolio / Website</span></td>
+          <td class="field-cell">
+            <input type="url" name="portfolio" placeholder="https://yourportfolio.dev" style="color:#6b7a8f;">
+          </td>
+        </tr>
+        <!-- 6. Custom combobox: How did you hear about us? -->
+        <tr>
+          <td class="label-cell"><span id="source-label">How did you hear? <span class="req">*</span></span></td>
+          <td class="field-cell">
+            <div class="combobox-wrap">
+              <div class="combobox-btn" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="source-label" tabindex="0" id="sourceCombo">
+                <span id="sourceValue">Select source</span>
+                <span class="arrow">▾</span>
+              </div>
+              <div class="listbox" role="listbox" aria-labelledby="source-label" id="sourceListbox">
+                <div class="option" role="option" aria-selected="false" data-value="linkedin">LinkedIn</div>
+                <div class="option" role="option" aria-selected="false" data-value="github">GitHub</div>
+                <div class="option" role="option" aria-selected="false" data-value="referral">Referral</div>
+                <div class="option" role="option" aria-selected="false" data-value="other">Other</div>
+              </div>
+            </div>
+            <input type="hidden" name="source" id="sourceHidden">
+          </td>
+        </tr>
+        <!-- 7. Shadow DOM host field (declarative shadow root) -->
+        <tr>
+          <td class="label-cell"><span style="font-weight:500;">GitHub profile</span></td>
+          <td class="field-cell">
+            <div class="shadow-host">
+              <template shadowrootmode="open">
+                <style>
+                  :host { display: block; }
+                  .sd-input { width:100%; padding:8px 10px; border:1px solid #b0bee0; border-radius:4px; font-size:14px; background:#fff; }
+                  .sd-label { font-size:12px; color:#5b677b; display:block; margin-bottom:2px; }
+                </style>
+                <span class="sd-label">GitHub URL</span>
+                <input class="sd-input" type="url" name="github" placeholder="https://github.com/yourhandle" aria-label="GitHub profile URL">
+              </template>
+            </div>
+          </td>
+        </tr>
+        <!-- 8. Duplicate name attrs: Work authorization (radio cluster) -->
+        <tr>
+          <td class="label-cell">Work authorization <span class="req">*</span></td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Work authorization">
+              <label><input type="radio" name="work_auth" value="us_citizen"> US Citizen</label>
+              <label><input type="radio" name="work_auth" value="green_card"> Green Card</label>
+              <label><input type="radio" name="work_auth" value="visa_sponsor"> Need sponsorship</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 9. Conditional radio reveal: sponsorship follow-up -->
+        <tr>
+          <td class="label-cell"></td>
+          <td class="field-cell">
+            <div class="reveal-target" id="visaReveal">
+              <textarea name="visa_details" rows="2" placeholder="Describe your current visa status and timeline..." style="width:100%;"></textarea>
+              <div class="help-text">We'll review and get back within 48 hours.</div>
+            </div>
+          </td>
+        </tr>
+        <!-- 10. Pill yes/no buttons (custom widget) -->
+        <tr>
+          <td class="label-cell">Willing to relocate? <span class="req">*</span></td>
+          <td class="field-cell">
+            <div class="pill-group" role="group" aria-label="Relocation">
+              <button type="button" class="pill-btn" data-value="yes">Yes</button>
+              <button type="button" class="pill-btn active" data-value="no">No</button>
+              <button type="button" class="pill-btn" data-value="maybe">Maybe</button>
+            </div>
+            <input type="hidden" name="relocate" value="no" id="relocateHidden">
+          </td>
+        </tr>
+        <!-- 11. Years of experience (glued label spans) -->
+        <tr>
+          <td class="label-cell">
+            <span class="glued-label">
+              <span>Years</span><span> of </span><span>experience</span><span class="req">*</span>
+            </span>
+          </td>
+          <td class="field-cell">
+            <select name="experience" aria-label="Years of experience">
+              <option value="">Select</option>
+              <option value="0-1">0-1</option>
+              <option value="2-3">2-3</option>
+              <option value="4-6">4-6</option>
+              <option value="7+">7+</option>
+            </select>
+          </td>
+        </tr>
+        <!-- 12. Skills (div role=textbox contenteditable) -->
+        <tr>
+          <td class="label-cell">Skills (comma separated)</td>
+          <td class="field-cell">
+            <div role="textbox" contenteditable="true" aria-label="Skills" style="border:1px solid #d0d5dd; border-radius:6px; padding:10px 12px; min-height:44px; font-size:14px; background:#fff;" data-placeholder="e.g. Python, PyTorch, LLMs"></div>
+            <input type="hidden" name="skills" id="skillsHidden">
+          </td>
+        </tr>
+        <!-- 13. Expected salary -->
+        <tr>
+          <td class="label-cell">Expected salary (USD)</td>
+          <td class="field-cell">
+            <input type="text" name="salary" placeholder="e.g. 180000" aria-label="Expected salary in USD">
+          </td>
+        </tr>
+        <!-- 14. Duplicate name attrs: Preferred AI domains (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">AI domains of interest</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="domains" value="nlp"> NLP</label>
+              <label><input type="checkbox" name="domains" value="cv"> Computer Vision</label>
+              <label><input type="checkbox" name="domains" value="rl"> Reinforcement Learning</label>
+              <label><input type="checkbox" name="domains" value="genai"> Generative AI</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 15. Availability start date -->
+        <tr>
+          <td class="label-cell">Earliest start date</td>
+          <td class="field-cell">
+            <input type="date" name="start_date" aria-label="Earliest start date">
+          </td>
+        </tr>
+        <!-- 16. Cover letter (textarea) -->
+        <tr>
+          <td class="label-cell">Cover letter <span class="req">*</span></td>
+          <td class="field-cell">
+            <textarea name="cover_letter" rows="4" placeholder="Tell us why you're a great fit for this role..." style="width:100%;"></textarea>
+          </td>
+        </tr>
+        <!-- 17. Additional info (details/hidden reveal) -->
+        <tr>
+          <td class="label-cell">
+            <details>
+              <summary style="cursor:pointer;font-weight:500;font-size:14px;">Additional information</summary>
+            </details>
+          </td>
+          <td class="field-cell">
+            <div id="additionalReveal" style="margin-top:4px;">
+              <textarea name="additional_info" rows="2" placeholder="Anything else you'd like us to know?" style="width:100%;"></textarea>
+            </div>
+          </td>
+        </tr>
+        <!-- 18. Referral (hidden reveal via checkbox) -->
+        <tr>
+          <td class="label-cell">Referral?</td>
+          <td class="field-cell">
+            <label style="display:flex;align-items:center;gap:6px;font-size:14px;">
+              <input type="checkbox" id="referralToggle" name="has_referral" value="yes">
+              I was referred by an employee
+            </label>
+            <div class="reveal-target" id="referralNameField" style="margin-top:6px;">
+              <input type="text" name="referral_name" placeholder="Employee name (if known)" style="width:100%;">
+            </div>
+          </td>
+        </tr>
+        <!-- 19. Race/ethnicity (optional, glued label) -->
+        <tr>
+          <td class="label-cell">
+            <span class="glued-label"><span>Race</span><span>/</span><span>ethnicity</span></span>
+          </td>
+          <td class="field-cell">
+            <select name="race_ethnicity" aria-label="Race or ethnicity">
+              <option value="">Prefer not to say</option>
+              <option value="asian">Asian</option>
+              <option value="black">Black or African American</option>
+              <option value="hispanic">Hispanic or Latino</option>
+              <option value="white">White</option>
+              <option value="other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <!-- 20. Gender (aria-label) -->
+        <tr>
+          <td class="label-cell">Gender</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Gender">
+              <label><input type="radio" name="gender" value="male"> Male</label>
+              <label><input type="radio" name="gender" value="female"> Female</label>
+              <label><input type="radio" name="gender" value="nonbinary"> Non-binary</label>
+              <label><input type="radio" name="gender" value="prefer_not"> Prefer not to say</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 21. Veteran status -->
+        <tr>
+          <td class="label-cell">Veteran status</td>
+          <td class="field-cell">
+            <select name="veteran" aria-label="Veteran status">
+              <option value="">Select</option>
+              <option value="yes">I am a veteran</option>
+              <option value="no">Not a veteran</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </td>
+        </tr>
+        <!-- 22. Disability status -->
+        <tr>
+          <td class="label-cell">Disability status</td>
+          <td class="field-cell">
+            <div class="pill-group" role="group" aria-label="Disability status">
+              <button type="button" class="pill-btn" data-value="yes">Yes</button>
+              <button type="button" class="pill-btn active" data-value="no">No</button>
+              <button type="button" class="pill-btn" data-value="prefer_not">Prefer not</button>
+            </div>
+            <input type="hidden" name="disability" value="no" id="disabilityHidden">
+          </td>
+        </tr>
+        <!-- 23. How many years in AI? (readonly prefill) -->
+        <tr>
+          <td class="label-cell">Years in AI (readonly)</td>
+          <td class="field-cell">
+            <input type="text" name="years_ai" value="5+ years" readonly style="background:#f4f6fa; color:#3d4a5c;">
+          </td>
+        </tr>
+        <!-- 24. Current company (glued label) -->
+        <tr>
+          <td class="label-cell">
+            <span class="glued-label"><span>Current</span><span> company</span></span>
+          </td>
+          <td class="field-cell">
+            <input type="text" name="current_company" placeholder="e.g. OpenAI">
+          </td>
+        </tr>
+        <!-- 25. Resume upload (native file) -->
+        <tr>
+          <td class="label-cell">Resume <span class="req">*</span></td>
+          <td class="field-cell">
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" style="padding:6px 0;">
+          </td>
+        </tr>
+        <!-- 26. Additional file -->
+        <tr>
+          <td class="label-cell">Cover letter file</td>
+          <td class="field-cell">
+            <input type="file" name="cover_attachment" accept=".pdf,.doc,.docx,.txt" style="padding:6px 0;">
+          </td>
+        </tr>
+        <!-- 27. Duplicate name attrs: preferred pronouns (radio) -->
+        <tr>
+          <td class="label-cell">Pronouns</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Pronouns">
+              <label><input type="radio" name="pronouns" value="he_him"> He/Him</label>
+              <label><input type="radio" name="pronouns" value="she_her"> She/Her</label>
+              <label><input type="radio" name="pronouns" value="they_them"> They/Them</label>
+              <label><input type="radio" name="pronouns" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 28. Duplicate name attrs: preferred contact method (radio) -->
+        <tr>
+          <td class="label-cell">Preferred contact method</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Preferred contact method">
+              <label><input type="radio" name="contact_method" value="email"> Email</label>
+              <label><input type="radio" name="contact_method" value="phone"> Phone</label>
+              <label><input type="radio" name="contact_method" value="text"> Text</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 29. Duplicate name attrs: work preference (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Work preference</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="work_pref" value="remote"> Remote</label>
+              <label><input type="checkbox" name="work_pref" value="onsite"> On-site</label>
+              <label><input type="checkbox" name="work_pref" value="hybrid"> Hybrid</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 30. Duplicate name attrs: languages (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Languages</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="languages" value="english"> English</label>
+              <label><input type="checkbox" name="languages" value="spanish"> Spanish</label>
+              <label><input type="checkbox" name="languages" value="mandarin"> Mandarin</label>
+              <label><input type="checkbox" name="languages" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 31. Duplicate name attrs: education level (radio) -->
+        <tr>
+          <td class="label-cell">Education level</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Education level">
+              <label><input type="radio" name="education" value="bachelors"> Bachelor's</label>
+              <label><input type="radio" name="education" value="masters"> Master's</label>
+              <label><input type="radio" name="education" value="phd"> PhD</label>
+              <label><input type="radio" name="education" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 32. Duplicate name attrs: certifications (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Certifications</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="certs" value="aws"> AWS Certified</label>
+              <label><input type="checkbox" name="certs" value="gcp"> GCP Certified</label>
+              <label><input type="checkbox" name="certs" value="azure"> Azure Certified</label>
+              <label><input type="checkbox" name="certs" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 33. Duplicate name attrs: availability (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Availability</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="availability" value="immediate"> Immediate</label>
+              <label><input type="checkbox" name="availability" value="two_weeks"> 2 weeks</label>
+              <label><input type="checkbox" name="availability" value="one_month"> 1 month</label>
+              <label><input type="checkbox" name="availability" value="flexible"> Flexible</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 34. Duplicate name attrs: preferred tools (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Preferred tools</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="tools" value="tensorflow"> TensorFlow</label>
+              <label><input type="checkbox" name="tools" value="pytorch"> PyTorch</label>
+              <label><input type="checkbox" name="tools" value="jax"> JAX</label>
+              <label><input type="checkbox" name="tools" value="keras"> Keras</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 35. Duplicate name attrs: industry experience (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Industry experience</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="industry" value="healthcare"> Healthcare</label>
+              <label><input type="checkbox" name="industry" value="finance"> Finance</label>
+              <label><input type="checkbox" name="industry" value="tech"> Tech</label>
+              <label><input type="checkbox" name="industry" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 36. Duplicate name attrs: security clearance (radio) -->
+        <tr>
+          <td class="label-cell">Security clearance</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Security clearance">
+              <label><input type="radio" name="clearance" value="none"> None</label>
+              <label><input type="radio" name="clearance" value="secret"> Secret</label>
+              <label><input type="radio" name="clearance" value="top_secret"> Top Secret</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 37. Duplicate name attrs: travel willingness (radio) -->
+        <tr>
+          <td class="label-cell">Travel willingness</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Travel willingness">
+              <label><input type="radio" name="travel" value="none"> None</label>
+              <label><input type="radio" name="travel" value="some"> Some</label>
+              <label><input type="radio" name="travel" value="extensive"> Extensive</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 38. Duplicate name attrs: work hours preference (radio) -->
+        <tr>
+          <td class="label-cell">Work hours preference</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Work hours preference">
+              <label><input type="radio" name="hours" value="standard"> Standard</label>
+              <label><input type="radio" name="hours" value="flexible"> Flexible</label>
+              <label><input type="radio" name="hours" value="night"> Night</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 39. Duplicate name attrs: team size preference (radio) -->
+        <tr>
+          <td class="label-cell">Team size preference</td>
+          <td class="field-cell">
+            <div class="radio-group" role="radiogroup" aria-label="Team size preference">
+              <label><input type="radio" name="team_size" value="small"> Small (1-5)</label>
+              <label><input type="radio" name="team_size" value="medium"> Medium (6-20)</label>
+              <label><input type="radio" name="team_size" value="large"> Large (20+)</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 40. Duplicate name attrs: project management style (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Project management style</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="pm_style" value="agile"> Agile</label>
+              <label><input type="checkbox" name="pm_style" value="scrum"> Scrum</label>
+              <label><input type="checkbox" name="pm_style" value="waterfall"> Waterfall</label>
+              <label><input type="checkbox" name="pm_style" value="kanban"> Kanban</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 41. Duplicate name attrs: coding languages (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Coding languages</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="coding_langs" value="python"> Python</label>
+              <label><input type="checkbox" name="coding_langs" value="java"> Java</label>
+              <label><input type="checkbox" name="coding_langs" value="cpp"> C++</label>
+              <label><input type="checkbox" name="coding_langs" value="rust"> Rust</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 42. Duplicate name attrs: database experience (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Database experience</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="databases" value="sql"> SQL</label>
+              <label><input type="checkbox" name="databases" value="nosql"> NoSQL</label>
+              <label><input type="checkbox" name="databases" value="graph"> Graph</label>
+              <label><input type="checkbox" name="databases" value="vector"> Vector</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 43. Duplicate name attrs: cloud platforms (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Cloud platforms</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="cloud" value="aws"> AWS</label>
+              <label><input type="checkbox" name="cloud" value="gcp"> GCP</label>
+              <label><input type="checkbox" name="cloud" value="azure"> Azure</label>
+              <label><input type="checkbox" name="cloud" value="other"> Other</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 44. Duplicate name attrs: ML frameworks (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">ML frameworks</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="ml_frameworks" value="scikit"> Scikit-learn</label>
+              <label><input type="checkbox" name="ml_frameworks" value="xgboost"> XGBoost</label>
+              <label><input type="checkbox" name="ml_frameworks" value="lightgbm"> LightGBM</label>
+              <label><input type="checkbox" name="ml_frameworks" value="catboost"> CatBoost</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 45. Duplicate name attrs: deployment tools (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Deployment tools</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="deploy_tools" value="docker"> Docker</label>
+              <label><input type="checkbox" name="deploy_tools" value="kubernetes"> Kubernetes</label>
+              <label><input type="checkbox" name="deploy_tools" value="terraform"> Terraform</label>
+              <label><input type="checkbox" name="deploy_tools" value="ansible"> Ansible</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 46. Duplicate name attrs: monitoring tools (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Monitoring tools</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="monitoring" value="prometheus"> Prometheus</label>
+              <label><input type="checkbox" name="monitoring" value="grafana"> Grafana</label>
+              <label><input type="checkbox" name="monitoring" value="datadog"> Datadog</label>
+              <label><input type="checkbox" name="monitoring" value="newrelic"> New Relic</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 47. Duplicate name attrs: CI/CD tools (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">CI/CD tools</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="cicd" value="jenkins"> Jenkins</label>
+              <label><input type="checkbox" name="cicd" value="github_actions"> GitHub Actions</label>
+              <label><input type="checkbox" name="cicd" value="gitlab"> GitLab CI</label>
+              <label><input type="checkbox" name="cicd" value="circleci"> CircleCI</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 48. Duplicate name attrs: version control (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Version control</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="vcs" value="git"> Git</label>
+              <label><input type="checkbox" name="vcs" value="svn"> SVN</label>
+              <label><input type="checkbox" name="vcs" value="mercurial"> Mercurial</label>
+              <label><input type="checkbox" name="vcs" value="perforce"> Perforce</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 49. Duplicate name attrs: testing frameworks (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">Testing frameworks</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="testing" value="pytest"> Pytest</label>
+              <label><input type="checkbox" name="testing" value="junit"> JUnit</label>
+              <label><input type="checkbox" name="testing" value="selenium"> Selenium</label>
+              <label><input type="checkbox" name="testing" value="cypress"> Cypress</label>
+            </div>
+          </td>
+        </tr>
+        <!-- 50. Duplicate name attrs: API tools (checkbox cluster) -->
+        <tr>
+          <td class="label-cell">API tools</td>
+          <td class="field-cell">
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="api_tools" value="rest"> REST</label>
+              <label><input type="checkbox" name="api_tools" value="graphql"> GraphQL</label>
+              <label><input type="checkbox" name="api_tools" value="grpc"> gRPC</label>
+              <label><input type="checkbox" name="api_tools" value="websocket"> WebSocket</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="decoy-section">
+      <h3>⚙️ Internal referral portal (HR use only)</h3>
+      <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+        <input type="text" placeholder="Referral code" style="width:140px;">
+        <input type="text" placeholder="Approval ID" style="width:140px;">
+        <button type="button" style="padding:6px 16px;background:#e2e6ee;border:none;border-radius:4px;">Verify</button>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-ghost">Save draft</button>
+      <button type="submit" class="btn-primary">Submit application</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  (function() {
+    // combobox
+    const combo = document.getElementById('sourceCombo');
+    const listbox = document.getElementById('sourceListbox');
+    const hidden = document.getElementById('sourceHidden');
+    const valueSpan = document.getElementById('sourceValue');
+    const options = listbox.querySelectorAll('.option');
+    combo.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      listbox.classList.toggle('open');
+    });
+    options.forEach(opt => {
+      opt.addEventListener('click', function() {
+        const val = this.getAttribute('data-value');
+        valueSpan.textContent = this.textContent;
+        hidden.value = val;
+        options.forEach(o => o.setAttribute('aria-selected', 'false'));
+        this.setAttribute('aria-selected', 'true');
+        combo.setAttribute('aria-expanded', 'false');
+        listbox.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!combo.contains(e.target) && !listbox.contains(e.target)) {
+        combo.setAttribute('aria-expanded', 'false');
+        listbox.classList.remove('open');
+      }
+    });
+    // visa sponsorship reveal
+    const visaRadios = document.querySelectorAll('input[name="work_auth"]');
+    const visaReveal = document.getElementById('visaReveal');
+    visaRadios.forEach(r => {
+      r.addEventListener('change', function() {
+        if (this.value === 'visa_sponsor') {
+          visaReveal.classList.add('open');
+        } else {
+          visaReveal.classList.remove('open');
+        }
+      });
+    });
+    // referral reveal
+    const referralToggle = document.getElementById('referralToggle');
+    const referralNameField = document.getElementById('referralNameField');
+    referralToggle.addEventListener('change', function() {
+      if (this.checked) {
+        referralNameField.classList.add('open');
+      } else {
+        referralNameField.classList.remove('open');
+      }
+    });
+    // pill groups
+    document.querySelectorAll('.pill-group').forEach(group => {
+      const btns = group.querySelectorAll('.pill-btn');
+      const hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+      btns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          btns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          if (hiddenInput) {
+            hiddenInput.value = this.getAttribute('data-value');
+          }
+        });
+      });
+    });
+    // contenteditable div -> hidden input (skills)
+    const skillsDiv = document.querySelector('[role="textbox"][aria-label="Skills"]');
+    const skillsHidden = document.getElementById('skillsHidden');
+    if (skillsDiv) {
+      skillsDiv.addEventListener('input', function() {
+        skillsHidden.value = this.textContent.trim();
+      });
+    }
+    // form submit
+    document.getElementById('mainForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (simulated). In production this would send data to the ATS.');
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0051",
+    "seed": 3582269347,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "two-column grid without card wrapper",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Emoji unicode labels",
+                "notes": "Labels contain flag emoji and unicode; Swedish field marked required",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Emoji labels<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"emoji_name\">Full name<\/label><input type=\"text\" id=\"emoji_name\" name=\"emoji_name\"> <label for=\"emoji_sv\">🇸🇪 Swedish fluency level (required)<\/label><select id=\"emoji_sv\" name=\"emoji_sv\"><option value=\"\">Select<\/option><option>Native<\/option>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Table layout form",
+                "notes": "Form laid out as HTML table with labels in td cells",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Table layout<\/h1> <form action=\"\/apply\" method=\"post\"> <table><tbody> <tr><td><label for=\"tbl_name\">Full name<\/label><\/td><td><input type=\"text\" id=\"tbl_name\" name=\"tbl_name\"><\/td><\/tr> <tr><td><label for=\"tbl_email\">Email<\/label><\/td><td><input type=\"email\" id=\"tbl_email\" name=\"tbl_email\"><\/td><\/tr> <tr><td>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Optgroup select",
+                "notes": "Department select uses optgroup for grouping options",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Optgroup select<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"og_name\">Name<\/label><input type=\"text\" id=\"og_name\" name=\"og_name\"> <label for=\"og_dept\">Preferred department<\/label> <select id=\"og_dept\" name=\"og_dept\"><option value=\"\">Select department<\/option> <optgroup label=\"Engineering\"><option>Bac",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Fields inside a shadow DOM host or declarative shadow root Required: Label text split across multiple spans with no space between words Required: Label wraps input through nested divs without for attribute Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Fields inside details\/summary or hidden until click Reference DOM (Emoji unicode labels): Labels contain flag emoji and unicode; Swedish field marked required Reference DOM (Table layout form): Form laid out as HTML table with labels in td cells Reference DOM (Optgroup select): Department select uses optgroup for grouping options Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: shadow-host, glued-label-text, label-wraps-deep, aria-labelledby-hidden, details-accordion. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: two-column grid without card wrapper. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Emoji unicode labels; Table layout form; Optgroup select."
+}

@@ -1,0 +1,51 @@
+{
+  "id": "web-www-arbeitsagentur-de-ba-bewerbungsportal",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "bitte wählen sie aus:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Webanalyse"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "fieldset-checkbox-group1-id",
+        "name": null,
+        "data_testid": "ba-hf-cd-stat-cookies-cb-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "__xmlview1--SearchField-I",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

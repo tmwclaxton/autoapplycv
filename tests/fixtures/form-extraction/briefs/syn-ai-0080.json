@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0080",
+    "seed": 2685571130,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Conditional radio reveal",
+                "notes": "Selecting Yes on sponsorship reveals follow-up textarea",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Conditional radio<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"cond_name\">Name<\/label><input type=\"text\" id=\"cond_name\" name=\"cond_name\"> <p>Do you require visa sponsorship?<\/p> <label><input type=\"radio\" name=\"visa_need\" value=\"no\"> No<\/label> <label><input type=\"radio\" name=\"visa_need\" value=\"yes\" ",
+                "requires_interaction": false
+            },
+            {
+                "title": "Pattern constrained tel",
+                "notes": "Phone input has title hint for UK format (pattern attribute omitted so mock fill passes)",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Pattern tel<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"pat_name\">Name<\/label><input type=\"text\" id=\"pat_name\" name=\"pat_name\"> <label for=\"pat_phone\">UK phone (07xxx xxxxxx)<\/label> <input type=\"tel\" id=\"pat_phone\" name=\"pat_phone\" title=\"UK mobile starting with 07\"> <label for=\"pat_email\">Email<\/l",
+                "requires_interaction": false
+            },
+            {
+                "title": "Optgroup select",
+                "notes": "Department select uses optgroup for grouping options",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Optgroup select<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"og_name\">Name<\/label><input type=\"text\" id=\"og_name\" name=\"og_name\"> <label for=\"og_dept\">Preferred department<\/label> <select id=\"og_dept\" name=\"og_dept\"><option value=\"\">Select department<\/option> <optgroup label=\"Engineering\"><option>Bac",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: At least one readonly or disabled input with prefilled profile value Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Fields inside details\/summary or hidden until click Required: Fields inside a shadow DOM host or declarative shadow root Required: When combobox widget requested, use custom listbox - native select alone is insufficient Reference DOM (Conditional radio reveal): Selecting Yes on sponsorship reveals follow-up textarea Reference DOM (Pattern constrained tel): Phone input has title hint for UK format (pattern attribute omitted so mock fill passes) Reference DOM (Optgroup select): Department select uses optgroup for grouping options Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: readonly-prefill, div-role-textbox, details-accordion, shadow-host, native-select-not-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Conditional radio reveal; Pattern constrained tel; Optgroup select."
+}

@@ -4,6 +4,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { searchWeb } from './lib/firecrawl-client.mjs';
+import { buildForeignDiscoverQueries } from './lib/foreign-job-boards.mjs';
 import { DISCOVERED_URLS_PATH } from './lib/paths.mjs';
 
 const QUERIES = [
@@ -27,6 +28,7 @@ const QUERIES = [
     'site:framestore.recruitee.com apply',
     'site:apply.workable.com j apply',
     'site:job-boards.greenhouse.io apply',
+    ...buildForeignDiscoverQueries(),
 ];
 
 const limit = Number(process.argv.find((arg) => arg.startsWith('--limit='))?.split('=')[1] || 25);

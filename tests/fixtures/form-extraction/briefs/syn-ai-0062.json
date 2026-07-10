@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0062",
+    "seed": 2509525682,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Search type for name",
+                "notes": "Name field uses input type=search instead of text",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Search type name<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"search_name\">Search your name (type=search)<\/label><input type=\"search\" id=\"search_name\" name=\"search_name\"> <label for=\"search_email\">Email<\/label><input type=\"email\" id=\"search_email\" name=\"search_email\"> <label for=\"search_notes\">Additi",
+                "requires_interaction": false
+            },
+            {
+                "title": "Deep wrapped label",
+                "notes": "Label without for wraps input three div levels deep",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Deep wrapped label<\/h1> <form action=\"\/apply\" method=\"post\"> <label>Full name<div><div><div><input type=\"text\" name=\"applicant_name\" id=\"applicant_name\"><\/div><\/div><\/div><\/label> <label for=\"contact_email\">Email<\/label><input type=\"email\" id=\"contact_email\" name=\"contact_email\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "CSS hidden wizard steps",
+                "notes": "Multi-step wizard with only one step visible via CSS class toggling",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Wizard steps<\/h1> <form action=\"\/apply\" method=\"post\"> <div class=\"wizard-step\" data-step=\"1\"> <label for=\"wiz_name\">Full name<\/label><input type=\"text\" id=\"wiz_name\" name=\"wiz_name\"> <button type=\"button\" data-reveal=\".wizard-step[data-step='2']\" data-hide=\".wizard-step[data-step='1']\">Next<\/button> <\/div> <",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Label wraps input through nested divs without for attribute Required: At least two fields with aria-label only and no visible label element Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Fields inside details\/summary or hidden until click Reference DOM (Search type for name): Name field uses input type=search instead of text Reference DOM (Deep wrapped label): Label without for wraps input three div levels deep Reference DOM (CSS hidden wizard steps): Multi-step wizard with only one step visible via CSS class toggling Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: duplicate-name-attrs, label-wraps-deep, aria-label-only, aria-labelledby-hidden, details-accordion. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Search type for name; Deep wrapped label; CSS hidden wizard steps."
+}

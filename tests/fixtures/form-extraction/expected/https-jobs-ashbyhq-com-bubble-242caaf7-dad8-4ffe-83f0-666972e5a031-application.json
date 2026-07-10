@@ -1,0 +1,471 @@
+{
+  "id": "https-jobs-ashbyhq-com-bubble-242caaf7-dad8-4ffe-83f0-666972e5a031-application",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e578a60d-0c4c-486c-bc89-a41e13d75fc2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment to work in the united states? (e.g., h1b visa status, stem opt)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "aa1c79bc-22dc-42a7-889f-0e40d26ef5a2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience with distributed, scalable systems?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e6ce52ed-f1a2-4a6b-a443-5b6614757e17",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "d43ccf25-644a-43b6-a685-71fb2c32963a",
+        "name": "d43ccf25-644a-43b6-a685-71fb2c32963a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d43ccf25-644a-43b6-a685-71fb2c32963a",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what location will you be working from?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "99848f46-b3ff-42dc-8bf3-5e48fb5ba795",
+        "name": "99848f46-b3ff-42dc-8bf3-5e48fb5ba795",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "99848f46-b3ff-42dc-8bf3-5e48fb5ba795",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "13ea2fe8-4753-4e20-afd6-22a63b2d67da",
+        "name": "13ea2fe8-4753-4e20-afd6-22a63b2d67da",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "13ea2fe8-4753-4e20-afd6-22a63b2d67da",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how would you describe your gender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-binary",
+        "Prefer to self-describe as",
+        "I don't wish to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_752f9e84-dccd-471b-a3a6-2298a3e380e6-labeled-radio-0",
+        "name": "6e14eca9-c3a8-4404-a35e-fe58489a1639_752f9e84-dccd-471b-a3a6-2298a3e380e6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_a4c8bbb2-f10d-4d57-bc51-d3184e6b3fb1-labeled-radio-0",
+        "name": "6e14eca9-c3a8-4404-a35e-fe58489a1639_a4c8bbb2-f10d-4d57-bc51-d3184e6b3fb1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please describe the sexual orientation category that best respresents you:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "f82cd7e1-9c02-49ae-82d6-8d06133fa7c1",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your personal pronouns?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "she/her/hers",
+        "he/him/his",
+        "they/them/theirs",
+        "Prefer to self-describe as"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_ae2a1e99-b52d-4203-871e-ebb94bb84cd4-labeled-checkbox-0",
+        "name": "she/her/hers",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you used bubble in the past?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_2b0ea052-a824-46ba-b755-073e630711ee-labeled-radio-0",
+        "name": "6e14eca9-c3a8-4404-a35e-fe58489a1639_2b0ea052-a824-46ba-b755-073e630711ee",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "AngleList",
+        "Bubble.io",
+        "Built In",
+        "Canvas",
+        "Glassdoor",
+        "Google",
+        "Handshake",
+        "Indeed",
+        "LinkedIn",
+        "ZipRecruiter",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_545aaea9-651b-4ac8-9d6f-1891064662f0-labeled-checkbox-0",
+        "name": "AngleList",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please select the race/ethnicity category that best represents you:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Native American or Alaskan Native",
+        "East Asian or Asian American",
+        "Black, Afro-Caribbean, or African American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White (Not of Hispanic Origin)",
+        "Hispanic, Hispanic American, or Latino/Latina/Latinx",
+        "Middle Eastern or Arab American",
+        "South Asian or Indian American",
+        "Other",
+        "I don't wish to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_73bfb03b-0d13-4a28-bea7-e054416dbf78-labeled-checkbox-0",
+        "name": "Native American or Alaskan Native",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you a veteran?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_248ab68e-97c8-4ed9-bf1f-92c3ed4b1be2-labeled-radio-0",
+        "name": "6e14eca9-c3a8-4404-a35e-fe58489a1639_248ab68e-97c8-4ed9-bf1f-92c3ed4b1be2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as a person with a disability or other chronic condition?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_5f37fb0d-ab95-4bd7-811a-585475316e6f-labeled-radio-0",
+        "name": "6e14eca9-c3a8-4404-a35e-fe58489a1639_5f37fb0d-ab95-4bd7-811a-585475316e6f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "by clicking “submit application”, i understand and agree that bubble will collect and process my information in accordance with its privacy policy.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "6e14eca9-c3a8-4404-a35e-fe58489a1639_d177bf13-41a9-49c8-8802-0c85094542b2-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

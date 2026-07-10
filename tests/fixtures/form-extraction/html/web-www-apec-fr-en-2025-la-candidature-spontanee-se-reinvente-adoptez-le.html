@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !</title>
+</head>
+<body>
+<form>
+<div id="popin-connexion" class="popin popin-candidat" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="popin-labelledby">
+    <div class="popin-container" role="document">
+        <button type="button" onclick="apecLoginPopin.close(); return false;" class="popin-close" aria-label="Close">
+            
+        </button>
+        <div class="popin-col">
+            <div class="popin-form">
+                <h2 class="mb-30" id="popin-labelledby">Vous avez déjà un compte ?</h2>
+
+                <form onsubmit="apecLoginPopin.dologin(); return false;">
+                    <div id="sourceToggle">
+                        <label for="source" onchange="apecLoginPopin.toogle()" id="source-toggle" class="slide-toggle-label slide-toggle-label-popin mb-20">
+                            <span class="slide-toggle-content slide-toggle-content-left active">Candidat</span>
+                            <div class="slide-toggle-bar">
+                                <input type="checkbox" name="source" id="source">
+                                <div class="slide-toggle-thumb"></div>
+                            </div>
+                            <span class="slide-toggle-content slide-toggle-content-right">Recruteur</span>
+                        </label>
+                    </div>
+
+                    <div aria-hidden="true" class="alert alert-danger mb-30 alert-d-none" role="alert">
+                        <div id="no-data" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Vous devez saisir votre identifiant et votre mot de passe.
+                        </div>
+                        <div id="unknown-user" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre identifiant ou votre mot de passe est incorrect.
+                        </div>
+                        <div id="not-valide" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte recruteur est en cours de validation.<br>
+                            Si nécessaire Contactez-nous au 0809 361 414
+                        </div>
+                        <div id="closed" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte n'est plus actif.<br>
+                            Si nécessaire Contactez-nous au 0810 805 805
+                        </div>
+                        <div id="unknown-error" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Une erreur inattendue est survenue. Merci de réessayer ultérieurement.
+                        </div>
+                    </div>
+
+                    <div class="popin-form-group mb-30">
+                        <label for="emailid">Adresse email*</label>
+                        <input type="text" name="emailid" id="emailid" placeholder="Identifiant" style="max-width: initial;">
+                    </div>
+
+                    <div class="popin-form-group mb-10" style="position: relative;">
+                        <label for="password">Mot de passe*</label>
+                        <input type="password" name="password" id="password" placeholder="Mot de passe" style="width: 100%; padding-right: 40px; max-width: initial;">
+                        
+                        <span style="position: absolute; top: 70%; right: 10px; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility()">
+                       <img id="toggle-password-icon" src="/modules/apec-jahia-module/assets/img/edito/eye-icon-open.svg" style="width: 20px; height: 20px;">
+                       </span>
+                    </div>
+                    <p class="mdp mb-37"><a onclick="apecLoginPopin.motDePasseOublie();">Mot de passe oublié ?</a></p>
+                    <div class="row justify-content-center mt-30">
+                        <button type="submit" value="Login" class="popin-btn-primary">Se connecter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="popin-col popin-bg">
+            <div class="popin-new-account">
+                <h2 class="titre">
+                </h2>
+                <p class="desc">
+                </p>
+                <button onclick="apecLoginPopin.creerCompte();return false;" class="popin-btn-primary popin-btn-primary-negative">Créer votre compte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<header role="banner">
+    <nav class="navbar navbar-expand navbar-bottom" role="navigation" aria-label="Menu principal">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                        <div class="navbar-bottom__blocmenu">
+                            <button class="navbar-bottom__menu" aria-label="menu">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <p>Menu</p>
+                            </button>
+                        </div>
+                        <div class="navbar-bottom__logo">
+                            <a href="/" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                                <img id="logo_white" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/white.svg" alt="Logo Apec">
+                                <img id="logo_blue" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/blue.svg" alt="Logo Apec">
+                            </a>
+                        </div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <button type="button" data-faciliti-popin="" title="FACIL'iti : Adaptez l'affichage" aria-label="FACIL'iti : Adaptez l'affichage" class="nav-link nav-link-faciliti"></button>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-acceo" title="Acceo : Sourd ou malentendant" href="https://www.acce-o.fr/client/apec" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'accessibilite::acceo', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" target="_blank"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://centre.apec.fr/search" title="Mon centre" aria-label="Mon centre" class="nav-link nav-link-centre">
+                                    <span>Mon centre</span>
+                                </a>
+                            </li>
+                            <li id="header-monespace" class="nav-item">
+                                <a onclick="showloginPopin()" class="nav-link nav-link-espace" aria-haspopup="dialog" aria-controls="dialog" title="Mon espace" aria-label="Mon espace"><span>Mon espace</span></a>
+                            </li>
+                            <li id="header-logout" class="nav-item" style="display:none;">
+                                <a onclick="logout(this);" data-dest="/" class="nav-link nav-link-logout">
+                                    <div data-toggle="tooltip" data-placement="bottom" title="Se déconnecter" class="tooltip-logout"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<nav class="side-nav" role="navigation" aria-label="Menu secondaire">
+    <div class="side-nav__container">
+        <ul class="side-nav__links">
+            <li class="cta cta-candidat">
+                <a href="/candidat.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/profil/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>candidat.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-candidat__links">
+                    <li><a href="/candidat/recherche-emploi.html/emploi"><p>Rechercher une offre</p></a></li>
+                    <li><a href="/candidat/optimiser-votre-candidature.html"><p>Optimiser votre candidature</p></a></li>
+                    <li><a href="/candidat/etre-accompagne-dans-votre-recherche-demploi.html"><p>Être accompagné dans votre recherche d'emploi</p></a></li>
+                    <li><a href="/candidat/faire-le-point--changer-de-voie.html"><p>Faire le point &amp; Changer de voie</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta cta-recruteur">
+                <a href="/recruteur.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/cible/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>recruteur.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-recruteur__links">
+                    <li><a href="/recruteur/mon-espace/candidapec.html"><p>Rechercher un profil</p></a></li>
+                    <li><a href="/recruteur/recruter.html"><p>Recruter</p></a></li>
+                    <li><a href="/recruteur/attirer-les-candidats.html"><p>Attirer les candidats</p></a></li>
+                    <li><a href="/recruteur/accompagner-levolution-professionnelle.html"><p>Accompagner l'évolution professionnelle</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta">
+                <a href="/nos-evenements.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/4fleches/white/4fleches.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Nos <span>Évènements</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-outils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/computer/white/computer.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Outils</span> Apec en ligne</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tendances-emploi-cadre.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/eye/white/eye.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Tendances</span> emploi cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-metiers.html">
+                    <img src="/files/live/sites/www/files/fiche_outil/icone/livre.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Fiches métiers</span> cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-les-conseils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Tous nos <span>conseils</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="https://centre.apec.fr/search">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/pin/white.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Centre <span>Apec</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/candidat/alternance.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/education/education.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Alternance</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/offres-d-emploi-cadres-alternances-et-entreprises-qui-recrutent.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Parcourir <span>les offres</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            </ul>
+        <a href="/tous-nos-services/rencontrer-nous.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'nous_rencontrer::nous_rencontrer_burger', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" class="side-nav__button"><p>Prenez rendez-vous</p></a>
+
+    </div>
+</nav>
+<div class="overlay"></div>
+
+<main role="main">
+		<div class="container-fluid bandeau__head-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <nav class="nav-back">
+                    <div class="nav-back__title">
+                        <a class="backButton d-flex" href="/candidat/optimiser-votre-candidature.html" title="Retour sur la page Optimiser votre candidature">
+                            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/left.svg" alt="bouton retour">
+                            <p>Optimiser votre candidature</p>
+                        </a>
+                        <h1>En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !</h1>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="extra-nav-bottom"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-9 col-lg-9">
+            <article class="card card-detail">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <h1 class="card-detail__title">En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !</h1>
+                            <div class="img-main_header mb-20">
+                                <img src="/files/live/sites/www/files/fiche_avis/image/Candidature spontanÃ©e.jpg" alt="En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !" width="100%" height="auto">
+                            </div>
+                            <div class="block-share mb-20">
+                                <div class="author-avatar">
+                                    <img style="position: relative;" src="/files/live/sites/www/files/fiche_avis/consultant/Matthieu Esteve.png" alt="Matthieu Esteve">
+                                </div>
+                                <div class="info-author">
+                                    <p>Publié le 16/04/2026<br> par Matthieu Esteve</p>
+                                </div>
+                                <div class="share-link">
+        <div class="share-text">
+            <p>Partager</p>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="share-illus">
+                <div class="svg">
+                    
+                </div>
+            </div>
+            <div class="share-container" style="display: none;">
+                <div class="card card-share">
+                    <div class="card-body">
+                        <div class="card-title">Partager sur</div>
+                        <ul class="share-button">
+                            <li>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/en-2025,-la-candidature-spontanee-se-reinvente-adoptez-les-bonnes-pratiques-!.html" target="_blank" title="Share on Linkedin">
+                                    <span>
+                                        
+                                    </span>
+                                    Linkedin
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/share?url=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/en-2025,-la-candidature-spontanee-se-reinvente-adoptez-les-bonnes-pratiques-!.html&amp;via=Apecfr" target="_blank" title="Share on Twitter">
+                                    <span>
+                                        
+                                    </span>
+                                    Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/sharer.php?u=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/en-2025,-la-candidature-spontanee-se-reinvente-adoptez-les-bonnes-pratiques-!.html" target="_blank" title="Share on Facebook">
+                                    <span>
+                                        
+                                    </span>
+                                    Facebook
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+                            <div class="rich-text font-weight-bold">
+                                <p>Longtemps reléguée au second plan face à un marché de l’emploi favorable aux cadres, la candidature spontanée fait aujourd’hui son grand retour. Mais oubliez la lettre classique : place à l’offre de services, une approche courte, ciblée et percutante pour émerger et accéder au marché caché de l’emploi. Matthieu Estève, consultant en développement professionnel à Paris, partage ses conseils et méthodes pour transformer votre démarche en véritable atout dans votre recherche d’emploi.</p>
+                            </div>
+                            <div class="rich-text">
+                                <h2>Le come-back de la candidature spontanée pour se démarquer ?</h2>
+
+<p>Commençons par une mise au point. Bien qu’elle puisse s’avérer efficace, la candidature spontanée ne constitue pas le canal de recherche à privilégier pour les cadres. Sur leur to-do list, les réponses aux offres d’emploi, le réseautage et l’utilisation de LinkedIn restent prioritaires.&nbsp;</p>
+
+<p>Toutefois, depuis début 2025, le marché de l’emploi se contracte. Il y a moins d’offres, et il devient plus compliqué de se démarquer. Dans ce contexte, la candidature spontanée revient en grâce, en particulier pour les jeunes diplômé.es qui bataillent pour sortir du lot.&nbsp;</p>
+
+<p>N’en faites pas pour autant un canal prioritaire. Si la candidature spontanée s’avère bien utile, car elle permet de toucher le marché caché des offres, elle est également très chronophage, voire épuisante ! Elle démontre votre motivation, certes, mais peut aussi se heurter au silence des entreprises qui ne recrutent pas activement. C’est une source potentielle de démotivation. A contrario, elle peut vous permettre de vous faire connaître. Même si votre candidature n’aboutit pas aujourd’hui, qui sait ce qu’il en sera demain ?</p>
+
+<h2>À vos marques ! Prêt.e ? Ciblez !</h2>
+
+<p>En tant que candidat ou candidate, lorsque l’on vous dit « candidature spontanée », vous avez très probablement en tête une bouteille à la mer avec votre CV à l’intérieur ! Cette réputation a la vie dure. Pourtant, les entreprises embauchent encore sur la base d’une candidature spontanée. Selon l’étude Apec : «<a href="https://corporate.apec.fr/files/live/sites/corporate/files/Nos%20etudes/PDF/Pratiques%20de%20recrutement%202025.pdf?utm_source=chatgpt.com"> Pratique de recrutement de cadres 2025 </a>», 59 % des PME et 71 % des ETI et grandes entreprises ont recruté par ce biais en 2024. Mais une candidature spontanée ne peut pas faire mouche sans une vraie stratégie ciblée.&nbsp;</p>
+
+<p>Terminé le temps où les candidates et candidats pêchaient à la dynamite. Gardez en tête que pour avoir de l’impact, une candidature spontanée requiert beaucoup d’énergie. Concentrez-vous sur cinq entreprises au maximum. Quelle est l’entreprise de vos rêves ? Un fleuron français du luxe, ou de l’industrie ? Une société à impact positif, &nbsp;labellisée B Corp &nbsp;? Y a-t-il un secteur que vous souhaiteriez approcher sans avoir osé jusque-là ? Pressentez-vous qu’un secteur en pénurie pourrait offrir des opportunités ? Foncez ! &nbsp;</p>
+
+<p>Une fois ce ciblage réalisé, il faut creuser. Étudiez les sites internet, lisez les rapports d’activité, scrutez les réseaux de l’entreprise, sa page LinkedIn. Ces sources contiennent autant d’informations utiles, qui pourraient vous aider à déceler certains besoins, et à mieux orienter votre approche en mode « apporteur/apporteuse de solutions », voire en « levier d’améliorations ». Avec un bémol : toutes les données utiles et stratégiques des entreprises que vous convoitez ne sont pas mises en ligne. Par manque de détails, il est parfois difficile de transcrire ce que vous découvrirez lors de vos recherches en besoins concrets. Hélas, le plus souvent, il ne sera pas possible de vous positionner aussi directement en « apporteur/apporteuse de solutions ». Si vous ne trouvez aucune information, misez sur un besoin potentiel caché, et tentez votre chance !</p>
+
+<h2>Pensez « offre de services » !</h2>
+
+<p>Il faut se singulariser pour que la démarche ait de l’impact ! Changez de point de vue : laissez aux oubliettes la sempiternelle candidature spontanée standardisée, aussi ennuyeuse à rédiger pour vous qu’à lire pour un recruteur ou une recruteuse. Raisonnez plutôt offre de services en allant droit au but ! Dix à quinze lignes suffiront. Simple, concise, elle synthétise vos atouts majeurs et vos compétences. L’offre de services est assez proche d’une démarche commerciale. Mettez-vous dans la peau d’un professionnel ou d’une professionnelle qui vend une prestation. L’offre de service est un état d’esprit qui nourrit votre recherche : vous ne demandez plus un job, vous offrez vos compétences ! L’offre de services s’adresse donc aussi aux cadres freelances.</p>
+
+<p>Ce type de candidature doit démontrer que vous êtes déjà prêt.e à agir, que vous pourriez être opérationnel.le dès votre arrivée. Mais il faut tenter de capter l’attention, car votre interlocuteur ne recrute pas officiellement, et n’attend donc pas votre proposition.</p>
+
+<p>Comment formaliser et structurer votre offre de services ? Étudions un exemple pour un poste d’AMOA-Business Analyst (assistance à maîtrise d’ouvrage). L’offre de services pourrait être rédigée ainsi :&nbsp;</p>
+
+<p><em>Bonjour,</em></p>
+
+<p><em>Je travaille sur des projets où les équipes n’ont pas assez de temps pour structurer le besoin et faire avancer le backlog. Est-ce aussi votre cas aujourd’hui ? [ou ajouter un besoin précis identifié lors de vos recherches]</em></p>
+
+<p><em>Concrètement, j'interviens en AMOA / Business Analyst pour :</em></p>
+
+<ul>
+	<li><em>la gestion et la priorisation du backlog Agile (Jira)</em></li>
+	<li><em>la rédaction des User Stories et l’alignement avec les besoins métiers</em></li>
+	<li><em>la coordination des équipes projet (métier, IT, dev, utilisateurs)</em></li>
+	<li><em>les stratégies de tests et le suivi des KPI projet</em></li>
+</ul>
+
+<p><em>Réalisations récentes : [Nom de l’entreprise]</em></p>
+
+<p><em>Implémentation d’un portail de vente de carburants (mode Agile, AMOA IT) pour [Nom de l’entreprise]<br>
+Étude de faisabilité photovoltaïque pour [Nom de l’entreprise]</em></p>
+
+<p><em>Également passé/passée par : [Nom des entreprises]</em></p>
+
+<p><em>Sur quel projet avez-vous aujourd’hui le plus besoin de renfort opérationnel ?<br>
+Seriez-vous disponible pour un échange pour identifier vos enjeux actuels (charge projet, backlog à gérer, besoin de structurer les livrables) ?</em></p>
+
+<p><em>Au plaisir d’échanger,<br>
+[Votre prénom &amp; votre nom]<br>
+Consultant/Consultante AMOA / Business Analyst – Secteur Énergie &amp; IT<br>
++ numéro de téléphone et lien vers profil LinkedIn</em></p>
+
+<p>Vous avez vu ? Simple, concret, rapide, direct !&nbsp;</p>
+
+<h2>Le prompt pour générer une offre de service pertinente</h2>
+
+<p>Peur de la page blanche ? L’intelligence artificielle générative peut vous aider à formuler une offre de service engageante. Voici le prompt que je conseille d’utiliser aux personnes que j’accompagne &nbsp;:&nbsp;</p>
+
+<p><span style="color:#4e5f70;">Tu as une double expertise en démarchage commercial et en rédaction de contenu captivant en utilisant des méthodes comme 4 C, PAS, PASTOR et AIDA. Tu utiliseras cette double expertise pour concevoir des offres de services attractives et convaincantes à envoyer par email ! Ton objectif premier est qu’elle déclenche un appel du professionnel visé.<br>
+Avec un CV et/ou un profil LinkedIn, tu devras générer un objet email qui donnera envie d’ouvrir le mail et le contenu du mail qui présentera l’offre de service en réponse à un besoin permanent de l’entreprise et de l’opérationnel. Pour l’objet du mail, tu seras mystérieux (exemple : simplement « offre de service ») ou plus accrocheur (ex : « Vous souhaitez développer de nouveaux marchés ? »).<br>
+Dans le corps du mail, tu t’adresseras au potentiel N+1 et présenteras les expertises clés étayées avec des résultats que tu identifieras dans les CV / profil LinkedIn. Tu seras concis, factuel. Tu pourras ajouter une ligne avec des noms d’entreprises prestigieuses issues des sources proposées. Tu concluras par une question ouverte portant sur son besoin potentiel ou une problématique opérationnelle pour poursuivre l’échange et la proposition d’un call. Tu ajouteras dans la signature mail le profil LinkedIn.<br>
+Tu n’inventeras pas de résultats ou d’entreprise, ni de compétences ou expertises.<br>
+&nbsp;<br>
+Ainsi, propose-moi 3 offres de services, assorties pour chacune de 2 propositions d’objet mail séduisantes comme il suit :</span></p>
+
+<ul>
+	<li><span style="color:#4e5f70;">Première offre sera sobre, allant à l’essentiel et convaincante en tonalité. Émoticônes sobres pour les puces uniquement.</span></li>
+	<li><span style="color:#4e5f70;">Seconde offre emploiera le langage parlé et questionnera le besoin pour mieux y répondre ensuite. Émoticônes pour les puces et gagner en lisibilité.</span></li>
+	<li><span style="color:#4e5f70;">Troisième offre emploiera également un langage parlé mais aura également une approche plus créative et humoristique. Tu pourras utiliser quelques émoticônes.</span></li>
+</ul>
+
+<p><span style="color:#4e5f70;">&nbsp;Voici mon CV et/ou mon profil LinkedIn.</span></p>
+
+<p>Pensez à bien anonymiser votre CV et votre profil LinkedIn.</p>
+
+<h2>Un e-mail direct à un opérationnel conscient des besoins métiers</h2>
+
+<p>Une fois votre offre formalisée, reste à l’envoyer. Oui, mais pas n’importe comment. Privilégiez l’e-mail d’un opérationnel ou d’une opérationnelle de l’entreprise que vous visez (la taille des messages LinkedIn est limitée). C’est cette personne (et non le service RH) qui a conscience d’un besoin métier, et qui sera le ou la décisionnaire final.e.&nbsp;</p>
+
+<p>LinkedIn vous permettra souvent d’identifier le nom de votre potentiel N+1.<br>
+Google constitue un bon outil pour glaner des adresses, que l’on peut ensuite vérifier sur <a href="https://email-checker.net/">https://email-checker.net/</a>. Et pourquoi ne pas activer votre réseau pour obtenir cette information et bien d’autres ?</p>
+
+<p>À ne pas négliger non plus, les syndicats et fédérations professionnels disposent de listes de membres, avec les adresses e-mail le plus souvent.</p>
+
+<p>Et pas de « candidature spontanée » en objet de l’e-mail ! Préférez une formulation telle que « Offre de service – [Métier / fonction] » ou « Optimisation projets [secteur] &amp; efficacité opérationnelle ? ».</p>
+
+<h2>Comment relancer ?</h2>
+
+<p>Quatre à cinq jours sont passés depuis l’envoi de votre offre de services ? Pas de réponse à l’horizon ? N’hésitez pas à relancer votre interlocuteur ou interlocutrice, mais en essayant d’apporter de la valeur, de la connaissance (un article, une information en lien avec le secteur d’activité, par exemple). L’enjeu de la démarche est de tenter de créer du lien pour engager une conversation et déclencher un entretien.&nbsp;</p>
+
+<p>L’offre de services n’est-elle pas, au fond, une opportunité de mettre un pied dans la porte ?&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h2>FAQ candidature spontanée</h2>
+
+<h3>Comment faire une candidature spontanée ?</h3>
+
+<p>Ciblez les entreprises et étudiez-les en profondeur : secteur, actualités, besoins potentiels. Rédigez une offre de services concise (10-15 lignes) présentant vos compétences clés et réalisations concrètes, puis envoyez-la directement à une ou un opérationnel via e-mail personnalisé.</p>
+
+<h3>Quel objet mettre pour une candidature spontanée ?</h3>
+
+<p>Évitez « Candidature spontanée », trop générique. Préférez « Offre de service – [Votre métier] » ou « [Votre spécialité] – Solutions pour [besoin entreprise] ». Un objet précis et orienté solution capte mieux l'attention qu'une formule standard.</p>
+
+<h3>Comment envoyer une candidature spontanée ?</h3>
+
+<p>Privilégiez l'e-mail direct à une ou un manager opérationnel plutôt qu'au service RH. Recherchez son adresse sur Google, LinkedIn, ou via les annuaires professionnels. Vérifiez-la sur <a href="https://email-checker.net/">email-checker.net</a> avant envoi. Personnalisez chaque message pour démontrer votre connaissance de l'entreprise et créer un lien authentique.</p>
+
+<p>&nbsp;</p>
+
+<p><strong>À propos de l’auteur :&nbsp;</strong></p>
+
+<p>Matthieu Esteve, consultant en développement professionnel au centre Apec de Paris République, accompagne depuis 7 ans les cadres aux moments clés de leur vie professionnelle. Il a bâti son parcours autour de l’accompagnement des personnes pour le compte d’acteurs publics ou privés, et s’est notamment spécialisé en formation professionnelle et création d’entreprise. Attaché à développer une compréhension toujours plus fine des rouages de l'évolution professionnelle, il est attentif aux mutations, y compris émergentes, du marché du travail.</p>
+<a href="/tous-les-avis.html">Voir tous les avis de nos experts</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="col-xl-3 col-lg-3">
+            <aside>
+                <div class="menu-link-more">
+        <div class="title">Sur le même sujet</div>
+        <ul>
+            <li>
+    <img width="100%" height="auto" src="/files/live/sites/www/files/fiche_avis/image/CompÃ©tences IA.jpg" alt=" Les 8 prompts incontournables pour booster votre recherche d'emploi">
+    <p> Les 8 prompts incontournables pour booster votre recherche d'emploi</p>
+    <hr>
+    <div>
+        <span>Article - Publié le 16/04/2026</span>
+        <a href="/candidat/optimiser-votre-candidature/candidature/fiches-avis/-les-8-prompts-incontournables-pour-booster-votre-recherche-d-emploi.html" title=" Les 8 prompts incontournables pour booster votre recherche d'emploi">
+            Voir
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+        </a>
+    </div>
+</li><li>
+    <img width="100%" height="auto" src="/files/live/sites/www/files/fiche_avis/image/Vous avez fait une pause professionnelle.png" alt="Vous avez fait une pause professionnelle, comment en parler à un recruteur ?">
+    <p>Vous avez fait une pause professionnelle, comment en parler à un recruteur ?</p>
+    <hr>
+    <div>
+        <span>Article - Publié le 22/01/2026</span>
+        <a href="/candidat/optimiser-votre-candidature/entretiens-de-recrutement/fiches-avis/vous-avez-fait-une-pause-professionnelle,-comment-en-parler-a-un-recruteur-.html" title="Vous avez fait une pause professionnelle, comment en parler à un recruteur ?">
+            Voir
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+        </a>
+    </div>
+</li></ul>
+    </div>
+<div class="rebond-title">Nos services</div>
+<article class="card card-problematic mb-20">
+    <a href="/candidat/optimiser-votre-candidature/candidature/fiches-services/convaincre-avec-vos-cv-lettre-et-profil-apec.html">
+        <div class="card-body">
+            <h2 class="card-title">Convaincre avec vos CV, lettre et Profil Apec</h2>
+            <p>Un atelier en présentiel ou en distanciel pour construire une candidature et un Profil Apec efficaces</p>
+            <div class="small-link">
+                <span>En savoir plus</span>
+                <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg">
+            </div>
+        </div>
+    </a>
+</article></aside>
+        </div>
+    </div>
+</div></main>
+
+	<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer__logo footer-container__block">
+                <a href="/" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                    <img src="/modules/apec-jahia-module/assets/img/logo_apec/texte/vertical/white.svg" alt="Logo Apec">
+                </a>
+            </div>
+            <div class="footer__links footer-container__block">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/faq.html" title="FAQ" aria-label="FAQ">
+                                FAQ</a></li>
+                            <li><a href="/tous-nos-services.html" title="Services de conseil" aria-label="Services de conseil">
+                                Services de conseil</a></li>
+                            <li><a href="/infos-legales.html" title="Conditions générales" aria-label="Conditions générales">
+                                Conditions générales</a></li>
+                            <li><a href="/qui-sommes-nous.html" title="Qui sommes nous ?" aria-label="Qui sommes nous ?">
+                                Qui sommes nous ?</a></li>
+                            <li><a href="/accessibilite.html" title="Accessibilité" aria-label="Accessibilité">
+                                Accessibilité</a></li>
+                            </ul>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/partenariats-offres-demploi-cadres.html" title="Partenariats offres" aria-label="Partenariats offres">
+                                Partenariats offres</a></li>
+                            <li><a href="https://corporate.apec.fr" title="Site corporate" aria-label="Site corporate" target="_blank" rel="nofollow">
+                                Site corporate</a></li>
+                            <li><a href="https://corporate.apec.fr/toutes-nos-etudes" title="Études Apec" aria-label="Études Apec" target="_blank" rel="nofollow">
+                                Études Apec</a></li>
+                            <li><a href="https://corporate.apec.fr/home/actus-medias.html" title="Contact presse" aria-label="Contact presse" target="_blank" rel="nofollow">
+                                Contact presse</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__social footer-container__block">
+                <div class="footer-social-icons">
+                    <ul class="social-icons flexbox">
+                        <li><a href="https://fr-fr.facebook.com/apec/" target="_blank" aria-label="Facebook" title="Facebook" rel="noreferrer noopener"><img class="icons icon-facebook" src="/modules/apec-jahia-module/assets/img/social/facebook.svg" alt="Icone Facebook"></a></li>
+                        <li><a href="https://www.instagram.com/apec_officiel/?hl=fr" target="_blank" aria-label="Instagram" title="Instagram" rel="noreferrer noopener"><img class="icons icon-instagram" src="/modules/apec-jahia-module/assets/img/social/instagram.svg" alt="Icone Instagram"></a></li>
+                        <li><a href="https://fr.linkedin.com/company/apec" target="_blank" aria-label="Linkedin" title="Linkedin" rel="noreferrer noopener"><img class="icons icon-linkedin" src="/modules/apec-jahia-module/assets/img/social/linkedin.svg" alt="Icone Linkedin"></a></li>
+                        <li><a href="http://tiktok.com/@apecfr" target="_blank" aria-label="TikTok" title="TikTok" rel="noreferrer noopener"><img class="icons icon-tiktok" src="/modules/apec-jahia-module/assets/img/social/tiktok.svg" alt="Icone TikTok"></a></li>
+                        <li><a href="http://www.youtube.com/@Apec09" target="_blank" aria-label="Youtube" title="Youtube" rel="noreferrer noopener"><img class="icons icon-youtube" src="/modules/apec-jahia-module/assets/img/social/youtube.svg" alt="Icone Youtube"></a></li>
+                    </ul>
+                    <div class="app-badge">
+                        <a href="https://itunes.apple.com/app/apple-store/id387689033?mt=8" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_apple_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans l'App Store">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-app-store.png" alt="Télécharger dans l'App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.apec.jobboard&amp;hl=fr" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_google_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans Google Play">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-google-play.png" alt="Disponible sur Google Play">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__contact footer-container__block">
+                <p class="mb-20">« Vous avez une question ? »</p>
+                <a href="/posez-votre-question.html" class="footer__button">Contactez-nous</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</form>
+</body>
+</html>

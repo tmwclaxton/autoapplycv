@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply - Senior Frontend Engineer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f0f2f5; display: flex; justify-content: center; padding: 2rem; min-height: 100vh; }
+  .app-shell { display: flex; max-width: 1100px; width: 100%; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); overflow: hidden; }
+  .sidebar { width: 260px; background: #f8f9fb; border-right: 1px solid #e5e9f0; padding: 1.5rem; }
+  .sidebar h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px; color: #6b7280; margin: 0 0 1rem 0; }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar li { padding: 0.5rem 0.75rem; margin-bottom: 2px; border-radius: 6px; font-size: 0.85rem; color: #374151; cursor: default; display: flex; align-items: center; gap: 6px; }
+  .sidebar li.active { background: #eef2ff; color: #4f46e5; font-weight: 500; }
+  .sidebar li::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #d1d5db; }
+  .sidebar li.active::before { background: #4f46e5; }
+  .sidebar .status-info { margin-top: 2rem; font-size: 0.75rem; color: #9ca3af; }
+  .main { flex: 1; padding: 2rem 2.5rem; max-width: 720px; }
+  .main h1 { font-size: 1.4rem; font-weight: 600; color: #111827; margin-bottom: 0.2rem; }
+  .main .subhead { color: #6b7280; font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1.25rem; }
+  .row { display: flex; gap: 1rem; }
+  .row > * { flex: 1; }
+  label { display: block; font-size: 0.8rem; font-weight: 500; color: #374151; margin-bottom: 0.3rem; }
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea { width: 100%; padding: 0.55rem 0.7rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.85rem; background: white; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  .pill-group { display: flex; gap: 0.4rem; margin-top: 4px; }
+  .pill-btn { padding: 0.45rem 1.1rem; border: 1px solid #d1d5db; border-radius: 9999px; background: white; font-size: 0.8rem; cursor: pointer; color: #374151; transition: all 0.1s; }
+  .pill-btn.active { background: #4f46e5; border-color: #4f46e5; color: white; }
+  .pill-btn:focus { box-shadow: 0 0 0 2px #a5b4fc; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .field-with-glued-label span.field-label { display: inline; font-size: 0.8rem; color: #374151; }
+  .field-with-glued-label input { margin-top: 2px; }
+  .error-text { color: #dc2626; font-size: 0.7rem; margin-top: 4px; }
+  .combobox-wrapper { position: relative; }
+  .combobox-wrapper input[role="combobox"] { width: 100%; padding-right: 2rem; }
+  .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 4px; max-height: 160px; overflow-y: auto; z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .listbox.open { display: block; }
+  .listbox .option { padding: 0.5rem 0.7rem; cursor: default; font-size: 0.85rem; color: #111827; }
+  .listbox .option:hover, .listbox .option.active { background: #f3f4f6; }
+  [aria-haspopup="listbox"] + .listbox-icon { pointer-events: none; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.65rem; }
+  .meter-row { display: flex; align-items: center; gap: 1rem; margin-top: 4px; }
+  .meter-row meter { flex: 1; height: 0.9rem; }
+  .meter-value { font-size: 0.8rem; color: #374151; min-width: 2.5rem; }
+  button[type="submit"] { background: #4f46e5; color: white; border: none; padding: 0.65rem 1.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; font-size: 0.9rem; margin-top: 1rem; }
+  button[type="submit"]:hover { background: #4338ca; }
+  .decoy-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; opacity: 0.5; pointer-events: none; }
+  .decoy-section h3 { font-size: 0.85rem; color: #9ca3af; }
+  .hidden-reveal-content { margin-top: 0.5rem; padding: 0.75rem; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb; }
+  .self-assessment-field { margin-top: 0.5rem; }
+  .svg-inline { display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 3px; fill: currentColor; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 4px; }
+  .checkbox-group label { display: inline-flex; align-items: center; gap: 5px; font-weight: 400; font-size: 0.85rem; cursor: pointer; }
+  .fieldset-stack { border: none; padding: 0; margin-bottom: 1.25rem; }
+  .fieldset-stack legend { font-size: 0.8rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem; }
+  .phone-group { display: flex; gap: 0.5rem; }
+  .phone-group select { width: 100px; flex-shrink: 0; }
+  .phone-group input { flex: 1; }
+  .inline-svg-label { display: inline-flex; align-items: center; gap: 4px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" role="complementary" aria-label="Application steps">
+    <h2>Your application</h2>
+    <ul>
+      <li class="active"><span>Personal info</span></li>
+      <li><span>Skills & experience</span></li>
+      <li><span>Additional</span></li>
+      <li><span>Review</span></li>
+    </ul>
+    <div class="status-info">Your progress is saved automatically.</div>
+  </aside>
+  <main class="main">
+    <h1>Senior Frontend Engineer</h1>
+    <div class="subhead">Acme Corp · Remote · Full-time</div>
+    
+    <form id="apply-form" action="#" method="POST">
+      
+      <!-- Concatenated label words pattern: "first namerequired" glued span + SVG icon label -->
+      <div class="form-group">
+        <div class="field-with-glued-label">
+          <span class="field-label" id="name-label-glue">first namerequired</span>
+          <svg class="svg-inline" aria-hidden="true" viewBox="0 0 20 20" width="14" height="14"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM7 8a3 3 0 116 0 3 3 0 01-6 0zm-1 6a5 5 0 0110 0H6z"/></svg>
+          <!-- aria-label only field #1: name input uses aria-label but no visible label -->
+          <input type="text" id="first-name" name="firstName" aria-label="first namerequired" placeholder="e.g. Alex" autocomplete="given-name" />
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="form-group">
+          <span id="hidden-lastname-label" class="visually-hidden">Last name (required)</span>
+          <!-- aria-labelledby pointing to hidden span -->
+          <input type="text" name="lastName" aria-labelledby="hidden-lastname-label" placeholder="Last name" autocomplete="family-name" />
+        </div>
+        <div class="form-group">
+          <!-- Custom combobox: role combobox, aria-haspopup listbox -->
+          <div class="combobox-wrapper">
+            <span id="pronoun-label" class="visually-hidden">Pronouns</span>
+            <input type="text" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="pronoun-label" placeholder="Pronouns" id="pronoun-input" />
+            <span class="listbox-icon" aria-hidden="true">▾</span>
+            <div class="listbox" id="pronoun-listbox" role="listbox" aria-labelledby="pronoun-label">
+              <div class="option" role="option" aria-selected="false" data-value="">—</div>
+              <div class="option" role="option" aria-selected="false" data-value="he/him">he/him</div>
+              <div class="option" role="option" aria-selected="false" data-value="she/her">she/her</div>
+              <div class="option" role="option" aria-selected="false" data-value="they/them">they/them</div>
+              <div class="option" role="option" aria-selected="false" data-value="other">other</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <!-- aria-label only #2: email field via aria-label, no label element -->
+        <input type="email" name="email" aria-label="Email address (required)" placeholder="you@company.com" autocomplete="email" />
+      </div>
+
+      <!-- Phone field with country code select (duplicate name attrs for select + input) -->
+      <div class="form-group">
+        <label for="phone-input">Phone number</label>
+        <div class="phone-group">
+          <select id="phone-code" name="phoneCountry" aria-label="Country code">
+            <option value="+1">+1</option>
+            <option value="+44">+44</option>
+            <option value="+91">+91</option>
+            <option value="+61">+61</option>
+          </select>
+          <input type="tel" id="phone-input" name="phoneNumber" placeholder="555-0123" autocomplete="tel-national" />
+        </div>
+      </div>
+
+      <!-- Yes/no pill buttons (not native radio) -->
+      <fieldset class="fieldset-stack">
+        <legend>Are you legally authorized to work in this country?</legend>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes" name="workAuth">Yes</button>
+          <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no" name="workAuth">No</button>
+        </div>
+        <!-- hidden input to hold value for submission -->
+        <input type="hidden" name="workAuth" value="" />
+      </fieldset>
+
+      <!-- Yes/no pill buttons for sponsorship (duplicate name attrs with workAuth? No, separate but same pattern) -->
+      <fieldset class="fieldset-stack">
+        <legend>Will you require visa sponsorship?</legend>
+        <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+          <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes" name="visaSponsor">Yes</button>
+          <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no" name="visaSponsor">No</button>
+        </div>
+        <input type="hidden" name="visaSponsor" value="" />
+      </fieldset>
+
+      <div class="form-group">
+        <span id="linkedin-label" class="inline-svg-label" style="font-size:0.8rem; font-weight:500; color:#374151;">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn profile (optional)
+        </span>
+        <input type="text" name="linkedin" aria-labelledby="linkedin-label" placeholder="https://linkedin.com/in/..." />
+      </div>
+
+      <!-- Custom combobox: location (second combobox, also required) -->
+      <div class="form-group">
+        <div class="combobox-wrapper">
+          <span id="location-label" class="visually-hidden">Location</span>
+          <input type="text" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="location-label" placeholder="City, State" id="location-input" />
+          <span class="listbox-icon" aria-hidden="true">▾</span>
+          <div class="listbox" id="location-listbox" role="listbox" aria-labelledby="location-label">
+            <div class="option" role="option" aria-selected="false" data-value="">—</div>
+            <div class="option" role="option" aria-selected="false" data-value="New York, NY">New York, NY</div>
+            <div class="option" role="option" aria-selected="false" data-value="San Francisco, CA">San Francisco, CA</div>
+            <div class="option" role="option" aria-selected="false" data-value="Austin, TX">Austin, TX</div>
+            <div class="option" role="option" aria-selected="false" data-value="Remote">Remote</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duplicate name attrs: checkbox cluster with same name -->
+      <div class="form-group">
+        <label style="margin-bottom:0.25rem;">Skills (select all that apply)</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="skills" value="react" /> React</label>
+          <label><input type="checkbox" name="skills" value="typescript" /> TypeScript</label>
+          <label><input type="checkbox" name="skills" value="css" /> CSS</label>
+          <label><input type="checkbox" name="skills" value="node" /> Node.js</label>
+          <label><input type="checkbox" name="skills" value="figma" /> Figma</label>
+        </div>
+      </div>
+
+      <!-- Duplicate name attrs: radio cluster for experience level -->
+      <div class="form-group">
+        <label style="margin-bottom:0.25rem;">Experience level</label>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <label><input type="radio" name="expLevel" value="junior" /> Junior</label>
+          <label><input type="radio" name="expLevel" value="mid" /> Mid</label>
+          <label><input type="radio" name="expLevel" value="senior" /> Senior</label>
+          <label><input type="radio" name="expLevel" value="lead" /> Lead</label>
+        </div>
+      </div>
+
+      <!-- Meter self-assessment field: meter element near text input -->
+      <div class="form-group self-assessment-field">
+        <label for="self-rating">Rate your React expertise (1–10)</label>
+        <div class="meter-row">
+          <input type="range" id="self-rating" name="reactLevel" min="1" max="10" value="6" style="flex:1;" />
+          <meter min="1" max="10" low="3" high="8" optimum="6" value="6" aria-label="React expertise level: 6 out of 10" style="flex:2;"></meter>
+          <span class="meter-value" id="rating-display">6 / 10</span>
+        </div>
+      </div>
+
+      <!-- Textarea for cover letter (additional field) -->
+      <div class="form-group">
+        <label for="cover-letter">Cover letter (optional)</label>
+        <textarea id="cover-letter" name="coverLetter" rows="3" placeholder="Tell us why you're a great fit..."></textarea>
+      </div>
+
+      <!-- Hidden reveal / conditional: details disclosure (wizard-style) -->
+      <div class="form-group" style="border:1px solid #e5e7eb; border-radius:6px; padding:0.75rem;">
+        <details>
+          <summary style="font-weight:500; cursor:pointer; font-size:0.85rem;">Portfolio or additional links</summary>
+          <div class="hidden-reveal-content">
+            <input type="text" name="portfolio" placeholder="https://portfolio.dev" />
+            <input type="text" name="github" placeholder="https://github.com/username" style="margin-top:8px;" />
+          </div>
+        </details>
+      </div>
+
+      <!-- Decoy secondary form (non-functional, same action but disabled) -->
+      <div class="decoy-section">
+        <h3>Internal referral (disabled for this role)</h3>
+        <input type="text" name="referralCode" placeholder="Referral code" disabled />
+        <span style="font-size:0.7rem; color:#9ca3af;">Not available for this posting</span>
+      </div>
+
+      <button type="submit">Submit application</button>
+    </form>
+  </main>
+</div>
+<script>
+(function(){
+  // pill buttons (yes/no)
+  document.querySelectorAll('.pill-group').forEach(function(group) {
+    var btns = group.querySelectorAll('.pill-btn');
+    var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+        btn.classList.add('active'); btn.setAttribute('aria-checked','true');
+        if(hiddenInput) hiddenInput.value = btn.getAttribute('data-value');
+      });
+    });
+  });
+
+  // custom combobox logic
+  function setupCombobox(inputId, listboxId) {
+    var input = document.getElementById(inputId);
+    var listbox = document.getElementById(listboxId);
+    if (!input || !listbox) return;
+    var options = listbox.querySelectorAll('.option');
+    
+    input.addEventListener('focus', function(){ listbox.classList.add('open'); input.setAttribute('aria-expanded','true'); });
+    input.addEventListener('blur', function(){ setTimeout(function(){ listbox.classList.remove('open'); input.setAttribute('aria-expanded','false'); }, 150); });
+    input.addEventListener('input', function(){
+      var q = input.value.toLowerCase();
+      options.forEach(function(opt){
+        var txt = opt.getAttribute('data-value') || opt.textContent.trim().toLowerCase();
+        if(txt.indexOf(q) > -1 || q === '') { opt.style.display = 'block'; } else { opt.style.display = 'none'; }
+      });
+      listbox.classList.add('open'); input.setAttribute('aria-expanded','true');
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') { listbox.classList.remove('open'); input.setAttribute('aria-expanded','false'); input.focus(); }
+    });
+    options.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        input.value = opt.getAttribute('data-value') || opt.textContent.trim();
+        listbox.classList.remove('open'); input.setAttribute('aria-expanded','false');
+        input.focus();
+        // update aria-selected
+        options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+        opt.setAttribute('aria-selected','true');
+        // dispatch input event
+        var ev = new Event('input', { bubbles: true });
+        input.dispatchEvent(ev);
+      });
+      opt.addEventListener('mousedown', function(e){ e.preventDefault(); }); // prevent blur
+    });
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        var current = listbox.querySelector('.option.active');
+        if(!current) current = listbox.querySelector('.option:not([data-value=""]):not([style*="display: none"])');
+        var next = null;
+        if(e.key === 'ArrowDown') { next = current ? current.nextElementSibling : listbox.querySelector('.option:not([style*="display: none"])'); }
+        else { next = current ? current.previousElementSibling : listbox.querySelector('.option:last-child'); }
+        while(next && next.style.display === 'none') { next = (e.key === 'ArrowDown') ? next.nextElementSibling : next.previousElementSibling; }
+        if(next) { 
+          options.forEach(function(o){ o.classList.remove('active'); });
+          next.classList.add('active');
+          next.scrollIntoView({block: 'nearest'});
+        }
+      }
+      if(e.key === 'Enter') {
+        var active = listbox.querySelector('.option.active');
+        if(active && listbox.classList.contains('open')) {
+          e.preventDefault();
+          input.value = active.getAttribute('data-value') || active.textContent.trim();
+          listbox.classList.remove('open'); input.setAttribute('aria-expanded','false');
+          options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+          active.setAttribute('aria-selected','true');
+        }
+      }
+    });
+  }
+
+  setupCombobox('pronoun-input', 'pronoun-listbox');
+  setupCombobox('location-input', 'location-listbox');
+
+  // self assessment slider + meter sync
+  var slider = document.getElementById('self-rating');
+  var meter = slider ? slider.nextElementSibling : null;
+  var display = document.getElementById('rating-display');
+  if(slider && meter && display) {
+    slider.addEventListener('input', function(){
+      var val = slider.value;
+      meter.value = val;
+      display.textContent = val + ' / 10';
+    });
+  }
+
+  // form submit prevent
+  document.getElementById('apply-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Application submitted! (demo)');
+  });
+})();
+</script>
+</body>
+</html>

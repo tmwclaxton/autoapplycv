@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0059",
+    "seed": 981170407,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Aria-labelledby only",
+                "notes": "Email field identified only via aria-labelledby pointing at hidden span",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Aria-labelledby only<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"email-lbl\" hidden>Work email address<\/span> <input type=\"email\" name=\"work_email\" aria-labelledby=\"email-lbl\"> <label for=\"phone_visible\">Phone<\/label><input type=\"tel\" id=\"phone_visible\" name=\"phone_visible\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Multiple forms on page",
+                "notes": "Newsletter signup form vs job application form - tests primary form detection",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Multiple forms<\/h1> <aside><form id=\"newsletter\" action=\"\/newsletter\"><label>Newsletter email <input type=\"email\" name=\"newsletter_email\"><\/label><button type=\"submit\">Subscribe<\/button><\/form><\/aside> <form id=\"application\" action=\"\/apply\" method=\"post\"> <label for=\"app_name\">Applicant name<\/label><input typ",
+                "requires_interaction": false
+            },
+            {
+                "title": "Custom div dropdown",
+                "notes": "Location picked from custom div dropdown, not native select",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Custom dropdown<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dd_name\">Name<\/label><input type=\"text\" id=\"dd_name\" name=\"dd_name\"> <div class=\"custom-select\"> <span id=\"dd_loc_lbl\">Preferred office location<\/span> <button type=\"button\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"dd_loc_list\" ",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Label wraps input through nested divs without for attribute Required: Inputs laid out in table cells, not flex card stacks only Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Newsletter or login decoy form separate from job application form Required: At least one readonly or disabled input with prefilled profile value Reference DOM (Aria-labelledby only): Email field identified only via aria-labelledby pointing at hidden span Reference DOM (Multiple forms on page): Newsletter signup form vs job application form - tests primary form detection Reference DOM (Custom div dropdown): Location picked from custom div dropdown, not native select Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: label-wraps-deep, table-layout, div-role-textbox, decoy-form, readonly-prefill. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Aria-labelledby only; Multiple forms on page; Custom div dropdown."
+}

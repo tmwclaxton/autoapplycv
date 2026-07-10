@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0013",
+    "seed": 4086507298,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "sidebar + main split apply layout",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            },
+            {
+                "title": "Form inside dialog",
+                "notes": "Application fields live inside a native dialog element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Dialog form<\/h1> <form action=\"\/apply\" method=\"post\" id=\"outer-form\"> <label for=\"dlg_name\">Name<\/label><input type=\"text\" id=\"dlg_name\" name=\"dlg_name\"> <button type=\"button\" id=\"open-dialog\" onclick=\"document.getElementById('apply-dialog').showModal()\">Open application<\/button> <dialog id=\"apply-dialog\"> <l",
+                "requires_interaction": true
+            },
+            {
+                "title": "Asterisk in sibling span",
+                "notes": "Required marker asterisk lives in sibling span, not inside label text",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Sibling asterisk<\/h1> <form action=\"\/apply\" method=\"post\"> <div class=\"field-row\"><label for=\"ast_name\">Full name<\/label><span aria-hidden=\"true\" class=\"required\">*<\/span><input type=\"text\" id=\"ast_name\" name=\"ast_name\" required><\/div> <div class=\"field-row\"><label for=\"ast_email\">Email address<\/label><span c",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Label text split across multiple spans with no space between words Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Custom text field: div with role=textbox and contenteditable, no native input Required: At least two fields with aria-label only and no visible label element Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Reference DOM (Form inside dialog): Application fields live inside a native dialog element Reference DOM (Asterisk in sibling span): Required marker asterisk lives in sibling span, not inside label text Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: glued-label-text, custom-combobox, iframe-apply, div-role-textbox, aria-label-only. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: sidebar + main split apply layout. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Question number prefixes; Form inside dialog; Asterisk in sibling span."
+}

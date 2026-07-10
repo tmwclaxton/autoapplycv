@@ -1,0 +1,283 @@
+{
+  "id": "https-jobs-lever-co-brilliant-641b4544-757b-4701-866c-d8c2b262d42e-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:28:22.783Z",
+  "page_url": "https://jobs.lever.co/brilliant/641b4544-757b-4701-866c-d8c2b262d42e/apply",
+  "page_title": "Brilliant - Future Engineer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.6429,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "please leave a note that expresses your interest in the position/company.",
+        "ai": "Please leave a note that expresses your interest in the position/company.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe a company or project in which you played a pivotal role. for example: perhaps you were a founder, an early team member, or an important contributor at a critical juncture. what was your most important contribution?",
+        "ai": "Briefly describe a company or project in which you played a pivotal role. For example: perhaps you were a founder, an early team member, or an important contributor at a critical juncture. What was your most important contribution?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what was most energizing about your last role? most energy sapping?",
+        "ai": "What was most energizing about your last role? Most energy sapping?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what's your favorite part of the product experience on brilliant? what's one thing you'd change?",
+        "ai": "What's your favorite part of the product experience on Brilliant? What's one thing you'd change?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with custom fields embedded via JSON-encoded hidden inputs. Includes an hCaptcha challenge.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please leave a note that expresses your interest in the position/company.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Briefly describe a company or project in which you played a pivotal role. For example: perhaps you were a founder, an early team member, or an important contributor at a critical juncture. What was your most important contribution?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What was most energizing about your last role? Most energy sapping?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What's your favorite part of the product experience on Brilliant? What's one thing you'd change?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "please leave a note that expresses your interest in the position/company.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "briefly describe a company or project in which you played a pivotal role. for example: perhaps you were a founder, an early team member, or an important contributor at a critical juncture. what was your most important contribution?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "what was most energizing about your last role? most energy sapping?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what's your favorite part of the product experience on brilliant? what's one thing you'd change?",
+      "field_type": "textarea",
+      "ref": "f13"
+    }
+  ]
+}

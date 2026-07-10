@@ -1,0 +1,69 @@
+{
+  "id": "syn-ai-0003",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "이메일 주소",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "newsletter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "이메일 주소",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "아이디",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "loginID",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "아이디",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "비밀번호",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": null,
+        "name": "pw",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "비밀번호",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

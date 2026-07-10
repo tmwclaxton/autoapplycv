@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0033",
+    "seed": 1607753551,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Aria describedby hints",
+                "notes": "Fields use aria-describedby for format hints separate from label",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Describedby hints<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"desc_phone\">Phone number<\/label> <span id=\"phone_hint\">Include country code, e.g. +44 7700 900000<\/span> <input type=\"tel\" id=\"desc_phone\" name=\"desc_phone\" aria-describedby=\"phone_hint\"> <label for=\"desc_email\">Email<\/label> <span id=\"em",
+                "requires_interaction": false
+            },
+            {
+                "title": "Greenhouse progress dots",
+                "notes": "Greenhouse-inspired multi-section form with progress indicator dots",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Greenhouse progress<\/h1> <form action=\"\/apply\" method=\"post\"> <nav aria-label=\"Application progress\"><ol><li aria-current=\"step\">Personal<\/li><li>Questions<\/li><li>Review<\/li><\/ol><\/nav> <section data-section=\"personal\"> <label for=\"gh_first\">First name<\/label><input type=\"text\" id=\"gh_first\" name=\"gh_first\">",
+                "requires_interaction": false
+            },
+            {
+                "title": "Lever custom file button",
+                "notes": "Lever-inspired resume upload with visible custom button hiding native input",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Lever file upload<\/h1> <form action=\"\/apply\" method=\"post\" enctype=\"multipart\/form-data\"> <label for=\"lev_name\">Name<\/label><input type=\"text\" id=\"lev_name\" name=\"lev_name\"> <div class=\"lever-upload\"> <label for=\"lev_resume\" class=\"lever-btn\">Attach resume<\/label> <input type=\"file\" id=\"lev_resume\" name=\"lev_",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Yes\/no question as paired button elements, not native radio inputs Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Phone split into country code select and local number input in separate wrappers Required: Label wraps input through nested divs without for attribute Required: When combobox widget requested, use custom listbox - native select alone is insufficient Reference DOM (Aria describedby hints): Fields use aria-describedby for format hints separate from label Reference DOM (Greenhouse progress dots): Greenhouse-inspired multi-section form with progress indicator dots Reference DOM (Lever custom file button): Lever-inspired resume upload with visible custom button hiding native input Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: pill-yes-no, custom-combobox, split-phone, label-wraps-deep, native-select-not-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Aria describedby hints; Greenhouse progress dots; Lever custom file button."
+}

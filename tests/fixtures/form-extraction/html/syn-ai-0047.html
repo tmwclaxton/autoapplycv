@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashby Application - Senior Product Manager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f4f6f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 24px; color: #1a1a2e; }
+  .app-shell { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .iframe-apply-wrapper { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04); overflow: hidden; }
+  iframe#apply-frame { width: 100%; height: 2200px; border: 0; display: block; }
+  .decoy-form { background: #eef2f7; border-radius: 12px; padding: 20px 24px; border: 1px solid #dce2ec; margin-top: 8px; }
+  .decoy-form h3 { font-size: 15px; font-weight: 600; color: #2d3a5e; margin-bottom: 12px; letter-spacing: -0.01em; }
+  .decoy-form .decoy-inner { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .decoy-form input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; flex: 1 1 200px; }
+  .decoy-form button { background: #1e293b; color: white; border: 0; border-radius: 6px; padding: 8px 18px; font-weight: 500; cursor: pointer; }
+  .decoy-form label { font-size: 13px; color: #475569; display: flex; align-items: center; gap: 6px; }
+  .apply-container { padding: 24px 28px 32px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #fff; }
+  .apply-header { margin-bottom: 20px; }
+  .apply-header h1 { font-size: 22px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+  .apply-header .subhead { color: #475569; font-size: 14px; }
+  fieldset { border: 0; padding: 0; margin: 0 0 24px 0; }
+  legend { font-weight: 600; font-size: 15px; color: #0f172a; padding: 0 0 10px 0; display: block; border-bottom: 1px solid #e2e8f0; width: 100%; margin-bottom: 16px; }
+  .field-group { margin-bottom: 18px; }
+  .field-label { display: block; font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 6px; }
+  .field-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="number"], select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+  .table-fields { width: 100%; border-collapse: collapse; }
+  .table-fields td { padding: 8px 10px 8px 0; vertical-align: top; }
+  .table-fields td:first-child { width: 38%; }
+  .table-fields td:last-child { width: 62%; }
+  .table-fields .field-label { margin-bottom: 2px; }
+  .pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill-group input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .pill-group label { display: inline-block; padding: 6px 16px; border-radius: 20px; border: 1px solid #cbd5e1; background: #fff; font-size: 13px; color: #1e293b; cursor: pointer; transition: all 0.12s; font-weight: 450; }
+  .pill-group input[type="radio"]:checked + label { background: #1e293b; border-color: #1e293b; color: white; }
+  .pill-group label:hover { border-color: #94a3b8; }
+  .custom-textbox { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; min-height: 72px; background: #fff; font-size: 14px; line-height: 1.5; outline: none; transition: border 0.15s; }
+  .custom-textbox:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+  .file-upload-wrapper { position: relative; display: flex; align-items: center; gap: 12px; }
+  .file-upload-wrapper input[type="file"] { position: absolute; opacity: 0; width: 0.1px; height: 0.1px; z-index: -1; }
+  .file-button { background: #f1f5f9; border: 1px dashed #94a3b8; border-radius: 6px; padding: 10px 16px; font-size: 13px; color: #1e293b; cursor: pointer; transition: 0.1s; white-space: nowrap; }
+  .file-button:hover { background: #e2e8f0; border-color: #64748b; }
+  .file-name { font-size: 13px; color: #475569; }
+  .combobox-wrapper input { padding-right: 32px; background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%2364748b" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat right 10px center; }
+  .desc-text { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .hidden-field { display: none; }
+  .reveal-trigger:checked ~ .hidden-field { display: block; margin-top: 12px; }
+  .reveal-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2563eb; cursor: pointer; }
+  .checkbox-cluster { display: flex; flex-direction: column; gap: 6px; padding: 4px 0; }
+  .checkbox-cluster label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #1e293b; }
+  .checkbox-cluster input[type="checkbox"] { width: 16px; height: 16px; accent-color: #2563eb; }
+  hr { border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+  .submit-row { display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; }
+  .btn-primary { background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 10px 28px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.12s; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-ghost { background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 20px; font-size: 14px; color: #1e293b; cursor: pointer; }
+  .btn-ghost:hover { background: #f8fafc; }
+  .decoy-check { display: flex; gap: 12px; align-items: center; }
+  .decoy-check input { width: 16px; height: 16px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .custom-combobox { position: relative; }
+  .custom-combobox input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; }
+  .custom-combobox .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-top: 0; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; }
+  .custom-combobox .listbox.show { display: block; }
+  .custom-combobox .listbox .option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .custom-combobox .listbox .option:hover { background: #f1f5f9; }
+  .custom-combobox .listbox .option.selected { background: #e2e8f0; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="decoy-form">
+    <h3>📬 Stay in the loop — product & career tips</h3>
+    <div class="decoy-inner">
+      <input type="email" placeholder="your@email.com" aria-label="Email for newsletter" id="decoy-email" name="newsletter-email">
+      <label><input type="checkbox" name="newsletter-consent" value="yes"> I agree to receive emails</label>
+      <button type="button" onclick="alert('(decoy) would sign up — but this is a demo')">Subscribe</button>
+    </div>
+    <p style="font-size:11px;color:#64748b;margin-top:8px;">No spam, unsubscribe anytime.</p>
+  </div>
+
+  <div class="iframe-apply-wrapper">
+    <iframe id="apply-frame" srcdoc='
+      <!DOCTYPE html>
+      <html>
+      <head><style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fff; }
+        .apply-container { padding: 24px 28px 32px; }
+        .apply-header h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px 0; }
+        .subhead { color: #475569; font-size: 14px; margin-bottom: 16px; }
+        fieldset { border: 0; padding: 0; margin: 0 0 24px 0; }
+        legend { font-weight: 600; font-size: 15px; color: #0f172a; padding: 0 0 10px 0; border-bottom: 1px solid #e2e8f0; width: 100%; margin-bottom: 16px; display: block; }
+        .field-group { margin-bottom: 18px; }
+        .field-label { display: block; font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 6px; }
+        input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+        .table-fields { width: 100%; border-collapse: collapse; }
+        .table-fields td { padding: 8px 10px 8px 0; vertical-align: top; }
+        .table-fields td:first-child { width: 38%; }
+        .table-fields td:last-child { width: 62%; }
+        .pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+        .pill-group input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        .pill-group label { display: inline-block; padding: 6px 16px; border-radius: 20px; border: 1px solid #cbd5e1; background: #fff; font-size: 13px; cursor: pointer; }
+        .pill-group input:checked+label { background: #1e293b; border-color: #1e293b; color: white; }
+        .custom-textbox { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; min-height: 72px; background: #fff; font-size: 14px; line-height: 1.5; outline: none; }
+        .custom-textbox:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+        .file-upload-wrapper { position: relative; display: flex; align-items: center; gap: 12px; }
+        .file-upload-wrapper input[type="file"] { position: absolute; opacity: 0; width: 0.1px; height: 0.1px; z-index: -1; }
+        .file-button { background: #f1f5f9; border: 1px dashed #94a3b8; border-radius: 6px; padding: 10px 16px; font-size: 13px; cursor: pointer; }
+        .file-name { font-size: 13px; color: #475569; }
+        .checkbox-cluster { display: flex; flex-direction: column; gap: 6px; padding: 4px 0; }
+        .checkbox-cluster label { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .checkbox-cluster input { width: 16px; height: 16px; }
+        .hidden-field { display: none; }
+        .reveal-trigger:checked ~ .hidden-field { display: block; margin-top: 12px; }
+        .reveal-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2563eb; cursor: pointer; }
+        .btn-primary { background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 10px 28px; font-weight: 600; font-size: 14px; cursor: pointer; }
+        .btn-ghost { background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 20px; font-size: 14px; cursor: pointer; }
+        .submit-row { display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; }
+        hr { border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+        .desc-text { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .custom-combobox { position: relative; }
+        .custom-combobox input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; }
+        .custom-combobox .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-top: 0; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 10; }
+        .custom-combobox .listbox.show { display: block; }
+        .custom-combobox .listbox .option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+        .custom-combobox .listbox .option:hover { background: #f1f5f9; }
+        .custom-combobox .listbox .option.selected { background: #e2e8f0; font-weight: 500; }
+      </style></head>
+      <body>
+      <div class="apply-container">
+        <div class="apply-header">
+          <h1>Senior Product Manager</h1>
+          <div class="subhead">Ashby · Remote · Full-time</div>
+        </div>
+
+        <fieldset>
+          <legend>About you</legend>
+          <table class="table-fields">
+            <tr>
+              <td><span class="field-label" id="name-label">Full name</span></td>
+              <td><input type="text" name="name" placeholder="e.g. Jamie Chen" aria-labelledby="name-label" style="width:100%;"></td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="email-label">Email</span></td>
+              <td><input type="email" name="email" placeholder="you@example.com" aria-labelledby="email-label" style="width:100%;"></td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="phone-label">Phone</span></td>
+              <td><input type="tel" name="phone" placeholder="+1 (555) 000-0000" aria-labelledby="phone-label" style="width:100%;"></td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="location-label">Location</span></td>
+              <td>
+                <div class="custom-combobox" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="location-label">
+                  <input type="text" id="location-input" placeholder="City or remote" role="textbox" aria-autocomplete="list" aria-controls="location-listbox" aria-activedescendant="">
+                  <ul class="listbox" id="location-listbox" role="listbox" aria-label="Locations">
+                    <li role="option" class="option" data-value="San Francisco, CA">San Francisco, CA</li>
+                    <li role="option" class="option" data-value="New York, NY">New York, NY</li>
+                    <li role="option" class="option" data-value="Austin, TX">Austin, TX</li>
+                    <li role="option" class="option" data-value="Remote (US)">Remote (US)</li>
+                    <li role="option" class="option" data-value="London, UK">London, UK</li>
+                    <li role="option" class="option" data-value="Berlin, DE">Berlin, DE</li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="portfolio-label">Portfolio URL</span></td>
+              <td><input type="url" name="portfolio" placeholder="https://portfolio.dev" aria-labelledby="portfolio-label" style="width:100%;"></td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <fieldset>
+          <legend>Eligibility</legend>
+          <div class="field-group">
+            <span class="field-label" id="auth-label">Work authorization</span>
+            <div class="pill-group" role="radiogroup" aria-labelledby="auth-label">
+              <input type="radio" name="work_auth" id="auth_us" value="us-citizen">
+              <label for="auth_us">US Citizen</label>
+              <input type="radio" name="work_auth" id="auth_gc" value="green-card">
+              <label for="auth_gc">Green Card</label>
+              <input type="radio" name="work_auth" id="auth_visa" value="visa">
+              <label for="auth_visa">Visa holder</label>
+              <input type="radio" name="work_auth" id="auth_other" value="other">
+              <label for="auth_other">Other</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="sponsor-label">Will you require visa sponsorship?</span>
+            <div class="pill-group" role="radiogroup" aria-labelledby="sponsor-label">
+              <input type="radio" name="sponsorship" id="sponsor-yes" value="yes"><label for="sponsor-yes">Yes</label>
+              <input type="radio" name="sponsorship" id="sponsor-no" value="no"><label for="sponsor-no">No</label>
+              <input type="radio" name="sponsorship" id="sponsor-unsure" value="unsure"><label for="sponsor-unsure">Not sure</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Experience</legend>
+          <table class="table-fields">
+            <tr>
+              <td><span class="field-label" id="exp-label">Years of product experience</span></td>
+              <td>
+                <select name="years_exp" aria-labelledby="exp-label" style="width:100%;">
+                  <option value="">Select...</option>
+                  <option>0-1</option>
+                  <option>2-3</option>
+                  <option>4-6</option>
+                  <option>7-10</option>
+                  <option>10+</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="linkedin-label">LinkedIn (optional)</span></td>
+              <td><input type="url" name="linkedin" placeholder="linkedin.com/in/..." aria-labelledby="linkedin-label" style="width:100%;"></td>
+            </tr>
+            <tr>
+              <td><span class="field-label" id="cover-label">Cover letter / notes</span></td>
+              <td>
+                <div role="textbox" contenteditable="true" aria-labelledby="cover-label" class="custom-textbox" data-placeholder="Write something..." style="width:100%;"><span style="color:#94a3b8;">Write a brief note...</span></div>
+                <div class="desc-text" id="cover-desc">Markdown supported</div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <fieldset>
+          <legend>Skills &amp; resume</legend>
+          <div class="field-group">
+            <span class="field-label" id="skills-label">Top skills (select all that apply)</span>
+            <div class="checkbox-cluster" aria-labelledby="skills-label">
+              <label><input type="checkbox" name="skills" value="strategy"> Product strategy</label>
+              <label><input type="checkbox" name="skills" value="analytics"> Data analytics</label>
+              <label><input type="checkbox" name="skills" value="design"> Design thinking</label>
+              <label><input type="checkbox" name="skills" value="leadership"> Team leadership</label>
+              <label><input type="checkbox" name="skills" value="technical"> Technical background</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="resume-label">Resume / CV</span>
+            <div class="file-upload-wrapper">
+              <input type="file" name="resume" accept=".pdf,.doc,.docx" id="resume-input" aria-labelledby="resume-label">
+              <div class="file-button" onclick="document.getElementById('resume-input').click();">+ Upload file</div>
+              <span class="file-name" id="file-name-display">No file chosen</span>
+            </div>
+            <div class="desc-text">PDF or Word, max 10MB</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional</legend>
+          <div class="field-group">
+            <div class="reveal-toggle">
+              <input type="checkbox" id="reveal-ref" class="reveal-trigger" style="width:16px;height:16px;accent-color:#2563eb;">
+              <label for="reveal-ref" style="font-size:14px;color:#1e293b;cursor:pointer;">I was referred by an Ashby employee</label>
+            </div>
+            <div class="hidden-field">
+              <input type="text" name="referrer_name" placeholder="Referrer full name" style="width:100%;" aria-label="Referrer name">
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="source-label">How did you hear about us?</span>
+            <select name="source" aria-labelledby="source-label" style="width:100%;">
+              <option value="">Select...</option>
+              <option>LinkedIn</option>
+              <option>Ashby blog</option>
+              <option>Friend</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="gender-label">Gender (optional, for reporting)</span>
+            <div class="pill-group" role="radiogroup" aria-labelledby="gender-label">
+              <input type="radio" name="gender" id="gender-f" value="female"><label for="gender-f">Female</label>
+              <input type="radio" name="gender" id="gender-m" value="male"><label for="gender-m">Male</label>
+              <input type="radio" name="gender" id="gender-nb" value="nonbinary"><label for="gender-nb">Non-binary</label>
+              <input type="radio" name="gender" id="gender-d" value="decline"><label for="gender-d">Decline</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="salary-label">Salary expectation (USD)</span>
+            <input type="number" name="salary_expectation" placeholder="e.g. 150000" aria-labelledby="salary-label" style="width:100%;">
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="start-label">Earliest start date</span>
+            <input type="text" name="start_date" placeholder="MM/YYYY" aria-labelledby="start-label" style="width:100%;">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Demographics (optional)</legend>
+          <div class="field-group">
+            <span class="field-label" id="ethnicity-label">Ethnicity</span>
+            <div class="pill-group" role="radiogroup" aria-labelledby="ethnicity-label">
+              <input type="radio" name="ethnicity" id="eth-asian" value="asian"><label for="eth-asian">Asian</label>
+              <input type="radio" name="ethnicity" id="eth-black" value="black"><label for="eth-black">Black</label>
+              <input type="radio" name="ethnicity" id="eth-hisp" value="hispanic"><label for="eth-hisp">Hispanic</label>
+              <input type="radio" name="ethnicity" id="eth-white" value="white"><label for="eth-white">White</label>
+              <input type="radio" name="ethnicity" id="eth-other" value="other"><label for="eth-other">Other</label>
+              <input type="radio" name="ethnicity" id="eth-decline" value="decline"><label for="eth-decline">Decline</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label" id="veteran-label">Veteran status</span>
+            <div class="pill-group" role="radiogroup" aria-labelledby="veteran-label">
+              <input type="radio" name="veteran" id="vet-yes" value="yes"><label for="vet-yes">Yes</label>
+              <input type="radio" name="veteran" id="vet-no" value="no"><label for="vet-no">No</label>
+              <input type="radio" name="veteran" id="vet-decline" value="decline"><label for="vet-decline">Decline</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <hr>
+        <div class="submit-row">
+          <button class="btn-ghost" type="button" onclick="alert('Draft saved (demo)')">Save draft</button>
+          <button class="btn-primary" type="submit" onclick="alert('Application submitted (demo)')">Submit application</button>
+        </div>
+        <p style="font-size:11px;color:#94a3b8;margin-top:12px;text-align:center;">Ashby · EEO employer · <a href="#" style="color:#2563eb;">Privacy</a></p>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var fileInput = document.getElementById("resume-input");
+          if (fileInput) {
+            fileInput.addEventListener("change", function(e) {
+              var name = e.target.files[0] ? e.target.files[0].name : "No file chosen";
+              document.getElementById("file-name-display").textContent = name;
+            });
+          }
+          var textbox = document.querySelector("[role=textbox]");
+          if (textbox) {
+            textbox.addEventListener("focus", function() {
+              if (this.innerText.trim() === "Write a brief note...") {
+                this.innerText = "";
+              }
+            });
+            textbox.addEventListener("blur", function() {
+              if (this.innerText.trim() === "") {
+                this.innerText = "Write a brief note...";
+              }
+            });
+          }
+          var combobox = document.querySelector(".custom-combobox");
+          var input = combobox.querySelector("input");
+          var listbox = combobox.querySelector(".listbox");
+          var options = listbox.querySelectorAll(".option");
+          input.addEventListener("focus", function() {
+            listbox.classList.add("show");
+            combobox.setAttribute("aria-expanded", "true");
+          });
+          input.addEventListener("blur", function() {
+            setTimeout(function() {
+              listbox.classList.remove("show");
+              combobox.setAttribute("aria-expanded", "false");
+            }, 200);
+          });
+          options.forEach(function(opt) {
+            opt.addEventListener("click", function() {
+              input.value = this.getAttribute("data-value");
+              listbox.classList.remove("show");
+              combobox.setAttribute("aria-expanded", "false");
+              options.forEach(function(o) { o.classList.remove("selected"); });
+              this.classList.add("selected");
+              combobox.setAttribute("aria-activedescendant", this.id || "");
+            });
+          });
+          input.addEventListener("input", function() {
+            var filter = this.value.toLowerCase();
+            options.forEach(function(opt) {
+              var text = opt.textContent.toLowerCase();
+              opt.style.display = text.includes(filter) ? "block" : "none";
+            });
+            listbox.classList.add("show");
+            combobox.setAttribute("aria-expanded", "true");
+          });
+        });
+      </script>
+      </body>
+      </html>
+    '></iframe>
+  </div>
+  <p style="font-size:12px; color:#64748b; text-align:center;">Ashby application form (demo) · iframe sandboxed apply</p>
+</div>
+<script>
+  console.log('Application shell loaded');
+</script>
+</body>
+</html>

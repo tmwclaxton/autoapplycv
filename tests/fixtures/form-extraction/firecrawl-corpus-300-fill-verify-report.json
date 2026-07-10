@@ -1,15 +1,23 @@
 {
-  "generated_at": "2026-07-08T13:05:30.059Z",
+  "generated_at": "2026-07-10T04:57:43.944Z",
   "totals": {
-    "scenarios": 108,
-    "evaluated": 76,
-    "passed": 7,
-    "failed": 69,
-    "pass_rate": 0.0921
+    "scenarios": 50,
+    "evaluated": 23,
+    "passed": 17,
+    "failed": 6,
+    "pass_rate": 0.7391
   },
   "results": [
     {
-      "id": "web-again-teamtailor-com-5719684-unsolicited-applications",
+      "id": "web-www-stepstone-de-stellenangebote-bewerbung-als-lehrkraft-m-w-d-in-bi",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-spotted-teamtailor-com-new",
       "passed": false,
       "skipped": true,
       "reason": "no fillable fields matched",
@@ -17,1975 +25,7 @@
       "stack": "teamtailor"
     },
     {
-      "id": "web-bluecrux-recruitee-com-new",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-boards-greenhouse-io-4710926005",
-      "passed": false,
-      "field_count": 12,
-      "failures": [
-        {
-          "field": "do you have experience abstracting for the cathpci registry within the last 12 months? linkedin profile",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "have you ever applied to q-centrix using a different name in the past? linkedin profile",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you looking for a full-time or part-time position? linkedin profile",
-          "ref": "f9",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "how did you find us? linkedin profile",
-          "ref": "f10",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "please select the statement below that best matches your employment status with q-centrix? linkedin profile",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "will you now or in the future require sponsorship for employment (e.g., h-1b visa, opt, etc. status)? linkedin profile",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 6,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "do you have experience abstracting for the cathpci registry within the last 12 months? linkedin profile",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "have you ever applied to q-centrix using a different name in the past? linkedin profile",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you looking for a full-time or part-time position? linkedin profile",
-              "ref": "f9",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "how did you find us? linkedin profile",
-              "ref": "f10",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "please select the statement below that best matches your employment status with q-centrix? linkedin profile",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "will you now or in the future require sponsorship for employment (e.g., h-1b visa, opt, etc. status)? linkedin profile",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 6
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 12,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "do you have experience abstracting for the cathpci registry within the last 12 months? linkedin profile",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "have you ever applied to q-centrix using a different name in the past? linkedin profile",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you looking for a full-time or part-time position? linkedin profile",
-              "ref": "f9",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "how did you find us? linkedin profile",
-              "ref": "f10",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "please select the statement below that best matches your employment status with q-centrix? linkedin profile",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "will you now or in the future require sponsorship for employment (e.g., h-1b visa, opt, etc. status)? linkedin profile",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-4895594101",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-5029686007",
-      "passed": false,
-      "field_count": 9,
-      "failures": [
-        {
-          "field": "are you hispanic/latino?",
-          "ref": "f9",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 1,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you hispanic/latino?",
-              "ref": "f9",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 1
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 9,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you hispanic/latino?",
-              "ref": "f9",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-5114405007",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-5117574008",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-5120097008",
-      "passed": false,
-      "skipped": false,
-      "error": "Invalid selector input[type=\"checkbox\"]#question_15022930008[]",
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-5291852008",
-      "passed": false,
-      "field_count": 19,
-      "failures": [
-        {
-          "field": "degree",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "residing state address",
-          "ref": "f11",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you willing to relocate? address",
-          "ref": "f12",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "previous eqt employee address",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "current eqt employee or active contractor address",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you legally authorized to work in the united states? address",
-          "ref": "f20",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "will you immediately require eqt to sponsor you for an employment visa, such as an h-1b? address",
-          "ref": "f21",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "will you at any point in the future require eqt to sponsor you for an employment visa, such as an h-1b? address",
-          "ref": "f22",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "source address",
-          "ref": "f23",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 9,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "degree",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "residing state address",
-              "ref": "f11",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you willing to relocate? address",
-              "ref": "f12",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "previous eqt employee address",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "current eqt employee or active contractor address",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you legally authorized to work in the united states? address",
-              "ref": "f20",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "will you immediately require eqt to sponsor you for an employment visa, such as an h-1b? address",
-              "ref": "f21",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "will you at any point in the future require eqt to sponsor you for an employment visa, such as an h-1b? address",
-              "ref": "f22",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "source address",
-              "ref": "f23",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 9
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 19,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "degree",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "residing state address",
-              "ref": "f11",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you willing to relocate? address",
-              "ref": "f12",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "previous eqt employee address",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "current eqt employee or active contractor address",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you legally authorized to work in the united states? address",
-              "ref": "f20",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "will you immediately require eqt to sponsor you for an employment visa, such as an h-1b? address",
-              "ref": "f21",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "will you at any point in the future require eqt to sponsor you for an employment visa, such as an h-1b? address",
-              "ref": "f22",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "source address",
-              "ref": "f23",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-6017413004",
-      "passed": false,
-      "field_count": 9,
-      "failures": [
-        {
-          "field": "are you authorized to work in the country for which you applied? linkedin profile",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "have you ever worked for figma before, as an employee or a contractor/consultant? linkedin profile",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 2,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you authorized to work in the country for which you applied? linkedin profile",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "have you ever worked for figma before, as an employee or a contractor/consultant? linkedin profile",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 2
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 9,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you authorized to work in the country for which you applied? linkedin profile",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "have you ever worked for figma before, as an employee or a contractor/consultant? linkedin profile",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-6139035",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-7719856003",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-7773766003",
-      "passed": false,
-      "field_count": 21,
-      "failures": [
-        {
-          "field": "are you now or have you ever been previously employed by realtor.com or any news corp subsidiary? current street address",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you currently have any relative(s) employed by realtor.com or any news corp subsidiaries or vendor partners that you are aware of? (including: spouse or domestic/common-law partner, parent(s)/parent in-laws, child, sibling, aunt, uncle, niece, nephew, or cousin) current street address",
-          "ref": "f15",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you 18 years of age or older? current street address",
-          "ref": "f17",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "sponsorship may not be available for this position. do you currently, or will you in the future, require employer-based visa sponsorship (such as an h-1b or other employer-based visa)? current street address",
-          "ref": "f18",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "to confirm your legal authorization to work in the u.s., can you provide documentation showing your ability to work in the u.s. without current or future employer sponsorship? current street address",
-          "ref": "f19",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "our hybrid model is a minimum mandatory three (3) full work days per week in the office. are you able to meet this requirement? current street address",
-          "ref": "f21",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "by selecting agree, i acknowledge that i have read and agree to the realtor.com privacy notice. current street address",
-          "ref": "f22",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you hispanic/latino?",
-          "ref": "f28",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 8,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you now or have you ever been previously employed by realtor.com or any news corp subsidiary? current street address",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you currently have any relative(s) employed by realtor.com or any news corp subsidiaries or vendor partners that you are aware of? (including: spouse or domestic/common-law partner, parent(s)/parent in-laws, child, sibling, aunt, uncle, niece, nephew, or cousin) current street address",
-              "ref": "f15",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you 18 years of age or older? current street address",
-              "ref": "f17",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "sponsorship may not be available for this position. do you currently, or will you in the future, require employer-based visa sponsorship (such as an h-1b or other employer-based visa)? current street address",
-              "ref": "f18",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "to confirm your legal authorization to work in the u.s., can you provide documentation showing your ability to work in the u.s. without current or future employer sponsorship? current street address",
-              "ref": "f19",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "our hybrid model is a minimum mandatory three (3) full work days per week in the office. are you able to meet this requirement? current street address",
-              "ref": "f21",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "by selecting agree, i acknowledge that i have read and agree to the realtor.com privacy notice. current street address",
-              "ref": "f22",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you hispanic/latino?",
-              "ref": "f28",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 8
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 21,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you now or have you ever been previously employed by realtor.com or any news corp subsidiary? current street address",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you currently have any relative(s) employed by realtor.com or any news corp subsidiaries or vendor partners that you are aware of? (including: spouse or domestic/common-law partner, parent(s)/parent in-laws, child, sibling, aunt, uncle, niece, nephew, or cousin) current street address",
-              "ref": "f15",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you 18 years of age or older? current street address",
-              "ref": "f17",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "sponsorship may not be available for this position. do you currently, or will you in the future, require employer-based visa sponsorship (such as an h-1b or other employer-based visa)? current street address",
-              "ref": "f18",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "to confirm your legal authorization to work in the u.s., can you provide documentation showing your ability to work in the u.s. without current or future employer sponsorship? current street address",
-              "ref": "f19",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "our hybrid model is a minimum mandatory three (3) full work days per week in the office. are you able to meet this requirement? current street address",
-              "ref": "f21",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "by selecting agree, i acknowledge that i have read and agree to the realtor.com privacy notice. current street address",
-              "ref": "f22",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you hispanic/latino?",
-              "ref": "f28",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-7961564",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-7975558",
-      "passed": false,
-      "field_count": 16,
-      "failures": [
-        {
-          "field": "have you ever worked for robinhood as an employee, intern or contractor? note that providing false or misleading information may result in disqualification from the hiring process. linkedin profile",
-          "ref": "f11",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you legally work authorized to work in the us? linkedin profile",
-          "ref": "f12",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "will you now (or in the future) require visa sponsorship in order to work in the us? linkedin profile",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you willing to work from the office(s) listed on the job description? linkedin profile",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you have: a) any personal/familial relationships (current robinhood employees or employees of robinhood’s vendors); b) any outside business activities that you wish to continue; c) any investment that is greater than 5% of the outstanding shares of a publicly-traded company; d) any investment in a private company that has a business relationship or that is a current competitor of robinhood; or e) any intellectual property ownership (patents, trademarks, copyrights) that you wish to retain and/or create/develop while at robinhood? linkedin profile",
-          "ref": "f15",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "robinhood adheres to applicable laws and regulations in relation to government officials given inherent bribery and/or corruption risk. a government official is any person that performs a public function on any level or acts in any official capacity on behalf of a government or government owned entity. a) do you currently hold or have you held, within the last 5 years, a position as a government official? b) have you been referred or recommended for this position by a government official? c) are you related to or have a close personal relationship with a government official? linkedin profile",
-          "ref": "f17",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "please indicate the job code number in the job posting here. linkedin profile",
-          "ref": "f18",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "what is your military status?",
-          "ref": "f21",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 8,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "have you ever worked for robinhood as an employee, intern or contractor? note that providing false or misleading information may result in disqualification from the hiring process. linkedin profile",
-              "ref": "f11",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you legally work authorized to work in the us? linkedin profile",
-              "ref": "f12",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "will you now (or in the future) require visa sponsorship in order to work in the us? linkedin profile",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you willing to work from the office(s) listed on the job description? linkedin profile",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you have: a) any personal/familial relationships (current robinhood employees or employees of robinhood’s vendors); b) any outside business activities that you wish to continue; c) any investment that is greater than 5% of the outstanding shares of a publicly-traded company; d) any investment in a private company that has a business relationship or that is a current competitor of robinhood; or e) any intellectual property ownership (patents, trademarks, copyrights) that you wish to retain and/or create/develop while at robinhood? linkedin profile",
-              "ref": "f15",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "robinhood adheres to applicable laws and regulations in relation to government officials given inherent bribery and/or corruption risk. a government official is any person that performs a public function on any level or acts in any official capacity on behalf of a government or government owned entity. a) do you currently hold or have you held, within the last 5 years, a position as a government official? b) have you been referred or recommended for this position by a government official? c) are you related to or have a close personal relationship with a government official? linkedin profile",
-              "ref": "f17",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "please indicate the job code number in the job posting here. linkedin profile",
-              "ref": "f18",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "what is your military status?",
-              "ref": "f21",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 8
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 16,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "have you ever worked for robinhood as an employee, intern or contractor? note that providing false or misleading information may result in disqualification from the hiring process. linkedin profile",
-              "ref": "f11",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you legally work authorized to work in the us? linkedin profile",
-              "ref": "f12",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "will you now (or in the future) require visa sponsorship in order to work in the us? linkedin profile",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you willing to work from the office(s) listed on the job description? linkedin profile",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you have: a) any personal/familial relationships (current robinhood employees or employees of robinhood’s vendors); b) any outside business activities that you wish to continue; c) any investment that is greater than 5% of the outstanding shares of a publicly-traded company; d) any investment in a private company that has a business relationship or that is a current competitor of robinhood; or e) any intellectual property ownership (patents, trademarks, copyrights) that you wish to retain and/or create/develop while at robinhood? linkedin profile",
-              "ref": "f15",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "robinhood adheres to applicable laws and regulations in relation to government officials given inherent bribery and/or corruption risk. a government official is any person that performs a public function on any level or acts in any official capacity on behalf of a government or government owned entity. a) do you currently hold or have you held, within the last 5 years, a position as a government official? b) have you been referred or recommended for this position by a government official? c) are you related to or have a close personal relationship with a government official? linkedin profile",
-              "ref": "f17",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "please indicate the job code number in the job posting here. linkedin profile",
-              "ref": "f18",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "what is your military status?",
-              "ref": "f21",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8037358",
-      "passed": false,
-      "field_count": 6,
-      "failures": [
-        {
-          "field": "will you now or in the future require visa sponsorship? linkedin profile",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 1,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "will you now or in the future require visa sponsorship? linkedin profile",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 1
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "will you now or in the future require visa sponsorship? linkedin profile",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8041500",
-      "passed": false,
-      "field_count": 13,
-      "failures": [
-        {
-          "field": "which best describes your experience managing executive calendars?",
-          "ref": "f6",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "when faced with incomplete information or shifting priorities, i typically: which best describes your experience managing executive calendars?",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you currently employed by vox media? which best describes your experience managing executive calendars?",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you have authorization to work in the united states without restriction? which best describes your experience managing executive calendars?",
-          "ref": "f15",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "vox media does not currently operate in certain states and therefore is unable to consider remote candidates who primarily reside or are physically based in those states (restricted states vary from time to time). please indicate the state where you intend to perform work for the company. which best describes your experience managing executive calendars?",
-          "ref": "f16",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 5,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "which best describes your experience managing executive calendars?",
-              "ref": "f6",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "when faced with incomplete information or shifting priorities, i typically: which best describes your experience managing executive calendars?",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you currently employed by vox media? which best describes your experience managing executive calendars?",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you have authorization to work in the united states without restriction? which best describes your experience managing executive calendars?",
-              "ref": "f15",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "vox media does not currently operate in certain states and therefore is unable to consider remote candidates who primarily reside or are physically based in those states (restricted states vary from time to time). please indicate the state where you intend to perform work for the company. which best describes your experience managing executive calendars?",
-              "ref": "f16",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 5
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 13,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "which best describes your experience managing executive calendars?",
-              "ref": "f6",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "when faced with incomplete information or shifting priorities, i typically: which best describes your experience managing executive calendars?",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you currently employed by vox media? which best describes your experience managing executive calendars?",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you have authorization to work in the united states without restriction? which best describes your experience managing executive calendars?",
-              "ref": "f15",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "vox media does not currently operate in certain states and therefore is unable to consider remote candidates who primarily reside or are physically based in those states (restricted states vary from time to time). please indicate the state where you intend to perform work for the company. which best describes your experience managing executive calendars?",
-              "ref": "f16",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8521873002",
-      "passed": false,
-      "field_count": 20,
-      "failures": [
-        {
-          "field": "school",
-          "ref": "f6",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "degree",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "discipline",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you currently employed by aeg or any affiliates- full time or part time? current company",
-          "ref": "f17",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "have you previously been employed with aeg or any affiliates either full-time or part-time? current company",
-          "ref": "f18",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you at least 18 years of age or older ? current company",
-          "ref": "f19",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you authorized to work in the us? current company",
-          "ref": "f20",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "offers of employment are contingent upon passing pre-employment background checks. drug and/or credit check screenings may be required for specific positions. current company",
-          "ref": "f21",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you acknowledge the aeg hr privacy notice? current company",
-          "ref": "f22",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you acknowledge the aeg job applicant privacy policy? current company",
-          "ref": "f23",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you able to perform all essential job duties with or without accommodation? current company",
-          "ref": "f24",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 11,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "school",
-              "ref": "f6",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "degree",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "discipline",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you currently employed by aeg or any affiliates- full time or part time? current company",
-              "ref": "f17",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "have you previously been employed with aeg or any affiliates either full-time or part-time? current company",
-              "ref": "f18",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you at least 18 years of age or older ? current company",
-              "ref": "f19",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you authorized to work in the us? current company",
-              "ref": "f20",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "offers of employment are contingent upon passing pre-employment background checks. drug and/or credit check screenings may be required for specific positions. current company",
-              "ref": "f21",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you acknowledge the aeg hr privacy notice? current company",
-              "ref": "f22",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you acknowledge the aeg job applicant privacy policy? current company",
-              "ref": "f23",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you able to perform all essential job duties with or without accommodation? current company",
-              "ref": "f24",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 11
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 20,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "school",
-              "ref": "f6",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "degree",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "discipline",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you currently employed by aeg or any affiliates- full time or part time? current company",
-              "ref": "f17",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "have you previously been employed with aeg or any affiliates either full-time or part-time? current company",
-              "ref": "f18",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you at least 18 years of age or older ? current company",
-              "ref": "f19",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you authorized to work in the us? current company",
-              "ref": "f20",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "offers of employment are contingent upon passing pre-employment background checks. drug and/or credit check screenings may be required for specific positions. current company",
-              "ref": "f21",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you acknowledge the aeg hr privacy notice? current company",
-              "ref": "f22",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you acknowledge the aeg job applicant privacy policy? current company",
-              "ref": "f23",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you able to perform all essential job duties with or without accommodation? current company",
-              "ref": "f24",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8594144002",
-      "passed": true,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 3,
-          "checked_forms": 3
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8606781002",
-      "passed": false,
-      "skipped": false,
-      "error": "Invalid selector input[type=\"checkbox\"]#question_37074854002[]",
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8608835002",
-      "passed": false,
-      "skipped": false,
-      "error": "Invalid selector input[type=\"checkbox\"]#question_37090722002[]",
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8611189002",
-      "passed": false,
-      "field_count": 19,
-      "failures": [
-        {
-          "field": "school",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "degree",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "gpa (undergraduate) linkedin profile",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "gpa (graduate) linkedin profile",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "gpa (doctorate) linkedin profile",
-          "ref": "f15",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "sat score linkedin profile",
-          "ref": "f16",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "act score linkedin profile",
-          "ref": "f17",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "gre score linkedin profile",
-          "ref": "f18",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "active security clearance(s) linkedin profile",
-          "ref": "f19",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "spacex, xai & x employment history linkedin profile",
-          "ref": "f20",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "can you perform all of the essential functions of this role with or without reasonable accommodations? linkedin profile",
-          "ref": "f21",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you legally authorized to work in the united states? linkedin profile",
-          "ref": "f22",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "citizenship status linkedin profile",
-          "ref": "f23",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 13,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "school",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "degree",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "gpa (undergraduate) linkedin profile",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "gpa (graduate) linkedin profile",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "gpa (doctorate) linkedin profile",
-              "ref": "f15",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "sat score linkedin profile",
-              "ref": "f16",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "act score linkedin profile",
-              "ref": "f17",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "gre score linkedin profile",
-              "ref": "f18",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "active security clearance(s) linkedin profile",
-              "ref": "f19",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "spacex, xai & x employment history linkedin profile",
-              "ref": "f20",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "can you perform all of the essential functions of this role with or without reasonable accommodations? linkedin profile",
-              "ref": "f21",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you legally authorized to work in the united states? linkedin profile",
-              "ref": "f22",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "citizenship status linkedin profile",
-              "ref": "f23",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 13
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 19,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "school",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "degree",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "gpa (undergraduate) linkedin profile",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "gpa (graduate) linkedin profile",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "gpa (doctorate) linkedin profile",
-              "ref": "f15",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "sat score linkedin profile",
-              "ref": "f16",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "act score linkedin profile",
-              "ref": "f17",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "gre score linkedin profile",
-              "ref": "f18",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "active security clearance(s) linkedin profile",
-              "ref": "f19",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "spacex, xai & x employment history linkedin profile",
-              "ref": "f20",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "can you perform all of the essential functions of this role with or without reasonable accommodations? linkedin profile",
-              "ref": "f21",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you legally authorized to work in the united states? linkedin profile",
-              "ref": "f22",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "citizenship status linkedin profile",
-              "ref": "f23",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8612377002",
-      "passed": false,
-      "skipped": false,
-      "error": "Invalid selector input[type=\"checkbox\"]#question_37125968002[]",
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8621072002",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-careers-amd-icims-com-login",
-      "passed": true,
-      "field_count": 1,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 1,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-careers-commtrans-icims-com-intro",
+      "id": "web-jobs-eu-lever-co-apply-40",
       "passed": false,
       "skipped": true,
       "reason": "no fillable fields matched",
@@ -1993,1430 +33,7 @@
       "stack": "web"
     },
     {
-      "id": "web-careers-mci-icims-com-intro",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-careers-oldnational-icims-com-job",
-      "passed": true,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 2,
-          "checked_forms": 3
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-curifylabs-teamtailor-com-7849510-inside-sales-representative",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-demoshelsinki-demo-teamtailor-com-7260699-open-application",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-digitalforms-recruitee-com-operations-manager",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-digitalforms-recruitee-com-program-manager",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-4242911009",
-      "passed": false,
-      "field_count": 8,
-      "failures": [
-        {
-          "field": "are you authorized to work in the united states? linkedin profile",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "will you now or in the future require employment visa sponsorship? linkedin profile",
-          "ref": "f9",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you willing to relocate to billings, mt? linkedin profile",
-          "ref": "f10",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 3,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you authorized to work in the united states? linkedin profile",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "will you now or in the future require employment visa sponsorship? linkedin profile",
-              "ref": "f9",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you willing to relocate to billings, mt? linkedin profile",
-              "ref": "f10",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 3
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 8,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you authorized to work in the united states? linkedin profile",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "will you now or in the future require employment visa sponsorship? linkedin profile",
-              "ref": "f9",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you willing to relocate to billings, mt? linkedin profile",
-              "ref": "f10",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-4648362005",
-      "passed": false,
-      "field_count": 12,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 12,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-4674281006",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-5107218007",
-      "passed": false,
-      "field_count": 9,
-      "failures": [
-        {
-          "field": "are you legally authorized to work in the united states? linkedin profile",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "the person hired will have access to information and items controlled by the international traffic in arms regulation (itar). to conform to u.s. government space technology export regulations, including the itar, you must be a u.s. citizen, lawful permanent resident of the u.s. (i.e., current green card holder), lawfully admitted into the u.s. as a refugee or granted asylum, or be eligible to obtain the required authorizations from the u.s. department of state. are you currently a u.s. person as described above, or otherwise eligible to obtain the required authorization? linkedin profile",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "do you need, or will you need in the future, any immigration related support or sponsorship from true anomaly in order to begin or continue employment with true anomaly? this includes support (such as j-1, f-1, cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-1, o-1, or tn), and any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). linkedin profile",
-          "ref": "f10",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 3,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you legally authorized to work in the united states? linkedin profile",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "the person hired will have access to information and items controlled by the international traffic in arms regulation (itar). to conform to u.s. government space technology export regulations, including the itar, you must be a u.s. citizen, lawful permanent resident of the u.s. (i.e., current green card holder), lawfully admitted into the u.s. as a refugee or granted asylum, or be eligible to obtain the required authorizations from the u.s. department of state. are you currently a u.s. person as described above, or otherwise eligible to obtain the required authorization? linkedin profile",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "do you need, or will you need in the future, any immigration related support or sponsorship from true anomaly in order to begin or continue employment with true anomaly? this includes support (such as j-1, f-1, cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-1, o-1, or tn), and any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). linkedin profile",
-              "ref": "f10",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 3
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 9,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you legally authorized to work in the united states? linkedin profile",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "the person hired will have access to information and items controlled by the international traffic in arms regulation (itar). to conform to u.s. government space technology export regulations, including the itar, you must be a u.s. citizen, lawful permanent resident of the u.s. (i.e., current green card holder), lawfully admitted into the u.s. as a refugee or granted asylum, or be eligible to obtain the required authorizations from the u.s. department of state. are you currently a u.s. person as described above, or otherwise eligible to obtain the required authorization? linkedin profile",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "do you need, or will you need in the future, any immigration related support or sponsorship from true anomaly in order to begin or continue employment with true anomaly? this includes support (such as j-1, f-1, cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-1, o-1, or tn), and any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). linkedin profile",
-              "ref": "f10",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-5284139008",
-      "passed": false,
-      "skipped": false,
-      "error": "Invalid selector input[type=\"checkbox\"]#question_16878742008[]",
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-5290202008-2",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-5293169008",
-      "passed": false,
-      "field_count": 6,
-      "failures": [
-        {
-          "field": "what's your citizenship / employment eligibility?",
-          "ref": "f6",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "this is a hybrid role in pittsburgh, pa. how will you meet this requirement? what's your citizenship / employment eligibility?",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 2,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "what's your citizenship / employment eligibility?",
-              "ref": "f6",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "this is a hybrid role in pittsburgh, pa. how will you meet this requirement? what's your citizenship / employment eligibility?",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 2
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "what's your citizenship / employment eligibility?",
-              "ref": "f6",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "this is a hybrid role in pittsburgh, pa. how will you meet this requirement? what's your citizenship / employment eligibility?",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-job-boards-greenhouse-io-8099334002",
-      "passed": false,
-      "field_count": 11,
-      "failures": [
-        {
-          "field": "please select from the skills listed below you have relevant experience in",
-          "ref": "f7",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "how many total years of people experience do you have? please select from the skills listed below you have relevant experience in",
-          "ref": "f8",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
-          "ref": "f9",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
-          "ref": "f13",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
-          "ref": "f14",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        },
-        {
-          "field": "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
-          "ref": "f15",
-          "stage": "verify",
-          "expected": "Yes",
-          "actual": null
-        }
-      ],
-      "apply_failures": 0,
-      "verify_failures": 6,
-      "checks": {
-        "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "please select from the skills listed below you have relevant experience in",
-              "ref": "f7",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "how many total years of people experience do you have? please select from the skills listed below you have relevant experience in",
-              "ref": "f8",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
-              "ref": "f9",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
-              "ref": "f13",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
-              "ref": "f14",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            },
-            {
-              "field": "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
-              "ref": "f15",
-              "stage": "verify",
-              "expected": "Yes",
-              "actual": null
-            }
-          ],
-          "apply_failures": 0,
-          "verify_failures": 6
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 11,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "please select from the skills listed below you have relevant experience in",
-              "ref": "f7",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "how many total years of people experience do you have? please select from the skills listed below you have relevant experience in",
-              "ref": "f8",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
-              "ref": "f9",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
-              "ref": "f13",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
-              "ref": "f14",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            },
-            {
-              "field": "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
-              "ref": "f15",
-              "reason": "comboboxEmpty",
-              "expected": "Yes",
-              "actual": ""
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "greenhouse"
-    },
-    {
-      "id": "web-jobs-auxis-icims-com-job",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-loisium-recruitee-com-new",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-novritschtrading-recruitee-com-short-form-video-creator-20-385h-on-s",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-nrb-recruitee-com-application-cloud-architect-java-semantic-web-stac",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-passivelogic-teamtailor-com-2323537-general-application",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-recruitee-com-job-application-process",
-      "passed": true,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-sleepcycleab-teamtailor-com-6585885-spontaneous-application",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-tractivegmbh-teamtailor-com-6585049-senior-embedded-firmware-enginee",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-wakapi-teamtailor-com-jobs",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "teamtailor"
-    },
-    {
-      "id": "web-www-glassdoor-com-ai-has-not-killed-online-job-applications",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-www-jobs-nhs-uk-results-4",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-www-simplyhired-com-search-2",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-www-simplyhired-com-search",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-za-simplyhired-com-search-2",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-za-simplyhired-com-search-3",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-za-simplyhired-com-search-4",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-za-simplyhired-com-search",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-76",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-77",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-78",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-79",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-80",
-      "passed": false,
-      "field_count": 6,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-apply-workable-com-apply-12",
-      "passed": false,
-      "field_count": 10,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 10,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you a filipino citizen currently residing in the philippines and able to work as an independent contractor?",
-              "ref": "f7",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "this role requires working with aest timezone (7am - 4pm pht) and managing tasks independently. are you comfortable with this?",
-              "ref": "f8",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have reliable internet, power source and a suitable laptop or computer for remote work?",
-              "ref": "f9",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have experience with building out budgets, forecasts, financial modelling, inventory management tools using excel or google sheets?",
-              "ref": "f10",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have experience in planning and executing promotional calendars, including black friday, prime day, and other major sales events.",
-              "ref": "f11",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have 1+ years of experience managing amazon seller central or vendor central accounts (listings, seo content, catalog, promotions, account health).",
-              "ref": "f12",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-13",
-      "passed": false,
-      "field_count": 8,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 8,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "are you amenable to working us central business hours?",
-              "ref": "f14",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-14",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "do you have msp experience?",
-              "ref": "f5",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-15",
-      "passed": false,
-      "field_count": 23,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 23,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "6+ years of work experience as a data scientist or equivalent role producing models and analytics for business applications;",
-              "ref": "f11",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "deep understanding of advanced data science techniques, machine learning algorithms, and optimization methods;",
-              "ref": "f12",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience building and deploying machine learning models;",
-              "ref": "f13",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "proficiency in data engineering and data pipelines;",
-              "ref": "f14",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "skill in using advanced data visualization tools and techniques to effectively communicate insights and tell compelling stories with data;",
-              "ref": "f15",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "mastery of programming languages (python and sql), version control (git), and ability to learn and apply new data science tools and techniques efficiently;",
-              "ref": "f16",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "exceptional problem-solving abilities, strong leadership skills, and ability to communicate insights strategically to influence team direction;",
-              "ref": "f17",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "ability to mentor and guide junior team members in their technical growth and development; and",
-              "ref": "f18",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "capacity to work collaboratively with cross-functional teams and stakeholders.",
-              "ref": "f19",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "domain expertise in organizing and advocacy;",
-              "ref": "f20",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience working with voter file data and in campaign data science;",
-              "ref": "f21",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "familiarity with data engineering tools such as dbt and dagster;",
-              "ref": "f22",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience with polling methodologies, survey analysis, and multilevel regression and poststratification (mrp) modeling; and/or",
-              "ref": "f23",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "bachelor’s or master’s degree in statistics, computer science, mathematics, physics, economics, computer engineering, or a related field.",
-              "ref": "f24",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-16",
+      "id": "web-jungheinrich-onlyfy-jobs-1x233rgp9k80gi12wcunlntj3nnz6mp",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -3448,173 +65,9 @@
       "stack": "web"
     },
     {
-      "id": "web-apply-workable-com-apply-17",
-      "passed": false,
-      "field_count": 10,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 10,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "how many years of relevant experience do you have?",
-              "ref": "f11",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-18",
-      "passed": false,
-      "field_count": 20,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 20,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "7–10+ years of experience in content/digital strategy, creative leadership, or campaign management at an agency, political campaign, nonprofit, or mission-driven organization;",
-              "ref": "f11",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "demonstrated experience leading high-impact media campaigns with measurable results;",
-              "ref": "f12",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "proven ability to manage creative talent and external vendors effectively;",
-              "ref": "f13",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "strong portfolio of work showcasing digital storytelling, creative strategy, and performance-driven campaigns;",
-              "ref": "f14",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "deep understanding of paid media, digital platforms, content strategy, and analytics;",
-              "ref": "f15",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "excellent writing and messaging skills, with experience crafting scripts, digital content, and campaign narratives;",
-              "ref": "f16",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "strong project management skills and ability to manage multiple priorities in a fast-moving environment; and",
-              "ref": "f17",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience translating complex data and performance metrics into clear insights for partners and stakeholders.",
-              "ref": "f18",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience working in political, advocacy, or social impact environments;",
-              "ref": "f19",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "familiarity with modern digital organizing and persuasion tools; and/or",
-              "ref": "f20",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "experience with polling, audience research, or message testing.",
-              "ref": "f21",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-apply-workable-com-apply-19",
+      "id": "web-snipes-austria-onlyfy-jobs-h9zny6m48qvwv0uvpt0oe0xpdzrz86a",
       "passed": true,
-      "field_count": 7,
+      "field_count": 4,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -3628,7 +81,7 @@
         "html5Validity": {
           "passed": true,
           "failures": [],
-          "checked_controls": 7,
+          "checked_controls": 4,
           "checked_forms": 1
         },
         "a11yState": {
@@ -3644,7 +97,15 @@
       "stack": "web"
     },
     {
-      "id": "web-ggwp-breezy-hr-apply-2",
+      "id": "web-gecko-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-backchannel-breezy-hr-apply",
       "passed": false,
       "field_count": 2,
       "failures": [],
@@ -3691,7 +152,197 @@
             {
               "kind": "selector",
               "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
+              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "{{ errorMessage }}",
+              "ariaInvalid": null
+            }
+          ],
+          "error_count": 6
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-institutminestelecom-recruitee-com-candidature-spontanee-1",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-33",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-41",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-oesb-gruppe-onlyfy-jobs-vrjmvo9h8dttofg9efelp4nils3qf9",
+      "passed": true,
+      "field_count": 7,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 7,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-melecs-onlyfy-jobs-5kghpmcts61dtjvqck5bknrgpif4gq",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-informaticon-breezy-hr-apply-2",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-desfo-breezy-hr-apply",
+      "passed": false,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": false,
+          "errors": [
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
               "ariaInvalid": null
             },
             {
@@ -3713,14 +364,126 @@
               "ariaInvalid": null
             }
           ],
-          "error_count": 7
+          "error_count": 6
         }
       },
       "stack": "web"
     },
     {
-      "id": "web-camber-creative-breezy-hr-apply-2",
+      "id": "web-aignostics-teamtailor-com-new",
       "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-34",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-42",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-snipes-onlyfy-jobs-d8jj9gvsxc4uumd5491mk0bqsakr8pc",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-join-com-application-form",
+      "passed": true,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-weight-doctors-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-rebtel-teamtailor-com-new",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-35",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-anexia-onlyfy-jobs-6ltsssdd4k6jl6aj33l8sylswahu34",
+      "passed": true,
       "field_count": 3,
       "failures": [],
       "apply_failures": 0,
@@ -3736,6 +499,102 @@
           "passed": true,
           "failures": [],
           "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jungheinrich-onlyfy-jobs-62njd9jaunyqhrl9sj4kt2trxk5n2d",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-join-com-application-form-2",
+      "passed": true,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-german-american-chambers-of-commerce-breezy-hr-apply-2",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
           "checked_forms": 1
         },
         "a11yState": {
@@ -3778,7 +637,394 @@
             {
               "kind": "selector",
               "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "{{ errorMessage }}",
+              "ariaInvalid": null
+            }
+          ],
+          "error_count": 8
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-stillfrontgroup-teamtailor-com-new",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-36",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-fab-verein-onlyfy-jobs-ortph3m7uaaup99m9ut4sjsiamsl08",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-equans-onlyfy-jobs-519ghu2bzf1v2fmxzia09m853bcpjx",
+      "passed": true,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-help-join-com-apercu-des-candidatures-et-filtres",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-weight-doctors-breezy-hr-apply-2",
+      "passed": false,
+      "field_count": 6,
+      "failures": [
+        {
+          "field": "clocation",
+          "ref": "f4",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "clocation",
+          "ref": "f4",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        }
+      ],
+      "apply_failures": 1,
+      "verify_failures": 1,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "clocation",
+              "ref": "f4",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "clocation",
+              "ref": "f4",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            }
+          ],
+          "apply_failures": 1,
+          "verify_failures": 1
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "clocation",
+              "ref": "f4",
+              "reason": "valueMissing",
+              "validationMessage": "Constraints not satisfied"
+            },
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": false,
+          "errors": [
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_LOCATION%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_CONSENT_REQUIRED%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "{{ errorMessage }}",
+              "ariaInvalid": null
+            }
+          ],
+          "error_count": 9
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-tfbank-teamtailor-com-new",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-37",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-stopa-anlagenbau-onlyfy-jobs-mi2787bvs61t9upsrbam7xmgj4oqonf",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-marienhausklinik-st-josef-kohlhof-onlyfy-jobs-3q453f27",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-join-com-application-form-3",
+      "passed": true,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-weight-doctors-breezy-hr-apply-3",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": false,
+          "errors": [
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
               "message": "%ERROR_INVALID_FORM_SALARY%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_LOCATION%",
               "ariaInvalid": null
             },
             {
@@ -3812,499 +1058,7 @@
       "stack": "web"
     },
     {
-      "id": "web-adquick-breezy-hr-apply-2",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_SALARY%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 8
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-care-of-chan-breezy-hr-apply-2",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 8
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-islide-breezy-hr-apply-2",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 7
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-compass-family-services-breezy-hr-apply-2",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-ehvert-engineering-inc-breezy-hr-apply-3",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 7
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-votingworks-breezy-hr-apply-2",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-sepsis-alliance-breezy-hr-apply-2",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-awardspring-breezy-hr-apply-2",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_SALARY%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 8
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-25madison-llc-breezy-hr-apply-2",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": false,
-          "errors": [
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "Please agree to receive SMS messages",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "%ERROR_INVALID_FORM%",
-              "ariaInvalid": null
-            },
-            {
-              "kind": "selector",
-              "selector": ".error, .errors, .field-error, .form-error",
-              "message": "{{ errorMessage }}",
-              "ariaInvalid": null
-            }
-          ],
-          "error_count": 7
-        }
-      },
-      "stack": "web"
-    },
-    {
-      "id": "web-umsskeldarab-teamtailor-com-new-2",
+      "id": "web-avosano-teamtailor-com-new",
       "passed": false,
       "skipped": true,
       "reason": "no fillable fields matched",
@@ -4312,9 +1066,17 @@
       "stack": "teamtailor"
     },
     {
-      "id": "web-jobs-ashbyhq-com-application-81",
+      "id": "web-jobs-eu-lever-co-apply-38",
       "passed": false,
-      "field_count": 6,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-equans-onlyfy-jobs-fj9ysru88lnds6ul2rbag0pyg7qlc5",
+      "passed": true,
+      "field_count": 8,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -4326,16 +1088,9 @@
           "verify_failures": 0
         },
         "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
           "checked_forms": 1
         },
         "a11yState": {
@@ -4348,11 +1103,11 @@
           "error_count": 0
         }
       },
-      "stack": "ashby"
+      "stack": "web"
     },
     {
-      "id": "web-jobs-ashbyhq-com-application-82",
-      "passed": false,
+      "id": "web-turbo-technik-gmbh-co-kg-onlyfy-jobs-fhdj9dk6pm9kfpyzr76i6ydx1ztlzim",
+      "passed": true,
       "field_count": 5,
       "failures": [],
       "apply_failures": 0,
@@ -4365,15 +1120,8 @@
           "verify_failures": 0
         },
         "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
+          "passed": true,
+          "failures": [],
           "checked_controls": 5,
           "checked_forms": 1
         },
@@ -4387,12 +1135,44 @@
           "error_count": 0
         }
       },
-      "stack": "ashby"
+      "stack": "web"
     },
     {
-      "id": "web-jobs-ashbyhq-com-application-83",
+      "id": "web-leap-digital-marketing-breezy-hr-apply",
       "passed": false,
-      "field_count": 3,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-weight-doctors-breezy-hr-apply-4",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-roomersbadenbadenhotelbetriebsgmbh-teamtailor-com-new",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-39",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-barlog-plastics-gmbh-onlyfy-jobs-i9xzq3pmp5uvfs71n1v7kvw79gxpha",
+      "passed": true,
+      "field_count": 8,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -4404,16 +1184,9 @@
           "verify_failures": 0
         },
         "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
           "checked_forms": 1
         },
         "a11yState": {
@@ -4426,205 +1199,10 @@
           "error_count": 0
         }
       },
-      "stack": "ashby"
+      "stack": "web"
     },
     {
-      "id": "web-jobs-ashbyhq-com-application-84",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-85",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-86",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-87",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-88",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-89",
+      "id": "web-tereg-onlyfy-jobs-ufw68iygcx0wgtm4ywcpo335fcswpy",
       "passed": true,
       "field_count": 3,
       "failures": [],
@@ -4653,556 +1231,10 @@
           "error_count": 0
         }
       },
-      "stack": "ashby"
+      "stack": "web"
     },
     {
-      "id": "web-jobs-ashbyhq-com-application-90",
-      "passed": false,
-      "field_count": 6,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-91",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-92",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-93",
-      "passed": false,
-      "field_count": 6,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-94",
-      "passed": false,
-      "field_count": 6,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-95",
-      "passed": false,
-      "field_count": 7,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 7,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-96",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-97",
-      "passed": false,
-      "field_count": 6,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 6,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-98",
-      "passed": false,
-      "field_count": 2,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 2,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-99",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-100",
-      "passed": false,
-      "field_count": 3,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 3,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-101",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-102",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-103",
-      "passed": false,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "form",
-              "ref": "form",
-              "reason": "formInvalid",
-              "validationMessage": null
-            }
-          ],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "ashby"
-    },
-    {
-      "id": "web-jobs-lever-co-apply-74",
+      "id": "web-informaticon-breezy-hr-apply",
       "passed": false,
       "skipped": true,
       "reason": "no fillable fields matched",
@@ -5210,15 +1242,7 @@
       "stack": "web"
     },
     {
-      "id": "web-jobs-lever-co-apply-75",
-      "passed": false,
-      "skipped": true,
-      "reason": "no fillable fields matched",
-      "failures": [],
-      "stack": "web"
-    },
-    {
-      "id": "web-jobs-jobvite-com-apply-5",
+      "id": "web-device-insight-breezy-hr-apply",
       "passed": false,
       "skipped": true,
       "reason": "no fillable fields matched",

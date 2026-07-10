@@ -1,0 +1,69 @@
+{
+  "id": "web-arbetsformedlingen-se-ansok-om-ersattning-fran-a-kassa",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "sökknapp på arbetsförmedlingen play sök",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search12_d1aafa6177b565dc26921",
+        "name": "query",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Sök",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "submitbutton search12_d1aafa6177b565dc26921button",
+      "field_type": "image",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "image",
+        "id": "search12_d1aafa6177b565dc26921button",
+        "name": "submitButton",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sök på play sök ange sökord",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search12_3f29801717d5618f8df9014",
+        "name": "query",
+        "data_testid": null,
+        "role": "searchbox",
+        "data_field_path": null,
+        "placeholder": "Ange sökord",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

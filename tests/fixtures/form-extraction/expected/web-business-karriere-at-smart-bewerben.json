@@ -1,0 +1,149 @@
+{
+  "id": "web-business-karriere-at-smart-bewerben",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "externer firmenwortlaut inkl. rechtsform musterfirma gmbh",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "v-0-2-15",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Musterfirma GmbH",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vorname alex",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "v-0-2-16",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Alex",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nachname mustermensch",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "v-0-2-17",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Mustermensch",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-mail-adresse alex.muster@firma.at",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "v-0-2-18",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "alex.muster@firma.at",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefonnummer +43 664 123 456 78",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "v-0-2-19",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+43 664 123 456 78",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anzahl der mitarbeiterinnen - optional 10",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "v-0-2-20",
+        "name": "input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "10",
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ihre anfrage - optional",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "v-0-2-22",
+        "name": "textarea",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

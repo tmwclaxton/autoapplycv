@@ -80,6 +80,10 @@ export function detectPlatform(scenario) {
         return 'syn-weird';
     }
 
+    if (id.startsWith('syn-ai-')) {
+        return 'syn-ai';
+    }
+
     if (id.startsWith('syn-corpus2-')) {
         if (hay.includes('teamtailor')) {
             return 'teamtailor';
@@ -167,6 +171,7 @@ export function analyzeScenario(scenario) {
         category: scenario.category,
         status: scenario.status,
         page_url: scenario.page_url,
+        pattern_signature: scenario.pattern_signature || null,
     };
 }
 
@@ -493,6 +498,20 @@ export function buildCuratedManifest() {
 
     for (const pick of pickBest(byPlatform['syn-weird'] || [], 8, usedIds)) {
         addAnalysis(pick, { reason: `syn-weird additional edge case (${pick.fieldCount} fields)` });
+    }
+
+    const synAiByCell = new Map();
+
+    for (const pick of (byPlatform['syn-ai'] || []).sort((left, right) => right.diversityScore - left.diversityScore)) {
+        const cell = pick.pattern_signature?.split('|').slice(0, 4).join('|') || pick.id;
+        const cellCount = synAiByCell.get(cell) || 0;
+
+        if (cellCount >= 2) {
+            continue;
+        }
+
+        synAiByCell.set(cell, cellCount + 1);
+        addAnalysis(pick, { reason: `syn-ai matrix cell representative (${cell})` });
     }
 
     for (const megaCategory of SYN_MEGA_CATEGORIES) {

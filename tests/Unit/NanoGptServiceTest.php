@@ -216,6 +216,31 @@ class NanoGptServiceTest extends TestCase
         Http::assertSentCount(2);
     }
 
+    public function test_chat_json_loose_skips_response_format(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => "```json\n{\"html\":\"<html></html>\",\"title\":\"Apply\"}\n```"]],
+                ],
+                'usage' => ['total_tokens' => 42],
+            ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatJsonLoose([
+            ['role' => 'user', 'content' => 'Generate form HTML'],
+        ]);
+
+        $this->assertSame('<html></html>', $result['html'] ?? null);
+        $this->assertSame('Apply', $result['title'] ?? null);
+        Http::assertSent(fn ($request) => ! array_key_exists('response_format', $request->data()));
+    }
+
     public function test_chat_json_does_not_retry_when_json_decode_fails_but_response_succeeded(): void
     {
         config([

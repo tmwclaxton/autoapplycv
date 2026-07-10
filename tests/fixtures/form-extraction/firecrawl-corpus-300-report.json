@@ -1,133 +1,1354 @@
 {
-  "started_at": "2026-07-07T23:04:09.321Z",
-  "limit": 300,
+  "started_at": "2026-07-10T04:03:07.084Z",
+  "limit": 50,
   "before": {
-    "total": 3117,
-    "web": 749,
-    "vetted": 542,
-    "pending": 147
+    "total": 5660,
+    "web": 1516,
+    "vetted": 1430,
+    "pending": 86
   },
   "phases": {
     "discover": {
       "skipped": true
     },
-    "scrape": {
+    "scrape_1": {
       "ok": true,
-      "duration_ms": 498258,
-      "accepted": 87
+      "duration_ms": 559825,
+      "accepted_this_round": 50,
+      "accepted_total": 50
+    },
+    "scrape": {
+      "rounds": 1,
+      "accepted": 50
     },
     "propose": {
       "ok": true,
-      "duration_ms": 102955
+      "duration_ms": 4184
     },
     "vet": {
       "ok": true,
-      "duration_ms": 80306
+      "duration_ms": 2339076
     },
     "fill_verify": {
-      "skipped": true,
-      "reason": "no vetted new fixtures"
+      "ok": true,
+      "duration_ms": 21237,
+      "vetted_new": 50
     },
     "extension_e2e": {
       "skipped": true
     }
   },
   "accepted_ids": [
-    "web-boards-greenhouse-io-8046089",
-    "web-boards-greenhouse-io-7866468",
-    "web-jobs-ashbyhq-com-application-31",
-    "web-jobs-ashbyhq-com-application-32",
-    "web-jobs-ashbyhq-com-application-33",
-    "web-jobs-ashbyhq-com-application-34",
-    "web-jobs-ashbyhq-com-application-35",
-    "web-jobs-ashbyhq-com-application-36",
-    "web-jobs-ashbyhq-com-application-37",
-    "web-jobs-ashbyhq-com-application-38",
-    "web-jobs-jobvite-com-apply-3",
-    "web-jobs-eu-lever-co-apply-12",
-    "web-jobs-eu-lever-co-apply-13",
-    "web-jobs-lever-co-apply-31",
-    "web-jobs-lever-co-apply-32",
-    "web-jobs-eu-lever-co-apply-14",
-    "web-jobs-eu-lever-co-apply-15",
-    "web-jobs-lever-co-apply-33",
-    "web-jobs-lever-co-apply-34",
-    "web-jobs-ashbyhq-com-application-39",
-    "web-jobs-ashbyhq-com-application-40",
-    "web-jobs-smartrecruiters-com-1383db83-ff5c-43ad-a464-4cc561079024",
-    "web-jobs-smartrecruiters-com-ad324ca8-500e-4561-8f4b-a06256232d01",
-    "web-jobs-smartrecruiters-com-cc8da68b-d718-4b45-a64a-1e31c8f39faa",
-    "web-jobs-smartrecruiters-com-565a757a-e45f-443c-bd9d-3c6fc184d53c",
-    "web-jobs-smartrecruiters-com-74a34568-0b93-41c4-96be-23541605425c",
-    "web-apply-workable-com-apply-8",
-    "web-apply-workable-com-apply-9",
-    "web-apply-workable-com-apply-10",
-    "web-ggwp-breezy-hr-apply",
-    "web-islide-breezy-hr-apply",
-    "web-democracy-summer-breezy-hr-apply",
-    "web-25madison-llc-breezy-hr-apply",
-    "web-givzey-breezy-hr-apply-2",
-    "web-jobs-eu-lever-co-apply-16",
-    "web-jobs-eu-lever-co-apply-17",
-    "web-jobs-eu-lever-co-apply-18",
-    "web-jobs-eu-lever-co-apply-19",
-    "web-jobs-eu-lever-co-apply-20",
-    "web-jobs-ashbyhq-com-application-41",
-    "web-jobs-ashbyhq-com-application-42",
-    "web-jobs-ashbyhq-com-application-43",
-    "web-jobs-ashbyhq-com-application-44",
-    "web-jobs-smartrecruiters-com-f0ceed67-f4ea-49a2-8de1-00f0a9d05b1f",
-    "web-jobs-smartrecruiters-com-e9498670-ca40-44fc-af00-9981772384c3",
-    "web-jobs-lever-co-apply-35",
-    "web-jobs-lever-co-apply-36",
-    "web-jobs-lever-co-apply-37",
-    "web-jobs-lever-co-apply-38",
-    "web-jobs-lever-co-apply-39",
-    "web-jobs-lever-co-apply-40",
-    "web-jobs-ashbyhq-com-application-45",
-    "web-jobs-ashbyhq-com-application-46",
-    "web-jobs-ashbyhq-com-application-47",
-    "web-jobs-ashbyhq-com-application-48",
-    "web-jobs-ashbyhq-com-application-49",
-    "web-jobs-ashbyhq-com-application-50",
-    "web-jobs-ashbyhq-com-application-51",
-    "web-jobs-ashbyhq-com-application-52",
-    "web-jobs-ashbyhq-com-application-53",
-    "web-jobs-ashbyhq-com-application-54",
-    "web-jobs-ashbyhq-com-application-55",
-    "web-jobs-ashbyhq-com-application-56",
-    "web-jobs-ashbyhq-com-application-57",
-    "web-jobs-ashbyhq-com-application-58",
-    "web-jobs-ashbyhq-com-application-59",
-    "web-jobs-lever-co-apply-41",
-    "web-securitas-teamtailor-com-new",
-    "web-umsskeldarab-teamtailor-com-new",
-    "web-twinharbour-teamtailor-com-new",
-    "web-ensek-teamtailor-com-new",
-    "web-thornsds-1744735181-teamtailor-com-new",
-    "web-wearediverse-teamtailor-com-new",
-    "web-camber-creative-breezy-hr-apply",
-    "web-adquick-breezy-hr-apply",
-    "web-care-of-chan-breezy-hr-apply",
-    "web-social-discovery-ventures-breezy-hr-apply",
-    "web-nexo-breezy-hr-apply",
-    "web-votingworks-breezy-hr-apply",
-    "web-sepsis-alliance-breezy-hr-apply",
-    "web-montefiore-wd12-myworkdayjobs-com-usemylastapplication",
-    "web-cityyear-wd5-myworkdayjobs-com-usemylastapplication",
-    "web-maine-wd5-myworkdayjobs-com-usemylastapplication",
-    "web-maricopa-wd1-myworkdayjobs-com-usemylastapplication",
-    "web-keybank-wd5-myworkdayjobs-com-usemylastapplication",
-    "web-granite-wd1-myworkdayjobs-com-usemylastapplication",
-    "web-visa-wd5-myworkdayjobs-com-usemylastapplication"
+    "web-www-stepstone-de-stellenangebote-bewerbung-als-lehrkraft-m-w-d-in-bi",
+    "web-institutminestelecom-recruitee-com-candidature-spontanee-1",
+    "web-aignostics-teamtailor-com-new",
+    "web-rebtel-teamtailor-com-new",
+    "web-stillfrontgroup-teamtailor-com-new",
+    "web-tfbank-teamtailor-com-new",
+    "web-avosano-teamtailor-com-new",
+    "web-roomersbadenbadenhotelbetriebsgmbh-teamtailor-com-new",
+    "web-spotted-teamtailor-com-new",
+    "web-jobs-eu-lever-co-apply-33",
+    "web-jobs-eu-lever-co-apply-34",
+    "web-jobs-eu-lever-co-apply-35",
+    "web-jobs-eu-lever-co-apply-36",
+    "web-jobs-eu-lever-co-apply-37",
+    "web-jobs-eu-lever-co-apply-38",
+    "web-jobs-eu-lever-co-apply-39",
+    "web-jobs-eu-lever-co-apply-40",
+    "web-jobs-eu-lever-co-apply-41",
+    "web-jobs-eu-lever-co-apply-42",
+    "web-anexia-onlyfy-jobs-6ltsssdd4k6jl6aj33l8sylswahu34",
+    "web-fab-verein-onlyfy-jobs-ortph3m7uaaup99m9ut4sjsiamsl08",
+    "web-stopa-anlagenbau-onlyfy-jobs-mi2787bvs61t9upsrbam7xmgj4oqonf",
+    "web-equans-onlyfy-jobs-fj9ysru88lnds6ul2rbag0pyg7qlc5",
+    "web-barlog-plastics-gmbh-onlyfy-jobs-i9xzq3pmp5uvfs71n1v7kvw79gxpha",
+    "web-jungheinrich-onlyfy-jobs-1x233rgp9k80gi12wcunlntj3nnz6mp",
+    "web-oesb-gruppe-onlyfy-jobs-vrjmvo9h8dttofg9efelp4nils3qf9",
+    "web-snipes-onlyfy-jobs-d8jj9gvsxc4uumd5491mk0bqsakr8pc",
+    "web-jungheinrich-onlyfy-jobs-62njd9jaunyqhrl9sj4kt2trxk5n2d",
+    "web-equans-onlyfy-jobs-519ghu2bzf1v2fmxzia09m853bcpjx",
+    "web-marienhausklinik-st-josef-kohlhof-onlyfy-jobs-3q453f27",
+    "web-turbo-technik-gmbh-co-kg-onlyfy-jobs-fhdj9dk6pm9kfpyzr76i6ydx1ztlzim",
+    "web-tereg-onlyfy-jobs-ufw68iygcx0wgtm4ywcpo335fcswpy",
+    "web-snipes-austria-onlyfy-jobs-h9zny6m48qvwv0uvpt0oe0xpdzrz86a",
+    "web-melecs-onlyfy-jobs-5kghpmcts61dtjvqck5bknrgpif4gq",
+    "web-join-com-application-form",
+    "web-join-com-application-form-2",
+    "web-help-join-com-apercu-des-candidatures-et-filtres",
+    "web-join-com-application-form-3",
+    "web-leap-digital-marketing-breezy-hr-apply",
+    "web-informaticon-breezy-hr-apply",
+    "web-gecko-breezy-hr-apply",
+    "web-informaticon-breezy-hr-apply-2",
+    "web-weight-doctors-breezy-hr-apply",
+    "web-german-american-chambers-of-commerce-breezy-hr-apply-2",
+    "web-weight-doctors-breezy-hr-apply-2",
+    "web-weight-doctors-breezy-hr-apply-3",
+    "web-weight-doctors-breezy-hr-apply-4",
+    "web-device-insight-breezy-hr-apply",
+    "web-backchannel-breezy-hr-apply",
+    "web-desfo-breezy-hr-apply"
   ],
-  "fill_verify": null,
+  "fill_verify": {
+    "generated_at": "2026-07-10T04:57:43.944Z",
+    "totals": {
+      "scenarios": 50,
+      "evaluated": 23,
+      "passed": 17,
+      "failed": 6,
+      "pass_rate": 0.7391
+    },
+    "results": [
+      {
+        "id": "web-www-stepstone-de-stellenangebote-bewerbung-als-lehrkraft-m-w-d-in-bi",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-spotted-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-40",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-jungheinrich-onlyfy-jobs-1x233rgp9k80gi12wcunlntj3nnz6mp",
+        "passed": true,
+        "field_count": 4,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 4,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-snipes-austria-onlyfy-jobs-h9zny6m48qvwv0uvpt0oe0xpdzrz86a",
+        "passed": true,
+        "field_count": 4,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 4,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-gecko-breezy-hr-apply",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-backchannel-breezy-hr-apply",
+        "passed": false,
+        "field_count": 2,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 2,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": false,
+            "errors": [
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "{{ errorMessage }}",
+                "ariaInvalid": null
+              }
+            ],
+            "error_count": 6
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-institutminestelecom-recruitee-com-candidature-spontanee-1",
+        "passed": false,
+        "field_count": 3,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": false,
+            "failures": [
+              {
+                "field": "form",
+                "ref": "form",
+                "reason": "formInvalid",
+                "validationMessage": null
+              }
+            ],
+            "checked_controls": 3,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-33",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-41",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-oesb-gruppe-onlyfy-jobs-vrjmvo9h8dttofg9efelp4nils3qf9",
+        "passed": true,
+        "field_count": 7,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 7,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-melecs-onlyfy-jobs-5kghpmcts61dtjvqck5bknrgpif4gq",
+        "passed": true,
+        "field_count": 5,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 5,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-informaticon-breezy-hr-apply-2",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-desfo-breezy-hr-apply",
+        "passed": false,
+        "field_count": 2,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 2,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": false,
+            "errors": [
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "{{ errorMessage }}",
+                "ariaInvalid": null
+              }
+            ],
+            "error_count": 6
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-aignostics-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-34",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-42",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-snipes-onlyfy-jobs-d8jj9gvsxc4uumd5491mk0bqsakr8pc",
+        "passed": true,
+        "field_count": 4,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 4,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-join-com-application-form",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-weight-doctors-breezy-hr-apply",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-rebtel-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-35",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-anexia-onlyfy-jobs-6ltsssdd4k6jl6aj33l8sylswahu34",
+        "passed": true,
+        "field_count": 3,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 3,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-jungheinrich-onlyfy-jobs-62njd9jaunyqhrl9sj4kt2trxk5n2d",
+        "passed": true,
+        "field_count": 3,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 3,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-join-com-application-form-2",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-german-american-chambers-of-commerce-breezy-hr-apply-2",
+        "passed": false,
+        "field_count": 4,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 4,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": false,
+            "errors": [
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "Please agree to receive SMS messages",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "{{ errorMessage }}",
+                "ariaInvalid": null
+              }
+            ],
+            "error_count": 8
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-stillfrontgroup-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-36",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-fab-verein-onlyfy-jobs-ortph3m7uaaup99m9ut4sjsiamsl08",
+        "passed": true,
+        "field_count": 6,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 6,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-equans-onlyfy-jobs-519ghu2bzf1v2fmxzia09m853bcpjx",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-help-join-com-apercu-des-candidatures-et-filtres",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-weight-doctors-breezy-hr-apply-2",
+        "passed": false,
+        "field_count": 6,
+        "failures": [
+          {
+            "field": "clocation",
+            "ref": "f4",
+            "stage": "apply",
+            "expected": "Yes",
+            "actual": null
+          },
+          {
+            "field": "clocation",
+            "ref": "f4",
+            "stage": "verify",
+            "expected": "Yes",
+            "actual": null
+          }
+        ],
+        "apply_failures": 1,
+        "verify_failures": 1,
+        "checks": {
+          "domReadback": {
+            "passed": false,
+            "failures": [
+              {
+                "field": "clocation",
+                "ref": "f4",
+                "stage": "apply",
+                "expected": "Yes",
+                "actual": null
+              },
+              {
+                "field": "clocation",
+                "ref": "f4",
+                "stage": "verify",
+                "expected": "Yes",
+                "actual": null
+              }
+            ],
+            "apply_failures": 1,
+            "verify_failures": 1
+          },
+          "html5Validity": {
+            "passed": false,
+            "failures": [
+              {
+                "field": "clocation",
+                "ref": "f4",
+                "reason": "valueMissing",
+                "validationMessage": "Constraints not satisfied"
+              },
+              {
+                "field": "form",
+                "ref": "form",
+                "reason": "formInvalid",
+                "validationMessage": null
+              }
+            ],
+            "checked_controls": 6,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": false,
+            "errors": [
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_LOCATION%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_CONSENT_REQUIRED%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "{{ errorMessage }}",
+                "ariaInvalid": null
+              }
+            ],
+            "error_count": 9
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-tfbank-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-37",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-stopa-anlagenbau-onlyfy-jobs-mi2787bvs61t9upsrbam7xmgj4oqonf",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-marienhausklinik-st-josef-kohlhof-onlyfy-jobs-3q453f27",
+        "passed": true,
+        "field_count": 6,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 6,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-join-com-application-form-3",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-weight-doctors-breezy-hr-apply-3",
+        "passed": false,
+        "field_count": 5,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 5,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": false,
+            "errors": [
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_ADDRESS%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_SALARY%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_LOCATION%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_CONSENT_REQUIRED%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "%ERROR_INVALID_FORM%",
+                "ariaInvalid": null
+              },
+              {
+                "kind": "selector",
+                "selector": ".error, .errors, .field-error, .form-error",
+                "message": "{{ errorMessage }}",
+                "ariaInvalid": null
+              }
+            ],
+            "error_count": 10
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-avosano-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-38",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-equans-onlyfy-jobs-fj9ysru88lnds6ul2rbag0pyg7qlc5",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-turbo-technik-gmbh-co-kg-onlyfy-jobs-fhdj9dk6pm9kfpyzr76i6ydx1ztlzim",
+        "passed": true,
+        "field_count": 5,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 5,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-leap-digital-marketing-breezy-hr-apply",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-weight-doctors-breezy-hr-apply-4",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-roomersbadenbadenhotelbetriebsgmbh-teamtailor-com-new",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "teamtailor"
+      },
+      {
+        "id": "web-jobs-eu-lever-co-apply-39",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-barlog-plastics-gmbh-onlyfy-jobs-i9xzq3pmp5uvfs71n1v7kvw79gxpha",
+        "passed": true,
+        "field_count": 8,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 8,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-tereg-onlyfy-jobs-ufw68iygcx0wgtm4ywcpo335fcswpy",
+        "passed": true,
+        "field_count": 3,
+        "failures": [],
+        "apply_failures": 0,
+        "verify_failures": 0,
+        "checks": {
+          "domReadback": {
+            "passed": true,
+            "failures": [],
+            "apply_failures": 0,
+            "verify_failures": 0
+          },
+          "html5Validity": {
+            "passed": true,
+            "failures": [],
+            "checked_controls": 3,
+            "checked_forms": 1
+          },
+          "a11yState": {
+            "passed": true,
+            "failures": []
+          },
+          "errorBanner": {
+            "passed": true,
+            "errors": [],
+            "error_count": 0
+          }
+        },
+        "stack": "web"
+      },
+      {
+        "id": "web-informaticon-breezy-hr-apply",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      },
+      {
+        "id": "web-device-insight-breezy-hr-apply",
+        "passed": false,
+        "skipped": true,
+        "reason": "no fillable fields matched",
+        "failures": [],
+        "stack": "web"
+      }
+    ]
+  },
   "extension_e2e": null,
   "after": {
-    "total": 3165,
-    "web": 797,
-    "vetted": 722,
-    "pending": 75
+    "total": 5714,
+    "web": 1566,
+    "vetted": 1475,
+    "pending": 91
   },
-  "finished_at": "2026-07-07T23:15:31.681Z"
+  "finished_at": "2026-07-10T04:57:43.988Z"
 }

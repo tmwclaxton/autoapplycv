@@ -1,0 +1,236 @@
+{
+  "id": "https-jobs-ashbyhq-com-ramp-0d731586-3626-48fb-9dc5-3061ae5fd240-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T14:42:47.857Z",
+  "page_url": "https://jobs.ashbyhq.com/ramp/0d731586-3626-48fb-9dc5-3061ae5fd240/application",
+  "page_title": "Customer Experience Associate - London @ Ramp",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 8,
+      "count_delta": 9,
+      "label_jaccard": 0.4706,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "your first six weeks at ramp will include a paid, full-time training program (m–f, 10am–6:30pm est). attendance is required so you can build the foundation for success. are you able to commit to the full program?",
+        "ai": "Your first six weeks at Ramp will include a paid, full-time training program (M–F, 10am–6:30pm EST). Attendance is required so you can build the foundation for success. Are you able to commit to the full program?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "legal name",
+        "ai": "Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "where do you plan on working from (for payroll tax purposes)?",
+        "ai": "Where do you plan on working from (for payroll tax purposes)?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred start date?",
+        "ai": "What is your preferred start date?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you based in london or within a commutable distance of the office?",
+      "this role is primarily phone-based. most of your day will be spent helping customers live over phone. are you comfortable with that?",
+      "cx associates work 40 hours/week on a set schedule between 7:00 am–3:30 pm bst, including a weekend day and 2–3 holidays per year. which timeslot do you prefer: (select all that apply)",
+      "on a scale of 1–10, how confident are you in handling live customer conversations over phone?",
+      "tell us about a time you made a meaningful impact for a customer or client. what was the situation, and how did you approach it?",
+      "this role is part of a high-performing team that works in a fast-paced environment, balancing speed, accuracy, and empathy on every customer interaction. share an example of how you’ve demonstrated these qualities in the past, or tell us what makes you confident you would thrive in this type of culture.",
+      "share the ai tools you have used and how you have used them to solve a problem or improve a workflow.",
+      "please select any ai tool you have experience with",
+      "this is a hybrid role based out of our future london office, with an in-office expectation of at least 3 days per week."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for the training commitment question. The location field is a combobox. The HTML excerpt was truncated, so additional screening questions may exist.",
+    "fields": [
+      {
+        "question": "Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where do you plan on working from (for payroll tax purposes)?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your preferred start date?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Monday, August 3rd",
+          "Monday, August 31st"
+        ]
+      },
+      {
+        "question": "Your first six weeks at Ramp will include a paid, full-time training program (M–F, 10am–6:30pm EST). Attendance is required so you can build the foundation for success. Are you able to commit to the full program?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "your first six weeks at ramp will include a paid, full-time training program (m–f, 10am–6:30pm est). attendance is required so you can build the foundation for success. are you able to commit to the full program?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you based in london or within a commutable distance of the office?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "this role is primarily phone-based. most of your day will be spent helping customers live over phone. are you comfortable with that?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "legal name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "where do you plan on working from (for payroll tax purposes)?",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your preferred start date?",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "cx associates work 40 hours/week on a set schedule between 7:00 am–3:30 pm bst, including a weekend day and 2–3 holidays per year. which timeslot do you prefer: (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "on a scale of 1–10, how confident are you in handling live customer conversations over phone?",
+      "field_type": "number",
+      "ref": "f11"
+    },
+    {
+      "question": "tell us about a time you made a meaningful impact for a customer or client. what was the situation, and how did you approach it?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "this role is part of a high-performing team that works in a fast-paced environment, balancing speed, accuracy, and empathy on every customer interaction. share an example of how you’ve demonstrated these qualities in the past, or tell us what makes you confident you would thrive in this type of culture.",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "share the ai tools you have used and how you have used them to solve a problem or improve a workflow.",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "please select any ai tool you have experience with",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "this is a hybrid role based out of our future london office, with an in-office expectation of at least 3 days per week.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

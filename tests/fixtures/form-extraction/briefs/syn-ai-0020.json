@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0020",
+    "seed": 1006926087,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            },
+            {
+                "title": "Ashby yes no buttons",
+                "notes": "Ashby-inspired yes\/no as two styled buttons instead of native radio",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Ashby yes no<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ash_name\">Name<\/label><input type=\"text\" id=\"ash_name\" name=\"ash_name\"> <div class=\"ashby-yesno\" role=\"radiogroup\" aria-labelledby=\"ash_authorized_lbl\"> <span id=\"ash_authorized_lbl\">Are you authorized to work in this country?<\/span> <button t",
+                "requires_interaction": false
+            },
+            {
+                "title": "Title attribute tooltip label",
+                "notes": "Field identified primarily via title attribute on input with minimal label",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Title attribute<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"title_name\">Name<\/label> <input type=\"text\" id=\"title_name\" name=\"title_name\" title=\"Enter your full legal name as it appears on official documents\"> <label for=\"title_link\">Link<\/label> <input type=\"url\" id=\"title_link\" name=\"title_link\" t",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Fields inside a shadow DOM host or declarative shadow root Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Label wraps input through nested divs without for attribute Required: Newsletter or login decoy form separate from job application form Required: Yes\/no question as paired button elements, not native radio inputs Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Reference DOM (Ashby yes no buttons): Ashby-inspired yes\/no as two styled buttons instead of native radio Reference DOM (Title attribute tooltip label): Field identified primarily via title attribute on input with minimal label Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: shadow-host, aria-labelledby-hidden, label-wraps-deep, decoy-form, pill-yes-no. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Question number prefixes; Ashby yes no buttons; Title attribute tooltip label."
+}

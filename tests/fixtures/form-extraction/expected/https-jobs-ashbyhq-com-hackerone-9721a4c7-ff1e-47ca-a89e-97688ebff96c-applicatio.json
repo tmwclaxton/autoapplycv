@@ -1,0 +1,661 @@
+{
+  "id": "https-jobs-ashbyhq-com-hackerone-9721a4c7-ff1e-47ca-a89e-97688ebff96c-applicatio",
+  "min_fields": 28,
+  "exact_field_count": 28,
+  "fields": [
+    {
+      "question": "are you located within ~50 miles of seattle, wa; boston, ma; washington dc; or austin, tx?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "473177e1-b536-4096-948a-594269532c9c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we use ashby ai notetaker in all interviews, this helps us focus on speaking to you, rather than writing lots of notes! do you consent for this to be used during the interview process?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6777b76c-aae8-4a81-a59b-76ebd11930e8",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "8477fb55-2b0c-4629-946f-b7006bd2942a",
+        "name": "8477fb55-2b0c-4629-946f-b7006bd2942a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8477fb55-2b0c-4629-946f-b7006bd2942a",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8547efda-afa7-49d1-8785-008ea55bbce1",
+        "name": "8547efda-afa7-49d1-8785-008ea55bbce1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8547efda-afa7-49d1-8785-008ea55bbce1",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what ai projects have you built in your spare time outside of work?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c59a9a60-14f1-4c47-8cc7-3d67d35a523e",
+        "name": "c59a9a60-14f1-4c47-8cc7-3d67d35a523e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c59a9a60-14f1-4c47-8cc7-3d67d35a523e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zip code / postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "79fbebbf-a7b8-4e37-b7a3-8a364c312367",
+        "name": "79fbebbf-a7b8-4e37-b7a3-8a364c312367",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "79fbebbf-a7b8-4e37-b7a3-8a364c312367",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "pronouns",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "He/Him",
+        "She/Her",
+        "They/Them",
+        "Use name only",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "f680efec-9baf-425b-9e94-f114f41b41f1_64b25aee-6aea-45fe-beae-657da9a32838-labeled-radio-0",
+        "name": "f680efec-9baf-425b-9e94-f114f41b41f1_64b25aee-6aea-45fe-beae-657da9a32838",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "can you provide proof of authorization to work in the country for which job you are applying for?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "f680efec-9baf-425b-9e94-f114f41b41f1_62e86d6f-1dde-42e8-b71f-b3ef5bd4e990-labeled-radio-0",
+        "name": "f680efec-9baf-425b-9e94-f114f41b41f1_62e86d6f-1dde-42e8-b71f-b3ef5bd4e990",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require employer sponsorship to work in the country for which job you are applying for? (note: if you have a visa with an expiration date, please select \"yes\" below)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "f680efec-9baf-425b-9e94-f114f41b41f1_ff5ab4e6-4c06-490e-8f6b-e569cbc28284-labeled-radio-0",
+        "name": "f680efec-9baf-425b-9e94-f114f41b41f1_ff5ab4e6-4c06-490e-8f6b-e569cbc28284",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "were you referred by an h1 employee? if yes, please provide the name below:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7da79585-ae4b-46a1-b1de-d3dfcc665185",
+        "name": "7da79585-ae4b-46a1-b1de-d3dfcc665185",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7da79585-ae4b-46a1-b1de-d3dfcc665185",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Company website",
+        "LinkedIn",
+        "Indeed",
+        "I am a Previous Employee",
+        "Contacted by a Recruiter",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "f680efec-9baf-425b-9e94-f114f41b41f1_a443e69e-806e-43e6-b6c7-8aa0bc09be6b-labeled-checkbox-0",
+        "name": "Company website",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you are a current employee, please enter your employee number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "880fc13c-3b72-465e-96e0-5ab326dcfabf",
+        "name": "880fc13c-3b72-465e-96e0-5ab326dcfabf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "880fc13c-3b72-465e-96e0-5ab326dcfabf",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we love to see applicants that are passionate about ethical security research and hackerone's mission! if you hack on the hackerone platform (or any other platform), show us your work by sharing your handle below:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "672ac8c2-419a-4ac9-bdf7-f57192ee810a",
+        "name": "672ac8c2-419a-4ac9-bdf7-f57192ee810a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "672ac8c2-419a-4ac9-bdf7-f57192ee810a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Under 30",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68-labeled-radio-0",
+        "name": "e7702173-9618-4597-9dc0-1a44a1591b4d_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-Binary",
+        "Another Gender Identity",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "e7702173-9618-4597-9dc0-1a44a1591b4d_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_0a90dc7e-908c-449f-9151-95612d844b10-labeled-radio-0",
+        "name": "e7702173-9618-4597-9dc0-1a44a1591b4d_0a90dc7e-908c-449f-9151-95612d844b10",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bisexual",
+        "Lesbian",
+        "Gay",
+        "Queer",
+        "Heterosexual / straight",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-0",
+        "name": "Bisexual",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian or Asian American",
+        "Black or African American",
+        "Hispanic or Latine",
+        "Indigenous or Native American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-0",
+        "name": "Asian or Asian American",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Person with disability",
+        "Neurodiverse",
+        "Veteran",
+        "Parent",
+        "Refugee or immigrant",
+        "None of the above",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "e7702173-9618-4597-9dc0-1a44a1591b4d_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-0",
+        "name": "Person with disability",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_gender-labeled-radio-0",
+        "name": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_gender",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hispanic or Latino",
+        "White (Not Hispanic or Latino)",
+        "Black or African American (Not Hispanic or Latino)",
+        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+        "Asian (Not Hispanic or Latino)",
+        "American Indian or Alaska Native (Not Hispanic or Latino)",
+        "Two or More Races (Not Hispanic or Latino)",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_race-labeled-radio-0",
+        "name": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_race",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I identify as one or more of the classifications of protected veteran listed above",
+        "I am not a protected veteran",
+        "I decline to self-identify for protected veteran status"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_veteran_status-labeled-radio-0",
+        "name": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_veteran_status",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "disability status",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I don't have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_disability_status-labeled-radio-0",
+        "name": "310047b7-8a7e-4499-85ba-23e56320bcdd__systemfield_eeoc_disability_status",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "2e3ddb62-0573-4818-8006-a328b6e39643__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

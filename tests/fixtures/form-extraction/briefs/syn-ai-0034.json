@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0034",
+    "seed": 1500464271,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Reverse DOM field order",
+                "notes": "Input element appears before its label in DOM (float-right layout pattern)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Reverse DOM order<\/h1> <form action=\"\/apply\" method=\"post\"> <input type=\"text\" id=\"rev_name\" name=\"rev_name\"><label for=\"rev_name\">Full name<\/label> <input type=\"email\" id=\"rev_email\" name=\"rev_email\"><label for=\"rev_email\">Email address<\/label> <input type=\"tel\" id=\"rev_phone\" name=\"rev_phone\"><label for=\"re",
+                "requires_interaction": false
+            },
+            {
+                "title": "Split phone inputs",
+                "notes": "Country code select and local number in separate inputs",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Split phone<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\">Name<\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\"> <div class=\"phone-row\"> <label for=\"ph_country\">Country code<\/label> <select id=\"ph_country\" name=\"ph_country\"><option value=\"+44\">+44 UK<\/option><option value=\"+1\">+1 US<\/opt",
+                "requires_interaction": false
+            },
+            {
+                "title": "Deep wrapped label",
+                "notes": "Label without for wraps input three div levels deep",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Deep wrapped label<\/h1> <form action=\"\/apply\" method=\"post\"> <label>Full name<div><div><div><input type=\"text\" name=\"applicant_name\" id=\"applicant_name\"><\/div><\/div><\/div><\/label> <label for=\"contact_email\">Email<\/label><input type=\"email\" id=\"contact_email\" name=\"contact_email\"> <\/form> <\/main>",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: At least two fields with aria-label only and no visible label element Required: Newsletter or login decoy form separate from job application form Required: Fields inside details\/summary or hidden until click Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Reference DOM (Reverse DOM field order): Input element appears before its label in DOM (float-right layout pattern) Reference DOM (Split phone inputs): Country code select and local number in separate inputs Reference DOM (Deep wrapped label): Label without for wraps input three div levels deep Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: aria-label-only, decoy-form, details-accordion, custom-combobox, duplicate-name-attrs. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Reverse DOM field order; Split phone inputs; Deep wrapped label."
+}

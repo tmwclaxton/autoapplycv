@@ -1,0 +1,212 @@
+{
+  "id": "https-apply-workable-com-openmined-j-0c52d130e3-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:28:32.063Z",
+  "page_url": "https://apply.workable.com/openmined/j/0C52D130E3/apply/",
+  "page_title": "Staff Software Engineer - OpenMined - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 4,
+      "count_delta": 18,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "summary (optional)",
+      "input_files_input_njwjhoyqn49eckmf",
+      "cover letter (optional)",
+      "what is your github handle?",
+      "please add your linkedin url",
+      "how many years of professional software engineering experience do you have?",
+      "how many production systems have you personally built, shipped, and operated at meaningful scale?",
+      "how often do you write code?",
+      "rate your python proficiency (in a professional production context)",
+      "what was the largest number of direct reports you have previously managed?",
+      "are you comfortable committing to a remote role with substantial async communication, overlapping with asia-pacific and european time zones?",
+      "how many years of professional software engineering experience do you have?",
+      "how often do you write code?",
+      "rate your python proficiency (in a professional production context)",
+      "are you comfortable committing to a remote role with substantial async communication, overlapping with asia-pacific and european time zones?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, LinkedIn, or screening questions) that likely follow in the full form are missing. The phone input uses a custom dropdown component (intl-tel-input).",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "input_files_input_njwjhoyqn49eckmf",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your github handle?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please add your linkedin url",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years of professional software engineering experience do you have?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "how many production systems have you personally built, shipped, and operated at meaningful scale?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how often do you write code?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "rate your python proficiency (in a professional production context)",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "what was the largest number of direct reports you have previously managed?",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "are you comfortable committing to a remote role with substantial async communication, overlapping with asia-pacific and european time zones?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "how many years of professional software engineering experience do you have?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "how often do you write code?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "rate your python proficiency (in a professional production context)",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "are you comfortable committing to a remote role with substantial async communication, overlapping with asia-pacific and european time zones?",
+      "field_type": "radio",
+      "ref": "f21"
+    }
+  ]
+}

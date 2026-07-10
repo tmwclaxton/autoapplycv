@@ -1,0 +1,24 @@
+{
+    "id": "syn-ai-0008",
+    "seed": 4239762572,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "min_fields": 8,
+        "min_field_types": 4,
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "weirdness": [
+            "Country code select and local number in separate inputs",
+            "Hidden file input inside drag-and-drop zone with custom button",
+            "Referral source Other checkbox reveals free-text input"
+        ]
+    },
+    "prompt_summary": "Create a ashby-style job application form (single-page, small size) using widgets: combobox. Include weirdness: Country code select and local number in separate inputs; Hidden file input inside drag-and-drop zone with custom button; Referral source Other checkbox reveals free-text input."
+}

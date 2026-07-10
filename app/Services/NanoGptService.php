@@ -236,6 +236,19 @@ class NanoGptService
     }
 
     /**
+     * Parse JSON from a chat response without forcing response_format=json_object.
+     * Prefer this for large HTML payloads where json_object mode may truncate or reshape output.
+     *
+     * @param  array<array{role: string, content: string}>  $messages
+     * @param  array<string, mixed>  $options
+     * @return array<string, mixed>|null
+     */
+    public function chatJsonLoose(array $messages, array $options = []): ?array
+    {
+        return $this->decodeChatJsonResponse($this->chatWithUsage($messages, $options));
+    }
+
+    /**
      * @return array<string, mixed>|null
      */
     public function chatJson(array $messages, array $options = []): ?array

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Developer Application - Ashby Style</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; }
+.wrapper { display: flex; min-height: 100vh; }
+.sidebar { width: 280px; background: #0d1b2a; color: #e0e1dd; padding: 24px; flex-shrink: 0; }
+.sidebar h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #778da9; margin-bottom: 16px; }
+.progress-dots { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: #415a77; }
+.dot.active { background: #00b4d8; box-shadow: 0 0 0 2px #00b4d840; }
+.dot.done { background: #06d6a0; }
+.main { flex: 1; padding: 32px; max-width: 900px; margin: 0 auto; }
+.iframe-container { border: 1px solid #dde1e6; border-radius: 12px; background: white; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+iframe { width: 100%; height: 800px; border: 0; display: block; }
+.form-content { padding: 24px; }
+.section-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #0d1b2a; border-bottom: 2px solid #00b4d8; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.table-form { width: 100%; border-collapse: collapse; }
+.table-form td { padding: 8px 12px; vertical-align: top; }
+.table-form td:first-child { width: 200px; font-weight: 500; color: #2c3e50; padding-top: 14px; }
+.table-form td:last-child { width: auto; }
+.input-field { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fafbfc; transition: border 0.2s; }
+.input-field:focus { border-color: #00b4d8; outline: none; box-shadow: 0 0 0 3px #00b4d820; }
+select.input-field { appearance: auto; }
+.split-phone { display: flex; gap: 0; }
+.split-phone select { width: 140px; border-right: 0; border-radius: 6px 0 0 6px; }
+.split-phone input { border-radius: 0 6px 6px 0; flex: 1; }
+.label-wrap-deep { display: flex; flex-direction: column; gap: 2px; }
+.label-wrap-deep > div { font-size: 12px; color: #475569; margin-bottom: 2px; }
+.custom-combobox { position: relative; }
+.combobox-input { width: 100%; padding: 10px 36px 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fafbfc; cursor: default; }
+.combobox-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; }
+.pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill-btn { padding: 8px 20px; border: 1px solid #cbd5e1; border-radius: 20px; background: white; cursor: pointer; font-size: 13px; color: #334155; transition: all 0.15s; }
+.pill-btn.active { background: #00b4d8; color: white; border-color: #00b4d8; }
+.pill-btn:hover { background: #f1f5f9; }
+.hidden-span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.table-form tr:last-child td { padding-bottom: 0; }
+.error-text { color: #dc2626; font-size: 12px; margin-top: 4px; display: none; }
+.reveal-content { display: none; margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
+.reveal-trigger { cursor: pointer; color: #00b4d8; font-weight: 500; }
+[lang="sv"] .label-text { font-weight: 600; }
+.emoji-flag { font-size: 16px; margin-right: 4px; }
+@media (max-width: 768px) { .wrapper { flex-direction: column; } .sidebar { width: 100%; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <aside class="sidebar">
+    <h2>Application progress</h2>
+    <div class="progress-dots">
+      <span class="dot done"></span>
+      <span class="dot done"></span>
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <p style="font-size: 13px; opacity: 0.7;">Step 3 of 7 — Personal details</p>
+    <hr style="border-color: #1e3a5f; margin: 20px 0;">
+    <p style="font-size: 12px; color: #778da9;">🇸🇪 This role requires Swedish proficiency</p>
+  </aside>
+  <main class="main">
+    <div class="iframe-container">
+      <iframe srcdoc='<!DOCTYPE html>
+<html>
+<head><style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif;}
+body{background:#fff;padding:24px;}
+.section-title{font-size:20px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.table-form{width:100%;border-collapse:collapse;}
+.table-form td{padding:10px 14px;vertical-align:top;border-bottom:1px solid #eef2f6;}
+.table-form td:first-child{width:220px;font-weight:500;color:#1e293b;padding-top:16px;}
+.input-field{width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;background:#f9fafb;}
+.input-field:focus{border-color:#2563eb;outline:none;box-shadow:0 0 0 3px #2563eb20;}
+.split-phone{display:flex;gap:0;}
+.split-phone select{width:150px;border-right:0;border-radius:6px 0 0 6px;}
+.split-phone input{border-radius:0 6px 6px 0;flex:1;}
+.label-wrap-deep{display:block;}
+.label-wrap-deep > .label-outer{font-size:13px;color:#475569;margin-bottom:4px;display:block;}
+.custom-combobox{position:relative;display:inline-block;width:100%;}
+.combobox-trigger{display:flex;align-items:center;width:100%;padding:10px 36px 10px 14px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;cursor:pointer;font-size:14px;text-align:left;}
+.combobox-trigger::after{content:"▾";position:absolute;right:12px;font-size:10px;color:#64748b;}
+.combobox-dropdown{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d1d5db;border-radius:6px;z-index:10;max-height:200px;overflow-y:auto;}
+.combobox-dropdown div{padding:10px 14px;cursor:pointer;}
+.combobox-dropdown div:hover{background:#f1f5f9;}
+.pill-group{display:flex;gap:8px;flex-wrap:wrap;}
+.pill-btn{padding:6px 18px;border:1px solid #d1d5db;border-radius:20px;background:white;cursor:pointer;font-size:13px;}
+.pill-btn.active{background:#2563eb;color:white;border-color:#2563eb;}
+.hidden-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+.reveal-content{display:none;margin-top:12px;padding:12px;background:#f8fafc;border-radius:8px;}
+.reveal-trigger{color:#2563eb;cursor:pointer;font-weight:500;}
+</style></head>
+<body>
+<div class="section-title">🇸🇪 Personal Information</div>
+<table class="table-form">
+  <tr>
+    <td><span class="label-outer" id="fname-label">First name *</span></td>
+    <td><input class="input-field" placeholder="First name" aria-labelledby="fname-label"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer" id="lname-label">Last name</span></td>
+    <td><input class="input-field" placeholder="Last name" aria-labelledby="lname-label"></td>
+  </tr>
+  <tr>
+    <td><div class="label-wrap-deep"><span class="label-outer" id="email-label">Email address *</span></div></td>
+    <td><input class="input-field" type="email" placeholder="you@example.com" aria-labelledby="email-label"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer" id="phone-label">Phone</span></td>
+    <td>
+      <div class="split-phone">
+        <select class="input-field" aria-label="Country code">
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+46" selected>🇸🇪 +46</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+49">🇩🇪 +49</option>
+        </select>
+        <input class="input-field" type="tel" placeholder="70 123 45 67" aria-label="Local phone number">
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td lang="sv" style="font-weight:600;"><span class="emoji-flag">🇸🇪</span> Personnummer (required)</td>
+    <td><input class="input-field" lang="sv" placeholder="ÅÅÅÅMMDD-XXXX" aria-label="Personnummer"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer" id="address-label">Street address</span></td>
+    <td>
+      <div class="label-wrap-deep">
+        <div style="margin-bottom:2px;">(Enter your full street address)</div>
+        <input class="input-field" placeholder="Street address" aria-labelledby="address-label">
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">City</span></td>
+    <td><input class="input-field" placeholder="City" aria-label="City"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Postal code</span></td>
+    <td><input class="input-field" placeholder="123 45" aria-label="Postal code"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer" id="country-label">Country</span></td>
+    <td>
+      <div class="custom-combobox" role="listbox" tabindex="0" aria-labelledby="country-label">
+        <div class="combobox-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==="block"?"none":"block"">Sweden</div>
+        <div class="combobox-dropdown">
+          <div role="option" onclick="this.parentElement.previousElementSibling.textContent=this.textContent;this.parentElement.style.display='none'">Sweden</div>
+          <div role="option" onclick="this.parentElement.previousElementSibling.textContent=this.textContent;this.parentElement.style.display='none'">Denmark</div>
+          <div role="option" onclick="this.parentElement.previousElementSibling.textContent=this.textContent;this.parentElement.style.display='none'">Norway</div>
+          <div role="option" onclick="this.parentElement.previousElementSibling.textContent=this.textContent;this.parentElement.style.display='none'">Finland</div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span id="exp-years-hidden" class="hidden-label">Years of experience</span></td>
+    <td>
+      <input class="input-field" type="number" min="0" max="30" placeholder="Years" aria-labelledby="exp-years-hidden">
+      <div style="font-size:11px;color:#64748b;margin-top:2px;">(hidden label via aria-labelledby)</div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Preferred programming languages</span></td>
+    <td>
+      <div class="pill-group">
+        <span class="pill-btn active" onclick="this.classList.toggle('active')">JavaScript</span>
+        <span class="pill-btn" onclick="this.classList.toggle('active')">Python</span>
+        <span class="pill-btn" onclick="this.classList.toggle('active')">Go</span>
+        <span class="pill-btn" onclick="this.classList.toggle('active')">Java</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Cover letter</span></td>
+    <td>
+      <div contenteditable="true" role="textbox" aria-multiline="true" style="min-height:100px;padding:10px 14px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;font-size:14px;" aria-label="Cover letter text">Write something...</div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">How did you hear about us?</span></td>
+    <td>
+      <select class="input-field" aria-label="Referral source">
+        <option>LinkedIn</option>
+        <option>Company website</option>
+        <option>Friend referral</option>
+        <option>Other</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Availability</span></td>
+    <td>
+      <div style="display:flex;gap:12px;">
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="avail" value="immediate"> Immediate</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="avail" value="2weeks" checked> 2 weeks</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="avail" value="1month"> 1 month</label>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">LinkedIn profile</span></td>
+    <td><input class="input-field" placeholder="URL or handle" aria-label="LinkedIn profile"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Portfolio website</span></td>
+    <td><input class="input-field" placeholder="https://" aria-label="Portfolio"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer" id="extra-label">Additional info</span></td>
+    <td><textarea class="input-field" rows="3" aria-labelledby="extra-label"></textarea></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Are you willing to relocate?</span></td>
+    <td>
+      <div class="pill-group">
+        <span class="pill-btn active" onclick="document.querySelectorAll('.pill-relocate').forEach(e=>e.classList.remove('active'));this.classList.add('active');">Yes</span>
+        <span class="pill-btn pill-relocate" onclick="document.querySelectorAll('.pill-relocate').forEach(e=>e.classList.remove('active'));this.classList.add('active');">No</span>
+        <span class="pill-btn pill-relocate" onclick="document.querySelectorAll('.pill-relocate').forEach(e=>e.classList.remove('active'));this.classList.add('active');">Maybe</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Do you have a work visa?</span></td>
+    <td>
+      <div role="radiogroup" aria-label="Work visa">
+        <label style="margin-right:16px;"><input type="radio" name="visa" value="yes"> Yes</label>
+        <label><input type="radio" name="visa" value="no"> No</label>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Salary expectation (SEK)</span></td>
+    <td><input class="input-field" type="number" placeholder="45000" aria-label="Salary expectation"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Start date</span></td>
+    <td><input class="input-field" type="date" aria-label="Start date"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Agree to terms</span></td>
+    <td>
+      <label style="display:flex;align-items:center;gap:6px;">
+        <input type="checkbox" name="terms"> I accept the terms and conditions
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Newsletter</span></td>
+    <td>
+      <label style="display:flex;align-items:center;gap:6px;">
+        <input type="checkbox" name="newsletter" checked> Send me job alerts
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Referral name</span></td>
+    <td><input class="input-field" placeholder="Referral name" aria-label="Referral name"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Referral email</span></td>
+    <td><input class="input-field" type="email" placeholder="Referral email" aria-label="Referral email"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Current employer</span></td>
+    <td><input class="input-field" placeholder="Current employer" aria-label="Current employer"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Job title</span></td>
+    <td><input class="input-field" placeholder="Job title" aria-label="Job title"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Years at current role</span></td>
+    <td><input class="input-field" type="number" min="0" max="30" placeholder="Years" aria-label="Years at current role"></td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">Highest education</span></td>
+    <td>
+      <select class="input-field" aria-label="Highest education">
+        <option>High school</option>
+        <option>Bachelor</option>
+        <option>Master</option>
+        <option>PhD</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="label-outer">LinkedIn recommendations</span></td>
+    <td><input class="input-field" type="number" min="0" placeholder="Number" aria-label="LinkedIn recommendations"></td>
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align:right;padding:16px 14px;">
+      <span class="reveal-trigger" onclick="var r=document.getElementById('hiddenSection');r.style.display=r.style.display==='none'?'block':'none';">+ Add more details</span>
+      <div id="hiddenSection" class="reveal-content" style="display:none;margin-top:8px;">
+        <input class="input-field" placeholder="Additional detail" style="margin-bottom:8px;">
+        <input class="input-field" placeholder="Additional detail 2">
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align:right;padding-top:20px;">
+      <button style="padding:12px 32px;background:#2563eb;color:white;border:0;border-radius:8px;font-size:16px;cursor:pointer;">Submit application</button>
+    </td>
+  </tr>
+</table>
+<script>
+// inline for combobox dropdown toggle
+</script>
+</body>
+</html>' style="width:100%;height:900px;border:0;"></iframe>
+    </div>
+  </main>
+</div>
+</body>
+</html>

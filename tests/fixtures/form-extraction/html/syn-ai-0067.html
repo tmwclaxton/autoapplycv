@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+body { background: #f4f6f9; margin: 0; padding: 20px; }
+.app-outer { max-width: 960px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); padding: 24px; }
+h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.subhead { color: #6b7280; font-size: 14px; margin-bottom: 24px; }
+
+dl { display: block; margin: 0; }
+dt { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; margin-top: 16px; }
+dd { margin: 0 0 12px 0; }
+
+.section-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.section-table td { padding: 8px 6px; vertical-align: top; }
+.section-table .label-cell { width: 140px; font-size: 13px; font-weight: 600; color: #374151; }
+.section-table input, .section-table select, .section-table .custom-combo { width: 100%; }
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="number"], select, textarea { 
+  border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px; font-size: 14px; width: 100%; background: white;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.readonly-field { background: #f3f4f6; color: #6b7280; cursor: not-allowed; }
+
+.custom-combo { position: relative; }
+.combo-trigger { 
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px; 
+  background: white; cursor: pointer; font-size: 14px; width: 100%;
+}
+.combo-trigger:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+.combo-arrow { color: #9ca3af; font-size: 12px; }
+.combo-listbox { 
+  display: none; position: absolute; top: 100%; left: 0; right: 0; 
+  background: white; border: 1px solid #d1d5db; border-radius: 6px; max-height: 200px; overflow-y: auto;
+  z-index: 50; margin-top: 2px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.combo-listbox.open { display: block; }
+.combo-option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+.combo-option:hover { background: #f3f4f6; }
+.combo-option[aria-selected="true"] { background: #eff6ff; color: #2563eb; font-weight: 500; }
+
+.pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill-btn { 
+  padding: 6px 20px; border: 1px solid #d1d5db; border-radius: 100px; 
+  background: white; cursor: pointer; font-size: 14px; color: #374151; 
+}
+.pill-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+
+.decoy-form { margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px dashed #d1d5db; }
+.decoy-form legend { font-size: 12px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.reveal-target { display: none; }
+.reveal-target.show { display: block; }
+
+fieldset.nest-1 { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+fieldset.nest-2 { border: 1px solid #d1d5db; border-radius: 6px; padding: 12px; margin: 8px 0; }
+fieldset.nest-3 { border: 1px solid #9ca3af; border-radius: 4px; padding: 8px; }
+
+.glue-label { font-size: 0; }
+.glue-label span { font-size: 13px; display: inline; }
+
+.mt-2 { margin-top: 8px; }
+.mb-2 { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="app-outer">
+  <h1>Senior Product Designer</h1>
+  <div class="subhead">Acme Corp · San Francisco, CA (Remote) · Full-time</div>
+
+  <fieldset class="nest-1">
+    <legend>Personal Information</legend>
+    <fieldset class="nest-2">
+      <legend>Contact Details</legend>
+      <fieldset class="nest-3">
+        <legend>Primary Contact</legend>
+        
+        <label style="display:block; margin-bottom:12px;">
+          <div><span style="font-size:13px; font-weight:600;">Full Name</span></div>
+          <div><input type="text" placeholder="e.g. Jane Smith" style="width:100%;"></div>
+        </label>
+
+        <label style="display:block; margin-bottom:12px;">
+          <div><span style="font-size:13px; font-weight:600;">Email (from profile)</span></div>
+          <div><input type="email" class="readonly-field" value="jane.smith@acme.com" readonly></div>
+        </label>
+
+        <label style="display:block; margin-bottom:12px;">
+          <div><span style="font-size:13px; font-weight:600;">Phone</span></div>
+          <div><input type="tel" placeholder="+1 (555) 123-4567"></div>
+        </label>
+      </fieldset>
+    </fieldset>
+  </fieldset>
+
+  <table class="section-table">
+    <tr>
+      <td class="label-cell">Current Role</td>
+      <td><input type="text" placeholder="e.g. Senior Product Designer" style="width:100%;"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Years Experience</td>
+      <td><input type="number" placeholder="e.g. 6" style="width:120px;"></td>
+    </tr>
+    <tr>
+      <td class="label-cell">LinkedIn URL</td>
+      <td><input type="url" placeholder="https://linkedin.com/in/..."></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Portfolio URL</td>
+      <td><input type="url" placeholder="https://..."></td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <div class="glue-label">
+          <span class="part1">Work</span><span class="part2">Authorization</span>
+        </div>
+      </td>
+      <td>
+        <div class="pill-group" role="radiogroup" aria-label="Work Authorization">
+          <button type="button" class="pill-btn active" data-value="us-citizen" onclick="selectPill(this)">US Citizen</button>
+          <button type="button" class="pill-btn" data-value="green-card" onclick="selectPill(this)">Green Card</button>
+          <button type="button" class="pill-btn" data-value="visa" onclick="selectPill(this)">Visa Sponsor</button>
+        </div>
+        <input type="hidden" name="work_auth" id="work_auth_hidden" value="us-citizen">
+      </td>
+    </tr>
+  </table>
+
+  <dt>Preferred Location</dt>
+  <dd>
+    <div class="custom-combo" id="location-combo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select location" tabindex="0">
+      <div class="combo-trigger" id="combo-trigger" role="button" tabindex="-1" onclick="toggleCombo()" onkeydown="comboKeydown(event)">
+        <span id="combo-value">San Francisco, CA</span>
+        <span class="combo-arrow">▼</span>
+      </div>
+      <div class="combo-listbox" id="combo-listbox" role="listbox" aria-label="Location options">
+        <div class="combo-option" role="option" aria-selected="true" data-value="san-francisco" onclick="selectOption(this)">San Francisco, CA</div>
+        <div class="combo-option" role="option" aria-selected="false" data-value="new-york" onclick="selectOption(this)">New York, NY</div>
+        <div class="combo-option" role="option" aria-selected="false" data-value="remote-us" onclick="selectOption(this)">Remote (US)</div>
+        <div class="combo-option" role="option" aria-selected="false" data-value="remote-global" onclick="selectOption(this)">Remote (Global)</div>
+        <div class="combo-option" role="option" aria-selected="false" data-value="chicago" onclick="selectOption(this)">Chicago, IL</div>
+      </div>
+    </div>
+    <input type="hidden" name="location" id="location-hidden" value="san-francisco">
+  </dd>
+
+  <dl>
+    <dt>Skills (comma separated)</dt>
+    <dd><input type="text" placeholder="e.g. Figma, UX Research, Prototyping" aria-label="Skills input"></dd>
+
+    <dt>Design Tools</dt>
+    <dd>
+      <div class="pill-group">
+        <button type="button" class="pill-btn active" onclick="togglePill(this)">Figma</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Sketch</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Adobe XD</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Framer</button>
+      </div>
+    </dd>
+
+    <dt id="cover-label">Cover Letter (optional)</dt>
+    <dd>
+      <div role="textbox" contenteditable="true" aria-labelledby="cover-label" style="border:1px solid #d1d5db; border-radius:6px; padding:8px; min-height:80px; font-size:14px; background:white;"></div>
+    </dd>
+
+    <dt>Do you have a portfolio?</dt>
+    <dd>
+      <div class="pill-group" role="radiogroup" aria-label="Portfolio">
+        <button type="button" class="pill-btn active" data-target="portfolio-yes" onclick="revealPortfolio(this, 'yes')">Yes</button>
+        <button type="button" class="pill-btn" data-target="portfolio-no" onclick="revealPortfolio(this, 'no')">No</button>
+      </div>
+      <div id="portfolio-yes" class="reveal-target show" style="margin-top:8px;">
+        <input type="url" placeholder="Portfolio URL" style="width:100%;">
+      </div>
+      <div id="portfolio-no" class="reveal-target" style="margin-top:8px;">
+        <p style="font-size:13px;color:#6b7280;">You can upload a PDF later.</p>
+      </div>
+    </dd>
+
+    <dt>Referral (if any)</dt>
+    <dd><input type="text" class="readonly-field" value="Internal: Alex Rivera (Engineering)" readonly></dd>
+
+    <dt>Salary Expectation (USD)</dt>
+    <dd>
+      <select aria-label="Salary range">
+        <option value="">Select range</option>
+        <option>100k - 120k</option>
+        <option>120k - 140k</option>
+        <option>140k - 160k</option>
+        <option>160k+</option>
+      </select>
+    </dd>
+
+    <dt><div class="glue-label"><span class="part1">Highest</span><span class="part2">Degree</span></div></dt>
+    <dd>
+      <div class="pill-group">
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Associate</button>
+        <button type="button" class="pill-btn active" onclick="togglePill(this)">Bachelor</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Master</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">PhD</button>
+      </div>
+    </dd>
+
+    <dt>How did you hear about us?</dt>
+    <dd><input type="text" placeholder="e.g. LinkedIn, Friend, Blog" aria-label="Source"></dd>
+
+    <dt>Current Company</dt>
+    <dd><input type="text" placeholder="e.g. Acme Corp" aria-label="Current company"></dd>
+
+    <dt>Notice Period</dt>
+    <dd>
+      <select aria-label="Notice period">
+        <option value="">Select</option>
+        <option>Immediate</option>
+        <option>2 weeks</option>
+        <option>1 month</option>
+        <option>2 months</option>
+        <option>3 months</option>
+      </select>
+    </dd>
+
+    <dt>Preferred Start Date</dt>
+    <dd><input type="text" placeholder="e.g. 2024-04-01" aria-label="Start date"></dd>
+
+    <dt>GitHub URL</dt>
+    <dd><input type="url" placeholder="https://github.com/..." aria-label="GitHub"></dd>
+
+    <dt>Dribbble URL</dt>
+    <dd><input type="url" placeholder="https://dribbble.com/..." aria-label="Dribbble"></dd>
+
+    <dt>Behance URL</dt>
+    <dd><input type="url" placeholder="https://behance.net/..." aria-label="Behance"></dd>
+
+    <dt>Personal Website</dt>
+    <dd><input type="url" placeholder="https://..." aria-label="Personal website"></dd>
+
+    <dt>LinkedIn Headline</dt>
+    <dd><input type="text" placeholder="e.g. Product Designer at Acme" aria-label="LinkedIn headline"></dd>
+
+    <dt>Years in Design</dt>
+    <dd><input type="number" placeholder="e.g. 8" aria-label="Years in design"></dd>
+
+    <dt>Design Education</dt>
+    <dd><input type="text" placeholder="e.g. BFA in Graphic Design" aria-label="Design education"></dd>
+
+    <dt>Certifications</dt>
+    <dd><input type="text" placeholder="e.g. UX Certified" aria-label="Certifications"></dd>
+
+    <dt>Languages</dt>
+    <dd><input type="text" placeholder="e.g. English, Spanish" aria-label="Languages"></dd>
+
+    <dt>Portfolio Password</dt>
+    <dd><input type="text" placeholder="If portfolio is password protected" aria-label="Portfolio password"></dd>
+
+    <dt>Additional Notes</dt>
+    <dd><textarea rows="3" placeholder="Anything else?" aria-label="Additional notes"></textarea></dd>
+
+    <dt>Preferred Interview Time</dt>
+    <dd><input type="text" placeholder="e.g. Mornings (9-12 PT)" aria-label="Preferred interview time"></dd>
+
+    <dt>Relocation Interest</dt>
+    <dd>
+      <div class="pill-group">
+        <button type="button" class="pill-btn active" onclick="togglePill(this)">Yes</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">No</button>
+        <button type="button" class="pill-btn" onclick="togglePill(this)">Maybe</button>
+      </div>
+    </dd>
+
+    <dt>LinkedIn Recommendations</dt>
+    <dd><input type="number" placeholder="e.g. 5" aria-label="LinkedIn recommendations count"></dd>
+
+    <dt>Open Source Contributions</dt>
+    <dd><input type="text" placeholder="e.g. React, Node.js" aria-label="Open source contributions"></dd>
+
+    <dt>Conference Talks</dt>
+    <dd><input type="text" placeholder="e.g. Figma Config 2023" aria-label="Conference talks"></dd>
+  </dl>
+
+  <div class="decoy-form">
+    <fieldset>
+      <legend>Internal Use Only — Do Not Fill</legend>
+      <label style="display:block; margin-bottom:8px;">
+        <span style="font-size:12px;color:#6b7280;">Recruiter ID</span>
+        <input type="text" value="R-2024-0042" readonly style="background:#e5e7eb;font-size:12px;" disabled>
+      </label>
+      <label style="display:block;">
+        <span style="font-size:12px;color:#6b7280;">Stage</span>
+        <select disabled style="font-size:12px;"><option>Screen</option></select>
+      </label>
+    </fieldset>
+  </div>
+
+  <div style="margin-top:24px; border-top:1px solid #e5e7eb; padding-top:16px;">
+    <button style="background:#2563eb; color:white; border:none; padding:10px 32px; border-radius:6px; font-size:15px; font-weight:500; cursor:pointer;">Submit Application</button>
+  </div>
+
+  <input type="hidden" name="portfolio_has" value="yes" id="portfolio-hidden">
+</div>
+
+<script>
+function togglePill(btn) {
+  btn.classList.toggle('active');
+}
+
+function selectPill(btn) {
+  const group = btn.closest('.pill-group');
+  group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const hidden = group.nextElementSibling;
+  if (hidden && hidden.type === 'hidden') {
+    hidden.value = btn.dataset.value;
+  }
+}
+
+function toggleCombo() {
+  const listbox = document.getElementById('combo-listbox');
+  const combo = document.getElementById('location-combo');
+  const isOpen = listbox.classList.toggle('open');
+  combo.setAttribute('aria-expanded', isOpen);
+}
+
+function selectOption(el) {
+  const value = el.dataset.value;
+  const text = el.textContent;
+  document.getElementById('combo-value').textContent = text;
+  document.getElementById('location-hidden').value = value;
+  document.querySelectorAll('.combo-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  el.setAttribute('aria-selected', 'true');
+  document.getElementById('combo-listbox').classList.remove('open');
+  document.getElementById('location-combo').setAttribute('aria-expanded', 'false');
+}
+
+function comboKeydown(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    toggleCombo();
+  }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const options = document.querySelectorAll('.combo-option');
+    let idx = -1;
+    options.forEach((o, i) => { if (o.getAttribute('aria-selected') === 'true') idx = i; });
+    if (e.key === 'ArrowDown') {
+      idx = (idx + 1) % options.length;
+    } else {
+      idx = (idx - 1 + options.length) % options.length;
+    }
+    selectOption(options[idx]);
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('combo-listbox').classList.remove('open');
+    document.getElementById('location-combo').setAttribute('aria-expanded', 'false');
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const combo = document.getElementById('location-combo');
+  if (!combo.contains(e.target)) {
+    document.getElementById('combo-listbox').classList.remove('open');
+    combo.setAttribute('aria-expanded', 'false');
+  }
+});
+
+function revealPortfolio(btn, value) {
+  const group = btn.closest('.pill-group');
+  group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('portfolio-yes').classList.toggle('show', value === 'yes');
+  document.getElementById('portfolio-no').classList.toggle('show', value === 'no');
+  document.getElementById('portfolio-hidden').value = value;
+}
+
+window.addEventListener('load', function() {
+  const first = document.querySelector('.combo-option');
+  if (first) selectOption(first);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+  "id": "web-www-cadremploi-fr-exemple-de-mail-daccompagnement-tous-secteurs-html",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mot de passe",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": null,
+        "name": "password",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Mot de passe",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mots-clés à rechercher rechercher parmi les articles",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "recherche",
+        "name": "recherche",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Rechercher parmi les articles",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

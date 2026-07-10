@@ -30,3 +30,23 @@ describe('firecrawl helpers', () => {
         assert.equal(isCreditError('rate limit exceeded'), false);
     });
 });
+
+describe('firecrawl scrape timing', () => {
+    it('caps waitFor to half of timeout', async () => {
+        const { resolveScrapeTiming } = await import('./lib/firecrawl-client.mjs');
+        const config = { timeoutMs: 30_000 };
+        const timing = resolveScrapeTiming(config, 25_000);
+
+        assert.ok(timing.waitFor <= timing.timeout / 2);
+        assert.ok(timing.timeout >= timing.waitFor * 2);
+    });
+
+    it('raises timeout when waitFor requires it', async () => {
+        const { resolveScrapeTiming } = await import('./lib/firecrawl-client.mjs');
+        const config = { timeoutMs: 15_000 };
+        const timing = resolveScrapeTiming(config, 20_000);
+
+        assert.ok(timing.timeout >= timing.waitFor * 2);
+        assert.equal(timing.waitFor, 20_000);
+    });
+});

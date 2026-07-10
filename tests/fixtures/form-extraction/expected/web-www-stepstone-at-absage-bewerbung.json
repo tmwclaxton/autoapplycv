@@ -1,0 +1,129 @@
+{
+  "id": "web-www-stepstone-at-absage-bewerbung",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "suche nach themen, kategorien...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "content-hub-search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Suche nach Themen, Kategorien...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "firma ihre firma",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "company-name",
+        "name": "company-name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihre Firma",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vorname ihr vorname",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihr Vorname",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nachname ihr nachname",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihr Nachname",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-mail ihre e-mail-adresse",
+      "field_type": "email",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact",
+        "name": "contact",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihre E-Mail-Adresse",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefon ihre telefonnummer",
+      "field_type": "text",
+      "max_chars": 20,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihre Telefonnummer",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,71 @@
+{
+  "id": "web-ninjaforms-com-job-application-form",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nf-signin-email",
+        "name": "username",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "password",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "nf-signin-password",
+        "name": "password",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Password",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "remember me",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Remember me"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "nf-signin-remember",
+        "name": "remember",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

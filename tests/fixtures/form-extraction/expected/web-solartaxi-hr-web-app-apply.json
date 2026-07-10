@@ -1,0 +1,362 @@
+{
+  "id": "web-solartaxi-hr-web-app-apply",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "full name enter your full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidateName",
+        "name": "candidateName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address your.email@example.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidateEmail",
+        "name": "candidateEmail",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "your.email@example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number +233 xx xxx xxxx",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidatePhone",
+        "name": "candidatePhone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+233 XX XXX XXXX",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address enter your current address",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidateAddress",
+        "name": "candidateAddress",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your current address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Your Current Location",
+        "Accra",
+        "Kumasi",
+        "Takoradi",
+        "Tamale",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "currentLocation",
+        "name": "currentLocation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Gender",
+        "Male",
+        "Female"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "gender",
+        "name": "gender",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "date of birth",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "dateOfBirth",
+        "name": "dateOfBirth",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": "2010-07-09",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "highest level of education",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Education Level",
+        "PhD",
+        "Masters",
+        "BSc",
+        "HND",
+        "SHS"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "highestEducation",
+        "name": "highestEducation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "department",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Department",
+        "Administration",
+        "Finance/Accounting",
+        "Investment",
+        "Media & Marketing",
+        "Operations",
+        "Business & Sales",
+        "Software",
+        "WOTE",
+        "People & HR",
+        "Procurement",
+        "Engineering"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "department",
+        "name": "department",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "role/position e.g., software developer, marketing manager",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "role",
+        "name": "role",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g., Software Developer, Marketing Manager",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i am willing to relocate for this position",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I am willing to relocate for this position"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "willingToRelocate",
+        "name": "willingToRelocate",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "salary expectation (ghs) e.g., 5000",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "salaryExpectation",
+        "name": "salaryExpectation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g., 5000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of relevant experience e.g., 3",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "relevantExperienceYears",
+        "name": "relevantExperienceYears",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g., 3",
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "relevant experience description describe your relevant work experience...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "relevantExperienceDescription",
+        "name": "relevantExperienceDescription",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Describe your relevant work experience...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "previous relevant work experience describe your previous relevant work experience...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "previousWorkExperience",
+        "name": "previousWorkExperience",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Describe your previous relevant work experience...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why do you want to work with us? please explain why you want to work with us and what you offer (minimum 20 characters)...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "whyWorkWithUs",
+        "name": "whyWorkWithUs",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Please explain why you want to work with us and what you offer (minimum 20 characters)...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

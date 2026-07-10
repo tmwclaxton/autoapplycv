@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Senior Frontend Engineer Application - Ashby</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .app-root { max-width: 820px; margin: 0 auto; background: #fff; padding: 24px; border: 1px solid #ddd; border-radius: 6px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  td { padding: 8px 6px; vertical-align: top; }
+  td.label-cell { width: 140px; font-size: 13px; color: #333; }
+  input, select, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #bbb; border-radius: 4px; font-size: 14px; }
+  .pill-group { display: flex; gap: 6px; }
+  .pill-btn { display: inline-block; padding: 6px 16px; background: #e9ecef; border: 1px solid #ccc; border-radius: 20px; cursor: pointer; font-size: 13px; user-select: none; }
+  .pill-btn.selected { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+  .hidden-radio { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 8px; border: 1px solid #bbb; border-radius: 4px; font-size: 14px; }
+  .combobox-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ccc; max-height: 160px; overflow-y: auto; z-index: 10; }
+  .combobox-list.show { display: block; }
+  .combobox-item { padding: 8px; cursor: pointer; font-size: 14px; }
+  .combobox-item:hover { background: #f0f0f0; }
+  details { margin: 12px 0; border: 1px solid #ddd; border-radius: 4px; padding: 8px; background: #fafafa; }
+  summary { font-weight: 600; cursor: pointer; }
+  .iframe-shell { width: 100%; height: 120px; border: 1px dashed #aaa; margin: 12px 0; }
+  .shadow-host { margin: 12px 0; padding: 8px; background: #f0f4f8; border: 1px solid #b0c4de; }
+  .glue-label { font-size: 13px; margin-bottom: 2px; }
+  .error-text { color: #b00020; font-size: 12px; }
+  .btn-primary { background: #0a66c2; color: #fff; border: none; padding: 10px 28px; border-radius: 6px; font-size: 15px; cursor: pointer; }
+  .btn-primary:hover { background: #004182; }
+  .flex-row { display: flex; gap: 8px; align-items: center; }
+  .decoy-form { background: #f9f9f9; padding: 12px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 4px; opacity: 0.5; pointer-events: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div class="app-root">
+
+<!-- DECOY secondary form (non-semantic, disabled) -->
+<form class="decoy-form">
+  <div style="margin-bottom:6px;"><strong>Internal referral (decoy)</strong></div>
+  <input placeholder="Referral code" style="width:200px;">
+  <button type="button" style="margin-left:8px;">Look up</button>
+</form>
+
+<!-- MAIN APPLICATION -->
+<form id="apply-form">
+  <h2 style="margin-top:0;font-size:22px;">Apply: Senior Frontend Engineer</h2>
+  <p style="font-size:13px;color:#555;">Ashby style · fields may be non-standard</p>
+
+  <!-- TABLE LAYOUT (required) -->
+  <table>
+    <tr>
+      <td class="label-cell">Full name</td>
+      <td><input name="name" placeholder="e.g. Jane Doe" aria-label="Full name" /></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Email</td>
+      <td><input type="email" name="email" placeholder="you@example.com" required /></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Phone</td>
+      <td><input type="tel" name="phone" placeholder="+1 555 0000" /></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Current company</td>
+      <td><input name="current_company" placeholder="Acme Corp" aria-label="Current employer" /></td>
+    </tr>
+    <tr>
+      <td class="label-cell">LinkedIn</td>
+      <td><input name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL" /></td>
+    </tr>
+    <tr>
+      <td class="label-cell">Portfolio</td>
+      <td><input name="portfolio" placeholder="https://..." /></td>
+    </tr>
+  </table>
+
+  <!-- DUPLICATE name attributes (two distinct fields share 'location') -->
+  <div style="margin-bottom:12px;">
+    <table>
+      <tr>
+        <td class="label-cell">Location (city)</td>
+        <td><input name="location" placeholder="San Francisco, CA" aria-label="City" /></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Location (remote)</td>
+        <td><input name="location" placeholder="Remote / Any" aria-label="Remote region" /></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- RADIO STYLED AS PILL BUTTONS (required reference) -->
+  <div style="margin-bottom:12px;">
+    <div class="glue-label" style="margin-bottom:4px;">Work authorization</div>
+    <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+      <label class="pill-btn selected" data-value="us-citizen">
+        <input type="radio" name="auth" value="us-citizen" class="hidden-radio" checked hidden /> US Citizen
+      </label>
+      <label class="pill-btn" data-value="green-card">
+        <input type="radio" name="auth" value="green-card" class="hidden-radio" hidden /> Green Card
+      </label>
+      <label class="pill-btn" data-value="visa">
+        <input type="radio" name="auth" value="visa" class="hidden-radio" hidden /> Visa holder
+      </label>
+    </div>
+  </div>
+
+  <!-- CUSTOM COMBOBOX (listbox) with aria-label only -->
+  <div style="margin-bottom:12px;">
+    <div class="glue-label">Years of experience (combobox)</div>
+    <div class="combobox-wrapper">
+      <div class="combobox-input" contenteditable="true" role="combobox" aria-expanded="false" aria-label="Years of experience" data-value="">
+        <span style="color:#888;">Select...</span>
+      </div>
+      <div class="combobox-list">
+        <div class="combobox-item" data-value="0-1">0-1 years</div>
+        <div class="combobox-item" data-value="2-3">2-3 years</div>
+        <div class="combobox-item" data-value="4-6">4-6 years</div>
+        <div class="combobox-item" data-value="7+">7+ years</div>
+      </div>
+    </div>
+    <input type="hidden" name="experience_years" id="experience-hidden" />
+  </div>
+
+  <!-- ARIA-LABEL-ONLY FIELDS (two fields, no visible label) -->
+  <div style="margin-bottom:12px;">
+    <input name="github" placeholder="GitHub username" aria-label="GitHub username" style="width:100%;" />
+  </div>
+  <div style="margin-bottom:12px;">
+    <input name="twitter" placeholder="Twitter handle" aria-label="Twitter handle" style="width:100%;" />
+  </div>
+
+  <!-- DETAILS / ACCORDION (hidden until click) -->
+  <details>
+    <summary>Additional info (optional)</summary>
+    <div style="padding:8px 0;">
+      <table>
+        <tr>
+          <td class="label-cell">Salary expectation</td>
+          <td><input name="salary" placeholder="$120,000" aria-label="Salary expectation" /></td>
+        </tr>
+        <tr>
+          <td class="label-cell">How did you hear?</td>
+          <td><input name="source" placeholder="LinkedIn, referral..." aria-label="Referral source" /></td>
+        </tr>
+      </table>
+      <div style="margin-top:8px;">
+        <div class="glue-label">Cover letter (paste)</div>
+        <div contenteditable="true" role="textbox" aria-label="Cover letter" style="border:1px solid #bbb; min-height:60px; padding:6px; border-radius:4px; background:#fff;"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- GLUED SPAN LABELS (non-semantic) -->
+  <div style="margin-bottom:12px;">
+    <span style="font-size:13px;display:block;">Preferred pronouns</span>
+    <span style="font-size:12px;color:#666;display:inline;">(optional) </span><input name="pronouns" placeholder="they/them" style="width:180px;" aria-label="Pronouns" />
+  </div>
+
+  <!-- SHADOW DOM HOST (declarative shadow root) -->
+  <div class="shadow-host">
+    <host-element>
+      <template shadowroot="open">
+        <style>
+          .shadow-field { margin:4px 0; }
+          input { padding:6px; border:1px solid #888; border-radius:3px; width:100%; box-sizing:border-box; }
+        </style>
+        <div class="shadow-field">
+          <span style="font-size:12px;color:#222;">Internal ID (shadow)</span>
+          <input placeholder="e.g. REF-001" aria-label="Internal ID">
+        </div>
+        <div class="shadow-field">
+          <span style="font-size:12px;color:#222;">Department code</span>
+          <input placeholder="ENG" aria-label="Department code">
+        </div>
+      </template>
+    </host-element>
+  </div>
+
+  <!-- IFRAME APPLY SHELL (srcdoc) -->
+  <div>
+    <iframe srcdoc='
+      <html><head><style>body{font:14px sans-serif;padding:8px;background:#fefefe;}.if-field{margin:4px 0;}input{width:90%;padding:6px;border:1px solid #aaa;border-radius:3px;}</style></head><body>
+        <div style="font-weight:600;margin-bottom:6px;">Quick questions (iframe)</div>
+        <div class="if-field"><input placeholder="Tech stack preference" aria-label="Tech stack" /></div>
+        <div class="if-field"><input placeholder="Available start date" aria-label="Start date" /></div>
+        <div style="font-size:12px;color:#666;margin-top:6px;">iframed fields</div>
+      </body></html>
+    ' class="iframe-shell" title="Quick questions iframe"></iframe>
+  </div>
+
+  <!-- READONLY PREFILL (glued) -->
+  <div style="margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+    <span style="font-size:13px;">Referred by: </span>
+    <span style="background:#eee;padding:4px 10px;border-radius:3px;font-size:13px;">Alex M. (prefill)</span>
+    <input type="hidden" name="referrer" value="alex-m" />
+  </div>
+
+  <!-- SUBMIT BUTTON outside form (form= attribute) -->
+</form>
+
+<div style="margin-top:20px;">
+  <button type="submit" form="apply-form" class="btn-primary">Submit Application</button>
+  <span style="font-size:12px;color:#888;margin-left:12px;">(button outside form, linked via form=)</span>
+</div>
+
+</div>
+
+<script>
+  (function() {
+    // Pill button toggle
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      group.querySelectorAll('.pill-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          group.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          var radio = btn.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
+        });
+      });
+    });
+
+    // Combobox widget
+    var comboboxDiv = document.querySelector('.combobox-input');
+    var comboboxList = document.querySelector('.combobox-list');
+    var hiddenInput = document.getElementById('experience-hidden');
+    if (comboboxDiv && comboboxList) {
+      comboboxDiv.addEventListener('click', function(e) {
+        e.stopPropagation();
+        comboboxList.classList.toggle('show');
+        comboboxDiv.setAttribute('aria-expanded', comboboxList.classList.contains('show') ? 'true' : 'false');
+      });
+      comboboxList.querySelectorAll('.combobox-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var val = item.getAttribute('data-value');
+          comboboxDiv.innerHTML = item.textContent;
+          comboboxDiv.setAttribute('data-value', val);
+          hiddenInput.value = val;
+          comboboxList.classList.remove('show');
+          comboboxDiv.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('click', function(e) {
+        if (!comboboxDiv.contains(e.target) && !comboboxList.contains(e.target)) {
+          comboboxList.classList.remove('show');
+          comboboxDiv.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+</script>
+
+<!-- hidden legacy fallback -->
+<div style="display:none;">ATS version 2.9.1</div>
+
+</body>
+</html>

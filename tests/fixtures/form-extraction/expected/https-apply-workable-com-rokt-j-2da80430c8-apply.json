@@ -1,0 +1,335 @@
+{
+  "id": "https-apply-workable-com-rokt-j-2da80430c8-apply",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "input_files_input_dbqgmu8pwkvh3apl",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input_files_input_dbqGMU8pWkVh3Apl",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "max_chars": 200000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover_letter",
+        "name": "cover_letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your compensation expectations for the role? please include your base salary and any other elements you'd like us to know. (optional)",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "CA_12079",
+        "name": "CA_12079",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work for rokt?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "eNAIQux4powp1dmO",
+        "name": "CA_12080",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cOONhcOj4PvopZRi",
+        "name": "QA_11599325",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you in the future require sponsorship for employment visa status?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "pWUBQfLLQyGe4JeP",
+        "name": "QA_11599326",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "our team currently works in the office 4 days a week (subject to change based on business needs, with some roles requiring full-time presence). if you join rokt, would you be able to commit to working in the office at least 4 days per week?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "SYxe4CkoFZk2AcRw",
+        "name": "QA_11599327",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work for rokt?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_eNAIQux4powp1dmO",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_cOONhcOj4PvopZRi",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you in the future require sponsorship for employment visa status?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_pWUBQfLLQyGe4JeP",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "our team currently works in the office 4 days a week (subject to change based on business needs, with some roles requiring full-time presence). if you join rokt, would you be able to commit to working in the office at least 4 days per week?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_SYxe4CkoFZk2AcRw",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

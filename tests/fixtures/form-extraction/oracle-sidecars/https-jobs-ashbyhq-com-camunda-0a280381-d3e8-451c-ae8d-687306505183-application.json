@@ -1,0 +1,312 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-0a280381-d3e8-451c-ae8d-687306505183-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:28:02.236Z",
+  "page_url": "https://jobs.ashbyhq.com/camunda/0a280381-d3e8-451c-ae8d-687306505183/application",
+  "page_title": "Senior Product Builder @ Camunda",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 23,
+      "ai_count": 11,
+      "count_delta": 12,
+      "label_jaccard": 0.4783,
+      "type_agree_rate": 0.8182,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you legally eligible to work in the country where you’re planning to work from?",
+        "ai": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able and willing to work remotely?",
+        "ai": "Are you able and willing to work remotely?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred name?",
+        "ai": "What is your preferred name?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you are eligible, please select the status that allows you to work and live in that country",
+        "ai": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns for others to use when referring to you?",
+        "ai": "What are your pronouns for others to use when referring to you?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you related to any current employees?",
+      "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "what is the first line of you address?",
+      "what is the second line of your address (if relevant)?",
+      "city",
+      "state/region",
+      "post code",
+      "country",
+      "how would you best describe your hands-on product building experience?",
+      "which statement best reflects your experience with ai tools in day-to-day product work?",
+      "which statement best reflects your scope of ownership in recent roles?",
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components (comboboxes and radio-like buttons) that may require specific interaction logic. The HTML was truncated at the end of the LinkedIn field.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your preferred name?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I am a citizen / permanent resident of the country where I plan to live & work from.",
+          "I have a work visa in the country where I plan to live & work from.",
+          "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+        ]
+      },
+      {
+        "question": "What are your pronouns for others to use when referring to you?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able and willing to work remotely?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you related to any current employees?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "what is your preferred name?",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "what is the first line of you address?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "what is the second line of your address (if relevant)?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "state/region",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "post code",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "how would you best describe your hands-on product building experience?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "which statement best reflects your experience with ai tools in day-to-day product work?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "which statement best reflects your scope of ownership in recent roles?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f22"
+    }
+  ]
+}

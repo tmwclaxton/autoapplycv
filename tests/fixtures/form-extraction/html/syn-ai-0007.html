@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application - Software Engineer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; background: #f4f6f9; display: flex; justify-content: center; padding: 2rem 1rem; min-height: 100vh; }
+        .form-container { max-width: 680px; width: 100%; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem 2rem 2.5rem; }
+        h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.3rem; color: #1a1a2e; }
+        .subhead { color: #5f6b7a; font-size: 0.95rem; margin-bottom: 1.8rem; border-bottom: 1px solid #e9edf2; padding-bottom: 0.8rem; }
+        .form-group { margin-bottom: 1.3rem; }
+        label { display: block; font-weight: 500; font-size: 0.9rem; color: #2c3e50; margin-bottom: 0.25rem; }
+        .req::after { content: " *"; color: #d14334; }
+        input, select, textarea { width: 100%; padding: 0.65rem 0.75rem; font-size: 0.95rem; border: 1px solid #d1d9e6; border-radius: 6px; background: #fff; transition: border 0.2s; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #4a6cf7; box-shadow: 0 0 0 3px rgba(74,108,247,0.08); }
+        .phone-group { display: flex; gap: 8px; align-items: flex-end; }
+        .phone-group select { width: 120px; flex-shrink: 0; }
+        .phone-group input { flex: 1; }
+        .radio-group, .checkbox-group { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 0.2rem; }
+        .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 0.4rem; font-weight: 400; font-size: 0.95rem; cursor: pointer; }
+        .radio-group input, .checkbox-group input { width: auto; }
+        details { margin-top: 0.5rem; background: #fafbfc; border-radius: 8px; padding: 0.1rem 1rem 0.5rem; border: 1px solid #e2e8f0; }
+        details summary { cursor: pointer; font-weight: 500; font-size: 0.95rem; padding: 0.6rem 0; color: #3b4a5c; }
+        details .form-group { margin-bottom: 1rem; }
+        details textarea { min-height: 90px; }
+        .submit-btn { background: #1a1a2e; color: white; padding: 0.9rem 2rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 1rem; width: 100%; }
+        .submit-btn:hover { background: #2d2d4a; }
+        .note { font-size: 0.8rem; color: #778899; margin-top: 0.3rem; }
+        .inline-flex { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .inline-flex .form-group { flex: 1; min-width: 140px; }
+        hr { margin: 1.5rem 0 1rem; border: none; border-top: 1px solid #e9edf2; }
+        [lang="sv"] { background: #f0f7ff; padding: 0.1rem 0.3rem; border-radius: 4px; }
+        small { color: #5f6b7a; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Software Engineer (Frontend)</h1>
+        <div class="subhead">Ashby · Remote · Full-time</div>
+
+        <form>
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="full_name" class="req">Full name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="e.g. Alex Rivera" required>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email" class="req">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <!-- Phone (react-phone-number-input style: dial code combobox + national number) -->
+            <div class="form-group">
+                <label for="phone_country" class="req">Phone</label>
+                <div class="phone-group">
+                    <select id="phone_country" name="phone_country" required>
+                        <option value="" disabled selected>Code</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+46">🇸🇪 +46</option>
+                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+81">🇯🇵 +81</option>
+                    </select>
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="National number" required>
+                </div>
+                <div class="note">Dial code + local number</div>
+            </div>
+
+            <!-- Position applied for (combobox widget) -->
+            <div class="form-group">
+                <label for="position" class="req">Position applied for</label>
+                <select id="position" name="position" required>
+                    <option value="" disabled selected>Choose a role</option>
+                    <option value="frontend">Frontend Engineer</option>
+                    <option value="backend">Backend Engineer</option>
+                    <option value="fullstack">Full Stack Engineer</option>
+                    <option value="devops">DevOps Engineer</option>
+                    <option value="design">Product Designer</option>
+                </select>
+            </div>
+
+            <!-- Starkt rekommenderat (Swedish label, hidden among English) -->
+            <div class="form-group" lang="sv">
+                <label for="years_exp" class="req"><span lang="sv">År av erfarenhet</span> (Years of experience)</label>
+                <input type="text" id="years_exp" name="years_exp" placeholder="t.ex. 5" lang="sv" inputmode="numeric" pattern="[0-9]+" title="Ange antal år (siffror)" required>
+                <div class="note" lang="sv">Endast siffror</div>
+            </div>
+
+            <!-- Work authorization (radio) -->
+            <div class="form-group">
+                <label class="req">Work authorization</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="work_auth" value="citizen" required> Citizen / PR</label>
+                    <label><input type="radio" name="work_auth" value="visa"> Need visa sponsorship</label>
+                    <label><input type="radio" name="work_auth" value="other"> Other</label>
+                </div>
+            </div>
+
+            <!-- How did you hear? (combobox) -->
+            <div class="form-group">
+                <label for="referral_source" class="req">How did you hear about this role?</label>
+                <select id="referral_source" name="referral_source" required>
+                    <option value="" disabled selected>Select one</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="ashby">Ashby board</option>
+                    <option value="referral">Employee referral</option>
+                    <option value="company_website">Company website</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Resume upload (file) -->
+            <div class="form-group">
+                <label for="resume" class="req">Resume / CV</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+            </div>
+
+            <!-- Availability (date) -->
+            <div class="form-group">
+                <label for="start_date" class="req">Earliest start date</label>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+
+            <!-- Skills (checkbox) -->
+            <div class="form-group">
+                <label>Skills & tools (select all that apply)</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="skills" value="react"> React</label>
+                    <label><input type="checkbox" name="skills" value="typescript"> TypeScript</label>
+                    <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+                    <label><input type="checkbox" name="skills" value="python"> Python</label>
+                    <label><input type="checkbox" name="skills" value="figma"> Figma</label>
+                </div>
+            </div>
+
+            <!-- Hidden inside closed details: cover letter + visa fields -->
+            <details>
+                <summary>Additional documents (optional)</summary>
+                <div class="form-group">
+                    <label for="cover_letter">Cover letter</label>
+                    <textarea id="cover_letter" name="cover_letter" placeholder="Tell us why you're a great fit..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="visa_status">Visa status / details</label>
+                    <input type="text" id="visa_status" name="visa_status" placeholder="e.g. H1B, TN, etc.">
+                </div>
+            </details>
+
+            <button type="submit" class="submit-btn">Submit application</button>
+            <div class="note" style="text-align: center; margin-top: 0.8rem;">We typically respond within 5 business days.</div>
+        </form>
+    </div>
+</body>
+</html>

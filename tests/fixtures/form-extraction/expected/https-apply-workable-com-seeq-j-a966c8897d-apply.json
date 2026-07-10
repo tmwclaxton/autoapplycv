@@ -1,0 +1,435 @@
+{
+  "id": "https-apply-workable-com-seeq-j-a966c8897d-apply",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "headline (optional)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "headline",
+        "name": "headline",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "postcode",
+        "name": "postcode",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": "country",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "summary",
+        "name": "summary",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "svgs not supported by this browser. choose file",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input_files_input_UgCoiuV0gCwCpNCh",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "max_chars": 200000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover_letter",
+        "name": "cover_letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "3 references (1 direct manager)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "CA_51693",
+        "name": "CA_51693",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "UMvBGvA8Z9sFaGEO",
+        "name": "QA_11607782",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "HvfreMvnNvAaTXKe",
+        "name": "QA_11607783",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you proficient in programming languages such as java, python, typescript, or go.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "HCkIMGJx1vtZJDeV",
+        "name": "QA_11607784",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience and passion around improving developer productivity and creating intuitive developer tools?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "FSugOsuEgnixwtPD",
+        "name": "QA_11607785",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_UMvBGvA8Z9sFaGEO",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_HvfreMvnNvAaTXKe",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you proficient in programming languages such as java, python, typescript, or go.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_HCkIMGJx1vtZJDeV",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience and passion around improving developer productivity and creating intuitive developer tools?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "SVGs not supported by this browser. YES",
+        "SVGs not supported by this browser. NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "wrapper_FSugOsuEgnixwtPD",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

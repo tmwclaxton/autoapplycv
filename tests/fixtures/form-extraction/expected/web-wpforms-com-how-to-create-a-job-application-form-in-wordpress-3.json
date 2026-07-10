@@ -1,0 +1,291 @@
+{
+  "id": "web-wpforms-com-how-to-create-a-job-application-form-in-wordpress-3",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "inserisci l'url del tuo sito web wordpress per installare inserisci l'url del tuo sito web wordpress per installare https://yoursite.com",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "wpforms-2924812-field_1",
+        "name": "wpforms[fields][1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://yoursite.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nome",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-2924812-field_3",
+        "name": "wpforms[fields][3]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Nome",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "wpforms-2924812-field_4",
+        "name": "wpforms[fields][4]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "g-recaptcha-hidden",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "g-recaptcha-hidden",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "il tuo commento",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "comment",
+        "name": "comment",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Il tuo commento",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "il tuo commento il tuo nome completo il tuo nome completo",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "author",
+        "name": "author",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Il tuo nome completo",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "il tuo indirizzo email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Il tuo indirizzo email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "aggiungi un commento annulla risposta",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Salva il mio nome, email e sito web in questo browser per la prossima volta che commenterò."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "wp-comment-cookies-consent",
+        "name": "wp-comment-cookies-consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cerca wpforms",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "s",
+        "name": "s",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Cerca WPForms",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "s_68c4d49b s_68c4d49b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "s_68c4d49b",
+        "name": "s_68c4d49b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nome nome di battesimo",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-2924816-field_1",
+        "name": "wpforms[fields][1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Nome di battesimo",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "wpforms-2924816-field_2",
+        "name": "wpforms[fields][2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nome",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-3231462-field_6",
+        "name": "wpforms[fields][6]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "wpforms-3231462-field_7",
+        "name": "wpforms[fields][7]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

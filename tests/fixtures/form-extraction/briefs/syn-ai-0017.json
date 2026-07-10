@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0017",
+    "seed": 2859554821,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Visibility hidden input",
+                "notes": "Input uses visibility:hidden instead of display:none",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Visibility hidden input<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"vis_hidden\">Internal reference<\/label><input type=\"text\" id=\"vis_hidden\" name=\"vis_hidden\" style=\"visibility:hidden\"> <label for=\"vis_name\">Your name<\/label><input type=\"text\" id=\"vis_name\" name=\"vis_name\"> <label for=\"vis_phone\">Mo",
+                "requires_interaction": false
+            },
+            {
+                "title": "React phone dial code only",
+                "notes": "react-phone-number-input style: separate dial code combobox and national number",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Dial code split<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"rp_name\">Name<\/label><input type=\"text\" id=\"rp_name\" name=\"rp_name\"> <div class=\"PhoneInput\"> <button type=\"button\" role=\"combobox\" aria-label=\"Phone number country\" aria-expanded=\"false\" aria-controls=\"rp_dial_list\">+44<\/button> <ul role=\"",
+                "requires_interaction": false
+            },
+            {
+                "title": "Multiple forms on page",
+                "notes": "Newsletter signup form vs job application form - tests primary form detection",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Multiple forms<\/h1> <aside><form id=\"newsletter\" action=\"\/newsletter\"><label>Newsletter email <input type=\"email\" name=\"newsletter_email\"><\/label><button type=\"submit\">Subscribe<\/button><\/form><\/aside> <form id=\"application\" action=\"\/apply\" method=\"post\"> <label for=\"app_name\">Applicant name<\/label><input typ",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Fields inside a shadow DOM host or declarative shadow root Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Label wraps input through nested divs without for attribute Required: Label text split across multiple spans with no space between words Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Reference DOM (Visibility hidden input): Input uses visibility:hidden instead of display:none Reference DOM (React phone dial code only): react-phone-number-input style: separate dial code combobox and national number Reference DOM (Multiple forms on page): Newsletter signup form vs job application form - tests primary form detection Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: shadow-host, iframe-apply, label-wraps-deep, glued-label-text, duplicate-name-attrs. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Visibility hidden input; React phone dial code only; Multiple forms on page."
+}

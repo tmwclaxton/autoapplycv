@@ -1,0 +1,155 @@
+{
+  "id": "web-www-jobat-be-job-5646693",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "what? job title, company name or keywords",
+      "field_type": "search",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "searchJob",
+        "name": "Keyword",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Job title, company name or keywords",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where? county or region",
+      "field_type": "search",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "searchCity",
+        "name": "Location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "County or region",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "on2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job alert toggle",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Job alert toggle"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2block_383e2221-2bf3-4e41-8b8c-8a5fec3a555d",
+        "name": null,
+        "data_testid": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "your email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "enter your address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "destination",
+        "name": "Address",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "departingat-selectized",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "departingAt-selectized",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Browser Continue"
+    }
+  ],
+  "vet_notes": []
+}

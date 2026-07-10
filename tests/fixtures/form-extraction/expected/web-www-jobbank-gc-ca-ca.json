@@ -1,0 +1,49 @@
+{
+  "id": "web-www-jobbank-gc-ca-ca",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search website search search website",
+      "field_type": "search",
+      "max_chars": 170,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "wb-srch-q",
+        "name": "q",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "keywords: job title, employer keywords:",
+      "field_type": "text",
+      "max_chars": 1000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchString",
+        "name": "searchstring",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Job title, employer",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

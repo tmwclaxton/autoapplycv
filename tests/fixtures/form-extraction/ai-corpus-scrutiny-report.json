@@ -1,0 +1,1536 @@
+{
+  "generated_at": "2026-07-10T05:18:58.388Z",
+  "id_prefix": "syn-ai-",
+  "totals": {
+    "scenarios": 84,
+    "passed": 56,
+    "failed": 28,
+    "avg_complexity": 19.35
+  },
+  "weakest": [
+    {
+      "id": "syn-ai-0008",
+      "status": "pending",
+      "complexity_score": 2,
+      "non_semantic_signals": 0,
+      "semantic_ratio": 0.4,
+      "field_count": 13,
+      "passed": false,
+      "issues": [
+        {
+          "code": "insufficient_complexity",
+          "message": "Only 0 non-semantic signals (min 3). Add custom widgets, ARIA-only labels, div role=textbox, pill buttons, shadow DOM, iframe shell, or decoy forms."
+        },
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 2 below min 4."
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0007",
+      "status": "pending",
+      "complexity_score": 3,
+      "non_semantic_signals": 1,
+      "semantic_ratio": 0.526,
+      "field_count": 12,
+      "passed": false,
+      "issues": [
+        {
+          "code": "insufficient_complexity",
+          "message": "Only 1 non-semantic signals (min 3). Add custom widgets, ARIA-only labels, div role=textbox, pill buttons, shadow DOM, iframe shell, or decoy forms."
+        },
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 3 below min 4."
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0038",
+      "status": "pending",
+      "complexity_score": 5,
+      "non_semantic_signals": 5,
+      "semantic_ratio": 0.684,
+      "field_count": 14,
+      "passed": false,
+      "issues": [
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 5 below min 6."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0001",
+      "status": "pending",
+      "complexity_score": 6,
+      "non_semantic_signals": 4,
+      "semantic_ratio": 0.303,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0006",
+      "status": "pending",
+      "complexity_score": 6,
+      "non_semantic_signals": 4,
+      "semantic_ratio": 0.529,
+      "field_count": 9,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0063",
+      "status": "pending",
+      "complexity_score": 7,
+      "non_semantic_signals": 7,
+      "semantic_ratio": 0.75,
+      "field_count": 28,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0069",
+      "status": "pending",
+      "complexity_score": 8,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.702,
+      "field_count": 34,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0071",
+      "status": "pending",
+      "complexity_score": 8,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.595,
+      "field_count": 28,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0005",
+      "status": "pending",
+      "complexity_score": 9,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.619,
+      "field_count": 20,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 20 fields (min 26)"
+        },
+        {
+          "code": "layout_convergence",
+          "message": "High-tier fixture uses generic centered card layout only. Use table, iframe, fieldset stack, or split layout from brief."
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields.",
+        "Break centered card layout with table, iframe, fieldset, or split column structure."
+      ]
+    },
+    {
+      "id": "syn-ai-0010",
+      "status": "pending",
+      "complexity_score": 9,
+      "non_semantic_signals": 7,
+      "semantic_ratio": 0.37,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "syn-ai-0001",
+      "status": "pending",
+      "complexity_score": 6,
+      "non_semantic_signals": 4,
+      "semantic_ratio": 0.303,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0002",
+      "status": "pending",
+      "complexity_score": 13,
+      "non_semantic_signals": 13,
+      "semantic_ratio": 0.609,
+      "field_count": 32,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0003",
+      "status": "pending",
+      "complexity_score": 15,
+      "non_semantic_signals": 13,
+      "semantic_ratio": 0.421,
+      "field_count": 3,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 3 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 3 field types (min 4): email, text, password"
+        }
+      ],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0004",
+      "status": "pending",
+      "complexity_score": 17,
+      "non_semantic_signals": 15,
+      "semantic_ratio": 0,
+      "field_count": 3,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 3 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 2 field types (min 4): text, email"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0005",
+      "status": "pending",
+      "complexity_score": 9,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.619,
+      "field_count": 20,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 20 fields (min 26)"
+        },
+        {
+          "code": "layout_convergence",
+          "message": "High-tier fixture uses generic centered card layout only. Use table, iframe, fieldset stack, or split layout from brief."
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields.",
+        "Break centered card layout with table, iframe, fieldset, or split column structure."
+      ]
+    },
+    {
+      "id": "syn-ai-0006",
+      "status": "pending",
+      "complexity_score": 6,
+      "non_semantic_signals": 4,
+      "semantic_ratio": 0.529,
+      "field_count": 9,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0007",
+      "status": "pending",
+      "complexity_score": 3,
+      "non_semantic_signals": 1,
+      "semantic_ratio": 0.526,
+      "field_count": 12,
+      "passed": false,
+      "issues": [
+        {
+          "code": "insufficient_complexity",
+          "message": "Only 1 non-semantic signals (min 3). Add custom widgets, ARIA-only labels, div role=textbox, pill buttons, shadow DOM, iframe shell, or decoy forms."
+        },
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 3 below min 4."
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0008",
+      "status": "pending",
+      "complexity_score": 2,
+      "non_semantic_signals": 0,
+      "semantic_ratio": 0.4,
+      "field_count": 13,
+      "passed": false,
+      "issues": [
+        {
+          "code": "insufficient_complexity",
+          "message": "Only 0 non-semantic signals (min 3). Add custom widgets, ARIA-only labels, div role=textbox, pill buttons, shadow DOM, iframe shell, or decoy forms."
+        },
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 2 below min 4."
+        },
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0009",
+      "status": "pending",
+      "complexity_score": 11,
+      "non_semantic_signals": 11,
+      "semantic_ratio": 0.682,
+      "field_count": 17,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0010",
+      "status": "pending",
+      "complexity_score": 9,
+      "non_semantic_signals": 7,
+      "semantic_ratio": 0.37,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    },
+    {
+      "id": "syn-ai-0011",
+      "status": "pending",
+      "complexity_score": 37,
+      "non_semantic_signals": 35,
+      "semantic_ratio": 0,
+      "field_count": 1,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 1 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 1 field types (min 4): email"
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0012",
+      "status": "pending",
+      "complexity_score": 19,
+      "non_semantic_signals": 17,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0013",
+      "status": "vetted",
+      "complexity_score": 23,
+      "non_semantic_signals": 21,
+      "semantic_ratio": 0,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0014",
+      "status": "vetted",
+      "complexity_score": 18,
+      "non_semantic_signals": 16,
+      "semantic_ratio": 0.261,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    },
+    {
+      "id": "syn-ai-0015",
+      "status": "vetted",
+      "complexity_score": 22,
+      "non_semantic_signals": 20,
+      "semantic_ratio": 0.08,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Use pill/button pairs for at least one yes/no screening question."
+      ]
+    },
+    {
+      "id": "syn-ai-0016",
+      "status": "draft",
+      "complexity_score": 11,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.222,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0017",
+      "status": "vetted",
+      "complexity_score": 18,
+      "non_semantic_signals": 16,
+      "semantic_ratio": 0.421,
+      "field_count": 6,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 6 fields (min 14)"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0018",
+      "status": "vetted",
+      "complexity_score": 17,
+      "non_semantic_signals": 15,
+      "semantic_ratio": 0.167,
+      "field_count": 10,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 10 fields (min 14)"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0019",
+      "status": "vetted",
+      "complexity_score": 20,
+      "non_semantic_signals": 18,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0020",
+      "status": "vetted",
+      "complexity_score": 20,
+      "non_semantic_signals": 18,
+      "semantic_ratio": 0,
+      "field_count": 18,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0021",
+      "status": "vetted",
+      "complexity_score": 22,
+      "non_semantic_signals": 20,
+      "semantic_ratio": 0.095,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question."
+      ]
+    },
+    {
+      "id": "syn-ai-0022",
+      "status": "vetted",
+      "complexity_score": 48,
+      "non_semantic_signals": 46,
+      "semantic_ratio": 0,
+      "field_count": 13,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 13 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 3 field types (min 4): text, number, url"
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0023",
+      "status": "vetted",
+      "complexity_score": 32,
+      "non_semantic_signals": 30,
+      "semantic_ratio": 0,
+      "field_count": 3,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 3 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 2 field types (min 4): email, text"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0024",
+      "status": "draft",
+      "complexity_score": 24,
+      "non_semantic_signals": 22,
+      "semantic_ratio": 0,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0025",
+      "status": "vetted",
+      "complexity_score": 14,
+      "non_semantic_signals": 12,
+      "semantic_ratio": 0.5,
+      "field_count": 15,
+      "passed": false,
+      "issues": [
+        {
+          "code": "duplicate_signature",
+          "message": "Pattern signature matches vetted fixture syn-ai-0052",
+          "existing_id": "syn-ai-0052"
+        }
+      ],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0026",
+      "status": "vetted",
+      "complexity_score": 24,
+      "non_semantic_signals": 22,
+      "semantic_ratio": 0.167,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0027",
+      "status": "vetted",
+      "complexity_score": 25,
+      "non_semantic_signals": 23,
+      "semantic_ratio": 0,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0028",
+      "status": "vetted",
+      "complexity_score": 27,
+      "non_semantic_signals": 25,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0029",
+      "status": "pending",
+      "complexity_score": 26,
+      "non_semantic_signals": 24,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0030",
+      "status": "pending",
+      "complexity_score": 11,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.3,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0031",
+      "status": "pending",
+      "complexity_score": 11,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.182,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0032",
+      "status": "pending",
+      "complexity_score": 17,
+      "non_semantic_signals": 15,
+      "semantic_ratio": 0,
+      "field_count": 18,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question."
+      ]
+    },
+    {
+      "id": "syn-ai-0033",
+      "status": "pending",
+      "complexity_score": 33,
+      "non_semantic_signals": 31,
+      "semantic_ratio": 0,
+      "field_count": 17,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0034",
+      "status": "pending",
+      "complexity_score": 14,
+      "non_semantic_signals": 12,
+      "semantic_ratio": 0.226,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0035",
+      "status": "pending",
+      "complexity_score": 21,
+      "non_semantic_signals": 19,
+      "semantic_ratio": 0.235,
+      "field_count": 1,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 1 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 1 field types (min 4): text"
+        }
+      ],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0036",
+      "status": "pending",
+      "complexity_score": 14,
+      "non_semantic_signals": 12,
+      "semantic_ratio": 0.474,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0037",
+      "status": "pending",
+      "complexity_score": 30,
+      "non_semantic_signals": 28,
+      "semantic_ratio": 0,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0038",
+      "status": "pending",
+      "complexity_score": 5,
+      "non_semantic_signals": 5,
+      "semantic_ratio": 0.684,
+      "field_count": 14,
+      "passed": false,
+      "issues": [
+        {
+          "code": "low_complexity_score",
+          "message": "Complexity score 5 below min 6."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0039",
+      "status": "pending",
+      "complexity_score": 28,
+      "non_semantic_signals": 26,
+      "semantic_ratio": 0.208,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0040",
+      "status": "pending",
+      "complexity_score": 17,
+      "non_semantic_signals": 15,
+      "semantic_ratio": 0.217,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0041",
+      "status": "pending",
+      "complexity_score": 27,
+      "non_semantic_signals": 25,
+      "semantic_ratio": 0,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0042",
+      "status": "pending",
+      "complexity_score": 19,
+      "non_semantic_signals": 17,
+      "semantic_ratio": 0.167,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    },
+    {
+      "id": "syn-ai-0043",
+      "status": "pending",
+      "complexity_score": 18,
+      "non_semantic_signals": 16,
+      "semantic_ratio": 0.154,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    },
+    {
+      "id": "syn-ai-0044",
+      "status": "pending",
+      "complexity_score": 26,
+      "non_semantic_signals": 24,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0045",
+      "status": "pending",
+      "complexity_score": 23,
+      "non_semantic_signals": 21,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0046",
+      "status": "pending",
+      "complexity_score": 24,
+      "non_semantic_signals": 22,
+      "semantic_ratio": 0,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0047",
+      "status": "pending",
+      "complexity_score": 12,
+      "non_semantic_signals": 10,
+      "semantic_ratio": 0.525,
+      "field_count": 2,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 2 fields (min 14)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 2 field types (min 4): email, checkbox"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0048",
+      "status": "pending",
+      "complexity_score": 28,
+      "non_semantic_signals": 26,
+      "semantic_ratio": 0,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0049",
+      "status": "pending",
+      "complexity_score": 14,
+      "non_semantic_signals": 12,
+      "semantic_ratio": 0.105,
+      "field_count": 9,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 9 fields (min 14)"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0050",
+      "status": "pending",
+      "complexity_score": 21,
+      "non_semantic_signals": 19,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer."
+      ]
+    },
+    {
+      "id": "syn-ai-0051",
+      "status": "vetted",
+      "complexity_score": 10,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.5,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0052",
+      "status": "vetted",
+      "complexity_score": 10,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.261,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0053",
+      "status": "vetted",
+      "complexity_score": 34,
+      "non_semantic_signals": 32,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0054",
+      "status": "vetted",
+      "complexity_score": 32,
+      "non_semantic_signals": 30,
+      "semantic_ratio": 0,
+      "field_count": 16,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0055",
+      "status": "vetted",
+      "complexity_score": 20,
+      "non_semantic_signals": 18,
+      "semantic_ratio": 0.273,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0056",
+      "status": "vetted",
+      "complexity_score": 20,
+      "non_semantic_signals": 18,
+      "semantic_ratio": 0,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0057",
+      "status": "draft",
+      "complexity_score": 16,
+      "non_semantic_signals": 14,
+      "semantic_ratio": 0.211,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0058",
+      "status": "draft",
+      "complexity_score": 19,
+      "non_semantic_signals": 17,
+      "semantic_ratio": 0.273,
+      "field_count": 15,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0059",
+      "status": "draft",
+      "complexity_score": 19,
+      "non_semantic_signals": 17,
+      "semantic_ratio": 0.125,
+      "field_count": 16,
+      "passed": false,
+      "issues": [
+        {
+          "code": "layout_convergence",
+          "message": "High-tier fixture uses generic centered card layout only. Use table, iframe, fieldset stack, or split layout from brief."
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Break centered card layout with table, iframe, fieldset, or split column structure."
+      ]
+    },
+    {
+      "id": "syn-ai-0060",
+      "status": "vetted",
+      "complexity_score": 22,
+      "non_semantic_signals": 20,
+      "semantic_ratio": 0,
+      "field_count": 17,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0061",
+      "status": "vetted",
+      "complexity_score": 20,
+      "non_semantic_signals": 18,
+      "semantic_ratio": 0.5,
+      "field_count": 14,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0062",
+      "status": "vetted",
+      "complexity_score": 17,
+      "non_semantic_signals": 15,
+      "semantic_ratio": 0,
+      "field_count": 11,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 11 fields (min 14)"
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0063",
+      "status": "pending",
+      "complexity_score": 7,
+      "non_semantic_signals": 7,
+      "semantic_ratio": 0.75,
+      "field_count": 28,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0064",
+      "status": "draft",
+      "complexity_score": 12,
+      "non_semantic_signals": 10,
+      "semantic_ratio": 0.094,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0065",
+      "status": "pending",
+      "complexity_score": 29,
+      "non_semantic_signals": 27,
+      "semantic_ratio": 0.032,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0066",
+      "status": "draft",
+      "complexity_score": 28,
+      "non_semantic_signals": 26,
+      "semantic_ratio": 0,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0067",
+      "status": "pending",
+      "complexity_score": 36,
+      "non_semantic_signals": 34,
+      "semantic_ratio": 0,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0068",
+      "status": "pending",
+      "complexity_score": 44,
+      "non_semantic_signals": 42,
+      "semantic_ratio": 0.024,
+      "field_count": 29,
+      "passed": true,
+      "issues": [],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0069",
+      "status": "pending",
+      "complexity_score": 8,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.702,
+      "field_count": 34,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0070",
+      "status": "pending",
+      "complexity_score": 26,
+      "non_semantic_signals": 24,
+      "semantic_ratio": 0,
+      "field_count": 30,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0071",
+      "status": "pending",
+      "complexity_score": 8,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.595,
+      "field_count": 28,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0072",
+      "status": "pending",
+      "complexity_score": 11,
+      "non_semantic_signals": 11,
+      "semantic_ratio": 0.7,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0073",
+      "status": "draft",
+      "complexity_score": 12,
+      "non_semantic_signals": 10,
+      "semantic_ratio": 0,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0074",
+      "status": "pending",
+      "complexity_score": 16,
+      "non_semantic_signals": 14,
+      "semantic_ratio": 0.041,
+      "field_count": 32,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0075",
+      "status": "pending",
+      "complexity_score": 35,
+      "non_semantic_signals": 33,
+      "semantic_ratio": 0,
+      "field_count": 45,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0076",
+      "status": "pending",
+      "complexity_score": 19,
+      "non_semantic_signals": 17,
+      "semantic_ratio": 0.435,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0077",
+      "status": "pending",
+      "complexity_score": 14,
+      "non_semantic_signals": 12,
+      "semantic_ratio": 0.442,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": []
+    },
+    {
+      "id": "syn-ai-0078",
+      "status": "pending",
+      "complexity_score": 26,
+      "non_semantic_signals": 24,
+      "semantic_ratio": 0.263,
+      "field_count": 26,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0079",
+      "status": "pending",
+      "complexity_score": 31,
+      "non_semantic_signals": 29,
+      "semantic_ratio": 0.093,
+      "field_count": 30,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0080",
+      "status": "pending",
+      "complexity_score": 9,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.636,
+      "field_count": 27,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Use pill/button pairs for at least one yes/no screening question.",
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0081",
+      "status": "draft",
+      "complexity_score": 10,
+      "non_semantic_signals": 8,
+      "semantic_ratio": 0.088,
+      "field_count": 0,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 0 fields (min 26)"
+        },
+        {
+          "code": "too_few_field_types",
+          "message": "Only 0 field types (min 4): "
+        }
+      ],
+      "recommendations": [
+        "Add div role=textbox contenteditable for at least one long-text answer.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0082",
+      "status": "draft",
+      "complexity_score": 9,
+      "non_semantic_signals": 9,
+      "semantic_ratio": 0.774,
+      "field_count": 19,
+      "passed": false,
+      "issues": [
+        {
+          "code": "too_few_fields",
+          "message": "Only 19 fields (min 26)"
+        }
+      ],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection.",
+        "Reduce label-for coverage; add aria-label-only or aria-labelledby fields."
+      ]
+    },
+    {
+      "id": "syn-ai-0083",
+      "status": "pending",
+      "complexity_score": 33,
+      "non_semantic_signals": 31,
+      "semantic_ratio": 0.025,
+      "field_count": 26,
+      "passed": false,
+      "issues": [
+        {
+          "code": "fake_combobox",
+          "message": "Widget brief includes combobox but only native select found. Build custom listbox/combobox DOM."
+        }
+      ],
+      "recommendations": [
+        "Replace native select combobox with aria-haspopup listbox custom widget.",
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    },
+    {
+      "id": "syn-ai-0084",
+      "status": "pending",
+      "complexity_score": 12,
+      "non_semantic_signals": 10,
+      "semantic_ratio": 0.217,
+      "field_count": 29,
+      "passed": true,
+      "issues": [],
+      "recommendations": [
+        "Add decoy newsletter/login form to test primary-form detection."
+      ]
+    }
+  ]
+}

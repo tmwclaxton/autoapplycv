@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Job Application - Ashby Style</title>
+<style>
+  body { background: #f3f4f6; font-family: system-ui, sans-serif; margin: 0; padding: 20px; }
+  .apply-iframe { border: 1px solid #d1d5db; border-radius: 8px; background: #fff; width: 100%; max-width: 720px; margin: 0 auto; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 12px; vertical-align: middle; }
+  td.label-cell { white-space: nowrap; padding-right: 8px; font-size: 14px; color: #111827; }
+  .field-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .yesno-btn { padding: 6px 16px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; line-height: 1.4; }
+  .yesno-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .yesno-btn:focus { outline: 2px solid #93c5fd; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="number"], input[type="date"], select { width: 100%; box-sizing: border-box; padding: 6px 10px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
+  input[readonly] { background: #f9fafb; color: #6b7280; }
+  .combobox-wrapper { position: relative; display: inline-block; width: 100%; }
+  .combobox-input { width: 100%; box-sizing: border-box; padding: 6px 30px 6px 10px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
+  .combobox-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-top: none; border-radius: 0 0 6px 6px; max-height: 160px; overflow-y: auto; display: none; z-index: 10; }
+  .combobox-dropdown div { padding: 6px 10px; cursor: pointer; }
+  .combobox-dropdown div:hover { background: #eff6ff; }
+  .shadow-host { display: contents; }
+  .hidden-field { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+  details { margin: 4px 0; }
+  details summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #2563eb; padding: 4px 0; }
+  .checkbox-group label { margin-right: 16px; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; }
+  .field-row { border-bottom: 1px solid #e5e7eb; }
+  .field-row:last-child { border-bottom: none; }
+  .section-title { font-weight: 600; font-size: 15px; padding: 12px 12px 4px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<iframe class="apply-iframe" srcdoc='
+  <!DOCTYPE html>
+  <html>
+  <head><base target="_parent"><style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #fff; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 6px 10px; vertical-align: middle; }
+    .label-cell { white-space: nowrap; font-size: 14px; color: #111827; width: 1%; }
+    .field-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .yesno-btn { padding: 6px 16px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; line-height: 1.4; }
+    .yesno-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .yesno-btn:focus { outline: 2px solid #93c5fd; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="number"], input[type="date"], select { width: 100%; box-sizing: border-box; padding: 6px 10px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
+    input[readonly] { background: #f9fafb; color: #6b7280; }
+    .combobox-wrapper { position: relative; display: inline-block; width: 100%; }
+    .combobox-input { width: 100%; box-sizing: border-box; padding: 6px 30px 6px 10px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
+    .combobox-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-top: none; border-radius: 0 0 6px 6px; max-height: 160px; overflow-y: auto; display: none; z-index: 10; }
+    .combobox-dropdown div { padding: 6px 10px; cursor: pointer; }
+    .combobox-dropdown div:hover { background: #eff6ff; }
+    .shadow-host { display: contents; }
+    details { margin: 4px 0; }
+    details summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #2563eb; padding: 4px 0; }
+    .checkbox-group label { margin-right: 16px; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; }
+    .field-row { border-bottom: 1px solid #e5e7eb; }
+    .field-row:last-child { border-bottom: none; }
+    .section-title { font-weight: 600; font-size: 15px; padding: 12px 0 4px; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    .glue-label { display: inline; font-size: 14px; color: #111827; }
+  </style></head>
+  <body>
+  <form id="applyForm">
+    <div class="section-title">🇸🇪 Application - Senior Developer (Sweden)</div>
+    
+    <!-- duplicate-name-attrs: radio group with shared name -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell"><span id="workAuthLabel">🇸🇪 Work Authorization (Sweden required)</span></td>
+      <td>
+        <div class="checkbox-group" role="radiogroup" aria-labelledby="workAuthLabel">
+          <label><input type="radio" name="workAuth" value="yes" checked> Yes</label>
+          <label><input type="radio" name="workAuth" value="no"> No</label>
+          <label><input type="radio" name="workAuth" value="need_sponsor"> Need visa</label>
+        </div>
+      </td>
+    </tr></table></div>
+    
+    <!-- Readonly prefilled email (emoji label) -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell">📧 Email</td>
+      <td><input type="email" name="email" value="karl.johansson@example.se" readonly aria-label="Email (prefilled from profile)"></td>
+    </tr></table></div>
+    
+    <!-- aria-labelledby-hidden: distant hidden span -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell"><span id="phoneLabel" style="display:none;">📞 Phone (hidden label)</span><span aria-hidden="true">📱 Phone</span></td>
+      <td><input type="tel" name="phone" aria-labelledby="phoneLabel" placeholder="+46 70 123 45 67"></td>
+    </tr></table></div>
+    
+    <!-- details-accordion: hidden until click -->
+    <details>
+      <summary>🔑 Additional information (optional)</summary>
+      <div class="field-row"><table><tr>
+        <td class="label-cell"><span id="linkedinLabel">🔗 LinkedIn URL</span></td>
+        <td><input type="url" name="linkedin" aria-labelledby="linkedinLabel" placeholder="https://linkedin.com/in/..."></td>
+      </tr></table></div>
+      <div class="field-row"><table><tr>
+        <td class="label-cell">🎓 Portfolio</td>
+        <td><input type="url" name="portfolio" placeholder="https://..." aria-label="Portfolio website"></td>
+      </tr></table></div>
+    </details>
+    
+    <!-- Ashby yes/no buttons (pill buttons) for remote preference -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell">🌐 Remote OK?</td>
+      <td>
+        <div class="field-group" role="radiogroup" aria-label="Remote preference">
+          <button type="button" class="yesno-btn active" data-value="yes" onclick="toggleYesNo(this, 'remotePref')">Yes</button>
+          <button type="button" class="yesno-btn" data-value="no" onclick="toggleYesNo(this, 'remotePref')">No</button>
+          <input type="hidden" name="remotePref" id="remotePref" value="yes">
+        </div>
+      </td>
+    </tr></table></div>
+    
+    <!-- custom listbox combobox for country -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell"><span id="countryLabel">🌍 Country</span></td>
+      <td>
+        <div class="combobox-wrapper">
+          <div role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="countryLabel" class="combobox-input" contenteditable="true" id="countryCombobox" data-value="Sweden" style="cursor:text;">Sweden</div>
+          <div class="combobox-dropdown" role="listbox" aria-labelledby="countryLabel" id="countryListbox">
+            <div role="option" data-value="Sweden" aria-selected="true">Sweden</div>
+            <div role="option" data-value="Denmark">Denmark</div>
+            <div role="option" data-value="Norway">Norway</div>
+            <div role="option" data-value="Finland">Finland</div>
+          </div>
+          <input type="hidden" name="country" id="countryHidden" value="Sweden">
+        </div>
+      </td>
+    </tr></table></div>
+    
+    <!-- decoy secondary form (non-semantic) -->
+    <div style="display:none;">
+      <form id="decoyForm"><input name="decoy" value="spam"></form>
+    </div>
+    
+    <!-- glued span labels + native input -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell"><span class="glue-label">💬</span><span class="glue-label">How did you hear?</span></td>
+      <td><input type="text" name="source" placeholder="e.g. LinkedIn, friend" style="width:100%;" aria-label="How did you hear about this job?"></td>
+    </tr></table></div>
+    
+    <!-- checkbox group with duplicate name (skills) -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell"><span id="skillsLabel">💡 Skills</span></td>
+      <td>
+        <div class="checkbox-group" aria-labelledby="skillsLabel">
+          <label><input type="checkbox" name="skills" value="JavaScript"> JS</label>
+          <label><input type="checkbox" name="skills" value="Python"> Python</label>
+          <label><input type="checkbox" name="skills" value="React"> React</label>
+          <label><input type="checkbox" name="skills" value="Node"> Node</label>
+        </div>
+      </td>
+    </tr></table></div>
+    
+    <!-- native select with aria-label (no label-for) -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell">🎓 Experience level</td>
+      <td>
+        <select aria-label="Experience level">
+          <option value="junior">Junior</option>
+          <option value="mid" selected>Mid</option>
+          <option value="senior">Senior</option>
+        </select>
+      </td>
+    </tr></table></div>
+    
+    <!-- shadow DOM host with fields inside -->
+    <div class="shadow-host">
+      <template shadowroot="open">
+        <style>
+          .shadow-field { display: flex; gap: 8px; padding: 6px 0; align-items: center; }
+          .shadow-field label { font-size: 14px; }
+          input { border: 1px solid #d1d5db; border-radius: 6px; padding: 6px 10px; width: 100%; box-sizing: border-box; }
+        </style>
+        <div class="shadow-field">
+          <span id="shadowLabel" style="white-space:nowrap;">🔒 Referral code</span>
+          <input type="text" aria-labelledby="shadowLabel" placeholder="Optional">
+        </div>
+        <div class="shadow-field">
+          <label>Years of exp</label>
+          <input type="number" min="0" max="50" value="5">
+        </div>
+      </template>
+    </div>
+    
+    <!-- Additional fields to meet min 14 fields requirement -->
+    <div class="field-row"><table><tr>
+      <td class="label-cell">📅 Start date</td>
+      <td><input type="date" name="startDate" aria-label="Start date"></td>
+    </tr></table></div>
+    <div class="field-row"><table><tr>
+      <td class="label-cell">🎓 Current title</td>
+      <td><input type="text" name="currentTitle" placeholder="e.g. Senior Developer" aria-label="Current job title"></td>
+    </tr></table></div>
+    <div class="field-row"><table><tr>
+      <td class="label-cell">🏢 Company</td>
+      <td><input type="text" name="company" placeholder="Current employer" aria-label="Current company"></td>
+    </tr></table></div>
+    <div class="field-row"><table><tr>
+      <td class="label-cell">💻 GitHub</td>
+      <td><input type="url" name="github" placeholder="https://github.com/..." aria-label="GitHub profile"></td>
+    </tr></table></div>
+    <div class="field-row"><table><tr>
+      <td class="label-cell">🌐 Timezone</td>
+      <td>
+        <select aria-label="Timezone">
+          <option value="CET">CET (UTC+1)</option>
+          <option value="EET">EET (UTC+2)</option>
+          <option value="EST">EST (UTC-5)</option>
+        </select>
+      </td>
+    </tr></table></div>
+    
+    <!-- submit -->
+    <div style="padding: 12px 0 0; text-align:right;">
+      <button type="submit" style="background:#2563eb; color:#fff; border:0; border-radius:6px; padding:8px 24px; font-size:15px; cursor:pointer;">🚀 Submit application</button>
+    </div>
+  </form>
+  <script>
+    function toggleYesNo(btn, hiddenId) {
+      var group = btn.closest('.field-group');
+      group.querySelectorAll('.yesno-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(hiddenId).value = btn.dataset.value;
+    }
+    // combobox logic
+    (function() {
+      var combobox = document.getElementById('countryCombobox');
+      var dropdown = document.getElementById('countryListbox');
+      var hidden = document.getElementById('countryHidden');
+      if (combobox) {
+        combobox.addEventListener('click', function(e) {
+          var expanded = combobox.getAttribute('aria-expanded') === 'true';
+          combobox.setAttribute('aria-expanded', !expanded);
+          dropdown.style.display = expanded ? 'none' : 'block';
+        });
+        combobox.addEventListener('blur', function() {
+          setTimeout(function() {
+            dropdown.style.display = 'none';
+            combobox.setAttribute('aria-expanded', 'false');
+          }, 200);
+        });
+        dropdown.querySelectorAll('div[role="option"]').forEach(function(opt) {
+          opt.addEventListener('click', function() {
+            var val = opt.dataset.value;
+            combobox.innerText = val;
+            hidden.value = val;
+            dropdown.style.display = 'none';
+            combobox.setAttribute('aria-expanded', 'false');
+            dropdown.querySelectorAll('[aria-selected]').forEach(function(s){ s.removeAttribute('aria-selected'); });
+            opt.setAttribute('aria-selected', 'true');
+          });
+        });
+      }
+    })();
+    // prevent actual submit
+    document.getElementById('applyForm').addEventListener('submit', function(e){ e.preventDefault(); alert('Application submitted (demo)'); });
+  </script>
+  </body>
+  </html>
+' style="width:100%; height:820px; border:none;"></iframe>
+</body>
+</html>

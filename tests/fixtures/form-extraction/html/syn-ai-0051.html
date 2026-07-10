@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Application - Senior Product Manager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+  body { background: #f4f5f7; padding: 24px; }
+  .app-shell { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+  .app-header { background: #1a1a2e; color: white; padding: 20px 28px; }
+  .app-header h1 { font-size: 20px; font-weight: 600; }
+  .app-header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; padding: 24px 28px; }
+  .full-width { grid-column: 1 / -1; }
+  .field-group { display: flex; flex-direction: column; gap: 4px; position: relative; }
+  .field-group label, .field-group .label-like { font-size: 13px; font-weight: 500; color: #2d3748; }
+  .field-group input, .field-group select, .field-group textarea { padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; background: white; width: 100%; }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus { outline: none; border-color: #5b6ef7; box-shadow: 0 0 0 3px rgba(91,110,247,0.15); }
+  .hidden { display: none; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid #e2e8f0; background: white; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .pill-btn.selected { background: #5b6ef7; color: white; border-color: #5b6ef7; }
+  .pill-btn:hover { border-color: #5b6ef7; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; background: white; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; }
+  .combobox-input:focus { border-color: #5b6ef7; box-shadow: 0 0 0 3px rgba(91,110,247,0.15); }
+  .combobox-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 6px; margin-top: 4px; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 8px 16px rgba(0,0,0,0.1); display: none; }
+  .combobox-list.open { display: block; }
+  .combobox-option { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .combobox-option:hover { background: #f0f1ff; }
+  .combobox-option[aria-selected="true"] { background: #e9ecff; font-weight: 500; }
+  .required::after { content: " *"; color: #e53e3e; }
+  .error-text { color: #e53e3e; font-size: 12px; display: none; }
+  table.form-table { width: 100%; border-collapse: collapse; grid-column: 1 / -1; }
+  table.form-table td { padding: 8px 4px; vertical-align: top; }
+  table.form-table td:first-child { width: 140px; font-weight: 500; font-size: 13px; color: #2d3748; padding-top: 12px; }
+  table.form-table td:last-child { width: auto; }
+  table.form-table input, table.form-table select, table.form-table textarea { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; }
+  details { grid-column: 1 / -1; }
+  details summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #5b6ef7; padding: 8px 0; }
+  details .details-content { padding: 12px 0; display: flex; flex-direction: column; gap: 16px; }
+  .glued-label { font-size: 0; }
+  .glued-label span { font-size: 13px; font-weight: 500; color: #2d3748; display: inline; }
+  .glued-label .space { display: inline; }
+  .label-wrap-deep > div > div > div > .inner-label { font-size: 13px; font-weight: 500; color: #2d3748; display: block; margin-bottom: 4px; }
+  .hidden-span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .shadow-host { grid-column: 1 / -1; border: 1px dashed #cbd5e0; border-radius: 8px; padding: 16px; background: #fafbfc; }
+  .shadow-host .sh-label { font-size: 13px; font-weight: 500; color: #2d3748; margin-bottom: 8px; display: block; }
+  .emoji-label .flag { font-size: 16px; }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } table.form-table td { display: block; width: 100% !important; } }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h1>Senior Product Manager</h1>
+    <p>Acme Corp · San Francisco, CA · Full-time</p>
+  </div>
+
+  <form id="jobForm" onsubmit="event.preventDefault(); alert('Application submitted (demo)');">
+    <div class="form-grid">
+
+      <!-- 1) Full name - normal label[for] -->
+      <div class="field-group">
+        <label for="fullname">Full name <span class="required"></span></label>
+        <input id="fullname" name="fullname" type="text" required placeholder="e.g. Jane Doe">
+      </div>
+
+      <!-- 2) Email - normal -->
+      <div class="field-group">
+        <label for="email">Email <span class="required"></span></label>
+        <input id="email" name="email" type="email" required placeholder="you@company.com">
+      </div>
+
+      <!-- 3) Phone - aria-label only (non-semantic pattern) -->
+      <div class="field-group">
+        <div class="label-like">Phone</div>
+        <input type="tel" name="phone" aria-label="Phone number" placeholder="+1 (555) 000-0000">
+      </div>
+
+      <!-- 4) LinkedIn - glued-label-text pattern (split across spans no space) -->
+      <div class="field-group">
+        <div class="glued-label" aria-label="LinkedIn Profile URL">
+          <span>Linked</span><span>In</span><span class="space"> </span><span>Profile</span>
+        </div>
+        <input type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
+      </div>
+
+      <!-- 5) Portfolio - label-wraps-deep pattern -->
+      <div class="field-group full-width label-wrap-deep">
+        <div><div><div><span class="inner-label">Portfolio or personal website</span></div></div></div>
+        <input type="url" name="portfolio" placeholder="https://...">
+      </div>
+
+      <!-- 6) Emoji unicode label + table layout row for 'Country' -->
+      <table class="form-table">
+        <tr>
+          <td class="emoji-label"><span class="flag">🇺🇸</span> Country <span class="required"></span></td>
+          <td>
+            <select name="country" required>
+              <option value="">Select country</option>
+              <option value="US">United States</option>
+              <option value="SE">🇸🇪 Sweden</option>
+              <option value="DE">Germany</option>
+              <option value="GB">United Kingdom</option>
+              <option value="CA">Canada</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="emoji-label"><span class="flag">🌐</span> City</td>
+          <td><input type="text" name="city" placeholder="e.g. San Francisco"></td>
+        </tr>
+      </table>
+
+      <!-- 7) Optgroup select for Department -->
+      <div class="field-group full-width">
+        <label for="department">Department</label>
+        <select id="department" name="department">
+          <option value="">Select department</option>
+          <optgroup label="Product">
+            <option value="product">Product Management</option>
+            <option value="design">Product Design</option>
+          </optgroup>
+          <optgroup label="Engineering">
+            <option value="eng-backend">Backend Engineering</option>
+            <option value="eng-frontend">Frontend Engineering</option>
+          </optgroup>
+          <optgroup label="Go-to-Market">
+            <option value="marketing">Marketing</option>
+            <option value="sales">Sales</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- 8) Custom combobox widget for 'How did you hear about us?' -->
+      <div class="field-group full-width">
+        <label for="source-combo">How did you hear about this role?</label>
+        <div class="combobox-wrapper">
+          <div id="source-combo" class="combobox-input" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Select source">
+            <span id="combo-value">Select source</span>
+            <span style="font-size:12px;color:#a0aec0">▼</span>
+          </div>
+          <div id="combo-list" class="combobox-list" role="listbox" aria-label="Source options">
+            <div class="combobox-option" role="option" data-value="linkedin">LinkedIn</div>
+            <div class="combobox-option" role="option" data-value="referral">Referral</div>
+            <div class="combobox-option" role="option" data-value="company-site">Company website</div>
+            <div class="combobox-option" role="option" data-value="job-board">Job board</div>
+            <div class="combobox-option" role="option" data-value="other">Other</div>
+          </div>
+          <input type="hidden" name="source" id="source-hidden">
+        </div>
+      </div>
+
+      <!-- 9) Pill buttons for 'Work eligibility' (custom widget) -->
+      <div class="field-group full-width">
+        <div class="label-like">Work eligibility <span class="required"></span></div>
+        <div class="pill-group" role="radiogroup" aria-label="Work eligibility">
+          <button type="button" class="pill-btn" data-value="us-citizen" role="radio" aria-checked="false">US Citizen</button>
+          <button type="button" class="pill-btn" data-value="green-card" role="radio" aria-checked="false">Green Card</button>
+          <button type="button" class="pill-btn" data-value="visa-sponsor" role="radio" aria-checked="false">Need visa sponsorship</button>
+          <button type="button" class="pill-btn" data-value="other" role="radio" aria-checked="false">Other</button>
+        </div>
+        <input type="hidden" name="eligibility" id="eligibility-hidden">
+      </div>
+
+      <!-- 10) aria-labelledby-hidden pattern -->
+      <div class="field-group full-width">
+        <span id="hidden-label-ref" class="hidden-span">Expected salary (annual, USD)</span>
+        <input type="number" name="salary" aria-labelledby="hidden-label-ref" placeholder="e.g. 150000">
+      </div>
+
+      <!-- 11) Details/accordion with fields inside (details-accordion pattern) -->
+      <details>
+        <summary>Additional information (optional)</summary>
+        <div class="details-content">
+          <div class="field-group">
+            <label for="start-date">Earliest start date</label>
+            <input id="start-date" name="start_date" type="date">
+          </div>
+          <div class="field-group">
+            <label for="cover-note">Cover note</label>
+            <textarea id="cover-note" name="cover_note" rows="3" placeholder="Anything else you'd like us to know..."></textarea>
+          </div>
+          <div class="field-group">
+            <label for="referrer">Referrer name (if applicable)</label>
+            <input id="referrer" name="referrer" type="text" placeholder="e.g. John from Acme">
+          </div>
+        </div>
+      </details>
+
+      <!-- 12) Shadow DOM host (declarative shadow root) -->
+      <div class="shadow-host">
+        <span class="sh-label">⚡ Skills assessment (shadow DOM)</span>
+        <div id="shadow-host-element">
+          <template shadowrootmode="open">
+            <style>
+              :host { display: block; }
+              .sh-field { margin-bottom: 12px; }
+              .sh-field label { display: block; font-size: 13px; font-weight: 500; color: #2d3748; margin-bottom: 4px; }
+              .sh-field input, .sh-field select { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; }
+              .sh-field input:focus, .sh-field select:focus { outline: none; border-color: #5b6ef7; box-shadow: 0 0 0 3px rgba(91,110,247,0.15); }
+            </style>
+            <div class="sh-field">
+              <label for="sh-years">Years of product management experience</label>
+              <select id="sh-years" name="pm_years">
+                <option value="">Select</option>
+                <option value="0-2">0-2 years</option>
+                <option value="3-5">3-5 years</option>
+                <option value="6-10">6-10 years</option>
+                <option value="10+">10+ years</option>
+              </select>
+            </div>
+            <div class="sh-field">
+              <label for="sh-domain">Industry preference</label>
+              <input id="sh-domain" name="industry_pref" type="text" placeholder="e.g. SaaS, Fintech">
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- 13) Decoy secondary form (hidden visually but present) -->
+      <div style="display:none;" aria-hidden="true">
+        <fieldset>
+          <legend>Legacy form (do not use)</legend>
+          <input name="legacy_field" type="text" value="deprecated">
+        </fieldset>
+      </div>
+
+      <!-- 14) Textarea with placeholder-only label (non-semantic) -->
+      <div class="field-group full-width">
+        <textarea name="why_you" rows="3" placeholder="Why do you want to work at Acme? (brief)" aria-label="Why Acme?" style="resize:vertical;"></textarea>
+      </div>
+
+      <!-- Submit row -->
+      <div class="full-width" style="display:flex; justify-content:flex-end; gap:12px; padding-top:8px;">
+        <button type="button" onclick="document.getElementById('jobForm').reset()" style="padding:8px 20px; border:1px solid #e2e8f0; border-radius:6px; background:white; cursor:pointer;">Cancel</button>
+        <button type="submit" style="padding:8px 24px; background:#5b6ef7; color:white; border:none; border-radius:6px; font-weight:500; cursor:pointer;">Submit application</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<script>
+  (function() {
+    // Combobox logic
+    const comboInput = document.getElementById('source-combo');
+    const comboList = document.getElementById('combo-list');
+    const comboValue = document.getElementById('combo-value');
+    const comboHidden = document.getElementById('source-hidden');
+    const options = comboList.querySelectorAll('.combobox-option');
+
+    comboInput.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = comboList.classList.contains('open');
+      comboList.classList.toggle('open');
+      comboInput.setAttribute('aria-expanded', !isOpen);
+    });
+
+    options.forEach(opt => {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const value = this.getAttribute('data-value');
+        const text = this.textContent;
+        comboValue.textContent = text;
+        comboHidden.value = value;
+        comboList.classList.remove('open');
+        comboInput.setAttribute('aria-expanded', 'false');
+        options.forEach(o => o.removeAttribute('aria-selected'));
+        this.setAttribute('aria-selected', 'true');
+      });
+    });
+
+    document.addEventListener('click', function() {
+      comboList.classList.remove('open');
+      comboInput.setAttribute('aria-expanded', 'false');
+    });
+
+    comboInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        comboInput.click();
+      }
+      if (e.key === 'Escape') {
+        comboList.classList.remove('open');
+        comboInput.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Pill buttons (radiogroup)
+    const pills = document.querySelectorAll('.pill-btn');
+    const eligHidden = document.getElementById('eligibility-hidden');
+    pills.forEach(btn => {
+      btn.addEventListener('click', function() {
+        pills.forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
+        this.classList.add('selected');
+        this.setAttribute('aria-checked', 'true');
+        eligHidden.value = this.getAttribute('data-value');
+      });
+    });
+
+    // Shadow DOM is declarative, but ensure polyfill fallback not needed
+  })();
+</script>
+</body>
+</html>

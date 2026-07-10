@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Senior AI Engineer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background: #f4f5f7; display: flex; justify-content: center; padding: 40px 20px; }
+    .app-shell { display: flex; max-width: 1100px; width: 100%; background: #fff; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); overflow: hidden; }
+    .sidebar { width: 280px; background: #fafafa; padding: 32px 24px; border-right: 1px solid #e9ebf0; }
+    .sidebar h2 { font-size: 20px; font-weight: 600; color: #1a1d23; margin-bottom: 8px; }
+    .sidebar .company { color: #5f6774; font-size: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    .sidebar .company span { background: #e9ebf0; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+    .sidebar .meta { font-size: 13px; color: #5f6774; line-height: 1.6; margin-bottom: 20px; }
+    .sidebar .meta strong { color: #1a1d23; }
+    .sidebar .pill-tag { display: inline-block; background: #eef2ff; color: #4a5af5; border-radius: 20px; padding: 4px 12px; font-size: 12px; margin-right: 6px; margin-bottom: 6px; }
+    .main { flex: 1; padding: 32px 40px; }
+    .main h1 { font-size: 24px; font-weight: 600; color: #1a1d23; margin-bottom: 4px; }
+    .main .subhead { color: #5f6774; font-size: 14px; margin-bottom: 28px; }
+    .form-section { margin-bottom: 28px; }
+    .form-section h3 { font-size: 16px; font-weight: 600; color: #1a1d23; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #e9ebf0; }
+    .form-table { width: 100%; border-collapse: collapse; }
+    .form-table td { padding: 8px 12px 8px 0; vertical-align: top; }
+    .form-table td:first-child { width: 140px; padding-right: 12px; }
+    .form-table td.label-cell { font-size: 14px; color: #2c3038; padding-top: 14px; position: relative; }
+    .form-table td.field-cell { padding-top: 6px; }
+    .input-field, .form-table select, .form-table input[type="text"], .form-table input[type="email"], .form-table input[type="tel"], .form-table input[type="url"], .form-table input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 14px; background: #fff; transition: border 0.15s; }
+    .input-field:focus, .form-table select:focus, .form-table input:focus { outline: none; border-color: #4a5af5; box-shadow: 0 0 0 3px rgba(74,90,245,0.1); }
+    .input-field[readonly], .input-field:disabled { background: #f3f4f6; color: #5f6774; cursor: not-allowed; }
+    .split-phone { display: flex; gap: 8px; }
+    .split-phone select { width: 110px; flex-shrink: 0; }
+    .split-phone input { flex: 1; }
+    .required-asterisk { color: #e03e3e; font-size: 16px; margin-left: 2px; }
+    .field-with-emoji label { font-size: 14px; }
+    .decoy-form { margin: 32px 0 0; padding: 20px 24px; background: #f8f9fc; border-radius: 12px; border: 1px solid #e2e6ee; }
+    .decoy-form h4 { font-size: 14px; color: #5f6774; margin-bottom: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .decoy-form .decoy-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .decoy-form input { padding: 8px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 13px; flex: 1; min-width: 160px; }
+    .decoy-form button { padding: 8px 16px; background: #e9ebf0; border: none; border-radius: 6px; font-size: 13px; color: #2c3038; cursor: pointer; }
+    .decoy-form button:hover { background: #d0d5dd; }
+    .combobox-wrapper { position: relative; }
+    .combobox-wrapper .combo-input { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+    .combobox-wrapper .combo-input:focus { border-color: #4a5af5; box-shadow: 0 0 0 3px rgba(74,90,245,0.1); }
+    .combobox-wrapper .combo-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d0d5dd; border-radius: 8px; margin-top: 4px; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .combobox-wrapper .combo-listbox.open { display: block; }
+    .combobox-wrapper .combo-option { padding: 10px 14px; font-size: 14px; cursor: pointer; }
+    .combobox-wrapper .combo-option:hover { background: #f0f2f5; }
+    .combobox-wrapper .combo-option[aria-selected="true"] { background: #eef2ff; color: #4a5af5; }
+    .reveal-trigger { color: #4a5af5; font-size: 13px; cursor: pointer; background: none; border: none; padding: 0; text-decoration: underline; }
+    .hidden-fields { margin-top: 12px; display: none; }
+    .hidden-fields.visible { display: block; }
+    .hidden-fields td { padding: 6px 12px 6px 0; }
+    .btn-submit { background: #4a5af5; color: #fff; border: none; border-radius: 8px; padding: 12px 32px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 10px; }
+    .btn-submit:hover { background: #3b4be0; }
+    .error-text { color: #e03e3e; font-size: 12px; margin-top: 4px; display: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    .inline-error { color: #e03e3e; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>Senior AI Engineer</h2>
+    <div class="company">
+      <span>🧠</span> Synthwave Labs <span class="pill-tag">🇸🇪 Stockholm</span>
+    </div>
+    <div class="meta">
+      <strong>📍</strong> Remote · Stockholm<br>
+      <strong>⏰</strong> Full-time · Posted 3d ago<br>
+      <strong>💼</strong> 120–160K SEK/mo
+    </div>
+    <div style="margin-top: 20px;">
+      <span class="pill-tag">PyTorch</span>
+      <span class="pill-tag">LLMs</span>
+      <span class="pill-tag">Kubernetes</span>
+      <span class="pill-tag">🇸🇪 Swedish B2+</span>
+    </div>
+    <hr style="border: none; border-top: 1px solid #e9ebf0; margin: 24px 0;">
+    <div style="font-size: 13px; color: #5f6774;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+        <span>Profile match</span>
+        <span><strong>72%</strong></span>
+      </div>
+      <div style="height: 6px; background: #e9ebf0; border-radius: 4px; overflow: hidden;">
+        <div style="width: 72%; height: 100%; background: #4a5af5; border-radius: 4px;"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <h1>Apply now</h1>
+    <div class="subhead">We review applications within 5 business days.</div>
+
+    <!-- Application form -->
+    <form id="appForm" onsubmit="event.preventDefault(); alert('Application submitted (simulated)');">
+      <div class="form-section">
+        <h3>🧑‍💼 Personal Information</h3>
+        <table class="form-table">
+          <tr>
+            <td class="label-cell">
+              <label for="firstName">First name <span class="required-asterisk" aria-hidden="true">*</span></label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="firstName" placeholder="e.g. Katarina" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="lastName">Last name <span class="required-asterisk" aria-hidden="true">*</span></label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="lastName" placeholder="e.g. Lindqvist" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <!-- Placeholder-only identification: empty label; field identified by placeholder -->
+              <label for="emailPlaceholder"></label>
+              <span class="sr-only">Email</span>
+            </td>
+            <td class="field-cell">
+              <input type="email" id="emailPlaceholder" placeholder="you@company.com" aria-label="Email address" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <!-- Emoji unicode label with flag and required marker in sibling span -->
+              <span>📞 Phone <span class="required-asterisk" aria-hidden="true">*</span></span>
+            </td>
+            <td class="field-cell">
+              <div class="split-phone">
+                <select id="phoneCode" aria-label="Country code">
+                  <option value="+46" selected>🇸🇪 +46</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+49">🇩🇪 +49</option>
+                </select>
+                <input type="tel" id="phoneNumber" placeholder="701234567" aria-label="Local phone number" required>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <!-- aria-label-only field 1: visible label replaced by glyph; no label element -->
+              <span>🇸🇪 LinkedIn</span>
+            </td>
+            <td class="field-cell">
+              <input type="url" id="linkedin" aria-label="LinkedIn profile URL" placeholder="https://linkedin.com/in/...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <!-- readonly prefill with profile value -->
+              <label for="currentTitle">Current title</label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="currentTitle" value="Senior ML Engineer" readonly aria-label="Current title (from profile)" style="background:#f3f4f6;">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="city">City <span class="required-asterisk" aria-hidden="true">*</span></label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="city" placeholder="e.g. Stockholm" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="postalCode">Postal code</label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="postalCode" placeholder="e.g. 111 22">
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="form-section">
+        <h3>💼 Experience & Skills</h3>
+        <table class="form-table">
+          <tr>
+            <td class="label-cell">
+              <label for="yearsExp">Years of experience <span class="required-asterisk" aria-hidden="true">*</span></label>
+            </td>
+            <td class="field-cell">
+              <select id="yearsExp" aria-label="Years of experience" required>
+                <option value="">Select</option>
+                <option value="0-2">0–2</option>
+                <option value="3-5">3–5</option>
+                <option value="6-9">6–9</option>
+                <option value="10+">10+</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <!-- aria-label-only field 2: no visible label, just emoji -->
+              <span>🧰 Top skill</span>
+            </td>
+            <td class="field-cell">
+              <!-- Custom combobox (listbox pattern) -->
+              <div class="combobox-wrapper">
+                <div role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Top skill" class="combo-input" id="skillCombobox" tabindex="0">
+                  <span id="comboSelected">Select skill</span>
+                  <span style="font-size:12px;">▼</span>
+                </div>
+                <div role="listbox" class="combo-listbox" id="skillListbox" aria-label="Available skills">
+                  <div role="option" class="combo-option" aria-selected="false" data-value="pytorch">PyTorch</div>
+                  <div role="option" class="combo-option" aria-selected="false" data-value="tensorflow">TensorFlow</div>
+                  <div role="option" class="combo-option" aria-selected="false" data-value="transformers">Hugging Face Transformers</div>
+                  <div role="option" class="combo-option" aria-selected="false" data-value="kubernetes">Kubernetes</div>
+                  <div role="option" class="combo-option" aria-selected="false" data-value="mlops">MLOps</div>
+                </div>
+                <input type="hidden" id="skillValue" name="topSkill" value="">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="portfolio">Portfolio URL</label>
+            </td>
+            <td class="field-cell">
+              <input type="url" id="portfolio" placeholder="https://...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="github">GitHub URL</label>
+            </td>
+            <td class="field-cell">
+              <input type="url" id="github" placeholder="https://github.com/...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="salaryExp">Salary expectation (SEK)</label>
+            </td>
+            <td class="field-cell">
+              <input type="number" id="salaryExp" placeholder="e.g. 140000" min="0">
+            </td>
+          </tr>
+        </table>
+
+        <!-- Wizard/conditional reveal: hidden fields for 'other' skill -->
+        <div style="margin-top: 8px;">
+          <button type="button" class="reveal-trigger" id="revealOtherBtn">+ Add other skill</button>
+          <div class="hidden-fields" id="otherSkillFields">
+            <table class="form-table">
+              <tr>
+                <td class="label-cell"><label for="otherSkillName">Skill name</label></td>
+                <td class="field-cell"><input type="text" id="otherSkillName" placeholder="e.g. Rust"></td>
+              </tr>
+              <tr>
+                <td class="label-cell"><label for="skillLevel">Level</label></td>
+                <td class="field-cell">
+                  <select id="skillLevel" aria-label="Skill level">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate" selected>Intermediate</option>
+                    <option value="expert">Expert</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>🇸🇪 Swedish language (required)</h3>
+        <table class="form-table">
+          <tr>
+            <td class="label-cell">
+              <!-- glued span labels: label text split across spans -->
+              <span>Proficiency</span><span class="required-asterisk" aria-hidden="true">*</span>
+            </td>
+            <td class="field-cell">
+              <select id="swedishLevel" aria-label="Swedish proficiency" required>
+                <option value="">Select level</option>
+                <option value="a1">A1 – Beginner</option>
+                <option value="a2">A2 – Elementary</option>
+                <option value="b1">B1 – Intermediate</option>
+                <option value="b2" selected>B2 – Upper intermediate</option>
+                <option value="c1">C1 – Advanced</option>
+                <option value="native">Native</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <label for="swedishNote">Any note?</label>
+            </td>
+            <td class="field-cell">
+              <input type="text" id="swedishNote" placeholder="e.g. SFI completed">
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit application</button>
+    </form>
+
+    <!-- Decoy form: newsletter signup, separate from application -->
+    <div class="decoy-form">
+      <h4>📬 Stay updated on AI roles</h4>
+      <div class="decoy-row">
+        <input type="email" placeholder="your.email@example.com" aria-label="Newsletter email">
+        <button type="button">Subscribe</button>
+        <span style="font-size: 11px; color: #8c94a3;">No spam, unsubscribe anytime</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  (function() {
+    // Combobox widget
+    const combo = document.getElementById('skillCombobox');
+    const listbox = document.getElementById('skillListbox');
+    const selectedSpan = document.getElementById('comboSelected');
+    const hiddenInput = document.getElementById('skillValue');
+    const options = listbox.querySelectorAll('.combo-option');
+
+    function closeListbox() {
+      listbox.classList.remove('open');
+      combo.setAttribute('aria-expanded', 'false');
+    }
+
+    function openListbox() {
+      listbox.classList.add('open');
+      combo.setAttribute('aria-expanded', 'true');
+    }
+
+    function selectOption(option) {
+      options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+      option.setAttribute('aria-selected', 'true');
+      selectedSpan.textContent = option.textContent;
+      hiddenInput.value = option.getAttribute('data-value');
+      closeListbox();
+    }
+
+    combo.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (listbox.classList.contains('open')) {
+        closeListbox();
+      } else {
+        openListbox();
+      }
+    });
+
+    options.forEach(opt => {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(this);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combo.contains(e.target) && !listbox.contains(e.target)) {
+        closeListbox();
+      }
+    });
+
+    combo.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (listbox.classList.contains('open')) {
+          const selected = listbox.querySelector('.combo-option[aria-selected="true"]');
+          if (selected) selectOption(selected);
+          else closeListbox();
+        } else {
+          openListbox();
+        }
+      }
+      if (e.key === 'Escape') {
+        closeListbox();
+      }
+      if (e.key === 'ArrowDown' && listbox.classList.contains('open')) {
+        e.preventDefault();
+        const current = listbox.querySelector('.combo-option[aria-selected="true"]');
+        let next = current ? current.nextElementSibling : options[0];
+        if (!next) next = options[0];
+        if (current) current.setAttribute('aria-selected', 'false');
+        next.setAttribute('aria-selected', 'true');
+        next.scrollIntoView({ block: 'nearest' });
+      }
+      if (e.key === 'ArrowUp' && listbox.classList.contains('open')) {
+        e.preventDefault();
+        const current = listbox.querySelector('.combo-option[aria-selected="true"]');
+        let prev = current ? current.previousElementSibling : options[options.length-1];
+        if (!prev) prev = options[options.length-1];
+        if (current) current.setAttribute('aria-selected', 'false');
+        prev.setAttribute('aria-selected', 'true');
+        prev.scrollIntoView({ block: 'nearest' });
+      }
+    });
+
+    // Reveal hidden fields (other skill)
+    const revealBtn = document.getElementById('revealOtherBtn');
+    const hiddenFields = document.getElementById('otherSkillFields');
+    revealBtn.addEventListener('click', function() {
+      if (hiddenFields.classList.contains('visible')) {
+        hiddenFields.classList.remove('visible');
+        revealBtn.textContent = '+ Add other skill';
+      } else {
+        hiddenFields.classList.add('visible');
+        revealBtn.textContent = '− Hide other skill';
+      }
+    });
+
+    // Simple required validation hint display
+    const form = document.getElementById('appForm');
+    form.addEventListener('submit', function(e) {
+      const requiredFields = form.querySelectorAll('[required]');
+      let valid = true;
+      requiredFields.forEach(f => {
+        if (!f.value.trim()) {
+          f.style.borderColor = '#e03e3e';
+          valid = false;
+        } else {
+          f.style.borderColor = '';
+        }
+      });
+      if (!valid) {
+        e.preventDefault();
+        alert('Please fill all required fields.');
+      }
+    });
+  })();
+</script>
+</body>
+</html>

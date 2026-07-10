@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0065",
+    "seed": 2476733344,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "unstyled div soup with inline styles only",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Split span label fragments",
+                "notes": "Label text split across multiple span elements",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Split label spans<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"split_name\"><span>First<\/span> <span>and<\/span> <span>last<\/span> <span>name<\/span><\/label> <input type=\"text\" id=\"split_name\" name=\"split_name\"> <label for=\"split_email\"><span>Work<\/span><span> <\/span><span>email<\/span><span> <\/span><spa",
+                "requires_interaction": false
+            },
+            {
+                "title": "Duplicate name attributes",
+                "notes": "Two distinct fields share the same name attribute (invalid but seen in the wild)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Duplicate name attributes<\/h1> <form action=\"\/apply\" method=\"post\"> <label>Preferred name <input type=\"text\" name=\"full_name\" id=\"pref_name\"><\/label> <label>Legal name <input type=\"text\" name=\"full_name\" id=\"legal_name\"><\/label> <label for=\"dup_email\">Email<\/label><input type=\"email\" id=\"dup_email\" name=\"dup_",
+                "requires_interaction": false
+            },
+            {
+                "title": "Duplicate element IDs",
+                "notes": "Two inputs share id=\"email\" - tests disambiguation by name or DOM order",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Duplicate element IDs<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"email\">Primary email<\/label><input type=\"email\" id=\"email\" name=\"primary_email\"> <label for=\"email\">Backup email<\/label><input type=\"email\" id=\"email\" name=\"backup_email\"> <label for=\"phone_dup\">Phone<\/label><input type=\"tel\" id=\"phon",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Label text split across multiple spans with no space between words Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Phone split into country code select and local number input in separate wrappers Required: Fields inside a shadow DOM host or declarative shadow root Reference DOM (Split span label fragments): Label text split across multiple span elements Reference DOM (Duplicate name attributes): Two distinct fields share the same name attribute (invalid but seen in the wild) Reference DOM (Duplicate element IDs): Two inputs share id=\"email\" - tests disambiguation by name or DOM order Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: native-select-not-combobox, glued-label-text, aria-labelledby-hidden, split-phone, shadow-host. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: unstyled div soup with inline styles only. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Split span label fragments; Duplicate name attributes; Duplicate element IDs."
+}

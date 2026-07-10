@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Ashby Clone</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background: #f2f4f8; color: #1a1a2e; line-height: 1.5; }
+  .apply-layout { display: flex; min-height: 100vh; max-width: 1200px; margin: 0 auto; }
+  .sidebar { width: 300px; background: #fff; border-right: 1px solid #e0e4ec; padding: 24px 20px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; margin-bottom: 12px; }
+  .sidebar .job-meta { font-size: 14px; color: #374151; margin-bottom: 20px; }
+  .sidebar .job-meta strong { display: block; font-size: 18px; color: #111827; margin-bottom: 4px; }
+  .sidebar .progress { background: #e5e7eb; border-radius: 20px; height: 6px; margin: 16px 0; width: 100%; }
+  .sidebar .progress-bar { background: #2563eb; height: 6px; border-radius: 20px; width: 35%; }
+  .sidebar .section-list { list-style: none; font-size: 14px; }
+  .sidebar .section-list li { padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #6b7280; }
+  .sidebar .section-list li.active { color: #2563eb; font-weight: 600; }
+  .main { flex: 1; padding: 32px 40px; background: #fff; margin: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .main h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .main .subhead { color: #6b7280; font-size: 14px; margin-bottom: 24px; }
+  .field-group { margin-bottom: 20px; }
+  .field-group .label-row { display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+  .required-asterisk { color: #dc2626; margin-left: 2px; font-size: 16px; line-height: 1; }
+  input, textarea, .custom-dropdown-trigger { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background: #fff; transition: border-color 0.15s; }
+  input:focus, textarea:focus, .custom-dropdown-trigger:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+  .inline-flex { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .pill-group { display: flex; gap: 0; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
+  .pill-btn { padding: 8px 20px; font-size: 14px; background: #fff; border: none; cursor: pointer; color: #374151; transition: all 0.1s; }
+  .pill-btn.active { background: #2563eb; color: #fff; font-weight: 600; }
+  .pill-btn:not(.active):hover { background: #f3f4f6; }
+  .decoy-newsletter { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .decoy-newsletter h3 { font-size: 14px; margin-bottom: 8px; color: #374151; }
+  .decoy-newsletter input { margin-bottom: 8px; }
+  .custom-dropdown-wrapper { position: relative; }
+  .custom-dropdown-trigger { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .custom-dropdown-trigger::after { content: '▾'; font-size: 12px; color: #6b7280; }
+  .custom-dropdown-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .custom-dropdown-list.show { display: block; }
+  .custom-dropdown-list .opt { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+  .custom-dropdown-list .opt:hover { background: #f3f4f6; }
+  .custom-dropdown-list .opt.selected { background: #eff6ff; color: #2563eb; font-weight: 500; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
+  .checkbox-group label { display: flex; align-items: center; gap: 6px; font-size: 14px; cursor: pointer; }
+  .hidden-reveal { margin-top: 12px; padding: 12px; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb; display: none; }
+  .hidden-reveal.show { display: block; }
+  .btn-primary { background: #2563eb; color: #fff; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-secondary { background: #fff; color: #374151; border: 1px solid #d1d5db; padding: 12px 28px; border-radius: 6px; font-size: 15px; cursor: pointer; }
+  .btn-secondary:hover { background: #f9fafb; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .glued-span-label { font-size: 14px; font-weight: 500; color: #374151; display: inline; }
+  .glued-span-label .req { color: #dc2626; }
+  .error-text { color: #dc2626; font-size: 13px; margin-top: 4px; }
+  .shadow-host-placeholder { border: 1px dashed #9ca3af; border-radius: 6px; padding: 12px; background: #f3f4f6; margin-bottom: 16px; }
+  .shadow-host-placeholder p { font-size: 13px; color: #6b7280; }
+  .decoy-form-separator { border-top: 1px dashed #e5e7eb; margin: 24px 0; }
+  .footer-actions { display: flex; gap: 12px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="apply-layout">
+  <aside class="sidebar" aria-label="Application progress sidebar">
+    <div class="job-meta">
+      <strong>Senior Frontend Engineer</strong>
+      <span>Engineering · San Francisco, CA · Full-time</span>
+    </div>
+    <div class="progress" aria-hidden="true"><div class="progress-bar"></div></div>
+    <h2>Application sections</h2>
+    <ul class="section-list">
+      <li class="active">1. Personal Info</li>
+      <li>2. Experience</li>
+      <li>3. Skills &amp; Availability</li>
+      <li>4. Equal Opportunity</li>
+    </ul>
+    <div style="margin-top: 24px; font-size: 13px; color: #9ca3af;">
+      <span>Your data is secure</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <h1>Apply: Senior Frontend Engineer</h1>
+    <p class="subhead">Please complete the form below. Fields marked with <span class="required-asterisk" aria-hidden="true">*</span> are required.</p>
+
+    <!-- BEGIN: actual job application form -->
+    <form id="job-app-form" novalidate>
+      <!-- ====== FIELD: Full Name (native input + label + asterisk in sibling span) ====== -->
+      <div class="field-group">
+        <div class="label-row">
+          <label for="fullname">Full name</label>
+          <span class="required-asterisk" aria-hidden="true">*</span>
+        </div>
+        <input type="text" id="fullname" name="fullname" placeholder="e.g. Jane Smith" required>
+      </div>
+
+      <!-- ====== FIELD: Email (aria-label only, no visible label) ====== -->
+      <div class="field-group">
+        <input type="email" name="email" aria-label="Email address (required)" placeholder="you@company.com" required style="margin-bottom:4px;">
+        <span style="font-size:12px;color:#6b7280;">We'll never share your email.</span>
+      </div>
+
+      <!-- ====== FIELD: Phone (aria-label only, no visible label) ====== -->
+      <div class="field-group">
+        <input type="tel" name="phone" aria-label="Phone number (optional)" placeholder="+1 (555) 000-0000">
+      </div>
+
+      <!-- ====== FIELD: Current company (glued span label) ====== -->
+      <div class="field-group">
+        <div class="label-row">
+          <span class="glued-span-label">Current company <span class="req">*</span></span>
+        </div>
+        <input type="text" name="current_company" aria-label="Current company" placeholder="e.g. Acme Corp" required>
+      </div>
+
+      <!-- ====== FIELD: LinkedIn (glued span label, no for) ====== -->
+      <div class="field-group">
+        <div class="label-row">
+          <span class="glued-span-label">LinkedIn profile <span style="color:#6b7280;font-weight:400;">(optional)</span></span>
+        </div>
+        <input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+      </div>
+
+      <!-- ====== FIELD: Will you relocate? (pill yes/no) ====== -->
+      <div class="field-group">
+        <div class="label-row">
+          <span class="glued-span-label">Are you willing to relocate to San Francisco? <span class="required-asterisk" aria-hidden="true">*</span></span>
+        </div>
+        <div class="pill-group" role="radiogroup" aria-label="Relocate yes or no">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" tabindex="0">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false" tabindex="-1">No</button>
+        </div>
+        <input type="hidden" name="relocate" id="relocate-hidden" value="">
+      </div>
+
+      <!-- ====== FIELD: Years of experience (native+label, but placed weird) ====== -->
+      <div class="field-group">
+        <div class="label-row">
+          <label for="yoe">Years of frontend experience</label>
+          <span class="required-asterisk" aria-hidden="true">*</span>
+        </div>
+        <input type="number" id="yoe" name="experience_years" min="0" max="30" placeholder="0" required>
+      </div>
+
+      <!-- ====== FIELD: Skills (checkbox cluster / duplicate name attrs) ====== -->
+      <div class="field-group">
+        <div class="label-row"><span class="glued-span-label">Which frontend skills do you have? <span class="required-asterisk" aria-hidden="true">*</span></span></div>
+        <div class="checkbox-group" role="group" aria-label="Frontend skills">
+          <label><input type="checkbox" name="skills" value="react"> React</label>
+          <label><input type="checkbox" name="skills" value="vue"> Vue</label>
+          <label><input type="checkbox" name="skills" value="angular"> Angular</label>
+          <label><input type="checkbox" name="skills" value="typescript"> TypeScript</label>
+          <label><input type="checkbox" name="skills" value="css"> CSS/Sass</label>
+        </div>
+      </div>
+
+      <!-- ====== FIELD: Portfolio (url) ====== -->
+      <div class="field-group">
+        <div class="label-row"><span class="glued-span-label">Portfolio URL (optional)</span></div>
+        <input type="url" name="portfolio" placeholder="https://yourportfolio.dev">
+      </div>
+
+      <!-- ====== FIELD: Why do you want this job? (textarea) ====== -->
+      <div class="field-group">
+        <div class="label-row"><label for="why">Why are you interested in this role?</label> <span class="required-asterisk" aria-hidden="true">*</span></div>
+        <textarea id="why" name="why" rows="3" placeholder="Tell us what excites you about this opportunity..." required></textarea>
+      </div>
+
+      <!-- ====== SHADOW HOST: Declarative shadow root with a field inside ====== -->
+      <div class="field-group shadow-host-placeholder">
+        <p><strong>Internal note field (shadow DOM)</strong></p>
+        <div id="shadow-host">
+          <template shadowrootmode="open">
+            <style>
+              :host { display: block; }
+              .shadow-field { padding: 8px; border: 1px solid #bbb; border-radius: 4px; font-size: 14px; width: 100%; background: #fff; }
+              .shadow-label { font-size: 13px; font-weight: 500; color: #333; display: block; margin-bottom: 4px; }
+            </style>
+            <div class="shadow-label">Internal note <span style="color:#aaa;">(ATS only)</span></div>
+            <input class="shadow-field" type="text" name="shadow_note" placeholder="e.g. candidate referral" aria-label="Internal note for recruiters">
+          </template>
+        </div>
+        <span style="font-size:12px;color:#9ca3af;">This field is visible only to recruiters.</span>
+      </div>
+
+      <!-- ====== FIELD: Location (custom div dropdown, aria-labelledby) ====== -->
+      <div class="field-group">
+        <div class="label-row" id="location-label"><span class="glued-span-label">Your location <span class="required-asterisk" aria-hidden="true">*</span></span></div>
+        <div class="custom-dropdown-wrapper">
+          <div class="custom-dropdown-trigger" role="combobox" tabindex="0" aria-labelledby="location-label" aria-haspopup="listbox" aria-expanded="false" aria-controls="location-listbox" data-placeholder="Select a city">
+            <span class="dropdown-value">Select a city</span>
+          </div>
+          <div class="custom-dropdown-list" id="location-listbox" role="listbox" aria-label="Available cities">
+            <div class="opt" role="option" data-value="san-francisco">San Francisco, CA</div>
+            <div class="opt" role="option" data-value="new-york">New York, NY</div>
+            <div class="opt" role="option" data-value="remote">Remote (US)</div>
+            <div class="opt" role="option" data-value="los-angeles">Los Angeles, CA</div>
+            <div class="opt" role="option" data-value="chicago">Chicago, IL</div>
+          </div>
+          <input type="hidden" name="location" id="location-hidden" value="">
+        </div>
+      </div>
+
+      <!-- ====== FIELD: Referral source (native select, but hidden reveal on 'Other') ====== -->
+      <div class="field-group">
+        <div class="label-row"><label for="source">How did you hear about us?</label></div>
+        <select id="source" name="source" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+          <option value="">-- Select --</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="referral">Referral</option>
+          <option value="other">Other</option>
+        </select>
+        <div class="hidden-reveal" id="source-other-reveal">
+          <input type="text" name="source_other" placeholder="Please specify..." style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:14px;">
+        </div>
+      </div>
+
+      <!-- ====== FIELD: Veteran status (radio-like but using custom hidden) - duplicate name ====== -->
+      <div class="field-group">
+        <div class="label-row"><span class="glued-span-label">Veteran status (optional)</span></div>
+        <div class="inline-flex">
+          <label><input type="radio" name="veteran" value="yes"> Yes, I am a veteran</label>
+          <label><input type="radio" name="veteran" value="no"> No</label>
+          <label><input type="radio" name="veteran" value="decline"> Prefer not to say</label>
+        </div>
+      </div>
+
+      <!-- ====== DECOY FORM: Newsletter signup (not job application) ====== -->
+      <div class="decoy-form-separator"></div>
+      <div class="decoy-newsletter" aria-label="Newsletter signup - not part of job application">
+        <h3>Stay in touch</h3>
+        <p style="font-size:13px;color:#6b7280;margin-bottom:8px;">Sign up for our engineering newsletter (separate from your application).</p>
+        <input type="email" placeholder="your@email.com" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:4px;font-size:14px;" aria-label="Newsletter email">
+        <button type="button" class="btn-secondary" style="margin-top:8px;padding:6px 16px;font-size:13px;">Subscribe</button>
+      </div>
+
+      <!-- ====== hidden fields for demo ====== -->
+      <input type="hidden" name="job_id" value="senior-fe-2025">
+      <input type="hidden" name="csrf" value="abc123">
+    </form>
+
+    <!-- ====== SUBMIT BUTTON outside form, linked via form= attribute ====== -->
+    <div class="footer-actions">
+      <button type="submit" class="btn-primary" form="job-app-form" id="main-submit-btn">Submit Application</button>
+      <button type="reset" class="btn-secondary" form="job-app-form" style="padding:12px 20px;">Clear</button>
+    </div>
+    <p style="font-size:12px;color:#9ca3af;margin-top:8px;">By submitting, you agree to our privacy policy.</p>
+  </main>
+</div>
+
+<script>
+  (function(){
+    // Pill buttons (yes/no) toggle
+    const pillGroups = document.querySelectorAll('.pill-group');
+    pillGroups.forEach(group => {
+      const btns = group.querySelectorAll('.pill-btn');
+      const hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+      btns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          btns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-checked', 'false');
+            b.setAttribute('tabindex', '-1');
+          });
+          this.classList.add('active');
+          this.setAttribute('aria-checked', 'true');
+          this.setAttribute('tabindex', '0');
+          if (hiddenInput) hiddenInput.value = this.dataset.value;
+        });
+        btn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+    });
+
+    // Custom combobox dropdown (location)
+    const trigger = document.querySelector('.custom-dropdown-trigger');
+    const listbox = document.getElementById('location-listbox');
+    const hiddenInput = document.getElementById('location-hidden');
+    const valueSpan = trigger.querySelector('.dropdown-value');
+    let isOpen = false;
+
+    function toggleDropdown(open) {
+      isOpen = open !== undefined ? open : !isOpen;
+      listbox.classList.toggle('show', isOpen);
+      trigger.setAttribute('aria-expanded', isOpen);
+    }
+
+    trigger.addEventListener('click', function() {
+      toggleDropdown();
+    });
+
+    trigger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!isOpen) toggleDropdown(true);
+        if (e.key === 'ArrowDown' && isOpen) {
+          const first = listbox.querySelector('.opt');
+          if (first) first.focus();
+        }
+      } else if (e.key === 'Escape' && isOpen) {
+        toggleDropdown(false);
+        trigger.focus();
+      }
+    });
+
+    listbox.querySelectorAll('.opt').forEach(opt => {
+      opt.addEventListener('click', function() {
+        listbox.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        valueSpan.textContent = this.textContent;
+        hiddenInput.value = this.dataset.value;
+        toggleDropdown(false);
+        trigger.focus();
+      });
+      opt.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = this.nextElementSibling;
+          if (next && next.classList.contains('opt')) next.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = this.previousElementSibling;
+          if (prev && prev.classList.contains('opt')) prev.focus();
+        } else if (e.key === 'Escape') {
+          toggleDropdown(false);
+          trigger.focus();
+        }
+      });
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.custom-dropdown-wrapper')) {
+        if (isOpen) toggleDropdown(false);
+      }
+    });
+
+    // Reveal conditional field for 'Other' source
+    const sourceSelect = document.getElementById('source');
+    const revealDiv = document.getElementById('source-other-reveal');
+    if (sourceSelect && revealDiv) {
+      sourceSelect.addEventListener('change', function() {
+        if (this.value === 'other') {
+          revealDiv.classList.add('show');
+        } else {
+          revealDiv.classList.remove('show');
+        }
+      });
+    }
+
+    // Simple form submit handler (prevent actual submission for demo)
+    const form = document.getElementById('job-app-form');
+    const submitBtn = document.getElementById('main-submit-btn');
+    submitBtn.addEventListener('click', function(e) {
+      if (form.checkValidity()) {
+        alert('Application submitted (demo). All required fields are valid.');
+        // In production, form.submit() would be called.
+      } else {
+        e.preventDefault();
+        form.reportValidity();
+      }
+    });
+
+    // Shadow host declarative: some browsers may not support declarative shadow; fallback.
+    // Already declared in template shadowrootmode=open, but for unsupported browsers we do nothing.
+  })();
+</script>
+
+<!-- Additional hidden decoy: fake login form (decoy) positioned off-screen but in DOM -->
+<div style="position:absolute;left:-9999px;" aria-hidden="true">
+  <form action="/login" method="post" aria-label="Decoy login form">
+    <input name="username" placeholder="Username">
+    <input name="password" type="password" placeholder="Password">
+    <button type="submit">Log in</button>
+  </form>
+</div>
+
+</body>
+</html>

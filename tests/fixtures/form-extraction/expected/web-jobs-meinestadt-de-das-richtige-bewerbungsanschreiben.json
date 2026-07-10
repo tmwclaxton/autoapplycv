@@ -1,0 +1,54 @@
+{
+  "id": "web-jobs-meinestadt-de-das-richtige-bewerbungsanschreiben",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "email niid--27",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "niid--27",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "muss ich immer ein anschreiben verfassen, auch wenn es nicht explizit gefordert ist?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Muss ich immer ein Anschreiben verfassen, auch wenn es nicht explizit gefordert ist?",
+        "Wie wichtig ist die Unterschrift im Anschreiben?",
+        "Kann ich Vorlagen aus dem Internet für mein Anschreiben verwenden?",
+        "Soll ich meine Gehaltsvorstellungen im Anschreiben angeben?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "m-accordion--38",
+        "name": "items",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

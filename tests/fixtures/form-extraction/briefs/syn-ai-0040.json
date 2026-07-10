@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0040",
+    "seed": 1385138977,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "definition list dl\/dt\/dd label pairs",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            },
+            {
+                "title": "Split phone inputs",
+                "notes": "Country code select and local number in separate inputs",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Split phone<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\">Name<\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\"> <div class=\"phone-row\"> <label for=\"ph_country\">Country code<\/label> <select id=\"ph_country\" name=\"ph_country\"><option value=\"+44\">+44 UK<\/option><option value=\"+1\">+1 US<\/opt",
+                "requires_interaction": false
+            },
+            {
+                "title": "Reverse DOM field order",
+                "notes": "Input element appears before its label in DOM (float-right layout pattern)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Reverse DOM order<\/h1> <form action=\"\/apply\" method=\"post\"> <input type=\"text\" id=\"rev_name\" name=\"rev_name\"><label for=\"rev_name\">Full name<\/label> <input type=\"email\" id=\"rev_email\" name=\"rev_email\"><label for=\"rev_email\">Email address<\/label> <input type=\"tel\" id=\"rev_phone\" name=\"rev_phone\"><label for=\"re",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Yes\/no question as paired button elements, not native radio inputs Required: Inputs laid out in table cells, not flex card stacks only Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Newsletter or login decoy form separate from job application form Required: Custom text field: div with role=textbox and contenteditable, no native input Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Reference DOM (Split phone inputs): Country code select and local number in separate inputs Reference DOM (Reverse DOM field order): Input element appears before its label in DOM (float-right layout pattern) Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: pill-yes-no, table-layout, aria-labelledby-hidden, decoy-form, div-role-textbox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: definition list dl\/dt\/dd label pairs. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Question number prefixes; Split phone inputs; Reverse DOM field order."
+}

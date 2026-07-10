@@ -1,10 +1,31 @@
-# Manual form-corpus heavy tier — full extraction eval (~1800 scenarios),
-# comprehensive fill verify, Playwright priority tier, visual regression, extension E2E.
-# Trigger from GitHub Actions → Tests (heavy) → Run workflow. Does NOT run on push/schedule; see tests.yml.
+# Manual form-corpus tier — curated/smoke fill-verify, heavy PHPUnit extension suite,
+# Playwright priority tier, visual regression, extension E2E.
+# Trigger: GitHub Actions → Tests (heavy) → Run workflow. Does NOT run on push or pull_request.
 name: "Tests (heavy)"
 
 on:
   workflow_dispatch:
+    inputs:
+      run_curated_fill_verify:
+        description: "Curated JSDOM fill-verify (124 scenarios)"
+        type: boolean
+        default: true
+      run_smoke_playwright:
+        description: "Platform smoke Playwright fill-verify"
+        type: boolean
+        default: true
+      run_heavy_phpunit:
+        description: "Full extension PHPUnit tier (FORM_CORPUS_HEAVY)"
+        type: boolean
+        default: true
+      run_extension_e2e:
+        description: "Extension E2E batch (headed Chromium)"
+        type: boolean
+        default: false
+      run_ai_corpus_fill_verify:
+        description: "syn-ai fill-verify sample (max 50)"
+        type: boolean
+        default: false
 
 jobs:
   form-corpus-heavy:
@@ -55,7 +76,28 @@ jobs:
       - name: Build extension
         run: npm run build:extension
 
+      - name: Run curated JSDOM fill verify
+        if: inputs.run_curated_fill_verify
+        run: npm run form-corpus:fill-verify:curated -- --json-only --workers=8
+
+      - name: Run profile mapping corpus tests
+        if: inputs.run_curated_fill_verify
+        run: npm run test:profile-mapping-corpus
+
+      - name: Run platform smoke Playwright fill verify
+        if: inputs.run_smoke_playwright
+        env:
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: npm run form-corpus:fill-verify:smoke -- --json-only
+
+      - name: Run platform smoke Playwright PHPUnit gate
+        if: inputs.run_smoke_playwright
+        env:
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: php artisan test --compact --filter=test_platform_smoke_playwright_passes
+
       - name: Run form-corpus heavy PHPUnit tier
+        if: inputs.run_heavy_phpunit
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -69,8 +111,13 @@ jobs:
         run: php artisan test --compact tests/Unit/Extension/ --exclude-group=nanogpt-live
 
       - name: Run extension E2E batch
+        if: inputs.run_extension_e2e
         env:
           EXTENSION_E2E: 1
           FORM_CORPUS_PLAYWRIGHT: 1
         run: php artisan test --compact --group=extension-e2e
         continue-on-error: true
+
+      - name: Run syn-ai fill verify sample
+        if: inputs.run_ai_corpus_fill_verify
+        run: node scripts/form-corpus/run-fill-verify.mjs --id-prefix=syn-ai- --limit=50 --check-validity --check-a11y --check-errors --json-only

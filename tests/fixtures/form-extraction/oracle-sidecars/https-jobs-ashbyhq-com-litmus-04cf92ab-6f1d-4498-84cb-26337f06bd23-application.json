@@ -1,0 +1,139 @@
+{
+  "id": "https-jobs-ashbyhq-com-litmus-04cf92ab-6f1d-4498-84cb-26337f06bd23-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:23:09.316Z",
+  "page_url": "https://jobs.ashbyhq.com/litmus/04cf92ab-6f1d-4498-84cb-26337f06bd23/application",
+  "page_title": "Software Developer @ Litmus",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 6,
+      "ai_count": 6,
+      "count_delta": 0,
+      "label_jaccard": 0.7143,
+      "type_agree_rate": 0.8333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is implemented as a combobox/autocomplete widget. The resume upload field supports multiple file types as specified in the accept attribute.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f5"
+    }
+  ]
+}

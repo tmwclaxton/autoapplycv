@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0084",
+    "seed": 2907173536,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Micro1 Q label pattern",
+                "notes": "micro1-inspired step-2 labels like Q2.full name with dot separator",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Micro1 Q labels<\/h1> <form action=\"\/apply\" method=\"post\"> <div data-step=\"2\"> <label for=\"m1_q2_name\">Q2.full name<\/label><input type=\"text\" id=\"m1_q2_name\" name=\"m1_q2_name\"> <label for=\"m1_q3_email\">Q3.email address<\/label><input type=\"email\" id=\"m1_q3_email\" name=\"m1_q3_email\"> <label for=\"m1_q4_phone\">Q4.",
+                "requires_interaction": false
+            },
+            {
+                "title": "Triple nested fieldsets",
+                "notes": "Fieldset inside fieldset inside fieldset with legends at each level",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Nested fieldsets<\/h1> <form action=\"\/apply\" method=\"post\"> <fieldset><legend>Personal<\/legend> <fieldset><legend>Identity<\/legend> <fieldset><legend>Legal name<\/legend> <label for=\"nest_first\">First name<\/label><input type=\"text\" id=\"nest_first\" name=\"nest_first\"> <label for=\"nest_last\">Last name<\/label><inpu",
+                "requires_interaction": false
+            },
+            {
+                "title": "Number min max experience",
+                "notes": "Years of experience number input with min\/max constraints",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Number constraints<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"num_name\">Name<\/label><input type=\"text\" id=\"num_name\" name=\"num_name\"> <label for=\"num_exp\">Years of professional experience<\/label> <input type=\"number\" id=\"num_exp\" name=\"num_exp\" min=\"0\" max=\"5000\"> <label for=\"num_email\">Email<\/labe",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Phone split into country code select and local number input in separate wrappers Required: At least two fields with aria-label only and no visible label element Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Reference DOM (Micro1 Q label pattern): micro1-inspired step-2 labels like Q2.full name with dot separator Reference DOM (Triple nested fieldsets): Fieldset inside fieldset inside fieldset with legends at each level Reference DOM (Number min max experience): Years of experience number input with min\/max constraints Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: custom-combobox, split-phone, aria-label-only, div-role-textbox, duplicate-name-attrs. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Micro1 Q label pattern; Triple nested fieldsets; Number min max experience."
+}

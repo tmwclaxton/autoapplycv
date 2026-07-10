@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Ashby Clone</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; background:#f4f6f9; color:#1a1a1a; line-height:1.4; }
+  .app-shell { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  .header-card { background: white; border-radius: 0; border-bottom: 1px solid #d0d5dd; padding: 20px 24px; margin-bottom: 24px; }
+  .header-card h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-card .sub { color: #667085; font-size: 14px; margin-top: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .form-section { background: white; border: 1px solid #e4e7ec; border-radius: 0; padding: 20px; }
+  .section-title { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #344054; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+  .field-group { margin-bottom: 18px; position: relative; }
+  .field-row { display: flex; gap: 12px; }
+  .field-row > * { flex: 1; }
+  input, select, textarea { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid #d0d5dd; border-radius: 6px; background: white; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #155eef; box-shadow: 0 0 0 3px rgba(21,94,239,0.1); }
+  label, .label-like { display: block; font-size: 13px; font-weight: 500; color: #344054; margin-bottom: 4px; }
+  .hint { font-size: 12px; color: #667085; margin-top: 2px; }
+  .error { border-color: #d92d20 !important; }
+  .req-symbol { color: #d92d20; margin-left: 2px; }
+  .pill-group { display: flex; gap: 0; border: 1px solid #d0d5dd; border-radius: 6px; overflow: hidden; width: fit-content; }
+  .pill-btn { padding: 8px 20px; font-size: 14px; background: white; border: none; cursor: pointer; transition: all 0.1s; font-weight: 500; position: relative; }
+  .pill-btn + .pill-btn { border-left: 1px solid #d0d5dd; }
+  .pill-btn.active { background: #155eef; color: white; border-color: #155eef; }
+  .pill-btn:focus { outline: 2px solid #155eef; outline-offset: 2px; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid #d0d5dd; border-radius: 6px; background: white; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input:focus { border-color: #155eef; box-shadow: 0 0 0 3px rgba(21,94,239,0.1); }
+  .combobox-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d0d5dd; border-radius: 6px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 10; }
+  .combobox-list.open { display: block; }
+  .combobox-option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover { background: #f2f4f7; }
+  .combobox-option.selected { background: #e0e7ff; font-weight: 500; }
+  details { margin-bottom: 16px; }
+  details summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #155eef; padding: 4px 0; }
+  details[open] summary { color: #1a1a1a; }
+  details .detail-body { margin-top: 12px; padding-left: 8px; border-left: 2px solid #e4e7ec; }
+  .hidden-field { display: none; }
+  .revealed { display: block; }
+  .decoy-form { opacity: 0.3; pointer-events: none; filter: grayscale(0.5); }
+  .glued-label { font-size: 13px; font-weight: 500; color: #344054; }
+  .editable-field { min-height: 42px; padding: 10px 12px; font-size: 14px; border: 1px solid #d0d5dd; border-radius: 6px; background: white; cursor: text; white-space: pre-wrap; word-break: break-word; }
+  .editable-field:focus { outline: none; border-color: #155eef; box-shadow: 0 0 0 3px rgba(21,94,239,0.1); }
+  .hidden-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .mt-8 { margin-top: 8px; }
+  .flex { display: flex; gap: 12px; align-items: center; }
+  .text-sm { font-size: 13px; color: #667085; }
+  .btn-submit { background: #155eef; color: white; border: none; padding: 12px 32px; font-size: 15px; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+  .btn-submit:hover { background: #1348c9; }
+  hr { border: none; border-top: 1px solid #e4e7ec; margin: 20px 0; }
+  #shadow-host { display: block; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="header-card">
+    <h1>Senior Frontend Engineer</h1>
+    <div class="sub">Ashby · Remote · Full-time · <span style="color:#155eef; font-weight:500;">Apply</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="form-section" id="main-form">
+      <div class="section-title">Your Information</div>
+
+      <div class="field-group">
+        <div class="label-like" id="name-label">Full name <span class="req-symbol">*</span></div>
+        <div class="editable-field" role="textbox" contenteditable="true" aria-labelledby="name-label" aria-required="true" data-placeholder="Enter your full name"></div>
+        <div class="hint">As it appears on your ID</div>
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email <span class="req-symbol">*</span></label>
+        <input type="email" id="email" name="contact[email]" required>
+      </div>
+
+      <div class="field-group">
+        <label>Phone number
+          <div style="margin-top: 4px;">
+            <input type="tel" name="contact[phone]" placeholder="+1 (555) 000-0000" style="width:100%;">
+          </div>
+        </label>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="linkedin">LinkedIn URL</label>
+          <input type="url" id="linkedin" name="profiles[linkedin]" placeholder="https://linkedin.com/in/...">
+        </div>
+        <div class="field-group">
+          <label for="portfolio">Portfolio</label>
+          <input type="url" id="portfolio" name="profiles[portfolio]" placeholder="https://...">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="label-like" id="relocation-label">Willing to relocate? <span class="req-symbol">*</span></div>
+        <div class="pill-group" role="radiogroup" aria-labelledby="relocation-label" id="relocation-pills">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true">No</button>
+        </div>
+        <input type="hidden" name="relocation" id="relocation-hidden" value="no">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like" id="source-label">How did you hear about this role? <span class="req-symbol">*</span></div>
+        <div class="combobox-wrapper">
+          <div class="combobox-input" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="source-label" tabindex="0" id="source-combo">
+            <span id="source-selected">Select</span>
+            <span style="font-size:12px; color:#667085;">▼</span>
+          </div>
+          <ul class="combobox-list" role="listbox" aria-labelledby="source-label" id="source-list">
+            <li role="option" class="combobox-option" data-value="linkedin">LinkedIn</li>
+            <li role="option" class="combobox-option" data-value="referral">Referral</li>
+            <li role="option" class="combobox-option" data-value="company website">Company website</li>
+            <li role="option" class="combobox-option" data-value="other">Other</li>
+          </ul>
+        </div>
+        <input type="hidden" name="source" id="source-hidden" value="">
+      </div>
+
+      <details>
+        <summary>Additional details (optional)</summary>
+        <div class="detail-body">
+          <div class="field-group">
+            <label for="start-date">Earliest start date</label>
+            <input type="date" id="start-date" name="availability[start_date]">
+          </div>
+          <div class="field-group">
+            <label for="visa">Do you require visa sponsorship?</label>
+            <select id="visa" name="work_authorization[visa]">
+              <option value="">Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Previously applied to Ashby?</label>
+            <div class="flex">
+              <label style="font-weight:400;"><input type="radio" name="previous_app" value="yes"> Yes</label>
+              <label style="font-weight:400;"><input type="radio" name="previous_app" value="no" checked> No</label>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="section-title" style="margin-top: 16px;">Experience</div>
+
+      <div class="field-group">
+        <label for="current-role">Current / most recent title <span class="req-symbol">*</span></label>
+        <input type="text" id="current-role" name="experience[title]" required>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="experience[company]">
+        </div>
+        <div class="field-group">
+          <label for="years">Years of experience</label>
+          <input type="number" id="years" name="experience[years]" min="0" step="0.5">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="glued-label" id="glued-label-bug">first name<span style="color:#d92d20;">required</span></div>
+        <input type="text" name="name[first]" aria-labelledby="glued-label-bug" placeholder="First name" style="width:100%;">
+      </div>
+      <div class="field-group">
+        <div class="glued-label" id="glued-label-last">last name<span style="color:#d92d20;">required</span></div>
+        <input type="text" name="name[last]" aria-labelledby="glued-label-last" placeholder="Last name" style="width:100%;">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Skills <span class="req-symbol">*</span></div>
+        <textarea name="skills" rows="3" placeholder="React, TypeScript, Node..."></textarea>
+      </div>
+      <div class="field-group">
+        <div class="label-like">I'm interested in (check all that apply)</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <label style="font-weight:400;"><input type="checkbox" name="interest[]" value="frontend"> Frontend</label>
+          <label style="font-weight:400;"><input type="checkbox" name="interest[]" value="backend"> Backend</label>
+          <label style="font-weight:400;"><input type="checkbox" name="interest[]" value="fullstack"> Fullstack</label>
+          <label style="font-weight:400;"><input type="checkbox" name="interest[]" value="design"> Design</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span id="hidden-aria-label" class="hidden-label">Preferred coding challenge language</span>
+        <div class="label-like" style="color:#667085;">(hidden label test)</div>
+        <input type="text" name="preferred_language" aria-labelledby="hidden-aria-label" placeholder="e.g. TypeScript">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">How many years of React experience?</div>
+        <input type="number" name="experience[react_years]" min="0" step="0.5" placeholder="e.g. 3">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">How many years of TypeScript experience?</div>
+        <input type="number" name="experience[ts_years]" min="0" step="0.5" placeholder="e.g. 2">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Current salary (USD)</div>
+        <input type="number" name="compensation[current_salary]" min="0" placeholder="e.g. 120000">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Expected salary (USD)</div>
+        <input type="number" name="compensation[expected_salary]" min="0" placeholder="e.g. 150000">
+      </div>
+
+      <div class="decoy-form" style="margin-top: 24px; padding: 12px; border: 1px dashed #ccc;">
+        <div class="label-like" style="color:#aaa;">Internal referral (disabled)</div>
+        <input type="text" placeholder="Referral code" style="background:#f0f0f0;">
+        <div class="hint">This section is under maintenance</div>
+      </div>
+    </div>
+
+    <div class="form-section" id="right-col">
+      <div class="section-title">Demographics &amp; Voluntary</div>
+
+      <div class="field-group">
+        <div class="label-like">Gender (optional)</div>
+        <div style="display: flex; gap: 16px;">
+          <label style="font-weight:400;"><input type="radio" name="demographics[gender]" value="female"> Female</label>
+          <label style="font-weight:400;"><input type="radio" name="demographics[gender]" value="male"> Male</label>
+          <label style="font-weight:400;"><input type="radio" name="demographics[gender]" value="non-binary"> Non-binary</label>
+          <label style="font-weight:400;"><input type="radio" name="demographics[gender]" value="prefer-not"> Prefer not</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Race / Ethnicity (select all that apply)</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <label style="font-weight:400;"><input type="checkbox" name="demographics[race][]" value="asian"> Asian</label>
+          <label style="font-weight:400;"><input type="checkbox" name="demographics[race][]" value="black"> Black</label>
+          <label style="font-weight:400;"><input type="checkbox" name="demographics[race][]" value="hispanic"> Hispanic</label>
+          <label style="font-weight:400;"><input type="checkbox" name="demographics[race][]" value="white"> White</label>
+          <label style="font-weight:400;"><input type="checkbox" name="demographics[race][]" value="other"> Other</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="label-like" id="veteran-label">Are you a veteran? (optional)</div>
+        <div class="pill-group" role="radiogroup" aria-labelledby="veteran-label" id="veteran-pills">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true">No</button>
+        </div>
+        <input type="hidden" name="veteran" id="veteran-hidden" value="no">
+      </div>
+
+      <details>
+        <summary>Disability disclosure (optional)</summary>
+        <div class="detail-body">
+          <div class="field-group">
+            <div class="label-like" id="disability-label">Do you have a disability?</div>
+            <div class="pill-group" role="radiogroup" aria-labelledby="disability-label" id="disability-pills">
+              <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false">Yes</button>
+              <button type="button" class="pill-btn active" data-value="no" role="radio" aria-checked="true">No</button>
+              <button type="button" class="pill-btn" data-value="prefer" role="radio" aria-checked="false">Prefer not</button>
+            </div>
+            <input type="hidden" name="disability" id="disability-hidden" value="no">
+          </div>
+        </div>
+      </details>
+
+      <div class="field-group">
+        <label for="resume">Resume / CV <span class="req-symbol">*</span></label>
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" style="padding: 8px;">
+      </div>
+
+      <div class="field-group">
+        <label for="cover-letter">Cover letter (optional)</label>
+        <textarea id="cover-letter" name="cover_letter" rows="4" placeholder="Write something..."></textarea>
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">GitHub profile URL</div>
+        <input type="url" name="profiles[github]" placeholder="https://github.com/...">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Twitter / X profile URL</div>
+        <input type="url" name="profiles[twitter]" placeholder="https://twitter.com/...">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">Personal website URL</div>
+        <input type="url" name="profiles[website]" placeholder="https://...">
+      </div>
+
+      <div class="field-group">
+        <div class="label-like">How did you find this job?</div>
+        <select name="job_source">
+          <option value="">Select</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="indeed">Indeed</option>
+          <option value="glassdoor">Glassdoor</option>
+          <option value="referral">Referral</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div id="shadow-host"></div>
+
+      <div class="field-group">
+        <input type="text" name="referral_code" aria-labelledby="hidden-aria-label" placeholder="Referral code (if any)">
+        <div class="hint">referral code</div>
+      </div>
+
+      <div class="field-group">
+        <label style="font-weight:400;"><input type="checkbox" name="newsletter" value="yes"> Subscribe to our newsletter</label>
+      </div>
+
+      <div class="field-group">
+        <label style="font-weight:400;"><input type="checkbox" name="agree_terms" value="yes"> I agree to the terms and conditions</label>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">Submit application</button>
+    </div>
+  </div>
+
+  <hr>
+  <div class="text-sm" style="text-align:center;">Ashby-style application form · built with production DOM patterns</div>
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      const hiddenInput = group.nextElementSibling;
+      if (!hiddenInput || hiddenInput.type !== 'hidden') return;
+      group.querySelectorAll('.pill-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          group.querySelectorAll('.pill-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-checked', 'true');
+          hiddenInput.value = btn.dataset.value;
+        });
+      });
+    });
+
+    const comboTrigger = document.getElementById('source-combo');
+    const comboList = document.getElementById('source-list');
+    const comboSelected = document.getElementById('source-selected');
+    const comboHidden = document.getElementById('source-hidden');
+    let comboOpen = false;
+
+    function toggleCombo(open) {
+      comboList.classList.toggle('open', open);
+      comboTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      comboOpen = open;
+    }
+
+    comboTrigger.addEventListener('click', function(e) {
+      toggleCombo(!comboOpen);
+    });
+
+    comboList.querySelectorAll('.combobox-option').forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        const value = option.dataset.value;
+        const text = option.textContent.trim();
+        comboSelected.textContent = text;
+        comboHidden.value = value;
+        comboList.querySelectorAll('.combobox-option').forEach(function(o) { o.classList.remove('selected'); });
+        option.classList.add('selected');
+        toggleCombo(false);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!comboTrigger.contains(e.target) && !comboList.contains(e.target)) {
+        toggleCombo(false);
+      }
+    });
+
+    const shadowHost = document.getElementById('shadow-host');
+    if (shadowHost && !shadowHost.shadowRoot) {
+      const shadow = shadowHost.attachShadow({ mode: 'open' });
+      const style = document.createElement('style');
+      style.textContent = '.shadow-inner { padding: 12px; background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 13px; }';
+      const div = document.createElement('div');
+      div.className = 'shadow-inner';
+      div.innerHTML = '<strong>⚡ Shadow DOM boundary</strong><br><span style="color:#667085;">This host contains isolated styles.</span>';
+      shadow.appendChild(style);
+      shadow.appendChild(div);
+    }
+
+    document.getElementById('submit-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo — no data sent).');
+    });
+  })();
+</script>
+
+</body>
+</html>

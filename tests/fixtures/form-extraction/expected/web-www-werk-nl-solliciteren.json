@@ -1,0 +1,73 @@
+{
+  "id": "web-www-werk-nl-solliciteren",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "deze cookies worden alleen gebruikt door youtube als u op onze website video’s bekijkt. wij hebben geen invloed op wat youtube hiermee doet. wij delen geen gegevens met youtube.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cookies voor afspelen YouTube-video’s"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "pw-consent-consent-type-custom_consent-input",
+        "name": "custom_consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "met deze cookies houden wij bij welke pagina's u bezoekt, zodat we informatie kunnen aanbieden die voor u interessant is. en om de website te kunnen testen. hiervoor gebruiken we bijvoorbeeld uw ip-adres en leeftijd.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cookies voor verbeteren website"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "pw-consent-consent-type-ab_testing_and_personalization-input",
+        "name": "ab_testing_and_personalization",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vul één of meer trefwoorden in",
+      "field_type": "select",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search_input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Vul één of meer trefwoorden in",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

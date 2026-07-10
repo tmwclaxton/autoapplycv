@@ -1,0 +1,131 @@
+{
+  "id": "web-www-jobat-be-job-5915590",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "wat? jobtitel, bedrijfsnaam of trefwoorden",
+      "field_type": "search",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "searchJob",
+        "name": "Keyword",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Jobtitel, bedrijfsnaam of trefwoorden",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "on2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job alert aan/uit",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Job alert aan/uit"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2block_fa162e6c-e82c-4856-a73a-0dc20c8d1b38",
+        "name": null,
+        "data_testid": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jouw e-mail",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "voer uw adres in",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "destination",
+        "name": "Address",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Voer uw adres in",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "departingat-selectized",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "departingAt-selectized",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

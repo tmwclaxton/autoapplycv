@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Application</title>
+<style>
+  body { background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; }
+  .app-shell { max-width: 820px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); overflow: hidden; }
+  .app-header { background: #1a1a2e; color: white; padding: 18px 24px; border-bottom: 3px solid #e94560; }
+  .app-header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+  .app-header .sub { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .app-body { padding: 20px 24px 24px; }
+  table.app-table { width: 100%; border-collapse: collapse; }
+  table.app-table td { padding: 8px 4px; vertical-align: middle; }
+  .field-row { margin-bottom: 4px; }
+  .field-label { font-size: 14px; font-weight: 500; color: #333; display: inline-block; }
+  input, select, textarea, .custom-combo-trigger { 
+    width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #c4c4c4; border-radius: 4px; 
+    font-size: 14px; background: white; transition: border 0.15s; 
+  }
+  input:focus, select:focus, textarea:focus, .custom-combo-trigger:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.2); }
+  input.readonly-prefill { background: #f5f5f5; color: #444; cursor: default; }
+  .pill-group { display: flex; gap: 8px; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #c4c4c4; border-radius: 20px; background: white; font-size: 13px; cursor: pointer; }
+  .pill-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+  .glued-label { display: inline-flex; flex-wrap: nowrap; }
+  .glued-label span { margin: 0; padding: 0; line-height: 1.4; }
+  .glued-label .part2 { margin-left: -1px; }
+  details { margin-top: 6px; }
+  details summary { font-size: 14px; font-weight: 500; padding: 6px 0; cursor: pointer; color: #1a73e8; }
+  details .detail-fields { padding: 8px 0 0 8px; border-left: 2px solid #e0e0e0; margin: 4px 0; }
+  .combobox-wrapper { position: relative; }
+  .combo-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #c4c4c4; border-top: none; max-height: 180px; overflow-y: auto; z-index: 10; border-radius: 0 0 4px 4px; }
+  .combo-listbox.open { display: block; }
+  .combo-option { padding: 8px 10px; font-size: 14px; cursor: pointer; }
+  .combo-option:hover, .combo-option.highlighted { background: #e8f0fe; }
+  .combo-option[aria-selected="true"] { background: #d2e3fc; }
+  .hidden-aria-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .reverse-field { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; }
+  .reverse-field input { width: auto; flex: 1; max-width: 200px; }
+  .decoy-section { margin-top: 20px; padding: 12px; background: #fafafa; border: 1px dashed #ccc; border-radius: 6px; }
+  .decoy-section h3 { font-size: 13px; color: #888; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .note { font-size: 12px; color: #666; margin-top: 4px; }
+  .submit-row { padding-top: 16px; border-top: 1px solid #e0e0e0; margin-top: 16px; }
+  .submit-btn { background: #1a73e8; color: white; border: none; padding: 10px 28px; border-radius: 24px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .submit-btn:hover { background: #1557b0; }
+  .field-group { margin-bottom: 12px; }
+  .inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+  .w-100 { width: 100%; }
+  .mt-8 { margin-top: 8px; }
+  .mb-4 { margin-bottom: 4px; }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 12px; }
+  .text-gray { color: #666; }
+  .border-dashed { border: 1px dashed #ccc; }
+  .p-8 { padding: 8px; }
+  .bg-gray-50 { background: #f9fafb; }
+  .rounded { border-radius: 4px; }
+  .flex { display: flex; }
+  .flex-wrap { flex-wrap: wrap; }
+  .gap-8 { gap: 8px; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .hidden { display: none; }
+  .block { display: block; }
+  .relative { position: relative; }
+  .absolute { position: absolute; }
+  .right-0 { right: 0; }
+  .top-0 { top: 0; }
+  .z-10 { z-index: 10; }
+  .bg-white { background: white; }
+  .shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .list-none { list-style: none; }
+  .p-0 { padding: 0; }
+  .m-0 { margin: 0; }
+  .cursor-pointer { cursor: pointer; }
+  .hover\:bg-gray-100:hover { background: #f3f4f6; }
+  .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h1>Senior Frontend Engineer</h1>
+    <div class="sub">Acme Corp · San Francisco, CA · Full-time</div>
+  </div>
+  <div class="app-body">
+    <form id="appForm">
+      <table class="app-table">
+        <tbody>
+          <!-- Reverse DOM field order: input before label -->
+          <tr><td><div class="reverse-field"><input type="text" id="name" name="name" placeholder="Jane Doe" value=""><label for="name" class="field-label">Full name</label></div></td></tr>
+          
+          <!-- Readonly prefilled email -->
+          <tr><td><div class="field-row"><label class="field-label" for="email">Email</label></div><div><input type="email" id="email" name="email" class="readonly-prefill" readonly value="jane.doe@acme.com"><span class="note">Imported from profile</span></div></td></tr>
+          
+          <!-- Phone with aria-labelledby pointing at hidden distant span -->
+          <tr><td><span id="phoneLabel" class="field-label">Phone</span><span id="phoneHiddenLabel" class="hidden-aria-label">Phone number with country code</span><div><input type="tel" id="phone" name="phone" aria-labelledby="phoneHiddenLabel" placeholder="+1 (555) 000-0000"></div></td></tr>
+          
+          <!-- Glued label text (split spans, no space) -->
+          <tr><td><div class="field-label glued-label"><span>Cur</span><span class="part2">rent</span><span>&nbsp;</span><span>Com</span><span class="part2">pany</span></div><div><input type="text" id="currentCompany" name="currentCompany" placeholder="e.g. Acme Corp"></div></td></tr>
+          
+          <!-- Custom combobox (aria-haspopup, listbox) -->
+          <tr><td><label class="field-label" id="expLabel">Years of experience</label><div class="combobox-wrapper"><input type="text" id="expComboInput" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="expListbox" aria-activedescendant="" placeholder="Select or type"><button type="button" id="expComboBtn" tabindex="-1" aria-label="Open experience options" style="position:absolute;right:4px;top:4px;background:none;border:none;cursor:pointer;font-size:12px;">▼</button><div id="expListbox" role="listbox" aria-label="Experience years" class="combo-listbox"><div role="option" class="combo-option" aria-selected="false" data-value="">—</div><div role="option" class="combo-option" aria-selected="false" data-value="1">0-1 years</div><div role="option" class="combo-option" aria-selected="false" data-value="2">1-2 years</div><div role="option" class="combo-option" aria-selected="false" data-value="3">2-3 years</div><div role="option" class="combo-option" aria-selected="false" data-value="5">3-5 years</div><div role="option" class="combo-option" aria-selected="false" data-value="5+">5+ years</div></div></div></td></tr>
+          
+          <!-- Pill buttons (yes/no) for remote preference -->
+          <tr><td><label class="field-label">Remote preference</label><div class="pill-group" role="radiogroup" aria-label="Remote preference"><button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="remote-first">Remote-first</button><button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="hybrid">Hybrid</button><button type="button" class="pill-btn active" role="radio" aria-checked="true" data-value="onsite">On-site</button></div></td></tr>
+          
+          <!-- Div role=textbox (contenteditable) for short pitch -->
+          <tr><td><label class="field-label" id="pitchLabel">Short pitch</label><div role="textbox" contenteditable="true" aria-labelledby="pitchLabel" style="border:1px solid #c4c4c4; border-radius:4px; padding:8px; min-height:48px; font-size:14px; background:white;" placeholder="Why you? (optional)"><br></div></td></tr>
+          
+          <!-- Details accordion (hidden fields) -->
+          <tr><td><details><summary>Additional details (cover letter, visa)</summary><div class="detail-fields"><div class="field-row"><label class="field-label" for="coverLetter">Cover letter</label></div><textarea id="coverLetter" name="coverLetter" rows="3" placeholder="Paste or type..."></textarea><div style="margin-top:8px;"><label class="field-label" for="visa">Visa sponsorship needed?</label><select id="visa" name="visa"><option value="">— Select —</option><option value="yes">Yes</option><option value="no">No</option><option value="opt">I have OPT/STEM OPT</option></select></div></div></details></td></tr>
+          
+          <!-- Readonly prefilled disabled field (profile import) -->
+          <tr><td><div class="field-row"><label class="field-label" for="linkedin">LinkedIn</label></div><input type="url" id="linkedin" name="linkedin" class="readonly-prefill" readonly value="https://linkedin.com/in/janedoe" disabled><span class="note">Imported</span></td></tr>
+          
+          <!-- Another field with aria-label only (hidden label) -->
+          <tr><td><input type="text" id="portfolio" name="portfolio" aria-label="Portfolio URL" placeholder="Portfolio URL (optional)"></td></tr>
+          
+          <!-- Additional fields to reach min 14 -->
+          <tr><td><div class="field-row"><label class="field-label" for="github">GitHub URL</label></div><input type="url" id="github" name="github" placeholder="https://github.com/username"></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="twitter">Twitter/X handle</label></div><input type="text" id="twitter" name="twitter" placeholder="@username"></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="salary">Salary expectation (USD)</label></div><input type="text" id="salary" name="salary" placeholder="e.g. 150,000"></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="startDate">Available start date</label></div><input type="date" id="startDate" name="startDate"></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="referral">How did you hear about us?</label></div><select id="referral" name="referral"><option value="">— Select —</option><option value="linkedin">LinkedIn</option><option value="indeed">Indeed</option><option value="referral">Employee referral</option><option value="other">Other</option></select></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="workAuth">Work authorization</label></div><select id="workAuth" name="workAuth"><option value="">— Select —</option><option value="us-citizen">US Citizen</option><option value="green-card">Green Card</option><option value="h1b">H1B</option><option value="other">Other</option></select></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="gender">Gender (optional)</label></div><select id="gender" name="gender"><option value="">Prefer not to say</option><option value="male">Male</option><option value="female">Female</option><option value="non-binary">Non-binary</option></select></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="ethnicity">Ethnicity (optional)</label></div><select id="ethnicity" name="ethnicity"><option value="">Prefer not to say</option><option value="asian">Asian</option><option value="black">Black or African American</option><option value="hispanic">Hispanic or Latino</option><option value="white">White</option><option value="other">Other</option></select></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="veteran">Veteran status (optional)</label></div><select id="veteran" name="veteran"><option value="">Prefer not to say</option><option value="yes">I am a veteran</option><option value="no">I am not a veteran</option></select></td></tr>
+          <tr><td><div class="field-row"><label class="field-label" for="disability">Disability status (optional)</label></div><select id="disability" name="disability"><option value="">Prefer not to say</option><option value="yes">I have a disability</option><option value="no">I do not have a disability</option></select></td></tr>
+          
+          <!-- Decoy secondary form (visually separate, non-functional) -->
+        </tbody>
+      </table>
+      
+      <div class="decoy-section">
+        <h3>Equal opportunity (optional, not part of application)</h3>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <label style="font-size:13px;"><input type="checkbox" name="decoy_gender" disabled> Gender</label>
+          <label style="font-size:13px;"><input type="checkbox" name="decoy_veteran" disabled> Veteran</label>
+          <label style="font-size:13px;"><input type="checkbox" name="decoy_disability" disabled> Disability</label>
+        </div>
+        <div class="note">This section is not submitted with your application.</div>
+      </div>
+      
+      <div class="submit-row">
+        <button type="submit" class="submit-btn">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Custom combobox logic
+    var comboInput = document.getElementById('expComboInput');
+    var comboBtn = document.getElementById('expComboBtn');
+    var listbox = document.getElementById('expListbox');
+    var options = listbox.querySelectorAll('.combo-option');
+    var currentIndex = -1;
+
+    function openListbox() {
+      listbox.classList.add('open');
+      comboInput.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeListbox() {
+      listbox.classList.remove('open');
+      comboInput.setAttribute('aria-expanded', 'false');
+      comboInput.removeAttribute('aria-activedescendant');
+    }
+
+    function selectOption(opt) {
+      options.forEach(function(o) { o.setAttribute('aria-selected', 'false'); });
+      opt.setAttribute('aria-selected', 'true');
+      comboInput.value = opt.textContent;
+      comboInput.dataset.value = opt.getAttribute('data-value');
+      closeListbox();
+    }
+
+    comboInput.addEventListener('click', function(e) {
+      if (!listbox.classList.contains('open')) { openListbox(); }
+    });
+
+    comboBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (listbox.classList.contains('open')) { closeListbox(); } else { openListbox(); }
+    });
+
+    options.forEach(function(opt, idx) {
+      opt.addEventListener('click', function() { selectOption(opt); });
+      opt.addEventListener('mouseenter', function() {
+        options.forEach(function(o) { o.classList.remove('highlighted'); });
+        opt.classList.add('highlighted');
+        currentIndex = idx;
+      });
+    });
+
+    comboInput.addEventListener('keydown', function(e) {
+      var open = listbox.classList.contains('open');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!open) { openListbox(); currentIndex = 0; }
+        else { currentIndex = Math.min(currentIndex + 1, options.length - 1); }
+        options.forEach(function(o, i) { 
+          o.classList.toggle('highlighted', i === currentIndex);
+          if (i === currentIndex) { comboInput.setAttribute('aria-activedescendant', o.id || ''); }
+        });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (open) {
+          currentIndex = Math.max(currentIndex - 1, 0);
+          options.forEach(function(o, i) { 
+            o.classList.toggle('highlighted', i === currentIndex);
+            if (i === currentIndex) { comboInput.setAttribute('aria-activedescendant', o.id || ''); }
+          });
+        }
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        if (open && currentIndex >= 0) {
+          e.preventDefault();
+          selectOption(options[currentIndex]);
+        } else if (!open) {
+          openListbox();
+        }
+      } else if (e.key === 'Escape') {
+        if (open) closeListbox();
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.combobox-wrapper')) {
+        closeListbox();
+      }
+    });
+
+    // Pill button toggle
+    var pills = document.querySelectorAll('.pill-btn[role="radio"]');
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); p.setAttribute('aria-checked', 'false'); });
+        pill.classList.add('active');
+        pill.setAttribute('aria-checked', 'true');
+      });
+    });
+
+    // Form submit handler (prevent actual submit for demo)
+    document.getElementById('appForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo)');
+    });
+  })();
+</script>
+</body>
+</html>

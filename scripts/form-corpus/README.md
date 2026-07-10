@@ -109,9 +109,11 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 
 ## CI jobs
 
-**`php-tests`** - Laravel unit/feature tests excluding `playwright` and `extension-e2e` groups.
+**`php-tests`** (on every push/PR) - Laravel unit/feature tests only. No form corpus fill-verify.
 
-**`extension-fill`** - Playwright install, `build:extension`, curated JSDOM verify, smoke Playwright tests (`FORM_CORPUS_PLAYWRIGHT=1`), optional extension E2E (`EXTENSION_E2E=1`, `continue-on-error`).
+**`extension-fill`** - removed from PR. Use **`Tests (heavy)`** (`tests-heavy.yml`, manual `workflow_dispatch`) for curated/smoke/heavy PHPUnit/E2E. Use **`Tests (corpus batch)`** (`tests-corpus-batch.yml`) for single batches of max 50 (AI generate, Firecrawl, vet/fill report).
+
+See [`docs/form-corpus-growth.md`](../../docs/form-corpus-growth.md) for the net-new HQ growth plan.
 
 ## Reports & fixtures
 
@@ -140,9 +142,62 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 5. **Form E2E scoring manifest** - `npm run form-corpus:build-form-e2e-scoring` after new vetted fixtures land.
 6. **Debug log golden** - capture `DEBUG_LOG_EXPORT` from E2E run, update `tests/fixtures/form-fill-logs/*.summary.json`.
 
-## Firecrawl discovery (150+ new forms)
+## Curated dual-oracle capture (primary for detection quality)
 
-Firecrawl API key: set `FIRECRAWL_API_KEY` in env or `.cursor/mcp.json` under `firecrawl.env`.
+Supervised path: compare live `get_field_inventory` vs NanoGPT field inventory from HTML only. Promote expected JSON only on **agree**; on **disagree** save HTML + triage and investigate.
+
+Prerequisites: extension bridge connected, `NANOGPT_API_KEY`, real apply form open (Ashby: board -> job -> Apply via MCP/browser).
+
+```bash
+npm run form-corpus:curated-oracle
+npm run form-corpus:curated-oracle -- --limit=5
+npm run form-corpus:curated-oracle -- --url=https://jobs.lever.co/.../apply
+npm run test:form-corpus-inventory-oracle
+```
+
+- Soft match: field count within ±2, label Jaccard >= 0.7, type agreement on matched pairs.
+- Agree: manifest `source: bridge-oracle`, `expected/{id}.json`, sidecar in `oracle-sidecars/`.
+- Disagree: HTML saved, `curated-oracle-report.json` triage entry, **no** auto expected.
+- Default `--limit=5` (hard max 50). Do not leave unattended bulk runs for this path.
+
+Artisan helper: `php artisan form-corpus:inventory-oracle` (JSON stdin/out).
+
+## Bridge scrape discovery (volume / legacy)
+
+Detector-gated volume path (`>=2` meaningful inventory fields). Use for pages the detector already sees - **not** the primary path when improving question detection (circular accept gate). Prefer curated dual-oracle above.
+
+Prerequisites:
+
+1. `npm run extension-bridge` running (`http://127.0.0.1:7433/status` shows `extensionConnected: true`)
+2. Unpacked extension loaded from `extension/dist/` with bridge connected
+
+```bash
+npm run form-corpus:discover
+npm run form-corpus:bridge-scrape -- --limit=50
+npm run form-corpus:propose -- --id-prefix=web-
+npm run form-corpus:vet -- --pending-only
+```
+
+Bulk toward 2,500 net-new `bridge-scrape` fixtures (batches of 50, checkpoint/resume):
+
+```bash
+npm run form-corpus:bridge-scrape:bulk -- --total=2500
+npm run form-corpus:bridge-scrape:bulk -- --total=2500 --max-batches-per-run=3
+# or
+npm run form-corpus:growth-plan -- --track=bridge-scrape --total=2500
+```
+
+**Ashby boards** (`jobs.ashbyhq.com/{company}`): the scraper navigates to the company board, extracts job detail URLs (`/{company}/{uuid}`), opens each job page, clicks **Apply**, waits for `/application` (or hydrated form fields), then captures HTML. Direct `/application` URLs from discover are collapsed to board hubs; stale UUID links are not scraped blindly.
+
+**Monitored bulk runs:** use `--max-batches-per-run=3` (or similar) so each invocation stops after a few reviewable batches. Tail `bridge-scrape-progress.json` / console output and confirm the first batch (especially Ashby Apply-click captures) before leaving long runs unattended.
+
+Accept gate: `get_field_inventory` must show >=2 meaningful fields (refs + labels >=3 chars, not generic "input"/"field"). Progress: `tests/fixtures/form-extraction/bridge-scrape-progress.json` (per batch, includes `summary` every 10 URLs) and `bridge-scrape-bulk-progress.json` (bulk orchestrator with `running_summary`).
+
+Manual MCP captures (`save_fixture`, source `bridge`) are tracked separately via `npm run form-corpus:bridge-sprint -- --status`.
+
+## Firecrawl discovery (legacy, credits required)
+
+Firecrawl bulk is disabled by default. Pass `--force-firecrawl` to use Firecrawl scrape. API key: set `FIRECRAWL_API_KEY` in env or `.cursor/mcp.json` under `firecrawl.env`.
 
 ```bash
 npm run form-corpus:discover
@@ -166,7 +221,8 @@ Third-party API keys embedded in live page HTML (Google Maps, GoCardless widgets
 | `syn-reed-300-*` | 300 | Reed Easy Apply search, job detail, and apply steps | `generate-reed-corpus-300.mjs` |
 | `syn-weird-*` | 60 | Intentional edge cases for DOM/label/control weirdness | Hand-crafted templates (`lib/weird-form-templates.mjs`) - each structurally distinct |
 | `syn-fw-*`, `syn-ix-*`, `syn-mega-*` | varies | Framework shells, interactive widgets, mega forms | Targeted generators |
-| `web-*` | varies | Real scraped ATS pages | Firecrawl scrape pipeline |
+| `syn-ai-*` | net new (~4,000 target) | NanoGPT two-step generate + repair + enrich | `php artisan form-corpus:generate-ai` (max **50** per batch, model `deepseek/deepseek-v4-flash`) |
+| `web-*` | varies | Real scraped ATS pages | Extension bridge scrape (`form-corpus:bridge-scrape`, max **50** per batch) |
 
 **When to use which tier:**
 

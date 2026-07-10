@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply - Senior Frontend Developer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f5f7fa;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .form-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+      max-width: 640px;
+      width: 100%;
+      padding: 32px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+    .company-tag {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .label-with-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .label-with-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #475569;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+    input[readonly] {
+      background: #f8fafc;
+      color: #475569;
+      cursor: not-allowed;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M3 4l3 4 3-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      padding-top: 4px;
+    }
+    .radio-group label,
+    .checkbox-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 400;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"],
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #6366f1;
+    }
+    .combobox-wrapper {
+      position: relative;
+    }
+    .combobox-wrapper input {
+      padding-right: 32px;
+    }
+    .combobox-indicator {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #6b7280;
+      font-size: 10px;
+    }
+    .combobox-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      z-index: 10;
+      max-height: 180px;
+      overflow-y: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .combobox-options.show {
+      display: block;
+    }
+    .combobox-option {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.1s;
+    }
+    .combobox-option:hover,
+    .combobox-option.selected {
+      background: #eef2ff;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
+    .btn-submit:hover {
+      background: #4f46e5;
+    }
+    .btn-submit:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    .off-screen-input {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .field-note {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 24px 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Senior Frontend Developer</h1>
+    <div class="company-tag">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Ashby · Remote (US/EU)
+    </div>
+
+    <form id="applyForm" novalidate>
+      <!-- 1. Full Name (text) -->
+      <div class="form-group">
+        <label for="fullName" id="labelFullName">
+          <span class="label-with-icon">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Full Name
+          </span>
+        </label>
+        <input type="text" id="fullName" name="fullName" required placeholder="e.g. Alex Rivera" aria-labelledby="labelFullName">
+      </div>
+
+      <!-- 2. Email (readonly, prefilled) -->
+      <div class="form-group">
+        <label for="email" id="labelEmail">Email</label>
+        <input type="email" id="email" name="email" value="alex.rivera@example.com" readonly aria-labelledby="labelEmail">
+        <div class="field-note">Imported from your profile</div>
+      </div>
+
+      <!-- 3. Phone (tel) -->
+      <div class="form-group">
+        <label for="phone" id="labelPhone">Phone</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" aria-labelledby="labelPhone">
+      </div>
+
+      <!-- 4. Years of Experience (combobox) -->
+      <div class="form-group">
+        <label for="experienceInput" id="labelExperience">Years of Experience</label>
+        <div class="combobox-wrapper">
+          <input type="text" id="experienceInput" name="experienceDisplay" placeholder="Select or type..." autocomplete="off" aria-labelledby="labelExperience" role="combobox" aria-expanded="false" aria-controls="expOptions">
+          <span class="combobox-indicator">▼</span>
+          <div class="combobox-options" id="expOptions" role="listbox">
+            <div class="combobox-option" role="option" data-value="1">1 year</div>
+            <div class="combobox-option" role="option" data-value="2">2 years</div>
+            <div class="combobox-option" role="option" data-value="3">3 years</div>
+            <div class="combobox-option" role="option" data-value="4">4 years</div>
+            <div class="combobox-option" role="option" data-value="5">5 years</div>
+            <div class="combobox-option" role="option" data-value="6">6 years</div>
+            <div class="combobox-option" role="option" data-value="7">7 years</div>
+            <div class="combobox-option" role="option" data-value="8">8+ years</div>
+          </div>
+          <input type="hidden" id="experience" name="experience" value="">
+        </div>
+      </div>
+
+      <!-- 5. Current Company (text) -->
+      <div class="form-group">
+        <label for="currentCompany" id="labelCompany">Current Company</label>
+        <input type="text" id="currentCompany" name="currentCompany" placeholder="Optional" aria-labelledby="labelCompany">
+      </div>
+
+      <!-- 6. Preferred Start Date (date) -->
+      <div class="form-group">
+        <label for="startDate" id="labelStartDate">Preferred Start Date</label>
+        <input type="date" id="startDate" name="startDate" aria-labelledby="labelStartDate">
+      </div>
+
+      <!-- 7. Work Authorization (select) -->
+      <div class="form-group">
+        <label for="workAuth" id="labelWorkAuth">Work Authorization</label>
+        <select id="workAuth" name="workAuth" aria-labelledby="labelWorkAuth">
+          <option value="">Select...</option>
+          <option value="us-citizen">US Citizen</option>
+          <option value="green-card">Green Card Holder</option>
+          <option value="h1b">H-1B Visa</option>
+          <option value="other">Other work authorization</option>
+        </select>
+      </div>
+
+      <!-- 8. Willing to relocate? (radio) -->
+      <div class="form-group">
+        <label id="labelRelocate">Willing to relocate?</label>
+        <div class="radio-group" role="radiogroup" aria-labelledby="labelRelocate">
+          <label><input type="radio" name="relocate" value="yes"> Yes</label>
+          <label><input type="radio" name="relocate" value="no"> No</label>
+          <label><input type="radio" name="relocate" value="remote_only"> Remote only</label>
+        </div>
+      </div>
+
+      <!-- 9. Skills / Tech Stack (checkbox) -->
+      <div class="form-group">
+        <label id="labelSkills">Primary Tech Stack (select all that apply)</label>
+        <div class="checkbox-group" aria-labelledby="labelSkills">
+          <label><input type="checkbox" name="skills" value="react"> React</label>
+          <label><input type="checkbox" name="skills" value="vue"> Vue</label>
+          <label><input type="checkbox" name="skills" value="typescript"> TypeScript</label>
+          <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+        </div>
+      </div>
+
+      <!-- 10. Cover Letter / Notes (textarea) -->
+      <div class="form-group">
+        <label for="coverLetter" id="labelCover">Cover Letter or Notes</label>
+        <textarea id="coverLetter" name="coverLetter" rows="4" placeholder="Optional message to the hiring team..." aria-labelledby="labelCover"></textarea>
+      </div>
+
+      <!-- Hidden / off-screen input (weirdness) -->
+      <div class="off-screen-input">
+        <label for="trackingPixel">Tracking (do not fill)</label>
+        <input type="text" id="trackingPixel" name="tracking" value="utm_source=ashby&utm_medium=embed" tabindex="-1">
+      </div>
+
+      <hr>
+      <button type="submit" class="btn-submit">Submit Application</button>
+    </form>
+  </div>
+
+  <script>
+    (function() {
+      // Combobox logic
+      var input = document.getElementById('experienceInput');
+      var optionsContainer = document.getElementById('expOptions');
+      var hiddenInput = document.getElementById('experience');
+      var options = optionsContainer.querySelectorAll('.combobox-option');
+      var isOpen = false;
+
+      function toggleDropdown(show) {
+        isOpen = show;
+        optionsContainer.classList.toggle('show', show);
+        input.setAttribute('aria-expanded', show ? 'true' : 'false');
+      }
+
+      function selectOption(option) {
+        var value = option.getAttribute('data-value');
+        var text = option.textContent;
+        input.value = text;
+        hiddenInput.value = value;
+        toggleDropdown(false);
+        // remove previous selected
+        options.forEach(function(opt) { opt.classList.remove('selected'); });
+        option.classList.add('selected');
+      }
+
+      function filterOptions(query) {
+        var lower = query.toLowerCase();
+        options.forEach(function(opt) {
+          var text = opt.textContent.toLowerCase();
+          opt.style.display = text.includes(lower) ? '' : 'none';
+        });
+        if (isOpen) {
+          // re-show if hidden was closed
+        }
+      }
+
+      // Input focus: show dropdown
+      input.addEventListener('focus', function() {
+        toggleDropdown(true);
+        filterOptions(input.value);
+      });
+
+      input.addEventListener('input', function() {
+        if (!isOpen) toggleDropdown(true);
+        filterOptions(input.value);
+      });
+
+      input.addEventListener('blur', function(e) {
+        // delay to allow option click
+        setTimeout(function() {
+          if (!optionsContainer.contains(document.activeElement)) {
+            toggleDropdown(false);
+          }
+        }, 150);
+      });
+
+      // Click on options
+      options.forEach(function(opt) {
+        opt.addEventListener('click', function() {
+          selectOption(opt);
+          input.focus();
+        });
+      });
+
+      // Keyboard navigation
+      input.addEventListener('keydown', function(e) {
+        var currentSelected = optionsContainer.querySelector('.selected');
+        var visibleOptions = Array.from(options).filter(function(o) { return o.style.display !== 'none'; });
+        if (visibleOptions.length === 0) return;
+
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (!isOpen) {
+            toggleDropdown(true);
+            filterOptions(input.value);
+            visibleOptions = Array.from(options).filter(function(o) { return o.style.display !== 'none'; });
+          }
+          var idx = visibleOptions.indexOf(currentSelected);
+          if (e.key === 'ArrowDown') {
+            idx = (idx + 1) % visibleOptions.length;
+          } else {
+            idx = (idx - 1 + visibleOptions.length) % visibleOptions.length;
+          }
+          options.forEach(function(o) { o.classList.remove('selected'); });
+          visibleOptions[idx].classList.add('selected');
+          visibleOptions[idx].scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (currentSelected && isOpen) {
+            selectOption(currentSelected);
+          } else {
+            toggleDropdown(!isOpen);
+            if (isOpen) filterOptions(input.value);
+          }
+        } else if (e.key === 'Escape') {
+          toggleDropdown(false);
+        } else if (e.key === 'Tab') {
+          toggleDropdown(false);
+        }
+      });
+
+      // Close on click outside
+      document.addEventListener('click', function(e) {
+        var wrapper = document.querySelector('.combobox-wrapper');
+        if (!wrapper.contains(e.target)) {
+          toggleDropdown(false);
+        }
+      });
+
+      // Form submit (prevent actual submission for demo, but show alert)
+      document.getElementById('applyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('fullName').value.trim();
+        if (!name) {
+          alert('Please enter your full name.');
+          document.getElementById('fullName').focus();
+          return;
+        }
+        // Simple validation passed
+        alert('Application submitted (demo). Thank you ' + name + '!');
+      });
+    })();
+  </script>
+</body>
+</html>

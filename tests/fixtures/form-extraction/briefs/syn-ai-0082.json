@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0082",
+    "seed": 2231143528,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "definition list dl\/dt\/dd label pairs",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Deep wrapped label",
+                "notes": "Label without for wraps input three div levels deep",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Deep wrapped label<\/h1> <form action=\"\/apply\" method=\"post\"> <label>Full name<div><div><div><input type=\"text\" name=\"applicant_name\" id=\"applicant_name\"><\/div><\/div><\/div><\/label> <label for=\"contact_email\">Email<\/label><input type=\"email\" id=\"contact_email\" name=\"contact_email\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Submit outside form",
+                "notes": "Submit button outside form linked via form= attribute",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>External submit<\/h1> <form action=\"\/apply\" method=\"post\" id=\"ext-form\"> <label for=\"ext_name\">Name<\/label><input type=\"text\" id=\"ext_name\" name=\"ext_name\"> <label for=\"ext_email\">Email<\/label><input type=\"email\" id=\"ext_email\" name=\"ext_email\"> <label for=\"ext_motivation\">Why this company?<\/label><textarea id",
+                "requires_interaction": false
+            },
+            {
+                "title": "Meter self assessment",
+                "notes": "Self-assessment field uses meter element near text inputs",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Meter element<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"meter_name\">Name<\/label><input type=\"text\" id=\"meter_name\" name=\"meter_name\"> <p>Rate your JavaScript proficiency<\/p> <meter id=\"js_meter\" name=\"js_meter\" min=\"0\" max=\"10\" low=\"3\" high=\"7\" optimum=\"8\" value=\"5\">5\/10<\/meter> <label for=\"meter_",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: At least two fields with aria-label only and no visible label element Required: Label wraps input through nested divs without for attribute Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Apply form hosted inside iframe or srcdoc iframe shell Required: When combobox widget requested, use custom listbox - native select alone is insufficient Reference DOM (Deep wrapped label): Label without for wraps input three div levels deep Reference DOM (Submit outside form): Submit button outside form linked via form= attribute Reference DOM (Meter self assessment): Self-assessment field uses meter element near text inputs Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: aria-label-only, label-wraps-deep, div-role-textbox, iframe-apply, native-select-not-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: definition list dl\/dt\/dd label pairs. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Deep wrapped label; Submit outside form; Meter self assessment."
+}

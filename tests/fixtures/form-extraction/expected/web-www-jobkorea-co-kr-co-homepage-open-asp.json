@@ -1,0 +1,53 @@
+{
+  "id": "web-www-jobkorea-co-kr-co-homepage-open-asp",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "check_privacy_agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "check_privacy_agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "check_sensitive_agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "check_sensitive_agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

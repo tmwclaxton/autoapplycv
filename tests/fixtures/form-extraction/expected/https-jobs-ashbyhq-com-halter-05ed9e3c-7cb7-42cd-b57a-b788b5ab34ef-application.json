@@ -1,0 +1,445 @@
+{
+  "id": "https-jobs-ashbyhq-com-halter-05ed9e3c-7cb7-42cd-b57a-b788b5ab34ef-application",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "71c6b584-2761-4c45-a23a-abd62b95b8c9",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require a work visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0c42db4a-2a2e-4eb8-bd03-09b670d13b40",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4c93e879-1329-4e8c-b3af-6b723475d700",
+        "name": "4c93e879-1329-4e8c-b3af-6b723475d700",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4c93e879-1329-4e8c-b3af-6b723475d700",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "860f7c82-50ee-48ec-ab86-8fdb5d2e86e7",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "860f7c82-50ee-48ec-ab86-8fdb5d2e86e7",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "76c3f8b2-fc2c-4e65-b6dd-ef90eaaf2fe7",
+        "name": "76c3f8b2-fc2c-4e65-b6dd-ef90eaaf2fe7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "76c3f8b2-fc2c-4e65-b6dd-ef90eaaf2fe7",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "1abfafe1-66c3-4b3c-8d81-e184586b7f7c",
+        "name": "1abfafe1-66c3-4b3c-8d81-e184586b7f7c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1abfafe1-66c3-4b3c-8d81-e184586b7f7c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "halter is an equal opportunities employer. where possible, we will provide reasonable adjustments throughout the recruitment and selection process to ensure equal participation. is there anything you’d like to note to ensure you can perform at your best?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c3b219e5-6339-4e7b-aebd-7dc4324530a3",
+        "name": "c3b219e5-6339-4e7b-aebd-7dc4324530a3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c3b219e5-6339-4e7b-aebd-7dc4324530a3",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "37241ed3-634a-4006-a941-8a90e77cd5b0",
+        "name": "37241ed3-634a-4006-a941-8a90e77cd5b0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "37241ed3-634a-4006-a941-8a90e77cd5b0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which region best describes where you live in your home state?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "33712eb2-4378-4c6b-9033-a61fbd93c4d2",
+        "name": "33712eb2-4378-4c6b-9033-a61fbd93c4d2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "33712eb2-4378-4c6b-9033-a61fbd93c4d2",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e3ede967-9fea-42cd-bb99-e058aef83a43",
+        "name": "e3ede967-9fea-42cd-bb99-e058aef83a43",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e3ede967-9fea-42cd-bb99-e058aef83a43",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you excited about this opportunity at halter?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "9ddbd359-a275-497e-9a93-89549445a3ad",
+        "name": "9ddbd359-a275-497e-9a93-89549445a3ad",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9ddbd359-a275-497e-9a93-89549445a3ad",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we want to get to know you! record a 60 second video sharing something about you beyond the resume.",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "76a346ec-ad21-4549-ba1e-d1643b03e48b",
+        "name": "76a346ec-ad21-4549-ba1e-d1643b03e48b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "76a346ec-ad21-4549-ba1e-d1643b03e48b",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anything else you want to share?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "9aac2d56-1add-4a7d-9d46-106519296a02",
+        "name": "9aac2d56-1add-4a7d-9d46-106519296a02",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9aac2d56-1add-4a7d-9d46-106519296a02",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1925d807-63c9-4382-a767-a5432f0532c8_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68-labeled-radio-0",
+        "name": "1925d807-63c9-4382-a767-a5432f0532c8_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "New Zealand European (Pākehā)",
+        "Other European (inc. American, Canadian, Australian)",
+        "Māori",
+        "Indigenous American",
+        "Indigenous Australian",
+        "Pacific Peoples",
+        "Asian (inc. Chinese, Southeast, Indian, Other)",
+        "Latin American",
+        "Middle Eastern or African",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "1925d807-63c9-4382-a767-a5432f0532c8_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-0",
+        "name": "New Zealand European (Pākehā)",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Gender diverse",
+        "None of the options offered",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1925d807-63c9-4382-a767-a5432f0532c8_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "1925d807-63c9-4382-a767-a5432f0532c8_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

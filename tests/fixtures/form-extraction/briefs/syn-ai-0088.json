@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0088",
+    "seed": 1998449077,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Readonly prefilled email",
+                "notes": "Email input is readonly with prefilled value from profile import",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Readonly email<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ro_name\">Name<\/label><input type=\"text\" id=\"ro_name\" name=\"ro_name\"> <label for=\"ro_email\">Email (from profile)<\/label><input type=\"email\" id=\"ro_email\" name=\"ro_email\" value=\"candidate@example.com\" readonly> <label for=\"ro_phone\">Phone<\/lab",
+                "requires_interaction": false
+            },
+            {
+                "title": "Role group not fieldset",
+                "notes": "Grouped radios use div role=group instead of fieldset",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Role group<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"rg_name\">Name<\/label><input type=\"text\" id=\"rg_name\" name=\"rg_name\"> <div role=\"group\" aria-labelledby=\"rg_reloc_lbl\"> <span id=\"rg_reloc_lbl\">Willing to relocate?<\/span> <label><input type=\"radio\" name=\"rg_reloc\" value=\"yes\"> Yes<\/label> <label",
+                "requires_interaction": false
+            },
+            {
+                "title": "Drag drop file upload",
+                "notes": "Hidden file input inside drag-and-drop zone with custom button",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Drag drop upload<\/h1> <form action=\"\/apply\" method=\"post\" enctype=\"multipart\/form-data\"> <label for=\"file_name\">Name<\/label><input type=\"text\" id=\"file_name\" name=\"file_name\"> <div class=\"dropzone\" onclick=\"document.getElementById('cv_upload').click()\"> <p>Drag and drop your CV here or click to browse<\/p> <in",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Inputs laid out in table cells, not flex card stacks only Required: Label text split across multiple spans with no space between words Required: Apply form hosted inside iframe or srcdoc iframe shell Required: Yes\/no question as paired button elements, not native radio inputs Required: Fields inside a shadow DOM host or declarative shadow root Reference DOM (Readonly prefilled email): Email input is readonly with prefilled value from profile import Reference DOM (Role group not fieldset): Grouped radios use div role=group instead of fieldset Reference DOM (Drag drop file upload): Hidden file input inside drag-and-drop zone with custom button Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: table-layout, glued-label-text, iframe-apply, pill-yes-no, shadow-host. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Readonly prefilled email; Role group not fieldset; Drag drop file upload."
+}

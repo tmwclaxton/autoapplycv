@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application - Ashby</title>
+<style>
+* { box-sizing: border-box; margin: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; background: #f4f5f7; color: #1a1a2e; min-height: 100vh; }
+.app-layout { display: flex; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
+.sidebar { width: 280px; background: #fff; border-right: 1px solid #e2e4e8; padding: 32px 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.sidebar h2 { font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+.job-badge { background: #f0f4ff; padding: 12px; border-radius: 8px; margin-bottom: 24px; }
+.job-badge h1 { font-size: 18px; font-weight: 600; color: #111827; }
+.job-badge p { font-size: 13px; color: #6b7280; margin-top: 4px; }
+.main { flex: 1; padding: 32px 40px; max-width: 720px; }
+.section-title { font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
+.field-group { margin-bottom: 20px; }
+.wrap-deep { display: flex; flex-direction: column; }
+.wrap-deep .inner-wrap { position: relative; }
+.wrap-deep .inner-wrap .label-trick { font-size: 13px; color: #374151; margin-bottom: 4px; display: block; }
+.wrap-deep input, .wrap-deep select, .wrap-deep textarea { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; transition: border-color 0.2s; }
+.wrap-deep input:focus, .wrap-deep select:focus, .wrap-deep textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+.aria-only-field { margin-bottom: 20px; }
+.aria-only-field input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+.aria-only-field input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+.phone-split { display: flex; gap: 8px; align-items: flex-start; }
+.phone-split .country-code { width: 110px; flex-shrink: 0; }
+.phone-split .local-number { flex: 1; }
+.phone-split select, .phone-split input { width: 100%; padding: 10px 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; height: 40px; }
+.phone-split select:focus, .phone-split input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+.combobox-wrap { position: relative; }
+.combobox-trigger { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; text-align: left; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.combobox-trigger:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+.combobox-trigger .arrow { transition: transform 0.2s; }
+.combobox-trigger .arrow.open { transform: rotate(180deg); }
+.custom-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-top: none; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 50; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+.custom-listbox.open { display: block; }
+.custom-listbox .option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+.custom-listbox .option:hover { background: #f0f4ff; }
+.custom-listbox .option.selected { background: #e0e7ff; font-weight: 500; }
+.div-textbox { width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; line-height: 1.5; background: #fff; cursor: text; word-break: break-word; }
+.div-textbox:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+.div-textbox:empty:before { content: attr(data-placeholder); color: #9ca3af; }
+.referral-other-wrap { margin-top: 12px; display: none; }
+.referral-other-wrap.visible { display: block; }
+.referral-other-wrap input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+.collapsible-section { margin-bottom: 20px; }
+.collapse-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+.collapse-header button { background: none; border: none; font-size: 15px; font-weight: 500; color: #111827; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0; }
+.collapse-header button .arrow { transition: transform 0.2s; }
+.collapse-header button[aria-expanded="true"] .arrow { transform: rotate(90deg); }
+.collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 0; }
+.collapse-content.open { max-height: 500px; padding: 16px 0; }
+.glued-label { display: flex; align-items: center; gap: 0; }
+.glued-label span { font-size: 13px; color: #374151; background: #f3f4f6; padding: 10px 8px; border: 1px solid #d1d5db; border-right: none; border-radius: 6px 0 0 6px; white-space: nowrap; }
+.glued-label input { flex: 1; border-radius: 0 6px 6px 0; }
+.decoy-form { display: none; }
+.pill-group { display: flex; gap: 8px; margin-bottom: 20px; }
+.pill-btn { padding: 8px 20px; border: 1px solid #d1d5db; border-radius: 20px; background: #fff; cursor: pointer; font-size: 14px; color: #374151; transition: all 0.15s; }
+.pill-btn.selected { background: #2563eb; color: #fff; border-color: #2563eb; }
+.pill-btn:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.field-error input { border-color: #ef4444; }
+.field-error .error-msg { color: #ef4444; font-size: 12px; margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mb-2 { margin-bottom: 8px; }
+.text-sm { font-size: 13px; color: #6b7280; }
+.hidden { display: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+.bg-white { background: #fff; }
+.rounded { border-radius: 8px; }
+.shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.p-4 { padding: 16px; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="job-badge">
+      <h1>Senior Product Designer</h1>
+      <p>Remote · Full-time · Design</p>
+    </div>
+    <h2>Application</h2>
+    <ul style="list-style: none; padding: 0; font-size: 13px; color: #6b7280;">
+      <li style="padding: 6px 0;">✓ Basic Info</li>
+      <li style="padding: 6px 0; color: #111827; font-weight: 500;">→ Experience</li>
+      <li style="padding: 6px 0;">○ Portfolio</li>
+    </ul>
+    <div style="margin-top: 40px; padding: 12px; background: #f9fafb; border-radius: 6px; font-size: 12px; color: #9ca3af;">
+      <p>Your application is saved locally.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <form id="applyForm" novalidate>
+      <div class="decoy-form">
+        <input name="decoy_email" placeholder="decoy@example.com">
+      </div>
+
+      <div class="section-title">Contact Information</div>
+
+      <div class="field-group wrap-deep">
+        <div class="inner-wrap">
+          <span class="label-trick">Full name</span>
+          <div><input type="text" name="name" placeholder="e.g. Jane Smith" required></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span id="emailLabelHidden" class="sr-only">Email address</span>
+        <input type="email" name="email" aria-labelledby="emailLabelHidden" placeholder="you@company.com" required style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="field-group aria-only-field">
+        <input type="text" name="linkedin" aria-label="LinkedIn profile URL" placeholder="LinkedIn URL (optional)" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="field-group aria-only-field">
+        <input type="text" name="portfolio" aria-label="Portfolio website" placeholder="Portfolio / personal site" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">Phone number</span>
+        <div class="phone-split">
+          <div class="country-code">
+            <select name="phone_country" aria-label="Country code">
+              <option value="+1">US +1</option>
+              <option value="+44">UK +44</option>
+              <option value="+91">IN +91</option>
+              <option value="+61">AU +61</option>
+              <option value="+49">DE +49</option>
+            </select>
+          </div>
+          <div class="local-number">
+            <input type="tel" name="phone_local" aria-label="Local phone number" placeholder="555-0123">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">How did you hear about us?</span>
+        <div class="combobox-wrap" id="referralCombobox">
+          <button type="button" class="combobox-trigger" id="comboTrigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Referral source">
+            <span id="comboValue">Select an option</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="custom-listbox" id="comboListbox" role="listbox" aria-label="Referral source options">
+            <div class="option" role="option" data-value="linkedin">LinkedIn</div>
+            <div class="option" role="option" data-value="friend">Friend referral</div>
+            <div class="option" role="option" data-value="jobboard">Job board</div>
+            <div class="option" role="option" data-value="other">Other</div>
+          </div>
+          <input type="hidden" name="referral_source" id="referralSourceInput">
+        </div>
+        <div class="referral-other-wrap" id="referralOtherWrap">
+          <input type="text" name="referral_other_detail" placeholder="Please specify..." aria-label="Other referral detail">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">Short bio</span>
+        <div class="div-textbox" role="textbox" contenteditable="true" data-placeholder="Tell us about yourself..." aria-label="Short bio contenteditable" id="bioTextbox"></div>
+        <input type="hidden" name="bio" id="bioHidden">
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:8px;">Are you legally authorized to work in this country?</span>
+        <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+          <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false">No</button>
+        </div>
+        <input type="hidden" name="work_auth" id="workAuthInput">
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">Salary expectation</span>
+        <div class="glued-label">
+          <span>$</span>
+          <input type="number" name="salary_expectation" placeholder="80,000" min="0" step="1000" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:0 6px 6px 0;font-size:14px;">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <input type="text" name="github" placeholder="GitHub profile (optional)" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">Current company</span>
+        <input type="text" name="current_company" placeholder="e.g. Acme Corp" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="field-group">
+        <span style="display:block;font-size:13px;color:#374151;margin-bottom:4px;">Notice period (weeks)</span>
+        <input type="number" name="notice_period" placeholder="e.g. 2" min="0" max="12" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+      </div>
+
+      <div class="collapsible-section">
+        <div class="collapse-header">
+          <button type="button" id="collapseToggle" aria-expanded="false" aria-controls="collapseContent">
+            <span class="arrow">▶</span> Additional questions (optional)
+          </button>
+        </div>
+        <div id="collapseContent" class="collapse-content" role="region" aria-labelledby="collapseToggle">
+          <div class="field-group">
+            <textarea name="additional_info" placeholder="Anything else you'd like us to know?" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;min-height:80px;"></textarea>
+          </div>
+          <div class="field-group">
+            <div class="wrap-deep">
+              <div class="inner-wrap">
+                <span class="label-trick">Years of experience in design</span>
+                <div><input type="number" name="years_exp" min="0" step="1" placeholder="e.g. 5"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" style="width:100%;padding:12px;background:#111827;color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:500;cursor:pointer;margin-top:8px;">Submit Application</button>
+    </form>
+    <p style="font-size:12px;color:#9ca3af;margin-top:16px;text-align:center;">By submitting you agree to our processing of your data.</p>
+  </main>
+</div>
+
+<script>
+(function() {
+  const trigger = document.getElementById('comboTrigger');
+  const listbox = document.getElementById('comboListbox');
+  const valueSpan = document.getElementById('comboValue');
+  const hiddenInput = document.getElementById('referralSourceInput');
+  const otherWrap = document.getElementById('referralOtherWrap');
+  const options = listbox.querySelectorAll('.option');
+  let selectedValue = '';
+
+  function toggleCombobox(open) {
+    const isOpen = open !== undefined ? open : !listbox.classList.contains('open');
+    listbox.classList.toggle('open', isOpen);
+    trigger.setAttribute('aria-expanded', isOpen);
+    trigger.querySelector('.arrow').classList.toggle('open', isOpen);
+  }
+
+  trigger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleCombobox();
+  });
+
+  options.forEach(opt => {
+    opt.addEventListener('click', function() {
+      const val = this.getAttribute('data-value');
+      const label = this.textContent.trim();
+      valueSpan.textContent = label;
+      hiddenInput.value = val;
+      selectedValue = val;
+      options.forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      toggleCombobox(false);
+      if (val === 'other') {
+        otherWrap.classList.add('visible');
+      } else {
+        otherWrap.classList.remove('visible');
+      }
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrap')) {
+      toggleCombobox(false);
+    }
+  });
+
+  const bioTextbox = document.getElementById('bioTextbox');
+  const bioHidden = document.getElementById('bioHidden');
+  bioTextbox.addEventListener('input', function() {
+    bioHidden.value = this.innerText;
+  });
+
+  const pillBtns = document.querySelectorAll('.pill-btn');
+  const workAuthInput = document.getElementById('workAuthInput');
+  pillBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      pillBtns.forEach(b => {
+        b.classList.remove('selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+      this.classList.add('selected');
+      this.setAttribute('aria-checked', 'true');
+      workAuthInput.value = this.getAttribute('data-value');
+    });
+  });
+
+  const collapseToggle = document.getElementById('collapseToggle');
+  const collapseContent = document.getElementById('collapseContent');
+  collapseToggle.addEventListener('click', function() {
+    const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+    this.setAttribute('aria-expanded', expanded);
+    collapseContent.classList.toggle('open', expanded);
+  });
+
+  document.getElementById('applyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    let msg = 'Application submitted (demo):\n';
+    for (let [key, val] of formData.entries()) {
+      if (val) msg += `${key}: ${val}\n`;
+    }
+    if (bioHidden.value) msg += `bio: ${bioHidden.value}\n`;
+    alert(msg);
+  });
+})();
+</script>
+</body>
+</html>

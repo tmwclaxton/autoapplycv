@@ -1,0 +1,715 @@
+{
+  "id": "syn-ai-0002",
+  "min_fields": 32,
+  "exact_field_count": 32,
+  "fields": [
+    {
+      "question": "imię i nazwisko",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fullname",
+        "name": "fullname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Imię i nazwisko",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "+48 111 222 333",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+48 111 222 333",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "inne (proszę podać)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Inne (proszę podać)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "other_referral",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "proszę podać źródło",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "referral_other",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Proszę podać źródło",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "react",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "React",
+        "TypeScript",
+        "CSS/Sass",
+        "Node.js",
+        "Angular",
+        "Vue.js"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "skills",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin (opcjonalnie) https://linkedin.com/in/...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "linkedin",
+        "name": "linkedin",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://linkedin.com/in/...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio / github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "portfolio",
+        "name": "portfolio",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "URL",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "uwagi dla rekrutera dodatkowe informacje...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "notes",
+        "name": "notes",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Dodatkowe informacje...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "np. 15000 pln",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "salary_expectation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. 15000 PLN",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "miasto np. warszawa",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. Warszawa",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kod pocztowy 00-001",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "postal",
+        "name": "postal",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "00-001",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "planowana data rozpoczęcia",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "start_date",
+        "name": "start_date",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferowany typ umowy",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "B2B",
+        "Umowa o pracę",
+        "Umowa zlecenie"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "contract_type",
+        "name": "contract_type",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wymiar godzin (tygodniowo) 40",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "work_hours",
+        "name": "work_hours",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "40",
+        "min": "1",
+        "max": "168",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "poziom angielskiego",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "A1 - Początkujący",
+        "A2 - Podstawowy",
+        "B1 - Średni",
+        "B2 - Wyższy średni",
+        "C1 - Zaawansowany",
+        "C2 - Biegły"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "english_level",
+        "name": "english_level",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url https://github.com/username",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "github",
+        "name": "github",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://github.com/username",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "skąd znasz firmę?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "LinkedIn",
+        "Pracuj.pl",
+        "Polecenie",
+        "Inne"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "source",
+        "name": "source",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gotowość do relokacji",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "Tak",
+        "Nie",
+        "Rozważam"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "relocation",
+        "name": "relocation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "okres wypowiedzenia",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "1 miesiąc",
+        "2 miesiące",
+        "3 miesiące",
+        "Natychmiast"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "notice_period",
+        "name": "notice_period",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wykształcenie",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "Podstawowe",
+        "Średnie",
+        "Wyższe"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "education",
+        "name": "education",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "certyfikaty (opcjonalnie) wymień posiadane certyfikaty...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "certificates",
+        "name": "certificates",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Wymień posiadane certyfikaty...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dodatkowe umiejętności inne umiejętności...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "additional_skills",
+        "name": "additional_skills",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Inne umiejętności...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferowana technologia",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "React",
+        "Angular",
+        "Vue.js",
+        "Svelte"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred_tech",
+        "name": "preferred_tech",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lata doświadczenia np. 5",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "years_exp",
+        "name": "years_exp",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. 5",
+        "min": "0",
+        "max": "50",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wynagrodzenie minimalne (netto) np. 12000",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "salary_min",
+        "name": "salary_min",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. 12000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wynagrodzenie maksymalne (netto) np. 20000",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "salary_max",
+        "name": "salary_max",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. 20000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferowana lokalizacja np. warszawa, kraków",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "preferred_location",
+        "name": "preferred_location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. Warszawa, Kraków",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferencja pracy zdalnej",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "W pełni zdalna",
+        "Hybrydowa",
+        "Stacjonarna"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "remote_preference",
+        "name": "remote_preference",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dostępność",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "Natychmiast",
+        "1 miesiąc",
+        "2 miesiące",
+        "3 miesiące"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "availability",
+        "name": "availability",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kategoria prawa jazdy",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Wybierz",
+        "B",
+        "C",
+        "D"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "driving_license_cat",
+        "name": "driving_license_cat",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "znajomość języków np. angielski c1, niemiecki b2",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "languages",
+        "name": "languages",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "np. angielski C1, niemiecki B2",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zainteresowania (opcjonalnie) twoje zainteresowania...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "hobbies",
+        "name": "hobbies",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Twoje zainteresowania...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

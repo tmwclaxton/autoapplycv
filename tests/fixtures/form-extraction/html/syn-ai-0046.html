@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application - Senior Product Designer</title>
+<style>
+  body { background: #f4f5f7; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+  .app-shell { max-width: 900px; width: 100%; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 30px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 6px; vertical-align: top; }
+  .field-group { margin-bottom: 14px; }
+  .glued-label span { display: inline; font-size: 13px; color: #444; }
+  .glued-label input { margin-left: 4px; border: 1px solid #ccc; border-radius: 4px; padding: 6px 8px; width: 60%; }
+  .combobox-wrapper { position: relative; display: inline-block; width: 100%; }
+  .combobox-input { width: 100%; padding: 8px 10px; border: 1px solid #bbb; border-radius: 4px; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ccc; max-height: 180px; overflow-y: auto; display: none; z-index: 10; }
+  .listbox[aria-expanded="true"] { display: block; }
+  .listbox option { padding: 8px 10px; cursor: default; }
+  .listbox option:hover { background: #e7f0ff; }
+  .pill-group { display: flex; gap: 8px; margin: 6px 0; }
+  .pill { border: 1px solid #aaa; background: #fff; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; }
+  .pill.selected { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+  details { margin: 16px 0; border: 1px solid #ddd; border-radius: 6px; padding: 6px 8px; }
+  summary { font-weight: 500; cursor: pointer; padding: 4px 0; }
+  .decoy-form { background: #fafafa; border: 1px dashed #bbb; padding: 12px; margin-top: 24px; border-radius: 8px; }
+  .decoy-form h4 { margin: 0 0 8px; font-size: 14px; color: #555; }
+  .decoy-form input { margin-right: 6px; }
+  .wizard-step { display: none; }
+  .wizard-step.active { display: block; }
+  .hidden-field { display: none; }
+  .split-date select { width: 30%; margin-right: 4px; }
+  [role="textbox"] { border: 1px solid #ccc; padding: 8px; min-height: 60px; border-radius: 4px; background: #fff; }
+  .required:after { content: " *"; color: #c00; }
+  .note { font-size: 12px; color: #888; }
+  .inline-flex { display: inline-flex; align-items: center; }
+  .mt-2 { margin-top: 8px; }
+  .mb-2 { margin-bottom: 8px; }
+  .w-full { width: 100%; }
+  .gap-2 { gap: 8px; }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 12px; }
+  .text-gray { color: #666; }
+  .border-b { border-bottom: 1px solid #ddd; }
+  .py-2 { padding-top: 8px; padding-bottom: 8px; }
+  .px-2 { padding-left: 8px; padding-right: 8px; }
+  .flex { display: flex; }
+  .items-center { align-items: center; }
+  .block { display: block; }
+  .mt-4 { margin-top: 16px; }
+  .mb-4 { margin-bottom: 16px; }
+  .ml-2 { margin-left: 8px; }
+  .mr-2 { margin-right: 8px; }
+  .p-2 { padding: 8px; }
+  .rounded { border-radius: 4px; }
+  .border { border: 1px solid #ccc; }
+  .bg-white { background: #fff; }
+  .cursor-pointer { cursor: pointer; }
+  .hidden { display: none; }
+  .relative { position: relative; }
+  .absolute { position: absolute; }
+  .top-full { top: 100%; }
+  .left-0 { left: 0; }
+  .right-0 { right: 0; }
+  .z-10 { z-index: 10; }
+  .max-h-40 { max-height: 160px; }
+  .overflow-y-auto { overflow-y: auto; }
+  .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .bg-blue { background: #0a66c2; }
+  .text-white { color: #fff; }
+  .border-blue { border-color: #0a66c2; }
+  .hover\:bg-gray-100:hover { background: #f0f0f0; }
+  .focus\:outline-none:focus { outline: none; }
+  .focus\:ring:focus { ring: 2px solid #0a66c2; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .decoy-form input[type="text"], .decoy-form input[type="email"] { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; }
+  .decoy-form button { padding: 4px 12px; background: #0a66c2; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+  .decoy-form button:hover { background: #084d8a; }
+  .btn-primary { background: #0a66c2; color: #fff; border: 0; padding: 10px 24px; border-radius: 6px; cursor: pointer; }
+  .btn-primary:hover { background: #084d8a; }
+  .btn-secondary { background: #e0e0e0; color: #333; border: 0; padding: 10px 24px; border-radius: 6px; cursor: pointer; }
+  .btn-secondary:hover { background: #d0d0d0; }
+  .field-error { border-color: #c00 !important; }
+  .error-message { color: #c00; font-size: 12px; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <h2 style="margin-top:0; font-size:20px;">Apply: Senior Product Designer</h2>
+  <p class="text-sm text-gray mb-4">Step 1 of 2 — fields marked with dot are required (micro1 style).</p>
+
+  <!-- main form using table layout, micro1 labels, split date, details-accordion, custom combobox, aria-label-only, label-wraps-deep, pill buttons, role textbox -->
+  <form id="jobAppForm">
+    <table>
+      <tr>
+        <td style="width:40%;"><span class="glued-label"><span>Q1.first name</span><input type="text" name="firstName" placeholder="First name" /></td>
+        <td><span class="glued-label"><span>Q2.last name</span><input type="text" name="lastName" placeholder="Last name" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mb-2"><span class="text-sm">Q3.email (aria-label only below)</span></div>
+          <input type="email" aria-label="email address" placeholder="you@example.com" style="width:96%;padding:6px;" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mb-2"><span class="text-sm">Q4.phone</span></div>
+          <input type="tel" aria-label="phone number" placeholder="+1 555 000" style="width:96%;padding:6px;" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">Q5.start date</span>
+            <div class="split-date">
+              <select aria-label="start month"><option>Month</option><option>01</option><option>02</option><option>03</option></select>
+              <select aria-label="start day"><option>Day</option><option>1</option><option>2</option><option>3</option></select>
+              <select aria-label="start year"><option>Year</option><option>2025</option><option>2026</option></select>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="text-sm mb-2 mt-2">Q6.preferred language</div>
+          <div class="combobox-wrapper">
+            <input type="text" class="combobox-input" id="combobox1" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="listbox1" placeholder="Type or select" />
+            <div class="listbox" id="listbox1" role="listbox" aria-expanded="false">
+              <option role="option">English</option>
+              <option role="option">Spanish</option>
+              <option role="option">French</option>
+              <option role="option">German</option>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="text-sm mb-2 mt-2">Q7.work eligibility</div>
+          <div class="pill-group" role="group" aria-label="Eligibility">
+            <span class="pill" data-value="yes">Yes</span>
+            <span class="pill" data-value="no">No</span>
+          </div>
+          <input type="hidden" name="eligible" id="eligibleInput" value="" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="text-sm mb-2 mt-2">Q8.portfolio (div role=textbox)</div>
+          <div role="textbox" contenteditable="true" aria-label="portfolio url or description" style="width:96%;">https://</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <details>
+            <summary>Q9.additional details (click to reveal)</summary>
+            <div class="py-2">
+              <label style="display:block;margin:4px 0;">
+                <span>LinkedIn profile</span>
+                <input type="url" name="linkedin" placeholder="URL" style="width:80%;" />
+              </label>
+              <div class="mt-2 mb-2">
+                <span>How did you hear about us?</span>
+                <select style="width:60%;">
+                  <option>LinkedIn</option>
+                  <option>Friend</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="mt-2">
+                <span>Current company</span>
+                <input type="text" name="currentCompany" placeholder="Company name" style="width:80%;" />
+              </div>
+              <div class="mt-2">
+                <span>Years in current role</span>
+                <input type="number" name="yearsCurrentRole" min="0" max="30" style="width:60px;" />
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-4 mb-2">
+            <!-- label wraps input through nested divs without for -->
+            <div class="flex items-center">
+              <div class="inline-flex items-center">
+                <label>
+                  <div><span>Q10.agree to terms</span></div>
+                  <div><input type="checkbox" name="agree" /></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-2 mb-2">
+            <span class="text-sm">Q11.salary expectation</span>
+            <input type="text" name="salaryExpectation" placeholder="e.g. 120000" style="width:60%;" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-2 mb-2">
+            <span class="text-sm">Q12.hear about us (aria-label only)</span>
+            <input type="text" aria-label="how did you hear about this position" placeholder="e.g. LinkedIn, referral" style="width:60%;" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-2 mb-2">
+            <span class="text-sm">Q13.preferred start date</span>
+            <div class="split-date">
+              <select aria-label="preferred start month"><option>Month</option><option>01</option><option>02</option><option>03</option></select>
+              <select aria-label="preferred start day"><option>Day</option><option>1</option><option>2</option><option>3</option></select>
+              <select aria-label="preferred start year"><option>Year</option><option>2025</option><option>2026</option></select>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-2 mb-2">
+            <span class="text-sm">Q14.willing to relocate</span>
+            <div class="pill-group" role="group" aria-label="Relocation">
+              <span class="pill" data-value="yes">Yes</span>
+              <span class="pill" data-value="no">No</span>
+              <span class="pill" data-value="maybe">Maybe</span>
+            </div>
+            <input type="hidden" name="relocate" id="relocateInput" value="" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="mt-2 mb-2">
+            <span class="text-sm">Q15.referral code</span>
+            <input type="text" name="referralCode" placeholder="Optional" style="width:40%;" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button type="button" id="wizardNext" class="btn-primary">Next → Review</button>
+        </td>
+      </tr>
+    </table>
+
+    <!-- hidden wizard step 2 (conditional reveal) -->
+    <div id="step2" class="wizard-step" style="margin-top:20px; border-top:1px solid #ddd; padding-top:16px;">
+      <h3 style="font-size:16px;">Final review</h3>
+      <p class="note">Confirm your details and submit.</p>
+      <div class="flex gap-2 items-center mt-2">
+        <span class="text-sm">Q16.years of experience</span>
+        <select>
+          <option>0-2</option>
+          <option>3-5</option>
+          <option>6+</option>
+        </select>
+      </div>
+      <div class="mt-2 mb-2">
+        <span class="text-sm">Q17.highest education</span>
+        <select>
+          <option>High School</option>
+          <option>Bachelor's</option>
+          <option>Master's</option>
+          <option>PhD</option>
+        </select>
+      </div>
+      <div class="mt-2 mb-2">
+        <label>Q18.comments (wrapped label)</label>
+        <textarea rows="2" style="width:90%;"></textarea>
+      </div>
+      <div class="mt-2 mb-2">
+        <span class="text-sm">Q19.portfolio link (aria-label only)</span>
+        <input type="url" aria-label="portfolio website" placeholder="https://" style="width:60%;" />
+      </div>
+      <div class="mt-2 mb-2">
+        <span class="text-sm">Q20.github profile</span>
+        <input type="url" name="github" placeholder="https://github.com/" style="width:60%;" />
+      </div>
+      <button type="submit" class="btn-primary">Submit Application</button>
+    </div>
+  </form>
+
+  <!-- decoy form: newsletter signup (separate from job application) -->
+  <div class="decoy-form">
+    <h4>📬 Stay updated with our newsletter (optional)</h4>
+    <form onsubmit="alert('Newsletter mock');return false;">
+      <input type="text" placeholder="Your name" style="width:40%;" />
+      <input type="email" placeholder="Email address" />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // combobox logic
+    var combobox = document.getElementById('combobox1');
+    var listbox = document.getElementById('listbox1');
+    var options = listbox.querySelectorAll('option');
+    if (combobox && listbox) {
+      combobox.addEventListener('click', function(e) {
+        var expanded = listbox.getAttribute('aria-expanded') === 'true';
+        listbox.setAttribute('aria-expanded', !expanded);
+        combobox.setAttribute('aria-expanded', !expanded);
+      });
+      combobox.addEventListener('blur', function() {
+        setTimeout(function() {
+          listbox.setAttribute('aria-expanded', 'false');
+          combobox.setAttribute('aria-expanded', 'false');
+        }, 200);
+      });
+      options.forEach(function(opt) {
+        opt.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          combobox.value = this.textContent;
+          listbox.setAttribute('aria-expanded', 'false');
+          combobox.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // pill toggle for eligibility
+    var pills = document.querySelectorAll('.pill-group .pill');
+    var hiddenElig = document.getElementById('eligibleInput');
+    var hiddenRelocate = document.getElementById('relocateInput');
+    pills.forEach(function(p) {
+      p.addEventListener('click', function() {
+        var parentGroup = this.closest('.pill-group');
+        var groupPills = parentGroup.querySelectorAll('.pill');
+        groupPills.forEach(function(x){ x.classList.remove('selected'); });
+        this.classList.add('selected');
+        var hiddenInput = parentGroup.nextElementSibling;
+        if (hiddenInput && hiddenInput.type === 'hidden') {
+          hiddenInput.value = this.getAttribute('data-value');
+        }
+      });
+    });
+
+    // wizard next button reveal step2
+    var nextBtn = document.getElementById('wizardNext');
+    var step2 = document.getElementById('step2');
+    if (nextBtn && step2) {
+      nextBtn.addEventListener('click', function() {
+        step2.classList.add('active');
+        step2.style.display = 'block';
+        nextBtn.style.display = 'none';
+      });
+    }
+
+    // form submit mock
+    document.getElementById('jobAppForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo)');
+    });
+  })();
+</script>
+</body>
+</html>

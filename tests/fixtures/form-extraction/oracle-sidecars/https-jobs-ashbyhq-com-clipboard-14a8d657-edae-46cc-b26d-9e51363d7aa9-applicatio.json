@@ -1,0 +1,227 @@
+{
+  "id": "https-jobs-ashbyhq-com-clipboard-14a8d657-edae-46cc-b26d-9e51363d7aa9-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:15:39.548Z",
+  "page_url": "https://jobs.ashbyhq.com/clipboard/14a8d657-edae-46cc-b26d-9e51363d7aa9/application",
+  "page_title": "SDR Manager @ Clipboard",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 10,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work in your country of residence?",
+        "ai": "Are you authorized to work in your country of residence?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you ever worked for clipboard?",
+        "ai": "Have you ever worked for Clipboard?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you located?",
+        "ai": "Where are you located?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your expected compensation per year? please provide it in your local currency.",
+        "ai": "What is your expected compensation per year? Please provide it in your local currency.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please share your linkedin profile",
+        "ai": "Please share your Linkedin profile",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about the position?",
+        "ai": "How did you hear about the position?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom radio/button components that are mapped to standard input types. The 'Yes/No' fields are implemented as button groups with hidden checkboxes.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you located?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Canada",
+          "United States",
+          "Other"
+        ]
+      },
+      {
+        "question": "Are you authorized to work in your country of residence?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your expected compensation per year? Please provide it in your local currency.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you ever worked for Clipboard?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please share your Linkedin profile",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about the position?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Indeed",
+          "Word of Mouth",
+          "Clipboard User",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work in your country of residence?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "have you ever worked for clipboard?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "number",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your expected compensation per year? please provide it in your local currency.",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "please share your linkedin profile",
+      "field_type": "url",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about the position?",
+      "field_type": "radio",
+      "ref": "f9"
+    }
+  ]
+}

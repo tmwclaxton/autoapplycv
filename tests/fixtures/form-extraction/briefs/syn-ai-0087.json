@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0087",
+    "seed": 1174358265,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "two-column grid without card wrapper",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Placeholder-only identification",
+                "notes": "Empty label element; field identified only by placeholder attribute",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Placeholder only<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\"><\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\" placeholder=\"Full name\"> <label for=\"ph_email\"><\/label><input type=\"email\" id=\"ph_email\" name=\"ph_email\" placeholder=\"Email address\"> <label for=\"ph_phone\"><\/label><input type",
+                "requires_interaction": false
+            },
+            {
+                "title": "Conditional radio reveal",
+                "notes": "Selecting Yes on sponsorship reveals follow-up textarea",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Conditional radio<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"cond_name\">Name<\/label><input type=\"text\" id=\"cond_name\" name=\"cond_name\"> <p>Do you require visa sponsorship?<\/p> <label><input type=\"radio\" name=\"visa_need\" value=\"no\"> No<\/label> <label><input type=\"radio\" name=\"visa_need\" value=\"yes\" ",
+                "requires_interaction": false
+            },
+            {
+                "title": "Fields inside details accordion",
+                "notes": "Cover letter and visa fields hidden inside closed details element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Details accordion<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"acc_name\">Name<\/label><input type=\"text\" id=\"acc_name\" name=\"acc_name\"> <details> <summary>Additional questions (click to expand)<\/summary> <label for=\"acc_cover\">Cover letter<\/label><textarea id=\"acc_cover\" name=\"acc_cover\" rows=\"4\"><\/te",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Label wraps input through nested divs without for attribute Required: Fields inside a shadow DOM host or declarative shadow root Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Fields inside details\/summary or hidden until click Reference DOM (Placeholder-only identification): Empty label element; field identified only by placeholder attribute Reference DOM (Conditional radio reveal): Selecting Yes on sponsorship reveals follow-up textarea Reference DOM (Fields inside details accordion): Cover letter and visa fields hidden inside closed details element Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: label-wraps-deep, shadow-host, native-select-not-combobox, duplicate-name-attrs, details-accordion. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: two-column grid without card wrapper. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Placeholder-only identification; Conditional radio reveal; Fields inside details accordion."
+}

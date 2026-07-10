@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Application - Senior Product Designer</title>
+<style>
+  body { background:#f5f7fa; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; margin:0; padding:20px; }
+  .app-shell { max-width:720px; margin:0 auto; background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04); overflow:hidden; }
+  header { padding:24px 32px 8px; border-bottom:1px solid #e9ecef; }
+  header h1 { font-size:22px; margin:0 0 4px; font-weight:600; color:#1a1a2e; }
+  header p { font-size:14px; color:#6b7280; margin:0 0 8px; }
+  form { padding:16px 32px 32px; }
+  h3 { font-size:13px; text-transform:uppercase; letter-spacing:.4px; color:#4b5563; margin:24px 0 12px; font-weight:600; }
+  h3:first-of-type { margin-top:8px; }
+  .field-group { margin-bottom:18px; }
+  .field-row { display:flex; gap:12px; flex-wrap:wrap; }
+  .field-row > * { flex:1 1 180px; }
+  .table-layout { display:table; width:100%; border-collapse:collapse; }
+  .table-layout .tr { display:table-row; }
+  .table-layout .td { display:table-cell; padding:6px 8px; vertical-align:middle; }
+  .table-layout .td-label { white-space:nowrap; width:1%; padding-right:12px; font-size:14px; color:#374151; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea, .pseudo-input { border:1px solid #d1d5db; border-radius:8px; padding:10px 12px; font-size:15px; width:100%; box-sizing:border-box; background:#fff; transition:border .15s; }
+  input:focus, textarea:focus, .pseudo-input:focus-within { outline:none; border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,.15); }
+  textarea { resize:vertical; min-height:80px; }
+  .native-select { border:1px solid #d1d5db; border-radius:8px; padding:10px 12px; font-size:15px; width:100%; background:#fff; appearance:auto; }
+  .combobox-wrapper { position:relative; }
+  .combobox-trigger { display:flex; align-items:center; justify-content:space-between; border:1px solid #d1d5db; border-radius:8px; padding:10px 12px; font-size:15px; width:100%; box-sizing:border-box; background:#fff; cursor:pointer; }
+  .combobox-trigger[aria-expanded="true"] + .listbox { display:block; }
+  .listbox { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #d1d5db; border-radius:8px; z-index:50; max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,.12); }
+  .listbox-option { padding:10px 12px; font-size:14px; cursor:pointer; }
+  .listbox-option:hover, .listbox-option[aria-selected="true"] { background:#f0f0ff; }
+  .listbox-option[aria-selected="true"] { font-weight:500; }
+  .pill-group { display:inline-flex; border:1px solid #d1d5db; border-radius:40px; overflow:hidden; }
+  .pill-btn { padding:8px 20px; font-size:14px; background:#fff; border:none; cursor:pointer; transition:all .1s; border-right:1px solid #d1d5db; }
+  .pill-btn:last-child { border-right:none; }
+  .pill-btn.active { background:#6366f1; color:#fff; }
+  details.details-field { margin-bottom:18px; border:1px solid #e5e7eb; border-radius:8px; padding:8px 12px; }
+  details.details-field summary { cursor:pointer; font-weight:500; font-size:14px; padding:4px 0; }
+  details.details-field[open] { background:#fafbff; }
+  .details-content { padding:12px 0 8px; }
+  .shadow-host { border:1px dashed #c4b5fd; border-radius:8px; padding:12px; background:#f5f3ff; }
+  .shadow-host::before { content:"⚡ shadow"; display:block; font-size:11px; color:#7c3aed; margin-bottom:6px; font-weight:600; }
+  .req-asterisk { color:#dc2626; font-size:16px; line-height:1; margin-left:2px; }
+  .glue-label { display:inline; font-size:14px; color:#374151; }
+  .glue-label .part { display:inline; }
+  .glue-label .part + .part { margin-left:0; }
+  .label-block { display:block; font-size:14px; font-weight:500; margin-bottom:6px; color:#374151; }
+  .hint { font-size:12px; color:#9ca3af; margin-top:4px; }
+  .btn-submit { background:#1a1a2e; color:#fff; border:none; border-radius:8px; padding:14px 32px; font-size:16px; font-weight:600; cursor:pointer; margin-top:20px; width:100%; }
+  .btn-submit:hover { background:#2d2d44; }
+  .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0; }
+  .decoy-form { display:none; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header>
+    <h1>Senior Product Designer</h1>
+    <p>Acme Corp · San Francisco, CA · Full-time</p>
+  </header>
+  <form id="mainForm">
+    <!-- ===== SECTION: Personal Info ===== -->
+    <h3>About you</h3>
+
+    <!-- Table layout form with asterisk in sibling span + concatenated label words -->
+    <div class="table-layout">
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">First</span><span class="part"> name</span><span class="part">required</span></span>
+          <span class="req-asterisk" aria-hidden="true">*</span>
+        </div>
+        <div class="td">
+          <input type="text" id="firstName" name="firstName" placeholder="e.g. Alex" style="width:100%;" required>
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">Last</span><span class="part"> name</span></span>
+          <span class="req-asterisk" aria-hidden="true">*</span>
+        </div>
+        <div class="td">
+          <input type="text" id="lastName" name="lastName" placeholder="e.g. Rivera" required>
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">Email</span><span class="part"> address</span></span>
+          <span class="req-asterisk" aria-hidden="true">*</span>
+        </div>
+        <div class="td">
+          <input type="email" id="email" name="email" placeholder="you@company.com" required>
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">Phone</span></span>
+        </div>
+        <div class="td">
+          <input type="tel" id="phone" name="phone" placeholder="+1 (415) 555-0000">
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">Current</span><span class="part"> city</span></span>
+        </div>
+        <div class="td">
+          <input type="text" id="city" name="city" placeholder="e.g. San Francisco">
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">LinkedIn</span><span class="part">URL</span><span class="part">(optional)</span></span>
+        </div>
+        <div class="td">
+          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." style="width:100%;">
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">Portfolio</span><span class="part"> website</span></span>
+        </div>
+        <div class="td">
+          <input type="url" id="portfolio" name="portfolio" placeholder="https://...">
+        </div>
+      </div>
+      <div class="tr">
+        <div class="td td-label">
+          <span class="glue-label"><span class="part">GitHub</span><span class="part"> profile</span></span>
+        </div>
+        <div class="td">
+          <input type="url" id="github" name="github" placeholder="https://github.com/...">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION: Experience ===== -->
+    <h3>Experience</h3>
+
+    <!-- Custom combobox (listbox) for years of experience -->
+    <div class="field-group">
+      <span class="label-block" id="expLabel">Years of experience</span>
+      <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="expLabel">
+        <div class="combobox-trigger" tabindex="0" role="button" aria-expanded="false" data-value="" onclick="toggleListbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); toggleListbox(this); }">
+          <span class="combobox-value">Select</span>
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="listbox" role="listbox" aria-labelledby="expLabel" style="display:none;">
+          <div class="listbox-option" role="option" aria-selected="false" data-value="0-1" onclick="selectOption(this)">0–1 years</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="2-3" onclick="selectOption(this)">2–3 years</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="4-6" onclick="selectOption(this)">4–6 years</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="7-10" onclick="selectOption(this)">7–10 years</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="10+" onclick="selectOption(this)">10+ years</div>
+        </div>
+      </div>
+      <input type="hidden" name="yearsExp" id="yearsExpHidden" value="">
+    </div>
+
+    <!-- Native select (NOT combobox) for current level -->
+    <div class="field-group">
+      <label for="levelSelect" class="label-block">Current level <span class="req-asterisk" aria-hidden="true">*</span></label>
+      <select id="levelSelect" name="level" class="native-select" required>
+        <option value="">Select level</option>
+        <option value="junior">Junior</option>
+        <option value="mid">Mid-level</option>
+        <option value="senior">Senior</option>
+        <option value="lead">Lead</option>
+      </select>
+    </div>
+
+    <!-- Yes/no as pill buttons (pill-yes-no) -->
+    <div class="field-group">
+      <span class="label-block" id="portfolioLabel">Do you have a portfolio?</span>
+      <div class="pill-group" role="group" aria-labelledby="portfolioLabel">
+        <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this,'portfolioHidden')">Yes</button>
+        <button type="button" class="pill-btn" data-value="no" onclick="setPill(this,'portfolioHidden')">No</button>
+      </div>
+      <input type="hidden" name="hasPortfolio" id="portfolioHidden" value="">
+    </div>
+
+    <!-- Portfolio URL (hidden unless yes) -->
+    <div class="field-group" id="portfolioUrlGroup" style="display:none;">
+      <label for="portfolioUrl" class="label-block">Portfolio URL</label>
+      <input type="url" id="portfolioUrl" name="portfolioUrl" placeholder="https://" style="width:100%;">
+    </div>
+
+    <!-- ===== SECTION: Legal & Diversity ===== -->
+    <h3>Demographics (optional)</h3>
+
+    <!-- details/accordion with fields inside (details-accordion pattern) -->
+    <details class="details-field">
+      <summary>Gender identity <span style="font-weight:400;color:#6b7280;">(click to expand)</span></summary>
+      <div class="details-content">
+        <div class="field-group">
+          <span class="label-block" id="genderLabel">How do you identify?</span>
+          <div class="pill-group" role="group" aria-labelledby="genderLabel">
+            <button type="button" class="pill-btn" data-value="woman" onclick="setPill(this,'genderHidden')">Woman</button>
+            <button type="button" class="pill-btn" data-value="man" onclick="setPill(this,'genderHidden')">Man</button>
+            <button type="button" class="pill-btn" data-value="nonbinary" onclick="setPill(this,'genderHidden')">Non-binary</button>
+            <button type="button" class="pill-btn" data-value="prefer-not" onclick="setPill(this,'genderHidden')">Prefer not</button>
+          </div>
+          <input type="hidden" name="gender" id="genderHidden" value="">
+        </div>
+      </div>
+    </details>
+
+    <details class="details-field">
+      <summary>Veteran status <span style="font-weight:400;color:#6b7280;">(optional)</span></summary>
+      <div class="details-content">
+        <div class="field-group">
+          <span class="label-block" id="vetLabel">Are you a veteran?</span>
+          <div class="pill-group" role="group" aria-labelledby="vetLabel">
+            <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this,'vetHidden')">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" onclick="setPill(this,'vetHidden')">No</button>
+            <button type="button" class="pill-btn" data-value="prefer-not" onclick="setPill(this,'vetHidden')">Prefer not</button>
+          </div>
+          <input type="hidden" name="veteran" id="vetHidden" value="">
+        </div>
+      </div>
+    </details>
+
+    <details class="details-field">
+      <summary>Disability status <span style="font-weight:400;color:#6b7280;">(optional)</span></summary>
+      <div class="details-content">
+        <div class="field-group">
+          <span class="label-block" id="disLabel">Do you have a disability?</span>
+          <div class="pill-group" role="group" aria-labelledby="disLabel">
+            <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this,'disHidden')">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" onclick="setPill(this,'disHidden')">No</button>
+            <button type="button" class="pill-btn" data-value="prefer-not" onclick="setPill(this,'disHidden')">Prefer not</button>
+          </div>
+          <input type="hidden" name="disability" id="disHidden" value="">
+        </div>
+      </div>
+    </details>
+
+    <!-- ===== SHADOW DOM HOST (declarative shadow root) ===== -->
+    <h3>Additional info</h3>
+    <div class="shadow-host">
+      <div id="shadowRootHost">
+        <template shadowroot="open">
+          <style>
+            .shadow-field { margin-bottom:12px; }
+            .shadow-label { display:block; font-size:13px; font-weight:500; color:#e0d4ff; margin-bottom:4px; }
+            .shadow-input { border:1px solid #6d58b0; border-radius:6px; padding:8px 10px; width:100%; box-sizing:border-box; background:#2a1f4c; color:#f0eaff; }
+            .shadow-input::placeholder { color:#a090cc; }
+          </style>
+          <div class="shadow-field">
+            <span class="shadow-label">How did you hear about us? (shadow)</span>
+            <input class="shadow-input" type="text" placeholder="e.g. LinkedIn, friend" name="referralShadow" aria-label="How did you hear about us?">
+          </div>
+          <div class="shadow-field">
+            <span class="shadow-label">Portfolio link (shadow)</span>
+            <input class="shadow-input" type="url" placeholder="https://" name="portfolioShadow" aria-label="Portfolio link">
+          </div>
+          <div class="shadow-field">
+            <span class="shadow-label">Years coding (shadow)</span>
+            <input class="shadow-input" type="number" placeholder="e.g. 5" name="yearsCodingShadow" aria-label="Years of coding experience">
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- ===== Additional fields to reach 14+ ===== -->
+    <div class="field-group">
+      <label for="coverLetter" class="label-block">Cover letter</label>
+      <textarea id="coverLetter" name="coverLetter" placeholder="Tell us about yourself..." style="width:100%;"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label for="salaryExp" class="label-block">Salary expectation</label>
+      <input type="text" id="salaryExp" name="salaryExp" placeholder="e.g. $120,000 - $150,000" style="width:100%;">
+    </div>
+
+    <div class="field-group">
+      <label for="startDate" class="label-block">Earliest start date</label>
+      <input type="text" id="startDate" name="startDate" placeholder="e.g. 2 weeks notice" style="width:100%;">
+    </div>
+
+    <div class="field-group">
+      <label for="referral" class="label-block">How did you hear about this role?</label>
+      <select id="referral" name="referral" class="native-select">
+        <option value="">Select</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="friend">Friend referral</option>
+        <option value="jobboard">Job board</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <!-- decoy secondary form (hidden) -->
+    <div class="decoy-form" aria-hidden="true">
+      <h3>Decoy section (ignore)</h3>
+      <input type="text" name="decoyField" placeholder="do not fill">
+    </div>
+
+    <button type="submit" class="btn-submit">Submit application</button>
+  </form>
+</div>
+
+<script>
+  // combobox toggle
+  function toggleListbox(el) {
+    const wrapper = el.closest('.combobox-wrapper');
+    const listbox = wrapper.querySelector('.listbox');
+    const expanded = el.getAttribute('aria-expanded') === 'true';
+    el.setAttribute('aria-expanded', !expanded);
+    listbox.style.display = expanded ? 'none' : 'block';
+    if (!expanded) {
+      wrapper.setAttribute('aria-expanded', 'true');
+    } else {
+      wrapper.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function selectOption(opt) {
+    const wrapper = opt.closest('.combobox-wrapper');
+    const trigger = wrapper.querySelector('.combobox-trigger');
+    const valueSpan = trigger.querySelector('.combobox-value');
+    const hidden = document.getElementById('yearsExpHidden');
+    wrapper.querySelectorAll('.listbox-option').forEach(o => o.setAttribute('aria-selected','false'));
+    opt.setAttribute('aria-selected','true');
+    valueSpan.textContent = opt.textContent;
+    hidden.value = opt.getAttribute('data-value');
+    trigger.setAttribute('aria-expanded','false');
+    wrapper.setAttribute('aria-expanded','false');
+    wrapper.querySelector('.listbox').style.display = 'none';
+  }
+
+  // pill buttons
+  function setPill(btn, hiddenId) {
+    const group = btn.closest('.pill-group');
+    group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(hiddenId).value = btn.getAttribute('data-value');
+    if (hiddenId === 'portfolioHidden') {
+      const urlGroup = document.getElementById('portfolioUrlGroup');
+      if (btn.getAttribute('data-value') === 'yes') {
+        urlGroup.style.display = 'block';
+      } else {
+        urlGroup.style.display = 'none';
+      }
+    }
+  }
+
+  // handle form submit
+  document.getElementById('mainForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Application submitted (demo). In production this would send data.');
+  });
+
+  // close combobox on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrapper')) {
+      document.querySelectorAll('.combobox-wrapper').forEach(w => {
+        const listbox = w.querySelector('.listbox');
+        const trigger = w.querySelector('.combobox-trigger');
+        if (listbox) listbox.style.display = 'none';
+        if (trigger) trigger.setAttribute('aria-expanded','false');
+        w.setAttribute('aria-expanded','false');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

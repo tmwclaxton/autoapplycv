@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0074",
+    "seed": 1775777820,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Greenhouse progress dots",
+                "notes": "Greenhouse-inspired multi-section form with progress indicator dots",
+                "category": "weird-platform",
+                "dom_excerpt": "<main><h1>Greenhouse progress<\/h1> <form action=\"\/apply\" method=\"post\"> <nav aria-label=\"Application progress\"><ol><li aria-current=\"step\">Personal<\/li><li>Questions<\/li><li>Review<\/li><\/ol><\/nav> <section data-section=\"personal\"> <label for=\"gh_first\">First name<\/label><input type=\"text\" id=\"gh_first\" name=\"gh_first\">",
+                "requires_interaction": false
+            },
+            {
+                "title": "Role group not fieldset",
+                "notes": "Grouped radios use div role=group instead of fieldset",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Role group<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"rg_name\">Name<\/label><input type=\"text\" id=\"rg_name\" name=\"rg_name\"> <div role=\"group\" aria-labelledby=\"rg_reloc_lbl\"> <span id=\"rg_reloc_lbl\">Willing to relocate?<\/span> <label><input type=\"radio\" name=\"rg_reloc\" value=\"yes\"> Yes<\/label> <label",
+                "requires_interaction": false
+            },
+            {
+                "title": "Split phone inputs",
+                "notes": "Country code select and local number in separate inputs",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Split phone<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ph_name\">Name<\/label><input type=\"text\" id=\"ph_name\" name=\"ph_name\"> <div class=\"phone-row\"> <label for=\"ph_country\">Country code<\/label> <select id=\"ph_country\" name=\"ph_country\"><option value=\"+44\">+44 UK<\/option><option value=\"+1\">+1 US<\/opt",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Yes\/no question as paired button elements, not native radio inputs Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Phone split into country code select and local number input in separate wrappers Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Apply form hosted inside iframe or srcdoc iframe shell Reference DOM (Greenhouse progress dots): Greenhouse-inspired multi-section form with progress indicator dots Reference DOM (Role group not fieldset): Grouped radios use div role=group instead of fieldset Reference DOM (Split phone inputs): Country code select and local number in separate inputs Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: pill-yes-no, aria-labelledby-hidden, split-phone, div-role-textbox, iframe-apply. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Greenhouse progress dots; Role group not fieldset; Split phone inputs."
+}

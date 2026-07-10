@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply - Senior Cloud Engineer (Ashby Style)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f5f7; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  .app-wrapper { max-width: 820px; width: 100%; }
+  h1 { font-size: 1.6rem; font-weight: 500; margin: 0 0 4px; color: #1a1a1a; }
+  .subhead { color: #5b5b5b; font-size: 0.9rem; margin-bottom: 24px; }
+  .org-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+  .org-bar img { width: 28px; height: 28px; border-radius: 6px; background: #d0d5dd; }
+  .form-card { background: #fff; border: 1px solid #e0e4e8; border-radius: 12px; padding: 28px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 6px 8px 0; vertical-align: top; }
+  .label-cell { width: 32%; font-size: 0.875rem; color: #1f2937; font-weight: 500; padding-top: 12px; }
+  .field-cell { width: 68%; }
+  .req-star { color: #b91c1c; margin-left: 2px; font-size: 1rem; line-height: 1; }
+  .input-native, .input-custom, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.875rem; background: #fff; transition: 0.15s; }
+  .input-native:focus, select:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+  .input-custom { min-height: 44px; background: #fff; cursor: text; }
+  .input-custom:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+  .input-readonly { background: #f3f4f6; color: #374151; cursor: not-allowed; }
+  .inline-check { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 6px; }
+  .inline-check label { font-size: 0.875rem; display: flex; align-items: center; gap: 6px; font-weight: 400; }
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #cbd5e1; border-radius: 20px; background: #fff; font-size: 0.8rem; cursor: pointer; transition: 0.12s; color: #1f2937; }
+  .pill-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .combobox-wrap { position: relative; }
+  .combobox-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; font-size: 0.875rem; text-align: left; cursor: pointer; }
+  .combobox-btn:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); outline: none; }
+  .combobox-btn::after { content: "\25be"; font-size: 0.7rem; margin-left: 8px; opacity: 0.6; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d0d5dd; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); max-height: 180px; overflow-y: auto; z-index: 10; display: none; }
+  .listbox.show { display: block; }
+  .option { padding: 8px 12px; cursor: pointer; font-size: 0.875rem; }
+  .option:hover, .option.selected { background: #eef2ff; }
+  .shadow-host { display: block; width: 100%; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 8px 10px; background: #fafafa; min-height: 42px; }
+  .shadow-host:focus-within { border-color: #2563eb; }
+  .glued-span { font-size: 0.75rem; color: #6b7280; display: block; margin-top: 2px; }
+  .decoy-form { margin-top: 28px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; }
+  .decoy-form h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; margin: 0 0 8px; }
+  .reveal-trigger { color: #2563eb; cursor: pointer; font-size: 0.8rem; text-decoration: underline; margin-top: 6px; display: inline-block; }
+  .hidden-fields { margin-top: 12px; display: none; }
+  .hidden-fields.show { display: block; }
+  .btn-submit { padding: 10px 28px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-weight: 500; font-size: 0.9rem; cursor: pointer; margin-top: 20px; }
+  .btn-submit:hover { background: #1d4ed8; }
+  .note { font-size: 0.75rem; color: #6b7280; margin-top: 4px; }
+  hr { border: none; border-top: 1px solid #e5e7eb; margin: 20px 0; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="org-bar">
+    <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e5e7eb'/%3E%3C/svg%3E">
+    <span style="font-weight:500;">Cloudbase Systems</span>
+  </div>
+  <h1>Senior Cloud Engineer</h1>
+  <div class="subhead">San Francisco, CA \u00b7 Full-time \u00b7 Apply by March 25</div>
+  <div class="form-card">
+    <form id="main-app">
+      <table>
+        <!-- Row 1: Full Name (native input + asterisk sibling) -->
+        <tr>
+          <td class="label-cell">
+            <span id="fn-label">Full Name</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="fullname" name="fullname" placeholder="First Last" aria-labelledby="fn-label" required>
+          </td>
+        </tr>
+        <!-- Row 2: Email (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="email-label">Email</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="email" class="input-native" id="email" name="email" placeholder="you@example.com" aria-labelledby="email-label" required>
+          </td>
+        </tr>
+        <!-- Row 3: Phone (pattern constrained UK hint, no pattern attr) -->
+        <tr>
+          <td class="label-cell">
+            <span id="phone-label">Phone</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="tel" class="input-native" id="phone" name="phone" placeholder="+44 7700 900000" title="UK mobile format: +44 7xxx xxxxxx" aria-labelledby="phone-label" required>
+          </td>
+        </tr>
+        <!-- Row 4: Current role (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="role-label">Current Role</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="currentrole" name="currentrole" placeholder="e.g. Senior DevOps" aria-labelledby="role-label">
+          </td>
+        </tr>
+        <!-- Row 5: Custom textarea DIV role=textbox contenteditable (cover letter) -->
+        <tr>
+          <td class="label-cell">
+            <span id="cl-label">Cover Letter</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <div role="textbox" contenteditable="true" aria-label="Cover letter" aria-required="true" class="input-custom" style="min-height:80px;" data-placeholder="Write a brief cover letter\u2026"></div>
+            <span class="glued-span">Tell us why you're a great fit</span>
+          </td>
+        </tr>
+        <!-- Row 6: Years of experience (native number) -->
+        <tr>
+          <td class="label-cell">
+            <span id="yrs-label">Years of Experience</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="number" class="input-native" id="years" name="years" min="0" step="1" aria-labelledby="yrs-label" required>
+          </td>
+        </tr>
+        <!-- Row 7: Cloud platform (custom combobox) -->
+        <tr>
+          <td class="label-cell">
+            <span id="cloud-label">Primary Cloud</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <div class="combobox-wrap">
+              <button type="button" id="cloud-btn" class="combobox-btn" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="cloud-label" aria-controls="cloud-listbox">Select platform</button>
+              <div id="cloud-listbox" role="listbox" class="listbox" aria-label="Cloud platform">
+                <div role="option" class="option" data-value="aws">AWS</div>
+                <div role="option" class="option" data-value="gcp">GCP</div>
+                <div role="option" class="option" data-value="azure">Azure</div>
+                <div role="option" class="option" data-value="oracle">Oracle Cloud</div>
+              </div>
+              <input type="hidden" name="cloud" id="cloud-hidden">
+            </div>
+          </td>
+        </tr>
+        <!-- Row 8: Link to resume (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="resume-label">Resume / CV</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="resume" name="resume" placeholder="https://linkedin.com/in/..." aria-labelledby="resume-label" required>
+          </td>
+        </tr>
+        <!-- Row 9: Github / Portfolio (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="gh-label">GitHub / Portfolio</span>
+          </td>
+          <td class="field-cell">
+            <input type="url" class="input-native" id="github" name="github" placeholder="https://github.com/yourhandle" aria-labelledby="gh-label">
+          </td>
+        </tr>
+        <!-- Row 10: Salary expectation (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="sal-label">Salary Expectation (USD)</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="salary" name="salary" placeholder="e.g. 150000" aria-labelledby="sal-label" required>
+          </td>
+        </tr>
+        <!-- Row 11: Work authorization (pill yes/no via buttons) -->
+        <tr>
+          <td class="label-cell">
+            <span id="auth-label">Authorized to work in US?</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <div class="pill-group" role="radiogroup" aria-labelledby="auth-label">
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="sponsor">Need visa</button>
+            </div>
+            <input type="hidden" name="authorized" id="auth-hidden">
+          </td>
+        </tr>
+        <!-- Row 12: Willing to relocate (pill, no label-for) -->
+        <tr>
+          <td class="label-cell" aria-label="Will relocate">
+            Will relocate?<span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <div class="pill-group" role="radiogroup" aria-label="Relocation willingness">
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="remote">Remote only</button>
+            </div>
+            <input type="hidden" name="relocate" id="relocate-hidden">
+          </td>
+        </tr>
+        <!-- Row 13: Shadow DOM host field (custom) -->
+        <tr>
+          <td class="label-cell">
+            <span id="shadow-label">Availability (shadow field)</span>
+          </td>
+          <td class="field-cell">
+            <div class="shadow-host" id="shadow-host-container">
+            </div>
+            <span class="glued-span">Internal shadow input</span>
+          </td>
+        </tr>
+        <!-- Row 14: Readonly / disabled prefill (profile data) -->
+        <tr>
+          <td class="label-cell">
+            <span id="prefill-label">Profile (prefilled)</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native input-readonly" id="prefill" name="prefill" value="jane.doe@cloudbase.io (imported from LinkedIn)" readonly aria-label="Prefilled profile email">
+          </td>
+        </tr>
+        <!-- Row 15: Checkbox group without fieldset (bare labels) -->
+        <tr>
+          <td class="label-cell">
+            <span id="skills-label">Skills (select all)</span>
+          </td>
+          <td class="field-cell">
+            <div class="inline-check" aria-labelledby="skills-label">
+              <label><input type="checkbox" name="skill" value="k8s"> Kubernetes</label>
+              <label><input type="checkbox" name="skill" value="terraform"> Terraform</label>
+              <label><input type="checkbox" name="skill" value="aws"> AWS</label>
+              <label><input type="checkbox" name="skill" value="cicd"> CI/CD</label>
+              <label><input type="checkbox" name="skill" value="python"> Python</label>
+            </div>
+          </td>
+        </tr>
+        <!-- Row 16: Referral (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="ref-label">Referral</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="referral" name="referral" placeholder="Name of employee" aria-labelledby="ref-label">
+          </td>
+        </tr>
+        <!-- Row 17: LinkedIn profile (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="li-label">LinkedIn</span>
+          </td>
+          <td class="field-cell">
+            <input type="url" class="input-native" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." aria-labelledby="li-label">
+          </td>
+        </tr>
+        <!-- Row 18: How did you hear? (combobox again) -->
+        <tr>
+          <td class="label-cell">
+            <span id="hear-label">How did you hear?</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <div class="combobox-wrap">
+              <button type="button" id="hear-btn" class="combobox-btn" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="hear-label" aria-controls="hear-listbox">Select source</button>
+              <div id="hear-listbox" role="listbox" class="listbox" aria-label="Source">
+                <div role="option" class="option" data-value="linkedin">LinkedIn</div>
+                <div role="option" class="option" data-value="referral">Referral</div>
+                <div role="option" class="option" data-value="company">Company site</div>
+                <div role="option" class="option" data-value="indeed">Indeed</div>
+                <div role="option" class="option" data-value="other">Other</div>
+              </div>
+              <input type="hidden" name="source" id="source-hidden">
+            </div>
+          </td>
+        </tr>
+        <!-- Row 19: Hidden reveal / conditional (details/reveal) -->
+        <tr>
+          <td class="label-cell">
+            <span>Additional info</span>
+          </td>
+          <td class="field-cell">
+            <span class="reveal-trigger" id="reveal-toggle">+ Add details</span>
+            <div id="hidden-fields-container" class="hidden-fields">
+              <table style="width:100%;">
+                <tr><td style="padding:4px 0;"><label for="startdate">Earliest start date</label></td><td><input type="date" id="startdate" name="startdate" class="input-native" style="width:auto;"></td></tr>
+                <tr><td style="padding:4px 0;"><label for="certifications">Certifications</label></td><td><input type="text" id="certifications" name="certifications" class="input-native" placeholder="e.g. AWS Solutions Architect"></td></tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <!-- Row 20: Gender (aria-label-only field) -->
+        <tr>
+          <td class="label-cell" aria-label="Gender identity">Gender (optional)</td>
+          <td class="field-cell">
+            <select class="input-native" aria-label="Gender identity">
+              <option value="">Prefer not to say</option>
+              <option value="man">Man</option>
+              <option value="woman">Woman</option>
+              <option value="nb">Non-binary</option>
+            </select>
+          </td>
+        </tr>
+        <!-- Row 21: Veterans status (checkbox bare) -->
+        <tr>
+          <td class="label-cell">
+            <span>Veteran status</span>
+          </td>
+          <td class="field-cell">
+            <label><input type="checkbox" name="veteran" value="yes"> I am a veteran</label>
+          </td>
+        </tr>
+        <!-- Row 22: Disability (checkbox bare) -->
+        <tr>
+          <td class="label-cell">
+            <span>Disability</span>
+          </td>
+          <td class="field-cell">
+            <label><input type="checkbox" name="disability" value="yes"> I have a disability</label>
+          </td>
+        </tr>
+        <!-- Row 23: Race/ethnicity (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="race-label">Race / Ethnicity</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="race" name="race" placeholder="Optional" aria-labelledby="race-label">
+          </td>
+        </tr>
+        <!-- Row 24: Agreement checkbox (bare label) -->
+        <tr>
+          <td class="label-cell"></td>
+          <td class="field-cell">
+            <label><input type="checkbox" name="agree" required> I confirm that the information is accurate</label><span class="req-star" aria-hidden="true">*</span>
+          </td>
+        </tr>
+        <!-- Row 25: Additional field - preferred name (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="prefname-label">Preferred Name</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="prefname" name="prefname" placeholder="e.g. Alex" aria-labelledby="prefname-label">
+          </td>
+        </tr>
+        <!-- Row 26: Additional field - pronouns (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="pronouns-label">Pronouns</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="pronouns" name="pronouns" placeholder="e.g. they/them" aria-labelledby="pronouns-label">
+          </td>
+        </tr>
+        <!-- Row 27: Additional field - timezone (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="tz-label">Timezone</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="timezone" name="timezone" placeholder="e.g. PST" aria-labelledby="tz-label">
+          </td>
+        </tr>
+        <!-- Row 28: Additional field - portfolio URL (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="portfolio-label">Portfolio URL</span>
+          </td>
+          <td class="field-cell">
+            <input type="url" class="input-native" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com" aria-labelledby="portfolio-label">
+          </td>
+        </tr>
+        <!-- Row 29: Additional field - twitter handle (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="twitter-label">Twitter Handle</span>
+          </td>
+          <td class="field-cell">
+            <input type="text" class="input-native" id="twitter" name="twitter" placeholder="@yourhandle" aria-labelledby="twitter-label">
+          </td>
+        </tr>
+        <!-- Row 30: Additional field - how many years in cloud (native) -->
+        <tr>
+          <td class="label-cell">
+            <span id="cloudyrs-label">Years in Cloud</span><span class="req-star" aria-hidden="true">*</span>
+          </td>
+          <td class="field-cell">
+            <input type="number" class="input-native" id="cloudyrs" name="cloudyrs" min="0" step="1" aria-labelledby="cloudyrs-label" required>
+          </td>
+        </tr>
+      </table>
+      <button type="submit" class="btn-submit">Submit Application</button>
+    </form>
+
+    <!-- Decoy secondary form (non-semantic, hidden-ish) -->
+    <div class="decoy-form">
+      <h3>Internal referral portal (hidden)</h3>
+      <label>Employee ID <input type="text" style="width:120px;" disabled value="EMP-4382"></label>
+      <button style="margin-left:8px;" disabled>Submit referral</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    // combobox logic (cloud and hear)
+    function initCombobox(btnId, listboxId, hiddenId) {
+      const btn = document.getElementById(btnId);
+      const listbox = document.getElementById(listboxId);
+      const hidden = document.getElementById(hiddenId);
+      const options = listbox.querySelectorAll('.option');
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !expanded);
+        listbox.classList.toggle('show');
+      });
+      options.forEach(opt => {
+        opt.addEventListener('click', function() {
+          options.forEach(o => o.classList.remove('selected'));
+          this.classList.add('selected');
+          btn.textContent = this.textContent;
+          hidden.value = this.getAttribute('data-value');
+          btn.setAttribute('aria-expanded', 'false');
+          listbox.classList.remove('show');
+        });
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !listbox.contains(e.target)) {
+          btn.setAttribute('aria-expanded', 'false');
+          listbox.classList.remove('show');
+        }
+      });
+    }
+    initCombobox('cloud-btn', 'cloud-listbox', 'cloud-hidden');
+    initCombobox('hear-btn', 'hear-listbox', 'source-hidden');
+
+    // pill groups (radio)
+    document.querySelectorAll('.pill-group').forEach(group => {
+      const hiddenInput = group.nextElementSibling;
+      const pills = group.querySelectorAll('.pill-btn');
+      pills.forEach(pill => {
+        pill.addEventListener('click', function() {
+          pills.forEach(p => { p.classList.remove('active'); p.setAttribute('aria-checked', 'false'); });
+          this.classList.add('active');
+          this.setAttribute('aria-checked', 'true');
+          if (hiddenInput) hiddenInput.value = this.getAttribute('data-value');
+        });
+      });
+    });
+
+    // reveal toggle
+    document.getElementById('reveal-toggle').addEventListener('click', function() {
+      const container = document.getElementById('hidden-fields-container');
+      container.classList.toggle('show');
+      this.textContent = container.classList.contains('show') ? '- Hide details' : '+ Add details';
+    });
+
+    // Shadow DOM host (declarative + attachShadow)
+    const hostContainer = document.getElementById('shadow-host-container');
+    if (hostContainer && !hostContainer.shadowRoot) {
+      const shadow = hostContainer.attachShadow({mode: 'open'});
+      shadow.innerHTML = `
+        <style>
+          :host { display: block; }
+          input { padding: 8px 10px; border:1px solid #bbb; border-radius:4px; width:100%; box-sizing:border-box; }
+        </style>
+        <input type="text" placeholder="e.g. Immediate, 2 weeks" aria-label="Availability date" name="availability" class="shadow-input">
+      `;
+    }
+
+    // Placeholder for contenteditable
+    const textbox = document.querySelector('div[role=textbox]');
+    if (textbox) {
+      textbox.addEventListener('focus', function() { if (this.textContent.trim() === '') { this.textContent = ''; } });
+    }
+  })();
+</script>
+</body>
+</html>

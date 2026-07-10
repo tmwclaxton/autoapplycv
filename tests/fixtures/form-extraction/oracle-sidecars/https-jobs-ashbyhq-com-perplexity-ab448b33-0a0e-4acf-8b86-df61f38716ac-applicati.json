@@ -1,0 +1,234 @@
+{
+  "id": "https-jobs-ashbyhq-com-perplexity-ab448b33-0a0e-4acf-8b86-df61f38716ac-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-10T14:43:50.745Z",
+  "page_url": "https://jobs.ashbyhq.com/perplexity/ab448b33-0a0e-4acf-8b86-df61f38716ac/application",
+  "page_title": "Customer Success & Enterprise Support Lead, APAC @ Perplexity",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status in the united states?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to come into the office four days per week?",
+        "ai": "Are you able to come into the office four days per week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are the most interesting aspects of perplexity that you are excited to work on?",
+        "ai": "What are the most interesting aspects of Perplexity that you are excited to work on?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you use ai in your day-to-day work? what are some of the underappreciated benefits and/or pain points of your favorite ai tools?",
+        "ai": "How do you use AI in your day-to-day work? What are some of the underappreciated benefits and/or pain points of your favorite AI tools?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "exercise submission (shared url)",
+        "ai": "Exercise Submission (Shared URL)",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "i agree"
+    ],
+    "ai_only": [
+      "Do you agree to allow Perplexity to contact you about job opportunities for up to 2 years?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for visa sponsorship and office attendance questions. The location field is a combobox. The resume upload is handled via a file input.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to come into the office four days per week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are the most interesting aspects of Perplexity that you are excited to work on?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How do you use AI in your day-to-day work? What are some of the underappreciated benefits and/or pain points of your favorite AI tools?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Exercise Submission (Shared URL)",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you agree to allow Perplexity to contact you about job opportunities for up to 2 years?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able to come into the office four days per week?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "what are the most interesting aspects of perplexity that you are excited to work on?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "how do you use ai in your day-to-day work? what are some of the underappreciated benefits and/or pain points of your favorite ai tools?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "exercise submission (shared url)",
+      "field_type": "url",
+      "ref": "f9"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

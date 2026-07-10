@@ -1,0 +1,247 @@
+{
+  "id": "https-jobs-ashbyhq-com-aven-6ef922b2-8bf9-4483-b4df-f4273ab9ea55-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:25:42.394Z",
+  "page_url": "https://jobs.ashbyhq.com/aven/6ef922b2-8bf9-4483-b4df-f4273ab9ea55/application",
+  "page_title": "Software Engineer @ Aven",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.8462,
+      "type_agree_rate": 0.9167,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "if you graduated within the last four years, please attach your transcript",
+        "ai": "If you graduated within the last four years, please attach your transcript",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "if you graduated within the last four years, please attach an official sat or act score report",
+        "ai": "If you graduated within the last four years, please attach an official SAT or ACT score report",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "which university did you attend for undergrad?",
+        "ai": "Which university did you attend for undergrad?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what is the highest-impact project that you have done?",
+        "ai": "What is the highest-impact project that you have done?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is the hardest thing you have ever worked on in your life?",
+        "ai": "What is the hardest thing you have ever worked on in your life?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what do you think is your single biggest accomplishment to date?",
+        "ai": "What do you think is your single biggest accomplishment to date?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred, please list the referrer’s name and email.",
+        "ai": "If you were referred, please list the referrer’s name and email.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The university field is a combobox that likely fetches options dynamically via JavaScript. The resume upload is handled by a custom component that supports drag-and-drop.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you graduated within the last four years, please attach your transcript",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If you graduated within the last four years, please attach an official SAT or ACT score report",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Which university did you attend for undergrad?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the highest-impact project that you have done?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the hardest thing you have ever worked on in your life?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What do you think is your single biggest accomplishment to date?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you were referred, please list the referrer’s name and email.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "if you graduated within the last four years, please attach your transcript",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "if you graduated within the last four years, please attach an official sat or act score report",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "which university did you attend for undergrad?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "what is the highest-impact project that you have done?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what is the hardest thing you have ever worked on in your life?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what do you think is your single biggest accomplishment to date?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "if you were referred, please list the referrer’s name and email.",
+      "field_type": "text",
+      "ref": "f11"
+    }
+  ]
+}

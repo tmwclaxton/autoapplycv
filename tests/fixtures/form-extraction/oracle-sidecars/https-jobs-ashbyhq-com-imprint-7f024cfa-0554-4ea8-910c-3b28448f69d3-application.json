@@ -1,0 +1,371 @@
+{
+  "id": "https-jobs-ashbyhq-com-imprint-7f024cfa-0554-4ea8-910c-3b28448f69d3-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:21:19.029Z",
+  "page_url": "https://jobs.ashbyhq.com/imprint/7f024cfa-0554-4ea8-910c-3b28448f69d3/application",
+  "page_title": "Business Development Manager @ Imprint",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 0.75,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "2. will you now or in the future require employer sponsorship for employment visa status?",
+        "ai": "2. Will you now or in the future require employer sponsorship for employment visa status?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work from our nyc or sf office 3 days a week?",
+        "ai": "Are you willing to work from our NYC or SF office 3 days a week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to relocate if selected for this role and required to work from our new york city or san francisco 3 days a week?",
+        "ai": "Are you willing to relocate if selected for this role and required to work from our New York City OR San Francisco 3 days a week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your current age?",
+        "ai": "What is your current age?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender identity?",
+        "ai": "What is your gender identity?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as transgender?",
+        "ai": "Do you identify as transgender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you identify your sexual orientation? please select all that apply.",
+        "ai": "How do you identify your sexual orientation? Please select all that apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which ethnicity(ies) do you identify with? please select all that apply.",
+        "ai": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based controls for radio and checkbox inputs. The 'Location' field is a combobox. The diversity survey is optional.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "2. Will you now or in the future require employer sponsorship for employment visa status?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to work from our NYC or SF office 3 days a week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to relocate if selected for this role and required to work from our New York City OR San Francisco 3 days a week?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your current age?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Under 30",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "What is your gender identity?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Do you identify as transgender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "How do you identify your sexual orientation? Please select all that apply.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Bisexual",
+          "Lesbian",
+          "Gay",
+          "Queer",
+          "Heterosexual / straight",
+          "Other",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Asian or Asian American",
+          "Black or African American",
+          "Hispanic or Latine",
+          "Indigenous or Native American",
+          "Native Hawaiian or Other Pacific Islander",
+          "White",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "2. will you now or in the future require employer sponsorship for employment visa status?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you willing to work from our nyc or sf office 3 days a week?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you willing to relocate if selected for this role and required to work from our new york city or san francisco 3 days a week?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

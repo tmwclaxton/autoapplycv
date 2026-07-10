@@ -1,0 +1,212 @@
+{
+  "id": "https-apply-workable-com-seeq-j-a966c8897d-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:22:03.078Z",
+  "page_url": "https://apply.workable.com/seeq/j/A966C8897D/apply/",
+  "page_title": "Staff Software Engineer - Developer Experience - Seeq - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 5,
+      "count_delta": 15,
+      "label_jaccard": 0.2353,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline (optional)",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "summary (optional)",
+      "svgs not supported by this browser. choose file",
+      "cover letter (optional)",
+      "3 references (1 direct manager)",
+      "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "are you proficient in programming languages such as java, python, typescript, or go.",
+      "do you have experience and passion around improving developer productivity and creating intuitive developer tools?",
+      "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "are you proficient in programming languages such as java, python, typescript, or go.",
+      "do you have experience and passion around improving developer productivity and creating intuitive developer tools?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated and ends mid-list of the phone country code dropdown. The full application form likely contains additional fields (e.g., resume upload, social links, screening questions) that were not present in the provided snippet.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline (optional)",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "svgs not supported by this browser. choose file",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "3 references (1 direct manager)",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "are you proficient in programming languages such as java, python, typescript, or go.",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have experience and passion around improving developer productivity and creating intuitive developer tools?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "bachelor’s or master’s degree in computer science, software engineering, or a related discipline, or equivalent experience.",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "do you have at least 8 years of professional software engineering experience focused on developer experience, platform tooling, or sdk development.",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "are you proficient in programming languages such as java, python, typescript, or go.",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "do you have experience and passion around improving developer productivity and creating intuitive developer tools?",
+      "field_type": "radio",
+      "ref": "f19"
+    }
+  ]
+}

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Senior Mobile Fullstack Engineer - No Isolation</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        No Isolation and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics and marketing purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://careers.noisolation.com/cookie-policy">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, that is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://careers.noisolation.com/cookie-policy">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Marketing</label>
+
+    <p>These cookies are used to make advertising messages more relevant to you. In some cases, they also deliver additional functions on the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Meta</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;--navigation-text-color: #000000;--navigation-background-color: #ffffff;">
+    <div class="
+    header__logo absolute @md:inset-0 @md:flex @md:items-center @md:justify-start w-full
+    @md:mx-6 @md:relative
+  ">
+          
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="e16bb660510442cce78cb6c6073487825" data-test="company-logo" data-turbo-permanent="true" href="https://careers.noisolation.com/">
+    <img alt="No Isolation career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/fd722e8f-998b-4284-b787-a2ed11dd730c/original.png">
+</a>
+
+</div>
+
+<div class="flex-grow hidden @md:block"></div>
+
+<div class="flex items-center h-full flex-row-reverse">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://careers.noisolation.com/">Home</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://careers.noisolation.com/jobs">Job vacancies</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://careers.noisolation.com/people">People</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://careers.noisolation.com/pages/we-love-working-at-no-isolation">Meet our employees</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://careers.noisolation.com/pages/news-articles">Get to know us</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://app.teamtailor.com/companies/U6L1xAaytVc@eu/dashboard">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://careers.noisolation.com/connect/login">Log in to Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Homepage</span>
+        <a class="hover:underline focus-visible-header" href="https://www.noisolation.com/">noisolation.com</a>
+</div>  </div>
+</div>
+
+
+    <span class="header__separator hidden @md:block"></span>
+    <div class="absolute right-0 mx-2 @md:right-auto @md:relative">
+                <div data-controller="common--share" data-common--share-url-value="https://careers.noisolation.com/jobs/7500791-senior-mobile-fullstack-engineer" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="You must select an option">
+
+
+  <button type="button" role="button" id="trigger-dropdown-f45a3011" aria-required="false" aria-label="Share page" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-f45a3011" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Share page</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-f45a3011" role="menu" aria-labelledby="trigger-dropdown-f45a3011" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://careers.noisolation.com/jobs/7500791-senior-mobile-fullstack-engineer" href="mailto:?subject=Check out this job at No Isolation&amp;body=I found this job and thought I should share it with you:%0D%0A%0D%0Ahttps://careers.noisolation.com/jobs/7500791-senior-mobile-fullstack-engineer">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+    </div>
+</div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="7500791" data-careersite--jobs--form-overlay-job-application-url-value="https://careers.noisolation.com/jobs/7500791-senior-mobile-fullstack-engineer/applications/new" id="main-content">
+  
+        
+
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] @lg:min-h-[650px] block-cover--with-background-7500791 relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Engineering</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Oslo</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Hybrid
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Senior Mobile Fullstack Engineer</h1>
+    <h2 class="block mt-2 @sm:text-xl leading-normal">Growth is only meaningful when it changes lives — we’re building human connection into the heart of education. Come help us make presence possible for every student.</h2>
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Apply now</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay " style="background-color: #000000; opacity: 50%"></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Scroll to content">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <h4><strong>About Us</strong></h4><p>No Isolation is an award-winning scale-up in EdTech with offices in <strong>Oslo, London, and Munich</strong> building human-centered technology that turns absence into real-time participation, connection, and belonging.</p><p>Our flagship solution, the AV1 robot, is deployed in 19 countries with 5000+ units, supporting schools to sustain attendance, belonging, and continuity of learning for children who cannot be physically present. Families consistently describe AV1 as life-changing; it rebuilds connection and continuity, bringing back everyday happiness and helping students stay on track to pass their grades.</p><h4><strong>The Opportunity — Mobile Fullstack Engineering</strong></h4><p>As a Fullstack Engineer proficient in mobile, you will help us continuously enhance the experience of our users on phones, tablets, large screens - all the devices that can control our robots.</p><p>The applications you will oversee and contribute to connect children to their classrooms, educational staff to key data insights and events, and help manage our fleet of robots. All to create a virtual bridge for children to keep learning when away from school.</p><p>You will:</p><ul><li><p>Develop features end-to-end and elicit requirements</p></li><li><p>Help us fully capture the value of our growing unique proprietary dataset</p></li><li><p>Improve performance on our user interfaces</p></li><li><p>Over time, contribute to varied code repositories beyond mobile/web</p></li><li><p>Engage in meaningful discussions with QA, frontend, backend and embedded Linux engineers</p></li></ul><h4><strong>What You’ll Do — Scope &amp; Responsibilities</strong></h4><p><strong>Implementing fullstack features</strong></p><ul><li><p><span>Designing, building, deploying and debugging cross-platform mobile applications</span></p></li><li><p><span>Implementing responsive and accessible interfaces</span></p></li><li><p><span>Implementing APIs, services, and adding necessary increments to data schemas</span></p></li><li><p><span>Developing new and contributing to existing container-based services</span></p></li><li><p><span>Utilizing modern build tools and package managers, and contributing to the improvement of the overall fullstack development workflow</span></p></li></ul><p><span><strong id="docs-internal-guid-0c251947-7fff-4b93-750b-5d00fe9d34ed">Securing the full stack by design</strong></span></p><ul><li><p><span>Embedding secure coding practices throughout the development lifecycle, with mobile security and mobile fleet management at the forefront</span></p></li><li><p><span>Implementing latest web/mobile development standards; ensuring robust security (AuthN, AuthZ, encryption) and adhering to best practices for client/server-side development; keeping up with relevant CVEs and observing OWASP’s top-10 guidance</span></p></li><li><p><span>Contributing to configuring automated security scanning, dependency management, and hardening across our full technology stack including web/mobile</span></p></li><li><p><span>Writing unit and end-to-end tests to achieve high coverage of critical user journeys</span></p></li></ul><p><span><strong id="docs-internal-guid-0c251947-7fff-4b93-750b-5d00fe9d34ed">Supporting product development across disciplines</strong></span></p><ul><li><p><span>Role-modelling AI-driven development in the IDE, CI/CD and other agentic flows</span></p></li><li><p><span>Working closely with UX specialists to translate prototypes into functional apps</span></p></li><li><p><span>Contributing to improving developer experience, E2E testing rigs and benchmarking</span></p></li><li><p><span>Automating processes and, where not possible, maintaining troubleshooting runbooks</span></p></li><li><p><span>Iterating on internal fullstack web apps to empower customer support, sales and ops</span></p></li><li><p><span>Contributing to team learning via guilds and on-the-job training</span></p></li></ul><h4><strong>What You Bring — Experience &amp; Capabilities</strong></h4><ul><li><p><span><strong>Frontend championing:</strong> significant field experience across the full spectrum of frontend and mobile application development tasks; driving best practices, architecture, and quality for all end-user challenges; background in native and/or cross-platform mobile apps including optimization and deployment; interest in differences, synergies, and opportunities between frontend surfaces e.g. Desktop, Web, Android and iOS, large screens, specific platforms like Chromebooks, etc.</span></p></li><li><p><span><strong>Fullstack excellence: </strong>strong proficiency in mobile (e.g., React Native) and web (e.g., React/Next); solid understanding of API design; experience implementing services using web protocols like REST, sockets, WebRTC and gRPC; broad technical background with ability to speak to different engineering disciplines; fluent in AI-driven development to work swiftly across the stack; able to instrument code to create quality product signals; able to debug intertwined issues end-to-end.</span></p></li><li><p><span><strong>Security &amp; quality mindset:</strong> strong sense for building vertical features that are correct, predictable, secure, and maintainable; experience with mobile fleet management and version management; solid grasp of key security aspects such as proper secrets handling and client/server paradigms, encryption standards, rate limiting and vulnerability management.</span></p></li><li><p><span><strong>Technical collaboration: </strong>clear, direct communication, with empathy when working with frontend/mobile, embedded, platform, and non-technical peers; comfortable leading product feature discussions, able to change your mind in light of new evidence, as well as balance tech, product and business imperatives.</span></p></li><li><p><span><strong>Technical education and experience: </strong>higher education in a STEM field (BSc/MSc); considerable practical experience in software engineering; work experience at product companies prior to No Isolation, ideally working across multiple domains or disciplines.</span></p></li></ul><h4><strong>Why You'll Love it Here</strong></h4><ul><li><p><strong>Purpose with scale:</strong> Your work keeps thousands of children connected, learning, and included every single day</p></li><li><p><strong>Real systems, real impact:</strong> From fleets of robots to real-time apps, you will tackle full stack challenges that matter in the physical world, not just on a dashboard</p></li><li><p><strong>Autonomous ownership:</strong> As a key Full Stack Engineer in a tight-knit cross-functional team, you will shape our product vertically, without being siloed into a single domain</p></li><li><p><strong>Work with exceptional leaders:</strong> Build, learn, and grow alongside our Director of Engineering to shape a high-trust, learning-driven engineering culture, and impact KPIs valued by the executive team</p></li><li><p><strong>Grow your craft:</strong> Elevate your skills in a lean, fast environment, with freedom to pitch in what you assess to be best practices</p></li></ul><h4><strong>Our Tech Stack</strong></h4><p>Think container services, mobile apps, multiple web apps, and fleets of connected robots. It’s a rapidly growing ecosystem, wired by WebRTC, web sockets, Rest APIs and more. We pride ourselves on a choice of modern and exciting, yet battle-tested technologies. We balance hosting versus buying core systems pragmatically. Here are some of the key elements to our stack:</p><ul><li><p><strong>Languages &amp; frameworks:</strong> React Native (Expo), Golang, React (Next), Rust (Embassy), Python</p></li><li><p><strong>Cloud &amp; Infrastructure:</strong> AWS, Kubernetes, Traefik, Terraform, Ansible</p></li><li><p><strong>Development:</strong> GitLab, Betterstack, Posthog, Linear, OhDear, Claude Code</p></li><li><p><strong>Platforms:</strong> Linux, Android, iOS, our custom Yocto distributions</p></li><li><p><strong>Data &amp; Analytics:</strong> MySQL, MongoDB, ClickHouse, Redis, Metabase</p></li></ul><h4><strong>Location</strong></h4><p>This role is based in <strong>Oslo</strong> with <strong>hybrid flexibility</strong> at our headquarters.<br><br>We welcome all qualified applicants. Due to current visa /work-permit processes, we can progress candidates <strong>already in Norway</strong> or<strong> relocating from within the EU/EEA (with no need for work permit)</strong>. (This note is about work authorization only; no sensitive personal data is required)</p><h4><strong>How to Apply</strong></h4><p>Please click Apply and upload your <strong>CV in English</strong> and a <strong>short cover letter/message in English</strong> outlining your motivation.</p><p>If you want your engineering craft to shape technology that genuinely changes lives, and you lead with rigor and empathy, we’d love to hear from you.</p><p>🎥 You may watch how AV1 transforms inclusion in education here: <a target="_blank" href="https://vimeo.com/1098745115">vimeo.com/1098745115<br></a>🌍 You may explore our mission and impact stories at <a target="_blank" href="https://www.noisolation.com/">noisolation.com</a></p><p></p><p><strong><em>We kindly ask external recruitment agencies to refrain from contacting us regarding this position.</em></strong></p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Department</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Engineering
+
+</dd>
+
+
+          <dt class="w-full font-semibold md:w-half">Locations</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Oslo
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Remote status</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Hybrid
+
+</dd>
+
+
+
+
+
+          <dt class="w-full font-semibold md:w-half">Positions:</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            1
+
+</dd>
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-34346654" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--recruiter   bg-company-primary text-company-primary" data-section-route="section" data-section-model="34346654" data-section-name="recruiter" data-section-label="Recruiter">
+    <section class="block-px block-padding company-links">
+  <div class="
+      flex flex-col items-center justify-center mx-auto sm:flex-row
+      block-max-w--md
+    ">
+    <div>
+      <div class="mb-8 md:mb-0 group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 170px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/5cc36dc8-4fb7-4c7b-8fb5-29a0e05c1c48/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/5cc36dc8-4fb7-4c7b-8fb5-29a0e05c1c48/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/5cc36dc8-4fb7-4c7b-8fb5-29a0e05c1c48/original.jpeg" alt="Picture of Agata Loxton-Dally" loading="lazy" class="w-full h-full object-cover rounded-full" width="170" height="170">
+</picture>
+  
+</figure>
+</div>
+    </div>
+
+    <div class="
+        flex flex-col justify-center md:ml-8 md:relative md:top-[-6px]
+        text-center md:text-left
+      ">
+      <span class="mb-1 text-sm font-bold tracking-widest uppercase">
+        Contact
+      </span>
+
+        <a class="text-lg md:text-xl font-company-header" href="/people/4151218-agata-loxton-dally">Agata Loxton-Dally</a>
+
+      <span class="leading-tight md:text-md">
+        Talent Acquisition &amp; People Ops Manager 
+         – 
+        People &amp; Organization
+      </span>
+    </div>
+  </div>
+</section>
+
+
+</section>
+
+  
+  <section id="section-34346655" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--colleagues   bg-company-primary text-company-primary" data-section-route="section" data-section-model="34346655" data-section-name="colleagues" data-section-label="Colleagues">
+    <section class="block-px block-padding bg-primary-text-background">
+  <div class="mx-auto block-max-w--md">
+    <h2 class="mb-10 text-4xl text-center font-company-header">
+      Colleagues
+</h2>
+    <div class="grid mx-auto gap-y-9 grid-cols-1 @sm:grid-cols-2 @lg:grid-cols-4" style="--col-min-w: 300px;">
+      <a href="https://careers.noisolation.com/people/3072750-emilie-dorum" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/63ef6461-d8f2-4999-bc66-e1012be61ce5/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/63ef6461-d8f2-4999-bc66-e1012be61ce5/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/63ef6461-d8f2-4999-bc66-e1012be61ce5/original.jpeg" alt="Picture of Emilie Dørum" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Emilie Dørum
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Full Stack Engineer
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3072753-eli-nikooie" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/06d2e242-3781-4994-aefc-71b6d15d81e4/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/06d2e242-3781-4994-aefc-71b6d15d81e4/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/06d2e242-3781-4994-aefc-71b6d15d81e4/original.jpeg" alt="Picture of Eli Nikooie" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Eli Nikooie
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Senior Software Engineer
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3072760-paul-jakubowski" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/a354dc8f-2995-4d68-9ca8-7584f2aa9f87/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/a354dc8f-2995-4d68-9ca8-7584f2aa9f87/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/a354dc8f-2995-4d68-9ca8-7584f2aa9f87/original.jpeg" alt="Picture of Paul Jakubowski" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Paul Jakubowski
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            UX Designer
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3323737-magnus-landauer" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/846a9d1d-1f02-4cbc-a977-5ddf89cef4db/original.png?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/846a9d1d-1f02-4cbc-a977-5ddf89cef4db/original.png?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/846a9d1d-1f02-4cbc-a977-5ddf89cef4db/original.png" alt="Picture of Magnus Landauer" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Magnus Landauer
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Senior Frontend Developer 
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3422366-jorgen-solstad" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/4ceda2c5-9fb8-411e-a5d6-e2969570690d/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/4ceda2c5-9fb8-411e-a5d6-e2969570690d/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/4ceda2c5-9fb8-411e-a5d6-e2969570690d/original.jpeg" alt="Picture of Jørgen Solstad" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Jørgen Solstad
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Chief Product Officer
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3422389-jesper-vestergaard" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/6a9cfd5f-262f-4227-bfa6-b1ceb3c95be3/original.png?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/6a9cfd5f-262f-4227-bfa6-b1ceb3c95be3/original.png?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/6a9cfd5f-262f-4227-bfa6-b1ceb3c95be3/original.png" alt="Picture of Jesper Vestergaard" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Jesper Vestergaard
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Technical Support and QA Engineer
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3445531-mateusz-silaczewski" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/d7fb9439-60ca-480e-97f5-7a68d5434497/original.png?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/d7fb9439-60ca-480e-97f5-7a68d5434497/original.png?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/d7fb9439-60ca-480e-97f5-7a68d5434497/original.png" alt="Picture of Mateusz Siłaczewski" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Mateusz Siłaczewski
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Senior Backend Engineer 
+          </div>
+</a>      <a href="https://careers.noisolation.com/people/3779949-jerome-ginss" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/b71fa675-43ae-48db-b04d-0710e697d5c4/original.png?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/b71fa675-43ae-48db-b04d-0710e697d5c4/original.png?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/b71fa675-43ae-48db-b04d-0710e697d5c4/original.png" alt="Picture of Jerome Ginss" loading="lazy" class="w-full h-full object-cover rounded-full" width="200" height="200">
+</picture>
+  
+</figure>
+</div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Jerome Ginss
+        </div>
+
+          <div class="
+              text-block-text
+            ">
+            Director of Engineering
+          </div>
+</a></div>
+  </div>
+</section>
+
+</section>
+
+  
+  <section id="section-34346656" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--related-jobs   bg-company-primary text-company-primary" data-section-route="section" data-section-model="34346656" data-section-name="related-jobs" data-section-label="Related jobs">
+    
+  <section id="section-" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--jobs   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-name="jobs" data-section-label="Jobs">
+    <turbo-frame id="jobs_list">
+
+
+
+
+
+  <div class="w-full text-lg relative block-px" data-layout="card" data-controller="blocks--jobs" data-blocks--jobs-show-map-value="false" data-blocks--jobs-split-view-value="false" data-blocks--jobs-language-code-value="en" data-blocks--jobs-first-block-value="true" data-blocks--jobs-overflow-auto-class="@lg:overflow-auto" data-blocks--jobs-overflow-hidden-class="@lg:overflow-hidden" data-blocks--jobs-sibling-element-padding-class="@lg:[&amp;.bg-block-preset-primary:not(.keep-block-padding)]:!pt-20" data-blocks--jobs-disabled-map-view-toggle-class="cursor-not-allowed" id="jobs">
+      <div class="block-px jobs-text">
+        <div class="mb-15 @md:mb-18 @lg:mb-20 mx-auto block-max-w--sm">
+            <h1 class="text-4xl text-center font-company-header text-block-title">Job vacancies ⤵</h1>
+
+</div></div>
+    <div class="relative" data-blocks--jobs-target="jobsContainer">
+
+
+        <div class="bg-company-primary relative z-career-jobs-list @lg:col-span-2 pt-4 @lg:pt-8" data-blocks--jobs-target="jobsListContainer">
+
+          <div>
+              <div class="mx-auto text-lg block-max-w--md">
+    <ul class="block-grid justify-center" id="jobs_list_container">
+        <li class="
+    group transition-opacity duration-150 border rounded block-grid-item overflow-hidden
+    border-block-base-text border-opacity-15
+  ">
+  <a class="min-h-[11.25rem] h-full w-full p-4 flex flex-col justify-center text-center no-company-style transition group-hover:text-company-primary-text group-hover:bg-primary-text-background" data-turbo="false" href="https://careers.noisolation.com/jobs/6911844-senior-software-engineer">
+    <span class="
+        text-block-base-link company-link-style hyphens-auto
+        group-hover:text-company-primary-text
+      " title="Senior Software Engineer">
+      Senior Software Engineer
+    </span>
+
+    <div class="mt-1 text-md">
+<span>Engineering</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Oslo</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Hybrid
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span></div>
+</a></li>
+
+</ul></div>
+
+          </div>
+
+
+</div>
+        <div class="flex justify-center mx-auto mt-12 @lg:col-span-2">
+          <a href="/jobs" class="careersite-button min-w-[13.75rem] group" data-turbo="false">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">More jobs</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+        </div>
+</div></div></turbo-frame>
+</section>
+
+
+
+</section>
+
+  
+  <section id="section-34346657" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--locations-map   bg-company-primary text-company-primary" data-section-route="section" data-section-model="34346657" data-section-name="locations-map" data-section-label="Locations map">
+    <div id="locations-map" class="text-lg locations-map" data-controller="blocks--locations-map" data-blocks--locations-map-selected-location-value="1062457" data-blocks--locations-map-locations-value="[{&quot;id&quot;:1062457,&quot;lat&quot;:&quot;59.918155&quot;,&quot;long&quot;:&quot;10.7381214&quot;}]">
+  <template data-blocks--locations-map-target="largeMarkerIcon">
+    <i class="text-3xl filter drop-shadow fas fa-location-dot text-company-link"></i>
+  </template>
+
+  <template data-blocks--locations-map-target="smallMarkerIcon">
+    <i class="filter drop-shadow fas fa-circle-small fa-xs text-company-link"></i>
+  </template>
+
+  <div class="flex flex-col @lg:flex-row">
+    <div class="
+        flex flex-col items-center justify-start w-full py-20 @lg:w-half
+        bg-company-secondary block-px
+      ">
+        <h2 class="mb-5 text-3xl text-center @md:text-4xl font-company-header text-company-secondary">Oslo</h2>
+
+      <turbo-frame id="location_details" src="https://careers.noisolation.com/locations/map_details?editor=false&amp;location_id=1062457" loading="lazy" data-blocks--locations-map-target="details"></turbo-frame>
+    </div>
+
+    <div class="w-full @lg:w-half h-[320px] @md:h-[450px] z-career-locations-map" data-blocks--locations-map-target="map"></div>
+</div></div>
+</section>
+
+  
+  <section id="section-34346658" style="--block-base-text-color: var(--company-secondary-text-color);--block-base-link-color: var(--company-secondary-text-color);--block-base-background-color: var(--company-secondary-bg-color);--block-base-highlight-color: var(--company-secondary-text-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #61b961;" class="block--workplace   bg-company-secondary text-company-secondary" data-section-route="section" data-section-model="34346658" data-section-name="workplace" data-section-label="Workplace &amp; culture">
+    <div class="@md:min-h-[500px] flex flex-col @lg:flex-row">
+  <div class="w-full flex flex-col items-center justify-center py-20 block-px @md:px-15 @lg:w-half">
+    <h2 class="mb-4 text-4xl text-center text-block-title font-company-header @lg:max-w-600">A unique career - Join us</h2>
+
+    
+</div>
+    <div class="w-full @lg:w-half">
+      
+<div class="splide" dir="ltr" data-controller="common--carousel" data-common--carousel-use-container-height-value="true" data-common--carousel-initialize-when-viewport-value="false" data-common--carousel-has-video-value="false" data-common--carousel-autoplay-value="false" data-common--carousel-type-value="loop" data-common--carousel-pagination-value="true" data-common--carousel-arrows-value="true" data-common--carousel-initial-image-index-value="0" data-common--carousel-height-ratio-value="0">
+  <div class="splide__track">
+    <ul class="splide__list">
+          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/10b52f99-36cc-4757-8af7-ebaf84f12516/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/10b52f99-36cc-4757-8af7-ebaf84f12516/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/4c3e363c-4610-4294-b26c-2ff4d5825cc6/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/4c3e363c-4610-4294-b26c-2ff4d5825cc6/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/d429b267-ceb8-4fdb-810c-568e2ea167d7/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/d429b267-ceb8-4fdb-810c-568e2ea167d7/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/d9bc9b3e-07fc-46ee-89ff-9989c283498f/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/d9bc9b3e-07fc-46ee-89ff-9989c283498f/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/e362dd56-aef0-4bcd-813c-635e64990370/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/e362dd56-aef0-4bcd-813c-635e64990370/original.jpeg">
+</li>
+    </ul>
+</div></div>
+    </div>
+</div>
+</section>
+
+
+
+      <section class="block--about company-links bg-primary-text-background text-company-primary block-px" style="--block-title-color: rgba(var(--company-primary-text-color), 1);">
+    <div class="py-20 mx-auto block-max-w--sm">
+      <div class="mx-auto block-max-w--sm">
+    <h2 class="mb-4 text-4xl text-center font-company-header text-block-title break-words hyphens-auto">About No Isolation</h2>
+
+    <div class="prose prose-block font-company-body company-links break-words"><p>No Isolation was founded in Oslo, Norway, in 2015 and developed AV1. AV1 enables long-term absent&nbsp;students to continue learning and&nbsp;remain part of their school community from home or hospital. No Isolation's 64 employees work across Europe, with offices in Oslo, Munich and London, and has exciting expansion plans for the future. AV1 is the answer to the growing problem of school absenteeism, with over 5,000 active robots in 19 countries.</p></div>
+</div>
+
+
+      <div class="flex flex-wrap mt-8 text-lg gap-y-4">
+          <div class="flex-shrink-0 w-full @md:w-half">
+            <span class="font-bold">
+              Founded in
+            </span>
+
+            2015
+          </div>
+
+          <div class="flex-shrink-0 w-full @md:w-half">
+            <span class="font-bold">
+              Coworkers
+            </span>
+
+            64
+          </div>
+
+      </div>
+    </div>
+</section>
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Apply now</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Engineering</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Oslo</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Hybrid
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Senior Mobile Fullstack Engineer</h1>
+    <h2 class="block mt-2 @sm:text-xl leading-normal">Growth is only meaningful when it changes lives — we’re building human connection into the heart of education. Come help us make presence possible for every student.</h2>
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://careers.noisolation.com/jobs/7500791-senior-mobile-fullstack-engineer/applications/new">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Loading application form
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Close modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-padding">
+  <div class="w-full mx-auto @sm:flex block-max-w--lg">
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-menu">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Career site
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://careers.noisolation.com/">Home</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://careers.noisolation.com/jobs">Job vacancies</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://careers.noisolation.com/people">People</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://careers.noisolation.com/pages/we-love-working-at-no-isolation">Meet our employees</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://careers.noisolation.com/pages/news-articles">Get to know us</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/data-privacy">Data &amp; privacy</a>
+
+</li>      <li class="w-full text-md leading-tight">
+                    <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Manage cookies" class="company-link font-company-body text-unset py-1">Manage cookies</button>
+
+</li>  </ul>
+</div>
+
+
+
+    <div class="flex flex-col items-center justify-center grow shrink-0 text-base @sm:items-end @sm:justify-end">
+      <a class="text-company-primary hover:text-company-link text-ellipsis py-1" href="https://www.noisolation.com/">noisolation.com/</a>
+      
+
+        <div class="flex mt-2">
+            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="X" href="https://x.com/av1_noisolation">
+              <i class="fab fa-x-twitter size-6 p-1 text-lg"></i>
+</a>            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="Facebook" href="https://www.facebook.com/av1.noisolation/">
+              <i class="fab fa-facebook-square size-6 p-1 text-lg"></i>
+</a>            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="LinkedIn" href="https://www.linkedin.com/company/noisolation/">
+              <i class="fab fa-linkedin size-6 p-1 text-lg"></i>
+</a>            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="Instagram" href="https://www.instagram.com/av1.noisolation/">
+              <i class="fab fa-instagram size-6 p-1 text-lg"></i>
+</a>        </div>
+</div></div></div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="https://app.teamtailor.com/companies/U6L1xAaytVc@eu/dashboard">Employee login</a>
+      <span class="mx-2">·</span>
+      <a class="text-company-primary hover:text-company-link" href="/sso_login">SSO</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Candidate Connect login</a>
+
+        </div>
+      </div>
+</footer></div>
+<section class="relative block-px mt-15 z-career-autojoin mb-[27px] @md:mb-[35px]" id="section-auto-join">
+  <div class="w-full px-4 pt-12 mx-auto rounded pb-18 block-max-w--lg bg-company-secondary text-company-secondary block-shadow">
+    <h2 class="text-center font-company-header text-4xl text-shadow">Already working at No Isolation?</h2>
+    <p class="text-center text-xl text-opacity-80 text-company-secondary text-shadow">Let’s recruit together and find your next colleague.</p>
+
+      <div dir="ltr" class="relative mx-auto max-w-[500px] w-full px-4 py-2 mt-6 rounded cursor-pointer bg-company-secondary-text text-company-secondary bg-opacity-15 focus-within:bg-white focus-within:text-gray-700 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-company-secondary-text" data-controller="blocks--auto-join--form" data-action="click->blocks--auto-join--form#focusEmailField" data-blocks--auto-join--form-tooltip-login-value="Enter your email address" data-blocks--auto-join--form-tooltip-login-with-value="Login with %{email}">
+  </div>
+
+</div>
+  <ul class="
+    absolute bottom-[-27px] @md:bottom-[-35px] flex items-center
+    justify-center left-0 right-0
+  " data-controller="blocks--auto-join--people">
+    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Petter Karal" alt="Petter Karal" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/16eada52-0b30-4a7b-ade0-e570a56cb5bf/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Preet Nannua" alt="Preet Nannua" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/3d5cea83-3c13-494a-a030-f89d4003c965/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Simone Isaacs" alt="Simone Isaacs" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/e7a99b88-3420-4a09-80e2-6d09d40cf1fa/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Anna Karlsson" alt="Anna Karlsson" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/dd007de5-53c3-4cfe-a1dc-b1effc8db623/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Ana Moshkina" alt="Ana Moshkina" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/bdbaf4a0-08b2-4f5a-b360-4e9db268ce24/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Carlos Baptista" alt="Carlos Baptista" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/2e29ad8d-1be4-41df-8f83-2552d9094de4/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Louise Brooke" alt="Louise Brooke" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/99d7c021-9a1b-4168-a2d7-32a6667ed76b/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block hidden @md:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Carolin Basty" alt="Carolin Basty" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/f12d0f3f-a762-4a9e-9a00-12dd53d4a2df/original.png" data-blocks--auto-join--people-target="person"></div>
+</li></ul>
+
+</section>
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e3c96f307fc75dba1543f7d7501359393" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=careers.noisolation.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Applicant tracking system</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="careers.noisolation.com">
+</div>
+</form>
+</body>
+</html>

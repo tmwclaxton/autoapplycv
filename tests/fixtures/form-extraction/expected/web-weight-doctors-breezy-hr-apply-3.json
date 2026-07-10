@@ -1,0 +1,191 @@
+{
+  "id": "web-weight-doctors-breezy-hr-apply-3",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "%placeholder_full_name%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "%PLACEHOLDER_FULL_NAME%",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "%placeholder_email_address%",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "%PLACEHOLDER_EMAIL_ADDRESS%",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "%placeholder_phone_number%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "%PLACEHOLDER_PHONE_NUMBER%",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "%placeholder_address%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fullAddress",
+        "name": "cAddress",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "%PLACEHOLDER_ADDRESS%",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "salarycurrency",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "salaryCurrency",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "%placeholder_salary%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cSalary",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "%PLACEHOLDER_SALARY%",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "clocation",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cLocation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cCoverLetter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "datenschutzhinweis / privacy notice",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Guten Tag, Da uns der Schutz Ihrer Daten wichtig ist, finden Sie hier einen Link, über den Sie bestätigen können, dass Sie damit einverstanden sind: https://weight-doctors.breezy.hr/m/e1291b61c55001/consent -- Because we care about your privacy, here's a link where you can confirm you're okay with that: https://weight-doctors.breezy.hr/m/e1291b61c55001/consent Weight Doctors Group jobs@cgce.group"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "gdprAgreement",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Senior Frontend Engineer - Ashby Application</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+    color: #1a1a2e;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .decoy-newsletter {
+    background: #2d3436;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #dfe6e9;
+  }
+  .decoy-newsletter h3 {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+  .decoy-newsletter input[type=email] {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    width: 220px;
+    font-size: 13px;
+  }
+  .decoy-newsletter button {
+    background: #0984e3;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .main-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .app-header {
+    padding: 20px 24px 12px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .app-header h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .app-header p {
+    margin: 0;
+    color: #636e72;
+    font-size: 13px;
+  }
+  .app-body {
+    padding: 16px 24px 24px;
+  }
+  .field-table {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+  .field-row {
+    display: table-row;
+  }
+  .field-label-cell {
+    display: table-cell;
+    width: 140px;
+    vertical-align: middle;
+    padding-right: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2d3436;
+  }
+  .field-input-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .field-input-cell input,
+  .field-input-cell select,
+  .field-input-cell textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fafbfc;
+    box-sizing: border-box;
+    transition: border 0.15s;
+  }
+  .field-input-cell input:focus,
+  .field-input-cell select:focus {
+    outline: none;
+    border-color: #0984e3;
+    box-shadow: 0 0 0 3px rgba(9,132,227,0.15);
+  }
+  .label-wrap-deep {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2d3436;
+    margin-bottom: 4px;
+  }
+  .label-wrap-deep .inner-wrap {
+    display: block;
+    margin-top: 4px;
+  }
+  .label-wrap-deep .inner-wrap input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fafbfc;
+    box-sizing: border-box;
+  }
+  .pill-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .pill-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid #d1d8e0;
+    background: white;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #2d3436;
+    transition: all 0.1s;
+  }
+  .pill-btn.active {
+    background: #0984e3;
+    color: white;
+    border-color: #0984e3;
+  }
+  .pill-btn:focus {
+    outline: 2px solid #0984e3;
+    outline-offset: 2px;
+  }
+  .custom-combobox {
+    position: relative;
+  }
+  .custom-combobox input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fafbfc;
+    box-sizing: border-box;
+  }
+  .combobox-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    z-index: 10;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .combobox-list.show {
+    display: block;
+  }
+  .combobox-list .option {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f2f6;
+  }
+  .combobox-list .option:hover {
+    background: #f1f2f6;
+  }
+  .combobox-list .option.selected {
+    background: #dfe6e9;
+    font-weight: 500;
+  }
+  .custom-textbox {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fafbfc;
+    box-sizing: border-box;
+    cursor: text;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+  .custom-textbox:focus {
+    outline: none;
+    border-color: #0984e3;
+    box-shadow: 0 0 0 3px rgba(9,132,227,0.15);
+  }
+  .custom-textbox[contenteditable]:empty:before {
+    content: attr(placeholder);
+    color: #b2bec3;
+  }
+  .checkbox-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .checkbox-cluster label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .conditional-field {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #0984e3;
+  }
+  .conditional-field.hidden {
+    display: none;
+  }
+  .submit-row {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+  }
+  .submit-btn {
+    background: #0984e3;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+  }
+  .submit-btn:hover {
+    background: #0873c7;
+  }
+  .footnote {
+    font-size: 11px;
+    color: #636e72;
+    margin-top: 12px;
+    text-align: center;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e9ecef;
+    margin: 20px 0;
+  }
+  .decoy-login {
+    margin-top: 16px;
+    text-align: right;
+    font-size: 12px;
+  }
+  .decoy-login a {
+    color: #0984e3;
+    text-decoration: none;
+  }
+  .hidden-field {
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="decoy-newsletter">
+  <h3>📬 Stay updated on new roles</h3>
+  <div>
+    <input type="email" placeholder="your@email.com" aria-label="Newsletter email">
+    <button type="button">Subscribe</button>
+  </div>
+</div>
+
+<div class="main-card">
+  <div class="app-header">
+    <h2>Senior Frontend Engineer</h2>
+    <p>Ashby · Remote · Full-time · <span style="color:#0984e3;">Apply by March 30</span></p>
+  </div>
+  <div class="app-body">
+    <form id="jobForm">
+      <h3 style="margin: 0 0 8px; font-size:15px;">Personal Information</h3>
+      <div class="field-table">
+        <div class="field-row">
+          <div class="field-label-cell"><span style="display:inline-block;">Full Name</span> <span style="color:#e17055;">*</span></div>
+          <div class="field-input-cell">
+            <div role="textbox" contenteditable="true" class="custom-textbox" placeholder="e.g. Alex Rivera" aria-label="Full name" data-name="fullname"></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Email</span> <span style="color:#e17055;">*</span></div>
+          <div class="field-input-cell">
+            <label class="label-wrap-deep">
+              <span>Work email</span>
+              <span class="inner-wrap">
+                <input type="email" name="email" placeholder="you@company.com" />
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Phone</span></div>
+          <div class="field-input-cell">
+            <input type="tel" aria-label="Phone number" placeholder="+1 555 123 4567" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Location</span> <span style="color:#e17055;">*</span></div>
+          <div class="field-input-cell">
+            <div class="custom-combobox" id="locationCombobox">
+              <input type="text" placeholder="Search city..." aria-label="Location" autocomplete="off" id="locInput">
+              <div class="combobox-list" id="locList">
+                <div class="option" data-value="san-francisco">San Francisco, CA</div>
+                <div class="option" data-value="new-york">New York, NY</div>
+                <div class="option" data-value="remote-us">Remote (US)</div>
+                <div class="option" data-value="london">London, UK</div>
+                <div class="option" data-value="berlin">Berlin, DE</div>
+              </div>
+            </div>
+            <input type="hidden" name="location" id="locHidden">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>LinkedIn URL</span></div>
+          <div class="field-input-cell">
+            <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn profile" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>GitHub</span></div>
+          <div class="field-input-cell">
+            <input type="url" name="github" placeholder="https://github.com/..." aria-label="GitHub profile" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <h3 style="margin:0 0 8px; font-size:15px;">Experience & Skills</h3>
+      <div class="field-table">
+        <div class="field-row">
+          <div class="field-label-cell"><span>Years of exp.</span> <span style="color:#e17055;">*</span></div>
+          <div class="field-input-cell">
+            <div class="pill-group" role="radiogroup" aria-label="Years of experience">
+              <button type="button" class="pill-btn" data-value="0-2" role="radio" aria-checked="false">0-2</button>
+              <button type="button" class="pill-btn" data-value="3-5" role="radio" aria-checked="false">3-5</button>
+              <button type="button" class="pill-btn active" data-value="6+" role="radio" aria-checked="true">6+</button>
+            </div>
+            <input type="hidden" name="experience_years" id="expHidden" value="6+">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Skills</span></div>
+          <div class="field-input-cell">
+            <div class="checkbox-cluster">
+              <label><input type="checkbox" name="skills" value="react"> React</label>
+              <label><input type="checkbox" name="skills" value="typescript"> TypeScript</label>
+              <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+              <label><input type="checkbox" name="skills" value="css"> CSS</label>
+              <label><input type="checkbox" name="skills" value="python"> Python</label>
+              <label><input type="checkbox" name="skills" value="graphql"> GraphQL</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Portfolio</span></div>
+          <div class="field-input-cell">
+            <span style="display:inline-block;background:#f1f2f6;padding:2px 6px;border-radius:4px;font-size:12px;color:#636e72;margin-right:4px;">https://</span>
+            <input type="url" placeholder="yourportfolio.com" aria-label="Portfolio URL" style="width:calc(100% - 70px);padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Current role</span></div>
+          <div class="field-input-cell">
+            <input type="text" name="current_role" placeholder="e.g. Senior Engineer" aria-label="Current job title" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Company</span></div>
+          <div class="field-input-cell">
+            <input type="text" name="current_company" placeholder="Current employer" aria-label="Current company" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <h3 style="margin:0 0 8px; font-size:15px;">Additional Questions</h3>
+      <div class="field-table">
+        <div class="field-row">
+          <div class="field-label-cell"><span>Currently employed?</span></div>
+          <div class="field-input-cell">
+            <div class="pill-group" id="employedGroup">
+              <button type="button" class="pill-btn active" data-value="yes" id="employedYes">Yes</button>
+              <button type="button" class="pill-btn" data-value="no" id="employedNo">No</button>
+            </div>
+            <input type="hidden" name="currently_employed" id="employedHidden" value="yes">
+          </div>
+        </div>
+      </div>
+      <div class="conditional-field" id="noticePeriodField">
+        <div class="label-wrap-deep">
+          <span>Notice period (weeks)</span>
+          <span class="inner-wrap">
+            <input type="number" name="notice_period" placeholder="2" min="0" max="12" />
+          </span>
+        </div>
+      </div>
+      <div class="field-table">
+        <div class="field-row">
+          <div class="field-label-cell"><span>Work authorization</span></div>
+          <div class="field-input-cell">
+            <div class="custom-combobox" id="authCombobox">
+              <input type="text" placeholder="Select authorization..." aria-label="Work authorization" autocomplete="off" id="authInput">
+              <div class="combobox-list" id="authList">
+                <div class="option" data-value="us-citizen">US Citizen</div>
+                <div class="option" data-value="gc">Green Card</div>
+                <div class="option" data-value="h1b">H1B Transfer</div>
+                <div class="option" data-value="other">Other visa</div>
+              </div>
+            </div>
+            <input type="hidden" name="authorization" id="authHidden">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Salary expectation</span></div>
+          <div class="field-input-cell">
+            <input type="text" name="salary_expectation" placeholder="e.g. $150,000" aria-label="Salary expectation" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>Cover letter</span></div>
+          <div class="field-input-cell">
+            <textarea name="cover_letter" placeholder="Tell us why you're a great fit..." aria-label="Cover letter" style="width:100%;padding:10px 12px;border:1px solid #d1d8e0;border-radius:6px;font-size:14px;box-sizing:border-box;min-height:80px;"></textarea>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-label-cell"><span>How did you hear?</span></div>
+          <div class="field-input-cell">
+            <div class="custom-combobox" id="referralCombobox">
+              <input type="text" placeholder="Select source..." aria-label="How did you hear about this role?" autocomplete="off" id="referralInput">
+              <div class="combobox-list" id="referralList">
+                <div class="option" data-value="linkedin">LinkedIn</div>
+                <div class="option" data-value="indeed">Indeed</div>
+                <div class="option" data-value="friend">Friend referral</div>
+                <div class="option" data-value="other">Other</div>
+              </div>
+            </div>
+            <input type="hidden" name="referral_source" id="referralHidden">
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn">Submit Application</button>
+        <div class="footnote">By applying, you agree to our privacy policy.</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="decoy-login">
+  <a href="#">Already have an account? Log in</a>
+</div>
+
+</div>
+
+<script>
+  (function() {
+    const expPills = document.querySelectorAll('.pill-group[aria-label="Years of experience"] .pill-btn');
+    const expHidden = document.getElementById('expHidden');
+    expPills.forEach(btn => {
+      btn.addEventListener('click', function() {
+        expPills.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+        this.classList.add('active');
+        this.setAttribute('aria-checked','true');
+        expHidden.value = this.getAttribute('data-value');
+      });
+    });
+
+    const empYes = document.getElementById('employedYes');
+    const empNo = document.getElementById('employedNo');
+    const empHidden = document.getElementById('employedHidden');
+    const noticeField = document.getElementById('noticePeriodField');
+    function updateEmployed(value) {
+      empHidden.value = value;
+      if (value === 'yes') {
+        empYes.classList.add('active'); empNo.classList.remove('active');
+        noticeField.classList.remove('hidden');
+      } else {
+        empNo.classList.add('active'); empYes.classList.remove('active');
+        noticeField.classList.add('hidden');
+      }
+    }
+    empYes.addEventListener('click', function() { updateEmployed('yes'); });
+    empNo.addEventListener('click', function() { updateEmployed('no'); });
+
+    function setupCombobox(inputId, listId, hiddenId) {
+      const input = document.getElementById(inputId);
+      const list = document.getElementById(listId);
+      const hidden = document.getElementById(hiddenId);
+      const options = list.querySelectorAll('.option');
+      input.addEventListener('focus', function() { list.classList.add('show'); });
+      input.addEventListener('blur', function() { setTimeout(() => list.classList.remove('show'), 200); });
+      input.addEventListener('input', function() {
+        const q = this.value.toLowerCase();
+        options.forEach(opt => {
+          opt.style.display = opt.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+        list.classList.add('show');
+      });
+      options.forEach(opt => {
+        opt.addEventListener('click', function() {
+          input.value = this.textContent;
+          hidden.value = this.getAttribute('data-value');
+          list.classList.remove('show');
+          options.forEach(o => o.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+    }
+    setupCombobox('locInput', 'locList', 'locHidden');
+    setupCombobox('authInput', 'authList', 'authHidden');
+    setupCombobox('referralInput', 'referralList', 'referralHidden');
+
+    const nameDiv = document.querySelector('[role="textbox"][contenteditable]');
+    nameDiv.addEventListener('input', function() {
+      this.dataset.value = this.textContent;
+    });
+
+    document.getElementById('jobForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nameVal = nameDiv.textContent || '';
+      console.log('Name (contenteditable):', nameVal);
+      console.log('Location:', document.getElementById('locHidden').value);
+      console.log('Authorization:', document.getElementById('authHidden').value);
+      console.log('Referral:', document.getElementById('referralHidden').value);
+      const skills = [];
+      document.querySelectorAll('input[name="skills"]:checked').forEach(cb => skills.push(cb.value));
+      console.log('Skills:', skills);
+      alert('Application submitted (check console for details).');
+    });
+  })();
+</script>
+
+</body>
+</html>

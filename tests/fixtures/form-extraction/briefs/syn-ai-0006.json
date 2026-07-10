@@ -1,0 +1,24 @@
+{
+    "id": "syn-ai-0006",
+    "seed": 2898227351,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "min_fields": 8,
+        "min_field_types": 4,
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "weirdness": [
+            "Label contains SVG icon; accessible name via aria-labelledby only",
+            "Email input is readonly with prefilled value from profile import",
+            "Input positioned at -9999px off-screen (accessibility anti-pattern)"
+        ]
+    },
+    "prompt_summary": "Create a ashby-style job application form (single-page, small size) using widgets: combobox. Include weirdness: Label contains SVG icon; accessible name via aria-labelledby only; Email input is readonly with prefilled value from profile import; Input positioned at -9999px off-screen (accessibility anti-pattern)."
+}

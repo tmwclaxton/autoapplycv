@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashby Apply · Senior Backend Engineer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f5f7; display: flex; justify-content: center; padding: 32px 16px; }
+  .apply-shell { display: flex; max-width: 1100px; width: 100%; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; min-height: 800px; }
+  .sidebar { width: 280px; background: #fafbfc; border-right: 1px solid #e1e4e8; padding: 24px 20px; flex-shrink: 0; }
+  .sidebar h2 { font-size: 14px; color: #24292f; font-weight: 600; margin-bottom: 20px; letter-spacing: 0.3px; }
+  .sidebar .step { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; color: #57606a; }
+  .sidebar .step.active { color: #0969da; font-weight: 500; }
+  .sidebar .step .num { width: 22px; height: 22px; border-radius: 50%; background: #d0d7de; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; }
+  .sidebar .step.active .num { background: #0969da; }
+  .main { flex: 1; padding: 32px 36px; overflow-y: auto; }
+  .main h1 { font-size: 22px; font-weight: 600; color: #1f2328; margin-bottom: 4px; }
+  .main .subhead { font-size: 14px; color: #656d76; margin-bottom: 24px; }
+  .field-group { margin-bottom: 22px; }
+  .field-group .qnum { font-size: 12px; color: #8b949e; margin-bottom: 2px; font-weight: 500; }
+  .field-group label, .field-group .label-like { display: block; font-size: 14px; font-weight: 500; color: #24292f; margin-bottom: 6px; }
+  .input-field { width: 100%; padding: 10px 12px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 14px; background: white; transition: border-color 0.15s; }
+  .input-field:focus { border-color: #0969da; outline: none; box-shadow: 0 0 0 2px rgba(9,105,218,0.2); }
+  .input-field.error { border-color: #cf222e; }
+  .error-text { color: #cf222e; font-size: 12px; margin-top: 4px; }
+  .row { display: flex; gap: 16px; }
+  .row > * { flex: 1; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .pill { padding: 6px 16px; border: 1px solid #d0d7de; border-radius: 20px; font-size: 13px; cursor: pointer; background: white; color: #24292f; }
+  .pill.selected { background: #0969da; color: white; border-color: #0969da; }
+  .checkbox-cluster { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+  .checkbox-cluster label { font-size: 14px; font-weight: 400; display: flex; align-items: center; gap: 6px; }
+  .hidden-field { display: none; }
+  .reveal-trigger { color: #0969da; font-size: 13px; cursor: pointer; margin-top: 4px; display: inline-block; }
+  .combobox-wrap { position: relative; }
+  .combobox-wrap input { width: 100%; padding: 10px 12px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 14px; background: white; }
+  .combobox-wrap input:focus { border-color: #0969da; outline: none; box-shadow: 0 0 0 2px rgba(9,105,218,0.2); }
+  .listbox-popup { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #d0d7de; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .listbox-popup.open { display: block; }
+  .listbox-popup .option { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .listbox-popup .option:hover { background: #f0f6fc; }
+  .listbox-popup .option[aria-selected="true"] { background: #ddf4ff; font-weight: 500; }
+  .btn { padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; }
+  .btn-primary { background: #0969da; color: white; }
+  .btn-primary:hover { background: #0860ca; }
+  .divider { border: none; border-top: 1px solid #e1e4e8; margin: 24px 0; }
+  .glued-span label { font-size: 13px; color: #656d76; }
+  .glued-span .input-field { margin-top: 2px; }
+  .shadow-host { background: #f9fafb; border: 1px dashed #d0d7de; padding: 16px; border-radius: 8px; margin-bottom: 20px; }
+  .shadow-host .label-like { font-size: 13px; color: #57606a; margin-bottom: 8px; }
+  .shadow-host .input-field { background: white; }
+  .role-textbox { border: 1px solid #d0d7de; border-radius: 6px; padding: 10px 12px; min-height: 44px; background: white; cursor: text; font-size: 14px; }
+  .role-textbox:focus { border-color: #0969da; box-shadow: 0 0 0 2px rgba(9,105,218,0.2); }
+  .role-textbox[data-placeholder]:empty:before { content: attr(data-placeholder); color: #8b949e; }
+  .decoy-form { background: #f0f2f5; border-radius: 8px; padding: 12px 16px; margin-top: 20px; opacity: 0.7; pointer-events: none; }
+  .decoy-form .decoy-title { font-size: 12px; color: #57606a; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .decoy-form .input-field { background: #e5e8ec; }
+  .details-reveal summary { font-size: 13px; color: #0969da; cursor: pointer; margin-bottom: 8px; }
+  .details-reveal .details-body { padding: 8px 0 0 12px; border-left: 2px solid #d0d7de; }
+  .fieldset-stack { border: 1px solid #e1e4e8; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .fieldset-stack legend { font-size: 14px; font-weight: 600; color: #24292f; padding: 0 8px; }
+  .table-layout { display: table; width: 100%; border-collapse: collapse; }
+  .table-row { display: table-row; }
+  .table-cell { display: table-cell; padding: 8px; vertical-align: top; }
+  .table-cell label { font-size: 13px; color: #57606a; }
+  .table-cell .input-field { width: 100%; }
+  .iframe-shell { border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+  .iframe-shell iframe { width: 100%; height: 200px; border: none; }
+</style>
+</head>
+<body>
+<div class="apply-shell">
+  <div class="sidebar">
+    <h2>Application steps</h2>
+    <div class="step active"><span class="num">1</span> Personal info</div>
+    <div class="step"><span class="num">2</span> Experience</div>
+    <div class="step"><span class="num">3</span> Skills</div>
+    <div class="step"><span class="num">4</span> Additional</div>
+    <div class="step"><span class="num">5</span> Review</div>
+  </div>
+  <div class="main">
+    <h1>Senior Backend Engineer</h1>
+    <div class="subhead">Ashby · Remote · Full-time</div>
+    
+    <!-- Q7. Name (search type) -->
+    <div class="field-group">
+      <div class="qnum">Q7.</div>
+      <div class="label-like" id="name-label">Full name <span style="color:#cf222e;">*</span></div>
+      <input type="search" class="input-field" placeholder="Enter your full name" aria-labelledby="name-label" name="candidate_name" required>
+    </div>
+
+    <div class="row">
+      <!-- Q8. Email -->
+      <div class="field-group">
+        <div class="qnum">Q8.</div>
+        <label>Email address <span style="color:#cf222e;">*</span></label>
+        <input type="email" class="input-field" name="email" placeholder="you@example.com" required>
+      </div>
+      <!-- Q9. Phone -->
+      <div class="field-group">
+        <div class="qnum">Q9.</div>
+        <label>Phone</label>
+        <input type="tel" class="input-field" name="phone" placeholder="+1 555 123 4567">
+      </div>
+    </div>
+
+    <!-- Q10. Custom combobox: preferred language (aria-haspopup + listbox) -->
+    <div class="field-group">
+      <div class="qnum">Q10.</div>
+      <div class="label-like" id="lang-label">Preferred programming language</div>
+      <div class="combobox-wrap" id="lang-combobox-wrap">
+        <input type="text" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-listbox" aria-labelledby="lang-label" id="lang-input" class="input-field" placeholder="Type or select" autocomplete="off">
+        <div id="lang-listbox" role="listbox" class="listbox-popup" aria-label="Programming languages">
+          <div role="option" class="option" aria-selected="false">Python</div>
+          <div role="option" class="option" aria-selected="false">Go</div>
+          <div role="option" class="option" aria-selected="false">Rust</div>
+          <div role="option" class="option" aria-selected="false">TypeScript</div>
+          <div role="option" class="option" aria-selected="false">Java</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q11. Fake role=textbox div (no native input) -->
+    <div class="field-group">
+      <div class="qnum">Q11.</div>
+      <div class="label-like" id="summary-label">Brief summary (role=textbox demo)</div>
+      <div role="textbox" aria-labelledby="summary-label" contenteditable="true" data-placeholder="Write a short summary..." class="role-textbox"></div>
+    </div>
+
+    <!-- Q12. Years of experience (pill yes/no style) -->
+    <div class="field-group">
+      <div class="qnum">Q12.</div>
+      <div class="label-like" id="exp-label">Years of backend experience</div>
+      <div class="pill-group" role="radiogroup" aria-labelledby="exp-label">
+        <button class="pill" role="radio" aria-checked="false" name="yoe" value="0-2" onclick="selectPill(this)">0-2</button>
+        <button class="pill" role="radio" aria-checked="false" name="yoe" value="3-5" onclick="selectPill(this)">3-5</button>
+        <button class="pill" role="radio" aria-checked="false" name="yoe" value="6-9" onclick="selectPill(this)">6-9</button>
+        <button class="pill" role="radio" aria-checked="false" name="yoe" value="10+" onclick="selectPill(this)">10+</button>
+      </div>
+      <input type="hidden" name="yoe" id="yoe-hidden" value="">
+    </div>
+
+    <!-- Q13. Duplicate name attrs: checkbox cluster (skills) -->
+    <div class="field-group">
+      <div class="qnum">Q13.</div>
+      <div class="label-like" id="skills-label">Frameworks you've used (select all that apply)</div>
+      <div class="checkbox-cluster" aria-labelledby="skills-label">
+        <label><input type="checkbox" name="skills[]" value="Django"> Django</label>
+        <label><input type="checkbox" name="skills[]" value="FastAPI"> FastAPI</label>
+        <label><input type="checkbox" name="skills[]" value="Spring"> Spring</label>
+        <label><input type="checkbox" name="skills[]" value="Express"> Express</label>
+        <label><input type="checkbox" name="skills[]" value="Rails"> Rails</label>
+        <label><input type="checkbox" name="skills[]" value="Actix"> Actix</label>
+      </div>
+    </div>
+
+    <!-- Q14. Label wraps input through nested divs (no for attribute) -->
+    <div class="field-group">
+      <div class="qnum">Q14.</div>
+      <label style="display:block;">
+        <span style="display:block; margin-bottom:4px;">LinkedIn profile</span>
+        <div style="position:relative;">
+          <div style="display:flex; align-items:center;">
+            <span style="color:#8b949e; position:absolute; left:10px;">🔗</span>
+            <input type="url" class="input-field" style="padding-left:32px;" name="linkedin" placeholder="https://linkedin.com/in/...">
+          </div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Q15. Shadow DOM host (declarative shadow root) -->
+    <div class="field-group">
+      <div class="qnum">Q15.</div>
+      <div class="shadow-host">
+        <div class="label-like">Shadow host field (availability)</div>
+        <div id="shadow-host-container">
+          <template shadowroot="open">
+            <style>
+              .shadow-input { width: 100%; padding: 10px 12px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 14px; background: white; }
+              .shadow-input:focus { border-color: #0969da; outline: none; box-shadow: 0 0 0 2px rgba(9,105,218,0.2); }
+              .shadow-label { display: block; font-size: 13px; color: #57606a; margin-bottom: 4px; }
+            </style>
+            <span class="shadow-label">Earliest start date</span>
+            <input class="shadow-input" type="date" name="start_date" aria-label="Start date">
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q16. Details/reveal with hidden fields -->
+    <div class="field-group details-reveal">
+      <div class="qnum">Q16.</div>
+      <details>
+        <summary>Have you worked with distributed systems? <span style="color:#8b949e;font-size:12px;">(click to expand)</span></summary>
+        <div class="details-body">
+          <div style="margin-bottom:8px;">
+            <label>If yes, describe your experience</label>
+            <textarea class="input-field" rows="3" name="distributed_exp" placeholder="e.g., Kafka, Cassandra, ..."></textarea>
+          </div>
+          <div>
+            <label>Years with distributed systems</label>
+            <input type="number" class="input-field" name="dist_years" min="0" step="1" placeholder="0">
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Q17. Glued span labels (aria-labelledby) -->
+    <div class="field-group">
+      <div class="qnum">Q17.</div>
+      <div class="label-like" id="github-label">GitHub profile URL</div>
+      <div class="glued-span">
+        <span id="github-prefix" style="font-size:13px;color:#656d76;">https://github.com/</span>
+        <input type="text" class="input-field" style="display:inline;width:calc(100% - 140px);" aria-labelledby="github-label github-prefix" name="github_handle" placeholder="username">
+      </div>
+    </div>
+
+    <!-- Q18. Radio cluster (duplicate name) -->
+    <div class="field-group">
+      <div class="qnum">Q18.</div>
+      <div class="label-like" id="reloc-label">Are you open to relocation?</div>
+      <div style="display:flex;gap:20px;margin-top:4px;" role="radiogroup" aria-labelledby="reloc-label">
+        <label><input type="radio" name="relocation" value="yes"> Yes</label>
+        <label><input type="radio" name="relocation" value="no"> No</label>
+        <label><input type="radio" name="relocation" value="maybe"> Maybe</label>
+      </div>
+    </div>
+
+    <!-- Q19. Decoy secondary form (non-functional) -->
+    <div class="field-group decoy-form">
+      <div class="decoy-title">Legacy form (do not use)</div>
+      <div style="display:flex;gap:10px;">
+        <input class="input-field" placeholder="Old field (disabled)" disabled>
+        <input class="input-field" placeholder="Another" disabled>
+      </div>
+    </div>
+
+    <!-- Q20. Placeholder-only labeled field (aria-label) -->
+    <div class="field-group">
+      <div class="qnum">Q20.</div>
+      <input type="text" class="input-field" aria-label="Portfolio URL" placeholder="Portfolio URL (e.g., yoursite.com)" name="portfolio">
+    </div>
+
+    <!-- Q21. Native select (not combobox) - but combobox already done above -->
+    <div class="field-group">
+      <div class="qnum">Q21.</div>
+      <label for="hear-about">How did you hear about this role?</label>
+      <select id="hear-about" class="input-field" name="source">
+        <option value="">Select...</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="referral">Referral</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <!-- Q22. Another duplicate-name checkbox cluster -->
+    <div class="field-group">
+      <div class="qnum">Q22.</div>
+      <div class="label-like" id="deploy-label">Deployment tools used</div>
+      <div class="checkbox-cluster" aria-labelledby="deploy-label">
+        <label><input type="checkbox" name="deploy[]" value="Docker"> Docker</label>
+        <label><input type="checkbox" name="deploy[]" value="K8s"> Kubernetes</label>
+        <label><input type="checkbox" name="deploy[]" value="Terraform"> Terraform</label>
+        <label><input type="checkbox" name="deploy[]" value="Ansible"> Ansible</label>
+      </div>
+    </div>
+
+    <!-- Q23. Readonly prefill -->
+    <div class="field-group">
+      <div class="qnum">Q23.</div>
+      <label>Referrer (prefilled)</label>
+      <input type="text" class="input-field" name="referrer" value="Internal referral - Jamie L." readonly style="background:#f0f2f5;color:#57606a;">
+    </div>
+
+    <!-- Q24. aria-labelledby only -->
+    <div class="field-group">
+      <div class="qnum">Q24.</div>
+      <span id="certs-label" style="display:block;font-size:14px;font-weight:500;color:#24292f;margin-bottom:4px;">Certifications</span>
+      <input type="text" class="input-field" aria-labelledby="certs-label" name="certs" placeholder="e.g., AWS Solutions Architect, CKAD">
+    </div>
+
+    <!-- Q25. Fieldset stack layout -->
+    <div class="fieldset-stack">
+      <legend>Additional Information</legend>
+      <div class="field-group">
+        <div class="qnum">Q25.</div>
+        <label for="cover-letter">Cover letter (optional)</label>
+        <textarea id="cover-letter" class="input-field" rows="4" name="cover_letter" placeholder="Write your cover letter..."></textarea>
+      </div>
+      <div class="field-group">
+        <div class="qnum">Q26.</div>
+        <label for="salary-expectation">Salary expectation</label>
+        <input type="text" id="salary-expectation" class="input-field" name="salary_expectation" placeholder="e.g., $150,000 - $180,000">
+      </div>
+    </div>
+
+    <!-- Q27. Table layout for structured fields -->
+    <div class="table-layout">
+      <div class="table-row">
+        <div class="table-cell"><label for="timezone">Timezone</label></div>
+        <div class="table-cell"><input type="text" id="timezone" class="input-field" name="timezone" placeholder="e.g., EST"></div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell"><label for="work-hours">Preferred work hours</label></div>
+        <div class="table-cell"><input type="text" id="work-hours" class="input-field" name="work_hours" placeholder="e.g., 9-5"></div>
+      </div>
+    </div>
+
+    <!-- Q28. Iframe shell for embedded content -->
+    <div class="iframe-shell">
+      <iframe srcdoc="<p>Embedded content: Additional questions</p><input type='text' placeholder='Extra field' style='width:100%;padding:8px;border:1px solid #d0d7de;border-radius:6px;'>"></iframe>
+    </div>
+
+    <!-- Q29. Additional checkbox cluster for duplicate name attrs -->
+    <div class="field-group">
+      <div class="qnum">Q29.</div>
+      <div class="label-like" id="db-label">Databases used</div>
+      <div class="checkbox-cluster" aria-labelledby="db-label">
+        <label><input type="checkbox" name="db[]" value="PostgreSQL"> PostgreSQL</label>
+        <label><input type="checkbox" name="db[]" value="MongoDB"> MongoDB</label>
+        <label><input type="checkbox" name="db[]" value="Redis"> Redis</label>
+        <label><input type="checkbox" name="db[]" value="MySQL"> MySQL</label>
+      </div>
+    </div>
+
+    <!-- Q30. Additional radio cluster for duplicate name attrs -->
+    <div class="field-group">
+      <div class="qnum">Q30.</div>
+      <div class="label-like" id="exp-level-label">Experience level</div>
+      <div style="display:flex;gap:20px;margin-top:4px;" role="radiogroup" aria-labelledby="exp-level-label">
+        <label><input type="radio" name="exp_level" value="junior"> Junior</label>
+        <label><input type="radio" name="exp_level" value="mid"> Mid</label>
+        <label><input type="radio" name="exp_level" value="senior"> Senior</label>
+        <label><input type="radio" name="exp_level" value="lead"> Lead</label>
+      </div>
+    </div>
+
+    <!-- Q31. Additional text field with aria-label -->
+    <div class="field-group">
+      <div class="qnum">Q31.</div>
+      <input type="text" class="input-field" aria-label="Personal website" placeholder="Personal website URL" name="website">
+    </div>
+
+    <!-- Q32. Additional text field with placeholder only -->
+    <div class="field-group">
+      <div class="qnum">Q32.</div>
+      <input type="text" class="input-field" placeholder="Twitter handle (optional)" name="twitter" aria-label="Twitter handle">
+    </div>
+
+    <!-- Q33. Additional checkbox cluster for duplicate name attrs -->
+    <div class="field-group">
+      <div class="qnum">Q33.</div>
+      <div class="label-like" id="cloud-label">Cloud platforms used</div>
+      <div class="checkbox-cluster" aria-labelledby="cloud-label">
+        <label><input type="checkbox" name="cloud[]" value="AWS"> AWS</label>
+        <label><input type="checkbox" name="cloud[]" value="GCP"> GCP</label>
+        <label><input type="checkbox" name="cloud[]" value="Azure"> Azure</label>
+      </div>
+    </div>
+
+    <!-- Q34. Additional radio cluster for duplicate name attrs -->
+    <div class="field-group">
+      <div class="qnum">Q34.</div>
+      <div class="label-like" id="work-auth-label">Work authorization</div>
+      <div style="display:flex;gap:20px;margin-top:4px;" role="radiogroup" aria-labelledby="work-auth-label">
+        <label><input type="radio" name="work_auth" value="us_citizen"> US Citizen</label>
+        <label><input type="radio" name="work_auth" value="green_card"> Green Card</label>
+        <label><input type="radio" name="work_auth" value="visa"> Visa</label>
+        <label><input type="radio" name="work_auth" value="other"> Other</label>
+      </div>
+    </div>
+
+    <!-- Q35. Additional text field with aria-label -->
+    <div class="field-group">
+      <div class="qnum">Q35.</div>
+      <input type="text" class="input-field" aria-label="Stack Overflow profile" placeholder="Stack Overflow profile URL" name="stackoverflow">
+    </div>
+
+    <!-- Q36. Additional text field with placeholder only -->
+    <div class="field-group">
+      <div class="qnum">Q36.</div>
+      <input type="text" class="input-field" placeholder="Dev.to profile (optional)" name="devto" aria-label="Dev.to profile">
+    </div>
+
+    <hr class="divider">
+    <div style="display:flex;justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="alert('Application submitted (demo)');return false;">Submit application</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Combobox logic
+  (function() {
+    const input = document.getElementById('lang-input');
+    const listbox = document.getElementById('lang-listbox');
+    const options = listbox.querySelectorAll('[role="option"]');
+    let selectedValue = '';
+
+    function openListbox() {
+      listbox.classList.add('open');
+      input.setAttribute('aria-expanded', 'true');
+    }
+    function closeListbox() {
+      listbox.classList.remove('open');
+      input.setAttribute('aria-expanded', 'false');
+    }
+
+    input.addEventListener('focus', openListbox);
+    input.addEventListener('blur', function(e) {
+      setTimeout(() => { if (!listbox.contains(document.activeElement)) closeListbox(); }, 150);
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeListbox();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!listbox.classList.contains('open')) openListbox();
+        const current = listbox.querySelector('[aria-selected="true"]');
+        const next = current ? current.nextElementSibling : options[0];
+        if (next && next.getAttribute('role') === 'option') {
+          current && current.setAttribute('aria-selected', 'false');
+          next.setAttribute('aria-selected', 'true');
+          next.scrollIntoView({ block: 'nearest' });
+        }
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const current = listbox.querySelector('[aria-selected="true"]');
+        const prev = current ? current.previousElementSibling : options[options.length-1];
+        if (prev && prev.getAttribute('role') === 'option') {
+          current && current.setAttribute('aria-selected', 'false');
+          prev.setAttribute('aria-selected', 'true');
+          prev.scrollIntoView({ block: 'nearest' });
+        }
+      }
+      if (e.key === 'Enter' && listbox.classList.contains('open')) {
+        e.preventDefault();
+        const selected = listbox.querySelector('[aria-selected="true"]');
+        if (selected) {
+          input.value = selected.textContent;
+          selectedValue = selected.textContent;
+          closeListbox();
+        }
+      }
+    });
+
+    options.forEach(opt => {
+      opt.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        input.value = this.textContent;
+        selectedValue = this.textContent;
+        options.forEach(o => o.setAttribute('aria-selected', 'false'));
+        this.setAttribute('aria-selected', 'true');
+        closeListbox();
+        input.focus();
+      });
+    });
+
+    // Filter on input
+    input.addEventListener('input', function() {
+      const val = this.value.toLowerCase();
+      options.forEach(o => {
+        o.style.display = o.textContent.toLowerCase().includes(val) ? 'block' : 'none';
+      });
+      if (!listbox.classList.contains('open')) openListbox();
+    });
+  })();
+
+  // Pill selection
+  function selectPill(el) {
+    const group = el.closest('.pill-group');
+    group.querySelectorAll('.pill').forEach(p => { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); });
+    el.classList.add('selected');
+    el.setAttribute('aria-checked', 'true');
+    document.getElementById('yoe-hidden').value = el.getAttribute('value');
+  }
+
+  // Shadow DOM (declarative) - no extra js needed
+</script>
+</body>
+</html>

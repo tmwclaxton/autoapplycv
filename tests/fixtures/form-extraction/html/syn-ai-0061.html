@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f3f4f6; color: #111827; }
+  .app-layout { display: flex; min-height: 100vh; }
+  .sidebar { width: 320px; background: #fff; border-right: 1px solid #e5e7eb; padding: 24px 20px; flex-shrink: 0; }
+  .sidebar h2 { font-size: 14px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+  .sidebar .job-header { margin-bottom: 24px; }
+  .sidebar .job-header h1 { font-size: 20px; font-weight: 700; line-height: 1.3; }
+  .sidebar .job-header .company { font-size: 14px; color: #6b7280; margin-top: 4px; }
+  .sidebar .meta { font-size: 13px; color: #6b7280; display: flex; flex-direction: column; gap: 8px; }
+  .sidebar .meta span { display: flex; align-items: center; gap: 6px; }
+  .sidebar .meta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .main { flex: 1; padding: 32px 40px; max-width: 720px; }
+  .form-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 32px; }
+  .form-group { margin-bottom: 24px; }
+  .form-group label, .form-group .label-text { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+  .input-native { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; transition: border-color 0.15s; background: #fff; }
+  .input-native:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  .search-input { appearance: none; -webkit-appearance: none; }
+  .search-input::-webkit-search-decoration, .search-input::-webkit-search-cancel-button { display: none; }
+  .textarea-native { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; min-height: 120px; resize: vertical; font-family: inherit; }
+  .textarea-native:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  .pill-group { display: flex; gap: 8px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #d1d5db; border-radius: 20px; background: #fff; font-size: 14px; cursor: pointer; transition: all 0.15s; color: #374151; }
+  .pill-btn:hover { border-color: #6366f1; }
+  .pill-btn.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .pill-btn[aria-pressed="true"] { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .custom-textbox { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 14px; min-height: 44px; font-size: 14px; background: #fff; cursor: text; outline: none; }
+  .custom-textbox:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  .combobox-input::after { content: '\25bc'; font-size: 10px; color: #9ca3af; margin-left: 8px; }
+  .combobox-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 50; max-height: 200px; overflow-y: auto; margin-top: 4px; }
+  .combobox-dropdown.open { display: block; }
+  .combobox-option { padding: 10px 14px; font-size: 14px; cursor: pointer; }
+  .combobox-option:hover { background: #f3f4f6; }
+  .combobox-option[aria-selected="true"] { background: #eef2ff; font-weight: 500; }
+  .glued-label { font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px; display: flex; flex-wrap: wrap; }
+  .glued-label .part { display: inline; }
+  .glued-label .part + .part { margin-left: 0; }
+  details { margin-bottom: 16px; }
+  details summary { cursor: pointer; font-size: 14px; font-weight: 500; color: #6366f1; padding: 8px 0; }
+  details .details-content { margin-top: 12px; border-left: 2px solid #e5e7eb; padding-left: 16px; }
+  .row { display: flex; gap: 16px; }
+  .row .form-group { flex: 1; }
+  .btn-submit { width: 100%; padding: 12px; background: #6366f1; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+  .btn-submit:hover { background: #4f46e5; }
+  .decoy { margin-top: 32px; padding: 16px; border: 1px dashed #d1d5db; border-radius: 8px; background: #f9fafb; font-size: 13px; color: #9ca3af; }
+  .decoy h3 { font-size: 14px; color: #6b7280; margin-bottom: 8px; }
+  .shadow-host { display: block; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar">
+    <div class="job-header">
+      <h1>Senior Frontend Engineer</h1>
+      <div class="company">Ashby · Remote (US)</div>
+    </div>
+    <div class="meta">
+      <span><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg> Full-time</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg> $150k – $200k</span>
+      <span><svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg> Engineering</span>
+    </div>
+  </div>
+  <div class="main">
+    <div class="form-card">
+      <h2 style="font-size: 18px; margin-bottom: 24px;">Apply now</h2>
+      <form onsubmit="alert('Demo: application submitted'); return false;">
+        
+        <!-- Field 1: Name field: type=search, aria-label only + SVG icon label via aria-labelledby -->
+        <div class="form-group">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="name-label-icon" style="font-size: 14px; font-weight: 500; color: #374151;">Full name</span>
+          </div>
+          <input type="search" class="input-native search-input" aria-labelledby="name-label-icon" placeholder="e.g. Jane Smith" autocomplete="name">
+        </div>
+
+        <!-- Field 2: Email: aria-label only, no visible label -->
+        <div class="form-group">
+          <input type="email" class="input-native" aria-label="Email address" placeholder="you@company.com" autocomplete="email">
+        </div>
+
+        <!-- Field 3: Phone: aria-label only, no visible label -->
+        <div class="form-group">
+          <input type="tel" class="input-native" aria-label="Phone number" placeholder="+1 (555) 000-0000" autocomplete="tel">
+        </div>
+
+        <!-- Field 4: Glued label text: split across spans with no space -->
+        <div class="form-group">
+          <div class="glued-label" aria-hidden="true">
+            <span class="part">Curr</span><span class="part">ent</span>
+            <span class="part"> </span>
+            <span class="part">Com</span><span class="part">pany</span>
+          </div>
+          <input type="text" class="input-native" placeholder="Acme Corp" aria-label="Current company">
+        </div>
+
+        <!-- Field 5: LinkedIn: relatively clean native but still required -->
+        <div class="form-group">
+          <label for="linkedin">LinkedIn URL</label>
+          <input type="url" id="linkedin" class="input-native" placeholder="https://linkedin.com/in/...">
+        </div>
+
+        <!-- Field 6: Custom combobox for source -->
+        <div class="form-group">
+          <label id="source-label">How did you hear about us?</label>
+          <div class="combobox-wrapper">
+            <button type="button" class="combobox-input" id="source-btn" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="source-label" aria-controls="source-listbox">Select...</button>
+            <div class="combobox-dropdown" id="source-listbox" role="listbox" aria-labelledby="source-label">
+              <div class="combobox-option" role="option" aria-selected="false" data-value="linkedin">LinkedIn</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="github">GitHub</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="referral">Referral</div>
+              <div class="combobox-option" role="option" aria-selected="false" data-value="other">Other</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Field 7: Pill Yes/No for sponsorship -->
+        <div class="form-group">
+          <div style="font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px;">Will you now or in the future require visa sponsorship?</div>
+          <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" aria-label="Yes, require sponsorship">Yes</button>
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" aria-label="No, do not require sponsorship">No</button>
+          </div>
+        </div>
+
+        <!-- Field 8: div role=textbox contenteditable custom field -->
+        <div class="form-group">
+          <div style="font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px;">GitHub profile URL</div>
+          <div role="textbox" contenteditable="true" class="custom-textbox" aria-label="GitHub profile URL" aria-multiline="false" data-placeholder="https://github.com/yourhandle"></div>
+        </div>
+
+        <!-- Field 9: Portfolio -->
+        <div class="form-group">
+          <label for="portfolio">Portfolio / personal site</label>
+          <input type="url" id="portfolio" class="input-native" placeholder="https://yoursite.dev">
+        </div>
+
+        <!-- Field 10: Years of experience (new) -->
+        <div class="form-group">
+          <label for="experience">Years of experience</label>
+          <input type="number" id="experience" class="input-native" placeholder="e.g. 5" min="0" max="50">
+        </div>
+
+        <!-- Field 11: Preferred pronouns (new, aria-label only) -->
+        <div class="form-group">
+          <input type="text" class="input-native" aria-label="Preferred pronouns" placeholder="e.g. they/them">
+        </div>
+
+        <!-- Field 12: Salary expectation (new, aria-label only) -->
+        <div class="form-group">
+          <input type="text" class="input-native" aria-label="Salary expectation" placeholder="e.g. $160,000">
+        </div>
+
+        <!-- Fields inside details accordion (cover letter + visa hidden) -->
+        <details>
+          <summary>Additional information</summary>
+          <div class="details-content">
+            <!-- Field 13: Cover letter -->
+            <div class="form-group">
+              <label for="cover-letter">Cover letter (optional)</label>
+              <textarea id="cover-letter" class="textarea-native" placeholder="Tell us why you're a great fit..."></textarea>
+            </div>
+            <!-- Field 14: Current visa status -->
+            <div class="form-group">
+              <label for="visa-status">Current visa status</label>
+              <select id="visa-status" class="input-native">
+                <option value="">Select...</option>
+                <option>US Citizen</option>
+                <option>Green Card</option>
+                <option>H-1B</option>
+                <option>F-1 OPT</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <!-- Shadow DOM host: fields inside declarative shadow root -->
+        <div class="form-group shadow-host">
+          <template shadowrootmode="open">
+            <style>
+              .shadow-field { margin-bottom: 12px; }
+              .shadow-field label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 4px; }
+              .shadow-field input { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; }
+              .shadow-field input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+            </style>
+            <div class="shadow-field">
+              <label for="shadow-linkedin">LinkedIn (shadow)</label>
+              <input type="url" id="shadow-linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn profile from shadow DOM">
+            </div>
+            <div class="shadow-field">
+              <label for="shadow-twitter">Twitter / X</label>
+              <input type="text" id="shadow-twitter" placeholder="@handle" aria-label="Twitter handle from shadow DOM">
+            </div>
+            <div class="shadow-field">
+              <label for="shadow-gender">Gender (optional)</label>
+              <select id="shadow-gender" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                <option value="">Prefer not to say</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Non-binary</option>
+              </select>
+            </div>
+          </template>
+        </div>
+
+        <!-- Decoy secondary form (hidden-ish, just for mess) -->
+        <div class="decoy">
+          <h3>Internal referral (optional, hidden from most users)</h3>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="input-native" style="flex:1;" placeholder="Referrer name" aria-label="Referrer name">
+            <input type="email" class="input-native" style="flex:1;" placeholder="Referrer email" aria-label="Referrer email">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit application</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  // Pill toggle
+  document.querySelectorAll('.pill-group').forEach(group => {
+    group.querySelectorAll('.pill-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        group.querySelectorAll('.pill-btn').forEach(b => { b.setAttribute('aria-checked', 'false'); b.classList.remove('active'); });
+        this.setAttribute('aria-checked', 'true');
+        this.classList.add('active');
+      });
+    });
+  });
+
+  // Combobox
+  const comboBtn = document.getElementById('source-btn');
+  const comboDropdown = document.getElementById('source-listbox');
+  const options = comboDropdown.querySelectorAll('.combobox-option');
+  let selectedValue = '';
+  comboBtn.addEventListener('click', function() {
+    const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+    this.setAttribute('aria-expanded', expanded);
+    comboDropdown.classList.toggle('open', expanded);
+  });
+  options.forEach(opt => {
+    opt.addEventListener('click', function() {
+      options.forEach(o => o.setAttribute('aria-selected', 'false'));
+      this.setAttribute('aria-selected', 'true');
+      selectedValue = this.getAttribute('data-value');
+      comboBtn.textContent = this.textContent;
+      comboBtn.setAttribute('aria-expanded', 'false');
+      comboDropdown.classList.remove('open');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!comboBtn.contains(e.target) && !comboDropdown.contains(e.target)) {
+      comboBtn.setAttribute('aria-expanded', 'false');
+      comboDropdown.classList.remove('open');
+    }
+  });
+
+  // Contenteditable placeholder
+  document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
+    if (!el.textContent.trim()) el.textContent = el.getAttribute('data-placeholder');
+    el.addEventListener('focus', function() {
+      if (this.textContent === this.getAttribute('data-placeholder')) this.textContent = '';
+    });
+    el.addEventListener('blur', function() {
+      if (!this.textContent.trim()) this.textContent = this.getAttribute('data-placeholder');
+    });
+  });
+</script>
+</body>
+</html>

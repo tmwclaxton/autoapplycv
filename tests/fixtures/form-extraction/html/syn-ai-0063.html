@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Senior Frontend Engineer Application</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+body{background:#f3f5f8;padding:20px;color:#1a1a2e}
+.app-wrapper{max-width:820px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+.decoy-login{background:#eef2f7;padding:14px 20px;border-bottom:1px solid #d8dce6;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.decoy-login h3{margin:0;font-size:14px;font-weight:600;color:#2c3e50;letter-spacing:.3px}
+.decoy-login input[type=email]{border:1px solid #bcc3d0;border-radius:6px;padding:8px 12px;font-size:13px;flex:1 1 200px}
+.decoy-login input[type=password]{border:1px solid #bcc3d0;border-radius:6px;padding:8px 12px;font-size:13px;flex:1 1 200px}
+.decoy-login button{background:#1a73e8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;font-weight:500;cursor:pointer}
+.decoy-login button:hover{background:#1558b0}
+.step{display:none}
+.step.active{display:block}
+fieldset{border:none;padding:20px 24px 8px;margin:0}
+fieldset fieldset{margin-left:0;padding-left:12px;border-left:2px solid #e2e6ed}
+fieldset fieldset fieldset{border-left-color:#cfd5e1}
+legend{font-weight:600;font-size:16px;color:#1e2a41;padding:0 0 8px;width:100%;border-bottom:1px solid #edf0f5;margin-bottom:12px}
+fieldset fieldset legend{font-size:14px;color:#2c3e50}
+fieldset fieldset fieldset legend{font-size:13px;color:#4a5a72}
+.form-row{margin-bottom:14px}
+.form-row label{display:block;font-size:13px;font-weight:500;color:#2c3e50;margin-bottom:4px}
+.form-row input[type=text],.form-row input[type=email],.form-row input[type=tel],.form-row input[type=url],.form-row input[type=number],.form-row select,.form-row textarea{width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;font-size:14px;background:#fff;transition:border .15s}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:#1a73e8;outline:none;box-shadow:0 0 0 2px rgba(26,115,232,.15)}
+.form-row textarea{resize:vertical;min-height:60px}
+.pill-group{display:flex;gap:6px;margin-top:4px}
+.pill-btn{padding:8px 20px;border:1px solid #bcc3d0;border-radius:20px;background:#fff;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;color:#1a1a2e}
+.pill-btn:hover{border-color:#1a73e8;background:#f0f5ff}
+.pill-btn.selected{background:#1a73e8;border-color:#1a73e8;color:#fff}
+.combobox-wrapper{position:relative}
+.combobox-input{width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;font-size:14px;background:#fff;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center}
+.combobox-input[aria-expanded=true]+.listbox{display:block}
+.combobox-input:focus{border-color:#1a73e8;outline:none}
+.listbox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #cbd2df;border-radius:6px;margin-top:2px;max-height:180px;overflow-y:auto;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.listbox .option{padding:9px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f0f2f5}
+.listbox .option:hover,.listbox .option.active{background:#eef2f9}
+.listbox .option[aria-selected=true]{background:#dde5f5;font-weight:500}
+.range-wrap{display:flex;align-items:center;gap:12px}
+.range-wrap input[type=range]{flex:1}
+.range-wrap output{font-weight:600;font-size:15px;color:#1a73e8;min-width:30px;text-align:center}
+.glued-label{font-size:0;line-height:0}
+.glued-label span{font-size:13px;font-weight:500;color:#2c3e50;display:inline;line-height:normal}
+.conditional-field{display:none;margin-top:8px;padding:8px 12px;background:#f8faff;border-radius:6px;border-left:3px solid #1a73e8}
+.conditional-field.show{display:block}
+.aria-only-wrap{margin-bottom:14px}
+.hint{font-size:12px;color:#6b7a8f;margin-top:2px}
+.btn-submit{background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;margin:16px 24px 24px;transition:background .15s}
+.btn-submit:hover{background:#1558b0}
+.btn-secondary{background:transparent;border:1px solid #bcc3d0;border-radius:6px;padding:8px 20px;font-size:13px;cursor:pointer}
+.wizard-nav{display:flex;gap:10px;justify-content:flex-end;padding:8px 24px 20px}
+.flex-row{display:flex;gap:12px;flex-wrap:wrap}
+.flex-row>*{flex:1 1 180px}
+.mt-2{margin-top:8px}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+<div class="decoy-login" role="region" aria-label="login decoy form">
+  <h3>🔐 Sign in to track applications</h3>
+  <input type="email" placeholder="your@email.com" aria-label="Login email">
+  <input type="password" placeholder="Password" aria-label="Login password">
+  <button type="button">Log in</button>
+  <span style="font-size:11px;color:#6b7a8f;">(demo only)</span>
+</div>
+<form id="jobAppForm" novalidate>
+<div class="step active" data-step="1">
+  <fieldset>
+    <legend>Personal Information</legend>
+    <div class="form-row">
+      <label for="fullname">Full name</label>
+      <input type="text" id="fullname" name="fullname" placeholder="e.g. Alex Rivera" required>
+    </div>
+    <div class="form-row">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="alex@example.com" required>
+    </div>
+    <div class="form-row">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" placeholder="+1 555 000 000">
+    </div>
+    <div class="aria-only-wrap">
+      <input type="text" aria-label="LinkedIn profile URL" placeholder="LinkedIn URL (optional)" style="width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;font-size:14px;">
+    </div>
+    <div class="form-row">
+      <label class="glued-label"><span>Port</span><span>folio</span><span> (optional)</span></label>
+      <input type="url" name="portfolio" placeholder="https://yourportfolio.com" style="width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;font-size:14px;">
+    </div>
+    <div class="form-row">
+      <label for="github">GitHub</label>
+      <input type="url" id="github" name="github" placeholder="https://github.com/username">
+    </div>
+    <div class="form-row">
+      <label for="twitter">Twitter/X</label>
+      <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username">
+    </div>
+    <div class="form-row">
+      <label for="website">Personal website</label>
+      <input type="url" id="website" name="website" placeholder="https://yoursite.com">
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Work Authorization</legend>
+    <div class="form-row">
+      <span style="font-size:13px;font-weight:500;display:block;margin-bottom:4px;color:#2c3e50;">Authorized to work in US?</span>
+      <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+        <button type="button" class="pill-btn selected" data-value="yes" role="radio" aria-checked="true">Yes</button>
+        <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false">No</button>
+      </div>
+    </div>
+    <div class="conditional-field" id="visaReveal">
+      <label for="visaStatus" style="font-size:13px;font-weight:500;">Visa type / sponsorship needed</label>
+      <input type="text" id="visaStatus" name="visa" placeholder="e.g. H1B, L2" style="width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;">
+    </div>
+    <div class="aria-only-wrap">
+      <input type="text" aria-label="Previous employer" placeholder="Previous employer (optional)" style="width:100%;padding:9px 12px;border:1px solid #cbd2df;border-radius:6px;font-size:14px;">
+    </div>
+    <div class="form-row">
+      <label for="workphone">Work phone</label>
+      <input type="tel" id="workphone" name="workphone" placeholder="+1 555 111 1111">
+    </div>
+    <div class="form-row">
+      <label for="address">Current address</label>
+      <input type="text" id="address" name="address" placeholder="123 Main St, City, State">
+    </div>
+    <div class="form-row">
+      <label for="city">City</label>
+      <input type="text" id="city" name="city" placeholder="San Francisco">
+    </div>
+    <div class="form-row">
+      <label for="state">State</label>
+      <input type="text" id="state" name="state" placeholder="CA">
+    </div>
+    <div class="form-row">
+      <label for="zip">ZIP code</label>
+      <input type="text" id="zip" name="zip" placeholder="94105">
+    </div>
+  </fieldset>
+</div>
+<div class="step" data-step="2">
+  <fieldset>
+    <legend>Experience</legend>
+    <div class="form-row">
+      <label for="yearsExp">Years of experience</label>
+      <div class="range-wrap">
+        <input type="range" id="yearsExp" name="yearsExp" min="0" max="20" value="4" step="1">
+        <output id="yearsOutput">4</output>
+      </div>
+    </div>
+    <fieldset>
+      <legend>Most Recent Role</legend>
+      <div class="form-row">
+        <label for="jobtitle">Job title</label>
+        <input type="text" id="jobtitle" name="jobtitle" placeholder="Senior Frontend Engineer">
+      </div>
+      <div class="form-row">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" placeholder="Acme Corp">
+      </div>
+      <div class="form-row">
+        <label for="startdate">Start date</label>
+        <input type="text" id="startdate" name="startdate" placeholder="MM/YYYY">
+      </div>
+      <div class="form-row">
+        <label for="enddate">End date</label>
+        <input type="text" id="enddate" name="enddate" placeholder="MM/YYYY or Present">
+      </div>
+      <fieldset>
+        <legend>Key Technologies</legend>
+        <div class="form-row">
+          <label for="techstack">Primary stack</label>
+          <input type="text" id="techstack" name="techstack" placeholder="React, TypeScript, Node">
+        </div>
+        <div class="form-row">
+          <label for="secondarystack">Secondary stack</label>
+          <input type="text" id="secondarystack" name="secondarystack" placeholder="Python, AWS, Docker">
+        </div>
+        <div class="form-row">
+          <span style="font-size:13px;font-weight:500;display:block;margin-bottom:4px;color:#2c3e50;">Proficiency</span>
+          <div class="combobox-wrapper">
+            <div class="combobox-input" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Proficiency level" tabindex="0" id="proficiencyCombo">
+              <span id="proficiencyValue">Expert</span>
+              <span style="margin-left:auto;">▼</span>
+            </div>
+            <div class="listbox" role="listbox" aria-labelledby="proficiencyCombo" id="proficiencyListbox">
+              <div class="option" role="option" aria-selected="false" data-value="beginner">Beginner</div>
+              <div class="option" role="option" aria-selected="false" data-value="intermediate">Intermediate</div>
+              <div class="option" role="option" aria-selected="true" data-value="expert">Expert</div>
+              <div class="option" role="option" aria-selected="false" data-value="master">Master</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="othertech">Other technologies</label>
+          <input type="text" id="othertech" name="othertech" placeholder="GraphQL, Kubernetes, etc.">
+        </div>
+      </fieldset>
+    </fieldset>
+  </fieldset>
+  <div class="form-row" style="padding:0 24px;">
+    <span style="font-size:13px;font-weight:500;display:block;margin-bottom:4px;color:#2c3e50;">Open to remote?</span>
+    <div class="pill-group" role="radiogroup" aria-label="Remote preference">
+      <button type="button" class="pill-btn selected" data-value="yes" role="radio" aria-checked="true">Yes</button>
+      <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="false">No</button>
+      <button type="button" class="pill-btn" data-value="hybrid" role="radio" aria-checked="false">Hybrid</button>
+    </div>
+  </div>
+  <div class="form-row" style="padding:0 24px;">
+    <label for="coverletter">Cover letter</label>
+    <textarea id="coverletter" name="coverletter" rows="4" placeholder="Tell us why you're a great fit..."></textarea>
+  </div>
+  <div class="form-row" style="padding:0 24px;">
+    <label for="references">References (optional)</label>
+    <textarea id="references" name="references" rows="2" placeholder="Name, email, phone"></textarea>
+  </div>
+  <div class="form-row" style="padding:0 24px;">
+    <label for="salary">Salary expectation</label>
+    <input type="text" id="salary" name="salary" placeholder="e.g. $150,000">
+  </div>
+  <div class="form-row" style="padding:0 24px;">
+    <label for="startavailability">Earliest start date</label>
+    <input type="text" id="startavailability" name="startavailability" placeholder="MM/YYYY">
+  </div>
+</div>
+<input type="hidden" name="wizardStep" value="1">
+<input type="hidden" name="authYesNo" value="yes">
+<input type="hidden" name="remotePref" value="yes">
+<div class="wizard-nav">
+  <button type="button" class="btn-secondary" id="prevBtn" disabled>← Previous</button>
+  <button type="button" class="btn-secondary" id="nextBtn">Next →</button>
+</div>
+<button type="submit" class="btn-submit" id="submitBtn" style="display:none;">Submit Application</button>
+</form>
+</div>
+<script>
+(function(){
+  var steps = document.querySelectorAll('.step');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var submitBtn = document.getElementById('submitBtn');
+  var hiddenStep = document.querySelector('input[name="wizardStep"]');
+  var currentStep = 1;
+  var maxStep = 2;
+  function updateWizard(){
+    steps.forEach(function(s, idx){
+      s.classList.toggle('active', (idx+1) === currentStep);
+    });
+    prevBtn.disabled = currentStep === 1;
+    if(currentStep === maxStep){
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-block';
+    } else {
+      nextBtn.style.display = 'inline-block';
+      submitBtn.style.display = 'none';
+    }
+    hiddenStep.value = currentStep;
+  }
+  prevBtn.addEventListener('click', function(){
+    if(currentStep > 1) {
+      currentStep--;
+      updateWizard();
+    }
+  });
+  nextBtn.addEventListener('click', function(){
+    if(currentStep < maxStep) {
+      currentStep++;
+      updateWizard();
+    }
+  });
+  document.querySelectorAll('.pill-group').forEach(function(group){
+    group.addEventListener('click', function(e){
+      var btn = e.target.closest('.pill-btn');
+      if(!btn) return;
+      var isRadio = group.getAttribute('role') === 'radiogroup';
+      if(isRadio){
+        group.querySelectorAll('.pill-btn').forEach(function(b){
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
+        if(btn.closest('fieldset') && btn.dataset.value === 'no'){
+          document.getElementById('visaReveal').classList.add('show');
+        } else {
+          var reveal = document.getElementById('visaReveal');
+          if(reveal) reveal.classList.remove('show');
+        }
+        if(group.getAttribute('aria-label') === 'Work authorization'){
+          document.querySelector('input[name="authYesNo"]').value = btn.dataset.value;
+        } else if(group.getAttribute('aria-label') === 'Remote preference'){
+          document.querySelector('input[name="remotePref"]').value = btn.dataset.value;
+        }
+      } else {
+        btn.classList.toggle('selected');
+      }
+    });
+  });
+  var combo = document.getElementById('proficiencyCombo');
+  var listbox = document.getElementById('proficiencyListbox');
+  var valueSpan = document.getElementById('proficiencyValue');
+  var options = listbox.querySelectorAll('.option');
+  combo.addEventListener('click', function(e){
+    var expanded = combo.getAttribute('aria-expanded') === 'true' ? false : true;
+    combo.setAttribute('aria-expanded', expanded);
+    listbox.style.display = expanded ? 'block' : 'none';
+  });
+  listbox.addEventListener('click', function(e){
+    var opt = e.target.closest('.option');
+    if(!opt) return;
+    options.forEach(function(o){ o.setAttribute('aria-selected', 'false'); });
+    opt.setAttribute('aria-selected', 'true');
+    valueSpan.textContent = opt.textContent;
+    combo.setAttribute('aria-expanded', 'false');
+    listbox.style.display = 'none';
+    var hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'proficiency';
+    hiddenInput.value = opt.dataset.value;
+    var existing = document.querySelector('input[name="proficiency"]');
+    if(existing) existing.remove();
+    document.getElementById('jobAppForm').appendChild(hiddenInput);
+  });
+  document.addEventListener('click', function(e){
+    if(!combo.contains(e.target) && !listbox.contains(e.target)){
+      combo.setAttribute('aria-expanded', 'false');
+      listbox.style.display = 'none';
+    }
+  });
+  var range = document.getElementById('yearsExp');
+  var output = document.getElementById('yearsOutput');
+  if(range && output){
+    range.addEventListener('input', function(){
+      output.textContent = range.value;
+    });
+  }
+  document.getElementById('jobAppForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Application submitted (demo). In production this would POST.');
+  });
+  updateWizard();
+  combo.setAttribute('aria-expanded', 'false');
+  listbox.style.display = 'none';
+  var initHidden = document.createElement('input');
+  initHidden.type = 'hidden';
+  initHidden.name = 'proficiency';
+  initHidden.value = 'expert';
+  document.getElementById('jobAppForm').appendChild(initHidden);
+})();
+</script>
+</body>
+</html>

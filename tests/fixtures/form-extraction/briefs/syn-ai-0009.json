@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0009",
+    "seed": 2018366513,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "table rows with inputs in td cells",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Reverse DOM field order",
+                "notes": "Input element appears before its label in DOM (float-right layout pattern)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Reverse DOM order<\/h1> <form action=\"\/apply\" method=\"post\"> <input type=\"text\" id=\"rev_name\" name=\"rev_name\"><label for=\"rev_name\">Full name<\/label> <input type=\"email\" id=\"rev_email\" name=\"rev_email\"><label for=\"rev_email\">Email address<\/label> <input type=\"tel\" id=\"rev_phone\" name=\"rev_phone\"><label for=\"re",
+                "requires_interaction": false
+            },
+            {
+                "title": "Readonly prefilled email",
+                "notes": "Email input is readonly with prefilled value from profile import",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Readonly email<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ro_name\">Name<\/label><input type=\"text\" id=\"ro_name\" name=\"ro_name\"> <label for=\"ro_email\">Email (from profile)<\/label><input type=\"email\" id=\"ro_email\" name=\"ro_email\" value=\"candidate@example.com\" readonly> <label for=\"ro_phone\">Phone<\/lab",
+                "requires_interaction": false
+            },
+            {
+                "title": "Fields inside details accordion",
+                "notes": "Cover letter and visa fields hidden inside closed details element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Details accordion<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"acc_name\">Name<\/label><input type=\"text\" id=\"acc_name\" name=\"acc_name\"> <details> <summary>Additional questions (click to expand)<\/summary> <label for=\"acc_cover\">Cover letter<\/label><textarea id=\"acc_cover\" name=\"acc_cover\" rows=\"4\"><\/te",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: At least one readonly or disabled input with prefilled profile value Required: Fields inside details\/summary or hidden until click Required: Label text split across multiple spans with no space between words Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Field labeled via aria-labelledby pointing at hidden or distant span Reference DOM (Reverse DOM field order): Input element appears before its label in DOM (float-right layout pattern) Reference DOM (Readonly prefilled email): Email input is readonly with prefilled value from profile import Reference DOM (Fields inside details accordion): Cover letter and visa fields hidden inside closed details element Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: readonly-prefill, details-accordion, glued-label-text, custom-combobox, aria-labelledby-hidden. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: table rows with inputs in td cells. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Reverse DOM field order; Readonly prefilled email; Fields inside details accordion."
+}

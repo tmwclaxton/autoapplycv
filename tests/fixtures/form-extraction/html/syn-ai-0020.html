@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:14px;line-height:1.4}
+  body{background:#f4f5f7;padding:20px}
+  .app-wrap{max-width:720px;margin:0 auto;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);border-radius:8px;padding:24px 28px}
+  h1{font-size:20px;font-weight:600;margin-bottom:4px;color:#1a1a1a}
+  .subhead{font-size:13px;color:#5e6c84;margin-bottom:20px}
+  table{width:100%;border-collapse:collapse}
+  td{padding:6px 8px;vertical-align:top}
+  .field-label{font-size:13px;font-weight:500;color:#172b4d;white-space:nowrap;padding-right:12px;width:30%}
+  .field-cell{width:70%}
+  input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px;background:#fff;transition:border-color .15s;font-size:14px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#4c9aff;box-shadow:0 0 0 2px rgba(76,154,255,.2)}
+  textarea{resize:vertical;min-height:60px}
+  .pill-group{display:flex;gap:8px;margin-top:2px}
+  .pill-btn{padding:6px 18px;border:1px solid #dfe1e6;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#172b4d;transition:all .12s;user-select:none}
+  .pill-btn.active{background:#0052cc;color:#fff;border-color:#0052cc}
+  .pill-btn:focus{outline:2px solid #2684ff;outline-offset:2px}
+  fieldset{border:1px solid #dfe1e6;border-radius:6px;padding:16px 14px 14px;margin:6px 0}
+  legend{font-weight:600;font-size:13px;color:#172b4d;padding:0 6px}
+  .fieldset-nested fieldset{margin:8px 0 4px;border-color:#c1c7d0}
+  .fieldset-nested legend{font-weight:500;font-size:12px}
+  .checkbox-stack{display:flex;flex-direction:column;gap:6px;margin:4px 0}
+  .checkbox-stack label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+  .checkbox-stack input[type=checkbox]{width:16px;height:16px;accent-color:#0052cc}
+  details{margin:8px 0;border:1px solid #ebecf0;border-radius:6px;padding:2px 8px 8px}
+  details[open]{padding-bottom:12px;background:#fafbfc}
+  summary{font-weight:500;font-size:13px;padding:6px 0;cursor:pointer;color:#172b4d}
+  .combobox-wrap{position:relative}
+  .combobox-input{width:100%;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px;font-size:14px;background:#fff;cursor:default;text-align:left;display:flex;justify-content:space-between;align-items:center;min-height:36px}
+  .combobox-input:focus{border-color:#4c9aff;box-shadow:0 0 0 2px rgba(76,154,255,.2)}
+  .combobox-arrow{font-size:10px;color:#6b778c;margin-left:8px}
+  .listbox{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #dfe1e6;border-top:none;border-radius:0 0 4px 4px;max-height:200px;overflow-y:auto;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.1);display:none}
+  .listbox.show{display:block}
+  .listbox-option{padding:8px 12px;cursor:pointer;font-size:14px;transition:background .08s}
+  .listbox-option:hover,.listbox-option.highlighted{background:#e9f2ff}
+  .listbox-option[aria-selected=true]{background:#dceaff;font-weight:500}
+  .glued-label{display:inline;font-size:13px;font-weight:500;color:#172b4d}
+  .glued-label .part{display:inline}
+  .glued-label .part+.part{margin-left:0}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  .optgroup-select select{width:100%;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px;background:#fff;font-size:14px}
+  .error-text{color:#de350b;font-size:12px;margin-top:2px;display:none}
+  .btn-submit{background:#0052cc;color:#fff;border:none;border-radius:6px;padding:10px 28px;font-size:15px;font-weight:600;cursor:pointer;margin-top:16px;width:100%}
+  .btn-submit:hover{background:#0747a6}
+  .decoy-form{opacity:0.3;pointer-events:none;margin-top:20px;border-top:1px dashed #c1c7d0;padding-top:16px}
+  .decoy-form h3{font-size:11px;text-transform:uppercase;color:#6b778c;letter-spacing:.5px}
+  [role=textbox]{min-height:44px;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px;background:#fff;cursor:text;word-wrap:break-word;outline:none}
+  [role=textbox]:focus{border-color:#4c9aff;box-shadow:0 0 0 2px rgba(76,154,255,.2)}
+  .hidden-field{display:none}
+  .conditional-reveal{margin:4px 0 0 14px;padding:8px 10px;background:#f8f9fa;border-left:3px solid #4c9aff;border-radius:0 4px 4px 0}
+</style>
+</head>
+<body>
+<div class="app-wrap">
+  <h1>Senior Product Designer</h1>
+  <div class="subhead">Design · Full-time · Remote · Ashby ID: REQ-2931</div>
+  
+  <!-- table layout for fields (required) -->
+  <table>
+    <tr>
+      <td class="field-label"><span class="glued-label"><span class="part">F</span><span class="part">ull</span><span class="part"> </span><span class="part">N</span><span class="part">ame</span><span class="part">*</span></span></td>
+      <td class="field-cell"><input type="text" placeholder="e.g. Alex Rivera" aria-label="Full Name" style="width:100%"></td>
+    </tr>
+    <tr>
+      <td class="field-label"><span class="glued-label"><span class="part">E</span><span class="part">mail</span><span class="part">*</span></span></td>
+      <td class="field-cell"><input type="email" placeholder="you@company.com" aria-label="Email Address" style="width:100%"></td>
+    </tr>
+    <tr>
+      <td class="field-label"><span class="glued-label"><span class="part">P</span><span class="part">hone</span></span></td>
+      <td class="field-cell"><input type="tel" placeholder="+1 (555) 000-0000" aria-label="Phone" style="width:100%"></td>
+    </tr>
+    <tr>
+      <td class="field-label"><span class="glued-label"><span class="part">L</span><span class="part">inkedIn</span></span></td>
+      <td class="field-cell"><input type="text" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL" style="width:100%"></td>
+    </tr>
+    <tr>
+      <td class="field-label"><span class="glued-label"><span class="part">P</span><span class="part">ortfolio</span></span></td>
+      <td class="field-cell"><input type="text" placeholder="https://" aria-label="Portfolio link" style="width:100%"></td>
+    </tr>
+  </table>
+
+  <!-- Triple nested fieldsets (required) -->
+  <fieldset style="margin-top:12px">
+    <legend>Employment Eligibility</legend>
+    <fieldset style="margin:6px 0 0 0">
+      <legend>Work Authorization</legend>
+      <fieldset style="margin:6px 0 0 0">
+        <legend>Visa Type</legend>
+        <div class="checkbox-stack">
+          <label><input type="checkbox" name="visa"> US Citizen / Green Card</label>
+          <label><input type="checkbox" name="visa"> H-1B</label>
+          <label><input type="checkbox" name="visa"> F-1 OPT/CPT</label>
+          <label><input type="checkbox" name="visa"> Other / need sponsorship</label>
+        </div>
+      </fieldset>
+      <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px"><input type="checkbox" name="authorized"> I am authorized to work in the US</label>
+    </fieldset>
+  </fieldset>
+
+  <!-- Checkbox group no fieldset (reference) -->
+  <div style="margin:12px 0 6px">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:4px">Tools you use (check all that apply)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 12px">
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Figma</label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Sketch</label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Adobe XD</label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Framer</label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Webflow</label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px"><input type="checkbox"> Other</label>
+    </div>
+  </div>
+
+  <!-- details/accordion (required) -->
+  <details>
+    <summary>Additional Information (optional)</summary>
+    <table style="margin-top:8px">
+      <tr>
+        <td class="field-label"><span class="glued-label"><span class="part">R</span><span class="part">eferral</span></span></td>
+        <td class="field-cell"><input type="text" placeholder="Name of person who referred you" aria-label="Referral" style="width:100%"></td>
+      </tr>
+      <tr>
+        <td class="field-label"><span class="glued-label"><span class="part">S</span><span class="part">tart</span><span class="part"> </span><span class="part">D</span><span class="part">ate</span></span></td>
+        <td class="field-cell"><input type="text" placeholder="e.g. 2 weeks notice" aria-label="Availability" style="width:100%"></td>
+      </tr>
+    </table>
+  </details>
+
+  <!-- Department select with optgroup (reference) -->
+  <div style="margin:8px 0">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:2px"><span class="glued-label"><span class="part">D</span><span class="part">epartment</span><span class="part">*</span></span></div>
+    <div class="optgroup-select">
+      <select aria-label="Department">
+        <optgroup label="Design">
+          <option>Product Design</option>
+          <option>Visual Design</option>
+          <option>UX Research</option>
+          <option>Design Ops</option>
+        </optgroup>
+        <optgroup label="Engineering">
+          <option>Frontend</option>
+          <option>Backend</option>
+          <option>Infrastructure</option>
+          <option>Security</option>
+        </optgroup>
+        <optgroup label="Product">
+          <option>Product Management</option>
+          <option>Data Science</option>
+          <option>Product Analytics</option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+
+  <!-- Custom listbox combobox (required widget) -->
+  <div style="margin:8px 0">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:2px" id="exp-label">
+      <span class="glued-label"><span class="part">Y</span><span class="part">ears</span><span class="part"> </span><span class="part">E</span><span class="part">xperience</span><span class="part">*</span></span>
+    </div>
+    <div class="combobox-wrap">
+      <div class="combobox-input" role="combobox" aria-expanded="false" aria-controls="exp-listbox" aria-labelledby="exp-label" tabindex="0" id="exp-combo" data-value="">
+        <span id="exp-display">Select years</span>
+        <span class="combobox-arrow">▼</span>
+      </div>
+      <div class="listbox" id="exp-listbox" role="listbox" aria-labelledby="exp-label">
+        <div class="listbox-option" role="option" data-value="0-1">&lt; 1 year</div>
+        <div class="listbox-option" role="option" data-value="1-2">1-2 years</div>
+        <div class="listbox-option" role="option" data-value="3-5">3-5 years</div>
+        <div class="listbox-option" role="option" data-value="5-8">5-8 years</div>
+        <div class="listbox-option" role="option" data-value="8+">8+ years</div>
+      </div>
+      <input type="hidden" id="exp-hidden" name="experience_years" value="">
+    </div>
+  </div>
+
+  <!-- Pill yes/no (required) -->
+  <div style="margin:8px 0">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:4px"><span class="glued-label"><span class="part">C</span><span class="part">urrently</span><span class="part"> </span><span class="part">e</span><span class="part">mployed?</span></span></div>
+    <div class="pill-group" role="radiogroup" aria-label="Currently employed">
+      <button class="pill-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+      <button class="pill-btn active" role="radio" aria-checked="true" data-value="no">No</button>
+    </div>
+    <input type="hidden" id="employed-hidden" name="currently_employed" value="no">
+  </div>
+
+  <!-- Conditional reveal (wizard-like) -->
+  <div class="conditional-reveal" id="notice-period-reveal">
+    <div style="font-size:13px;font-weight:500;margin-bottom:4px">Notice period</div>
+    <input type="text" placeholder="e.g. 2 weeks" aria-label="Notice period" style="width:100%;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px">
+  </div>
+
+  <!-- div role=textbox (non-semantic) -->
+  <div style="margin:8px 0">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:2px" id="cover-label">
+      <span class="glued-label"><span class="part">C</span><span class="part">over</span><span class="part"> </span><span class="part">N</span><span class="part">ote</span></span>
+    </div>
+    <div role="textbox" contenteditable="true" aria-labelledby="cover-label" aria-multiline="true" style="min-height:60px" placeholder="Write a short note..."></div>
+  </div>
+
+  <!-- Native select (not combobox) for diversity -->
+  <div style="margin:8px 0">
+    <div style="font-size:13px;font-weight:500;color:#172b4d;margin-bottom:2px">How did you hear about us?</div>
+    <select aria-label="Referral source" style="width:100%;padding:8px 10px;border:1px solid #dfe1e6;border-radius:4px">
+      <option>LinkedIn</option>
+      <option>Glassdoor</option>
+      <option>Friend referral</option>
+      <option>Company website</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <!-- Decoy secondary form (non-semantic pattern) -->
+  <div class="decoy-form">
+    <h3>Internal referral form (HR only)</h3>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <input type="text" placeholder="Referrer ID" style="width:50%;padding:6px 8px;border:1px solid #dfe1e6;border-radius:4px">
+      <input type="text" placeholder="Token" style="width:50%;padding:6px 8px;border:1px solid #dfe1e6;border-radius:4px">
+    </div>
+  </div>
+
+  <!-- hidden field for shadow DOM host (tier high) -->
+  <div id="shadow-host" style="display:none"></div>
+
+  <button class="btn-submit" id="submit-btn">Submit Application</button>
+  <div style="font-size:11px;color:#6b778c;margin-top:6px;text-align:center">By submitting you agree to our privacy policy</div>
+</div>
+
+<script>
+(function(){
+  // combobox
+  var combo = document.getElementById('exp-combo');
+  var listbox = document.getElementById('exp-listbox');
+  var display = document.getElementById('exp-display');
+  var hidden = document.getElementById('exp-hidden');
+  var options = listbox.querySelectorAll('.listbox-option');
+  var open = false;
+
+  function toggleListbox(e) {
+    e.stopPropagation();
+    open = !open;
+    listbox.classList.toggle('show', open);
+    combo.setAttribute('aria-expanded', open);
+  }
+
+  function selectOption(opt) {
+    options.forEach(function(o){ o.removeAttribute('aria-selected'); });
+    opt.setAttribute('aria-selected', 'true');
+    display.textContent = opt.textContent;
+    hidden.value = opt.getAttribute('data-value');
+    combo.setAttribute('data-value', opt.getAttribute('data-value'));
+    listbox.classList.remove('show');
+    open = false;
+    combo.setAttribute('aria-expanded', false);
+  }
+
+  combo.addEventListener('click', toggleListbox);
+  options.forEach(function(opt){
+    opt.addEventListener('click', function(e){
+      e.stopPropagation();
+      selectOption(this);
+    });
+    opt.addEventListener('mouseenter', function(){ 
+      options.forEach(function(o){ o.classList.remove('highlighted'); });
+      this.classList.add('highlighted');
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(!combo.contains(e.target) && !listbox.contains(e.target)){
+      listbox.classList.remove('show');
+      open = false;
+      combo.setAttribute('aria-expanded', false);
+    }
+  });
+
+  combo.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(!open){ toggleListbox(e); return; }
+      var idx = Array.from(options).findIndex(function(o){ return o.classList.contains('highlighted'); });
+      if(e.key === 'ArrowDown') idx = Math.min(idx+1, options.length-1);
+      else idx = Math.max(idx-1, 0);
+      options.forEach(function(o){ o.classList.remove('highlighted'); });
+      options[idx].classList.add('highlighted');
+      options[idx].scrollIntoView({block:'nearest'});
+    } else if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      var highlighted = listbox.querySelector('.highlighted');
+      if(highlighted && open) selectOption(highlighted);
+      else if(!open) toggleListbox(e);
+    } else if(e.key === 'Escape'){
+      listbox.classList.remove('show');
+      open = false;
+      combo.setAttribute('aria-expanded', false);
+    }
+  });
+
+  // pill buttons (yes/no)
+  var pills = document.querySelectorAll('.pill-btn');
+  var employedHidden = document.getElementById('employed-hidden');
+  pills.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      pills.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+      this.classList.add('active');
+      this.setAttribute('aria-checked','true');
+      employedHidden.value = this.getAttribute('data-value');
+      // conditional reveal for notice period
+      var reveal = document.getElementById('notice-period-reveal');
+      if(this.getAttribute('data-value') === 'yes'){
+        reveal.style.display = 'block';
+      } else {
+        reveal.style.display = 'none';
+      }
+    });
+  });
+
+  // initial state: no selected, so hidden
+  document.getElementById('notice-period-reveal').style.display = 'none';
+
+  // shadow dom host (tier high) - just attach a comment
+  var host = document.getElementById('shadow-host');
+  if(host && host.attachShadow) {
+    var shadow = host.attachShadow({mode:'open'});
+    var p = document.createElement('span');
+    p.textContent = '✓ shadow host attached';
+    p.style.fontSize = '11px';
+    p.style.color = '#6b778c';
+    shadow.appendChild(p);
+  }
+
+  // simple submit
+  document.getElementById('submit-btn').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('Application submitted (demo). In production, fields would be validated.');
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+{
+  "id": "https-jobs-ashbyhq-com-ashby-86a60834-ba64-484d-9658-afa1bc97a957-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:10:44.000Z",
+  "page_url": "https://jobs.ashbyhq.com/ashby/86a60834-ba64-484d-9658-afa1bc97a957/application",
+  "page_title": "Mid Market Account Executive - EMEA (French Speaking) @ Ashby",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 12,
+      "count_delta": 1,
+      "label_jaccard": 0.9231,
+      "type_agree_rate": 0.9167,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "which of these languages, if any, are you fluent in?",
+        "ai": "Which of these languages, if any, are you fluent in?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which country do you intend to work from?",
+        "ai": "Which country do you intend to work from?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "customer segment",
+        "ai": "Customer Segment",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "performance",
+        "ai": "Performance",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "net new vs. existing business",
+        "ai": "Net new vs. existing business",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current age?",
+        "ai": "What is your current age?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender identity?",
+        "ai": "What is your gender identity?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which ethnicity(ies) do you identify with? please select all that apply.",
+        "ai": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated during the diversity survey section, so the final field label is incomplete. The location field is a combobox/autocomplete widget.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which of these languages, if any, are you fluent in?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "German",
+          "French",
+          "Spanish",
+          "Italian",
+          "Dutch"
+        ]
+      },
+      {
+        "question": "Which country do you intend to work from?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Customer Segment",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Performance",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Net new vs. existing business",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your current age?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Under 30",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "What is your gender identity?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Asian or Asian American",
+          "Black or African American",
+          "Hispanic or Latine",
+          "Indigenous or Native American",
+          "Native Hawaiian or Other Pacific Islander",
+          "White",
+          "Other",
+          "I prefer not to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "which of these languages, if any, are you fluent in?",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "which country do you intend to work from?",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "customer segment",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "performance",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "net new vs. existing business",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f12"
+    }
+  ]
+}

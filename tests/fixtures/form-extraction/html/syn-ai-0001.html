@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taleo Application - Senior Java Developer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #f4f6f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-container {
+      max-width: 880px;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 32px 40px 48px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1e2a3a;
+      margin-bottom: 4px;
+      letter-spacing: -0.2px;
+    }
+    .subhead {
+      font-size: 14px;
+      color: #5e6f88;
+      margin-bottom: 28px;
+      border-bottom: 1px solid #e4e9f0;
+      padding-bottom: 12px;
+    }
+    .field-group {
+      margin-bottom: 26px;
+    }
+    label, .label-text {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e2a3a;
+      margin-bottom: 5px;
+    }
+    .label-required::after {
+      content: ' *';
+      color: #c0392b;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cad1db;
+      border-radius: 4px;
+      font-size: 14px;
+      background: #fff;
+      transition: border 0.2s;
+      color: #1e2a3a;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2a7de1;
+      box-shadow: 0 0 0 2px rgba(42,125,225,0.15);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    .readonly-email {
+      background: #f0f3f7;
+      cursor: not-allowed;
+    }
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 32px;
+      padding-top: 4px;
+    }
+    .radio-item, .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #1e2a3a;
+    }
+    .radio-item input, .checkbox-item input {
+      width: 16px;
+      height: 16px;
+      accent-color: #2a7de1;
+      margin: 0;
+    }
+    .hidden-section {
+      display: none;
+      margin-top: 12px;
+    }
+    .hidden-section.visible {
+      display: block;
+    }
+    .inline-hint {
+      font-size: 12px;
+      color: #6b7b94;
+      margin-top: 4px;
+    }
+    .spacer {
+      margin-top: 6px;
+    }
+    /* custom textbox (weirdness) */
+    .custom-textbox {
+      border: 1px solid #cad1db;
+      border-radius: 4px;
+      padding: 10px 12px;
+      min-height: 44px;
+      background: #fff;
+      font-size: 14px;
+      color: #1e2a3a;
+      transition: border 0.2s;
+      cursor: text;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .custom-textbox:focus {
+      outline: none;
+      border-color: #2a7de1;
+      box-shadow: 0 0 0 2px rgba(42,125,225,0.15);
+    }
+    .custom-textbox[contenteditable="true"]:empty:before {
+      content: attr(data-placeholder);
+      color: #9aa9bb;
+      pointer-events: none;
+    }
+    .react-select-sim {
+      position: relative;
+      width: 100%;
+    }
+    .react-select-sim select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235e6f88' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e2a3a;
+      margin: 28px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .section-title:first-of-type {
+      margin-top: 8px;
+    }
+    .form-actions {
+      margin-top: 32px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    .btn {
+      padding: 10px 28px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary {
+      background: #2a7de1;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #1b62b5;
+    }
+    .btn-secondary {
+      background: #e4e9f0;
+      color: #1e2a3a;
+    }
+    .btn-secondary:hover {
+      background: #d0d7e2;
+    }
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 20px 16px;
+      }
+      .radio-group, .checkbox-group {
+        gap: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Senior Java Developer</h1>
+  <div class="subhead">Job ID: REQ-2025-0371 &bull; San Francisco, CA &bull; Full-time</div>
+
+  <!-- === SECTION: Personal Information === -->
+  <div class="section-title">Personal Information</div>
+
+  <div class="field-group">
+    <label for="first-name" class="label-required">First Name</label>
+    <input type="text" id="first-name" name="firstName" required autocomplete="given-name">
+  </div>
+
+  <div class="field-group">
+    <label for="last-name" class="label-required">Last Name</label>
+    <input type="text" id="last-name" name="lastName" required autocomplete="family-name">
+  </div>
+
+  <!-- Weirdness: readonly email with prefilled value (profile import) -->
+  <div class="field-group">
+    <label for="email" class="label-required">Email Address</label>
+    <input type="email" id="email" name="email" class="readonly-email" value="jane.doe@example.com" readonly autocomplete="email">
+    <div class="inline-hint">Imported from your profile. Contact HR to update.</div>
+  </div>
+
+  <div class="field-group">
+    <label for="phone" class="label-required">Phone Number</label>
+    <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="(555) 123-4567">
+  </div>
+
+  <div class="field-group">
+    <label for="address" class="label-required">Current Address (Street)</label>
+    <input type="text" id="address" name="address" required autocomplete="street-address">
+  </div>
+
+  <!-- === SECTION: Work Authorization === -->
+  <div class="section-title">Work Authorization</div>
+
+  <div class="field-group">
+    <label class="label-required">Are you legally authorized to work in the United States?</label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="workAuth" value="yes" required> Yes</label>
+      <label class="radio-item"><input type="radio" name="workAuth" value="no" required> No</label>
+    </div>
+  </div>
+
+  <!-- Weirdness: Selecting Yes on sponsorship reveals follow-up textarea -->
+  <div class="field-group">
+    <label class="label-required">Will you now or in the future require visa sponsorship?</label>
+    <div class="radio-group" id="sponsorship-group">
+      <label class="radio-item"><input type="radio" name="sponsorship" value="yes" required> Yes</label>
+      <label class="radio-item"><input type="radio" name="sponsorship" value="no" required> No</label>
+    </div>
+    <div id="sponsorship-detail" class="hidden-section">
+      <label for="sponsorship-notes">Please provide details about your sponsorship needs:</label>
+      <textarea id="sponsorship-notes" name="sponsorshipNotes" rows="3" placeholder="e.g., type of visa, timeline..."></textarea>
+    </div>
+  </div>
+
+  <!-- === SECTION: Skills & Experience === -->
+  <div class="section-title">Skills &amp; Experience</div>
+
+  <!-- react-select simulation (single select grouped style) -->
+  <div class="field-group">
+    <label for="years-exp" class="label-required">Years of professional Java experience</label>
+    <div class="react-select-sim">
+      <select id="years-exp" name="yearsExp" required>
+        <option value="" disabled selected>Select years</option>
+        <option value="0-1">Less than 1 year</option>
+        <option value="1-3">1–3 years</option>
+        <option value="4-6">4–6 years</option>
+        <option value="7-10">7–10 years</option>
+        <option value="10+">10+ years</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- checkbox-group: multiple skills -->
+  <div class="field-group">
+    <label class="label-required">Core competencies (select all that apply)</label>
+    <div class="checkbox-group" id="skills-group">
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="spring"> Spring Boot</label>
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="microservices"> Microservices</label>
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="aws"> AWS</label>
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="docker"> Docker/K8s</label>
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="sql"> SQL/NoSQL</label>
+      <label class="checkbox-item"><input type="checkbox" name="skills" value="react"> React/Angular</label>
+    </div>
+  </div>
+
+  <!-- Custom component: div with role=textbox, no native input (weirdness) -->
+  <div class="field-group">
+    <label class="label-required">Links (GitHub, LinkedIn, Portfolio)</label>
+    <div class="custom-textbox" role="textbox" contenteditable="true" data-placeholder="Paste your URLs here, one per line..." id="links-textbox" aria-label="Links"></div>
+    <div class="inline-hint">Add links to your professional profiles.</div>
+  </div>
+
+  <div class="field-group">
+    <label for="cover-letter" class="label-required">Cover Letter / Summary</label>
+    <textarea id="cover-letter" name="coverLetter" rows="4" placeholder="Briefly describe why you're a great fit..."></textarea>
+  </div>
+
+  <!-- === SECTION: Additional Info === -->
+  <div class="section-title">Additional Information</div>
+
+  <div class="field-group">
+    <label for="start-date">Earliest start date</label>
+    <input type="date" id="start-date" name="startDate">
+  </div>
+
+  <div class="field-group">
+    <label class="label-required">How did you hear about this position?</label>
+    <div class="react-select-sim">
+      <select id="referral-source" name="referralSource" required>
+        <option value="" disabled selected>Select source</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="indeed">Indeed</option>
+        <option value="referral">Employee Referral</option>
+        <option value="company-site">Company Website</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label>Are you willing to relocate?</label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="relocate" value="yes"> Yes</label>
+      <label class="radio-item"><input type="radio" name="relocate" value="no"> No</label>
+      <label class="radio-item"><input type="radio" name="relocate" value="remote"> Remote only</label>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="label-required">Voluntary self-identification (EEOC)</label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="eeoc" value="hispanic"> Hispanic or Latino</label>
+      <label class="radio-item"><input type="radio" name="eeoc" value="white"> White (Not Hispanic)</label>
+      <label class="radio-item"><input type="radio" name="eeoc" value="black"> Black or African American</label>
+      <label class="radio-item"><input type="radio" name="eeoc" value="asian"> Asian</label>
+      <label class="radio-item"><input type="radio" name="eeoc" value="two-or-more"> Two or more races</label>
+      <label class="radio-item"><input type="radio" name="eeoc" value="decline"> Decline to self-identify</label>
+    </div>
+  </div>
+
+  <!-- checkbox-group for work preferences -->
+  <div class="field-group">
+    <label>Work preferences (choose any)</label>
+    <div class="checkbox-group">
+      <label class="checkbox-item"><input type="checkbox" name="preferences" value="flexible"> Flexible hours</label>
+      <label class="checkbox-item"><input type="checkbox" name="preferences" value="hybrid"> Hybrid remote</label>
+      <label class="checkbox-item"><input type="checkbox" name="preferences" value="travel"> Willing to travel</label>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label for="additional-notes">Additional notes</label>
+    <textarea id="additional-notes" name="additionalNotes" rows="3" placeholder="Anything else we should know?"></textarea>
+  </div>
+
+  <!-- Buttons -->
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary" onclick="alert('Draft saved (simulated)');">Save Draft</button>
+    <button type="submit" class="btn btn-primary" onclick="alert('Application submitted (demo).');">Submit Application</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // sponsorship reveal weirdness
+    const radios = document.querySelectorAll('input[name="sponsorship"]');
+    const detailDiv = document.getElementById('sponsorship-detail');
+    if (radios.length && detailDiv) {
+      radios.forEach(r => {
+        r.addEventListener('change', function() {
+          if (this.value === 'yes') {
+            detailDiv.classList.add('visible');
+          } else {
+            detailDiv.classList.remove('visible');
+          }
+        });
+      });
+    }
+
+    // custom textbox: ensure focus on div click for accessibility (already contenteditable)
+    const customBox = document.getElementById('links-textbox');
+    if (customBox) {
+      customBox.addEventListener('keydown', function(e) {
+        // prevent new lines on enter? allow natural behavior
+      });
+      // simulate placeholder behavior via CSS :empty:before
+    }
+  })();
+</script>
+
+</body>
+</html>

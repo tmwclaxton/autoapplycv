@@ -1,0 +1,53 @@
+{
+  "id": "web-jobs-meinestadt-de-anlagen-zur-bewerbung",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "welche anlagen müssen in meine bewerbungsmappe?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Welche Anlagen müssen in meine Bewerbungsmappe?",
+        "Wo liste ich die Anlagen meiner Bewerbung auf?",
+        "In welcher Reihenfolge hänge ich Anlagen zu meiner Bewerbung an?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "m-accordion--22",
+        "name": "items",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email niid--33",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "niid--33",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

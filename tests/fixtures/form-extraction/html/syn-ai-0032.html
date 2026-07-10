@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Product Manager - Cresta</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        body {
+            background: #f4f5f7;
+            margin: 0;
+            padding: 20px;
+            color: #1a1a1a;
+        }
+        .app-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 28px;
+        }
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .progress-dots::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: #ddd;
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            background: white;
+            padding: 0 4px;
+        }
+        .progress-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .progress-step.active .progress-circle {
+            background: #0a66c2;
+            color: white;
+            border-color: #0a66c2;
+        }
+        .progress-step.completed .progress-circle {
+            background: #057642;
+            color: white;
+            border-color: #057642;
+        }
+        .progress-label {
+            font-size: 11px;
+            margin-top: 4px;
+            color: #555;
+            white-space: nowrap;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 14px 0;
+            color: #222;
+        }
+        table.fields-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table.fields-table td {
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+        table.fields-table td:first-child {
+            width: 35%;
+        }
+        table.fields-table td:last-child {
+            width: 65%;
+        }
+        .label-cell {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            padding-top: 10px;
+        }
+        .input-cell input,
+        .input-cell select,
+        .input-cell textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+        .input-cell input:focus,
+        .input-cell select:focus,
+        .input-cell textarea:focus {
+            border-color: #0a66c2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(10,102,194,0.15);
+        }
+        .glued-label span {
+            display: inline;
+            font-size: 13px;
+            color: #444;
+        }
+        .glued-label input {
+            margin-left: 4px;
+        }
+        .pill-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pill-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            font-size: 13px;
+            color: #333;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .pill-btn.selected {
+            background: #0a66c2;
+            color: white;
+            border-color: #0a66c2;
+        }
+        .pill-btn:hover {
+            background: #e6e6e6;
+        }
+        .pill-btn.selected:hover {
+            background: #084a8a;
+        }
+        .custom-combobox {
+            position: relative;
+            width: 100%;
+        }
+        .custom-combobox input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: default;
+        }
+        .custom-combobox .dropdown-arrow {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #666;
+            pointer-events: none;
+        }
+        .custom-listbox {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 180px;
+            overflow-y: auto;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .custom-listbox.open {
+            display: block;
+        }
+        .custom-listbox-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .custom-listbox-item:hover,
+        .custom-listbox-item.active {
+            background: #e8f0fe;
+        }
+        .custom-textbox {
+            width: 100%;
+            min-height: 60px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            outline: none;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        .custom-textbox:focus {
+            border-color: #0a66c2;
+            box-shadow: 0 0 0 2px rgba(10,102,194,0.15);
+        }
+        .hidden-field {
+            display: none;
+        }
+        .reveal-trigger {
+            margin-top: 4px;
+            font-size: 13px;
+            color: #0a66c2;
+            cursor: pointer;
+        }
+        .reveal-trigger:hover {
+            text-decoration: underline;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .decoy-form {
+            margin-top: 28px;
+            padding: 16px 20px;
+            background: #f9fafc;
+            border: 1px solid #e0e4e8;
+            border-radius: 10px;
+        }
+        .decoy-form h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        .decoy-form input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+        .decoy-form button {
+            padding: 6px 14px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .decoy-form button:hover {
+            background: #1a2a3a;
+        }
+        .submit-row {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .submit-row button {
+            padding: 10px 28px;
+            background: #0a66c2;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .submit-row button:hover {
+            background: #084a8a;
+        }
+        .fieldset-legend {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            padding: 0 0 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e8e8e8;
+            margin: 18px 0;
+        }
+        .name-group {
+            display: flex;
+            gap: 8px;
+        }
+        .name-group input {
+            flex: 1;
+        }
+        .aria-only-field {
+            /* no visible label, relies on aria-label */
+        }
+        .debug-info {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            table.fields-table td {
+                display: block;
+                width: 100% !important;
+            }
+            table.fields-table td:first-child {
+                padding-bottom: 0;
+            }
+        }
+        .shadow-host {
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- Progress Dots (Greenhouse-inspired) -->
+    <div class="progress-dots">
+        <div class="progress-step completed">
+            <div class="progress-circle">1</div>
+            <span class="progress-label">Apply</span>
+        </div>
+        <div class="progress-step active">
+            <div class="progress-circle">2</div>
+            <span class="progress-label">Details</span>
+        </div>
+        <div class="progress-step">
+            <div class="progress-circle">3</div>
+            <span class="progress-label">Review</span>
+        </div>
+    </div>
+
+    <form id="jobAppForm" action="#" method="post">
+        <!-- Section 1: Contact - table layout -->
+        <fieldset style="border: none; padding: 0; margin: 0 0 16px 0;">
+            <legend class="fieldset-legend">Contact Information</legend>
+            <table class="fields-table">
+                <tr>
+                    <td class="label-cell">First Name</td>
+                    <td class="input-cell">
+                        <input type="text" name="firstName" id="firstName" placeholder="First" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Last Name</td>
+                    <td class="input-cell">
+                        <input type="text" name="lastName" id="lastName" placeholder="Last" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Email</td>
+                    <td class="input-cell">
+                        <input type="email" name="email" id="email" placeholder="you@example.com" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Phone</td>
+                    <td class="input-cell">
+                        <input type="tel" name="phone" id="phone" placeholder="+1 (555) 000-0000">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Current Company</td>
+                    <td class="input-cell">
+                        <input type="text" name="currentCompany" id="currentCompany" placeholder="Company name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">LinkedIn Profile</td>
+                    <td class="input-cell">
+                        <input type="url" name="linkedin" id="linkedin" placeholder="https://linkedin.com/in/...">
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <!-- Section 2: Experience & Details - mixed layout with table rows + custom widgets -->
+        <fieldset style="border: none; padding: 0; margin: 0 0 16px 0;">
+            <legend class="fieldset-legend">Experience & Fit</legend>
+            <table class="fields-table">
+                <tr>
+                    <td class="label-cell">Years of Experience</td>
+                    <td class="input-cell">
+                        <select name="yearsExp" id="yearsExp">
+                            <option value="">Select</option>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="6-10">6-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Work Authorization</td>
+                    <td class="input-cell">
+                        <div class="pill-group" role="radiogroup" aria-label="Work Authorization">
+                            <span class="pill-btn" data-value="us-citizen" role="radio" tabindex="0">US Citizen</span>
+                            <span class="pill-btn" data-value="green-card" role="radio" tabindex="-1">Green Card</span>
+                            <span class="pill-btn" data-value="visa" role="radio" tabindex="-1">Visa Holder</span>
+                            <span class="pill-btn" data-value="other" role="radio" tabindex="-1">Other</span>
+                        </div>
+                        <input type="hidden" name="workAuth" id="workAuth" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Location (office)</td>
+                    <td class="input-cell">
+                        <!-- Custom combobox (div dropdown) -->
+                        <div class="custom-combobox" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                            <input type="text" id="locationInput" readonly placeholder="Select location" aria-label="Location" autocomplete="off">
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="custom-listbox" role="listbox" aria-label="Available locations">
+                                <div class="custom-listbox-item" role="option" data-value="nyc">New York, NY</div>
+                                <div class="custom-listbox-item" role="option" data-value="sf">San Francisco, CA</div>
+                                <div class="custom-listbox-item" role="option" data-value="remote">Remote (US)</div>
+                                <div class="custom-listbox-item" role="option" data-value="london">London, UK</div>
+                                <div class="custom-listbox-item" role="option" data-value="berlin">Berlin, DE</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="location" id="locationHidden" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Skills <span style="font-weight:400; color:#888;">(select all)</span></td>
+                    <td class="input-cell">
+                        <!-- Duplicate name attrs: checkbox group -->
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="skills" value="product"> Product Strategy</label>
+                            <label><input type="checkbox" name="skills" value="analytics"> Analytics</label>
+                            <label><input type="checkbox" name="skills" value="leadership"> Leadership</label>
+                            <label><input type="checkbox" name="skills" value="ux"> UX Design</label>
+                            <label><input type="checkbox" name="skills" value="agile"> Agile / Scrum</label>
+                        </div>
+                        <!-- Duplicate name attrs: radio cluster for preference -->
+                        <div style="margin-top:8px; font-size:13px; color:#555;">
+                            <span>Preferred role:</span>
+                            <label style="margin-left:8px;"><input type="radio" name="prefRole" value="ic"> IC</label>
+                            <label style="margin-left:8px;"><input type="radio" name="prefRole" value="manager"> Manager</label>
+                            <label style="margin-left:8px;"><input type="radio" name="prefRole" value="both"> Both</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">What excites you about this role?</td>
+                    <td class="input-cell">
+                        <!-- Custom div role=textbox contenteditable (no native input) -->
+                        <div class="custom-textbox" role="textbox" contenteditable="true" aria-label="Your motivation" data-placeholder="Tell us what excites you..." style="min-height:60px;"></div>
+                        <input type="hidden" name="motivation" id="motivationHidden" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">How did you hear about us?</td>
+                    <td class="input-cell">
+                        <select name="source" id="source">
+                            <option value="">Select</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="referral">Referral</option>
+                            <option value="company-site">Company site</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="reveal-trigger" onclick="toggleReferral()">+ Referral details</div>
+                        <div id="referralDetails" class="hidden-field" style="margin-top:6px;">
+                            <input type="text" name="referralName" placeholder="Referrer name" style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px;">
+                        </div>
+                    </td>
+                </tr>
+                <!-- aria-label-only fields (table row with hidden visual label) -->
+                <tr>
+                    <td class="label-cell" style="color:transparent; font-size:1px;">Hidden Label</td>
+                    <td class="input-cell">
+                        <input type="text" name="portfolio" aria-label="Portfolio or personal website URL" placeholder="Portfolio URL (optional)" style="width:100%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell" style="color:transparent; font-size:1px;">Hidden Label 2</td>
+                    <td class="input-cell">
+                        <input type="text" name="github" aria-label="GitHub profile URL" placeholder="GitHub (optional)" style="width:100%;">
+                    </td>
+                </tr>
+                <!-- Input inside nested label spans (glued span labels) -->
+                <tr>
+                    <td class="label-cell">Pronouns</td>
+                    <td class="input-cell">
+                        <label style="display:flex; align-items:center; gap:4px; font-weight:400; font-size:13px;">
+                            <span style="color:#666;">I go by</span>
+                            <input type="text" name="pronouns" placeholder="e.g. they/them" style="width:120px; padding:4px 6px; border:1px solid #ccc; border-radius:4px;">
+                            <span style="color:#666;">(optional)</span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Additional non-table fields: custom aria-label only (visible but no label element) -->
+            <div style="margin:10px 4px 0 4px;">
+                <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:#555;">
+                    <input type="checkbox" name="agree" value="yes" required>
+                    <span>I confirm the information provided is accurate</span>
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- Submit row -->
+        <div class="submit-row">
+            <button type="submit">Submit Application</button>
+        </div>
+    </form>
+
+    <!-- Decoy form: Newsletter signup (separate from job application) -->
+    <div class="decoy-form">
+        <h4>📬 Stay in the loop</h4>
+        <form id="newsletterForm" action="#" method="post">
+            <input type="email" name="newsletterEmail" placeholder="Your email" required>
+            <button type="submit">Subscribe</button>
+            <label style="font-size:12px; margin-left:6px; color:#666;">
+                <input type="checkbox" name="agreePromo" value="yes"> I accept updates
+            </label>
+        </form>
+    </div>
+
+    <!-- shadow DOM host (high tier) -->
+    <div class="shadow-host" id="shadowHost"></div>
+</div>
+
+<script>
+    (function() {
+        // Pill radio group behavior
+        document.querySelectorAll('.pill-group').forEach(function(group) {
+            var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+            var pills = group.querySelectorAll('.pill-btn');
+            pills.forEach(function(pill) {
+                pill.addEventListener('click', function(e) {
+                    pills.forEach(function(p) { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); });
+                    pill.classList.add('selected');
+                    pill.setAttribute('aria-checked', 'true');
+                    if (hiddenInput) hiddenInput.value = pill.getAttribute('data-value');
+                });
+                pill.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        pill.click();
+                    }
+                });
+            });
+        });
+
+        // Custom combobox (location)
+        var combobox = document.querySelector('.custom-combobox');
+        if (combobox) {
+            var input = combobox.querySelector('input');
+            var listbox = combobox.querySelector('.custom-listbox');
+            var items = listbox.querySelectorAll('.custom-listbox-item');
+            var hidden = document.getElementById('locationHidden');
+
+            function toggleDropdown(open) {
+                listbox.classList.toggle('open', open);
+                combobox.setAttribute('aria-expanded', open ? 'true' : 'false');
+            }
+
+            input.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown(true);
+            });
+
+            items.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    input.value = item.textContent;
+                    if (hidden) hidden.value = item.getAttribute('data-value');
+                    items.forEach(function(i) { i.classList.remove('active'); });
+                    item.classList.add('active');
+                    toggleDropdown(false);
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!combobox.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // keyboard navigation
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (!listbox.classList.contains('open')) {
+                        toggleDropdown(true);
+                    }
+                    var active = listbox.querySelector('.active');
+                    var first = items[0];
+                    var last = items[items.length - 1];
+                    if (e.key === 'ArrowDown') {
+                        if (active && active.nextElementSibling) {
+                            active.classList.remove('active');
+                            active.nextElementSibling.classList.add('active');
+                        } else if (active && !active.nextElementSibling) {
+                            active.classList.remove('active');
+                            first.classList.add('active');
+                        } else {
+                            first.classList.add('active');
+                        }
+                    } else {
+                        if (active && active.previousElementSibling) {
+                            active.classList.remove('active');
+                            active.previousElementSibling.classList.add('active');
+                        } else if (active && !active.previousElementSibling) {
+                            active.classList.remove('active');
+                            last.classList.add('active');
+                        } else {
+                            last.classList.add('active');
+                        }
+                    }
+                }
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    var active = listbox.querySelector('.active');
+                    if (active) active.click();
+                }
+                if (e.key === 'Escape') {
+                    toggleDropdown(false);
+                }
+            });
+        }
+
+        // Custom textbox (div contenteditable) sync to hidden input
+        var customTextbox = document.querySelector('.custom-textbox');
+        var motivationHidden = document.getElementById('motivationHidden');
+        if (customTextbox && motivationHidden) {
+            // set placeholder
+            var placeholder = customTextbox.getAttribute('data-placeholder') || '';
+            if (!customTextbox.textContent.trim()) {
+                customTextbox.textContent = '';
+                customTextbox.style.color = '#888';
+                customTextbox.textContent = placeholder;
+            }
+            customTextbox.addEventListener('focus', function() {
+                if (customTextbox.textContent === placeholder) {
+                    customTextbox.textContent = '';
+                    customTextbox.style.color = '#1a1a1a';
+                }
+            });
+            customTextbox.addEventListener('blur', function() {
+                var val = customTextbox.textContent.trim();
+                if (val === '' || val === placeholder) {
+                    customTextbox.textContent = placeholder;
+                    customTextbox.style.color = '#888';
+                    motivationHidden.value = '';
+                } else {
+                    customTextbox.style.color = '#1a1a1a';
+                    motivationHidden.value = val;
+                }
+            });
+            // also update on input
+            customTextbox.addEventListener('input', function() {
+                var val = customTextbox.textContent.trim();
+                if (val !== placeholder) {
+                    motivationHidden.value = val;
+                }
+            });
+        }
+
+        // reveal referral details
+        window.toggleReferral = function() {
+            var el = document.getElementById('referralDetails');
+            if (el) {
+                el.classList.toggle('hidden-field');
+            }
+        };
+
+        // Attach shadow DOM host (high tier) - simple message
+        var host = document.getElementById('shadowHost');
+        if (host && host.attachShadow) {
+            var shadow = host.attachShadow({mode: 'open'});
+            var p = document.createElement('p');
+            p.style.fontSize = '12px';
+            p.style.color = '#999';
+            p.style.margin = '0';
+            p.textContent = 'Applications are reviewed within 5 business days.';
+            shadow.appendChild(p);
+        }
+
+        // on form submit, ensure hidden fields are set
+        document.getElementById('jobAppForm').addEventListener('submit', function(e) {
+            // sync custom textbox
+            if (customTextbox && motivationHidden) {
+                var val = customTextbox.textContent.trim();
+                if (val === customTextbox.getAttribute('data-placeholder')) {
+                    motivationHidden.value = '';
+                } else {
+                    motivationHidden.value = val;
+                }
+            }
+            // hidden location already set by combobox
+            // pill hidden already set
+        });
+
+        // decoy form prevention
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('(Demo) You would be subscribed. This is a decoy form separate from your job application.');
+        });
+    })();
+</script>
+</body>
+</html>

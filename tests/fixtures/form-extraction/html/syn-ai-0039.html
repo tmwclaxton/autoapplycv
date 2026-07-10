@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Full Stack Engineer - Ashby Application</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; color: #222; }
+  .app-root { max-width: 900px; margin: 0 auto; background: #fff; padding: 24px 28px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  h2 { font-size: 20px; margin-top: 0; font-weight: 600; }
+  .field-group { margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 6px 8px; vertical-align: top; }
+  .label-m1 { font-size: 13px; color: #555; display: block; margin-bottom: 3px; font-weight: 500; }
+  .label-m1 strong { color: #000; }
+  input, select, textarea { font-size: 14px; padding: 8px 10px; border: 1px solid #aaa; border-radius: 4px; width: 100%; box-sizing: border-box; }
+  textarea { resize: vertical; min-height: 60px; }
+  .phone-row { display: flex; gap: 6px; }
+  .phone-row select { width: 110px; flex-shrink: 0; }
+  .phone-row input { flex: 1; }
+  .field-error { border-color: #c00; }
+  .error-text { color: #c00; font-size: 12px; }
+  .hidden-field { display: none; }
+  .reveal-trigger { margin-top: 8px; }
+  .custom-combobox { position: relative; display: inline-block; width: 100%; }
+  .combobox-input { width: calc(100% - 30px); display: inline-block; }
+  .combobox-toggle { width: 28px; padding: 8px 4px; cursor: pointer; background: #eee; border: 1px solid #aaa; border-left: 0; border-radius: 0 4px 4px 0; }
+  .listbox { position: absolute; top: 100%; left: 0; z-index: 50; background: #fff; border: 1px solid #aaa; max-height: 160px; overflow-y: auto; width: 100%; display: none; }
+  .listbox.show { display: block; }
+  .listbox-option { padding: 8px 10px; cursor: pointer; }
+  .listbox-option:hover { background: #e0e7ff; }
+  .listbox-option[aria-selected='true'] { background: #2563eb; color: #fff; }
+  [role='textbox'] { min-height: 44px; border: 1px solid #aaa; border-radius: 4px; padding: 10px; background: #fff; cursor: text; white-space: pre-wrap; overflow-wrap: break-word; }
+  [role='textbox']:focus { outline: 2px solid #2563eb; outline-offset: -1px; }
+  .pill-group { display: flex; gap: 10px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #aaa; background: #fff; border-radius: 20px; cursor: pointer; font-size: 14px; }
+  .pill-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .shadow-host { border: 1px dashed #888; padding: 8px; margin: 12px 0; background: #fafafa; }
+  .decoy-form { margin-top: 30px; padding: 16px; border: 1px solid #ccc; background: #f0f0f0; opacity: 0.6; pointer-events: none; }
+  .decoy-form legend { font-weight: 600; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div class="app-root">
+  <h2>Apply: Senior Full Stack Engineer</h2>
+  <p style="font-size:13px;color:#666;">All fields required unless marked optional.</p>
+  <form id="mainForm" action="#" method="post">
+    
+    <!-- Table layout block (required pattern) -->
+    <table>
+      <tr>
+        <td style="width:50%">
+          <span class="label-m1"><strong>Q1.</strong>first name</span>
+          <input type="text" id="firstName" name="firstName" placeholder="e.g. Jane" aria-label="First name" required>
+        </td>
+        <td style="width:50%">
+          <span class="label-m1"><strong>Q2.</strong>last name</span>
+          <input type="text" id="lastName" name="lastName" placeholder="e.g. Doe" aria-label="Last name" required>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Email (native label-for but wrapped deep) -->
+    <div class="field-group">
+      <div><div><div>
+        <label for="emailInput" style="font-size:13px;color:#555;font-weight:500;">Email address</label>
+      </div></div></div>
+      <input type="email" id="emailInput" name="email" placeholder="you@example.com" required>
+    </div>
+
+    <!-- Phone split (required pattern) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q3.</strong>phone</span>
+      <div class="phone-row">
+        <select name="phoneCountry" id="phoneCountry" aria-label="Country code" required>
+          <option value="+1">US +1</option>
+          <option value="+44">UK +44</option>
+          <option value="+91">IN +91</option>
+          <option value="+61">AU +61</option>
+          <option value="+49">DE +49</option>
+        </select>
+        <input type="tel" id="phoneLocal" name="phoneLocal" placeholder="555-0123" aria-label="Phone number" required>
+      </div>
+    </div>
+
+    <!-- Custom combobox (required pattern) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q4.</strong>how did you hear about us?</span>
+      <div class="custom-combobox" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="How did you hear?" tabindex="-1">
+        <input type="text" class="combobox-input" id="comboboxInput" role="combobox" aria-autocomplete="list" aria-controls="listbox1" aria-activedescendant="" placeholder="Select or type">
+        <button type="button" class="combobox-toggle" id="comboboxToggle" tabindex="-1" aria-label="Open list">▼</button>
+        <ul id="listbox1" role="listbox" class="listbox" aria-label="Sources">
+          <li role="option" class="listbox-option" id="opt-linkedin" aria-selected="false">LinkedIn</li>
+          <li role="option" class="listbox-option" id="opt-google" aria-selected="false">Google</li>
+          <li role="option" class="listbox-option" id="opt-friend" aria-selected="false">Friend referral</li>
+          <li role="option" class="listbox-option" id="opt-other" aria-selected="false">Other</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Div role=textbox (required pattern) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q5.</strong>custom text: why are you a good fit?</span>
+      <div role="textbox" aria-multiline="true" aria-label="Why are you a good fit?" contenteditable="true" id="customTextbox" style="min-height:70px;"></div>
+    </div>
+
+    <!-- Conditional radio reveal (required pattern) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q6.</strong>sponsorship required?</span>
+      <div class="pill-group" role="radiogroup" aria-label="Sponsorship">
+        <button type="button" class="pill-btn" data-value="no" role="radio" aria-checked="true" tabindex="0" id="sponsorNo">No</button>
+        <button type="button" class="pill-btn" data-value="yes" role="radio" aria-checked="false" tabindex="-1" id="sponsorYes">Yes</button>
+      </div>
+      <div id="sponsorshipReveal" class="hidden-field reveal-trigger" style="margin-top:10px;">
+        <label for="sponsorshipDetails" style="font-size:13px;color:#555;">Please provide details (visa type, timeline):</label>
+        <textarea id="sponsorshipDetails" name="sponsorshipDetails" rows="2" placeholder="e.g. H1B transfer"></textarea>
+      </div>
+    </div>
+
+    <!-- Shadow DOM host (required pattern) -->
+    <div class="shadow-host" id="shadowHost">
+      <p style="font-size:12px;color:#888;margin:4px 0;">▼ internal fields (shadow)</p>
+      <div id="shadowContainer"></div>
+    </div>
+
+    <!-- Table layout for extra fields (also satisfies table-layout) -->
+    <table>
+      <tr>
+        <td style="width:50%">
+          <span class="label-m1"><strong>Q7.</strong>current company</span>
+          <input type="text" name="currentCompany" placeholder="Acme Corp" aria-label="Current company">
+        </td>
+        <td style="width:50%">
+          <span class="label-m1"><strong>Q8.</strong>years of experience</span>
+          <select name="yearsExp" aria-label="Years of experience" required>
+            <option value="">--</option>
+            <option value="0-1">0-1</option>
+            <option value="2-3">2-3</option>
+            <option value="4-6">4-6</option>
+            <option value="7+">7+</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Additional native-ish fields but with aria-label only (non-semantic labeling) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q9.</strong>linkedin profile (optional)</span>
+      <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL">
+    </div>
+
+    <div class="field-group">
+      <span class="label-m1"><strong>Q10.</strong>portfolio or github (optional)</span>
+      <input type="url" name="portfolio" placeholder="https://github.com/yourhandle" aria-label="Portfolio or GitHub">
+    </div>
+
+    <!-- Glued span labels (non-semantic) -->
+    <div class="field-group">
+      <span style="font-size:13px;color:#555;">Availability </span><span style="font-size:13px;color:#555;margin-left:2px;">to start:</span>
+      <div style="display:flex;gap:6px;margin-top:4px;">
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="availability" value="immediate"> Immediately</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="availability" value="2weeks"> 2 weeks</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="availability" value="1month"> 1 month+</label>
+      </div>
+    </div>
+
+    <!-- Hidden details / reveal pattern -->
+    <details style="margin:16px 0;">
+      <summary style="cursor:pointer;font-weight:500;font-size:14px;">Add additional details (optional)</summary>
+      <div style="margin-top:12px;">
+        <div class="field-group">
+          <span class="label-m1"><strong>Q11.</strong>preferred pronouns</span>
+          <input type="text" name="pronouns" placeholder="e.g. she/her" aria-label="Pronouns">
+        </div>
+        <div class="field-group">
+          <span class="label-m1"><strong>Q12.</strong>how many years in current role?</span>
+          <input type="number" name="yearsCurrentRole" min="0" max="50" placeholder="0" aria-label="Years in current role">
+        </div>
+      </div>
+    </details>
+
+    <!-- Readonly prefill pattern -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q13.</strong>referral code (prefilled)</span>
+      <input type="text" name="referralCode" value="ASHBY-REF-2025" readonly style="background:#eee;color:#555;cursor:not-allowed;">
+    </div>
+
+    <!-- New field 14: Salary expectation (aria-labelledby) -->
+    <div class="field-group">
+      <span id="salaryLabel" class="label-m1"><strong>Q14.</strong>salary expectation (USD)</span>
+      <input type="text" name="salaryExpectation" placeholder="e.g. 120000" aria-labelledby="salaryLabel" required>
+    </div>
+
+    <!-- New field 15: Cover letter (placeholder-only labeling) -->
+    <div class="field-group">
+      <span class="label-m1"><strong>Q15.</strong>cover letter (optional)</span>
+      <textarea name="coverLetter" placeholder="Paste your cover letter here..." style="min-height:80px;"></textarea>
+    </div>
+
+    <!-- Submit -->
+    <div style="margin-top:24px;">
+      <button type="submit" style="background:#2563eb;color:#fff;border:0;padding:12px 32px;font-size:16px;border-radius:6px;cursor:pointer;">Submit Application</button>
+    </div>
+  </form>
+
+  <!-- Decoy secondary form (non-semantic pattern) -->
+  <fieldset class="decoy-form">
+    <legend>Internal referral form (disabled)</legend>
+    <label>Referrer name: <input type="text" value="" disabled></label><br>
+    <label>Referrer email: <input type="email" value="" disabled></label>
+  </fieldset>
+
+  <p style="font-size:12px;color:#999;margin-top:16px;">Ashby-style application · v2.1</p>
+</div>
+
+<script>
+  (function() {
+    // Shadow DOM host: attach open shadow root + add fields
+    var host = document.getElementById('shadowContainer');
+    if (host && !host.shadowRoot) {
+      var shadow = host.attachShadow({mode: 'open'});
+      shadow.innerHTML = `
+        <style>
+          .shadow-field { margin-bottom: 10px; }
+          label { font-size:13px; color:#333; display:block; margin-bottom:3px; }
+          input, select { font-size:14px; padding:6px 8px; border:1px solid #aaa; border-radius:3px; width:100%; box-sizing:border-box; }
+        </style>
+        <div class="shadow-field">
+          <label for="shadowName">Q16. full name (shadow)</label>
+          <input type="text" id="shadowName" name="shadowName" placeholder="e.g. Jane Doe" aria-label="Full name">
+        </div>
+        <div class="shadow-field">
+          <label for="shadowRole">Q17. role interest (shadow)</label>
+          <select id="shadowRole" name="shadowRole" aria-label="Role interest">
+            <option value="fe">Frontend</option>
+            <option value="be">Backend</option>
+            <option value="fullstack" selected>Full Stack</option>
+          </select>
+        </div>
+        <div class="shadow-field">
+          <span style="font-size:13px;color:#333;">Q18. agree to terms</span>
+          <div><input type="checkbox" id="shadowTerms" name="shadowTerms" aria-label="I agree"> <label for="shadowTerms" style="display:inline;">I accept</label></div>
+        </div>
+      `;
+    }
+
+    // Combobox logic
+    var comboInput = document.getElementById('comboboxInput');
+    var toggleBtn = document.getElementById('comboboxToggle');
+    var listbox = document.getElementById('listbox1');
+    var options = listbox.querySelectorAll('[role="option"]');
+    var comboboxContainer = document.querySelector('.custom-combobox');
+    var currentIndex = -1;
+
+    function openListbox() {
+      listbox.classList.add('show');
+      comboboxContainer.setAttribute('aria-expanded', 'true');
+    }
+    function closeListbox() {
+      listbox.classList.remove('show');
+      comboboxContainer.setAttribute('aria-expanded', 'false');
+      currentIndex = -1;
+    }
+    function selectOption(option) {
+      var value = option.textContent.trim();
+      comboInput.value = value;
+      comboInput.setAttribute('aria-activedescendant', option.id);
+      options.forEach(function(opt) { opt.setAttribute('aria-selected', 'false'); });
+      option.setAttribute('aria-selected', 'true');
+      closeListbox();
+    }
+
+    toggleBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (listbox.classList.contains('show')) {
+        closeListbox();
+      } else {
+        openListbox();
+      }
+    });
+
+    comboInput.addEventListener('focus', function() { /* no auto open */ });
+    comboInput.addEventListener('input', function() {
+      // filter basic
+      var query = this.value.toLowerCase();
+      options.forEach(function(opt) {
+        var text = opt.textContent.toLowerCase();
+        opt.style.display = text.includes(query) ? 'block' : 'none';
+      });
+      if (!listbox.classList.contains('show')) openListbox();
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function() { selectOption(this); });
+      opt.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); selectOption(this); }
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!comboboxContainer.contains(e.target)) {
+        closeListbox();
+      }
+    });
+
+    // Keyboard navigation
+    comboInput.addEventListener('keydown', function(e) {
+      var visibleOptions = Array.from(options).filter(function(o) { return o.style.display !== 'none'; });
+      if (visibleOptions.length === 0) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!listbox.classList.contains('show')) openListbox();
+        currentIndex = (currentIndex + 1) % visibleOptions.length;
+        visibleOptions.forEach(function(o, idx) { o.setAttribute('aria-selected', idx === currentIndex ? 'true' : 'false'); });
+        var active = visibleOptions[currentIndex];
+        comboInput.setAttribute('aria-activedescendant', active.id);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!listbox.classList.contains('show')) openListbox();
+        currentIndex = (currentIndex - 1 + visibleOptions.length) % visibleOptions.length;
+        visibleOptions.forEach(function(o, idx) { o.setAttribute('aria-selected', idx === currentIndex ? 'true' : 'false'); });
+        var active = visibleOptions[currentIndex];
+        comboInput.setAttribute('aria-activedescendant', active.id);
+      } else if (e.key === 'Enter' && currentIndex >= 0) {
+        e.preventDefault();
+        var active = visibleOptions[currentIndex];
+        if (active) selectOption(active);
+      } else if (e.key === 'Escape') {
+        closeListbox();
+      }
+    });
+
+    // Conditional reveal for sponsorship
+    var sponsorNo = document.getElementById('sponsorNo');
+    var sponsorYes = document.getElementById('sponsorYes');
+    var revealDiv = document.getElementById('sponsorshipReveal');
+    var pillGroup = document.querySelector('.pill-group');
+
+    function setSponsorship(value) {
+      if (value === 'yes') {
+        sponsorYes.setAttribute('aria-checked', 'true');
+        sponsorNo.setAttribute('aria-checked', 'false');
+        sponsorYes.classList.add('active');
+        sponsorNo.classList.remove('active');
+        revealDiv.classList.remove('hidden-field');
+        revealDiv.style.display = 'block';
+      } else {
+        sponsorNo.setAttribute('aria-checked', 'true');
+        sponsorYes.setAttribute('aria-checked', 'false');
+        sponsorNo.classList.add('active');
+        sponsorYes.classList.remove('active');
+        revealDiv.classList.add('hidden-field');
+        revealDiv.style.display = 'none';
+      }
+    }
+
+    sponsorNo.addEventListener('click', function() { setSponsorship('no'); });
+    sponsorYes.addEventListener('click', function() { setSponsorship('yes'); });
+    // Init default
+    setSponsorship('no');
+
+    // Keyboard for pill group
+    pillGroup.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (document.activeElement === sponsorNo) { sponsorYes.focus(); sponsorYes.click(); }
+        else { sponsorNo.focus(); sponsorNo.click(); }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (document.activeElement === sponsorYes) { sponsorNo.focus(); sponsorNo.click(); }
+        else { sponsorYes.focus(); sponsorYes.click(); }
+      }
+    });
+
+    // Form submit prevent
+    document.getElementById('mainForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Demo: form submitted (no network). Data logged to console.');
+      var formData = new FormData(this);
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
+    });
+  })();
+</script>
+</body>
+</html>

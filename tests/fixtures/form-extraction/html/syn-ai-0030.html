@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  .field-group { margin-bottom: 12px; }
+  .field-label { font-size: 14px; color: #333; display: block; margin-bottom: 4px; }
+  .fake-input { border: 1px solid #bbb; background: #fff; padding: 6px 8px; min-height: 20px; border-radius: 3px; }
+  .custom-combo { position: relative; }
+  .listbox-options { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #aaa; max-height: 140px; overflow-y: auto; z-index: 10; }
+  .listbox-options .option { padding: 6px 8px; cursor: pointer; }
+  .listbox-options .option:hover { background: #eef; }
+  .pill-group { display: flex; gap: 8px; }
+  .pill { border: 1px solid #888; border-radius: 16px; padding: 4px 14px; cursor: pointer; background: #f9f9f9; font-size: 13px; }
+  .pill.selected { background: #3178c6; color: #fff; border-color: #3178c6; }
+  .hidden { display: none; }
+  .error-hint { color: #a00; font-size: 12px; margin-top: 2px; }
+  hr { margin: 18px 0; }
+  .decoy-section { background: #f5f5f5; padding: 8px; margin-bottom: 12px; border-left: 3px solid #ccc; }
+  .glue-label { font-weight: bold; }
+</style>
+</head>
+<body style="background:#f2f2f2; margin:0; padding:20px; font-family:Arial, Helvetica, sans-serif;">
+
+<iframe srcdoc='
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <style>
+    body{font-family:Arial;margin:16px;background:#fff;}
+    .field-group{margin-bottom:14px;}
+    .field-label{font-weight:600;font-size:13px;display:block;margin-bottom:3px;}
+    .fake-input{border:1px solid #aaa;padding:6px 8px;min-height:20px;border-radius:2px;background:#fafafa;}
+    .custom-combo{position:relative;}
+    .listbox-options{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #888;max-height:140px;overflow-y:auto;z-index:10;}
+    .listbox-options .option{padding:5px 8px;cursor:pointer;}
+    .listbox-options .option:hover{background:#e0e8f0;}
+    .pill-group{display:flex;gap:10px;}
+    .pill{border:1px solid #777;border-radius:20px;padding:4px 16px;cursor:pointer;background:#f0f0f0;font-size:13px;}
+    .pill.selected{background:#2b6cb0;color:#fff;}
+    .hidden{display:none;}
+    .hint{color:#666;font-size:11px;margin-top:2px;}
+    hr{margin:16px 0;}
+    .decoy{background:#fafafa;padding:6px 10px;border-left:2px solid #bbb;margin-bottom:12px;}
+  </style>
+  </head>
+  <body>
+    <h3 style="margin-top:0;">Job Application – Senior Data Engineer</h3>
+    
+    <!-- Field 1: First name (native input) -->
+    <div class="field-group">
+      <label class="field-label" for="first_name">First name</label>
+      <input type="text" id="first_name" name="first_name" style="width:100%;padding:5px;">
+    </div>
+
+    <!-- Field 2: Last name (native input) -->
+    <div class="field-group">
+      <label class="field-label" for="last_name">Last name</label>
+      <input type="text" id="last_name" name="last_name" style="width:100%;padding:5px;">
+    </div>
+
+    <!-- Field 3: Duplicate name attrs: share name="contact_method" (radio group) -->
+    <div class="field-group">
+      <span class="field-label">Preferred contact method</span>
+      <div>
+        <label><input type="radio" name="contact_method" value="email"> Email</label>
+        <label><input type="radio" name="contact_method" value="phone"> Phone</label>
+      </div>
+      <div style="margin-top:6px;font-size:12px;color:#999;">
+        <input type="radio" name="contact_method" value="sms" id="cm_sms"><label for="cm_sms">SMS (hidden)</label>
+      </div>
+    </div>
+
+    <!-- Field 4: Native select for department (not combobox) -->
+    <div class="field-group">
+      <label class="field-label" for="dept">Department</label>
+      <select id="dept" name="department" style="width:100%;padding:5px;">
+        <option>Engineering</option>
+        <option>Data</option>
+        <option>Product</option>
+      </select>
+    </div>
+
+    <!-- Field 5: Custom combobox (listbox) for source -->
+    <div class="field-group custom-combo" id="combo-group">
+      <span class="field-label" id="combo-label">How did you hear?</span>
+      <div role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="combo-label" tabindex="0" style="border:1px solid #aaa;padding:6px 8px;background:#fff;border-radius:2px;" id="combo-trigger">LinkedIn</div>
+      <div class="listbox-options" role="listbox" aria-labelledby="combo-label" id="combo-list">
+        <div class="option" role="option" aria-selected="true">LinkedIn</div>
+        <div class="option" role="option" aria-selected="false">Referral</div>
+        <div class="option" role="option" aria-selected="false">Glassdoor</div>
+        <div class="option" role="option" aria-selected="false">Other</div>
+      </div>
+      <input type="hidden" name="source" value="LinkedIn" id="combo-hidden">
+    </div>
+
+    <!-- Field 6-7: Split phone: country code select + local number input -->
+    <div class="field-group">
+      <span class="field-label" id="phone-label">Phone</span>
+      <div style="display:flex;gap:6px;">
+        <select name="phone_country" aria-labelledby="phone-label" style="width:90px;padding:5px;">
+          <option value="+1">US +1</option>
+          <option value="+44">UK +44</option>
+          <option value="+91">IN +91</option>
+          <option value="+61">AU +61</option>
+        </select>
+        <input type="tel" name="phone_local" placeholder="Local number" aria-label="local phone number" style="flex:1;padding:5px;">
+      </div>
+      <div class="hint" aria-describedby="phone-hint" id="phone-hint">Include area code, digits only</div>
+    </div>
+
+    <!-- Field 8: Readonly prefilled email from profile import -->
+    <div class="field-group">
+      <label class="field-label" for="email">Email (from profile)</label>
+      <input type="email" id="email" name="email" readonly value="jane.doe@example.com" style="width:100%;padding:5px;background:#eee;border:1px solid #ccc;">
+    </div>
+
+    <!-- Field 9: Div role=textbox (contenteditable) custom text field for cover letter -->
+    <div class="field-group">
+      <span class="field-label" id="cover-label">Cover letter (optional)</span>
+      <div role="textbox" contenteditable="true" aria-labelledby="cover-label" style="border:1px solid #aaa;padding:8px;min-height:60px;background:#fff;border-radius:2px;white-space:pre-wrap;" data-placeholder="Write something..."><span style="color:#aaa;">Write something...</span></div>
+    </div>
+
+    <!-- Field 10: Pill buttons (yes/no) for relocation -->
+    <div class="field-group">
+      <span class="field-label" id="relo-label">Willing to relocate?</span>
+      <div class="pill-group" role="radiogroup" aria-labelledby="relo-label">
+        <span class="pill selected" data-value="yes" role="radio" aria-checked="true" tabindex="0">Yes</span>
+        <span class="pill" data-value="no" role="radio" aria-checked="false" tabindex="0">No</span>
+      </div>
+      <input type="hidden" name="relocate" value="yes" id="relo-hidden">
+    </div>
+
+    <!-- Field 11-13: Duplicate name attrs: three checkboxes share name="skills[]" -->
+    <div class="field-group">
+      <span class="field-label">Skills</span>
+      <label><input type="checkbox" name="skills[]" value="python"> Python</label>
+      <label><input type="checkbox" name="skills[]" value="sql"> SQL</label>
+      <label><input type="checkbox" name="skills[]" value="spark"> Spark</label>
+      <input type="hidden" name="skills[]" value="">
+    </div>
+
+    <!-- Field 14: Glued span labels (no for) for LinkedIn URL -->
+    <div class="field-group">
+      <span class="field-label"><span class="glue-label">LinkedIn</span> profile URL</span>
+      <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." style="width:100%;padding:5px;">
+    </div>
+
+    <!-- Field 15: Textarea with aria-describedby hint -->
+    <div class="field-group">
+      <label class="field-label" for="notes">Notes</label>
+      <textarea id="notes" name="notes" rows="2" style="width:100%;padding:5px;" aria-describedby="notes-format"></textarea>
+      <div id="notes-format" class="hint">Max 500 characters, plain text only</div>
+    </div>
+
+    <!-- Field 16: Hidden conditional reveal (details) with portfolio URL -->
+    <details>
+      <summary style="font-size:13px;cursor:pointer;">Additional details</summary>
+      <div style="margin-top:6px;">
+        <label>Portfolio URL <input type="url" name="portfolio" style="width:100%;padding:4px;"></label>
+      </div>
+    </details>
+
+    <!-- Decoy secondary form (fake) -->
+    <div class="decoy">
+      <span style="font-size:12px;color:#888;">Alternate contact (optional)</span>
+      <div style="margin-top:4px;">
+        <input type="text" placeholder="Second email" style="width:48%;padding:4px;margin-right:4px;">
+        <input type="text" placeholder="Second phone" style="width:48%;padding:4px;">
+      </div>
+    </div>
+
+    <hr>
+    <button type="submit" style="background:#3178c6;color:white;border:none;padding:10px 28px;border-radius:4px;font-size:15px;cursor:pointer;">Submit Application</button>
+
+    <script>
+      (function() {
+        var trigger = document.getElementById("combo-trigger");
+        var list = document.getElementById("combo-list");
+        var hidden = document.getElementById("combo-hidden");
+        var options = list.querySelectorAll(".option");
+        trigger.addEventListener("click", function(e) {
+          var expanded = trigger.getAttribute("aria-expanded") === "true";
+          trigger.setAttribute("aria-expanded", !expanded);
+          list.style.display = expanded ? "none" : "block";
+        });
+        options.forEach(function(opt) {
+          opt.addEventListener("click", function() {
+            trigger.innerText = opt.innerText;
+            hidden.value = opt.innerText;
+            options.forEach(function(o) { o.setAttribute("aria-selected", "false"); });
+            opt.setAttribute("aria-selected", "true");
+            list.style.display = "none";
+            trigger.setAttribute("aria-expanded", "false");
+          });
+        });
+        document.addEventListener("click", function(e) {
+          if (!document.getElementById("combo-group").contains(e.target)) {
+            list.style.display = "none";
+            trigger.setAttribute("aria-expanded", "false");
+          }
+        });
+      })();
+
+      (function() {
+        var pills = document.querySelectorAll(".pill-group .pill");
+        var hiddenRelo = document.getElementById("relo-hidden");
+        pills.forEach(function(p) {
+          p.addEventListener("click", function() {
+            pills.forEach(function(pp) { pp.classList.remove("selected"); pp.setAttribute("aria-checked", "false"); });
+            p.classList.add("selected");
+            p.setAttribute("aria-checked", "true");
+            hiddenRelo.value = p.getAttribute("data-value");
+          });
+        });
+      })();
+
+      (function() {
+        var ce = document.querySelector("[role=textbox]");
+        ce.addEventListener("focus", function() {
+          if (ce.innerText.trim() === "Write something...") {
+            ce.innerHTML = "";
+          }
+        });
+        ce.addEventListener("blur", function() {
+          if (ce.innerText.trim() === "") {
+            ce.innerHTML = "<span style=\"color:#aaa;\">Write something...</span>";
+          }
+        });
+      })();
+    </script>
+  </body>
+  </html>
+' style="width:100%;height:860px;border:1px solid #888;border-radius:4px;background:#fff;"></iframe>
+
+</body>
+</html>

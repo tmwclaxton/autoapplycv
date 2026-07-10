@@ -1,0 +1,497 @@
+{
+  "id": "web-www-elempleo-com-31",
+  "min_fields": 21,
+  "exact_field_count": 21,
+  "fields": [
+    {
+      "question": "caja buscador busca por cargo, ciudad o código caja buscador",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchBox",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Busca por cargo, ciudad o código",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "busca por cargo, ciudad o código",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Busca por cargo, ciudad o código",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hasta $2 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hasta $2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk-parent-group1",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "menos de $1 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Menos de $1",
+        "$1 a $1,5",
+        "$1,5 a $2",
+        "$2 a $2,5",
+        "$2,5 a $3",
+        "$3 a $3,5",
+        "$3,5 a $4",
+        "$4 a $4,5",
+        "$4,5 a $5,5",
+        "$5,5 a $6",
+        "$6 a $8",
+        "$8 a $10",
+        "$10 a $12,5",
+        "$12,5 a $15",
+        "$15 a $18",
+        "Salario confidencial"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salaryD2",
+        "name": "SalaryInfo1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entre $2 - $4 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entre $2 - $4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk-parent-group2",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entre $4 - $8 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entre $4 - $8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk-parent-group3",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entre $8 - $12,5 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entre $8 - $12,5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk-parent-group4",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entre $12,5 - $21 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entre $12,5 - $21"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk-parent-group5",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select2-filter-cities",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-multiple",
+        "id": "select2-filter-cities",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hoy y ayer hoy y ayer hoy y ayer fecha de publicación",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hoy y ayer",
+        "Hace 1 semana",
+        "Hace 2 semanas",
+        "Hace 1 mes",
+        "Hace más de 1 mes"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "publishDate1",
+        "name": "PublishDatesInfo1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sector / industria sector / industria escribe un sector sector / industria",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchSectors1",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Escribe un sector",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "operativo operativo operativo nivel laboral",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Operativo",
+        "Asistencial",
+        "Profesional",
+        "Gerencia Media",
+        "Alta Gerencia"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "positionLevel6",
+        "name": "PositionLevelsInfo1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ejemplo@ee.com e-mail",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ejemplo@ee.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "menos de $1 salario (en millones de pesos)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Menos de $1",
+        "$1 a $1,5",
+        "$1,5 a $2",
+        "$2 a $2,5",
+        "$2,5 a $3",
+        "$3 a $3,5",
+        "$3,5 a $4",
+        "$4 a $4,5",
+        "$4,5 a $5,5",
+        "$5,5 a $6",
+        "$6 a $8",
+        "$8 a $10",
+        "$10 a $12,5",
+        "$12,5 a $15",
+        "$15 a $18",
+        "Salario confidencial"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salaryM-2",
+        "name": "SalaryInfo2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hoy y ayer hoy y ayer fecha de publicación",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hoy y ayer",
+        "Hace 1 semana",
+        "Hace 2 semanas",
+        "Hace 1 mes",
+        "Hace más de 1 mes"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "publishDate1",
+        "name": "PublishDateInfo2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "escribe un sector sector / industria",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sectorInfo2",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Escribe un sector",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "operativo operativo nivel laboral",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Operativo",
+        "Asistencial",
+        "Profesional",
+        "Gerencia Media",
+        "Alta Gerencia"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "positionLevel6",
+        "name": "PositionLevelsInfo2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "correo electrónico amigo ejemplo@elempleo.com correo electrónico amigo",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-304036",
+        "name": "FriendEmail",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ejemplo@elempleo.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "añadir un comentario (opcional)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "text-45823902",
+        "name": "Comment",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tu correo electrónico ejemplo@elempleo.com tu correo electrónico",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-57052381",
+        "name": "YourEmail",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ejemplo@elempleo.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tu nombre",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-5841047",
+        "name": "YourName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

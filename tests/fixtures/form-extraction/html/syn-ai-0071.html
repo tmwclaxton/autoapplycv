@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashby Application - Senior Frontend Engineer</title>
+<style>
+  * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+  body { background: #f5f5f5; margin: 0; padding: 20px; }
+  .newsletter-signup { background: #e8f4f8; padding: 12px 18px; border-radius: 6px; margin-bottom: 24px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border: 1px solid #b8d8e8; }
+  .newsletter-signup label { font-size: 14px; font-weight: 500; }
+  .newsletter-signup input { padding: 6px 10px; border: 1px solid #bbb; border-radius: 4px; }
+  .newsletter-signup button { background: #1a7a9a; color: #fff; border: none; padding: 6px 14px; border-radius: 4px; }
+  .apply-wrapper { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 24px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .apply-wrapper h2 { margin-top: 0; font-size: 22px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+  .tab-bar { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 2px solid #ccc; }
+  .tab-bar button { background: none; border: none; padding: 10px 18px; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .tab-bar button.active { border-bottom-color: #1a73e8; font-weight: 600; }
+  .tab-panel { display: block; }
+  .tab-panel.hidden { display: none; }
+  dl { display: grid; grid-template-columns: 1fr 2fr; gap: 12px 8px; margin: 0; }
+  dt { font-size: 13px; color: #444; padding-top: 6px; font-weight: 500; }
+  dd { margin: 0; }
+  input, textarea, .custom-combobox { width: 100%; padding: 8px 10px; border: 1px solid #bbb; border-radius: 4px; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  td { padding: 6px 4px; vertical-align: top; }
+  td label { font-size: 12px; color: #555; display: block; margin-bottom: 2px; }
+  .custom-combobox { position: relative; cursor: text; display: flex; align-items: center; background: #fff; min-height: 38px; }
+  .custom-combobox input { border: none; padding: 0; flex: 1; outline: none; background: transparent; }
+  .custom-combobox .dropdown-indicator { padding: 0 6px; color: #888; }
+  .listbox-popup { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #bbb; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .listbox-popup.open { display: block; }
+  .listbox-option { padding: 8px 10px; cursor: pointer; font-size: 14px; }
+  .listbox-option:hover, .listbox-option[aria-selected="true"] { background: #e0e7ff; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { border: 1px solid #aaa; border-radius: 20px; padding: 4px 14px; font-size: 13px; cursor: pointer; background: #fff; }
+  .pill.selected { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  details { margin: 12px 0; padding: 8px 12px; background: #fafafa; border-radius: 4px; border: 1px solid #ececec; }
+  details summary { cursor: pointer; font-weight: 500; }
+  .hidden-span { position: absolute; left: -9999px; }
+  .field-group { margin-bottom: 14px; }
+  .btn-primary { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 6px; font-size: 15px; cursor: pointer; }
+  .btn-secondary { background: #fff; color: #333; border: 1px solid #bbb; padding: 8px 18px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<!-- DECOY: Newsletter signup form -->
+<div class="newsletter-signup">
+  <label for="newsletter-email">Sign up for job alerts</label>
+  <input type="email" id="newsletter-email" placeholder="your@email.com">
+  <button type="button">Subscribe</button>
+</div>
+
+<div class="apply-wrapper">
+  <h2>Apply: Senior Frontend Engineer</h2>
+  
+  <!-- Tab bar -->
+  <div class="tab-bar" role="tablist">
+    <button role="tab" class="active" data-tab="tab1" aria-selected="true">Your Info</button>
+    <button role="tab" data-tab="tab2" aria-selected="false">Experience</button>
+    <button role="tab" data-tab="tab3" aria-selected="false">Additional</button>
+  </div>
+
+  <!-- ========== TAB 1 ========== -->
+  <div id="tab1" class="tab-panel" role="tabpanel">
+    <dl>
+      <dt><label for="fullname">Full name</label></dt>
+      <dd><input type="text" id="fullname" name="fullname" required></dd>
+
+      <dt><span id="email-label">Email <span style="color:red">*</span></span></dt>
+      <dd><input type="email" aria-labelledby="email-label" placeholder="you@company.com"></dd>
+
+      <!-- aria-label only field -->
+      <dt></dt>
+      <dd><input type="tel" aria-label="Phone number" placeholder="Phone"></dd>
+
+      <dt><label for="linkedin">LinkedIn URL</label></dt>
+      <dd><input type="url" id="linkedin" placeholder="https://linkedin.com/in/..."></dd>
+
+      <!-- Title attribute tooltip label -->
+      <dt></dt>
+      <dd><input type="text" title="Current job title" placeholder="e.g. Frontend Engineer"></dd>
+
+      <!-- Pill buttons (non-semantic) for preferred contact -->
+      <dt><span>Contact method</span></dt>
+      <dd>
+        <div class="pill-group" role="group" aria-label="Preferred contact method">
+          <span class="pill selected" data-value="email">Email</span>
+          <span class="pill" data-value="phone">Phone</span>
+          <span class="pill" data-value="sms">SMS</span>
+        </div>
+        <input type="hidden" id="contact-method" value="email">
+      </dd>
+
+      <!-- Additional fields to reach 26 -->
+      <dt><label for="address">Address</label></dt>
+      <dd><input type="text" id="address" placeholder="Street, City, State"></dd>
+
+      <dt><label for="city">City</label></dt>
+      <dd><input type="text" id="city" placeholder="City"></dd>
+
+      <dt><label for="state">State</label></dt>
+      <dd><input type="text" id="state" placeholder="State"></dd>
+
+      <dt><label for="zip">ZIP Code</label></dt>
+      <dd><input type="text" id="zip" placeholder="12345"></dd>
+
+      <dt><label for="country">Country</label></dt>
+      <dd><input type="text" id="country" placeholder="USA"></dd>
+
+      <dt><label for="github">GitHub URL</label></dt>
+      <dd><input type="url" id="github" placeholder="https://github.com/..."></dd>
+
+      <dt><label for="portfolio">Portfolio URL</label></dt>
+      <dd><input type="url" id="portfolio" placeholder="https://..."></dd>
+
+      <dt><label for="pronouns">Pronouns</label></dt>
+      <dd><input type="text" id="pronouns" placeholder="e.g. they/them"></dd>
+
+      <dt><label for="start-date">Available start date</label></dt>
+      <dd><input type="date" id="start-date"></dd>
+
+      <dt><label for="visa">Visa status</label></dt>
+      <dd><input type="text" id="visa" placeholder="e.g. US Citizen"></dd>
+    </dl>
+  </div>
+
+  <!-- ========== TAB 2 ========== -->
+  <div id="tab2" class="tab-panel hidden" role="tabpanel">
+    <!-- Table layout for skills -->
+    <table>
+      <thead>
+        <tr><th>Skill</th><th>Years</th><th>Proficiency</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><label for="skill1">JavaScript</label><input type="text" id="skill1" value="JavaScript" readonly></td>
+          <td><input type="number" id="skill1-years" min="0" step="0.5" placeholder="yrs"></td>
+          <td>
+            <select id="skill1-prof">
+              <option>Beginner</option><option>Intermediate</option><option selected>Advanced</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="skill2">React</label><input type="text" id="skill2" value="React" readonly></td>
+          <td><input type="number" id="skill2-years" min="0" step="0.5" placeholder="yrs"></td>
+          <td><select id="skill2-prof"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></td>
+        </tr>
+        <tr>
+          <td><label for="skill3">TypeScript</label><input type="text" id="skill3" value="TypeScript" readonly></td>
+          <td><input type="number" id="skill3-years" min="0" step="0.5" placeholder="yrs"></td>
+          <td><select id="skill3-prof"><option>Beginner</option><option>Intermediate</option><option selected>Advanced</option></select></td>
+        </tr>
+        <tr>
+          <td><label for="skill4">Node.js</label><input type="text" id="skill4" value="Node.js" readonly></td>
+          <td><input type="number" id="skill4-years" min="0" step="0.5" placeholder="yrs"></td>
+          <td><select id="skill4-prof"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Native select (not combobox) but also we have custom combobox elsewhere -->
+    <div class="field-group">
+      <label for="years-exp">Years of experience</label>
+      <select id="years-exp">
+        <option>0-1</option><option>1-3</option><option>3-5</option><option>5-7</option><option>7+</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <span id="work-auth-label" style="font-size:13px;font-weight:500;">Work authorization</span>
+      <div style="position:relative;">
+        <input type="text" id="work-auth" aria-labelledby="work-auth-label" placeholder="Select..." readonly>
+      </div>
+    </div>
+    <div class="field-group">
+      <label for="current-company">Current company</label>
+      <input type="text" id="current-company" placeholder="Optional">
+    </div>
+    <div class="field-group">
+      <label for="notice-period">Notice period</label>
+      <input type="text" id="notice-period" placeholder="e.g. 2 weeks">
+    </div>
+  </div>
+
+  <!-- ========== TAB 3 ========== -->
+  <div id="tab3" class="tab-panel hidden" role="tabpanel">
+    <!-- Details/accordion with hidden fields -->
+    <details>
+      <summary>Demographics (optional)</summary>
+      <div style="margin-top:8px;">
+        <dl>
+          <dt><span id="race-label">Race/Ethnicity</span></dt>
+          <dd>
+            <!-- Custom listbox combobox (not native select) -->
+            <div class="custom-combobox" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="race-label">
+              <input type="text" placeholder="Select or type..." aria-label="Race/Ethnicity" readonly>
+              <span class="dropdown-indicator">▼</span>
+              <div class="listbox-popup" role="listbox" aria-label="Race options">
+                <div class="listbox-option" role="option" aria-selected="false">Prefer not to say</div>
+                <div class="listbox-option" role="option" aria-selected="false">American Indian/Alaskan Native</div>
+                <div class="listbox-option" role="option" aria-selected="false">Asian</div>
+                <div class="listbox-option" role="option" aria-selected="false">Black/African American</div>
+                <div class="listbox-option" role="option" aria-selected="false">Hispanic/Latino</div>
+                <div class="listbox-option" role="option" aria-selected="false">Native Hawaiian/Pacific Islander</div>
+                <div class="listbox-option" role="option" aria-selected="false">White</div>
+              </div>
+            </div>
+          </dd>
+          <!-- aria-label only field -->
+          <dt></dt>
+          <dd><input type="text" aria-label="Veteran status" placeholder="Veteran status (optional)"></dd>
+          <dt><span id="disability-label">Disability status</span></dt>
+          <dd>
+            <div class="pill-group" role="group" aria-labelledby="disability-label">
+              <span class="pill" data-value="yes">Yes</span>
+              <span class="pill selected" data-value="no">No</span>
+              <span class="pill" data-value="prefer-not">Prefer not</span>
+            </div>
+            <input type="hidden" id="disability-status" value="no">
+          </dd>
+          <dt><label for="gender">Gender</label></dt>
+          <dd><input type="text" id="gender" placeholder="Optional"></dd>
+        </dl>
+      </div>
+    </details>
+
+    <!-- Hidden distant span reference via aria-labelledby -->
+    <div class="field-group">
+      <span id="ref-hidden" class="hidden-span">How did you hear about us?</span>
+      <div role="textbox" contenteditable="true" aria-labelledby="ref-hidden" style="border:1px solid #bbb; padding:8px; min-height:40px; border-radius:4px;" data-placeholder="Write here..."></div>
+    </div>
+
+    <!-- Glued span labels -->
+    <div style="margin:12px 0;">
+      <span style="font-size:13px;font-weight:500;">Portfolio URL</span>
+      <input type="url" style="margin-left:6px;width:calc(100% - 110px);display:inline-block;" placeholder="https://..." aria-label="Portfolio URL">
+    </div>
+
+    <div class="field-group">
+      <label for="cover-letter">Cover letter</label>
+      <textarea id="cover-letter" rows="4" placeholder="Optional message"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label for="salary-expectation">Salary expectation</label>
+      <input type="text" id="salary-expectation" placeholder="e.g. $120,000">
+    </div>
+
+    <div class="field-group">
+      <label for="referral">Referral source</label>
+      <input type="text" id="referral" placeholder="Optional">
+    </div>
+
+    <div class="field-group">
+      <label for="willing-to-relocate">Willing to relocate</label>
+      <select id="willing-to-relocate">
+        <option>Yes</option>
+        <option>No</option>
+        <option>Maybe</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Submit row -->
+  <div style="margin-top:20px; display:flex; gap:12px; justify-content:flex-end;">
+    <button class="btn-secondary" type="reset">Cancel</button>
+    <button class="btn-primary" type="submit" onclick="alert('Application submitted (demo)')">Submit Application</button>
+  </div>
+</div>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('[role="tab"]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('[role="tab"]').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById(tab.dataset.tab).classList.remove('hidden');
+    });
+  });
+
+  // Pill buttons
+  document.querySelectorAll('.pill-group').forEach(group => {
+    const hiddenInput = group.nextElementSibling;
+    group.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        group.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+        if (hiddenInput) hiddenInput.value = pill.dataset.value;
+      });
+    });
+  });
+
+  // Custom combobox (listbox)
+  document.querySelectorAll('.custom-combobox').forEach(combobox => {
+    const input = combobox.querySelector('input');
+    const popup = combobox.querySelector('.listbox-popup');
+    const options = popup.querySelectorAll('.listbox-option');
+    let currentIndex = -1;
+
+    function openPopup() {
+      combobox.setAttribute('aria-expanded', 'true');
+      popup.classList.add('open');
+    }
+    function closePopup() {
+      combobox.setAttribute('aria-expanded', 'false');
+      popup.classList.remove('open');
+    }
+
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (popup.classList.contains('open')) closePopup(); else openPopup();
+    });
+    combobox.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        openPopup();
+        if (currentIndex < options.length - 1) currentIndex++;
+        else currentIndex = 0;
+        options.forEach((opt, i) => opt.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false'));
+        if (options[currentIndex]) input.value = options[currentIndex].textContent;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (currentIndex > 0) currentIndex--;
+        else currentIndex = options.length - 1;
+        options.forEach((opt, i) => opt.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false'));
+        if (options[currentIndex]) input.value = options[currentIndex].textContent;
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (popup.classList.contains('open')) {
+          closePopup();
+        } else {
+          openPopup();
+        }
+      } else if (e.key === 'Escape') {
+        closePopup();
+      }
+    });
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        input.value = opt.textContent;
+        options.forEach(o => o.setAttribute('aria-selected', 'false'));
+        opt.setAttribute('aria-selected', 'true');
+        closePopup();
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!combobox.contains(e.target)) closePopup();
+    });
+  });
+
+  // Work-auth readonly reveal (just placeholder)
+  document.getElementById('work-auth')?.addEventListener('click', function() {
+    this.value = 'US Citizen';
+  });
+
+  // Glued span label is just visual; no extra JS needed
+</script>
+
+<!-- Hidden span for aria-labelledby is already in markup -->
+</body>
+</html>

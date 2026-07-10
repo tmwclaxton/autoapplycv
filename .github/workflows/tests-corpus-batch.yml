@@ -1,0 +1,101 @@
+name: "Tests (corpus batch)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_kind:
+        description: "Batch type"
+        type: choice
+        options:
+          - ai-generate
+          - firecrawl
+          - vet-fill-report
+        default: ai-generate
+      limit:
+        description: "Batch size (max 50)"
+        type: string
+        default: "50"
+      start_id:
+        description: "Start fixture id (syn-ai batches)"
+        type: string
+        default: "syn-ai-0001"
+      id_prefix:
+        description: "Id prefix for vet/fill"
+        type: string
+        default: "syn-ai-"
+      target_cell:
+        description: "Optional variety target cell for AI briefs"
+        type: string
+        default: ""
+
+jobs:
+  corpus-batch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: mbstring, xml, curl, zip
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Copy env
+        run: cp .env.example .env && php artisan key:generate
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Resolve batch limit
+        id: limit
+        run: |
+          LIMIT="${{ inputs.limit }}"
+          if [ "$LIMIT" -gt 50 ]; then
+            echo "limit=50" >> "$GITHUB_OUTPUT"
+          else
+            echo "limit=$LIMIT" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run AI generate batch
+        if: inputs.batch_kind == 'ai-generate'
+        env:
+          NANOGPT_API_KEY: ${{ secrets.NANOGPT_API_KEY }}
+        run: |
+          ARGS="--limit=${{ steps.limit.outputs.limit }} --start-id=${{ inputs.start_id }}"
+          if [ -n "${{ inputs.target_cell }}" ]; then
+            ARGS="$ARGS --target-cell=${{ inputs.target_cell }}"
+          fi
+          node scripts/form-corpus/run-ai-corpus-batch.mjs $ARGS
+
+      - name: Run Firecrawl batch
+        if: inputs.batch_kind == 'firecrawl'
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: npm run form-corpus:firecrawl-100 -- --limit=${{ steps.limit.outputs.limit }} --skip-extension-e2e
+
+      - name: Run vet and fill report batch
+        if: inputs.batch_kind == 'vet-fill-report'
+        run: |
+          npm run form-corpus:propose -- --id-prefix=${{ inputs.id_prefix }} --force
+          node scripts/form-corpus/vet-corpus.mjs --id-prefix=${{ inputs.id_prefix }} --limit=${{ steps.limit.outputs.limit }}
+          node scripts/form-corpus/run-fill-verify.mjs --id-prefix=${{ inputs.id_prefix }} --limit=${{ steps.limit.outputs.limit }} --check-validity --check-a11y --check-errors --json-only
+
+      - name: Upload batch report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: corpus-batch-report
+          path: |
+            tests/fixtures/form-extraction/*-report.json
+            tests/fixtures/form-extraction/ai-corpus-batch-report.json
+          if-no-files-found: ignore

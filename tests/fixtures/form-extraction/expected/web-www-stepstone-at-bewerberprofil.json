@@ -1,0 +1,49 @@
+{
+  "id": "web-www-stepstone-at-bewerberprofil",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "jobtitel, firmenname, id",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "ke",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Jobtitel, Firmenname, ID",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "stadt, 4-stellige plz",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "ws",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Stadt, 4-stellige PLZ",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

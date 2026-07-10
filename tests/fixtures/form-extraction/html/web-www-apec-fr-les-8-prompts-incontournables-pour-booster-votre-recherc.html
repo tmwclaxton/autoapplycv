@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Les 8 prompts incontournables pour booster votre recherche d'emploi</title>
+</head>
+<body>
+<form>
+<div id="popin-connexion" class="popin popin-candidat" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="popin-labelledby">
+    <div class="popin-container" role="document">
+        <button type="button" onclick="apecLoginPopin.close(); return false;" class="popin-close" aria-label="Close">
+            
+        </button>
+        <div class="popin-col">
+            <div class="popin-form">
+                <h2 class="mb-30" id="popin-labelledby">Vous avez déjà un compte ?</h2>
+
+                <form onsubmit="apecLoginPopin.dologin(); return false;">
+                    <div id="sourceToggle">
+                        <label for="source" onchange="apecLoginPopin.toogle()" id="source-toggle" class="slide-toggle-label slide-toggle-label-popin mb-20">
+                            <span class="slide-toggle-content slide-toggle-content-left active">Candidat</span>
+                            <div class="slide-toggle-bar">
+                                <input type="checkbox" name="source" id="source">
+                                <div class="slide-toggle-thumb"></div>
+                            </div>
+                            <span class="slide-toggle-content slide-toggle-content-right">Recruteur</span>
+                        </label>
+                    </div>
+
+                    <div aria-hidden="true" class="alert alert-danger mb-30 alert-d-none" role="alert">
+                        <div id="no-data" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Vous devez saisir votre identifiant et votre mot de passe.
+                        </div>
+                        <div id="unknown-user" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre identifiant ou votre mot de passe est incorrect.
+                        </div>
+                        <div id="not-valide" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte recruteur est en cours de validation.<br>
+                            Si nécessaire Contactez-nous au 0809 361 414
+                        </div>
+                        <div id="closed" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Votre compte n'est plus actif.<br>
+                            Si nécessaire Contactez-nous au 0810 805 805
+                        </div>
+                        <div id="unknown-error" class="alert-text pl-4 text-left m-auto p-auto alert-d-none">
+                            Une erreur inattendue est survenue. Merci de réessayer ultérieurement.
+                        </div>
+                    </div>
+
+                    <div class="popin-form-group mb-30">
+                        <label for="emailid">Adresse email*</label>
+                        <input type="text" name="emailid" id="emailid" placeholder="Identifiant" style="max-width: initial;">
+                    </div>
+
+                    <div class="popin-form-group mb-10" style="position: relative;">
+                        <label for="password">Mot de passe*</label>
+                        <input type="password" name="password" id="password" placeholder="Mot de passe" style="width: 100%; padding-right: 40px; max-width: initial;">
+                        
+                        <span style="position: absolute; top: 70%; right: 10px; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility()">
+                       <img id="toggle-password-icon" src="/modules/apec-jahia-module/assets/img/edito/eye-icon-open.svg" style="width: 20px; height: 20px;">
+                       </span>
+                    </div>
+                    <p class="mdp mb-37"><a onclick="apecLoginPopin.motDePasseOublie();">Mot de passe oublié ?</a></p>
+                    <div class="row justify-content-center mt-30">
+                        <button type="submit" value="Login" class="popin-btn-primary">Se connecter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="popin-col popin-bg">
+            <div class="popin-new-account">
+                <h2 class="titre">
+                </h2>
+                <p class="desc">
+                </p>
+                <button onclick="apecLoginPopin.creerCompte();return false;" class="popin-btn-primary popin-btn-primary-negative">Créer votre compte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<header role="banner">
+    <nav class="navbar navbar-expand navbar-bottom" role="navigation" aria-label="Menu principal">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                        <div class="navbar-bottom__blocmenu">
+                            <button class="navbar-bottom__menu" aria-label="menu">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <p>Menu</p>
+                            </button>
+                        </div>
+                        <div class="navbar-bottom__logo">
+                            <a href="/" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                                <img id="logo_white" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/white.svg" alt="Logo Apec">
+                                <img id="logo_blue" src="/modules/apec-jahia-module/assets/img/logo_apec/texte/horizontal/blue.svg" alt="Logo Apec">
+                            </a>
+                        </div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <button type="button" data-faciliti-popin="" title="FACIL'iti : Adaptez l'affichage" aria-label="FACIL'iti : Adaptez l'affichage" class="nav-link nav-link-faciliti"></button>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-acceo" title="Acceo : Sourd ou malentendant" href="https://www.acce-o.fr/client/apec" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'accessibilite::acceo', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" target="_blank"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://centre.apec.fr/search" title="Mon centre" aria-label="Mon centre" class="nav-link nav-link-centre">
+                                    <span>Mon centre</span>
+                                </a>
+                            </li>
+                            <li id="header-monespace" class="nav-item">
+                                <a onclick="showloginPopin()" class="nav-link nav-link-espace" aria-haspopup="dialog" aria-controls="dialog" title="Mon espace" aria-label="Mon espace"><span>Mon espace</span></a>
+                            </li>
+                            <li id="header-logout" class="nav-item" style="display:none;">
+                                <a onclick="logout(this);" data-dest="/" class="nav-link nav-link-logout">
+                                    <div data-toggle="tooltip" data-placement="bottom" title="Se déconnecter" class="tooltip-logout"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<nav class="side-nav" role="navigation" aria-label="Menu secondaire">
+    <div class="side-nav__container">
+        <ul class="side-nav__links">
+            <li class="cta cta-candidat">
+                <a href="/candidat.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/profil/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>candidat.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-candidat__links">
+                    <li><a href="/candidat/recherche-emploi.html/emploi"><p>Rechercher une offre</p></a></li>
+                    <li><a href="/candidat/optimiser-votre-candidature.html"><p>Optimiser votre candidature</p></a></li>
+                    <li><a href="/candidat/etre-accompagne-dans-votre-recherche-demploi.html"><p>Être accompagné dans votre recherche d'emploi</p></a></li>
+                    <li><a href="/candidat/faire-le-point--changer-de-voie.html"><p>Faire le point &amp; Changer de voie</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta cta-recruteur">
+                <a href="/recruteur.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/cible/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Espace <span>recruteur.</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+                <ul class="side-nav-recruteur__links">
+                    <li><a href="/recruteur/mon-espace/candidapec.html"><p>Rechercher un profil</p></a></li>
+                    <li><a href="/recruteur/recruter.html"><p>Recruter</p></a></li>
+                    <li><a href="/recruteur/attirer-les-candidats.html"><p>Attirer les candidats</p></a></li>
+                    <li><a href="/recruteur/accompagner-levolution-professionnelle.html"><p>Accompagner l'évolution professionnelle</p></a></li>
+                    </ul>
+            </li>
+            <li class="cta">
+                <a href="/nos-evenements.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/4fleches/white/4fleches.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Nos <span>Évènements</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-outils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/computer/white/computer.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Outils</span> Apec en ligne</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tendances-emploi-cadre.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/duotone/eye/white/eye.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Tendances</span> emploi cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-nos-metiers.html">
+                    <img src="/files/live/sites/www/files/fiche_outil/icone/livre.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Fiches métiers</span> cadre</p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/tous-les-conseils.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Tous nos <span>conseils</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="https://centre.apec.fr/search">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/pin/white.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Centre <span>Apec</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/candidat/alternance.html">
+                    <img src="/modules/apec-jahia-module/assets/img/pictos/functional/education/education.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p><span>Alternance</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            <li class="cta">
+                <a href="/offres-d-emploi-cadres-alternances-et-entreprises-qui-recrutent.html">
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/search/white/small.svg" alt="icone user" style="margin-right:10px; width:25px; height:25px;">
+                    <p>Parcourir <span>les offres</span></p>
+                    <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite" style="width:25px;">
+                </a>
+            </li>
+            </ul>
+        <a href="/tous-nos-services/rencontrer-nous.html" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'nous_rencontrer::nous_rencontrer_burger', level2: xitiTagWrapper.xtn2, type:'navigation'})) || !xitiTagWrapper.tag;" class="side-nav__button"><p>Prenez rendez-vous</p></a>
+
+    </div>
+</nav>
+<div class="overlay"></div>
+
+<main role="main">
+		<div class="container-fluid bandeau__head-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <nav class="nav-back">
+                    <div class="nav-back__title">
+                        <a class="backButton d-flex" href="/candidat/optimiser-votre-candidature.html" title="Retour sur la page Optimiser votre candidature">
+                            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/left.svg" alt="bouton retour">
+                            <p>Optimiser votre candidature</p>
+                        </a>
+                        <h1> Les 8 prompts incontournables pour booster votre recherche d'emploi</h1>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="extra-nav-bottom"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-9 col-lg-9">
+            <article class="card card-detail">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <h1 class="card-detail__title"> Les 8 prompts incontournables pour booster votre recherche d'emploi</h1>
+                            <div class="img-main_header mb-20">
+                                <img src="/files/live/sites/www/files/fiche_avis/image/CompÃ©tences IA.jpg" alt=" Les 8 prompts incontournables pour booster votre recherche d'emploi" width="100%" height="auto">
+                            </div>
+                            <div class="block-share mb-20">
+                                <div class="author-avatar">
+                                    <img style="position: relative;" src="/files/live/sites/www/files/fiche_avis/consultant/Sonia et Matthieu.jpg" alt="Sonia Houtarde &amp; Matthieu Esteve">
+                                </div>
+                                <div class="info-author">
+                                    <p>Publié le 16/04/2026<br> par Sonia Houtarde &amp; Matthieu Esteve</p>
+                                </div>
+                                <div class="share-link">
+        <div class="share-text">
+            <p>Partager</p>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="share-illus">
+                <div class="svg">
+                    
+                </div>
+            </div>
+            <div class="share-container" style="display: none;">
+                <div class="card card-share">
+                    <div class="card-body">
+                        <div class="card-title">Partager sur</div>
+                        <ul class="share-button">
+                            <li>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/-les-8-prompts-incontournables-pour-booster-votre-recherche-d-emploi.html" target="_blank" title="Share on Linkedin">
+                                    <span>
+                                        
+                                    </span>
+                                    Linkedin
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/share?url=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/-les-8-prompts-incontournables-pour-booster-votre-recherche-d-emploi.html&amp;via=Apecfr" target="_blank" title="Share on Twitter">
+                                    <span>
+                                        
+                                    </span>
+                                    Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/sharer.php?u=https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/-les-8-prompts-incontournables-pour-booster-votre-recherche-d-emploi.html" target="_blank" title="Share on Facebook">
+                                    <span>
+                                        
+                                    </span>
+                                    Facebook
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+                            <div class="rich-text font-weight-bold">
+                                <p>L'intelligence artificielle générative s'impose aujourd'hui comme un véritable assistant virtuel pour gagner du temps dans votre recherche d'emploi. Nos consultants Sonia Houtarde et Matthieu Esteve ont conçu pour vous 8 prompts efficaces et éprouvés, prêts à l'emploi en mode copié-collé. Ces modèles vous permettront d'optimiser votre CV, de personnaliser vos lettres de motivation et de rédiger des candidatures spontanées percutantes. Si vous n'êtes pas très à l'aise avec l'IA, c'est le bon moment pour vous lancer !</p>
+                            </div>
+                            <div class="rich-text">
+                                <h2>Pourquoi utiliser l'intelligence artificielle pour sa candidature ?</h2>
+
+<p>Les avantages sont concrets et immédiats. L'IA vous aide à surmonter le syndrome de la page blanche, à structurer vos idées rapidement et à adapter chaque candidature aux attentes précises d'une offre. Elle identifie les mots-clés stratégiques, reformule vos expériences de manière percutante et vous fait gagner un temps précieux sur les tâches répétitives.&nbsp;<br>
+Mais attention : utiliser l'IA ne signifie pas tout lui déléguer. La personnalisation reste votre meilleur atout pour vous démarquer. Les IA génératives (ChatGPT, Copilot, Le chat, Gemini, etc.) peuvent véritablement accélérer vos démarches, à condition de bien les « briefer » au départ grâce à des prompts adaptés. Nous vous proposons ici des modèles prêts à l’emploi pour 3 situations :</p>
+
+<p>•&nbsp;&nbsp; &nbsp;<a href="https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/optimisez-votre-cv-pour-passer-le-filtre-des-ats-.html">L’optimisation de votre CV pour les passer le filtre des ATS</a></p>
+
+<p>•&nbsp;&nbsp; &nbsp;<a href="https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/facilitez-votre-recherche-d-emploi-gr-ce-a-l-intelligence-artificielle-!.html">La personnalisation de vos lettres de motivation et messages à votre réseau&nbsp;</a></p>
+
+<p>•&nbsp;&nbsp; &nbsp;<a href="https://www.apec.fr/candidat/optimiser-votre-candidature/candidature/fiches-avis/en-2025,-la-candidature-spontanee-se-reinvente-adoptez-les-bonnes-pratiques-!.html">Une candidature spontanée et convaincante, façon “offre de service”</a></p>
+
+<p>&nbsp;</p>
+
+<h2>Optimiser son CV pour passer le filtre des ATS</h2>
+
+<p>Aujourd’hui, beaucoup de CV sont d’abord lus... par une machine ! Les Applicant Tracking Systems (ATS) trient et analysent vos documents selon des critères précis : mots-clés, structure, lisibilité... Même le meilleur profil peut passer à la trappe si le formatage n’est pas maîtrisé.</p>
+
+<h3>Pour aider l’IA à évaluer et optimiser votre CV et/ou à l’adapter à une offre d’emploi</h3>
+
+<p><em>Tu possèdes la double expertise en ATS (Applicant Tracking Systems ou systèmes de suivi des candidatures) à succès sur le marché mais aussi en recrutement. Plus précisément, tu as une parfaite connaissance du fonctionnement des ATS présents sur le marché, de leurs techniques de traitement du langage naturel (NLP) et d'analyse sémantique pour identifier et structurer les données clés (nom, coordonnées, expérience professionnelle, compétences, formations, etc.). Tu maîtrises également parfaitement les techniques SEO mais aussi les intitulés de postes ainsi que les mots-clefs les plus utilisés pour chacun d’entre eux dans la rédaction des offres d’emploi._</em></p>
+
+<p><em>Tu as deux fonctions :<br>
+1.&nbsp;&nbsp; &nbsp;Si on te joint seulement un CV sans offre d’emploi = Evaluation du CV seul. Evalue l’efficacité du CV pour passer les ATS qui te sera proposé en dressant un tableau dans lequel tu attribueras une note sur 5 à chaque item et en proposant un point d’amélioration si besoin. Ajuste la somme des points sur 20. Les items d’évaluation seront :<br>
+•&nbsp;&nbsp; &nbsp;Présence d’un titre clair et lisible<br>
+•&nbsp;&nbsp; &nbsp;Le format du CV : PDF, Word. Alerte si c'est un format image (jpeg, png…) ou un PDF plat.<br>
+•&nbsp;&nbsp; &nbsp;La structure du CV : présence de titres de section clairs.<br>
+•&nbsp;&nbsp; &nbsp;Le recensement des 40 mots clefs les plus utilisés pour cet intitulé de poste dans les offres d’emploi (liste tous les mots clefs manquants sur les 40 qui devraient être présents = génère si possible un fichier avec tous les mots-clefs à intégrer à mon CV).<br>
+•&nbsp;&nbsp; &nbsp;Si tu détectes des images autres que la photo de profil ou des abréviations, alerte sur l’absence de lisibilité ou le risque de manque de lisibilité de ces informations.<br>
+•&nbsp;&nbsp; &nbsp;Si tu détectes d’autres éléments illisibles : tableau, zone de texte = alerte.<br>
+•&nbsp;&nbsp; &nbsp;Propose une version du CV optimisé selon tous les points d’amélioration que tu auras relevé.<br>
+2.&nbsp;&nbsp; &nbsp;Si on te joint un CV et une offre d’emploi = Evaluation du CV en fonction d’une offre d’emploi : Evalue l’efficacité du CV pour passer les ATS qui te sera proposé en fonction de l’offre d’emploi qui te sera jointe. Tu dresseras un tableau dans lequel tu attribueras une note sur 5 à chaque item et en proposant un point d’amélioration si besoin. Ajuste la somme des points sur 20. Utilise les mêmes items que ceux cités précédemment. C’est très important pour ma carrière ! _</em></p>
+
+<p>&nbsp;</p>
+
+<p>Mode d’emploi en 5 étapes :</p>
+
+<p>1. &nbsp;Copiez ce prompt<br>
+2. Ouvrez votre IA préférée<br>
+3. Collez le prompt<br>
+4. Joignez votre CV ; et offre si vous en avez une. Et hop, sous vos yeux, va s’afficher une analyse détaillée, des axes d’amélioration et une version optimisée de votre document<br>
+5. Lisez avec un esprit critique ce qui vous est proposé&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h2>Facilitez vos démarches de candidature grâce à des prompts ciblés</h2>
+
+<p>L’IA peut aussi vous aider à chaque étape de vos candidatures : choix des mots-clés, synthèse des éléments clés d’une offre emploi, rédaction de lettres de motivation ou de messages à votre réseau. Voici les formulations à utiliser, à personnaliser selon votre profil ou la situation.</p>
+
+<p><strong>Choisissez le prompt qui correspond à votre besoin du moment :</strong></p>
+
+<h3>Obtenir une liste de mots-clés à mettre dans votre CV&nbsp;</h3>
+
+<p>Identifier les bons mots-clés est crucial pour passer les filtres ATS et retenir l'attention des recruteurs. Ce prompt simple vous permet d'obtenir rapidement une liste structurée des termes à intégrer dans votre CV.</p>
+
+<p><em>En tant qu'expert en recrutement, liste les 20 mots-clés incontournables à indiquer dans mon CV de [intitulé de poste]. Liste-les en 4 catégories : compétences spécifiques, outils, missions et atouts clés.&nbsp;</em></p>
+
+<p>Astuce : bien identifier le poste ou essayer plusieurs intitulés de poste</p>
+
+<h3>Synthétiser une offre d’emploi et adapter votre CV&nbsp;</h3>
+
+<p>Chaque offre d'emploi exige une réponse sur-mesure. Avec ce prompt, vous analysez une annonce en quelques secondes et identifiez rapidement le profil recherché, les informations clés sur le poste et les attentes du recruteur.</p>
+
+<p><em>En tant qu'expert en recrutement, liste les 10 mots-clés figurant &nbsp;dans cette &nbsp;l’offre d’emploi à remettre dans mon CV. Liste-les en 4 catégories : compétences spécifiques, outils, missions et atouts clés. Ensuite, résume-moi le profil attendu dans l’offre d’emploi en moins de 300 caractères.</em></p>
+
+<p>&nbsp;Action : copier-coller l’offre d’emploi</p>
+
+<h3>Rédiger une lettre de motivation sur-mesure</h3>
+
+<p>Rédiger une lettre de motivation percutante demande du temps et une vraie personnalisation. L'IA peut accélérer ce travail, à condition de bien la guider et de conserver votre ton formel et votre singularité.</p>
+
+<p><em>En tant qu'expert en recrutement, rédige 2 exemples de lettres de motivation impactantes répondant précisément à l'offre d'emploi suivante. Intègre les 10 mots-clés principaux de l'annonce. Assure-toi de mettre en avant dans tes propositions de lettre la présentation de 2 de mes expériences professionnelles les plus pertinentes, et de 5 de mes compétences en lien avec les missions de l’offre d’emploi.</em></p>
+
+<p>Si réponse à une offre d’emploi, la copier-coller&nbsp;</p>
+
+<h3>Faciliter la rédaction de la bio (« section infos ») LinkedIn pour se démarquer</h3>
+
+<p>Rédiger une bio efficace sur LinkedIn est essentiel pour capter l’attention des recruteurs et obtenir des entretiens. Ce prompt permet d’éviter les formulations clichées du type « Fort de 10 ans d’expérience... » ou la tonalité classique d’une lettre de motivation, afin de valoriser vraiment la singularité de votre profil.</p>
+
+<p><em>Tu as une double expertise en développement de notoriété sur les réseaux sociaux et en rédaction de contenu attractif, rédige 3 présentations impactantes de mon profil LinkedIn avec 3 tonalités différentes [intègre des émoticônes pour 2 des 3 propositions] en présentant mes 5 principales expertises et mes 3 principales valeurs. Ne reprends pas mon intitulé de poste pour commencer le résumé. Assure-toi que les 3 premières phrases constituent de véritables accroches, à la fois captivantes et originales pour inviter le lecteur/rice à continuer à lire ma présentation : </em>(copier son profil LinkedIn anonymisé à la suite)</p>
+
+<h3>Activer efficacement votre réseau LinkedIn pour décrocher un RDV&nbsp;</h3>
+
+<p>LinkedIn est un levier puissant pour décrocher des rendez-vous et accéder au marché caché de l'emploi. Ce prompt vous aide à personnaliser vos messages réseau en fonction du profil de votre interlocuteur.</p>
+
+<p><em>En tant qu'expert en [intitulé d’un poste], propose-moi 5 motifs pour demander un RDV réseau à la personne dont je te partage le profil LinkedIn. Rédige pour chaque motif un canevas de messages impactants prêts à l'emploi qui doivent attirer l’attention et déclencher l’intérêt de la personne ciblée. Adapte obligatoirement et précisément tes propositions à son profil LinkedIn en t’appuyant par exemple sur les similitudes de parcours, de formations, de valeurs, etc.&nbsp;</em></p>
+
+<p>Action : Copier-coller mon profil LinkedIn anonymisé ainsi que&nbsp;le Profil LinkedIn anonymisé de la personne que je souhaite contacter</p>
+
+<h3>Rédiger des messages de premier contact LinkedIn pour &nbsp;décrocher un entretien de recrutement</h3>
+
+<p>Pour décrocher un entretien de recrutement, vos messages de prise de contact doivent être courts, percutants et personnalisés. Ce prompt génère plusieurs variantes adaptées à différents contextes.</p>
+
+<p><em>Je suis [métier]. Crée 5 modèles de messages impactants [en variant la tonalité pour chacun] de prise de contact pour LinkedIn en 200 caractères maximum, qui donnent envie de me rencontrer.</em></p>
+
+<h2><br>
+Rédiger une candidature spontanée : place à l’offre de service IA</h2>
+
+<p>Envie de sortir du lot quand personne ne vous attend ? Place à la candidature spontanée version « offre de service », championne du ciblage et du format court orienté solutions. Voici le prompt qui vous aidera à structurer une approche directe et percutante.</p>
+
+<p>Avec ce prompt, rédigez avec l’IA un mail avec une offre de service sur-mesure à destination d’un décisionnaire opérationnel :</p>
+
+<p><em>Tu as une double expertise en démarchage commercial et en rédaction de contenu captivant en utilisant des méthodes comme 4 C, PAS, PASTOR et AIDA. Tu utiliseras cette double expertise pour concevoir des offres de services attractives et convaincantes à envoyer par email ! Ton objectif premier est qu’elle déclenche un appel du professionnel visé.<br>
+Avec un CV et/ou un profil LinkedIn, tu devras générer un objet email qui donnera envie d’ouvrir le mail et le contenu du mail qui présentera l’offre de service en réponse à un besoin permanent de l’entreprise et de l’opérationnel. Pour l’objet du mail, tu seras mystérieux (exemple : simplement « offre de service ») ou plus accrocheur (ex : « Vous souhaitez développer de nouveaux marchés ? »).<br>
+Dans le corps du mail, tu t’adresseras au potentiel N+1 et présenteras les expertises clés étayées avec des résultats que tu identifieras dans mon CV / profil LinkedInTu seras concis, factuel. Tu pourras ajouter une ligne avec des noms d’entreprises prestigieuses issues des sources proposées. Tu concluras par une question ouverte portant sur son besoin potentiel ou une problématique opérationnelle pour poursuivre l’échange et la proposition d’un call. Tu ajouteras dans la signature mail mon profil LinkedIn.</em></p>
+
+<p><em>Tu n’inventeras pas de résultats ou d’entreprise, ni de compétences ou expertises.</em></p>
+
+<p><em>Ainsi, propose-moi 3 offres de services, assorties pour chacune de 2 propositions d’objet mail séduisantes comme il suit :<br>
+Première offre sera sobre, allant à l’essentiel et convaincante en tonalité. Émoticônes sobres pour les puces uniquement.<br>
+Seconde offre emploiera le langage parlé et questionnera le besoin pour mieux y répondre ensuite. Émoticônes pour les puces et gagner en lisibilité.<br>
+Troisième offre emploiera également un langage parlé mais aura également une approche plus créative et humoristique. Tu pourras utiliser quelques émoticônes.<br>
+Voici mon CV et/ou mon profil LinkedIn.</em></p>
+
+<p>Pensez à bien anonymiser votre CV et votre profil LinkedIn.</p>
+
+<p>Conseils pratiques :<br>
+•&nbsp;&nbsp; &nbsp;Repérez l’adresse d’un manager opérationnel plutôt que RH.<br>
+•&nbsp;&nbsp; &nbsp;Soignez l’objet du mail.</p>
+
+<p>&nbsp;</p>
+
+<h2>Bonnes pratiques et points de vigilance avant d'envoyer</h2>
+
+<p>Avant d'appuyer sur « envoyer », prenez quelques instants pour vérifier votre candidature. L'IA vous a fait gagner un temps précieux, mais c'est maintenant à vous de jouer pour garantir un résultat professionnel.</p>
+
+<p>Anonymisez systématiquement vos documents avant de les partager avec une IA générative. Retirez nom, adresse, téléphone et toute donnée sensible pour protéger votre vie privée.</p>
+
+<p>Traquez les fautes d'orthographe. Relisez attentivement le texte généré par l'IA : même les meilleurs outils peuvent produire des coquilles ou des tournures maladroites. Une faute dans l'objet du mail ou la première ligne peut suffire à disqualifier votre candidature.</p>
+
+<p>Vérifiez la cohérence des résultats. L'IA peut parfois « halluciner » et inventer des compétences, des résultats ou des noms d'entreprises qui ne figurent pas dans votre CV. Assurez-vous que chaque information est exacte et vous correspond vraiment.</p>
+
+<p>Soignez les salutations distinguées dans vos mails. Adaptez le ton à votre interlocuteur et au contexte : « Cordialement » reste une valeur sûre, mais vous pouvez ajuster selon la culture de l'entreprise ciblée.</p>
+
+<p>Donnez une raison claire à votre démarche, surtout pour une candidature spontanée. Le recruteur doit comprendre rapidement pourquoi vous le contactez et ce que vous pouvez lui apporter.</p>
+
+<p>Personnalisez systématiquement chaque prompt : ajoutez votre contexte précis, votre secteur d'activité, les mots-clés pertinents pour votre situation. Plus votre prompt est détaillé, meilleure sera la réponse de l'IA.</p>
+
+<p>Apportez votre touche humaine : l'IA booste votre efficacité, mais votre personnalité et votre analyse restent décisives pour vous démarquer des autres candidats.</p>
+
+<p><strong>Alors, prêt à optimiser votre recherche d'emploi ? Testez ces prompts et n'hésitez pas à partager votre retour d'expérience !</strong></p>
+
+<p>Article rédigé avec l’aide d’une IA pour tester les prompts 😉&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h3>Méthode ACTIF : rédiger un prompt IA vraiment efficace</h3>
+
+<p>Vous vous sentez parfois face à une page blanche devant votre IA ? La méthode ACTIF est un cadre simple et mémorisable pour structurer un bon prompt. En suivant ces cinq composantes, vous guidez l'intelligence artificielle vers des réponses précises et exploitables, dès la première tentative.</p>
+
+<p>A comme Acteur : définir le rôle de l'IA</p>
+
+<p>Commencez par attribuer un rôle précis à l'IA. Plutôt que de lancer une instruction vague, positionnez-la comme un expert du domaine visé. Par exemple : « Tu es un recruteur spécialisé dans le secteur d'activité bancaire » ou « Tu es un consultant RH expert en mobilité interne ». Ce rôle permet à l'IA d'adopter le vocabulaire, les codes et les attentes du métier concerné, rendant sa réponse immédiatement plus pertinente.</p>
+
+<p>C comme Contexte : préciser votre situation</p>
+
+<p>Indiquez ensuite le contexte dans lequel s'inscrit votre demande : secteur d'activité, type de poste recherché, entreprise ciblée ou niveau d'expérience. Par exemple : « Je postule à un poste de chef de projet digital dans une PME innovante » ou « Je souhaite réorienter ma carrière vers le conseil après 10 ans en industrie ». Plus le contexte est détaillé, plus l'IA peut adapter sa réponse à votre situation réelle.</p>
+
+<p>TIF : Ton, Informations clés, Format attendu</p>
+
+<p>Les trois derniers éléments affinent votre demande. Le Ton définit le style (formel, dynamique, sobre). Les Informations clés précisent les éléments à intégrer obligatoirement (mots-clés, compétences, réalisations chiffrées). Enfin, le Format indique la structure souhaitée : liste à puces, tableau, paragraphe de 200 mots, email prêt à envoyer.</p>
+
+<p>Exemple complet : « Rédige un message LinkedIn en ton professionnel, intégrant mes 5 ans d'expérience en gestion de projet et mes certifications Agile, sous forme d'un texte de 150 mots maximum. »</p>
+
+<h2>&nbsp;</h2>
+
+<h2><br>
+FAQ : tout savoir sur la candidature avec prompt IA</h2>
+
+<h3>Comment faire un prompt efficace avec l'IA pour une candidature ?</h3>
+
+<p>Un prompt efficace doit définir clairement le rôle de l'IA (expert recrutement, spécialiste ATS), préciser votre contexte (intitulé de poste, secteur) et indiquer le format attendu (liste, tableau, texte). Plus vous personnalisez avec des mots-clés précis et votre situation réelle, meilleurs seront les résultats obtenus.</p>
+
+<h3>Comment utiliser ChatGPT pour postuler à un emploi ?</h3>
+
+<p>Copiez l'un des 7 prompts proposés dans cet article, collez-le dans ChatGPT, puis ajoutez vos documents (CV, offre d'emploi). L'outil d'IA vous fournira une analyse détaillée, des suggestions d'amélioration ou un contenu personnalisé. Relisez toujours le résultat et apportez votre touche personnelle avant d'envoyer votre candidature.</p>
+
+<h3>Faut-il mentionner l'IA dans son CV ?</h3>
+
+<p>Non, inutile de signaler que vous avez utilisé l'IA pour optimiser votre CV ou lettre. En revanche, si vous maîtrisez des outils d'IA dans votre métier (analyse de données, création de contenu), mentionnez cette compétence dans vos expertises techniques pour valoriser votre profil.</p>
+
+<h3>Quels outils d'IA alternatifs à ChatGPT ?</h3>
+
+<p>Les principales alternatives incluent Copilot (Microsoft), Gemini (Google), Le Chat (Mistral AI) et Claude. Tous offrent des avantages similaires pour la rédaction de candidatures. Testez plusieurs outils d'IA pour identifier celui qui produit les résultats les plus naturels et adaptés à votre style.</p>
+<a href="/tous-les-avis.html">Voir tous les avis de nos experts</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="col-xl-3 col-lg-3">
+            <aside>
+                <div class="menu-link-more">
+        <div class="title">Sur le même sujet</div>
+        <ul>
+            <li>
+    <img width="100%" height="auto" src="/files/live/sites/www/files/fiche_avis/image/Candidature spontanÃ©e.jpg" alt="En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !">
+    <p>En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !</p>
+    <hr>
+    <div>
+        <span>Article - Publié le 16/04/2026</span>
+        <a href="/candidat/optimiser-votre-candidature/candidature/fiches-avis/en-2025,-la-candidature-spontanee-se-reinvente-adoptez-les-bonnes-pratiques-!.html" title="En 2026, la candidature spontanée se réinvente : adoptez les bonnes pratiques !">
+            Voir
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+        </a>
+    </div>
+</li><li>
+    <img width="100%" height="auto" src="/files/live/sites/www/files/fiche_avis/image/Vous avez fait une pause professionnelle.png" alt="Vous avez fait une pause professionnelle, comment en parler à un recruteur ?">
+    <p>Vous avez fait une pause professionnelle, comment en parler à un recruteur ?</p>
+    <hr>
+    <div>
+        <span>Article - Publié le 22/01/2026</span>
+        <a href="/candidat/optimiser-votre-candidature/entretiens-de-recrutement/fiches-avis/vous-avez-fait-une-pause-professionnelle,-comment-en-parler-a-un-recruteur-.html" title="Vous avez fait une pause professionnelle, comment en parler à un recruteur ?">
+            Voir
+            <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg" alt="fleche droite">
+        </a>
+    </div>
+</li></ul>
+    </div>
+<div class="rebond-title">Nos services</div>
+<article class="card card-problematic mb-20">
+    <a href="/candidat/optimiser-votre-candidature/candidature/fiches-services/convaincre-avec-vos-cv-lettre-et-profil-apec.html">
+        <div class="card-body">
+            <h2 class="card-title">Convaincre avec vos CV, lettre et Profil Apec</h2>
+            <p>Un atelier en présentiel ou en distanciel pour construire une candidature et un Profil Apec efficaces</p>
+            <div class="small-link">
+                <span>En savoir plus</span>
+                <img src="/modules/apec-jahia-module/assets/img/symboles/arrow/small/right.svg">
+            </div>
+        </div>
+    </a>
+</article></aside>
+        </div>
+    </div>
+</div></main>
+
+	<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer__logo footer-container__block">
+                <a href="/" title="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir" aria-label="Association Pour l'Emploi des Cadres - Donner de l'élan à votre avenir">
+                    <img src="/modules/apec-jahia-module/assets/img/logo_apec/texte/vertical/white.svg" alt="Logo Apec">
+                </a>
+            </div>
+            <div class="footer__links footer-container__block">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/faq.html" title="FAQ" aria-label="FAQ">
+                                FAQ</a></li>
+                            <li><a href="/tous-nos-services.html" title="Services de conseil" aria-label="Services de conseil">
+                                Services de conseil</a></li>
+                            <li><a href="/infos-legales.html" title="Conditions générales" aria-label="Conditions générales">
+                                Conditions générales</a></li>
+                            <li><a href="/qui-sommes-nous.html" title="Qui sommes nous ?" aria-label="Qui sommes nous ?">
+                                Qui sommes nous ?</a></li>
+                            <li><a href="/accessibilite.html" title="Accessibilité" aria-label="Accessibilité">
+                                Accessibilité</a></li>
+                            </ul>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul>
+                            <li><a href="/partenariats-offres-demploi-cadres.html" title="Partenariats offres" aria-label="Partenariats offres">
+                                Partenariats offres</a></li>
+                            <li><a href="https://corporate.apec.fr" title="Site corporate" aria-label="Site corporate" target="_blank" rel="nofollow">
+                                Site corporate</a></li>
+                            <li><a href="https://corporate.apec.fr/toutes-nos-etudes" title="Études Apec" aria-label="Études Apec" target="_blank" rel="nofollow">
+                                Études Apec</a></li>
+                            <li><a href="https://corporate.apec.fr/home/actus-medias.html" title="Contact presse" aria-label="Contact presse" target="_blank" rel="nofollow">
+                                Contact presse</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__social footer-container__block">
+                <div class="footer-social-icons">
+                    <ul class="social-icons flexbox">
+                        <li><a href="https://fr-fr.facebook.com/apec/" target="_blank" aria-label="Facebook" title="Facebook" rel="noreferrer noopener"><img class="icons icon-facebook" src="/modules/apec-jahia-module/assets/img/social/facebook.svg" alt="Icone Facebook"></a></li>
+                        <li><a href="https://www.instagram.com/apec_officiel/?hl=fr" target="_blank" aria-label="Instagram" title="Instagram" rel="noreferrer noopener"><img class="icons icon-instagram" src="/modules/apec-jahia-module/assets/img/social/instagram.svg" alt="Icone Instagram"></a></li>
+                        <li><a href="https://fr.linkedin.com/company/apec" target="_blank" aria-label="Linkedin" title="Linkedin" rel="noreferrer noopener"><img class="icons icon-linkedin" src="/modules/apec-jahia-module/assets/img/social/linkedin.svg" alt="Icone Linkedin"></a></li>
+                        <li><a href="http://tiktok.com/@apecfr" target="_blank" aria-label="TikTok" title="TikTok" rel="noreferrer noopener"><img class="icons icon-tiktok" src="/modules/apec-jahia-module/assets/img/social/tiktok.svg" alt="Icone TikTok"></a></li>
+                        <li><a href="http://www.youtube.com/@Apec09" target="_blank" aria-label="Youtube" title="Youtube" rel="noreferrer noopener"><img class="icons icon-youtube" src="/modules/apec-jahia-module/assets/img/social/youtube.svg" alt="Icone Youtube"></a></li>
+                    </ul>
+                    <div class="app-badge">
+                        <a href="https://itunes.apple.com/app/apple-store/id387689033?mt=8" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_apple_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans l'App Store">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-app-store.png" alt="Télécharger dans l'App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.apec.jobboard&amp;hl=fr" onclick="return (!!xitiTagWrapper.tag &amp;&amp; xitiTagWrapper.tag.click.send({elem:this, name:'applications::redirection_google_store', level2: '1', type:'navigation'})) || !xitiTagWrapper.tag;" rel="noreferrer noopener" target="_blank" title="Télécharger dans Google Play">
+                            <img src="/modules/apec-jahia-module/assets/img/app/badge-google-play.png" alt="Disponible sur Google Play">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__contact footer-container__block">
+                <p class="mb-20">« Vous avez une question ? »</p>
+                <a href="/posez-votre-question.html" class="footer__button">Contactez-nous</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</form>
+</body>
+</html>

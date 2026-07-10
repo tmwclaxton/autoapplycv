@@ -1,0 +1,446 @@
+{
+  "id": "https-jobs-ashbyhq-com-halter-05147ed1-97bc-4047-97af-fa32cad7d627-application",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "88cdfc7a-6e1e-4ba8-b77f-f87b5ef58125",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "88cdfc7a-6e1e-4ba8-b77f-f87b5ef58125",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b26b2d4a-e10d-4e39-a473-e3ff0a228053",
+        "name": "b26b2d4a-e10d-4e39-a473-e3ff0a228053",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b26b2d4a-e10d-4e39-a473-e3ff0a228053",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "a3323d61-1b76-45a0-b845-3da9e1fc1d94",
+        "name": "a3323d61-1b76-45a0-b845-3da9e1fc1d94",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a3323d61-1b76-45a0-b845-3da9e1fc1d94",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following statements best describes your right to work in nz?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a New Zealand citizen",
+        "I am a New Zealand permanent resident",
+        "I hold a valid New Zealand work visa",
+        "I hold a student visa with work rights",
+        "I require visa sponsorship to work in New Zealand",
+        "I do not currently have the right to work in New Zealand"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "58fdaae5-1cd4-4539-b02f-99eb81a87ef2_5b04fb35-d649-47f4-a65f-9d14c4235d2d-labeled-radio-0",
+        "name": "58fdaae5-1cd4-4539-b02f-99eb81a87ef2_5b04fb35-d649-47f4-a65f-9d14c4235d2d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have any criminal convictions? (convictions that fall under the clean slate scheme do not have to be disclosed.)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "f7c031f6-7281-412d-8734-36bac76e09e7",
+        "name": "f7c031f6-7281-412d-8734-36bac76e09e7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f7c031f6-7281-412d-8734-36bac76e09e7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have any condition, disease or health issues that could impact on your ability to carry out the type of work you are applying for?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "d21cc4c6-171e-45e9-b51c-914818bd1614",
+        "name": "d21cc4c6-171e-45e9-b51c-914818bd1614",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d21cc4c6-171e-45e9-b51c-914818bd1614",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "191def97-3be1-4358-af8a-ed28b4b8bc46",
+        "name": "191def97-3be1-4358-af8a-ed28b4b8bc46",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "191def97-3be1-4358-af8a-ed28b4b8bc46",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f67d6154-a160-42f5-8cdb-125dcb763a10",
+        "name": "f67d6154-a160-42f5-8cdb-125dcb763a10",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f67d6154-a160-42f5-8cdb-125dcb763a10",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b43ded0a-2cea-4533-afac-c292e7d5bc73",
+        "name": "b43ded0a-2cea-4533-afac-c292e7d5bc73",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b43ded0a-2cea-4533-afac-c292e7d5bc73",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "81945b2a-7b54-4782-ae2d-c6c59f44fbd8",
+        "name": "81945b2a-7b54-4782-ae2d-c6c59f44fbd8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "81945b2a-7b54-4782-ae2d-c6c59f44fbd8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you excited about this role at halter?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c4acdf25-b704-431a-be7e-2d0d99b981fb",
+        "name": "c4acdf25-b704-431a-be7e-2d0d99b981fb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c4acdf25-b704-431a-be7e-2d0d99b981fb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "bc6fcc1e-5160-4ab6-a427-fb1dba39845b",
+        "name": "bc6fcc1e-5160-4ab6-a427-fb1dba39845b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "bc6fcc1e-5160-4ab6-a427-fb1dba39845b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anything else you want to share?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "08bbe69a-e276-4dff-8d9c-ed21a5bbeb61",
+        "name": "08bbe69a-e276-4dff-8d9c-ed21a5bbeb61",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "08bbe69a-e276-4dff-8d9c-ed21a5bbeb61",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3f315e3a-5e5a-4414-8320-cf003afc2318_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68-labeled-radio-0",
+        "name": "3f315e3a-5e5a-4414-8320-cf003afc2318_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "New Zealand European (Pākehā)",
+        "Other European (inc. American, Canadian, Australian)",
+        "Māori",
+        "Indigenous American",
+        "Indigenous Australian",
+        "Pacific Peoples",
+        "Asian (inc. Chinese, Southeast, Indian, Other)",
+        "Latin American",
+        "Middle Eastern or African",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "3f315e3a-5e5a-4414-8320-cf003afc2318_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-0",
+        "name": "New Zealand European (Pākehā)",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Gender diverse",
+        "None of the options offered",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3f315e3a-5e5a-4414-8320-cf003afc2318_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "3f315e3a-5e5a-4414-8320-cf003afc2318_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

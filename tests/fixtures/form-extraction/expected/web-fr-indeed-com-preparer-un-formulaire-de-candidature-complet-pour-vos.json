@@ -1,0 +1,53 @@
+{
+  "id": "web-fr-indeed-com-preparer-un-formulaire-de-candidature-complet-pour-vos",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "recherche que cherchez-vous ?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "subnav-search-input",
+        "name": "subnav-search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Que cherchez-vous ?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search articles que cherchez-vous ?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Que cherchez-vous ?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next slide"
+    }
+  ],
+  "vet_notes": []
+}

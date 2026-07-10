@@ -1,0 +1,498 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-0a280381-d3e8-451c-ae8d-687306505183-application",
+  "min_fields": 23,
+  "exact_field_count": 23,
+  "fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "adb33a14-b82f-459f-ac04-7f214a852181",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "dc6df139-339a-43b8-98d2-0847212cd333",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you related to any current employees?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "09d7d066-fe48-4649-9f76-a11141537ff6",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your preferred name?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f9037aa3-b855-4f56-be3c-948e48313ef4",
+        "name": "f9037aa3-b855-4f56-be3c-948e48313ef4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f9037aa3-b855-4f56-be3c-948e48313ef4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a citizen / permanent resident of the country where I plan to live & work from.",
+        "I have a work visa in the country where I plan to live & work from.",
+        "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_6a9b6d56-2994-448a-b1a1-db83ba3289f1-labeled-radio-0",
+        "name": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_6a9b6d56-2994-448a-b1a1-db83ba3289f1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "8b57b3b8-d8bb-41ac-830b-ca9791c1b97d",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f10b917b-1b31-4217-81ae-e71b6cd9de6c",
+        "name": "f10b917b-1b31-4217-81ae-e71b6cd9de6c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f10b917b-1b31-4217-81ae-e71b6cd9de6c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8c12cf7e-2c49-4be7-8f86-5063b3c8c516",
+        "name": "8c12cf7e-2c49-4be7-8f86-5063b3c8c516",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8c12cf7e-2c49-4be7-8f86-5063b3c8c516",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "c60d7873-d837-4184-b112-40069c9ad781",
+        "name": "c60d7873-d837-4184-b112-40069c9ad781",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c60d7873-d837-4184-b112-40069c9ad781",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the first line of you address?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "2aaf104d-d946-4f89-9e70-40498659bff2",
+        "name": "2aaf104d-d946-4f89-9e70-40498659bff2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2aaf104d-d946-4f89-9e70-40498659bff2",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the second line of your address (if relevant)?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "31d5f9e5-1d55-452a-82ec-366b4c0b1e90",
+        "name": "31d5f9e5-1d55-452a-82ec-366b4c0b1e90",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "31d5f9e5-1d55-452a-82ec-366b4c0b1e90",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "72f5819c-c23e-42fb-b308-2304c25839de",
+        "name": "72f5819c-c23e-42fb-b308-2304c25839de",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "72f5819c-c23e-42fb-b308-2304c25839de",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state/region",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b5c7bd5b-0158-4756-a87a-7db2ee4efb25",
+        "name": "b5c7bd5b-0158-4756-a87a-7db2ee4efb25",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b5c7bd5b-0158-4756-a87a-7db2ee4efb25",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "post code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "c21bad39-9cbe-425a-9f86-f6f3839a03c5",
+        "name": "c21bad39-9cbe-425a-9f86-f6f3839a03c5",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c21bad39-9cbe-425a-9f86-f6f3839a03c5",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "13a9b74c-85c6-410f-ba8f-5545c6e8cc04",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how would you best describe your hands-on product building experience?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I have directly shaped and shipped product, owning meaningful parts of discovery, design, and delivery",
+        "I have mostly contributed in one area, such as engineering, product management, or design, with more limited end-to-end ownership",
+        "My experience is primarily in coordination, delivery management, or stakeholder management rather than direct product building"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_e8aeba91-fffb-4ce5-be93-245a1784dd72-labeled-radio-0",
+        "name": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_e8aeba91-fffb-4ce5-be93-245a1784dd72",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which statement best reflects your experience with ai tools in day-to-day product work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I use AI tools regularly to prototype, implement, iterate, and improve my work, while validating output carefully",
+        "I use AI tools occasionally, mostly for ideation or isolated tasks",
+        "I have little or no practical experience using AI tools in my delivery workflow"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_4abe95e0-b18d-441c-a150-fa4d919e5565-labeled-radio-0",
+        "name": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_4abe95e0-b18d-441c-a150-fa4d919e5565",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which statement best reflects your scope of ownership in recent roles?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I regularly worked from user problem framing through prototyping, building, validation, and shipping, and defined the success criteria and scope myself",
+        "I usually worked from a well-defined scope with ownership over implementation and iteration",
+        "I mainly contributed after scope and solution direction were already defined"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_0afa97cb-678f-4dc3-9d3c-fb9edaa8cc1f-labeled-radio-0",
+        "name": "d1a89f2e-757d-449d-9bdc-3c27957cc47a_0afa97cb-678f-4dc3-9d3c-fb9edaa8cc1f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "83fecc17-3955-436d-979f-33fb71cca395__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

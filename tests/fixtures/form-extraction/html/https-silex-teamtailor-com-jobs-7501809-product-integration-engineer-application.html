@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Silex</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6" open="">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        Silex and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://silex.teamtailor.com/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, that is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://silex.teamtailor.com/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      
+  </span>
+</a>
+
+      
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !relative" data-section-model="header" style="">
+    <div class="absolute top-0 w-full h-full ltr:left-0 rtl:right-0">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only @sm:not-sr-only text-sm leading-normal tracking-wider uppercase !whitespace-nowrap">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://silex.teamtailor.com/">Start</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://silex.teamtailor.com/jobs">Jobs</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://silex.teamtailor.com/sso_login">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://silex.teamtailor.com/connect/login">Log in to Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Homepage</span>
+        <a class="hover:underline focus-visible-header" href="https://silexmicrosystems.com/">silexmicrosystems.com</a>
+</div>  </div>
+</div>
+
+</div>
+
+<div class="header__logo flex items-center mx-auto">        
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="e83af5d1cc4e782b6f78422aeef05120c" data-test="company-logo" data-turbo-permanent="true" href="https://silex.teamtailor.com/">
+    <img alt="Silex career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/5d44542c-a37f-4ca0-90a3-88ed9032147a/original.png">
+</a>
+</div>
+
+</header>
+
+<main class="flex flex-col grow mx-auto max-w-full items-center block-padding block-px @lg:max-w-screen-md">
+  
+
+    <h1 class="font-company-header text-4xl text-center @md:text-5xl leading-tight mb-4">The page you were looking for doesn't exist.</h1>
+
+  
+    <p class="text-lg text-center mb-4">You may have mistyped the address or the page may have moved.</p>
+    <a class="company-link text-lg" href="https://silex.teamtailor.com">Visit our start page.</a>
+
+</main>
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="ea297dcd8cb5e45db01ee7959adf76da3" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=silex.teamtailor.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Career site</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="silex.teamtailor.com">
+</div>
+
+<div id="autocvapply-portal-bar" data-autocvapply-ui="portal" style="position: fixed; bottom: 24px; right: auto; left: 24px; z-index: 2147483647; pointer-events: auto; display: block;"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,291 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-09e616d7-172b-46d9-929d-0932e8a31bc4-application",
+  "status": "disagree",
+  "captured_at": "2026-07-10T15:16:48.735Z",
+  "page_url": "https://apply.workable.com/hospitable/j/2C9EFD455D/apply/",
+  "page_title": "Product Engineer, Core & Connectivity (Laravel - Remote) - Hospitable - Application",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 13,
+      "count_delta": 4,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline (optional)",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is devon's favourite fruit?",
+        "ai": "What is Devon's favourite fruit?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is hospitable's engineering tech stack?",
+        "ai": "What is Hospitable's engineering tech stack?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what excites you most about the product engineer, core & connectivity role and about joining hospitable?",
+        "ai": "What excites you most about the Product Engineer, Core & Connectivity role and about joining Hospitable?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "which of your skills and experience make you a strong fit for this role?",
+        "ai": "Which of your skills and experience make you a strong fit for this role?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe a feature or product you took from idea to production. what was your role in the project? what was the impact on customers and the business?",
+        "ai": "Describe a feature or product you took from idea to production. What was your role in the project? What was the impact on customers and the business?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what does product engineering mean to you?",
+        "ai": "What does product engineering mean to you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked in a remote position before? how does/would working in a fully remote position impact your life?",
+        "ai": "Have you worked in a remote position before? How does/would working in a fully remote position impact your life?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "svgs not supported by this browser. choose file"
+    ],
+    "ai_only": [
+      "Address",
+      "Resume"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=17, ai=13)",
+      "label Jaccard 0.556 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom radio button components and a file dropzone. Hidden fields for city, postcode, and country are present but likely populated by the address input.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is Devon's favourite fruit?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Banana",
+          "Pineapple",
+          "Raspberry",
+          "Peach"
+        ]
+      },
+      {
+        "question": "What is Hospitable's engineering tech stack?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LAMPS; Laravel, Apache, MySQL, PHP and SQS",
+          "PRLM-T; PHP, React, Laravel, MySQL and Tailwind",
+          "PALM-B; PHP, Angular, Laravel, MySQL and Beanstalk"
+        ]
+      },
+      {
+        "question": "What excites you most about the Product Engineer, Core & Connectivity role and about joining Hospitable?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which of your skills and experience make you a strong fit for this role?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe a feature or product you took from idea to production. What was your role in the project? What was the impact on customers and the business?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What does product engineering mean to you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you worked in a remote position before? How does/would working in a fully remote position impact your life?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline (optional)",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "svgs not supported by this browser. choose file",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "what is devon's favourite fruit?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "what is hospitable's engineering tech stack?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what excites you most about the product engineer, core & connectivity role and about joining hospitable?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "which of your skills and experience make you a strong fit for this role?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "describe a feature or product you took from idea to production. what was your role in the project? what was the impact on customers and the business?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what does product engineering mean to you?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "have you worked in a remote position before? how does/would working in a fully remote position impact your life?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what is devon's favourite fruit?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "what is hospitable's engineering tech stack?",
+      "field_type": "radio",
+      "ref": "f16"
+    }
+  ]
+}

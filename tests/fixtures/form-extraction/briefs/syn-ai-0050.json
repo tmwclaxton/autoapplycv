@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0050",
+    "seed": 1748843866,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Pattern constrained tel",
+                "notes": "Phone input has title hint for UK format (pattern attribute omitted so mock fill passes)",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Pattern tel<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"pat_name\">Name<\/label><input type=\"text\" id=\"pat_name\" name=\"pat_name\"> <label for=\"pat_phone\">UK phone (07xxx xxxxxx)<\/label> <input type=\"tel\" id=\"pat_phone\" name=\"pat_phone\" title=\"UK mobile starting with 07\"> <label for=\"pat_email\">Email<\/l",
+                "requires_interaction": false
+            },
+            {
+                "title": "Input inside nested label spans",
+                "notes": "Input nested inside label which contains multiple inline spans",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Nested label spans<\/h1> <form action=\"\/apply\" method=\"post\"> <label><span class=\"prefix\">Your<\/span> <span class=\"field-name\">name<\/span> <input type=\"text\" name=\"nested_label_name\"><\/label> <label><span>Email<\/span> <input type=\"email\" name=\"nested_label_email\"><\/label> <label for=\"nested_phone\">Phone<\/label",
+                "requires_interaction": false
+            },
+            {
+                "title": "Duplicate element IDs",
+                "notes": "Two inputs share id=\"email\" - tests disambiguation by name or DOM order",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Duplicate element IDs<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"email\">Primary email<\/label><input type=\"email\" id=\"email\" name=\"primary_email\"> <label for=\"email\">Backup email<\/label><input type=\"email\" id=\"email\" name=\"backup_email\"> <label for=\"phone_dup\">Phone<\/label><input type=\"tel\" id=\"phon",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Fields inside a shadow DOM host or declarative shadow root Required: Custom text field: div with role=textbox and contenteditable, no native input Required: When combobox widget requested, use custom listbox - native select alone is insufficient Reference DOM (Pattern constrained tel): Phone input has title hint for UK format (pattern attribute omitted so mock fill passes) Reference DOM (Input inside nested label spans): Input nested inside label which contains multiple inline spans Reference DOM (Duplicate element IDs): Two inputs share id=\"email\" - tests disambiguation by name or DOM order Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: duplicate-name-attrs, aria-labelledby-hidden, shadow-host, div-role-textbox, native-select-not-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Pattern constrained tel; Input inside nested label spans; Duplicate element IDs."
+}

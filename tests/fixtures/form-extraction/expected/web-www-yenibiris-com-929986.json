@@ -1,0 +1,271 @@
+{
+  "id": "web-www-yenibiris-com-929986",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "verify you are human",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Verify you are human"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ad name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ad",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "soyad",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "surname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Soyad",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-posta e-posta (opsiyonel)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "E-Posta",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "5xx xxx xx xx cep telefonu",
+      "field_type": "tel",
+      "max_chars": 11,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "mobilephone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "5XX XXX XX XX",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i̇l",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Seçiniz..",
+        "İstanbul",
+        "Ankara",
+        "İzmir",
+        "Adana",
+        "Adıyaman",
+        "Afyon",
+        "Ağrı",
+        "Aksaray",
+        "Amasya",
+        "Antalya",
+        "Ardahan",
+        "Artvin",
+        "Aydın",
+        "Balıkesir",
+        "Bartın",
+        "Batman",
+        "Bayburt",
+        "Bilecik",
+        "Bingöl",
+        "Bitlis",
+        "Bolu",
+        "Burdur",
+        "Bursa",
+        "Çanakkale",
+        "Çankırı",
+        "Çorum",
+        "Denizli",
+        "Diyarbakır",
+        "Düzce"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "citylist",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i̇lçe",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Seçiniz.."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "districtlist",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "evet daha önce bu pozisyonda çalıştınız mı?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Evet",
+        "Hayır"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "selectYes",
+        "name": "experience",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hizmet sözleşmesini'ni ve bireysel üye aydınlatma metni'ni okudum, kabul ediyorum ve onaylıyorum.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hizmet Sözleşmesini'ni ve Bireysel Üye Aydınlatma Metni'ni okudum, kabul ediyorum ve onaylıyorum.*"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk_completeApplyContract",
+        "name": "chk_completeApplyContract",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i̇letişim bilgilerime ileti gönderilmesine izin veriyorum. detaylar için etk bilgilendirme metni'ni inceleyebilirsiniz.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "İletişim bilgilerime ileti gönderilmesine izin veriyorum. Detaylar için ETK Bilgilendirme Metni'ni inceleyebilirsiniz."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "chk_completeApplyCommercialJoin",
+        "name": "chk_completeApplyCommercialJoin",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a2apage_find",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "a2apage_find",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

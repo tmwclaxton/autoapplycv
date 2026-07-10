@@ -1,0 +1,275 @@
+{
+  "id": "https-jobs-ashbyhq-com-dandy-0d94f585-60c1-4b69-92b8-17dc25a430c3-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:14:23.791Z",
+  "page_url": "https://jobs.ashbyhq.com/dandy/0d94f585-60c1-4b69-92b8-17dc25a430c3/application",
+  "page_title": "Business Development Manager @ Dandy",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 11,
+      "count_delta": 2,
+      "label_jaccard": 0.8462,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work lawfully in the united states for dandy?",
+        "ai": "Are you authorized to work lawfully in the United States for Dandy?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you now or will you in the future require sponsorship or other employer support to secure or maintain authorization to work in the united states? [“other employer support” includes but is not limited to: 1) letters of support for visa applications of any type, including o or tn visas; and 2) completion of ice form i-983.]",
+        "ai": "Are you now or will you in the future require sponsorship or other employer support to secure or maintain authorization to work in the United States? [“Other employer support” includes but is not limited to: 1) letters of support for visa applications of any type, including O or TN visas; and 2) completion of ICE Form I-983.]",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "can dandy send updates regarding your application and candidacy via text?",
+        "ai": "Can Dandy send updates regarding your application and candidacy via text?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "legal name",
+        "ai": "Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name",
+        "ai": "Preferred Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "consent to data processing",
+        "ai": "Consent to Data Processing",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "race",
+      "veteran status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated during the race/ethnicity section, so those specific options are missing. The form uses custom button-based radio/checkbox inputs that map to hidden inputs.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work lawfully in the United States for Dandy?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you now or will you in the future require sponsorship or other employer support to secure or maintain authorization to work in the United States? [“Other employer support” includes but is not limited to: 1) letters of support for visa applications of any type, including O or TN visas; and 2) completion of ICE Form I-983.]",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Campus Recruiting",
+          "Career Fair",
+          "Craigslist",
+          "Dandy Career's page",
+          "Facebook Ad",
+          "Facebook Group",
+          "Indeed",
+          "Instagram Ad",
+          "Job Board",
+          "KSL",
+          "Linkedin",
+          "LMT",
+          "NADL",
+          "Other",
+          "Utah Billboard",
+          "Word of Mouth",
+          "You know someone who works here"
+        ]
+      },
+      {
+        "question": "Can Dandy send updates regarding your application and candidacy via text?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Consent to Data Processing",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I consent"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work lawfully in the united states for dandy?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you now or will you in the future require sponsorship or other employer support to secure or maintain authorization to work in the united states? [“other employer support” includes but is not limited to: 1) letters of support for visa applications of any type, including o or tn visas; and 2) completion of ice form i-983.]",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "can dandy send updates regarding your application and candidacy via text?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "legal name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "consent to data processing",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f12"
+    }
+  ]
+}

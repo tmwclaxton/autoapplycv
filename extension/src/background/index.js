@@ -2858,11 +2858,12 @@ initExtensionBridge({
         close_side_panel: async ({ windowId }) => closeSidePanelForWindow(
             typeof windowId === 'number' ? windowId : null,
         ),
-        navigate_tab: async ({ tabId, windowId, url, newTab = false }) => {
+        navigate_tab: async ({ tabId, windowId, url, newTab = false, active = true }) => {
             const destination = assertBridgeNavigableUrl(url);
+            const focusTab = active !== false;
 
             if (newTab) {
-                const createOptions = { url: destination, active: true };
+                const createOptions = { url: destination, active: focusTab };
 
                 if (typeof windowId === 'number') {
                     createOptions.windowId = windowId;
@@ -2879,7 +2880,7 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            await chrome.tabs.update(resolvedTabId, { url: destination, active: true });
+            await chrome.tabs.update(resolvedTabId, { url: destination, active: focusTab });
 
             return {
                 tabId: resolvedTabId,

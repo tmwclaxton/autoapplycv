@@ -1,0 +1,173 @@
+{
+  "id": "web-ninjaforms-com-create-a-job-application-with-wordpress",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "comment leave a comment...",
+      "field_type": "textarea",
+      "max_chars": 65525,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "comment",
+        "name": "comment",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Leave a comment...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name name john doe",
+      "field_type": "text",
+      "max_chars": 245,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "author",
+        "name": "author",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "John Doe",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email email john@example.com",
+      "field_type": "email",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "john@example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "website website https://www.example.com",
+      "field_type": "url",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "url",
+        "name": "url",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://www.example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "leave a reply cancel reply",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Save my name, email, and website in this browser for the next time I comment."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "wp-comment-cookies-consent",
+        "name": "wp-comment-cookies-consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nf-signin-email",
+        "name": "username",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "password",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "nf-signin-password",
+        "name": "password",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Password",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "remember me",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Remember me"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "nf-signin-remember",
+        "name": "remember",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

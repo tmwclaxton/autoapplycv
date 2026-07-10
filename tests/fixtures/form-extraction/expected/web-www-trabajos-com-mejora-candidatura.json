@@ -1,0 +1,153 @@
+{
+  "id": "web-www-trabajos-com-mejora-candidatura",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "email:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "LOGINUSUARIO",
+        "name": "USUARIO",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "clave:",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "LOGINCLAVE",
+        "name": "CLAVE",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entrar a trabajos.com",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Recordarme"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "recordargeneral",
+        "name": "RECORDAR",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "REGISTROEMAIL",
+        "name": "EMAIL",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "clave:",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "REGISTROCLAVE",
+        "name": "CLAVE",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "repetir clave:",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "REPETIRREGISTROCLAVE",
+        "name": "REPETIRCLAVE",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "al pulsar en botón \"registrarme\" estás aceptando las condiciones de uso y política de privacidad.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Al pulsar en botón \"Registrarme\" estás aceptando las condiciones de uso y política de privacidad."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "RGPD-register",
+        "name": "RGPD",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

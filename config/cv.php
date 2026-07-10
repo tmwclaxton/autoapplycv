@@ -26,6 +26,20 @@ return [
 
     'inventory_model' => 'google/gemini-3.1-flash-lite:throughput',
 
+    'form_corpus_ai_model' => 'deepseek/deepseek-v4-flash',
+
+    'form_corpus_firecrawl_scrutiny_model' => 'google/gemini-3.1-flash-lite:throughput',
+
+    'form_corpus_firecrawl_scrutiny_timeout' => 60,
+
+    'form_corpus_firecrawl_scrutiny_html_chars' => 12000,
+
+    'form_corpus_inventory_oracle_model' => 'google/gemini-3.1-flash-lite:throughput',
+
+    'form_corpus_inventory_oracle_timeout' => 60,
+
+    'form_corpus_inventory_oracle_html_chars' => 40000,
+
     'job_context_model' => 'google/gemini-3.1-flash-lite:ttfs',
 
     'extraction_timeout' => (int) env('CV_EXTRACTION_TIMEOUT_SECONDS', 120),

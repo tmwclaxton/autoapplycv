@@ -1,0 +1,115 @@
+{
+  "id": "web-www-jobat-be-job-5990154",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "what? job title, company name or keywords",
+      "field_type": "search",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "searchJob",
+        "name": "Keyword",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Job title, company name or keywords",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where? county or region",
+      "field_type": "search",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "searchCity",
+        "name": "Location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "County or region",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "on2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job alert toggle",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Job alert toggle"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "on2block_8aec049f-d743-47e8-941f-9911daf0b205",
+        "name": null,
+        "data_testid": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "your email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Browser Continue"
+    }
+  ],
+  "vet_notes": []
+}

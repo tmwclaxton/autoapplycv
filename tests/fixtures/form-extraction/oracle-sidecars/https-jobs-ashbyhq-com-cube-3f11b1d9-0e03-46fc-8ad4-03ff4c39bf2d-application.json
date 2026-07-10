@@ -1,0 +1,280 @@
+{
+  "id": "https-jobs-ashbyhq-com-cube-3f11b1d9-0e03-46fc-8ad4-03ff4c39bf2d-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:29:31.840Z",
+  "page_url": "https://jobs.ashbyhq.com/cube/3f11b1d9-0e03-46fc-8ad4-03ff4c39bf2d/application",
+  "page_title": "Enterprise Sales Director @ CUBE",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 0.9231,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status to work within the uk?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status to work within the UK?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located within a 2 hour commute from london?",
+        "ai": "Are you located within a 2 hour commute from London?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work from the london office 5 days per month?",
+        "ai": "Are you willing to work from the London office 5 days per month?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume / cv",
+        "ai": "Resume / CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter (optional)",
+        "ai": "Cover Letter (optional)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations for the role?",
+        "ai": "What are your salary expectations for the role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period?",
+        "ai": "What is your notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years experience do you have working within a similar role?",
+        "ai": "How many years experience do you have working within a similar role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom radio and combobox components that are visually rendered but map to standard input types. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume / CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter (optional)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status to work within the UK?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located within a 2 hour commute from London?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to work from the London office 5 days per month?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your salary expectations for the role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years experience do you have working within a similar role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "10 years+",
+          "5-10 years",
+          "2-5 years",
+          "1-2 years",
+          "I don't have direct experience within this field, but I have transferable skills"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status to work within the uk?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you located within a 2 hour commute from london?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you willing to work from the london office 5 days per month?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "resume / cv",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations for the role?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years experience do you have working within a similar role?",
+      "field_type": "radio",
+      "ref": "f12"
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "id": "https-jobs-ashbyhq-com-bubble-10a8b4ec-4135-4300-8778-4c450de278c6-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:10:54.909Z",
+  "page_url": "https://jobs.ashbyhq.com/bubble/10a8b4ec-4135-4300-8778-4c450de278c6/application",
+  "page_title": "Senior Manager, Commercial Success @ Bubble",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 10,
+      "count_delta": 10,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future, require sponsorship for employment to work in the united states? (e.g., h1b visa status)",
+        "ai": "Will you now or in the future, require sponsorship for employment to work in the United States? (e.g., H1B visa status)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located in, or willing to relocate to nyc?",
+        "ai": "Are you located in, or willing to relocate to NYC?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "how would you describe your gender?",
+      "do you identify as transgender?",
+      "please describe the sexual orientation category that best respresents you:",
+      "what are your personal pronouns?",
+      "have you used bubble in the past?",
+      "how did you hear about us?",
+      "please select the race/ethnicity category that best represents you:",
+      "are you a veteran?",
+      "do you identify as a person with a disability or other chronic condition?",
+      "by clicking “submit application”, i understand and agree that bubble will collect and process my information in accordance with its privacy policy."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. Demographic questions were truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future, require sponsorship for employment to work in the United States? (e.g., H1B visa status)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located in, or willing to relocate to NYC?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future, require sponsorship for employment to work in the united states? (e.g., h1b visa status)",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you located in, or willing to relocate to nyc?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "how would you describe your gender?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "please describe the sexual orientation category that best respresents you:",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "what are your personal pronouns?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "have you used bubble in the past?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "please select the race/ethnicity category that best represents you:",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "are you a veteran?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you identify as a person with a disability or other chronic condition?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "by clicking “submit application”, i understand and agree that bubble will collect and process my information in accordance with its privacy policy.",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}

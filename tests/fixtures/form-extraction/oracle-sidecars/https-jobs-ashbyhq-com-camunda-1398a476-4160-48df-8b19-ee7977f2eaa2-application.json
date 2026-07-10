@@ -1,0 +1,222 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-1398a476-4160-48df-8b19-ee7977f2eaa2-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:25:02.452Z",
+  "page_url": "https://jobs.ashbyhq.com/camunda/1398a476-4160-48df-8b19-ee7977f2eaa2/application",
+  "page_title": "Technical Account Manager @ Camunda",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 9,
+      "count_delta": 3,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 0.7778,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you legally eligible to work in the country where you’re planning to work from?",
+        "ai": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able and willing to work remotely?",
+        "ai": "Are you able and willing to work remotely?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you are eligible, please select the status that allows you to work and live in that country",
+        "ai": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns for others to use when referring to you?",
+        "ai": "What are your pronouns for others to use when referring to you?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "linkedin profile",
+      "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components (comboboxes and radio-like buttons) that may require specific interaction to trigger options. The salary expectation field was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I am a citizen / permanent resident of the country where I plan to live & work from.",
+          "I have a work visa in the country where I plan to live & work from.",
+          "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+        ]
+      },
+      {
+        "question": "What are your pronouns for others to use when referring to you?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able and willing to work remotely?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

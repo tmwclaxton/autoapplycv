@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Senior Frontend Engineer - Ashby Clone</title>
+<style>
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:0}
+  body{background:#f2f4f8;display:flex;justify-content:center;padding:24px}
+  .app-shell{max-width:800px;width:100%;background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);overflow:hidden}
+  .app-header{padding:24px 24px 12px;border-bottom:1px solid #e6eaef}
+  .app-header h2{font-size:20px;font-weight:600;color:#1a1d23}
+  .app-header .company{color:#6b7280;font-size:14px;margin-top:4px}
+  .form-body{padding:20px 24px 32px}
+  .section{margin-bottom:24px}
+  .section h3{font-size:15px;font-weight:600;color:#2d333a;margin-bottom:12px;padding-bottom:6px;border-bottom:1px dashed #dce2ea}
+  .field-group{margin-bottom:16px;position:relative}
+  .field-row{display:flex;gap:12px;flex-wrap:wrap}
+  .field-row > *{flex:1;min-width:180px}
+  .input-wrap{display:flex;flex-direction:column;gap:4px}
+  .input-wrap .label-deep{display:flex;flex-direction:column;gap:2px}
+  .input-wrap .label-deep > span{font-size:13px;font-weight:500;color:#374151}
+  .input-wrap .label-deep > div{position:relative}
+  input[type=text],input[type=search],input[type=email],input[type=tel],input[type=url],input[type=number],input[type=date],input[type=file],textarea,select{padding:10px 12px;border:1px solid #d1d9e6;border-radius:8px;font-size:14px;width:100%;background:#fff;transition:border .15s}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  textarea{resize:vertical;min-height:80px}
+  .pill-group{display:flex;gap:8px;flex-wrap:wrap}
+  .pill-btn{padding:8px 18px;border-radius:20px;border:1px solid #d1d9e6;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#374151;transition:all .15s}
+  .pill-btn.active{border-color:#2563eb;background:#eff6ff;color:#2563eb}
+  .pill-btn:focus{outline:2px solid #2563eb;outline-offset:2px}
+  .combobox-wrap{position:relative}
+  .combobox-trigger{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid #d1d9e6;border-radius:8px;cursor:pointer;background:#fff;font-size:14px;min-height:42px}
+  .combobox-trigger[aria-expanded=true]{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .combobox-trigger .arrow{transition:transform .2s;font-size:10px;color:#6b7280}
+  .combobox-trigger[aria-expanded=true] .arrow{transform:rotate(180deg)}
+  .listbox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d1d9e6;border-radius:8px;margin-top:4px;max-height:200px;overflow-y:auto;z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .listbox.open{display:block}
+  .listbox-option{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f0f3f7}
+  .listbox-option:hover,.listbox-option.highlighted{background:#f0f7ff}
+  .listbox-option[aria-selected=true]{background:#e8f0fe;font-weight:500}
+  .meter-wrap{display:flex;align-items:center;gap:12px}
+  .meter-wrap meter{flex:1;height:12px;border-radius:6px}
+  .meter-wrap meter::-webkit-meter-bar{border:none;border-radius:6px;background:#e5e7eb}
+  .meter-wrap meter::-webkit-meter-optimum-value{background:#2563eb;border-radius:6px}
+  .meter-val{font-size:13px;color:#6b7280;min-width:32px}
+  .hidden-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .distant-label{font-size:13px;color:#6b7280;display:block;margin-bottom:2px}
+  .checkbox-cluster{display:flex;flex-wrap:wrap;gap:8px 16px}
+  .checkbox-cluster label{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
+  .checkbox-cluster input[type=checkbox]{width:16px;height:16px;accent-color:#2563eb}
+  .radio-cluster{display:flex;flex-wrap:wrap;gap:8px 16px}
+  .radio-cluster label{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
+  .radio-cluster input[type=radio]{width:16px;height:16px;accent-color:#2563eb}
+  .glued-label{display:flex;align-items:center;border:1px solid #d1d9e6;border-radius:8px;overflow:hidden}
+  .glued-label span{background:#f3f6fa;padding:10px 12px;font-size:13px;color:#374151;border-right:1px solid #d1d9e6;white-space:nowrap}
+  .glued-label input{flex:1;border:none;padding:10px 12px;font-size:14px;outline:none}
+  .glued-label input:focus{box-shadow:none}
+  .reveal-content{display:none;margin-top:8px;padding:12px;background:#f9fbfd;border-radius:8px;border:1px solid #e6eaef}
+  .reveal-content.open{display:block}
+  .error-text{color:#dc2626;font-size:12px;margin-top:4px;display:none}
+  .btn-apply{padding:12px 32px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+  .btn-apply:hover{background:#1d4ed8}
+  .btn-apply:focus{outline:2px solid #2563eb;outline-offset:2px}
+  iframe.ats-iframe{border:1px solid #e6eaef;border-radius:8px;width:100%;height:800px;background:#fff}
+  .note{font-size:12px;color:#9ca3af;margin-top:2px}
+  .flex-row{display:flex;gap:12px;align-items:flex-start}
+  .flex-row > *{flex:1}
+  [role=textbox]{padding:10px 12px;border:1px solid #d1d9e6;border-radius:8px;min-height:80px;cursor:text;background:#fff;font-size:14px;line-height:1.5;color:#1a1d23}
+  [role=textbox]:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  [role=textbox]:empty:before{content:attr(data-placeholder);color:#9ca3af}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h2>Senior Frontend Engineer</h2>
+    <div class="company">Acme Labs · Remote · Full-time</div>
+  </div>
+  <div class="form-body">
+    <iframe class="ats-iframe" srcdoc='
+      <html><head><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:16px 20px;margin:0;background:#fff;color:#1a1d23} .section{margin-bottom:20px} .section h3{font-size:15px;font-weight:600;color:#2d333a;margin-bottom:10px;border-bottom:1px dashed #dce2ea;padding-bottom:4px} input,textarea,select{padding:9px 12px;border:1px solid #d1d9e6;border-radius:6px;font-size:14px;width:100%;margin-bottom:12px} input:focus,textarea:focus{outline:none;border-color:#2563eb} .field-row{display:flex;gap:10px;flex-wrap:wrap} .field-row>*{flex:1;min-width:160px} .checkbox-cluster{display:flex;flex-wrap:wrap;gap:6px 14px} .checkbox-cluster label{display:flex;align-items:center;gap:5px;font-size:13px} .pill-group{display:flex;gap:6px;flex-wrap:wrap} .pill-btn{padding:6px 16px;border-radius:16px;border:1px solid #d1d9e6;background:#fff;cursor:pointer;font-size:12px} .pill-btn.active{border-color:#2563eb;background:#eff6ff} .hidden-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)} .distant-label{font-size:12px;color:#6b7280;margin-bottom:2px;display:block} .glued-label{display:flex;align-items:center;border:1px solid #d1d9e6;border-radius:6px;overflow:hidden;margin-bottom:12px} .glued-label span{background:#f3f6fa;padding:9px 12px;font-size:13px;border-right:1px solid #d1d9e6} .glued-label input{flex:1;border:none;padding:9px 12px;margin-bottom:0} .btn-apply{padding:11px 28px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;width:100%} .btn-apply:hover{background:#1d4ed8} .meter-wrap{display:flex;align-items:center;gap:10px} .meter-wrap meter{flex:1;height:10px;border-radius:5px} .combobox-wrap{position:relative;margin-bottom:12px} .combobox-trigger{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid #d1d9e6;border-radius:6px;cursor:pointer;background:#fff;font-size:14px} .listbox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d1d9e6;border-radius:6px;max-height:180px;overflow-y:auto;z-index:20} .listbox.open{display:block} .listbox-option{padding:9px 12px;cursor:pointer} .listbox-option:hover{background:#f0f7ff} .listbox-option[aria-selected=true]{background:#e8f0fe;font-weight:500} .svg-icon{width:16px;height:16px;fill:currentColor;vertical-align:middle;margin-right:4px}</style></head><body>
+        <div class="section">
+          <h3>Personal Information</h3>
+          <div class="field-row">
+            <div style="flex:1;min-width:160px">
+              <span class="distant-label" id="name-label">Full name</span>
+              <input type="search" aria-labelledby="name-label" placeholder="Search for your name..." style="margin-bottom:0" />
+            </div>
+            <div style="flex:1;min-width:160px">
+              <span id="email-label-hidden" class="hidden-label">Email address</span>
+              <input type="email" aria-labelledby="email-label-hidden" placeholder="Email" />
+            </div>
+          </div>
+          <div class="field-row" style="margin-top:12px">
+            <div style="flex:1;min-width:160px">
+              <div class="glued-label">
+                <span>+1</span>
+                <input type="tel" placeholder="Phone number" aria-label="Phone number with country code +1" />
+              </div>
+            </div>
+            <div style="flex:1;min-width:160px">
+              <span class="distant-label" id="loc-label">Location</span>
+              <div style="display:flex;gap:4px">
+                <input type="text" aria-labelledby="loc-label" placeholder="City" style="flex:2" />
+                <select aria-label="State" style="flex:1;margin-bottom:0">
+                  <option value="">State</option>
+                  <option>CA</option><option>NY</option><option>TX</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field-row" style="margin-top:12px">
+            <div style="flex:1;min-width:160px">
+              <span class="distant-label" id="street-label">Street address</span>
+              <input type="text" aria-labelledby="street-label" placeholder="123 Main St" />
+            </div>
+            <div style="flex:1;min-width:160px">
+              <span class="distant-label" id="zip-label">ZIP code</span>
+              <input type="text" aria-labelledby="zip-label" placeholder="94105" />
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Skills Assessment</h3>
+          <div class="meter-wrap">
+            <span id="skill-meter-label" style="font-size:13px;min-width:70px">React</span>
+            <meter min="0" max="10" low="3" high="7" optimum="9" value="8" aria-labelledby="skill-meter-label"></meter>
+            <span class="meter-val">8/10</span>
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="exp-label">Years of experience</span>
+            <input type="number" aria-labelledby="exp-label" placeholder="e.g. 5" min="0" max="30" />
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="skill2-label">Vue.js</span>
+            <input type="number" aria-labelledby="skill2-label" placeholder="e.g. 3" min="0" max="30" />
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="skill3-label">TypeScript</span>
+            <input type="number" aria-labelledby="skill3-label" placeholder="e.g. 4" min="0" max="30" />
+          </div>
+        </div>
+        <div class="section">
+          <h3>Role Details</h3>
+          <div class="combobox-wrap" id="dept-combobox">
+            <span id="dept-label" style="font-size:12px;color:#6b7280;display:block;margin-bottom:2px">Department preference</span>
+            <div class="combobox-trigger" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="dept-label" aria-controls="dept-listbox">
+              <span id="dept-value">Select department</span>
+              <span class="arrow">▼</span>
+            </div>
+            <div class="listbox" role="listbox" id="dept-listbox" aria-labelledby="dept-label">
+              <div class="listbox-option" role="option" aria-selected="false" data-value="engineering">Engineering</div>
+              <div class="listbox-option" role="option" aria-selected="false" data-value="design">Design</div>
+              <div class="listbox-option" role="option" aria-selected="false" data-value="product">Product</div>
+              <div class="listbox-option" role="option" aria-selected="false" data-value="marketing">Marketing</div>
+            </div>
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="proj-label">Project portfolio (URL)</span>
+            <input type="url" aria-labelledby="proj-label" placeholder="https://" />
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="github-label">GitHub profile</span>
+            <input type="url" aria-labelledby="github-label" placeholder="https://github.com/" />
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="linkedin-label">LinkedIn profile</span>
+            <input type="url" aria-labelledby="linkedin-label" placeholder="https://linkedin.com/in/" />
+          </div>
+        </div>
+        <div class="section">
+          <h3>Work Eligibility</h3>
+          <div class="checkbox-cluster">
+            <label><input type="checkbox" name="eligibility" value="us-citizen" /> US Citizen</label>
+            <label><input type="checkbox" name="eligibility" value="green-card" /> Green Card</label>
+            <label><input type="checkbox" name="eligibility" value="visa-sponsor" /> Need visa sponsorship</label>
+          </div>
+          <div style="margin-top:12px">
+            <span class="distant-label" id="start-label">Available start date</span>
+            <input type="date" aria-labelledby="start-label" />
+          </div>
+          <div style="margin-top:12px">
+            <span class="distant-label" id="end-label">Current notice period (weeks)</span>
+            <input type="number" aria-labelledby="end-label" placeholder="e.g. 2" min="0" max="12" />
+          </div>
+        </div>
+        <div class="section">
+          <h3>Additional Info</h3>
+          <div class="glued-label" style="margin-bottom:8px">
+            <span>LinkedIn</span>
+            <input type="url" placeholder="Profile URL" aria-label="LinkedIn profile URL" />
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="cover-label">Cover letter</span>
+            <div role="textbox" contenteditable="true" aria-labelledby="cover-label" data-placeholder="Write a brief note..." style="min-height:80px;padding:9px 12px;border:1px solid #d1d9e6;border-radius:6px;font-size:14px;line-height:1.5;background:#fff" aria-multiline="true"></div>
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="resume-label">Resume (file)</span>
+            <input type="file" aria-labelledby="resume-label" accept=".pdf,.doc,.docx" />
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="portfolio-label">Portfolio (file)</span>
+            <input type="file" aria-labelledby="portfolio-label" accept=".pdf,.zip" />
+          </div>
+        </div>
+        <div class="section">
+          <h3>Self-Assessment</h3>
+          <div class="meter-wrap">
+            <span id="comm-meter-label" style="font-size:13px;min-width:70px">Communication</span>
+            <meter min="0" max="10" value="7" aria-labelledby="comm-meter-label"></meter>
+            <span class="meter-val">7/10</span>
+          </div>
+          <div class="meter-wrap" style="margin-top:8px">
+            <span id="team-meter-label" style="font-size:13px;min-width:70px">Teamwork</span>
+            <meter min="0" max="10" value="9" aria-labelledby="team-meter-label"></meter>
+            <span class="meter-val">9/10</span>
+          </div>
+          <div class="meter-wrap" style="margin-top:8px">
+            <span id="lead-meter-label" style="font-size:13px;min-width:70px">Leadership</span>
+            <meter min="0" max="10" value="6" aria-labelledby="lead-meter-label"></meter>
+            <span class="meter-val">6/10</span>
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="referral-label">Referral (optional)</span>
+            <input type="text" aria-labelledby="referral-label" placeholder="Name or unknown" />
+          </div>
+          <div style="margin-top:8px">
+            <span class="distant-label" id="source-label">How did you hear about us?</span>
+            <input type="text" aria-labelledby="source-label" placeholder="e.g. LinkedIn, friend" />
+          </div>
+        </div>
+        <div class="section">
+          <h3>Demographics (Optional)</h3>
+          <div class="radio-cluster">
+            <span class="distant-label" id="gender-label" style="width:100%;margin-bottom:4px">Gender</span>
+            <label><input type="radio" name="gender" value="male" /> Male</label>
+            <label><input type="radio" name="gender" value="female" /> Female</label>
+            <label><input type="radio" name="gender" value="non-binary" /> Non-binary</label>
+            <label><input type="radio" name="gender" value="prefer-not" /> Prefer not to say</label>
+          </div>
+          <div style="margin-top:12px">
+            <span class="distant-label" id="ethnicity-label">Ethnicity</span>
+            <select aria-labelledby="ethnicity-label" style="margin-bottom:0">
+              <option value="">Select</option>
+              <option>Asian</option>
+              <option>Black or African American</option>
+              <option>Hispanic or Latino</option>
+              <option>White</option>
+              <option>Other</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div style="margin-top:12px">
+            <span class="distant-label" id="veteran-label">Veteran status</span>
+            <select aria-labelledby="veteran-label" style="margin-bottom:0">
+              <option value="">Select</option>
+              <option>Yes</option>
+              <option>No</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Custom Questions</h3>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="q1-label">Why do you want to work here?</span>
+            <textarea aria-labelledby="q1-label" placeholder="Your answer..." style="min-height:60px"></textarea>
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="q2-label">What is your greatest strength?</span>
+            <textarea aria-labelledby="q2-label" placeholder="Your answer..." style="min-height:60px"></textarea>
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="q3-label">What is your greatest weakness?</span>
+            <textarea aria-labelledby="q3-label" placeholder="Your answer..." style="min-height:60px"></textarea>
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="q4-label">Salary expectation (USD)</span>
+            <input type="number" aria-labelledby="q4-label" placeholder="e.g. 150000" min="0" />
+          </div>
+          <div style="margin-bottom:8px">
+            <span class="distant-label" id="q5-label">Preferred pronouns</span>
+            <input type="text" aria-labelledby="q5-label" placeholder="e.g. they/them" />
+          </div>
+        </div>
+        <button class="btn-apply" type="button">Submit Application</button>
+        <script>
+          document.querySelectorAll(".combobox-trigger").forEach(function(trigger){
+            var listbox = trigger.nextElementSibling;
+            var options = listbox.querySelectorAll(".listbox-option");
+            var valueSpan = trigger.querySelector("#dept-value");
+            trigger.addEventListener("click", function(){
+              var expanded = trigger.getAttribute("aria-expanded") === "true";
+              trigger.setAttribute("aria-expanded", !expanded);
+              listbox.classList.toggle("open");
+            });
+            options.forEach(function(opt){
+              opt.addEventListener("click", function(){
+                options.forEach(function(o){o.setAttribute("aria-selected","false");});
+                opt.setAttribute("aria-selected","true");
+                valueSpan.textContent = opt.textContent;
+                trigger.setAttribute("aria-expanded","false");
+                listbox.classList.remove("open");
+              });
+            });
+            document.addEventListener("click", function(e){
+              if(!trigger.parentElement.contains(e.target)){
+                trigger.setAttribute("aria-expanded","false");
+                listbox.classList.remove("open");
+              }
+            });
+          });
+          document.querySelectorAll("[role=textbox]").forEach(function(tb){
+            tb.addEventListener("input", function(){
+              if(tb.textContent.trim() === ""){
+                tb.setAttribute("data-empty","true");
+              } else {
+                tb.removeAttribute("data-empty");
+              }
+            });
+          });
+        </script>
+      </body></html>
+    ' title="Application Form"></iframe>
+    <div style="margin-top:12px;font-size:13px;color:#6b7280;text-align:center">🔒 Powered by Ashby · Your data is encrypted</div>
+  </div>
+</div>
+</body>
+</html>

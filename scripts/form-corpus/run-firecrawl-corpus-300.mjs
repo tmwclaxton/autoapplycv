@@ -11,6 +11,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { assertBatchLimit } from './lib/batch-cap.mjs';
 import { loadManifest } from './lib/manifest.mjs';
 import { FIXTURE_ROOT } from './lib/paths.mjs';
 import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
@@ -67,13 +68,14 @@ function newWebIds(beforeIds) {
 }
 
 async function main() {
-    const limit = Number(parseArg('limit', '300'));
+    const requestedLimit = parseArg('limit', '50');
+    const limit = assertBatchLimit(Number(requestedLimit));
     const skipDiscover = hasFlag('skip-discover');
     const skipScrape = hasFlag('skip-scrape');
     const skipFillVerify = hasFlag('skip-fill-verify');
     const skipExtensionE2e = hasFlag('skip-extension-e2e');
     const scrapeDelay = parseArg('delay', '800');
-    const maxAttempts = parseArg('max-attempts', String(Math.max(limit * 10, 3000)));
+    const maxAttempts = parseArg('max-attempts', String(Math.max(limit * 15, 5000)));
     const staticFirst = hasFlag('static-first');
     const applyOnly = !hasFlag('include-listings');
     const concurrency = parseArg('concurrency', '4');
@@ -105,14 +107,16 @@ async function main() {
     if (!skipDiscover) {
         console.log('\n=== Phase 1: Firecrawl discover ===');
         const t0 = Date.now();
-        runNode(join(ROOT, 'scripts/form-corpus/discover.mjs'));
+        runNode(join(ROOT, 'scripts/form-corpus/discover.mjs'), [
+            ...(hasFlag('use-matrix-report') ? ['--use-matrix-report'] : []),
+        ]);
         report.phases.discover = { ok: true, duration_ms: Date.now() - t0 };
     } else {
         report.phases.discover = { skipped: true };
     }
 
     let acceptedIds = [];
-    const scrapeRounds = Number(parseArg('scrape-rounds', '5'));
+    const scrapeRounds = Number(parseArg('scrape-rounds', '3'));
     let scrapeRound = 0;
     let totalAcceptedThisRun = 0;
 
@@ -145,15 +149,27 @@ async function main() {
                 accepted_total: totalAcceptedThisRun,
             };
 
-            if (roundAccepted === 0) {
-                console.log('No new fixtures accepted this round; stopping scrape loop.');
+            if (roundAccepted === 0 && scrapeRound >= scrapeRounds) {
+                console.log('No new fixtures accepted after all scrape rounds.');
                 break;
+            }
+
+            if (roundAccepted === 0) {
+                console.log(`No new fixtures accepted in round ${scrapeRound}; ${scrapeRounds - scrapeRound} round(s) remaining.`);
             }
         }
 
         report.phases.scrape = { rounds: scrapeRound, accepted: totalAcceptedThisRun };
         report.accepted_ids = acceptedIds;
         writeFileSync(join(FIXTURE_ROOT, 'firecrawl-corpus-300-accepted-ids.json'), `${JSON.stringify({ accepted_ids: acceptedIds }, null, 2)}\n`);
+
+        if (acceptedIds.length > 0) {
+            console.log('\n=== Phase 2b: Tag variety / pattern signatures ===');
+            runNode(join(ROOT, 'scripts/form-corpus/tag-fixture-variety.mjs'), [
+                '--id-prefix=web-',
+                `--limit=${Math.min(acceptedIds.length, limit)}`,
+            ]);
+        }
     } else if (idsFile && existsSync(idsFile)) {
         acceptedIds = JSON.parse(readFileSync(idsFile, 'utf8')).accepted_ids || [];
         report.accepted_ids = acceptedIds;

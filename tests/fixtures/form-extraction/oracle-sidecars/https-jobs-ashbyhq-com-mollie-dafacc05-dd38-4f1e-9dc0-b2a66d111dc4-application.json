@@ -1,0 +1,312 @@
+{
+  "id": "https-jobs-ashbyhq-com-mollie-dafacc05-dd38-4f1e-9dc0-b2a66d111dc4-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:23:37.616Z",
+  "page_url": "https://jobs.ashbyhq.com/mollie/dafacc05-dd38-4f1e-9dc0-b2a66d111dc4/application",
+  "page_title": "Lead Credit Risk @ Mollie",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.8125,
+      "type_agree_rate": 0.9286,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "do you require a visa to legally work in the country where you are applying?",
+        "ai": "Do you require a visa to legally work in the country where you are applying?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number?",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "add a cover letter or anything else you would like to share",
+        "ai": "Add a cover letter or anything else you would like to share",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require visa sponsorship or a visa transfer?",
+        "ai": "Do you require visa sponsorship or a visa transfer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations? (yearly gross)",
+        "ai": "What are your salary expectations? (Yearly gross)",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have in credit risk?",
+        "ai": "How many years of experience do you have in Credit Risk?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have as a people manager?",
+        "ai": "How many years of experience do you have as a people manager?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you most closely identify as?",
+        "ai": "What gender do you most closely identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom component for the 'Location' field which acts as a combobox. The final data consent checkbox was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number?",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Add a cover letter or anything else you would like to share",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you require a visa to legally work in the country where you are applying?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you require visa sponsorship or a visa transfer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Visa Sponsorship",
+          "Visa Transfer",
+          "Not Applicable"
+        ]
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Friends/Family/Colleagues",
+          "LinkedIn",
+          "Glassdoor",
+          "Events (Conferences, Meetups)",
+          "Mollie's Career Site",
+          "Other Job Boards (Indeed etc.)",
+          "Social Media",
+          "Other"
+        ]
+      },
+      {
+        "question": "What are your salary expectations? (Yearly gross)",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have in Credit Risk?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have as a people manager?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What gender do you most closely identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you require a visa to legally work in the country where you are applying?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "add a cover letter or anything else you would like to share",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "do you require visa sponsorship or a visa transfer?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations? (yearly gross)",
+      "field_type": "number",
+      "ref": "f10"
+    },
+    {
+      "question": "how many years of experience do you have in credit risk?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years of experience do you have as a people manager?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "what gender do you most closely identify as?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0076",
+    "seed": 3376001770,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "definition list dl\/dt\/dd label pairs",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "table-layout",
+                "notes": "Inputs laid out in table cells, not flex card stacks only"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Split span label fragments",
+                "notes": "Label text split across multiple span elements",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Split label spans<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"split_name\"><span>First<\/span> <span>and<\/span> <span>last<\/span> <span>name<\/span><\/label> <input type=\"text\" id=\"split_name\" name=\"split_name\"> <label for=\"split_email\"><span>Work<\/span><span> <\/span><span>email<\/span><span> <\/span><spa",
+                "requires_interaction": false
+            },
+            {
+                "title": "Radio styled as buttons",
+                "notes": "Native radios hidden; visible pill buttons styled via CSS class",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Radio pill buttons<\/h1> <form action=\"\/apply\" method=\"post\"> <p>Are you authorized to work in the UK?<\/p> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"yes\" style=\"position:absolute;opacity:0\"> Yes<\/label> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"no\" style=\"position:absolu",
+                "requires_interaction": false
+            },
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Fields inside details\/summary or hidden until click Required: At least two fields with aria-label only and no visible label element Required: Inputs laid out in table cells, not flex card stacks only Required: Fields inside a shadow DOM host or declarative shadow root Reference DOM (Split span label fragments): Label text split across multiple span elements Reference DOM (Radio styled as buttons): Native radios hidden; visible pill buttons styled via CSS class Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: custom-combobox, details-accordion, aria-label-only, table-layout, shadow-host. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: definition list dl\/dt\/dd label pairs. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Split span label fragments; Radio styled as buttons; Question number prefixes."
+}

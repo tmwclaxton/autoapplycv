@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Client Manager - Admincontrol</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        Admincontrol and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics and marketing purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://career.admincontrol.com/cookie-policy">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, which is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://career.admincontrol.com/cookie-policy">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Marketing</label>
+
+    <p>These cookies are used to make advertising messages more relevant to you. In some cases, they also deliver additional functions on the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Vimeo</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;--navigation-highlight-color: #008d7f;">
+    <div class="absolute top-0 w-full h-full ltr:left-0 rtl:right-0">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only @sm:not-sr-only text-sm leading-normal tracking-wider uppercase !whitespace-nowrap">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.admincontrol.com/">Start</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.admincontrol.com/departments">Marketing</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.admincontrol.com/locations">Oslo</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.admincontrol.com/jobs">Jobs</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://app.teamtailor.com/companies/m3HHb4QR7mM@eu/dashboard">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://career.admincontrol.com/connect/login">Log in to Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Homepage</span>
+        <a class="hover:underline focus-visible-header" href="https://admincontrol.com">admincontrol.com</a>
+</div>  </div>
+</div>
+
+</div>
+
+<div class="header__logo flex items-center mx-auto">        
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="e535e3406489c740971d14b4c3ddc8eca" data-test="company-logo" data-turbo-permanent="true" href="https://career.admincontrol.com/">
+    <img alt="Admincontrol career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/dff8d52a-c2f8-4a35-b229-934b0a66d85f/original.png">
+</a>
+</div>
+
+  <div class="absolute top-0 flex items-center h-full mx-3 ltr:right-0 rtl:left-0">
+              <div data-controller="common--share" data-common--share-url-value="https://career.admincontrol.com/jobs/8003358-client-manager" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="You must select an option">
+
+
+  <button type="button" role="button" id="trigger-dropdown-39aebf05" aria-required="false" aria-label="Share page" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-39aebf05" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Share page</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-39aebf05" role="menu" aria-labelledby="trigger-dropdown-39aebf05" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://career.admincontrol.com/jobs/8003358-client-manager" href="mailto:?subject=Check out this job at Admincontrol&amp;body=I found this job and thought I should share it with you:%0D%0A%0D%0Ahttps://career.admincontrol.com/jobs/8003358-client-manager">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+  </div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="8003358" data-careersite--jobs--form-overlay-job-application-url-value="https://career.admincontrol.com/jobs/8003358-client-manager/applications/new" id="main-content">
+  
+        
+
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] @lg:min-h-[650px] block-cover--with-background-8003358 relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Sales</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Oslo</span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Client Manager</h1>
+    <h2 class="block mt-2 @sm:text-xl leading-normal">Looking to grow your career in a customer-facing role at a leading SaaS company?</h2>
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Apply for this job</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay " style="background-color: #000000; opacity: 50%"></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Scroll to content">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <p><strong>About Admincontrol</strong></p><p><strong>Admincontrol</strong> provides digital solutions for the secure and efficient management of business-critical information for boards, executive teams, and legal and financial organisations. It is the market leader in the Nordics, with around two-thirds of listed companies in Norway using its platform. The company is growing and operates across six European markets.</p><p>Admincontrol is part of <span><strong>Euronext</strong></span>, the leading European capital market infrastructure, covering the entire value chain from listing and trading to clearing, settlement, custody, and services for issuers and investors. Euronext operates seven European stock exchanges and serves a broad international client base.</p><p><strong>About the position</strong></p><p>Based in our Oslo office, as a Client Manager you are responsible for the overall experience users have when using data rooms. The purpose is to ensure an optimal process and satisfied returning customers.</p><p>You will work closely with our sales team and customers in all of our six geographic markets, further you will be working with the Client Manager team to make sure that we maintain our high service level.</p><p>The job currently reports directly to the Country Manager in Norway.</p><p><strong>Responsibilities and tasks</strong></p><ul><li><p>Support customers and key stakeholders with data rooms.</p></li><li><p>Set up, administer, and close data rooms, including content exports.</p></li><li><p>Advise customers on best practices and deliver training, demos, and workshops.</p></li><li><p>Support the Sales team throughout the customer journey.</p></li><li><p>Gather customer feedback to improve the product.</p></li><li><p>Report and follow up on technical issues with customers.</p></li></ul><p><strong>Skills and experience</strong></p><ul><li><p>Experience in customer service or customer support, preferably within a SaaS or software company.</p></li><li><p>Strong written and verbal communication skills in Norwegian and English.</p></li><li><p>Experience managing customer interactions and delivering high-quality service.</p></li><li><p>Ability to lead customers through processes and provide clear guidance.</p></li><li><p>Strong attention to detail and the ability to manage multiple tasks simultaneously.</p></li></ul><h3>About You</h3><p>You enjoy working in a collaborative environment where you can build strong relationships with customers and colleagues. You are proactive, adaptable, and remain calm under pressure while managing customer expectations. Most importantly, you're eager to develop your skills and take the next step in your career within a growing technology company.</p><p></p><p><strong>We can offer</strong></p><ul><li><p>Competitive terms.</p></li><li><p>Good insurance and pension terms.</p></li><li><p>An excellent working environment with friendly, talented and approachable colleagues.</p></li><li><p>Attractive premises located centrally in Oslo.</p></li><li><p>Social events and joint training activities.</p></li><li><p>As a part of Euronext we can offer professional development and internal carreer opportunities thoughut the group.</p></li></ul><p></p><p>Read more on <a target="_blank" href="http://www.admincontrol.com/">www.admincontrol.com</a>.</p><p></p><p>If you have any questions about the position, please contact Kjersti Helgerud Blair at KHBlair@euronext.com.</p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Team</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              <a href="https://career.admincontrol.com/departments/sales">Sales</a>
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Role</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Client Manager
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Locations</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              <a href="https://career.admincontrol.com/locations/oslo">Oslo</a>
+
+</dd>
+
+
+
+
+
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-14262983" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--recruiter   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14262983" data-section-name="recruiter" data-section-label="Recruiter">
+</section>
+
+  
+  <section id="section-14262984" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--colleagues   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14262984" data-section-name="colleagues" data-section-label="Colleagues">
+</section>
+
+  
+  <section id="section-14262985" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--related-jobs   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14262985" data-section-name="related-jobs" data-section-label="Related jobs">
+</section>
+
+  
+  <section id="section-14262986" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--locations-map   bg-company-primary text-company-primary" data-section-route="section" data-section-model="14262986" data-section-name="locations-map" data-section-label="Locations map">
+    <div id="locations-map" class="text-lg locations-map" data-controller="blocks--locations-map" data-blocks--locations-map-selected-location-value="71282" data-blocks--locations-map-locations-value="[{&quot;id&quot;:71282,&quot;lat&quot;:&quot;59.91268729999999&quot;,&quot;long&quot;:&quot;10.7294989&quot;}]">
+  <template data-blocks--locations-map-target="largeMarkerIcon">
+    <i class="text-3xl filter drop-shadow fas fa-location-dot text-company-link"></i>
+  </template>
+
+  <template data-blocks--locations-map-target="smallMarkerIcon">
+    <i class="filter drop-shadow fas fa-circle-small fa-xs text-company-link"></i>
+  </template>
+
+  <div class="flex flex-col @lg:flex-row">
+    <div class="
+        flex flex-col items-center justify-start w-full py-20 @lg:w-half
+        bg-company-secondary block-px
+      ">
+        <h2 class="mb-5 text-3xl text-center @md:text-4xl font-company-header text-company-secondary">Oslo</h2>
+
+      <turbo-frame id="location_details" src="https://career.admincontrol.com/locations/map_details?editor=false&amp;location_id=71282" loading="lazy" data-blocks--locations-map-target="details"></turbo-frame>
+    </div>
+
+    <div class="w-full @lg:w-half h-[320px] @md:h-[450px] z-career-locations-map" data-blocks--locations-map-target="map"></div>
+</div></div>
+</section>
+
+  
+  <section id="section-707343" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--perks   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-model="707343" data-section-name="perks" data-section-label="Perks &amp; benefits">
+    <div id="perks" class="text-lg block-px company-links text-company-primary">
+  <div class="mx-auto block-max-w--sm">
+      <h2 class="mb-10 text-4xl text-center font-company-header">Need more reasons to join us?</h2>
+
+    <ul class="ml-6 list-disc">
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">The best colleagues you can ever imagine</h3>
+
+            <div class="prose">Of course this is subjective, but it's definitely what we mean!</div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Full 5 weeks of paid vacation</h3>
+
+            <div class="prose">So that you can relax and come back to work full of energy and passion.</div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Good insurance and medical help agreements</h3>
+
+            <div class="prose">We have one of the best insurance and medical help agreements, so that you can always feel safe.</div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Central offices</h3>
+
+            <div class="prose">There's a train or bus station close to every office, making sure it's convenient to travel to work every day.</div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Social gatherings</h3>
+
+            <div class="prose">We love to be social - whether it's for a gathering in the office Friday afternoon, a Christmas party or a company trip.</div>
+        </li>
+    </ul>
+  </div>
+</div>
+
+
+</section>
+
+  
+  <section id="section-707341" style="--block-base-text-color: var(--company-secondary-text-color);--block-base-link-color: var(--company-secondary-text-color);--block-base-background-color: var(--company-secondary-bg-color);--block-base-highlight-color: var(--company-secondary-text-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #fcf2df;" class="block--workplace   bg-company-secondary text-company-secondary" data-section-route="section" data-section-model="707341" data-section-name="workplace" data-section-label="Workplace &amp; culture">
+    <div class="@md:min-h-[500px] flex flex-col @lg:flex-row">
+  <div class="w-full flex flex-col items-center justify-center py-20 block-px @md:px-15 @lg:w-half">
+    <h2 class="mb-4 text-4xl text-center text-block-title font-company-header @lg:max-w-600">Workplace &amp; culture</h2>
+
+    <div class="prose prose-block block-max-w--sm @lg:max-w-600 company-links"><p><span dir="ltr">Admincontrol is characterised by a unique and great culture and team spirit, where employees look forward to coming to work. People care about each other, and social is important, but we also focus on building strong professional teams that can thrive in an increasingly challenging business environment.</span></p></div>
+</div>
+    <div class="w-full @lg:w-half">
+      
+<div class="splide" dir="ltr" data-controller="common--carousel" data-common--carousel-use-container-height-value="true" data-common--carousel-initialize-when-viewport-value="false" data-common--carousel-has-video-value="false" data-common--carousel-autoplay-value="false" data-common--carousel-type-value="loop" data-common--carousel-pagination-value="true" data-common--carousel-arrows-value="true" data-common--carousel-initial-image-index-value="0" data-common--carousel-height-ratio-value="0">
+  <div class="splide__track">
+    <ul class="splide__list">
+          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/920fa8bf-9e01-4f60-9736-c32374ba91ab/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/920fa8bf-9e01-4f60-9736-c32374ba91ab/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/c395a2f0-4002-41a2-8c30-f7be01f2f8d0/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/c395a2f0-4002-41a2-8c30-f7be01f2f8d0/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/19fb14d4-0d4b-4879-942a-b6ecf69cc69e/original.jpg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/19fb14d4-0d4b-4879-942a-b6ecf69cc69e/original.jpg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/a79708a2-13d6-4249-b182-d042bbeb6f07/original.png">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/a79708a2-13d6-4249-b182-d042bbeb6f07/original.png">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/6c750c34-3fba-4b2f-83d8-02b09770939c/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/6c750c34-3fba-4b2f-83d8-02b09770939c/original.jpeg">
+</li>
+    </ul>
+</div></div>
+    </div>
+</div>
+</section>
+
+
+
+    
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Apply for this job</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Sales</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Oslo</span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Client Manager</h1>
+    <h2 class="block mt-2 @sm:text-xl leading-normal">Looking to grow your career in a customer-facing role at a leading SaaS company?</h2>
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://career.admincontrol.com/jobs/8003358-client-manager/applications/new">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Loading application form
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Close modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-padding">
+  <div class="w-full mx-auto @sm:flex block-max-w--lg">
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-menu">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Career site
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/">Start</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments">Marketing</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations">Oslo</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/jobs">Jobs</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/data-privacy">Data &amp; privacy</a>
+
+</li>      <li class="w-full text-md leading-tight">
+                    <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Manage cookies" class="company-link font-company-body text-unset py-1">Manage cookies</button>
+
+</li>  </ul>
+</div>
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-locations">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Locations
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/glasgow">Glasgow</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/london">London</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/drammen">Drammen</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/stockholm">Stockholm</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/oslo">Oslo</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/locations/helsinki">Helsinki</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/locations">All locations</a>
+
+</li>  </ul>
+</div>
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-departments">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Teams
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/rnd">RnD</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/marketing">Marketing</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/product-business-development">Product &amp; Business Development</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/support">Support</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/sales">Sales</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.admincontrol.com/departments/finance">Finance</a>
+
+</li>  </ul>
+</div>
+
+    <div class="flex flex-col items-center justify-center grow shrink-0 text-base @sm:items-end @sm:justify-end">
+      <a class="text-company-primary hover:text-company-link text-ellipsis py-1" href="https://admincontrol.com">admincontrol.com</a>
+      
+
+        <div class="flex mt-2">
+            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="LinkedIn" href="https://www.linkedin.com/company/admincontrol-as">
+              <i class="fab fa-linkedin size-6 p-1 text-lg"></i>
+</a>        </div>
+</div></div></div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="https://app.teamtailor.com/companies/m3HHb4QR7mM@eu/dashboard">Employee login</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Candidate Connect login</a>
+
+        </div>
+      </div>
+</footer></div>
+
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e3c4b63c384256f889425e8ebf286cadf" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=career.admincontrol.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Applicant tracking system</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="career.admincontrol.com">
+</div>
+</form>
+</body>
+</html>

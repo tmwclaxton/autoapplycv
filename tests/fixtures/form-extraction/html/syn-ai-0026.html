@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Manager Application</title>
+<style>
+  body { background: #f4f5f7; font-family: system-ui, sans-serif; margin: 0; padding: 20px; }
+  dialog { border: 1px solid #ccc; border-radius: 8px; max-width: 760px; width: 90%; padding: 24px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { padding: 6px 8px; vertical-align: top; }
+  .field-group { margin-bottom: 12px; }
+  .hidden-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .long-label { font-size: 12px; color: #555; display: block; margin-bottom: 2px; }
+  select, input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 8px; border: 1px solid #bbb; border-radius: 4px; box-sizing: border-box; }
+  button { padding: 8px 16px; background: #0a66c2; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: 600; }
+  button:hover { background: #004182; }
+  .pill-group { display: flex; gap: 8px; }
+  .pill { border: 1px solid #888; border-radius: 20px; padding: 6px 18px; cursor: pointer; background: white; color: #333; font-size: 14px; }
+  .pill.selected { background: #0a66c2; color: white; border-color: #0a66c2; }
+  .combobox-wrapper { position: relative; }
+  [role="listbox"] { position: absolute; top: 100%; left: 0; z-index: 10; background: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; width: 100%; display: none; }
+  [role="listbox"].open { display: block; }
+  [role="option"] { padding: 8px; cursor: pointer; }
+  [role="option"]:hover { background: #e6f0ff; }
+  .details-section { border: 1px solid #ddd; border-radius: 4px; padding: 8px; margin-top: 8px; background: #fafafa; }
+  summary { cursor: pointer; font-weight: 600; }
+  .error { color: #d32f2f; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<dialog id="applyDialog" open style="position:relative; margin:auto;">
+  <form id="jobAppForm" action="#" method="post">
+    <h2 style="margin-top:0; font-size:20px;">Apply for Senior Product Manager</h2>
+    <p style="font-size:13px; color:#555;">Please complete all fields. Required fields marked with *.</p>
+
+    <!-- TABLE LAYOUT for some fields: required pattern -->
+    <table>
+      <tr>
+        <td style="width:50%;">
+          <div class="field-group">
+            <span style="font-size:13px; display:block;">First name *</span>
+            <input type="text" name="firstName" placeholder="First" aria-label="First name" style="width:100%;" required>
+          </div>
+        </td>
+        <td style="width:50%;">
+          <div class="field-group">
+            <span style="font-size:13px; display:block;">Last name *</span>
+            <input type="text" name="lastName" placeholder="Last" aria-label="Last name" style="width:100%;" required>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="field-group">
+            <span style="font-size:13px; display:block;">Email *</span>
+            <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" style="width:100%;" required>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- SPLIT PHONE: country code + local number in separate wrappers -->
+          <div class="field-group" style="display:flex; gap:8px; align-items:flex-start;">
+            <div style="flex:0 0 120px;">
+              <span style="font-size:13px; display:block;">Code *</span>
+              <select name="phoneCountryCode" aria-label="Phone country code" required>
+                <option value="">--</option>
+                <option value="+1">+1 (US)</option>
+                <option value="+44">+44 (UK)</option>
+                <option value="+91">+91 (IN)</option>
+                <option value="+61">+61 (AU)</option>
+                <option value="+49">+49 (DE)</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <span style="font-size:13px; display:block;">Phone *</span>
+              <input type="tel" name="phoneLocal" placeholder="555-123-4567" aria-label="Local phone number" style="width:100%;" required>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Custom Combobox: Source (required pattern) -->
+    <div class="field-group">
+      <span style="font-size:13px; display:block;">How did you hear about us? *</span>
+      <div class="combobox-wrapper">
+        <input type="text" id="sourceInput" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-owns="sourceListbox" placeholder="Select or type" style="width:100%;" autocomplete="off">
+        <div role="listbox" id="sourceListbox" aria-label="Source options">
+          <div role="option" aria-selected="false">LinkedIn</div>
+          <div role="option" aria-selected="false">Indeed</div>
+          <div role="option" aria-selected="false">Referral</div>
+          <div role="option" aria-selected="false">Company website</div>
+          <div role="option" aria-selected="false">Other</div>
+        </div>
+      </div>
+      <input type="hidden" name="source" id="sourceHidden">
+    </div>
+
+    <!-- Off-screen positioned input (accessibility anti-pattern) -->
+    <div class="hidden-field">
+      <label for="trackingField">Tracking</label>
+      <input type="text" id="trackingField" name="tracking" value="utm_campaign=apply-page" readonly>
+    </div>
+
+    <!-- Absurdly long label (500 chars) -->
+    <div class="field-group">
+      <label for="longLabelField" class="long-label" style="max-width:100%; word-wrap:break-word;">
+        By submitting this application you agree that we may collect, process, store, and transfer your personal data in accordance with our privacy policy which can be found at www.example.com/privacy-policy-very-long-url and you also acknowledge that you have read and understood the terms of service and the candidate agreement and you certify that all information provided is accurate to the best of your knowledge and you consent to background verification if required and you understand that any misrepresentation may result in disqualification or termination of employment. This is a very long label intentionally to test layout resilience across different screen sizes and browsers. Thank you for your patience reading this extremely lengthy label that should never exist in a real form but here it is because the spec demanded it. We hope your eyes are still okay. Almost done now. This is exactly 500 characters? Let's count: 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890. Done.
+      </label>
+      <input type="text" id="longLabelField" name="acknowledge" placeholder="Type 'I agree'" aria-label="Agreement acknowledgment" style="width:100%;">
+    </div>
+
+    <!-- Details/accordion with hidden fields (required pattern) -->
+    <details class="details-section">
+      <summary>Additional information (optional)</summary>
+      <div style="margin-top:8px;">
+        <div class="field-group">
+          <span style="font-size:13px; display:block;">LinkedIn profile</span>
+          <input type="text" name="linkedin" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL">
+        </div>
+        <div class="field-group">
+          <span style="font-size:13px; display:block;">Portfolio or website</span>
+          <input type="text" name="portfolio" placeholder="https://..." aria-label="Portfolio URL">
+        </div>
+        <div class="field-group">
+          <span style="font-size:13px; display:block;">How many years of product management experience?</span>
+          <select name="yearsExp" aria-label="Years of experience">
+            <option value="">Select</option>
+            <option value="0-2">0-2</option>
+            <option value="3-5">3-5</option>
+            <option value="6-10">6-10</option>
+            <option value="10+">10+</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <!-- Pill yes/no buttons for remote preference (custom widget) -->
+    <div class="field-group">
+      <span style="font-size:13px; display:block;">Are you willing to work remotely? *</span>
+      <div class="pill-group" role="radiogroup" aria-label="Remote preference">
+        <button type="button" class="pill" role="radio" aria-checked="false" data-value="yes">Yes</button>
+        <button type="button" class="pill" role="radio" aria-checked="false" data-value="no">No</button>
+        <button type="button" class="pill" role="radio" aria-checked="false" data-value="hybrid">Hybrid</button>
+      </div>
+      <input type="hidden" name="remotePreference" id="remotePreferenceHidden">
+    </div>
+
+    <!-- Shadow DOM host (declarative shadow root) -->
+    <div class="field-group">
+      <span style="font-size:13px; display:block;">Current employer (shadow host test)</span>
+      <div id="shadowHostContainer" style="border:1px dashed #aaa; padding:4px;">
+        <template shadowroot="open">
+          <style>
+            input { width: 100%; padding: 6px; border: 1px solid #666; border-radius: 4px; }
+            label { font-size: 12px; color: #333; display: block; margin-bottom: 2px; }
+          </style>
+          <label for="shadowEmployer">Employer name</label>
+          <input type="text" id="shadowEmployer" name="employerShadow" placeholder="e.g., Acme Corp">
+        </template>
+      </div>
+    </div>
+
+    <!-- Glued span labels (non-semantic) for a couple fields -->
+    <div class="field-group">
+      <span style="font-size:13px;"><span style="color:#d32f2f;">*</span> Resume/CV</span>
+      <input type="file" name="resume" accept=".pdf,.docx" style="width:100%;" aria-label="Upload resume">
+    </div>
+
+    <div class="field-group">
+      <span style="font-size:13px;">Cover letter</span>
+      <textarea name="coverLetter" rows="4" placeholder="Optional message..." aria-label="Cover letter"></textarea>
+    </div>
+
+    <!-- Decoy secondary form (non-semantic) - just a visual block -->
+    <div style="border:1px solid #eee; padding:8px; margin-top:12px; background:#fafafa;">
+      <span style="font-size:11px; color:#888;">Internal notes (do not fill)</span>
+      <input type="text" name="decoyField" placeholder="This field is not required" style="width:100%;" tabindex="-1">
+    </div>
+
+    <!-- Third non-semantic pattern: aria-label-only field (already used in several, but explicit) -->
+    <div class="field-group">
+      <div role="textbox" contenteditable="true" aria-label="Additional skills (comma separated)" style="border:1px solid #bbb; min-height:40px; padding:6px; border-radius:4px; background:white; font-size:14px;"></div>
+      <span style="font-size:11px; color:#666;">Type your skills, e.g., "product strategy, agile"</span>
+    </div>
+
+    <!-- Additional field to meet min 14: Preferred start date -->
+    <div class="field-group">
+      <span style="font-size:13px; display:block;">Preferred start date</span>
+      <input type="text" name="startDate" placeholder="MM/DD/YYYY" aria-label="Preferred start date" style="width:100%;">
+    </div>
+
+    <div style="margin-top:16px; display:flex; gap:12px; justify-content:flex-end;">
+      <button type="button" onclick="document.getElementById('applyDialog').close();">Cancel</button>
+      <button type="submit">Submit application</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  (function() {
+    // Simple combobox behavior
+    var combobox = document.getElementById('sourceInput');
+    var listbox = document.getElementById('sourceListbox');
+    var hidden = document.getElementById('sourceHidden');
+    var options = listbox.querySelectorAll('[role="option"]');
+
+    function openListbox() {
+      listbox.classList.add('open');
+      combobox.setAttribute('aria-expanded', 'true');
+    }
+    function closeListbox() {
+      listbox.classList.remove('open');
+      combobox.setAttribute('aria-expanded', 'false');
+    }
+
+    combobox.addEventListener('click', function() {
+      if (listbox.classList.contains('open')) {
+        closeListbox();
+      } else {
+        openListbox();
+      }
+    });
+
+    combobox.addEventListener('input', function() {
+      var val = this.value.toLowerCase();
+      options.forEach(function(opt) {
+        var text = opt.textContent.toLowerCase();
+        if (text.indexOf(val) !== -1) {
+          opt.style.display = 'block';
+        } else {
+          opt.style.display = 'none';
+        }
+      });
+      openListbox();
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        combobox.value = this.textContent;
+        hidden.value = this.textContent;
+        options.forEach(function(o) { o.setAttribute('aria-selected', 'false'); });
+        this.setAttribute('aria-selected', 'true');
+        closeListbox();
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combobox.contains(e.target) && !listbox.contains(e.target)) {
+        closeListbox();
+      }
+    });
+
+    // Pill buttons (remote preference)
+    var pills = document.querySelectorAll('.pill[role="radio"]');
+    var remoteHidden = document.getElementById('remotePreferenceHidden');
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); });
+        this.classList.add('selected');
+        this.setAttribute('aria-checked', 'true');
+        remoteHidden.value = this.getAttribute('data-value');
+      });
+    });
+
+    // Form submit handler (prevent actual post)
+    document.getElementById('jobAppForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Application submitted (demo mode).');
+    });
+
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+{
+  "id": "web-www-finn-no-apply-13",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "e-postadresse",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_email",
+        "name": "prof_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "bekreft e-postadresse",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_emailrepeat",
+        "name": "prof_emailrepeat",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "fornavn",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_firstname",
+        "name": "prof_firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "etternavn",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_surname",
+        "name": "prof_surname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Velg...",
+        "Afghanistan 🇦🇫 +93",
+        "Albania 🇦🇱 +355",
+        "Algerie 🇩🇿 +213",
+        "Amerikansk Samoa 🇦🇸 +1684",
+        "Andorra 🇦🇩 +376",
+        "Angola 🇦🇴 +244",
+        "Anguilla 🇦🇮 +1264",
+        "Argentina 🇦🇷 +54",
+        "Armenia 🇦🇲 +374",
+        "Aruba 🇦🇼 +297",
+        "Australia 🇦🇺 +61",
+        "Østerrike 🇦🇹 +43",
+        "Aserbajdsjan 🇦🇿 +994",
+        "Bahamas 🇧🇸 +1242",
+        "Bahrain 🇧🇭 +973",
+        "Bangladesh 🇧🇩 +880",
+        "Barbados 🇧🇧 +1246",
+        "Hviterussland 🇧🇾 +375",
+        "Belgia 🇧🇪 +32",
+        "Belize 🇧🇿 +501",
+        "Benin 🇧🇯 +229",
+        "Bermuda 🇧🇲 +1441",
+        "Bhutan 🇧🇹 +975",
+        "Bolivia 🇧🇴 +591",
+        "Botswana 🇧🇼 +267",
+        "Brasil 🇧🇷 +55",
+        "Brunei 🇧🇳 +673",
+        "Bulgaria 🇧🇬 +359",
+        "Burkina Faso 🇧🇫 +226"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "prof_telephone-country-code-select",
+        "name": "prof_telephone-country-code",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_telephone",
+        "name": "prof_telephone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "adresse",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_address",
+        "name": "prof_address",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "postnummer",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_postalcode",
+        "name": "prof_postalcode",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sted",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_postalcity",
+        "name": "prof_postalcity",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "prof_cvdocument-required prof_cvdocument-required",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_cvdocument-required",
+        "name": "prof_cvdocument-required",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "prof_pldocument-required prof_pldocument-required",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "prof_pldocument-required",
+        "name": "prof_pldocument-required",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jeg har lest og aksepterer vilkårene vilkår",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Jeg har lest og aksepterer vilkårene Vilkår"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "acceptterms",
+        "name": "acceptterms",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

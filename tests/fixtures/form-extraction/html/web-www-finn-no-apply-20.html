@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Vi søker assistenter til vårt fantastisk team! - Stendi Assistanse</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">Denne nettsiden bruker informasjonskapsler for å sikre at du får den beste opplevelsen.</h2>
+
+      <p class="mb-2">
+        Stendi Assistanse og våre utvalgte partnere bruker informasjonskapsler og lignende teknologier (samlet omtalt som «informasjonskapsler») som er nødvendige for å presentere denne nettsiden, og for å sikre at du får den beste opplevelsen med den.
+
+          Hvis du samtykker til det, vil vi også bruke informasjonskapsler for analytiske formål og markedsføringsformål.
+      </p>
+
+      <p class="mb-2">Se <a class="company-link" href="https://stillinger.stendiassistanse.no/cookie-policy">retningslinjene våre for informasjonskapsler</a> for å lese mer om informasjonskapslene vi bruker.</p>
+
+      <p>Du kan når som helst trekke tilbake og endre samtykket ditt ved å klikke på «Administrer informasjonskapsler» nederst på hver av nettsidene.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Godta alle informasjonskapsler" data-action="click->common--cookies--alert#acceptAll">Godta alle informasjonskapsler</button>
+
+        <button class="careersite-button w-full" aria-label="Avslå alle ikke-nødvendige informasjonskapsler" data-action="click->common--cookies--alert#disableAll">Avslå alle ikke-nødvendige informasjonskapsler</button>
+
+      <button class="careersite-button w-full" aria-label="Preferanser for informasjonskapsler" data-action="click->common--cookies--alert#openPreferences">Preferanser for informasjonskapsler</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Velg hvilke informasjonskapsler du godtar</h2>
+    <p class="text-left mb-2">På dette nettstedet bruker vi alltid informasjonskapsler som er strengt nødvendige, hvilket betyr at de er nødvendige for at nettstedet skal kunne fungere på riktig måte.</p>
+    <p class="text-left mb-2">Hvis du samtykker til det, bruker vi også andre typer informasjonskapsler. Du kan gi eller trekke tilbake samtykket til ulike typer informasjonskapsler ved å bruke veksleknappene nedenfor. Du kan når som helst endre eller trekke tilbake samtykket ditt ved å klikke på lenken «Administrer informasjonskapsler» som du til enhver tid finner nederst på nettstedet.</p>
+    <p class="text-left">Se <a href="https://stillinger.stendiassistanse.no/cookie-policy">retningslinjene for informasjonskapsler</a> for mer informasjon om hva de ulike informasjonskapslene gjør, hvordan opplysningene din brukes, når de brukes etc.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Helt nødvendig</label>
+
+    <p>Disse informasjonskapslene er nødvendige for at nettstedet skal fungere på riktig måte og er alltid aktiverte når du besøker nettstedet.</p>
+
+      <span>
+        <strong>Leverandører</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analyser</label>
+
+    <p>Disse informasjonskapslene samler informasjon som hjelper oss med å forstå hvordan nettstedet brukes.</p>
+
+      <span>
+        <strong>Leverandører</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Markedsføring</label>
+
+    <p>Disse informasjonskapslene brukes for å gjøre reklamer mer relevante for deg. I noen tilfeller leverer de også ekstra funksjoner på nettstedet.</p>
+
+      <span>
+        <strong>Leverandører</strong>
+        <span>Meta</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Godta disse informasjonskapslene</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Avslå alle ikke-nødvendige informasjonskapsler</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Hopp til hovedinnhold</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;--navigation-background-color: #b8460f;--navigation-highlight-color: #6b787f;">
+    <div class="absolute top-0 w-full h-full ltr:left-0 rtl:right-0">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only @sm:not-sr-only text-sm leading-normal tracking-wider uppercase !whitespace-nowrap">Karrieremeny</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://stillinger.stendiassistanse.no/jobs">Stillinger</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://stillinger.stendiassistanse.no/people">Medarbeidere</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://stillinger.stendiassistanse.no/">Hjem</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Medarbeider
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://app.teamtailor.com/companies/iIigXiJAGdo@eu/dashboard">Logg inn som medarbeider</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Kandidat
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://stillinger.stendiassistanse.no/connect/login">Logg på Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Hjemmeside</span>
+        <a class="hover:underline focus-visible-header" href="https://stendi.no">stendi.no</a>
+</div>  </div>
+</div>
+
+</div>
+
+<div class="header__logo flex items-center mx-auto">        
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="ef323cae137a0df24c6054845e29205dd" data-test="company-logo" data-turbo-permanent="true" href="https://stillinger.stendiassistanse.no/">
+    <img alt="Stendi Assistanse sin karriereside" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/8c5bc457-2cc7-4db3-9640-16b3bf79b865/original.png">
+</a>
+</div>
+
+  <div class="absolute top-0 flex items-center h-full mx-3 ltr:right-0 rtl:left-0">
+              <div data-controller="common--share" data-common--share-url-value="https://stillinger.stendiassistanse.no/jobs/3380486-vi-soker-assistenter-til-vart-fantastisk-team?promotion=2060384-finn-no" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="Du må velge et alternativ">
+
+
+  <button type="button" role="button" id="trigger-dropdown-2f08c5f4" aria-required="false" aria-label="Del siden" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-2f08c5f4" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Del siden</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-2f08c5f4" role="menu" aria-labelledby="trigger-dropdown-2f08c5f4" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://stillinger.stendiassistanse.no/jobs/3380486-vi-soker-assistenter-til-vart-fantastisk-team?promotion=2060384-finn-no" href="mailto:?subject=Sjekk ut denne stillingen i Stendi Assistanse&amp;body=Jeg så dette og tenkte det kunne være interessant for deg:%0D%0A%0D%0Ahttps://stillinger.stendiassistanse.no/jobs/3380486-vi-soker-assistenter-til-vart-fantastisk-team?promotion=2060384-finn-no">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+  </div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="3380486" data-careersite--jobs--form-overlay-job-application-url-value="https://stillinger.stendiassistanse.no/jobs/3380486-vi-soker-assistenter-til-vart-fantastisk-team/applications/new?promotion=2060384-finn-no" id="main-content">
+  
+      
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>BPA</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Florø </span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Vi søker assistenter til vårt fantastisk team!</h1>
+    
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100 careersite-button--secondary" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Søk på denne stillingen</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay "></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Bla til innholdet">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <p>Da er det deg vi ser etter!</p><p>Vi ser etter assistenter til en ung mann med psykisk utviklingshemning som bor i egen bolig. Ingen dag er lik. Hovedjobben er å&nbsp;tilrettelegge for at han kan fortsette å leve aktivt, meningsfylt og selvstendig liv. Som assistent er det viktig å skape trygge og stabile rammer slik at den du jobber for kan være i aktivitet, ute som inne, hjemme som på reise.</p><p>Vi ser etter deg som er praktisk, leken, engasjert og tålmodig. Du må være fleksibel og stabil og like å jobbe selvstendig men også som del av et fantastisk engasjert arbeidslag.</p><p>I det daglige ledes ordningene av en pårørende som er arbeidsleder. Stendi Assistanse vil være din arbeidsgiver.</p><p>Vi søker etter tilkallings assistenter med mulighet for engasjement fra høst 2026.</p><p>Arbeidstiden er dag vakter og våken nattevakter i en turnus. Her er det 12 timers vakter med to assistenter på dagen og&nbsp;en&nbsp;våken nattevakt.</p><p>Vi tilbyr:</p><p>Være en betydningsfull person i et annet menneskets liv.</p><p>Være en del av et engasjert team.</p><p>Opplæring og kurs.</p><p>Det benyttes kommunikasjonshjelpemiddel som det blir gitt opplæring i.</p><p>Veiledning.</p><p>Lønn etter tariff.&nbsp;</p><p>Krav til stillingen:</p><p>Du må snakke og skrive godt norsk.<br></p><p>Det må leveres politiattest før ansettelse.</p><p>Referanser vil bli etterspurt.</p><p>Høres dette ut som noe for deg? Send en søknad da vel!</p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Department</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              BPA
+
+</dd>
+
+
+          <dt class="w-full font-semibold md:w-half">Steder</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Florø 
+
+</dd>
+
+
+
+
+
+
+          <dt class="w-full font-semibold md:w-half">Stillingstype</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Fast ansettelse, Tilkallingsvikar
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Søknadsfrist</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            31. august 2026
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Tiltredelse</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Snarlig
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Yrker</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Personlig assistent
+
+</dd>
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-16407782" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b8460f;" class="block--recruiter   bg-company-primary text-company-primary" data-section-route="section" data-section-model="16407782" data-section-name="recruiter" data-section-label="Rekrutterer">
+</section>
+
+  
+  <section id="section-16407784" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b8460f;" class="block--colleagues   bg-company-primary text-company-primary" data-section-route="section" data-section-model="16407784" data-section-name="colleagues" data-section-label="Kolleger">
+    <section class="block-px block-padding bg-primary-text-background">
+  <div class="mx-auto block-max-w--md">
+    <h2 class="mb-10 text-4xl text-center font-company-header">
+      Kolleger
+</h2>
+    <div class="grid mx-auto gap-y-9 grid-cols-1" style="--col-min-w: 300px;">
+      <a href="https://stillinger.stendiassistanse.no/people/1931113-hanane-bougrine" data-turbo-frame="_top" class="group items-center focus-visible:outline-none flex flex-col px-4 text-center">
+        <div class=" group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 200px"></div>
+
+        <div class="
+            text-md transition text-company-link text-block-link group-hover:text-company-link-hover group-focus-visible:text-company-link-hover text-block-text mt-2
+          ">
+          Hanane Bougrine
+        </div>
+
+</a></div>
+  </div>
+</section>
+
+</section>
+
+  
+  <section id="section-16407785" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b8460f;" class="block--related-jobs   bg-company-primary text-company-primary" data-section-route="section" data-section-model="16407785" data-section-name="related-jobs" data-section-label="Relaterte stillinger">
+    
+  <section id="section-" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b8460f;" class="block--jobs   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-name="jobs" data-section-label="Stillinger">
+    <turbo-frame id="jobs_list">
+
+
+
+
+
+  <div class="w-full text-lg relative block-px" data-layout="thick" data-controller="blocks--jobs" data-blocks--jobs-show-map-value="false" data-blocks--jobs-split-view-value="false" data-blocks--jobs-language-code-value="no" data-blocks--jobs-first-block-value="true" data-blocks--jobs-overflow-auto-class="@lg:overflow-auto" data-blocks--jobs-overflow-hidden-class="@lg:overflow-hidden" data-blocks--jobs-sibling-element-padding-class="@lg:[&amp;.bg-block-preset-primary:not(.keep-block-padding)]:!pt-20" data-blocks--jobs-disabled-map-view-toggle-class="cursor-not-allowed" id="jobs">
+      <div class="block-px jobs-text">
+        <div class="mb-15 @md:mb-18 @lg:mb-20 mx-auto block-max-w--sm">
+            <h1 class="text-4xl text-center font-company-header text-block-title">Ledige stillinger</h1>
+
+</div></div>
+    <div class="relative" data-blocks--jobs-target="jobsContainer">
+
+
+        <div class="bg-company-primary relative z-career-jobs-list @lg:col-span-2 pt-4 @lg:pt-8" data-blocks--jobs-target="jobsListContainer">
+
+          <div>
+              <div class="mx-auto text-lg block-max-w--lg">
+    <ul id="jobs_list_container" class="company-links">
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://stillinger.stendiassistanse.no/jobs/7940604-bpa-assistent-sokes-for-deg-som-er-glad-i-hund-og-gode-turer">
+      <span class="absolute inset-0"></span>
+      🐾 BPA-assistent søkes – for deg som er glad i hund og gode turer
+</a>
+    <div class="mt-1 text-md">
+<span>BPA</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Frogner, Oslo, Oslo, Vestre Aker, Oslo</span>
+
+</div>
+</div>
+    <span class="block w-full h-px bg-gradient-block-base-border"></span>
+</li>
+
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://stillinger.stendiassistanse.no/jobs/7940567-bpa-assistent-haptisk-tolk-sokes">
+      <span class="absolute inset-0"></span>
+      🎶 BPA-assistent / haptisk tolk søkes 🎶
+</a>
+    <div class="mt-1 text-md">
+<span>BPA</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span title="Frogner, Oslo, Oslo, Ullern, Oslo, Vestre Aker, Oslo">Flere steder</span>
+
+</div>
+</div>
+    <span class="block w-full h-px bg-gradient-block-base-border"></span>
+</li>
+
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://stillinger.stendiassistanse.no/jobs/7836401-bpa-assistent-sokes-33-stilling-variert-og-meningsfull-hverdag">
+      <span class="absolute inset-0"></span>
+      🌟 BPA-assistent søkes (33 % stilling) – variert og meningsfull hverdag 🌟
+</a>
+    <div class="mt-1 text-md">
+<span>BPA</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Aurskog-Høland</span>
+
+</div>
+</div>
+</li>
+
+    </ul>
+</div>
+
+          </div>
+
+
+</div>
+        <div class="flex justify-center mx-auto mt-12 @lg:col-span-2">
+          <a href="/jobs" class="careersite-button min-w-[13.75rem] group" data-turbo="false">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Flere stillinger</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+        </div>
+</div></div></turbo-frame>
+</section>
+
+
+
+</section>
+
+
+
+      <section class="block--about company-links bg-primary-text-background text-company-primary block-px" style="--block-title-color: rgba(var(--company-primary-text-color), 1);">
+    <div class="py-20 mx-auto block-max-w--sm">
+      <div class="mx-auto block-max-w--sm">
+    <h2 class="mb-4 text-4xl text-center font-company-header text-block-title break-words hyphens-auto">Om Stendi Assistanse</h2>
+
+    <div class="prose prose-block font-company-body company-links break-words"><p>Stendi Assistanse er et av Norges største leverandører av assistanse- og hjemmetjenester til mennesker med hjelpebehov. Vi leverer tjenester på vegne av det offentlige. Gjennom vårt arbeid ønsker vi å gjøre verden litt bedre, ett menneske av gangen. Sammen med våre oppdragsgivere skaper vi en trygg omsorg som ivaretar alle!</p><p>Vi har et landsdekkende tjenestetilbud innen brukerstyrt personlig assistanse (BPA) og hjemmebaserte tjenester. </p></div>
+</div>
+
+
+      <div class="flex flex-wrap mt-8 text-lg gap-y-4">
+
+          <div class="flex-shrink-0 w-full @md:w-half">
+            <span class="font-bold">
+              Medarbeidere
+            </span>
+
+            1500
+          </div>
+
+      </div>
+    </div>
+</section>
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Søk på denne stillingen</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>BPA</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Florø </span>
+
+
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Vi søker assistenter til vårt fantastisk team!</h1>
+    
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://stillinger.stendiassistanse.no/jobs/3380486-vi-soker-assistenter-til-vart-fantastisk-team/applications/new?promotion=2060384-finn-no">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Laster inn søknadsskjema
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Lukk modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-padding">
+  <div class="w-full mx-auto @sm:flex block-max-w--lg">
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-menu">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Karriereside
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://stillinger.stendiassistanse.no/jobs">Stillinger</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://stillinger.stendiassistanse.no/people">Medarbeidere</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://stillinger.stendiassistanse.no/">Hjem</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/data-privacy">Data og personvern</a>
+
+</li>      <li class="w-full text-md leading-tight">
+                    <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Administrer informasjonskapsler" class="company-link font-company-body text-unset py-1">Administrer informasjonskapsler</button>
+
+</li>  </ul>
+</div>
+
+
+
+    <div class="flex flex-col items-center justify-center grow shrink-0 text-base @sm:items-end @sm:justify-end">
+      <a class="text-company-primary hover:text-company-link text-ellipsis py-1" href="https://stendi.no">stendi.no</a>
+      
+
+        <div class="flex mt-2">
+            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="LinkedIn" href="https://www.linkedin.com/company/stendi-norge/posts/?feedView=all">
+              <i class="fab fa-linkedin size-6 p-1 text-lg"></i>
+</a>        </div>
+</div></div></div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="https://app.teamtailor.com/companies/iIigXiJAGdo@eu/dashboard">Medarbeiderinnlogging</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Kandidatens Connect-innlogging</a>
+
+        </div>
+      </div>
+</footer></div>
+
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e2baa1824e83afcb43c3d63a02447a443" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=stillinger.stendiassistanse.no&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Rekrutteringssystem</span>
+
+      av Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="stillinger.stendiassistanse.no">
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,198 @@
+{
+  "id": "https-jobs-ashbyhq-com-firecrawl-0d7a5f64-4da7-4f68-844f-7c4748c5f847-applicatio",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "are you located in the americas and able to work during us business hours (et–pt)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "010be9cc-1198-40c5-a8a7-3d711976983b",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedln",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "15dbe073-2d11-4b36-bb88-20b09d1276d9",
+        "name": "15dbe073-2d11-4b36-bb88-20b09d1276d9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "15dbe073-2d11-4b36-bb88-20b09d1276d9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe a revenue-impacting function, team, or system you built from scratch — not inherited or optimized, but created. include: what it was, how you staffed it, and one specific metric that changed as a result.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "43e5feb7-e5b4-4c36-a8b8-ba2a71c6e647",
+        "name": "43e5feb7-e5b4-4c36-a8b8-ba2a71c6e647",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "43e5feb7-e5b4-4c36-a8b8-ba2a71c6e647",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "give us an example of a workflow or automation you personally built (not specced, not managed — built) that directly improved a growth or revenue outcome. what tools did you use, and what was the before/after?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "56311401-fc35-46ff-af8a-e3e71ef5e162",
+        "name": "56311401-fc35-46ff-af8a-e3e71ef5e162",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "56311401-fc35-46ff-af8a-e3e71ef5e162",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "for this role, it is important to be able to communicate effectively with in english both by writing and speaking. how comfortable are you with writing and speaking in english?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I'm not very comfortable with writing and speaking in English.",
+        "I'm pretty comfortable with writing and speaking in English.",
+        "I'm very comfortable with writing and speaking in English."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9daa6f22-b83a-445d-942b-40a86612b82f_f7bc702a-b4ec-41ea-a9f2-9765b132d165-labeled-radio-0",
+        "name": "9daa6f22-b83a-445d-942b-40a86612b82f_f7bc702a-b4ec-41ea-a9f2-9765b132d165",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what interests you about working at firecrawl? what should we know about you?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "12588c30-b9f3-4ce0-b684-89b123cccbe4",
+        "name": "12588c30-b9f3-4ce0-b684-89b123cccbe4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "12588c30-b9f3-4ce0-b684-89b123cccbe4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

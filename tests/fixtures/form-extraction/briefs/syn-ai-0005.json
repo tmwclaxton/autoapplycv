@@ -1,0 +1,71 @@
+{
+    "id": "syn-ai-0005",
+    "seed": 2789363113,
+    "variety": {
+        "ats_style": "taleo",
+        "widgets": [
+            "native-inputs",
+            "location-typeahead",
+            "checkbox-group"
+        ],
+        "structure": "wizard",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "fieldset stacks with legend-only section titles",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "aria-label-only",
+                "notes": "At least two fields with aria-label only and no visible label element"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "iframe-apply",
+                "notes": "Apply form hosted inside iframe or srcdoc iframe shell"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Disabled decoy field",
+                "notes": "Disabled name field looks required but cannot be filled; active duplicate below",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Disabled decoy<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"dis_name_decoy\">Full name<\/label><input type=\"text\" id=\"dis_name_decoy\" name=\"dis_name_decoy\" disabled value=\"Import failed\"> <label for=\"dis_name\">Full name (please enter)<\/label><input type=\"text\" id=\"dis_name\" name=\"dis_name\"> <label for=",
+                "requires_interaction": false
+            },
+            {
+                "title": "Split date selects",
+                "notes": "Start date as three separate day\/month\/year select elements",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Split date selects<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"date_name\">Name<\/label><input type=\"text\" id=\"date_name\" name=\"date_name\"> <fieldset><legend>Earliest start date<\/legend> <label for=\"start_day\">Day<\/label><select id=\"start_day\" name=\"start_day\"><option>1<\/option><option>15<\/option><\/se",
+                "requires_interaction": false
+            },
+            {
+                "title": "Aria describedby hints",
+                "notes": "Fields use aria-describedby for format hints separate from label",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Describedby hints<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"desc_phone\">Phone number<\/label> <span id=\"phone_hint\">Include country code, e.g. +44 7700 900000<\/span> <input type=\"tel\" id=\"desc_phone\" name=\"desc_phone\" aria-describedby=\"phone_hint\"> <label for=\"desc_email\">Email<\/label> <span id=\"em",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real taleo-style job application (wizard, large, tier=high). Widgets: native-inputs, location-typeahead, checkbox-group. Required: At least one readonly or disabled input with prefilled profile value Required: At least two fields with aria-label only and no visible label element Required: Label text split across multiple spans with no space between words Required: Apply form hosted inside iframe or srcdoc iframe shell Required: When combobox widget requested, use custom listbox - native select alone is insufficient Reference DOM (Disabled decoy field): Disabled name field looks required but cannot be filled; active duplicate below Reference DOM (Split date selects): Start date as three separate day\/month\/year select elements Reference DOM (Aria describedby hints): Fields use aria-describedby for format hints separate from label Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: readonly-prefill, aria-label-only, glued-label-text, iframe-apply, native-select-not-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: fieldset stacks with legend-only section titles. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Disabled decoy field; Split date selects; Aria describedby hints."
+}

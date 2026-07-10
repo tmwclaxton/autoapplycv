@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0054",
+    "seed": 3992926746,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "aria-labelledby-hidden",
+                "notes": "Field labeled via aria-labelledby pointing at hidden or distant span"
+            },
+            {
+                "id": "label-wraps-deep",
+                "notes": "Label wraps input through nested divs without for attribute"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Mixed language attributes",
+                "notes": "One field has lang=sv with Swedish label among English fields",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Mixed languages<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"lang_name\">Full name<\/label><input type=\"text\" id=\"lang_name\" name=\"lang_name\"> <label for=\"lang_sv\" lang=\"sv\">Personnummer (svenskt)<\/label><input type=\"text\" id=\"lang_sv\" name=\"lang_sv\" lang=\"sv\"> <label for=\"lang_email\">Email<\/label><inp",
+                "requires_interaction": false
+            },
+            {
+                "title": "Title attribute tooltip label",
+                "notes": "Field identified primarily via title attribute on input with minimal label",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Title attribute<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"title_name\">Name<\/label> <input type=\"text\" id=\"title_name\" name=\"title_name\" title=\"Enter your full legal name as it appears on official documents\"> <label for=\"title_link\">Link<\/label> <input type=\"url\" id=\"title_link\" name=\"title_link\" t",
+                "requires_interaction": false
+            },
+            {
+                "title": "Input inside nested label spans",
+                "notes": "Input nested inside label which contains multiple inline spans",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Nested label spans<\/h1> <form action=\"\/apply\" method=\"post\"> <label><span class=\"prefix\">Your<\/span> <span class=\"field-name\">name<\/span> <input type=\"text\" name=\"nested_label_name\"><\/label> <label><span>Email<\/span> <input type=\"email\" name=\"nested_label_email\"><\/label> <label for=\"nested_phone\">Phone<\/label",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: At least one readonly or disabled input with prefilled profile value Required: Field labeled via aria-labelledby pointing at hidden or distant span Required: Label wraps input through nested divs without for attribute Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Label text split across multiple spans with no space between words Reference DOM (Mixed language attributes): One field has lang=sv with Swedish label among English fields Reference DOM (Title attribute tooltip label): Field identified primarily via title attribute on input with minimal label Reference DOM (Input inside nested label spans): Input nested inside label which contains multiple inline spans Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: readonly-prefill, aria-labelledby-hidden, label-wraps-deep, div-role-textbox, glued-label-text. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Mixed language attributes; Title attribute tooltip label; Input inside nested label spans."
+}

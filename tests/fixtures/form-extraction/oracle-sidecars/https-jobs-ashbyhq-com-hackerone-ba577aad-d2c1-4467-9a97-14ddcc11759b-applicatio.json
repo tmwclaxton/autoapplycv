@@ -1,0 +1,235 @@
+{
+  "id": "https-jobs-ashbyhq-com-hackerone-ba577aad-d2c1-4467-9a97-14ddcc11759b-applicatio",
+  "status": "disagree",
+  "captured_at": "2026-07-10T15:12:13.889Z",
+  "page_url": "https://jobs.ashbyhq.com/hackerone/ba577aad-d2c1-4467-9a97-14ddcc11759b/application",
+  "page_title": "Staff Software Engineer, Applied AI @ HackerOne",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 28,
+      "ai_count": 3,
+      "count_delta": 25,
+      "label_jaccard": 0.069,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you located within ~50 miles of seattle, wa; boston, ma; washington dc; or austin, tx?",
+      "we use ashby ai notetaker in all interviews, this helps us focus on speaking to you, rather than writing lots of notes! do you consent for this to be used during the interview process?",
+      "phone",
+      "resume",
+      "linkedin url:",
+      "what ai projects have you built in your spare time outside of work?",
+      "location",
+      "zip code / postal code",
+      "pronouns",
+      "can you provide proof of authorization to work in the country for which job you are applying for?",
+      "will you now or in the future require employer sponsorship to work in the country for which job you are applying for? (note: if you have a visa with an expiration date, please select \"yes\" below)",
+      "were you referred by an h1 employee? if yes, please provide the name below:",
+      "how did you hear about us?",
+      "if you are a current employee, please enter your employee number",
+      "we love to see applicants that are passionate about ethical security research and hackerone's mission! if you hack on the hackerone platform (or any other platform), show us your work by sharing your handle below:",
+      "what is your current age?",
+      "what is your gender identity?",
+      "do you identify as transgender?",
+      "how do you identify your sexual orientation? please select all that apply.",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply.",
+      "gender",
+      "race",
+      "veteran status",
+      "disability status",
+      "i agree"
+    ],
+    "ai_only": [
+      "Resume/CV"
+    ],
+    "reasons": [
+      "field count delta 25 exceeds tolerance 2 (detector=28, ai=3)",
+      "label Jaccard 0.069 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated mid-form. Only the fields present in the provided snippet (Resume upload, Name, Email) are included. The form likely contains additional fields not visible in the excerpt.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you located within ~50 miles of seattle, wa; boston, ma; washington dc; or austin, tx?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "we use ashby ai notetaker in all interviews, this helps us focus on speaking to you, rather than writing lots of notes! do you consent for this to be used during the interview process?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url:",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what ai projects have you built in your spare time outside of work?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "zip code / postal code",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "can you provide proof of authorization to work in the country for which job you are applying for?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "will you now or in the future require employer sponsorship to work in the country for which job you are applying for? (note: if you have a visa with an expiration date, please select \"yes\" below)",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "were you referred by an h1 employee? if yes, please provide the name below:",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "if you are a current employee, please enter your employee number",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "we love to see applicants that are passionate about ethical security research and hackerone's mission! if you hack on the hackerone platform (or any other platform), show us your work by sharing your handle below:",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "disability status",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f27"
+    }
+  ]
+}

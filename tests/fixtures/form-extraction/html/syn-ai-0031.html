@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Senior Product Designer Application - Ashby</title>
+<style>
+  body { background: #f5f5f5; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 16px; }
+  .app-shell { max-width: 740px; margin: 0 auto; background: white; border-radius: 8px; padding: 24px 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .field-group { margin: 0 0 18px 0; }
+  .label-text { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #1a1a1a; }
+  .subtext { font-size: 12px; color: #666; margin-top: 2px; }
+  input[type=text], input[type=email], input[type=tel], select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
+  input:focus, select:focus, textarea:focus, div[role=textbox]:focus, .combobox-trigger:focus { outline: 2px solid #2563eb; outline-offset: -1px; }
+  .pill-row { display: flex; gap: 8px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #bbb; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; color: #333; }
+  .pill-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+  .combobox-wrap { position: relative; }
+  .combobox-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 12px; border: 1px solid #d0d0d0; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; text-align: left; }
+  .combobox-trigger::after { content: '\25be'; margin-left: 8px; opacity: 0.6; }
+  .listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 6px; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+  .listbox.open { display: block; }
+  .listbox-option { padding: 10px 14px; cursor: pointer; font-size: 14px; }
+  .listbox-option:hover, .listbox-option.focused { background: #eff6ff; }
+  .listbox-option[aria-selected=true] { background: #dbeafe; font-weight: 600; }
+  .phone-split { display: flex; gap: 8px; align-items: flex-start; }
+  .phone-code { flex: 0 0 130px; }
+  .phone-number { flex: 1; }
+  .hidden-field { display: none; }
+  .hidden-field.visible { display: block; margin-top: 8px; }
+  div[role=textbox] { min-height: 80px; padding: 10px 12px; border: 1px solid #d0d0d0; border-radius: 6px; background: white; font-size: 15px; white-space: pre-wrap; overflow-wrap: break-word; }
+  .tooltip-target { border-bottom: 1px dashed #aaa; cursor: help; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .decoy-survey { margin-top: 24px; padding: 16px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; }
+  .decoy-survey h4 { margin: 0 0 8px 0; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <h2 style="font-size: 22px; margin: 0 0 4px 0;">Apply for Senior Product Designer</h2>
+  <p style="font-size: 14px; color: #555; margin: 0 0 20px 0;">Remote · Full-time · Please complete all fields</p>
+
+  <!-- ===== 1. Full Name (native input, minimal label, title tooltip) ===== -->
+  <div class="field-group">
+    <span style="font-size:14px;font-weight:600;display:block;margin-bottom:2px;">Full Name <span style="color:#d00;">*</span></span>
+    <input type="text" id="field-name" title="Enter your full legal name as it appears on ID" placeholder="e.g. Jane Smith" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;" required>
+  </div>
+
+  <!-- ===== 2. Email (native, standard label) ===== -->
+  <div class="field-group">
+    <label for="field-email" style="display:block;font-size:14px;font-weight:600;margin-bottom:4px;">Email <span style="color:#d00;">*</span></label>
+    <input type="email" id="field-email" placeholder="you@company.com" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;" required>
+  </div>
+
+  <!-- ===== 3. Phone split: country code combobox + local number (split-phone + custom-combobox) ===== -->
+  <div class="field-group">
+    <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Phone <span style="color:#d00;">*</span></div>
+    <div class="phone-split">
+      <div class="phone-code combobox-wrap">
+        <span id="phone-code-label" style="font-size:12px;color:#666;display:block;margin-bottom:2px;">Code</span>
+        <button type="button" class="combobox-trigger" id="country-combo" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="phone-code-label" style="width:100%;">
+          <span id="combo-selected">US +1</span>
+        </button>
+        <div class="listbox" id="country-listbox" role="listbox" aria-labelledby="phone-code-label">
+          <div class="listbox-option" role="option" aria-selected="true" data-value="+1">US +1</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="+44">UK +44</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="+91">IN +91</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="+61">AU +61</div>
+          <div class="listbox-option" role="option" aria-selected="false" data-value="+86">CN +86</div>
+        </div>
+      </div>
+      <div class="phone-number">
+        <span style="font-size:12px;color:#666;display:block;margin-bottom:2px;">Number</span>
+        <input type="tel" id="phone-local" placeholder="555-0123" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+      </div>
+    </div>
+    <input type="hidden" id="phone-full" name="phone" value="">
+  </div>
+
+  <!-- ===== 4. Current location (native select, standard) ===== -->
+  <div class="field-group">
+    <label for="field-location" style="display:block;font-size:14px;font-weight:600;margin-bottom:4px;">Location</label>
+    <select id="field-location" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+      <option value="">Select …</option>
+      <option>San Francisco, CA</option>
+      <option>New York, NY</option>
+      <option>Austin, TX</option>
+      <option>Remote - US</option>
+      <option>Remote - Global</option>
+    </select>
+  </div>
+
+  <!-- ===== 5. Portfolio link (native input, aria-label only) ===== -->
+  <div class="field-group">
+    <input type="text" id="field-portfolio" aria-label="Portfolio or personal website URL" placeholder="https://portfolio.example.com" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+    <div style="font-size:12px;color:#777;margin-top:2px;">Link to your work (optional)</div>
+  </div>
+
+  <!-- ===== 6. div role=textbox contenteditable (custom text field) ===== -->
+  <div class="field-group">
+    <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Why are you interested in this role? <span style="color:#d00;">*</span></div>
+    <div role="textbox" contenteditable="true" aria-multiline="true" aria-label="Your motivation for applying" style="min-height: 80px; padding: 10px 12px; border: 1px solid #d0d0d0; border-radius: 6px; background: white; font-size: 15px; white-space: pre-wrap; overflow-wrap: break-word;"></div>
+  </div>
+
+  <!-- ===== 7. Years of experience (native input, hidden span label via aria-labelledby) ===== -->
+  <div class="field-group">
+    <span id="exp-hidden-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Years of professional design experience</span>
+    <input type="text" id="field-exp" aria-labelledby="exp-hidden-label" title="Years of experience" placeholder="e.g. 6" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+    <div style="font-size:12px;color:#777;margin-top:2px;">Years of experience</div>
+  </div>
+
+  <!-- ===== 8. Work authorization (pill yes/no) ===== -->
+  <div class="field-group">
+    <div style="font-size:14px;font-weight:600;margin-bottom:6px;">Are you authorized to work in the US? <span style="color:#d00;">*</span></div>
+    <div class="pill-row" role="group" aria-label="Work authorization yes or no">
+      <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this,'auth')">Yes</button>
+      <button type="button" class="pill-btn" data-value="no" onclick="setPill(this,'auth')">No</button>
+    </div>
+    <input type="hidden" id="auth-val" name="authorized" value="">
+  </div>
+
+  <!-- ===== 9. Referral source with 'Other' reveal (checkbox + hidden text field) ===== -->
+  <div class="field-group">
+    <div style="font-size:14px;font-weight:600;margin-bottom:6px;">How did you hear about us?</div>
+    <select id="referral-select" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+      <option value="">Select …</option>
+      <option value="linkedin">LinkedIn</option>
+      <option value="referral">Employee Referral</option>
+      <option value="other" id="ref-other-opt">Other — please specify</option>
+    </select>
+    <div class="hidden-field" id="other-reveal">
+      <input type="text" id="ref-other-text" placeholder="Tell us how you found us" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;margin-top:8px;">
+    </div>
+  </div>
+
+  <!-- ===== 10. Resume / CV (native file input, minimal label) ===== -->
+  <div class="field-group">
+    <label for="field-resume" style="display:block;font-size:14px;font-weight:600;margin-bottom:4px;">Resume / CV <span style="color:#d00;">*</span></label>
+    <input type="file" id="field-resume" accept=".pdf,.doc,.docx" style="font-size:14px;padding:4px 0;">
+  </div>
+
+  <!-- ===== 11. LinkedIn profile (native input, aria-labelledby pointing at distant span) ===== -->
+  <div class="field-group">
+    <span id="li-distant-label" style="display:none;">LinkedIn Profile URL</span>
+    <input type="text" id="field-linkedin" aria-labelledby="li-distant-label" placeholder="linkedin.com/in/yourprofile" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+    <div style="font-size:12px;color:#777;margin-top:2px;">LinkedIn (optional)</div>
+  </div>
+
+  <!-- ===== 12. Gender / demographic (glued span labels, no for attribute) ===== -->
+  <div class="field-group">
+    <span style="font-size:14px;font-weight:600;display:block;margin-bottom:6px;">Demographic information (optional)</span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;background:#f0f0f0;padding:4px 10px;border-radius:16px;"><input type="checkbox" name="demo" value="female" style="margin:0;"> <span>Female</span></label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;background:#f0f0f0;padding:4px 10px;border-radius:16px;"><input type="checkbox" name="demo" value="male" style="margin:0;"> <span>Male</span></label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;background:#f0f0f0;padding:4px 10px;border-radius:16px;"><input type="checkbox" name="demo" value="nonbinary" style="margin:0;"> <span>Non-binary</span></label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;background:#f0f0f0;padding:4px 10px;border-radius:16px;"><input type="checkbox" name="demo" value="prefer-not" style="margin:0;"> <span>Prefer not to say</span></label>
+    </div>
+  </div>
+
+  <!-- ===== 13. Salary expectation (native input, title attribute label) ===== -->
+  <div class="field-group">
+    <input type="text" id="field-salary" title="Enter your expected annual salary in USD" placeholder="Expected salary (USD)" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+  </div>
+
+  <!-- ===== 14. Additional info textarea (native, standard label) ===== -->
+  <div class="field-group">
+    <label for="field-notes" style="display:block;font-size:14px;font-weight:600;margin-bottom:4px;">Anything else we should know?</label>
+    <textarea id="field-notes" rows="3" placeholder="Optional notes or cover letter" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;"></textarea>
+  </div>
+
+  <!-- ===== 15. Decoy secondary form (non-semantic, glued spans) ===== -->
+  <div class="decoy-survey">
+    <h4 style="margin:0 0 8px 0;">Quick anonymous survey (not part of application)</h4>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span style="font-size:13px;background:#e0e7ff;padding:2px 8px;border-radius:4px;">How did you find us?</span>
+      <select style="padding:6px 10px;border:1px solid #ccc;border-radius:4px;font-size:13px;">
+        <option>Search engine</option>
+        <option>Social media</option>
+        <option>Friend</option>
+      </select>
+      <span style="font-size:13px;background:#e0e7ff;padding:2px 8px;border-radius:4px;">Rating:</span>
+      <button type="button" style="padding:2px 8px;border:1px solid #aaa;border-radius:4px;background:white;font-size:13px;">★</button>
+      <button type="button" style="padding:2px 8px;border:1px solid #aaa;border-radius:4px;background:white;font-size:13px;">★★</button>
+      <button type="button" style="padding:2px 8px;border:1px solid #aaa;border-radius:4px;background:white;font-size:13px;">★★★</button>
+    </div>
+  </div>
+
+  <!-- ===== 16. Start date availability (native input, title attribute label) ===== -->
+  <div class="field-group">
+    <input type="text" id="field-start-date" title="Earliest date you can start" placeholder="Earliest start date (e.g. Jan 2025)" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+  </div>
+
+  <!-- ===== 17. Visa sponsorship needed (pill yes/no) ===== -->
+  <div class="field-group">
+    <div style="font-size:14px;font-weight:600;margin-bottom:6px;">Will you require visa sponsorship? <span style="color:#d00;">*</span></div>
+    <div class="pill-row" role="group" aria-label="Visa sponsorship yes or no">
+      <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this,'visa')">Yes</button>
+      <button type="button" class="pill-btn" data-value="no" onclick="setPill(this,'visa')">No</button>
+    </div>
+    <input type="hidden" id="visa-val" name="visa" value="">
+  </div>
+
+  <!-- ===== 18. Current company (native input, title attribute label) ===== -->
+  <div class="field-group">
+    <input type="text" id="field-company" title="Current or most recent employer" placeholder="Current company (optional)" style="width:100%;padding:10px 12px;border:1px solid #d0d0d0;border-radius:6px;font-size:15px;box-sizing:border-box;">
+  </div>
+
+  <!-- ===== Submit button ===== -->
+  <div style="margin-top:24px;">
+    <button type="button" onclick="handleSubmit()" style="background:#2563eb;color:white;border:none;padding:12px 40px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;width:100%;">Submit Application</button>
+  </div>
+</div>
+
+<script>
+  // Combobox toggle
+  const comboBtn = document.getElementById('country-combo');
+  const listbox = document.getElementById('country-listbox');
+  const selectedSpan = document.getElementById('combo-selected');
+  const options = listbox.querySelectorAll('.listbox-option');
+  let comboOpen = false;
+
+  comboBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    comboOpen = !comboOpen;
+    listbox.classList.toggle('open', comboOpen);
+    this.setAttribute('aria-expanded', comboOpen);
+  });
+
+  options.forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      options.forEach(o => o.setAttribute('aria-selected', 'false'));
+      this.setAttribute('aria-selected', 'true');
+      selectedSpan.textContent = this.textContent;
+      listbox.classList.remove('open');
+      comboOpen = false;
+      comboBtn.setAttribute('aria-expanded', 'false');
+      // update hidden phone
+      updatePhone();
+    });
+  });
+
+  // close on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrap')) {
+      listbox.classList.remove('open');
+      comboOpen = false;
+      comboBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Pill buttons
+  function setPill(btn, group) {
+    const row = btn.parentElement;
+    row.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(group + '-val').value = btn.dataset.value;
+  }
+
+  // Referral reveal
+  document.getElementById('referral-select').addEventListener('change', function() {
+    const reveal = document.getElementById('other-reveal');
+    if (this.value === 'other') {
+      reveal.classList.add('visible');
+    } else {
+      reveal.classList.remove('visible');
+    }
+  });
+
+  // Phone combination
+  function updatePhone() {
+    const code = selectedSpan.textContent.trim().split(' ').pop();
+    const number = document.getElementById('phone-local').value;
+    document.getElementById('phone-full').value = code + ' ' + number;
+  }
+  document.getElementById('phone-local').addEventListener('input', updatePhone);
+
+  // Submit handler
+  function handleSubmit() {
+    updatePhone();
+    const name = document.getElementById('field-name').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const auth = document.getElementById('auth-val').value;
+    const visa = document.getElementById('visa-val').value;
+    if (!name || !email || !auth || !visa) {
+      alert('Please fill in required fields (Name, Email, Work Authorization, Visa Sponsorship).');
+      return;
+    }
+    alert('Application submitted! (This is a demo)');
+  }
+</script>
+</body>
+</html>

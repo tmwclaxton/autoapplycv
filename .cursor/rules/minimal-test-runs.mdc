@@ -42,3 +42,11 @@ npm run form-corpus:fill-verify:curated # unless curated manifest or many fixtur
 ```
 
 If unsure, prefer a **single file or filter**. Mention what was not run and offer a broader run before merge if needed.
+
+## Form corpus batches
+
+Form corpus fill-verify **never runs on PR** (manual `Tests (heavy)` only). When running corpus jobs locally or via `tests-corpus-batch.yml`:
+
+- **Max 50 scenarios per command** - no long-running full-prefix runs during iteration.
+- Review the batch report JSON before starting the next 50.
+- Use `--limit=50` on generate, scrape, vet, and fill-verify scripts.

@@ -1,0 +1,393 @@
+{
+  "id": "https-jobs-ashbyhq-com-jane-95defd2c-1f31-4da7-92fe-691c7babfcff-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:27:15.517Z",
+  "page_url": "https://jobs.ashbyhq.com/jane/95defd2c-1f31-4da7-92fe-691c7babfcff/application",
+  "page_title": "US Medical Biller @ Jane",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 19,
+      "count_delta": 0,
+      "label_jaccard": 0.9,
+      "type_agree_rate": 0.8947,
+      "matched_count": 19
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "ai consent for interviews",
+        "ai": "AI Consent for Interviews",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "as part of your application, we’d love to hear from you directly by recording a video of yourself. the question: in 60–120 seconds, tell us why you're excited about the medical billing specialist role at jane, and what draws you to working in healthcare billing. you might consider what stood out to you about jane or our mission, what excites you about doing meaningful billing work that supports healthcare practitioners and their patients, why accuracy and problem-solving in a fast-paced environment appeal to you, and how your values align with the way we work. we want to know why this role, here, now — not just that you're looking for “a remote billing job.” we recommend using loom to record your video and share the link here.",
+        "ai": "As part of your application, we’d love to hear from you directly by recording a video of yourself. The Question: In 60–120 seconds, tell us why you're excited about the Medical Billing Specialist role at Jane, and what draws you to working in healthcare billing. You might consider what stood out to you about Jane or our mission, what excites you about doing meaningful billing work that supports healthcare practitioners and their patients, why accuracy and problem-solving in a fast-paced environment appeal to you, and how your values align with the way we work. We want to know why this role, here, now — not just that you're looking for “a remote billing job.” We recommend using Loom to record your video and share the link here.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what emr's or pm systems have you used?",
+        "ai": "What EMR's or PM systems have you used?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you certified? if so, through which organization?",
+        "ai": "Are you Certified? If so, through which Organization?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "which disciplines have you provided billing services for?",
+        "ai": "Which Disciplines have you provided billing services for?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following best describes your gender?",
+        "ai": "Which of the following best describes your gender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you selected “other\", you can describe your gender in your own words below (optional).",
+        "ai": "If you selected “Other\", you can describe your gender in your own words below (optional).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you part of the 2slgbtqia+ community?",
+        "ai": "Are you part of the 2SLGBTQIA+ community?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please select the race or ethnicity that you identify with most.",
+        "ai": "Please select the race or ethnicity that you identify with most.",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+        "ai": "If you selected “Another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as a person with a disability (including apparent or non-apparent)?",
+        "ai": "Do you identify as a person with a disability (including apparent or non-apparent)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom combobox components for location and race/ethnicity which may require specific interaction to populate options.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I am legally authorized to work in the US",
+          "No, I am not legally authorized to work in the US (Please note: we’re not able to offer sponsorship at this time)"
+        ]
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "AI Consent for Interviews",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes, I’m comfortable with this and excited to move forward",
+          "No, this approach isn’t for me right now."
+        ]
+      },
+      {
+        "question": "As part of your application, we’d love to hear from you directly by recording a video of yourself. The Question: In 60–120 seconds, tell us why you're excited about the Medical Billing Specialist role at Jane, and what draws you to working in healthcare billing. You might consider what stood out to you about Jane or our mission, what excites you about doing meaningful billing work that supports healthcare practitioners and their patients, why accuracy and problem-solving in a fast-paced environment appeal to you, and how your values align with the way we work. We want to know why this role, here, now — not just that you're looking for “a remote billing job.” We recommend using Loom to record your video and share the link here.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What EMR's or PM systems have you used?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you Certified? If so, through which Organization?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which Disciplines have you provided billing services for?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Which of the following best describes your gender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Woman",
+          "Man",
+          "Non-Binary / Gender-Non-conforming",
+          "Prefer Not To Say",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you selected “Other\", you can describe your gender in your own words below (optional).",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you part of the 2SLGBTQIA+ community?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer Not To Say"
+        ]
+      },
+      {
+        "question": "Please select the race or ethnicity that you identify with most.",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If you selected “Another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you identify as a person with a disability (including apparent or non-apparent)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer Not To Say"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "url",
+      "ref": "f7"
+    },
+    {
+      "question": "ai consent for interviews",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "as part of your application, we’d love to hear from you directly by recording a video of yourself. the question: in 60–120 seconds, tell us why you're excited about the medical billing specialist role at jane, and what draws you to working in healthcare billing. you might consider what stood out to you about jane or our mission, what excites you about doing meaningful billing work that supports healthcare practitioners and their patients, why accuracy and problem-solving in a fast-paced environment appeal to you, and how your values align with the way we work. we want to know why this role, here, now — not just that you're looking for “a remote billing job.” we recommend using loom to record your video and share the link here.",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what emr's or pm systems have you used?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "are you certified? if so, through which organization?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "which disciplines have you provided billing services for?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "which of the following best describes your gender?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "if you selected “other\", you can describe your gender in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "are you part of the 2slgbtqia+ community?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "please select the race or ethnicity that you identify with most.",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "do you identify as a person with a disability (including apparent or non-apparent)?",
+      "field_type": "radio",
+      "ref": "f18"
+    }
+  ]
+}

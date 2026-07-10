@@ -1,0 +1,303 @@
+{
+  "id": "https-jobs-ashbyhq-com-halter-05147ed1-97bc-4047-97af-fa32cad7d627-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:18:17.964Z",
+  "page_url": "https://jobs.ashbyhq.com/halter/05147ed1-97bc-4047-97af-fa32cad7d627/application",
+  "page_title": "Lead React Native Engineer @ Halter",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 12,
+      "count_delta": 8,
+      "label_jaccard": 0.6,
+      "type_agree_rate": 0.9167,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full legal name",
+        "ai": "Full Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following statements best describes your right to work in nz?",
+        "ai": "Which of the following statements best describes your right to work in NZ?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any criminal convictions? (convictions that fall under the clean slate scheme do not have to be disclosed.)",
+        "ai": "Do you have any criminal convictions? (Convictions that fall under the clean slate scheme do not have to be disclosed.)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any condition, disease or health issues that could impact on your ability to carry out the type of work you are applying for?",
+        "ai": "Do you have any condition, disease or health issues that could impact on your ability to carry out the type of work you are applying for?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?*",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you located?",
+        "ai": "Where are you located?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "github url",
+      "portfolio url",
+      "why are you excited about this role at halter?",
+      "what is your notice period?",
+      "anything else you want to share?",
+      "what is your current age?",
+      "i identify my ethnicity as",
+      "what gender do you identify as?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is a combobox that likely fetches suggestions via API. The form is rendered within an Ashby-powered SPA.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which of the following statements best describes your right to work in NZ?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I am a New Zealand citizen",
+          "I am a New Zealand permanent resident",
+          "I hold a valid New Zealand work visa",
+          "I hold a student visa with work rights",
+          "I require visa sponsorship to work in New Zealand",
+          "I do not currently have the right to work in New Zealand"
+        ]
+      },
+      {
+        "question": "Do you have any criminal convictions? (Convictions that fall under the clean slate scheme do not have to be disclosed.)",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have any condition, disease or health issues that could impact on your ability to carry out the type of work you are applying for?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?*",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you located?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "which of the following statements best describes your right to work in nz?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "do you have any criminal convictions? (convictions that fall under the clean slate scheme do not have to be disclosed.)",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "do you have any condition, disease or health issues that could impact on your ability to carry out the type of work you are applying for?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "why are you excited about this role at halter?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "anything else you want to share?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f19"
+    }
+  ]
+}

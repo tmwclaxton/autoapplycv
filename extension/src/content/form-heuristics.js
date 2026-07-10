@@ -15,7 +15,13 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function normalize(text) {
-        return (text || '').replace(/\s+/g, ' ').replace(/\*/g, '').trim().toLowerCase();
+        return (text || '')
+            .replace(/\s+/g, ' ')
+            .replace(/[\u2731*]/g, '')
+            .replace(/^svgs not supported by this browser\.\s*/i, '')
+            .replace(/\bchoose file\b/gi, '')
+            .trim()
+            .toLowerCase();
     }
 
     function dedupeRepeatedLabelTokens(label) {
@@ -440,6 +446,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return indeedQuestionRoot;
         }
 
+        const leverQuestion = getLeverApplicationQuestion(element);
+
+        if (leverQuestion) {
+            return leverQuestion;
+        }
+
         return element.closest(
             'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"]:not(input):not(textarea):not(select), .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry, .input-row, .apply-flow-block',
         );
@@ -532,6 +544,98 @@ const AutoCVApplyFormHeuristics = (() => {
         const title = entry.querySelector('.ashby-application-form-question-title');
 
         return title?.textContent ? normalize(title.textContent) : '';
+    }
+
+    function getLeverApplicationQuestion(element) {
+        return element?.closest?.(
+            'li.application-question, .application-question, li.application-additional, .application-additional',
+        ) || null;
+    }
+
+    /**
+     * Lever posts use .application-label (often with nested .text) beside the control.
+     * Prefer that over the wrapping <label> textContent, which includes options and upload UI.
+     */
+    function getLeverQuestionLabel(element) {
+        const question = getLeverApplicationQuestion(element);
+
+        if (!question) {
+            return '';
+        }
+
+        const labelEl = question.querySelector(':scope > label > .application-label, :scope > .application-label, .application-label');
+
+        if (!labelEl) {
+            return '';
+        }
+
+        const textEl = labelEl.querySelector('.text');
+        const raw = (textEl || labelEl).textContent || '';
+
+        return normalize(raw);
+    }
+
+    function isRecruiteeApplyHost(doc = document) {
+        try {
+            return /\.recruitee\.com$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Recruitee often surfaces section titles ("My information", "Questions") instead of
+     * the per-field label. Prefer label[for], visible field label text, then placeholder.
+     */
+    function getRecruiteeQuestionLabel(element) {
+        if (!element || !isRecruiteeApplyHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const id = element.getAttribute?.('id');
+
+        if (id) {
+            const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+            const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+            const explicitText = explicit?.textContent ? normalize(explicit.textContent) : '';
+
+            if (explicitText.length >= 2 && !/^(my information|questions|legal agreements)$/i.test(explicitText)) {
+                return explicitText;
+            }
+        }
+
+        const fieldRoot = element.closest('[class*="field"], [data-testid*="field"], .sc-input, form');
+        const nearbyLabel = fieldRoot?.querySelector('label span, label, legend, [class*="label"]');
+        const nearbyText = nearbyLabel?.textContent ? normalize(nearbyLabel.textContent) : '';
+
+        if (nearbyText.length >= 2 && !/^(my information|questions|legal agreements|fill out the information below|please fill in additional questions)$/i.test(nearbyText)) {
+            // Prefer the first short label line when the node includes helper copy.
+            const firstLine = nearbyText.split(/\s{2,}|\n/)[0] || nearbyText;
+
+            if (firstLine.length >= 2 && firstLine.length <= 120) {
+                return firstLine;
+            }
+        }
+
+        const placeholder = normalize(element.getAttribute?.('placeholder') || '');
+
+        if (placeholder.length >= 2) {
+            return placeholder.replace(/^your\s+/i, '');
+        }
+
+        if (element.type === 'checkbox') {
+            const agreement = element.closest('label')?.textContent
+                || element.parentElement?.textContent
+                || '';
+            const agreementText = normalize(agreement);
+
+            if (agreementText.length >= 12) {
+                return agreementText.slice(0, 180);
+            }
+        }
+
+        return '';
     }
 
     function isAshbyHiddenYesNoInput(element) {
@@ -2090,6 +2194,18 @@ const AutoCVApplyFormHeuristics = (() => {
             return ashbyTitle;
         }
 
+        const leverLabel = getLeverQuestionLabel(element);
+
+        if (leverLabel.length >= 2) {
+            return leverLabel;
+        }
+
+        const recruiteeLabel = getRecruiteeQuestionLabel(element);
+
+        if (recruiteeLabel.length >= 2) {
+            return recruiteeLabel;
+        }
+
         const oracleLabel = getOracleApplyFlowQuestionLabel(element);
 
         if (oracleLabel.length >= 3) {
@@ -2917,6 +3033,31 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        // intl-tel-input (Workable et al.): country list lives inside the wrapping label.
+        const itiRoot = element.closest('.iti, [data-intl-tel-input-id]') || (
+            element.classList?.contains('iti__tel-input') ? element.parentElement : null
+        );
+
+        if (itiRoot || element.type === 'tel' || element.getAttribute('name') === 'phone') {
+            const doc = element.ownerDocument || document;
+            const phoneUi = element.closest('[data-ui="phone"]') || itiRoot?.closest('[data-ui="phone"]');
+            const labelled = phoneUi?.previousElementSibling?.querySelector?.('#phone_label, [id$="_label"]')
+                || doc.querySelector('#phone_label')
+                || phoneUi?.parentElement?.querySelector?.('#phone_label, [id$="_label"] strong, [id$="_label"]');
+
+            if (labelled?.textContent) {
+                const text = normalize(labelled.textContent);
+
+                if (text.length >= 3) {
+                    return text;
+                }
+            }
+
+            if (element.getAttribute('name') === 'phone' || element.type === 'tel') {
+                return 'phone';
+            }
+        }
+
         const phoneWidget = element.closest('.PhoneInput, [class*="phone-input-"]');
 
         if (!phoneWidget) {
@@ -2951,6 +3092,18 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (ashbyTitle.length >= 3) {
             return ashbyTitle;
+        }
+
+        const leverLabel = getLeverQuestionLabel(element);
+
+        if (leverLabel.length >= 2) {
+            return leverLabel;
+        }
+
+        const recruiteeLabel = getRecruiteeQuestionLabel(element);
+
+        if (recruiteeLabel.length >= 2) {
+            return recruiteeLabel;
         }
 
         const labelParts = [];
@@ -3413,6 +3566,30 @@ const AutoCVApplyFormHeuristics = (() => {
         return element?.ownerDocument?.defaultView || window;
     }
 
+    function isAshbyAutofillResumeHelper(element) {
+        return Boolean(
+            element?.closest?.(
+                '.ashby-application-form-autofill-uploader, [class*="autofillPane"], [class*="_autofillPane_"]',
+            ),
+        );
+    }
+
+    /**
+     * Custom upload UIs often clip the native file input (Ashby resume). Still inventory it
+     * when it has a real question label and is not the autofill helper dropzone.
+     */
+    function isLabeledApplicationFileInput(element) {
+        if (!element || element.type !== 'file' || element.disabled) {
+            return false;
+        }
+
+        if (isAshbyAutofillResumeHelper(element)) {
+            return false;
+        }
+
+        return getQuestionLabel(element).length >= 3;
+    }
+
     function isVisible(element) {
         if (!element || element.disabled || element.readOnly) {
             return false;
@@ -3868,6 +4045,10 @@ const AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
+            if (isLabeledApplicationFileInput(element)) {
+                return true;
+            }
+
             return isVisible(element);
         });
 
@@ -4049,7 +4230,11 @@ const AutoCVApplyFormHeuristics = (() => {
     function elementNeedsDraft(element) {
         const styledChoice = isAshbyStyledChoiceInput(element) || isOracleApplyFlowStyledChoiceInput(element);
 
-        if ((!isVisible(element) && !styledChoice) || element.type === 'file') {
+        if (element.type === 'file') {
+            return isLabeledApplicationFileInput(element);
+        }
+
+        if (!isVisible(element) && !styledChoice) {
             return false;
         }
 

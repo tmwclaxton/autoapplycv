@@ -1,0 +1,283 @@
+{
+  "id": "web-www-infoempleo-com-19",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "ej: consultor ux, diseñador",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search",
+        "name": "search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ej: Consultor UX, diseñador",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ej: málaga",
+      "field_type": "text",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "region",
+        "name": "region",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ej: Málaga",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ej: consultor ux, diseñador",
+      "field_type": "text",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ej: Consultor UX, diseñador",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ej: málaga",
+      "field_type": "text",
+      "max_chars": 80,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "region",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ej: Málaga",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "comentarios comentarios",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "Comentarios",
+        "name": "Comentarios",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Nickname",
+        "name": "Nickname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "contraseña",
+      "field_type": "password",
+      "max_chars": 15,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "Password",
+        "name": "Password",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Contraseña",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cursos sí o no",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Sí",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "AceptaEnvioFormacion",
+        "name": "IdAceptaFormacion",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "palabra clave ej: comercial...",
+      "field_type": "text",
+      "max_chars": 140,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Termino",
+        "name": "Termino",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Palabra clave ej: comercial...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "provincia provincia",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Provincia",
+        "Madrid",
+        "Barcelona",
+        "Valencia",
+        "_____________________________",
+        "A Coruña",
+        "Álava",
+        "Albacete",
+        "Alicante",
+        "Almería",
+        "Asturias",
+        "Ávila",
+        "Badajoz",
+        "Burgos",
+        "Cáceres",
+        "Cádiz",
+        "Cantabria",
+        "Castellón",
+        "Ceuta",
+        "Ciudad Real",
+        "Córdoba",
+        "Cuenca",
+        "Girona",
+        "Granada",
+        "Guadalajara",
+        "Guipúzcoa",
+        "Huelva",
+        "Huesca",
+        "Islas Baleares",
+        "Jaén"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "Provincia",
+        "name": "Provincia",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "localidad (opcional)",
+      "field_type": "text",
+      "max_chars": 140,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Ubicacion",
+        "name": "Ubicacion",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Localidad (opcional)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tu email",
+      "field_type": "text",
+      "max_chars": 60,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Tu email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

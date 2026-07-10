@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0023",
+    "seed": 616121004,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "details-accordion",
+                "notes": "Fields inside details\/summary or hidden until click"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "shadow-host",
+                "notes": "Fields inside a shadow DOM host or declarative shadow root"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Readonly prefilled email",
+                "notes": "Email input is readonly with prefilled value from profile import",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Readonly email<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"ro_name\">Name<\/label><input type=\"text\" id=\"ro_name\" name=\"ro_name\"> <label for=\"ro_email\">Email (from profile)<\/label><input type=\"email\" id=\"ro_email\" name=\"ro_email\" value=\"candidate@example.com\" readonly> <label for=\"ro_phone\">Phone<\/lab",
+                "requires_interaction": false
+            },
+            {
+                "title": "Multiple forms on page",
+                "notes": "Newsletter signup form vs job application form - tests primary form detection",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Multiple forms<\/h1> <aside><form id=\"newsletter\" action=\"\/newsletter\"><label>Newsletter email <input type=\"email\" name=\"newsletter_email\"><\/label><button type=\"submit\">Subscribe<\/button><\/form><\/aside> <form id=\"application\" action=\"\/apply\" method=\"post\"> <label for=\"app_name\">Applicant name<\/label><input typ",
+                "requires_interaction": false
+            },
+            {
+                "title": "Output with range",
+                "notes": "Years of experience via range input with output element display",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Output range<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"out_name\">Name<\/label><input type=\"text\" id=\"out_name\" name=\"out_name\"> <label for=\"exp_range\">Years of experience<\/label> <input type=\"range\" id=\"exp_range\" name=\"exp_range\" min=\"0\" max=\"30\" value=\"5\" oninput=\"document.getElementById('exp_out",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Newsletter or login decoy form separate from job application form Required: At least one readonly or disabled input with prefilled profile value Required: Fields inside details\/summary or hidden until click Required: Custom text field: div with role=textbox and contenteditable, no native input Required: Fields inside a shadow DOM host or declarative shadow root Reference DOM (Readonly prefilled email): Email input is readonly with prefilled value from profile import Reference DOM (Multiple forms on page): Newsletter signup form vs job application form - tests primary form detection Reference DOM (Output with range): Years of experience via range input with output element display Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: decoy-form, readonly-prefill, details-accordion, div-role-textbox, shadow-host. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Readonly prefilled email; Multiple forms on page; Output with range."
+}

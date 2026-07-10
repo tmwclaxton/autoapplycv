@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pracuj - Aplikuj: Senior Frontend Developer</title>
+<style>
+* { box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; margin: 0; }
+body { background: #f0f2f5; display: flex; justify-content: center; padding: 24px; min-height: 100vh; }
+.application-wrapper { display: flex; max-width: 1200px; width: 100%; gap: 24px; }
+.sidebar { width: 280px; flex-shrink: 0; }
+.main { flex: 1; min-width: 0; }
+.sidebar-card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px; }
+.sidebar-card h3 { font-size: 14px; color: #1a73e8; margin-bottom: 12px; border-bottom: 1px solid #e8eaed; padding-bottom: 8px; }
+.sidebar-card ul { list-style: none; padding: 0; font-size: 13px; }
+.sidebar-card li { padding: 6px 0; color: #3c4043; display: flex; align-items: center; gap: 8px; }
+.sidebar-card li::before { content: '\2713'; color: #34a853; font-weight: bold; }
+.form-card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 24px 28px; margin-bottom: 16px; }
+h2 { font-size: 20px; color: #202124; margin-bottom: 20px; font-weight: 500; }
+h3.section-title { font-size: 16px; color: #3c4043; margin: 20px 0 12px; font-weight: 500; border-left: 4px solid #1a73e8; padding-left: 10px; }
+.form-row { margin-bottom: 18px; }
+label { display: block; font-size: 13px; color: #5f6368; margin-bottom: 4px; font-weight: 400; }
+input[type="text"], input[type="email"], input[type="tel"], select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 8px; font-size: 14px; background: #fff; transition: border-color .15s; }
+input:focus, select:focus, textarea:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+textarea { resize: vertical; min-height: 80px; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+td { padding: 6px 8px; vertical-align: middle; }
+td input { width: 100%; }
+th { text-align: left; font-weight: 500; font-size: 13px; color: #5f6368; padding: 6px 8px; }
+.pill-group { display: flex; gap: 10px; margin: 8px 0; }
+.pill-btn { padding: 8px 24px; border-radius: 20px; border: 1px solid #dadce0; background: white; cursor: pointer; font-size: 14px; transition: all .15s; }
+.pill-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+.pill-btn:hover { border-color: #1a73e8; }
+.details-box { border: 1px solid #e8eaed; border-radius: 8px; padding: 0; margin: 12px 0; background: #fafafa; }
+details { padding: 12px 16px; }
+details summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #1a73e8; padding: 4px 0; }
+details .detail-content { padding: 12px 0 4px; }
+.glued-label { font-size: 13px; color: #3c4043; margin-bottom: 4px; }
+.glued-label span { display: inline; }
+.placeholder-only label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.reveal-field { margin-top: 8px; display: none; }
+.reveal-field.show { display: block; }
+.custom-textbox { border: 1px solid #dadce0; border-radius: 8px; padding: 10px 12px; min-height: 44px; background: white; cursor: text; }
+.custom-textbox:focus { border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); outline: none; }
+[role="textbox"][contenteditable="true"] { white-space: pre-wrap; }
+.readonly-email { background: #f1f3f4; color: #5f6368; cursor: not-allowed; }
+.button-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e8eaed; }
+.btn { padding: 10px 28px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; }
+.btn-primary { background: #1a73e8; color: white; }
+.btn-secondary { background: transparent; border: 1px solid #dadce0; color: #3c4043; }
+.btn-primary:hover { background: #1558b0; }
+.checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+.checkbox-grid label { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.radio-cluster { display: flex; gap: 20px; margin: 4px 0; }
+.radio-cluster label { display: flex; align-items: center; gap: 4px; font-size: 13px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.combobox-wrapper { position: relative; }
+.combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; }
+.combobox-listbox { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #dadce0; border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto; display: none; z-index: 10; }
+.combobox-listbox.open { display: block; }
+.combobox-option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+.combobox-option:hover, .combobox-option.selected { background: #e8f0fe; }
+</style>
+</head>
+<body>
+
+<div class="application-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>Stanowisko</h3>
+      <p style="font-weight:500; margin-bottom:12px;">Senior Frontend Developer</p>
+      <h3>Wymagania</h3>
+      <ul>
+        <li>5+ lat React</li>
+        <li>TypeScript</li>
+        <li>CSS/Sass</li>
+        <li>Git</li>
+      </ul>
+      <h3>Etapy</h3>
+      <ul style="list-style:decimal; padding-left:20px;">
+        <li style="list-style:decimal; color:#1a73e8; font-weight:500;">Aplikacja</li>
+        <li style="list-style:decimal;">Test online</li>
+        <li style="list-style:decimal;">Rozmowa</li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="form-card">
+      <h2>Aplikuj na stanowisko</h2>
+      <p style="font-size:14px; color:#5f6368; margin-bottom:20px;">Pola oznaczone * są wymagane.</p>
+
+      <!-- 1. Placeholder-only identification (empty label) -->
+      <div class="form-row placeholder-only">
+        <label for="fullname">Imię i nazwisko</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Imię i nazwisko" required>
+      </div>
+
+      <!-- 2. Readonly prefilled email -->
+      <div class="form-row">
+        <label for="email">Adres e-mail</label>
+        <input type="email" id="email" name="email" class="readonly-email" value="kamil.nowak@example.com" readonly>
+        <span style="font-size:11px; color:#5f6368;">Zaimportowano z profilu</span>
+      </div>
+
+      <!-- 3. Glued label text (split spans no space) -->
+      <div class="form-row">
+        <div class="glued-label" aria-label="Telefon kontaktowy">
+          <span>Telefon</span><span>kontaktowy</span>
+        </div>
+        <input type="tel" name="phone" placeholder="+48 111 222 333">
+      </div>
+
+      <!-- 4. Pill yes/no (not native radio) -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Czy posiadasz prawo jazdy kat. B? *</div>
+        <div class="pill-group" role="radiogroup" aria-label="Prawo jazdy kat. B">
+          <button type="button" class="pill-btn" data-value="tak" onclick="togglePill(this); document.getElementById('driving_license').value='tak'">Tak</button>
+          <button type="button" class="pill-btn active" data-value="nie" onclick="togglePill(this); document.getElementById('driving_license').value='nie'">Nie</button>
+        </div>
+        <input type="hidden" id="driving_license" name="driving_license" value="nie">
+      </div>
+
+      <!-- 5. Other option reveal (referral source) -->
+      <div class="form-row">
+        <label>Skąd dowiedziałeś się o ofercie? (opcjonalnie)</label>
+        <div style="margin-top:4px;">
+          <label style="display:flex; align-items:center; gap:6px; font-size:13px;">
+            <input type="checkbox" id="other_referral" onchange="document.getElementById('other_ref_field').classList.toggle('show', this.checked)">
+            Inne (proszę podać)
+          </label>
+          <div id="other_ref_field" class="reveal-field">
+            <input type="text" name="referral_other" placeholder="Proszę podać źródło" style="margin-top:6px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Duplicate name attrs: checkbox cluster (skills) -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Umiejętności (możesz wybrać wiele) *</div>
+        <div class="checkbox-grid">
+          <label><input type="checkbox" name="skills" value="react"> React</label>
+          <label><input type="checkbox" name="skills" value="typescript"> TypeScript</label>
+          <label><input type="checkbox" name="skills" value="css"> CSS/Sass</label>
+          <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+          <label><input type="checkbox" name="skills" value="angular"> Angular</label>
+          <label><input type="checkbox" name="skills" value="vue"> Vue.js</label>
+        </div>
+      </div>
+
+      <!-- 7. Duplicate name attrs: radio cluster (exp_level) -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Poziom doświadczenia *</div>
+        <div class="radio-cluster">
+          <label><input type="radio" name="exp_level" value="junior"> Junior</label>
+          <label><input type="radio" name="exp_level" value="mid" checked> Mid</label>
+          <label><input type="radio" name="exp_level" value="senior"> Senior</label>
+        </div>
+      </div>
+
+      <!-- 8. Table layout: date inputs -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Dostępność (daty) *</div>
+        <table>
+          <thead>
+            <tr><th>Od</th><th>Do</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="date" name="available_from" value="2025-04-01" required></td>
+              <td><input type="date" name="available_to" value="2025-09-30" required></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 9. Details/accordion: hidden fields -->
+      <div class="details-box">
+        <details>
+          <summary>Dodatkowe informacje (rozwiń)</summary>
+          <div class="detail-content">
+            <div class="form-row">
+              <label for="linkedin">LinkedIn (opcjonalnie)</label>
+              <input type="text" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/...">
+            </div>
+            <div class="form-row">
+              <label for="portfolio">Portfolio / GitHub</label>
+              <input type="text" id="portfolio" name="portfolio" placeholder="URL">
+            </div>
+            <div class="form-row">
+              <label for="notes">Uwagi dla rekrutera</label>
+              <textarea id="notes" name="notes" placeholder="Dodatkowe informacje..."></textarea>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- 10. Custom widget: div role=textbox (contenteditable) -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Krótkie bio (opcjonalnie)</div>
+        <div role="textbox" contenteditable="true" class="custom-textbox" aria-label="Krótkie bio" data-placeholder="Napisz kilka słów o sobie..." onfocus="if(this.innerText==='Napisz kilka słów o sobie...') this.innerText='';" onblur="if(this.innerText.trim()==='') this.innerText='Napisz kilka słów o sobie...';">Napisz kilka słów o sobie...</div>
+        <input type="hidden" name="bio" id="bio_hidden">
+      </div>
+
+      <!-- 11. Custom combobox (listbox) for preferred language -->
+      <div class="form-row">
+        <div style="font-size:13px; color:#3c4043; margin-bottom:4px;">Preferowany język komunikacji *</div>
+        <div class="combobox-wrapper">
+          <div class="combobox-input" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Preferowany język" tabindex="0" onclick="toggleCombobox(this)" onkeydown="handleComboboxKey(event, this)">Polski</div>
+          <div class="combobox-listbox" role="listbox" aria-label="Języki">
+            <div class="combobox-option selected" role="option" aria-selected="true" data-value="pl" onclick="selectOption(this, 'Polski')">Polski</div>
+            <div class="combobox-option" role="option" aria-selected="false" data-value="en" onclick="selectOption(this, 'Angielski')">Angielski</div>
+            <div class="combobox-option" role="option" aria-selected="false" data-value="de" onclick="selectOption(this, 'Niemiecki')">Niemiecki</div>
+            <div class="combobox-option" role="option" aria-selected="false" data-value="fr" onclick="selectOption(this, 'Francuski')">Francuski</div>
+          </div>
+          <input type="hidden" name="preferred_lang" id="preferred_lang" value="pl">
+        </div>
+      </div>
+
+      <!-- 12. ARIA-labelledby example -->
+      <div class="form-row">
+        <div id="salary_label" style="font-size:13px; color:#3c4043; display:inline;">Oczekiwane wynagrodzenie (netto) *</div>
+        <input type="text" name="salary_expectation" aria-labelledby="salary_label" placeholder="np. 15000 PLN" style="margin-top:4px;" required>
+      </div>
+
+      <!-- 13. Additional fields to reach 26+ -->
+      <div class="form-row">
+        <label for="city">Miasto *</label>
+        <input type="text" id="city" name="city" placeholder="np. Warszawa" required>
+      </div>
+      <div class="form-row">
+        <label for="postal">Kod pocztowy</label>
+        <input type="text" id="postal" name="postal" placeholder="00-001">
+      </div>
+      <div class="form-row">
+        <label for="start_date">Planowana data rozpoczęcia *</label>
+        <input type="date" id="start_date" name="start_date" required>
+      </div>
+      <div class="form-row">
+        <label for="contract_type">Preferowany typ umowy *</label>
+        <select id="contract_type" name="contract_type" required>
+          <option value="">Wybierz</option>
+          <option value="b2b">B2B</option>
+          <option value="employment">Umowa o pracę</option>
+          <option value="mandate">Umowa zlecenie</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="work_hours">Wymiar godzin (tygodniowo)</label>
+        <input type="number" id="work_hours" name="work_hours" placeholder="40" min="1" max="168">
+      </div>
+      <div class="form-row">
+        <label for="english_level">Poziom angielskiego *</label>
+        <select id="english_level" name="english_level" required>
+          <option value="">Wybierz</option>
+          <option value="a1">A1 - Początkujący</option>
+          <option value="a2">A2 - Podstawowy</option>
+          <option value="b1">B1 - Średni</option>
+          <option value="b2">B2 - Wyższy średni</option>
+          <option value="c1">C1 - Zaawansowany</option>
+          <option value="c2">C2 - Biegły</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="github">GitHub URL</label>
+        <input type="text" id="github" name="github" placeholder="https://github.com/username">
+      </div>
+      <div class="form-row">
+        <label for="source">Skąd znasz firmę? *</label>
+        <select id="source" name="source" required>
+          <option value="">Wybierz</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="pracuj">Pracuj.pl</option>
+          <option value="polecenie">Polecenie</option>
+          <option value="inne">Inne</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="relocation">Gotowość do relokacji *</label>
+        <select id="relocation" name="relocation" required>
+          <option value="">Wybierz</option>
+          <option value="tak">Tak</option>
+          <option value="nie">Nie</option>
+          <option value="rozważam">Rozważam</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="notice_period">Okres wypowiedzenia *</label>
+        <select id="notice_period" name="notice_period" required>
+          <option value="">Wybierz</option>
+          <option value="1">1 miesiąc</option>
+          <option value="2">2 miesiące</option>
+          <option value="3">3 miesiące</option>
+          <option value="0">Natychmiast</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="education">Wykształcenie</label>
+        <select id="education" name="education">
+          <option value="">Wybierz</option>
+          <option value="podstawowe">Podstawowe</option>
+          <option value="średnie">Średnie</option>
+          <option value="wyższe">Wyższe</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="certificates">Certyfikaty (opcjonalnie)</label>
+        <textarea id="certificates" name="certificates" placeholder="Wymień posiadane certyfikaty..."></textarea>
+      </div>
+      <div class="form-row">
+        <label for="additional_skills">Dodatkowe umiejętności</label>
+        <textarea id="additional_skills" name="additional_skills" placeholder="Inne umiejętności..."></textarea>
+      </div>
+
+      <!-- Additional fields to reach 26+ -->
+      <div class="form-row">
+        <label for="preferred_tech">Preferowana technologia *</label>
+        <select id="preferred_tech" name="preferred_tech" required>
+          <option value="">Wybierz</option>
+          <option value="react">React</option>
+          <option value="angular">Angular</option>
+          <option value="vue">Vue.js</option>
+          <option value="svelte">Svelte</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="years_exp">Lata doświadczenia *</label>
+        <input type="number" id="years_exp" name="years_exp" placeholder="np. 5" min="0" max="50" required>
+      </div>
+      <div class="form-row">
+        <label for="salary_min">Wynagrodzenie minimalne (netto) *</label>
+        <input type="number" id="salary_min" name="salary_min" placeholder="np. 12000" required>
+      </div>
+      <div class="form-row">
+        <label for="salary_max">Wynagrodzenie maksymalne (netto) *</label>
+        <input type="number" id="salary_max" name="salary_max" placeholder="np. 20000" required>
+      </div>
+      <div class="form-row">
+        <label for="preferred_location">Preferowana lokalizacja</label>
+        <input type="text" id="preferred_location" name="preferred_location" placeholder="np. Warszawa, Kraków">
+      </div>
+      <div class="form-row">
+        <label for="remote_preference">Preferencja pracy zdalnej *</label>
+        <select id="remote_preference" name="remote_preference" required>
+          <option value="">Wybierz</option>
+          <option value="full_remote">W pełni zdalna</option>
+          <option value="hybrid">Hybrydowa</option>
+          <option value="office">Stacjonarna</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="availability">Dostępność *</label>
+        <select id="availability" name="availability" required>
+          <option value="">Wybierz</option>
+          <option value="immediate">Natychmiast</option>
+          <option value="1month">1 miesiąc</option>
+          <option value="2months">2 miesiące</option>
+          <option value="3months">3 miesiące</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="driving_license_cat">Kategoria prawa jazdy</label>
+        <select id="driving_license_cat" name="driving_license_cat">
+          <option value="">Wybierz</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+          <option value="d">D</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="languages">Znajomość języków</label>
+        <textarea id="languages" name="languages" placeholder="np. angielski C1, niemiecki B2"></textarea>
+      </div>
+      <div class="form-row">
+        <label for="hobbies">Zainteresowania (opcjonalnie)</label>
+        <textarea id="hobbies" name="hobbies" placeholder="Twoje zainteresowania..."></textarea>
+      </div>
+
+      <!-- Button row -->
+      <div class="button-row">
+        <button type="button" class="btn btn-secondary" onclick="alert('Anulowano (symulacja)');">Anuluj</button>
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('bio_hidden').value=document.querySelector('[role=textbox]').innerText; alert('Aplikacja wysłana (symulacja)');">Wyślij aplikację</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePill(btn) {
+  const group = btn.closest('.pill-group');
+  group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function toggleCombobox(el) {
+  const listbox = el.nextElementSibling;
+  const isOpen = listbox.classList.contains('open');
+  listbox.classList.toggle('open', !isOpen);
+  el.setAttribute('aria-expanded', !isOpen);
+  if (!isOpen) {
+    listbox.querySelector('.combobox-option.selected').scrollIntoView({ block: 'nearest' });
+  }
+}
+
+function selectOption(el, text) {
+  const listbox = el.closest('.combobox-listbox');
+  const wrapper = listbox.previousElementSibling;
+  const hidden = wrapper.nextElementSibling;
+  listbox.querySelectorAll('.combobox-option').forEach(opt => {
+    opt.classList.remove('selected');
+    opt.setAttribute('aria-selected', 'false');
+  });
+  el.classList.add('selected');
+  el.setAttribute('aria-selected', 'true');
+  wrapper.innerText = text;
+  hidden.value = el.dataset.value;
+  listbox.classList.remove('open');
+  wrapper.setAttribute('aria-expanded', 'false');
+}
+
+function handleComboboxKey(event, el) {
+  const listbox = el.nextElementSibling;
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    toggleCombobox(el);
+  } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (!listbox.classList.contains('open')) {
+      toggleCombobox(el);
+    } else {
+      const options = listbox.querySelectorAll('.combobox-option');
+      let idx = Array.from(options).findIndex(opt => opt.classList.contains('selected'));
+      if (event.key === 'ArrowDown') {
+        idx = (idx + 1) % options.length;
+      } else {
+        idx = (idx - 1 + options.length) % options.length;
+      }
+      selectOption(options[idx], options[idx].innerText);
+    }
+  } else if (event.key === 'Escape') {
+    listbox.classList.remove('open');
+    el.setAttribute('aria-expanded', 'false');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  const activePill = document.querySelector('.pill-btn.active');
+  if(activePill) {
+    const hidden = document.getElementById('driving_license');
+    if(hidden) hidden.value = activePill.dataset.value;
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.combobox-wrapper')) {
+      document.querySelectorAll('.combobox-listbox.open').forEach(lb => {
+        lb.classList.remove('open');
+        lb.previousElementSibling.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

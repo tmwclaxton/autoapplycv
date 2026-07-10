@@ -1,0 +1,57 @@
+{
+  "id": "web-jobs-meinestadt-de-wie-bewerbe-ich-mich-intern",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "1. die vorbereitung",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1. Die Vorbereitung",
+        "2. Die Bewerbung",
+        "3. Das Bewerbungsgespräch",
+        "Was ist die Motivation Ihres Jobwechsels im Unternehmen?",
+        "Sollten interne Bewerber:innen überhaupt befragt werden?",
+        "Wie bereite ich mich am besten auf ein internes Vorstellungsgespräch vor?",
+        "Wie finde ich den passenden Job im gleichen Unternehmen?"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "m-accordion--17",
+        "name": "items",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email niid--20",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "niid--20",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

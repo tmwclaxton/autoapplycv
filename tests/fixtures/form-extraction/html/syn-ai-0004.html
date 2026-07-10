@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application - Senior Platform Engineer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; }
+    .apply-shell { display: flex; max-width: 1200px; margin: 20px auto; min-height: 80vh; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); overflow: hidden; }
+    .sidebar { width: 260px; background: #fafbfc; border-right: 1px solid #e2e4e8; padding: 24px 16px; flex-shrink: 0; }
+    .sidebar h3 { font-size: 13px; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px; }
+    .sidebar .progress { font-size: 14px; color: #374151; margin-bottom: 20px; }
+    .sidebar ul { list-style: none; }
+    .sidebar li { padding: 8px 12px; border-radius: 6px; font-size: 14px; color: #6b7280; margin-bottom: 4px; }
+    .sidebar li.active { background: #e8f0fe; color: #1a73e8; font-weight: 500; }
+    .main { flex: 1; padding: 32px 40px; }
+    h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+    .subhead { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+    .field-group { margin-bottom: 24px; }
+    .field-group .qnum { font-size: 12px; color: #9ca3af; font-weight: 600; display: block; margin-bottom: 2px; }
+    .label-wrap-deep { position: relative; }
+    .label-wrap-deep .label-container { display: block; padding: 0; }
+    .label-wrap-deep .label-container .inner-label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+    .label-wrap-deep .input-wrapper { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; background: #fff; }
+    .label-wrap-deep .input-wrapper input { border: none; outline: none; width: 100%; font-size: 14px; background: transparent; }
+    .label-wrap-deep .input-wrapper input:focus { border-color: #2563eb; }
+    .custom-textbox { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; min-height: 44px; background: #fff; cursor: text; font-size: 14px; line-height: 1.5; }
+    .custom-textbox:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+    .readonly-field { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; color: #374151; font-size: 14px; width: 100%; }
+    .custom-combobox { position: relative; }
+    .custom-combobox .combobox-trigger { display: flex; align-items: center; justify-content: space-between; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; background: #fff; cursor: pointer; font-size: 14px; }
+    .custom-combobox .combobox-trigger:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+    .custom-combobox .combobox-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); z-index: 50; max-height: 200px; overflow-y: auto; }
+    .custom-combobox.open .combobox-listbox { display: block; }
+    .custom-combobox .combobox-listbox .option { padding: 10px 12px; font-size: 14px; cursor: pointer; }
+    .custom-combobox .combobox-listbox .option:hover { background: #f3f4f6; }
+    .custom-combobox .combobox-listbox .option.selected { background: #e8f0fe; color: #1a73e8; }
+    .react-select-fake { border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; background: #fff; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 14px; }
+    .react-select-fake:focus { border-color: #2563eb; }
+    .react-select-fake .dropdown-indicator { color: #9ca3af; margin-left: 8px; }
+    details.accordion-field { border: 1px solid #e5e7eb; border-radius: 8px; padding: 0; background: #fff; }
+    details.accordion-field summary { padding: 12px 16px; font-weight: 500; font-size: 14px; cursor: pointer; color: #374151; list-style: none; display: flex; align-items: center; justify-content: space-between; }
+    details.accordion-field summary::-webkit-details-marker { display: none; }
+    details.accordion-field .accordion-content { padding: 12px 16px 16px; border-top: 1px solid #e5e7eb; }
+    .hidden-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .pill-group { display: flex; gap: 8px; }
+    .pill-group .pill { padding: 8px 20px; border: 1px solid #d1d5db; border-radius: 20px; font-size: 14px; cursor: pointer; background: #fff; color: #374151; transition: all .1s; }
+    .pill-group .pill.selected { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+    .row { display: flex; gap: 16px; }
+    .row > * { flex: 1; }
+    .mt-2 { margin-top: 8px; }
+    .mb-2 { margin-bottom: 8px; }
+    .btn-primary { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
+    .btn-primary:hover { background: #1557b0; }
+    .btn-secondary { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; padding: 12px 28px; border-radius: 8px; font-size: 15px; cursor: pointer; }
+    .footer-actions { display: flex; justify-content: space-between; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e5e7eb; }
+    .emoji-label { font-size: 14px; font-weight: 500; color: #374151; }
+  </style>
+</head>
+<body>
+<div class="apply-shell">
+  <aside class="sidebar">
+    <h3>📋 Application</h3>
+    <div class="progress">Step 1 of 3</div>
+    <ul>
+      <li class="active">Personal Info</li>
+      <li>Experience</li>
+      <li>Documents</li>
+    </ul>
+  </aside>
+  <main class="main">
+    <h2>Senior Platform Engineer</h2>
+    <div class="subhead">🇩🇪 Berlin · Full-time · Apply by 30 June</div>
+
+    <form id="appForm">
+      <!-- Q7. deep label wrap with nested divs, no for -->
+      <div class="field-group">
+        <span class="qnum">Q7.</span>
+        <div class="label-wrap-deep">
+          <div class="label-container">
+            <span class="inner-label">Full name (as on passport)</span>
+            <div class="input-wrapper">
+              <input type="text" placeholder="e.g. Maria Schmidt" value="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8. email with aria-labelledby pointing at hidden span -->
+      <div class="field-group">
+        <span class="qnum">Q8.</span>
+        <span id="emailHiddenLabel" class="hidden-label">Email address (work)</span>
+        <input type="email" aria-labelledby="emailHiddenLabel" placeholder="you@company.com" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;" />
+      </div>
+
+      <!-- Q9. readonly prefill with profile value -->
+      <div class="field-group">
+        <span class="qnum">Q9.</span>
+        <label class="emoji-label">🇪🇺 Current location (prefilled from profile)</label>
+        <input type="text" readonly value="Berlin, Germany" class="readonly-field" />
+      </div>
+
+      <!-- Q10. div role=textbox contenteditable (cover letter summary) -->
+      <div class="field-group">
+        <span class="qnum">Q10.</span>
+        <div class="label-wrap-deep">
+          <div class="label-container">
+            <span class="inner-label">Brief motivation (2-3 sentences)</span>
+            <div class="custom-textbox" role="textbox" contenteditable="true" aria-multiline="true" style="min-height:80px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q11. custom combobox (not native select) : location typeahead -->
+      <div class="field-group">
+        <span class="qnum">Q11.</span>
+        <label class="emoji-label">🏢 Preferred office location</label>
+        <div class="custom-combobox" id="locationCombobox" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+          <div class="combobox-trigger" data-value="">
+            <span class="combobox-selected">Select location</span>
+            <span style="color:#9ca3af;">▼</span>
+          </div>
+          <div class="combobox-listbox" role="listbox">
+            <div class="option" role="option" data-value="berlin">🇩🇪 Berlin</div>
+            <div class="option" role="option" data-value="munich">🇩🇪 Munich</div>
+            <div class="option" role="option" data-value="hamburg">🇩🇪 Hamburg</div>
+            <div class="option" role="option" data-value="cologne">🇩🇪 Cologne</div>
+            <div class="option" role="option" data-value="remote">🌍 Remote (EU)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q12. native select NOT combobox - but we already have combobox, so use pill buttons for yes/no to satisfy 'native-select-not-combobox'? Actually we need native select as well, but pattern says native select alone insufficient. So we add a native select but also have custom combobox above. That's fine. -->
+      <div class="field-group">
+        <span class="qnum">Q12.</span>
+        <label class="emoji-label">📢 How did you hear about this role?</label>
+        <select style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;">
+          <option value="">Select...</option>
+          <option>LinkedIn</option>
+          <option>Xing</option>
+          <option>Stepstone</option>
+          <option>Referral</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <!-- Q13. pill yes/no for remote work -->
+      <div class="field-group">
+        <span class="qnum">Q13.</span>
+        <label class="emoji-label">🛜 Willing to work from office 3 days/week?</label>
+        <div class="pill-group" role="radiogroup" aria-label="Remote willingness">
+          <div class="pill selected" role="radio" aria-checked="true" tabindex="0" data-value="yes">Yes</div>
+          <div class="pill" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+        </div>
+      </div>
+
+      <!-- Q14. react-select fake (multi-select styled as div) -->
+      <div class="field-group">
+        <span class="qnum">Q14.</span>
+        <label class="emoji-label">🧰 Tech stack (choose up to 3)</label>
+        <div class="react-select-fake" tabindex="0" role="listbox" aria-multiselectable="true" aria-label="Tech stack">
+          <span style="color:#9ca3af;">Kubernetes, Terraform, Go, Python, AWS</span>
+          <span class="dropdown-indicator">▼</span>
+        </div>
+      </div>
+
+      <!-- details accordion: cover letter & visa fields -->
+      <details class="accordion-field">
+        <summary>📎 Additional documents <span style="color:#9ca3af;font-size:12px;">(optional)</span></summary>
+        <div class="accordion-content">
+          <div class="field-group">
+            <span class="qnum">Q15.</span>
+            <label class="emoji-label">📄 Cover letter (paste or type)</label>
+            <div class="custom-textbox" role="textbox" contenteditable="true" aria-multiline="true" style="min-height:100px;font-size:14px;"></div>
+          </div>
+          <div class="field-group">
+            <span class="qnum">Q16.</span>
+            <label class="emoji-label">🏃 Do you require visa sponsorship?</label>
+            <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+              <div class="pill" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div>
+              <div class="pill selected" role="radio" aria-checked="true" tabindex="-1" data-value="no">No</div>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="qnum">Q17.</span>
+            <label class="emoji-label">🇸🇪 Swedish work permit (if applicable)</label>
+            <input type="text" placeholder="Permit number" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;" />
+            <span style="font-size:12px;color:#dc2626;">* required if Swedish location</span>
+          </div>
+        </div>
+      </details>
+
+      <!-- hidden button row -->
+      <div class="footer-actions">
+        <button type="button" class="btn-secondary">← Back</button>
+        <button type="submit" class="btn-primary">Continue →</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script>
+  // pill group toggle
+  document.querySelectorAll('.pill-group').forEach(group => {
+    group.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        group.querySelectorAll('.pill').forEach(p => { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); p.tabIndex = -1; });
+        this.classList.add('selected');
+        this.setAttribute('aria-checked', 'true');
+        this.tabIndex = 0;
+      });
+      pill.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+      });
+    });
+  });
+
+  // custom combobox
+  const combobox = document.getElementById('locationCombobox');
+  const trigger = combobox.querySelector('.combobox-trigger');
+  const listbox = combobox.querySelector('.combobox-listbox');
+  const selectedSpan = combobox.querySelector('.combobox-selected');
+  let open = false;
+
+  function toggleOpen() {
+    open = !open;
+    combobox.classList.toggle('open', open);
+    combobox.setAttribute('aria-expanded', open);
+  }
+
+  function closeListbox() {
+    open = false;
+    combobox.classList.remove('open');
+    combobox.setAttribute('aria-expanded', 'false');
+  }
+
+  trigger.addEventListener('click', (e) => { e.stopPropagation(); toggleOpen(); });
+
+  listbox.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      listbox.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedSpan.textContent = this.textContent.trim();
+      trigger.dataset.value = this.dataset.value;
+      closeListbox();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!combobox.contains(e.target)) closeListbox();
+  });
+
+  // combobox keyboard
+  combobox.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleOpen(); }
+    if (e.key === 'Escape') closeListbox();
+    if (e.key === 'ArrowDown' && open) {
+      e.preventDefault();
+      const options = listbox.querySelectorAll('.option');
+      const current = listbox.querySelector('.option.selected') || options[0];
+      const next = current.nextElementSibling || options[0];
+      listbox.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      next.classList.add('selected');
+      next.focus();
+    }
+    if (e.key === 'ArrowUp' && open) {
+      e.preventDefault();
+      const options = listbox.querySelectorAll('.option');
+      const current = listbox.querySelector('.option.selected') || options[options.length-1];
+      const prev = current.previousElementSibling || options[options.length-1];
+      listbox.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      prev.classList.add('selected');
+      prev.focus();
+    }
+  });
+
+  // react-select fake (just a demo, no real multiselect)
+  document.querySelectorAll('.react-select-fake').forEach(el => {
+    el.addEventListener('click', function() {
+      alert('Multiselect dropdown would open (demo)');
+    });
+  });
+
+  // prevent actual form submit for demo
+  document.getElementById('appForm').addEventListener('submit', (e) => { e.preventDefault(); alert('Application submitted (demo)'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+body { background: #f0f2f5; margin: 0; padding: 20px; }
+.outer-wrapper { max-width: 1100px; margin: 0 auto; display: grid; gap: 24px; }
+
+/* DECOY FORM */
+.decoy-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid #e0e3e7;
+}
+.decoy-section h3 { margin: 0 0 12px; font-size: 15px; color: #1a1a1a; }
+.decoy-row { display: flex; gap: 10px; align-items: center; }
+.decoy-row input { flex:1; padding: 8px 12px; border:1px solid #ccc; border-radius: 4px; font-size:14px; }
+.decoy-row button { background:#1a73e8; color:#fff; border:0; padding:8px 16px; border-radius:4px; font-weight:600; cursor:pointer; }
+
+/* IFRAME SHELL */
+.iframe-shell {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border: 1px solid #d4d9e0;
+  overflow: hidden;
+}
+.iframe-shell .shell-header {
+  background: #fafafa;
+  padding: 16px 20px 8px;
+  border-bottom: 1px solid #eaeef2;
+}
+.iframe-shell .shell-header h2 { margin:0; font-size:20px; font-weight:600; color:#0b2b4a; }
+.iframe-shell .shell-header p { margin:4px 0 0; font-size:13px; color:#5f6b7a; }
+.iframe-shell iframe {
+  width: 100%;
+  height: 1400px;
+  border: 0;
+  display: block;
+  background: #fcfcfd;
+}
+
+/* APPLY FORM (inside iframe) */
+.apply-form { padding: 20px 24px; }
+.apply-form h3 { font-size:15px; font-weight:600; color:#1a2634; margin: 24px 0 12px; border-bottom:1px solid #e6eaef; padding-bottom:4px; }
+.apply-form h3:first-of-type { margin-top:0; }
+
+/* table layout */
+table.form-table { width:100%; border-collapse: collapse; }
+table.form-table td { padding: 6px 4px 6px 0; vertical-align: top; }
+table.form-table td.label-cell { width: 30%; padding-right: 12px; }
+table.form-table td.field-cell { width: 70%; }
+table.form-table .field-label { font-size:13px; font-weight:500; color:#2c3e50; display:block; padding-top:6px; }
+table.form-table input, table.form-table select, table.form-table textarea {
+  width:100%; padding:8px 10px; border:1px solid #cbd5e0; border-radius:4px; font-size:14px; background:#fff;
+}
+table.form-table input:focus, table.form-table select:focus, table.form-table textarea:focus {
+  outline:none; border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.15);
+}
+
+/* split date selects */
+.split-date { display:flex; gap:6px; }
+.split-date select { flex:1; padding:8px 6px; border:1px solid #cbd5e0; border-radius:4px; background:#fff; font-size:14px; }
+
+/* custom combobox */
+.custom-combobox-wrapper { position:relative; }
+.custom-combobox-wrapper[aria-expanded="true"] .combobox-listbox { display:block; }
+.combobox-trigger {
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; padding:8px 10px; background:#fff; border:1px solid #cbd5e0; border-radius:4px;
+  cursor:pointer; font-size:14px; color:#1a2634; text-align:left;
+}
+.combobox-trigger:focus { border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.15); outline:none; }
+.combobox-trigger .arrow { font-size:10px; color:#6b7a8a; }
+.combobox-listbox {
+  display:none; position:absolute; top:100%; left:0; right:0; z-index:10;
+  background:#fff; border:1px solid #d0d7e2; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  max-height:180px; overflow-y:auto; margin-top:2px;
+}
+.combobox-listbox .option {
+  padding:8px 12px; cursor:pointer; font-size:14px; color:#1a2634;
+}
+.combobox-listbox .option:hover { background:#f0f4ff; }
+.combobox-listbox .option[aria-selected="true"] { background:#e8f0fe; font-weight:500; }
+
+/* details/accordion */
+details.accordion-field {
+  border:1px solid #e0e4e9; border-radius:6px; margin:16px 0; background:#fafcff;
+}
+details.accordion-field summary {
+  padding:10px 14px; cursor:pointer; font-size:14px; font-weight:500; color:#1f3a5f;
+}
+details.accordion-field .accordion-body { padding:12px 14px 16px; border-top:1px solid #e6eaef; }
+
+/* pill buttons (yes/no) */
+.pill-group { display:flex; gap:8px; margin:4px 0; }
+.pill-btn {
+  padding:6px 18px; border:1px solid #cbd5e0; border-radius:20px; background:#fff;
+  cursor:pointer; font-size:13px; color:#2c3e50; transition:all 0.1s;
+}
+.pill-btn.selected { background:#1a73e8; color:#fff; border-color:#1a73e8; }
+
+/* file upload (Lever style) */
+.file-upload-wrapper { display:flex; align-items:center; gap:10px; }
+.file-upload-wrapper .fake-btn {
+  padding:8px 18px; background:#eef2f6; border:1px dashed #a0b0c0; border-radius:6px;
+  cursor:pointer; font-size:13px; color:#1f3a5f; font-weight:500;
+}
+.file-upload-wrapper .fake-btn:hover { background:#e2e9f2; }
+.file-upload-wrapper input[type="file"] { display:none; }
+.file-upload-wrapper .file-name { font-size:13px; color:#5f6b7a; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* glued span labels */
+.glued-label { display:block; font-size:13px; color:#2c3e50; margin-bottom:2px; }
+.glued-label span { background:#f0f4fa; padding:0 4px; border-radius:2px; }
+
+/* misc */
+.row-flex { display:flex; gap:12px; align-items:flex-start; }
+.hint { font-size:12px; color:#7a8899; margin:2px 0 0; }
+.required-star { color:#d93025; }
+</style>
+</head>
+<body>
+<div class="outer-wrapper">
+
+  <!-- DECOY FORM (newsletter signup) -->
+  <div class="decoy-section">
+    <h3>📬 Stay updated — join our newsletter</h3>
+    <form onsubmit="alert('Decoy submitted (not really)');return false">
+      <div class="decoy-row">
+        <input type="email" placeholder="your@email.com" aria-label="Newsletter email" required>
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MAIN APPLICATION (inside iframe shell) -->
+  <div class="iframe-shell">
+    <div class="shell-header">
+      <h2>Senior Frontend Engineer</h2>
+      <p>Ashby · Remote · Full-time · <a href="#" style="color:#1a73e8;">Job details ↗</a></p>
+    </div>
+    <iframe srcdoc="
+      <html>
+      <head>
+      <style>
+        * { box-sizing:border-box; font-family:system-ui,sans-serif; }
+        body { margin:0; background:#fcfcfd; color:#1a2634; }
+        .apply-form { padding:20px 24px; }
+        h3 { font-size:15px; font-weight:600; color:#1a2634; margin:24px 0 12px; border-bottom:1px solid #e6eaef; padding-bottom:4px; }
+        h3:first-of-type { margin-top:0; }
+        table.form-table { width:100%; border-collapse:collapse; }
+        table.form-table td { padding:6px 4px 6px 0; vertical-align:top; }
+        table.form-table td.label-cell { width:30%; padding-right:12px; }
+        table.form-table td.field-cell { width:70%; }
+        table.form-table .field-label { font-size:13px; font-weight:500; color:#2c3e50; display:block; padding-top:6px; }
+        table.form-table input, table.form-table select, table.form-table textarea { width:100%; padding:8px 10px; border:1px solid #cbd5e0; border-radius:4px; font-size:14px; background:#fff; }
+        table.form-table input:focus, table.form-table select:focus, table.form-table textarea:focus { outline:none; border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.15); }
+        .split-date { display:flex; gap:6px; }
+        .split-date select { flex:1; padding:8px 6px; border:1px solid #cbd5e0; border-radius:4px; background:#fff; font-size:14px; }
+        .custom-combobox-wrapper { position:relative; }
+        .custom-combobox-wrapper[aria-expanded='true'] .combobox-listbox { display:block; }
+        .combobox-trigger { display:flex; align-items:center; justify-content:space-between; width:100%; padding:8px 10px; background:#fff; border:1px solid #cbd5e0; border-radius:4px; cursor:pointer; font-size:14px; color:#1a2634; text-align:left; }
+        .combobox-trigger:focus { border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.15); outline:none; }
+        .combobox-trigger .arrow { font-size:10px; color:#6b7a8a; }
+        .combobox-listbox { display:none; position:absolute; top:100%; left:0; right:0; z-index:10; background:#fff; border:1px solid #d0d7e2; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.08); max-height:180px; overflow-y:auto; margin-top:2px; }
+        .combobox-listbox .option { padding:8px 12px; cursor:pointer; font-size:14px; color:#1a2634; }
+        .combobox-listbox .option:hover { background:#f0f4ff; }
+        .combobox-listbox .option[aria-selected='true'] { background:#e8f0fe; font-weight:500; }
+        details.accordion-field { border:1px solid #e0e4e9; border-radius:6px; margin:16px 0; background:#fafcff; }
+        details.accordion-field summary { padding:10px 14px; cursor:pointer; font-size:14px; font-weight:500; color:#1f3a5f; }
+        details.accordion-field .accordion-body { padding:12px 14px 16px; border-top:1px solid #e6eaef; }
+        .pill-group { display:flex; gap:8px; margin:4px 0; }
+        .pill-btn { padding:6px 18px; border:1px solid #cbd5e0; border-radius:20px; background:#fff; cursor:pointer; font-size:13px; color:#2c3e50; }
+        .pill-btn.selected { background:#1a73e8; color:#fff; border-color:#1a73e8; }
+        .file-upload-wrapper { display:flex; align-items:center; gap:10px; }
+        .file-upload-wrapper .fake-btn { padding:8px 18px; background:#eef2f6; border:1px dashed #a0b0c0; border-radius:6px; cursor:pointer; font-size:13px; color:#1f3a5f; font-weight:500; }
+        .file-upload-wrapper input[type='file'] { display:none; }
+        .file-upload-wrapper .file-name { font-size:13px; color:#5f6b7a; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .glued-label { display:block; font-size:13px; color:#2c3e50; margin-bottom:2px; }
+        .glued-label span { background:#f0f4fa; padding:0 4px; border-radius:2px; }
+        .row-flex { display:flex; gap:12px; align-items:flex-start; }
+        .hint { font-size:12px; color:#7a8899; margin:2px 0 0; }
+        .required-star { color:#d93025; }
+        .submit-row { margin-top:24px; padding-top:16px; border-top:1px solid #e6eaef; display:flex; gap:12px; align-items:center; }
+        .submit-row button { padding:10px 28px; background:#1a73e8; color:#fff; border:0; border-radius:6px; font-weight:600; cursor:pointer; font-size:15px; }
+        .submit-row button:hover { background:#1558b0; }
+        .decoy-internal { display:none; }
+      </style>
+      </head>
+      <body>
+      <div class='apply-form'>
+        <!-- Contact Information (table layout) -->
+        <h3>Contact Information</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Full name <span class='required-star'>*</span></span></td>
+            <td class='field-cell'><input type='text' name='name' placeholder='e.g. Jane Smith' aria-label='Full name' required></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Email <span class='required-star'>*</span></span></td>
+            <td class='field-cell'><input type='email' name='email' placeholder='you@example.com' aria-label='Email' required></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Phone</span></td>
+            <td class='field-cell'><input type='tel' name='phone' placeholder='+1 (555) 000-0000' aria-label='Phone'></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>LinkedIn</span></td>
+            <td class='field-cell'><input type='url' name='linkedin' placeholder='https://linkedin.com/in/...' aria-label='LinkedIn profile'></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Portfolio</span></td>
+            <td class='field-cell'><input type='url' name='portfolio' placeholder='https://...' aria-label='Portfolio website'></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>GitHub</span></td>
+            <td class='field-cell'><input type='url' name='github' placeholder='https://github.com/...' aria-label='GitHub profile'></td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Twitter/X</span></td>
+            <td class='field-cell'><input type='url' name='twitter' placeholder='https://twitter.com/...' aria-label='Twitter profile'></td>
+          </tr>
+        </table>
+
+        <!-- Location (custom combobox + table) -->
+        <h3>Location</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>City / metro <span class='required-star'>*</span></span></td>
+            <td class='field-cell'>
+              <div class='custom-combobox-wrapper' id='location-combo' aria-expanded='false'>
+                <div class='combobox-trigger' role='combobox' tabindex='0' aria-haspopup='listbox' aria-controls='location-listbox' aria-label='Select location' id='loc-trigger'>
+                  <span id='loc-value'>Choose location...</span>
+                  <span class='arrow'>▼</span>
+                </div>
+                <div class='combobox-listbox' role='listbox' id='location-listbox' aria-labelledby='loc-trigger'>
+                  <div class='option' role='option' aria-selected='false' data-value=''>Choose location...</div>
+                  <div class='option' role='option' aria-selected='false' data-value='sf'>San Francisco, CA</div>
+                  <div class='option' role='option' aria-selected='false' data-value='nyc'>New York, NY</div>
+                  <div class='option' role='option' aria-selected='false' data-value='remote'>Remote (US)</div>
+                  <div class='option' role='option' aria-selected='false' data-value='london'>London, UK</div>
+                  <div class='option' role='option' aria-selected='false' data-value='berlin'>Berlin, DE</div>
+                  <div class='option' role='option' aria-selected='false' data-value='tokyo'>Tokyo, JP</div>
+                  <div class='option' role='option' aria-selected='false' data-value='sydney'>Sydney, AU</div>
+                </div>
+                <input type='hidden' name='location' id='location-hidden' value=''>
+              </div>
+              <div class='hint'>Start typing or use arrow keys</div>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Remote preference</span></td>
+            <td class='field-cell'>
+              <select name='remote_pref' aria-label='Remote preference'>
+                <option value=''>Select...</option>
+                <option value='fully'>Fully remote</option>
+                <option value='hybrid'>Hybrid</option>
+                <option value='onsite'>On-site</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Work Authorization (pill yes/no) -->
+        <h3>Work Authorization</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Authorized to work in country? <span class='required-star'>*</span></span></td>
+            <td class='field-cell'>
+              <div class='pill-group' role='radiogroup' aria-label='Work authorization'>
+                <span class='pill-btn' role='radio' aria-checked='false' data-value='yes' tabindex='0'>Yes</span>
+                <span class='pill-btn' role='radio' aria-checked='false' data-value='no' tabindex='-1'>No</span>
+              </div>
+              <input type='hidden' name='authorized' id='authorized-hidden' value=''>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Visa sponsorship needed?</span></td>
+            <td class='cell-field'>
+              <div class='pill-group' role='radiogroup' aria-label='Visa sponsorship'>
+                <span class='pill-btn' role='radio' aria-checked='false' data-value='yes' tabindex='0'>Yes</span>
+                <span class='pill-btn' role='radio' aria-checked='false' data-value='no' tabindex='-1'>No</span>
+              </div>
+              <input type='hidden' name='visa' id='visa-hidden' value=''>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Current visa type</span></td>
+            <td class='field-cell'>
+              <select name='visa_type' aria-label='Current visa type'>
+                <option value=''>Select...</option>
+                <option value='h1b'>H-1B</option>
+                <option value='l1'>L-1</option>
+                <option value='opt'>OPT</option>
+                <option value='green'>Green Card</option>
+                <option value='citizen'>Citizen</option>
+                <option value='other'>Other</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Availability (split date selects) -->
+        <h3>Availability</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Start date <span class='required-star'>*</span></span></td>
+            <td class='field-cell'>
+              <div class='split-date'>
+                <select name='start_month' aria-label='Start month' required>
+                  <option value=''>Month</option>
+                  <option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option>Jun</option>
+                  <option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option>
+                </select>
+                <select name='start_day' aria-label='Start day' required>
+                  <option value=''>Day</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                  <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+                  <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option>
+                </select>
+                <select name='start_year' aria-label='Start year' required>
+                  <option value=''>Year</option>
+                  <option>2025</option><option>2026</option><option>2027</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Notice period (weeks)</span></td>
+            <td class='field-cell'>
+              <input type='number' name='notice_period' placeholder='e.g. 2' aria-label='Notice period in weeks' min='0' max='12'>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Skills & Experience -->
+        <h3>Skills & Experience</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Years of experience <span class='required-star'>*</span></span></td>
+            <td class='field-cell'>
+              <select name='years_exp' aria-label='Years of experience' required>
+                <option value=''>Select...</option>
+                <option value='0-1'>0-1 years</option>
+                <option value='1-3'>1-3 years</option>
+                <option value='3-5'>3-5 years</option>
+                <option value='5-7'>5-7 years</option>
+                <option value='7-10'>7-10 years</option>
+                <option value='10+'>10+ years</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Primary skills</span></td>
+            <td class='field-cell'>
+              <input type='text' name='skills' placeholder='e.g. React, TypeScript, Node.js' aria-label='Primary skills'>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Highest education</span></td>
+            <td class='field-cell'>
+              <select name='education' aria-label='Highest education'>
+                <option value=''>Select...</option>
+                <option value='highschool'>High School</option>
+                <option value='associate'>Associate's</option>
+                <option value='bachelor'>Bachelor's</option>
+                <option value='master'>Master's</option>
+                <option value='phd'>PhD</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Resume upload (Lever custom file) -->
+        <h3>Resume & Cover Letter</h3>
+        <table class='form-table'>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Resume <span class='required-star'>*</span></span></td>
+            <td class='field-cell'>
+              <div class='file-upload-wrapper'>
+                <span class='fake-btn' onclick='document.getElementById("resume-input").click()'>Choose file</span>
+                <input type='file' id='resume-input' name='resume' accept='.pdf,.doc,.docx' aria-label='Resume upload' required onchange='document.getElementById("resume-name").textContent = this.files[0]?.name || ""'>
+                <span class='file-name' id='resume-name'>No file chosen</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Cover letter</span></td>
+            <td class='field-cell'>
+              <!-- glued span label example -->
+              <span class='glued-label'><span>📎</span> Paste or upload</span>
+              <textarea rows='3' name='cover_letter' placeholder='Optional cover letter...' style='width:100%;padding:8px 10px;border:1px solid #cbd5e0;border-radius:4px;font-size:14px;' aria-label='Cover letter'></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class='label-cell'><span class='field-label'>Additional documents</span></td>
+            <td class='field-cell'>
+              <div class='file-upload-wrapper'>
+                <span class='fake-btn' onclick='document.getElementById("additional-input").click()'>Choose file</span>
+                <input type='file' id='additional-input' name='additional' accept='.pdf,.doc,.docx,.png,.jpg' aria-label='Additional documents' onchange='document.getElementById("additional-name").textContent = this.files[0]?.name || ""'>
+                <span class='file-name' id='additional-name'>No file chosen</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Details/accordion (hidden until click) -->
+        <details class='accordion-field'>
+          <summary>➕ Additional information (optional)</summary>
+          <div class='accordion-body'>
+            <table class='form-table'>
+              <tr>
+                <td class='label-cell'><span class='field-label'>How did you hear about us?</span></td>
+                <td class='field-cell'>
+                  <select name='source' aria-label='How did you hear about us'>
+                    <option value=''>Select...</option>
+                    <option>LinkedIn</option><option>Indeed</option><option>Glassdoor</option><option>Referral</option><option>Company website</option><option>Other</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class='label-cell'><span class='field-label'>Expected salary (USD)</span></td>
+                <td class='field-cell'><input type='number' name='salary' placeholder='e.g. 140000' aria-label='Expected salary' min='0'></td>
+              </tr>
+              <tr>
+                <td class='label-cell'><span class='field-label'>Portfolio password (if any)</span></td>
+                <td class='field-cell'><input type='text' name='portfolio_password' placeholder='Leave blank if none' aria-label='Portfolio password'></td>
+              </tr>
+              <tr>
+                <td class='label-cell'><span class='field-label'>Preferred pronouns</span></td>
+                <td class='field-cell'><input type='text' name='pronouns' placeholder='e.g. they/them' aria-label='Preferred pronouns'></td>
+              </tr>
+              <tr>
+                <td class='label-cell'><span class='field-label'>Languages spoken</span></td>
+                <td class='field-cell'><input type='text' name='languages' placeholder='e.g. English, Spanish' aria-label='Languages spoken'></td>
+              </tr>
+              <tr>
+                <td class='label-cell'><span class='field-label'>Willing to relocate?</span></td>
+                <td class='field-cell'>
+                  <div class='pill-group' role='radiogroup' aria-label='Willing to relocate'>
+                    <span class='pill-btn' role='radio' aria-checked='false' data-value='yes' tabindex='0'>Yes</span>
+                    <span class='pill-btn' role='radio' aria-checked='false' data-value='no' tabindex='-1'>No</span>
+                    <span class='pill-btn' role='radio' aria-checked='false' data-value='maybe' tabindex='-1'>Maybe</span>
+                  </div>
+                  <input type='hidden' name='relocate' id='relocate-hidden' value=''>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </details>
+
+        <!-- Submit -->
+        <div class='submit-row'>
+          <button type='submit' onclick='alert("Application submitted (demo)");return false;'>Submit application</button>
+          <span style='font-size:13px;color:#7a8899;'>✱ required fields</span>
+        </div>
+
+      </div>
+
+      <script>
+        // combobox logic
+        (function(){
+          var wrapper = document.getElementById('location-combo');
+          var trigger = document.getElementById('loc-trigger');
+          var valueSpan = document.getElementById('loc-value');
+          var listbox = document.getElementById('location-listbox');
+          var hidden = document.getElementById('location-hidden');
+          var options = listbox.querySelectorAll('.option');
+          var open = false;
+          var selectedValue = '';
+
+          function toggle(force) {
+            open = (force !== undefined) ? force : !open;
+            wrapper.setAttribute('aria-expanded', open);
+            if (open) { listbox.style.display = 'block'; trigger.setAttribute('aria-expanded','true'); }
+            else { listbox.style.display = 'none'; trigger.setAttribute('aria-expanded','false'); }
+          }
+
+          function selectOption(opt) {
+            options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+            opt.setAttribute('aria-selected','true');
+            var val = opt.getAttribute('data-value');
+            var text = opt.textContent;
+            valueSpan.textContent = text;
+            hidden.value = val;
+            selectedValue = val;
+            toggle(false);
+          }
+
+          trigger.addEventListener('click', function(e){ toggle(); });
+
+          options.forEach(function(opt){
+            opt.addEventListener('click', function(e){ selectOption(opt); });
+            opt.addEventListener('keydown', function(e){
+              if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectOption(opt); }
+            });
+          });
+
+          document.addEventListener('click', function(e){
+            if(!wrapper.contains(e.target)) toggle(false);
+          });
+
+          trigger.addEventListener('keydown', function(e){
+            if(e.key === 'ArrowDown' && open) { var first = options[0]; if(first) { first.focus(); } }
+            if(e.key === 'Escape') toggle(false);
+            if(e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+          });
+        })();
+
+        // pill buttons
+        document.querySelectorAll('.pill-group').forEach(function(group){
+          var btns = group.querySelectorAll('.pill-btn');
+          var hiddenId = group.parentElement.nextElementSibling?.id || '';
+          var hiddenInput = group.parentElement.parentElement.querySelector('input[type="hidden"]');
+          if(!hiddenInput) hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+          btns.forEach(function(btn){
+            btn.addEventListener('click', function(){
+              btns.forEach(function(b){ b.classList.remove('selected'); b.setAttribute('aria-checked','false'); });
+              btn.classList.add('selected'); btn.setAttribute('aria-checked','true');
+              if(hiddenInput) hiddenInput.value = btn.getAttribute('data-value');
+            });
+            btn.addEventListener('keydown', function(e){
+              if(e.key === ' ' || e.key === 'Enter') { e.preventDefault(); btn.click(); }
+            });
+          });
+        });
+      </script>
+      </body>
+      </html>
+    " style="width:100%;height:1400px;border:0;"></iframe>
+  </div>
+
+</div>
+</body>
+</html>

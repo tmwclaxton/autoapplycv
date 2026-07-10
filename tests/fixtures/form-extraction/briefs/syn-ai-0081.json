@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0081",
+    "seed": 2886697206,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "large"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 26,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "unstyled div soup with inline styles only",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Fields inside details accordion",
+                "notes": "Cover letter and visa fields hidden inside closed details element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Details accordion<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"acc_name\">Name<\/label><input type=\"text\" id=\"acc_name\" name=\"acc_name\"> <details> <summary>Additional questions (click to expand)<\/summary> <label for=\"acc_cover\">Cover letter<\/label><textarea id=\"acc_cover\" name=\"acc_cover\" rows=\"4\"><\/te",
+                "requires_interaction": true
+            },
+            {
+                "title": "Aria-labelledby only",
+                "notes": "Email field identified only via aria-labelledby pointing at hidden span",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Aria-labelledby only<\/h1> <form action=\"\/apply\" method=\"post\"> <span id=\"email-lbl\" hidden>Work email address<\/span> <input type=\"email\" name=\"work_email\" aria-labelledby=\"email-lbl\"> <label for=\"phone_visible\">Phone<\/label><input type=\"tel\" id=\"phone_visible\" name=\"phone_visible\"> <\/form> <\/main>",
+                "requires_interaction": false
+            },
+            {
+                "title": "Form inside dialog",
+                "notes": "Application fields live inside a native dialog element",
+                "category": "weird-interaction",
+                "dom_excerpt": "<main><h1>Dialog form<\/h1> <form action=\"\/apply\" method=\"post\" id=\"outer-form\"> <label for=\"dlg_name\">Name<\/label><input type=\"text\" id=\"dlg_name\" name=\"dlg_name\"> <button type=\"button\" id=\"open-dialog\" onclick=\"document.getElementById('apply-dialog').showModal()\">Open application<\/button> <dialog id=\"apply-dialog\"> <l",
+                "requires_interaction": true
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, large, tier=high). Widgets: combobox. Required: Custom text field: div with role=textbox and contenteditable, no native input Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Phone split into country code select and local number input in separate wrappers Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Required: Newsletter or login decoy form separate from job application form Reference DOM (Fields inside details accordion): Cover letter and visa fields hidden inside closed details element Reference DOM (Aria-labelledby only): Email field identified only via aria-labelledby pointing at hidden span Reference DOM (Form inside dialog): Application fields live inside a native dialog element Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: div-role-textbox, native-select-not-combobox, split-phone, custom-combobox, decoy-form. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: unstyled div soup with inline styles only. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Fields inside details accordion; Aria-labelledby only; Form inside dialog."
+}

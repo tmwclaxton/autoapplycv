@@ -1,0 +1,227 @@
+{
+  "id": "https-jobs-ashbyhq-com-clipboard-14a8d657-edae-46cc-b26d-9e51363d7aa9-applicatio",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "are you authorized to work in your country of residence?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "76c051e6-a38b-47ab-b220-2bafebb47bf6",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you ever worked for clipboard?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "328a197c-7264-4c19-a1fe-a2172e4c69c2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "943c0582-85c5-480b-95d1-c4c4b3985993",
+        "name": "943c0582-85c5-480b-95d1-c4c4b3985993",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "943c0582-85c5-480b-95d1-c4c4b3985993",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Canada",
+        "United States",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cce0a5b5-4159-4472-8934-d4cf52086725_480aede1-a933-4fdb-985d-7fa6617e43b2-labeled-radio-0",
+        "name": "cce0a5b5-4159-4472-8934-d4cf52086725_480aede1-a933-4fdb-985d-7fa6617e43b2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your expected compensation per year? please provide it in your local currency.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ff296d6e-ae71-4c14-8334-9cacbfd9553c",
+        "name": "ff296d6e-ae71-4c14-8334-9cacbfd9553c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ff296d6e-ae71-4c14-8334-9cacbfd9553c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please share your linkedin profile",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "27dd8760-fbfa-473f-abc9-9687e571d282",
+        "name": "27dd8760-fbfa-473f-abc9-9687e571d282",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "27dd8760-fbfa-473f-abc9-9687e571d282",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about the position?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Indeed",
+        "Word of Mouth",
+        "Clipboard User",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cce0a5b5-4159-4472-8934-d4cf52086725_33497585-3044-4630-9a5d-8063f09a6a01-labeled-radio-0",
+        "name": "cce0a5b5-4159-4472-8934-d4cf52086725_33497585-3044-4630-9a5d-8063f09a6a01",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

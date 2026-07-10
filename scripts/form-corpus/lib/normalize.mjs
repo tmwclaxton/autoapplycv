@@ -1,9 +1,31 @@
 export function normalizeQuestion(text) {
     return (text || '')
         .replace(/\s+/g, ' ')
-        .replace(/\*/g, '')
+        .replace(/[\u2731*]/g, '')
+        .replace(/\(\s*required\s*\)/gi, '')
+        .replace(/\byourmail@domain\.com\b/gi, '')
+        .replace(/^\s*upload\s+/i, '')
         .trim()
         .toLowerCase();
+}
+
+/** Canonical aliases for common ATS label variants (oracle soft-match). */
+const QUESTION_ALIASES = [
+    ['resume', 'resume/cv', 'cv', 'curriculum vitae'],
+    ['linkedin profile', 'linkedin url', 'linkedin', 'linkedin link'],
+    ['name', 'full name', 'your name'],
+    ['phone', 'phone number', 'mobile', 'mobile phone', 'telephone'],
+    ['portfolio url', 'portfolio', 'portfolio link', 'website', 'personal website'],
+];
+
+function aliasKey(normalized) {
+    for (const group of QUESTION_ALIASES) {
+        if (group.includes(normalized)) {
+            return group[0];
+        }
+    }
+
+    return normalized;
 }
 
 export function questionsMatch(left, right) {
@@ -11,6 +33,10 @@ export function questionsMatch(left, right) {
     const b = normalizeQuestion(right);
 
     if (a === b) {
+        return true;
+    }
+
+    if (aliasKey(a) === aliasKey(b)) {
         return true;
     }
 

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application - Acme Corp</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #1a1a2e; line-height: 1.4; }
+  .app-layout { display: flex; min-height: 100vh; }
+  .sidebar { width: 320px; background: #fff; border-right: 1px solid #e2e8f0; padding: 24px; flex-shrink: 0; overflow-y: auto; }
+  .main-content { flex: 1; padding: 32px 48px; max-width: 960px; }
+  .job-header { margin-bottom: 24px; }
+  .job-header h1 { font-size: 22px; font-weight: 600; }
+  .job-header .company { color: #64748b; font-size: 14px; margin-top: 4px; }
+  .job-meta { display: flex; gap: 16px; font-size: 13px; color: #475569; margin-top: 12px; flex-wrap: wrap; }
+  .form-section { margin-bottom: 28px; }
+  .form-section-title { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+  .field-group { margin-bottom: 16px; position: relative; }
+  .field-row { display: flex; gap: 12px; }
+  .field-row > * { flex: 1; }
+  label { display: block; font-size: 13px; font-weight: 500; color: #334155; margin-bottom: 4px; }
+  input, select, textarea, .fake-input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; transition: border-color 0.15s; }
+  input:focus, select:focus, textarea:focus, .fake-input:focus-within { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  input[readonly], input:disabled { background: #f1f5f9; color: #64748b; cursor: not-allowed; }
+  textarea { resize: vertical; min-height: 80px; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #cbd5e1; border-radius: 20px; background: #fff; font-size: 13px; cursor: pointer; color: #334155; transition: all 0.15s; }
+  .pill-btn.selected { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .pill-btn:hover { border-color: #6366f1; }
+  .combobox-wrapper { position: relative; }
+  .combobox-trigger { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .combobox-trigger::after { content: '▾'; font-size: 12px; color: #94a3b8; }
+  .combobox-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 10; padding: 4px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .combobox-listbox.open { display: block; }
+  .combobox-option { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .combobox-option:hover, .combobox-option.focused { background: #f1f5f9; }
+  .combobox-option[aria-selected="true"] { background: #eef2ff; font-weight: 500; }
+  .split-phone { display: flex; gap: 8px; }
+  .split-phone select { width: 120px; flex-shrink: 0; }
+  .split-phone input { flex: 1; }
+  .error-text { color: #ef4444; font-size: 12px; margin-top: 4px; display: none; }
+  .field-group.has-error input, .field-group.has-error select { border-color: #ef4444; }
+  .field-group.has-error .error-text { display: block; }
+  .hidden-step { display: none; }
+  .step-visible { display: block; }
+  .wizard-nav { display: flex; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+  .btn { padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-secondary { background: #fff; color: #334155; border: 1px solid #cbd5e1; }
+  .btn-secondary:hover { background: #f8fafc; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .glued-label { display: inline; font-size: 13px; font-weight: 500; color: #334155; }
+  .glued-label .gap { margin-right: 0; }
+  .glued-label .part { display: inline; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .sidebar-section { margin-bottom: 24px; }
+  .sidebar-section h3 { font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .sidebar-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #334155; }
+  .sidebar-item .label { color: #94a3b8; font-size: 11px; }
+  .required-indicator { color: #ef4444; }
+  .field-hint { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .resume-upload { border: 2px dashed #cbd5e1; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.15s; }
+  .resume-upload:hover { border-color: #6366f1; }
+  .resume-upload .icon { font-size: 24px; margin-bottom: 8px; }
+  .resume-upload p { font-size: 13px; color: #64748b; }
+  @media (max-width: 768px) {
+    .app-layout { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; }
+    .main-content { padding: 16px; }
+    .field-row { flex-direction: column; gap: 0; }
+    .split-phone select { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3>Job Details</h3>
+      <div class="sidebar-item">
+        <div class="label">Department</div>
+        <div>Product Design</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="label">Location</div>
+        <div>Remote - US</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="label">Employment type</div>
+        <div>Full-time</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="label">Salary range</div>
+        <div>$140k - $180k</div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <h3>Your profile</h3>
+      <div class="sidebar-item">
+        <div class="label">Imported from</div>
+        <div>LinkedIn · 2 days ago</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="job-header">
+      <h1>Senior Product Designer</h1>
+      <div class="company">Acme Corp · San Francisco, CA (Remote)</div>
+      <div class="job-meta">
+        <span>📅 Applied 2 days ago</span>
+        <span>⏳ Under review</span>
+      </div>
+    </div>
+
+    <div id="wizard">
+      <div id="step-1" class="step-visible">
+        <div class="form-section">
+          <div class="form-section-title">Personal Information</div>
+          
+          <div class="field-group">
+            <label for="email">Email <span class="required-indicator">*</span></label>
+            <input type="email" id="email" name="email" readonly value="alex.johnson@gmail.com" />
+            <div class="field-hint">Imported from your profile. <a href="#">Change</a></div>
+          </div>
+          
+          <div class="field-group">
+            <label for="fullname">Full name <span class="required-indicator">*</span></label>
+            <input type="text" id="fullname" name="fullname" placeholder="e.g. Alex Johnson" />
+          </div>
+          
+          <div class="field-group">
+            <span id="phone-label-hidden" style="display:none;">Phone number</span>
+            <div class="glued-label" role="presentation">
+              <span class="part">Phone</span><span class="part"> number</span> <span class="required-indicator">*</span>
+            </div>
+            <div class="split-phone">
+              <select id="phone-country" name="phone-country" title="Country code">
+                <option value="+1">US +1</option>
+                <option value="+44" selected>UK +44</option>
+                <option value="+91">IN +91</option>
+                <option value="+61">AU +61</option>
+              </select>
+              <input type="tel" id="phone-local" name="phone-local" placeholder="7123 456789" aria-labelledby="phone-label-hidden" title="UK format: 07XXX XXXXXX" />
+            </div>
+            <div class="field-hint">Include local number without country code</div>
+          </div>
+          
+          <div class="field-group">
+            <label>Location <span class="required-indicator">*</span></label>
+            <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+              <div class="fake-input combobox-trigger" role="textbox" contenteditable="true" aria-label="Type to search location" data-value="" id="location-input">San Francisco, CA</div>
+              <ul class="combobox-listbox" role="listbox" aria-label="Locations">
+                <li role="option" class="combobox-option" aria-selected="true">San Francisco, CA</li>
+                <li role="option" class="combobox-option">New York, NY</li>
+                <li role="option" class="combobox-option">Austin, TX</li>
+                <li role="option" class="combobox-option">Remote - US</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="field-group">
+            <label for="linkedin">LinkedIn Profile</label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
+          </div>
+          
+          <div class="field-group">
+            <label for="github">GitHub Profile</label>
+            <input type="url" id="github" name="github" placeholder="https://github.com/yourhandle" />
+          </div>
+          
+          <div class="field-group">
+            <label for="website">Personal Website</label>
+            <input type="url" id="website" name="website" placeholder="https://yourwebsite.com" />
+          </div>
+          
+          <div class="field-group">
+            <label for="pronouns">Pronouns</label>
+            <select id="pronouns" name="pronouns">
+              <option value="">Select...</option>
+              <option value="he/him">He/Him</option>
+              <option value="she/her">She/Her</option>
+              <option value="they/them">They/Them</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Work Authorization</div>
+          
+          <div class="field-group">
+            <span id="work-auth-label" style="display:none;">Work authorization status</span>
+            <div class="glued-label">
+              <span class="part">Work</span><span class="part"> authorization</span> <span class="required-indicator">*</span>
+            </div>
+            <div class="pill-group" role="radiogroup" aria-labelledby="work-auth-label">
+              <button type="button" class="pill-btn selected" role="radio" aria-checked="true" data-value="us-citizen">US Citizen</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="green-card">Green Card</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="visa">Visa holder</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="other">Other</button>
+            </div>
+            <input type="hidden" name="work-auth" value="us-citizen" />
+          </div>
+          
+          <div class="field-group">
+            <label for="visa-type">Visa Type (if applicable)</label>
+            <input type="text" id="visa-type" name="visa-type" placeholder="e.g. H1-B, OPT" />
+          </div>
+          
+          <div class="field-group">
+            <label for="sponsorship">Require visa sponsorship?</label>
+            <select id="sponsorship" name="sponsorship">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+              <option value="maybe">Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-primary" onclick="goToStep(2)">Next: Experience</button>
+        </div>
+      </div>
+
+      <div id="step-2" class="hidden-step">
+        <div class="form-section">
+          <div class="form-section-title">Experience &amp; Skills</div>
+          
+          <div class="field-group">
+            <label for="exp-years">Years of experience <span class="required-indicator">*</span></label>
+            <select id="exp-years" name="exp-years">
+              <option value="">Select</option>
+              <option value="0-1">0-1 years</option>
+              <option value="2-3">2-3 years</option>
+              <option value="4-6" selected>4-6 years</option>
+              <option value="7-10">7-10 years</option>
+              <option value="10+">10+ years</option>
+            </select>
+          </div>
+          
+          <div class="field-group">
+            <span id="portfolio-label" style="display:none;">Portfolio URL</span>
+            <div class="glued-label">
+              <span class="part">Portfolio</span><span class="part"> link</span> <span class="required-indicator">*</span>
+            </div>
+            <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com" aria-labelledby="portfolio-label" />
+          </div>
+          
+          <div class="field-group">
+            <label for="current-role">Current Role</label>
+            <input type="text" id="current-role" name="current-role" placeholder="e.g. Senior Product Designer" />
+          </div>
+          
+          <div class="field-group">
+            <label for="current-company">Current Company</label>
+            <input type="text" id="current-company" name="current-company" placeholder="e.g. Acme Corp" />
+          </div>
+          
+          <div class="field-group">
+            <label for="skills">Key skills (comma separated)</label>
+            <textarea id="skills" name="skills" placeholder="e.g. Figma, UX Research, Prototyping">Product Design, Design Systems, Figma</textarea>
+          </div>
+          
+          <div class="field-group">
+            <label for="tools">Design Tools Proficiency</label>
+            <div class="pill-group" role="group" aria-label="Design tools">
+              <button type="button" class="pill-btn selected" data-value="figma">Figma</button>
+              <button type="button" class="pill-btn" data-value="sketch">Sketch</button>
+              <button type="button" class="pill-btn" data-value="xd">Adobe XD</button>
+              <button type="button" class="pill-btn" data-value="framer">Framer</button>
+            </div>
+            <input type="hidden" name="tools" value="figma" />
+          </div>
+          
+          <div class="field-group">
+            <label>Available to start</label>
+            <div class="pill-group" role="radiogroup">
+              <button type="button" class="pill-btn selected" role="radio" aria-checked="true" data-value="immediate">Immediately</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="2weeks">2 weeks</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="month">1 month</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="negotiable">Negotiable</button>
+            </div>
+            <input type="hidden" name="availability" value="immediate" />
+          </div>
+          
+          <div class="field-group">
+            <label for="salary-expectation">Salary Expectation (USD)</label>
+            <input type="number" id="salary-expectation" name="salary-expectation" placeholder="e.g. 160000" min="0" />
+          </div>
+          
+          <div class="field-group">
+            <label for="notice-period">Notice Period</label>
+            <select id="notice-period" name="notice-period">
+              <option value="">Select...</option>
+              <option value="none">None - Immediately available</option>
+              <option value="2weeks">2 weeks</option>
+              <option value="1month">1 month</option>
+              <option value="2months">2 months</option>
+              <option value="3months">3 months</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(3)">Next: Documents</button>
+        </div>
+      </div>
+      
+      <div id="step-3" class="hidden-step">
+        <div class="form-section">
+          <div class="form-section-title">Documents</div>
+          
+          <div class="field-group">
+            <label>Resume <span class="required-indicator">*</span></label>
+            <div class="resume-upload" role="button" tabindex="0" aria-label="Upload resume">
+              <div class="icon">📄</div>
+              <p>Drop your resume here or click to browse</p>
+              <input type="file" accept=".pdf,.doc,.docx" style="display:none;" />
+            </div>
+          </div>
+          
+          <div class="field-group">
+            <label for="cover">Cover letter (optional)</label>
+            <textarea id="cover" name="cover" placeholder="Tell us why you're a great fit..." rows="5"></textarea>
+          </div>
+          
+          <div class="field-group">
+            <label for="referral">How did you hear about us?</label>
+            <select id="referral" name="referral">
+              <option value="">Select...</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="referral-employee">Employee referral</option>
+              <option value="indeed">Indeed</option>
+              <option value="glassdoor">Glassdoor</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="field-group">
+            <label for="referral-name">Referral Name (if referred)</label>
+            <input type="text" id="referral-name" name="referral-name" placeholder="e.g. Jane Smith" />
+          </div>
+          
+          <div class="field-group">
+            <label for="additional-docs">Additional Documents</label>
+            <div class="resume-upload" role="button" tabindex="0" aria-label="Upload additional documents">
+              <div class="icon">📁</div>
+              <p>Drop additional files here or click to browse</p>
+              <input type="file" accept=".pdf,.doc,.docx,.png,.jpg" style="display:none;" multiple />
+            </div>
+          </div>
+          
+          <div class="field-group">
+            <label for="portfolio-pdf">Portfolio PDF (optional)</label>
+            <input type="file" id="portfolio-pdf" name="portfolio-pdf" accept=".pdf" />
+          </div>
+          
+          <div class="field-group">
+            <label for="certifications">Certifications</label>
+            <textarea id="certifications" name="certifications" placeholder="List relevant certifications..." rows="3"></textarea>
+          </div>
+          
+          <div class="field-group">
+            <label for="languages">Languages Spoken</label>
+            <input type="text" id="languages" name="languages" placeholder="e.g. English, Spanish, French" />
+          </div>
+          
+          <div class="field-group" style="display:flex; gap:8px; align-items:center;">
+            <input type="checkbox" id="confirm" name="confirm" />
+            <span id="confirm-label-hidden" style="display:none;">I confirm the information is accurate</span>
+            <label for="confirm" aria-labelledby="confirm-label-hidden">I confirm the information provided is accurate</label>
+          </div>
+          
+          <div class="field-group" style="display:flex; gap:8px; align-items:center;">
+            <input type="checkbox" id="privacy" name="privacy" />
+            <label for="privacy">I agree to the privacy policy and terms of service</label>
+          </div>
+        </div>
+        
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+          <button type="submit" class="btn btn-primary" onclick="submitForm()">Submit Application</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="display:none;">
+      <form id="decoy-form">
+        <input name="decoy-field" value="tracking_pixel" />
+      </form>
+    </div>
+  </main>
+</div>
+
+<script>
+  function goToStep(step) {
+    document.querySelectorAll('#wizard > div').forEach(el => {
+      el.classList.remove('step-visible');
+      el.classList.add('hidden-step');
+    });
+    var target = document.getElementById('step-' + step);
+    if (target) {
+      target.classList.remove('hidden-step');
+      target.classList.add('step-visible');
+    }
+  }
+  
+  document.querySelectorAll('.combobox-wrapper').forEach(function(wrapper) {
+    var trigger = wrapper.querySelector('.combobox-trigger');
+    var listbox = wrapper.querySelector('.combobox-listbox');
+    var options = listbox.querySelectorAll('.combobox-option');
+    
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = listbox.classList.contains('open');
+      closeAllComboboxes();
+      if (!isOpen) {
+        listbox.classList.add('open');
+        wrapper.setAttribute('aria-expanded', 'true');
+      }
+    });
+    
+    options.forEach(function(option) {
+      option.addEventListener('click', function() {
+        options.forEach(function(o) { o.setAttribute('aria-selected', 'false'); });
+        option.setAttribute('aria-selected', 'true');
+        trigger.textContent = option.textContent;
+        listbox.classList.remove('open');
+        wrapper.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+  
+  function closeAllComboboxes() {
+    document.querySelectorAll('.combobox-listbox.open').forEach(function(lb) {
+      lb.classList.remove('open');
+      lb.closest('.combobox-wrapper').setAttribute('aria-expanded', 'false');
+    });
+  }
+  
+  document.addEventListener('click', function() {
+    closeAllComboboxes();
+  });
+  
+  document.querySelectorAll('.pill-group[role="radiogroup"]').forEach(function(group) {
+    var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+    group.querySelectorAll('.pill-btn[role="radio"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        group.querySelectorAll('.pill-btn[role="radio"]').forEach(function(b) {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
+        if (hiddenInput) hiddenInput.value = btn.getAttribute('data-value');
+      });
+    });
+  });
+  
+  document.querySelectorAll('.pill-group[role="group"]').forEach(function(group) {
+    var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+    group.querySelectorAll('.pill-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btn.classList.toggle('selected');
+        var selected = [];
+        group.querySelectorAll('.pill-btn.selected').forEach(function(b) {
+          selected.push(b.getAttribute('data-value'));
+        });
+        if (hiddenInput) hiddenInput.value = selected.join(',');
+      });
+    });
+  });
+  
+  document.querySelectorAll('.resume-upload').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var fileInput = this.querySelector('input[type="file"]');
+      if (fileInput) fileInput.click();
+    });
+  });
+  
+  function submitForm() {
+    alert('Application submitted! (Demo)');
+  }
+</script>
+</body>
+</html>

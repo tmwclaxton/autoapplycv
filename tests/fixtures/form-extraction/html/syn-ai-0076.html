@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Platform Engineer Application</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f4f6f9; font-family: system-ui, -apple-system, sans-serif; color: #222; }
+  .app-shell { max-width: 820px; margin: 0 auto; padding: 16px; }
+  .ashby-header { background: white; border: 1px solid #d0d5dd; border-radius: 8px; padding: 18px 20px; margin-bottom: 16px; }
+  .ashby-header h1 { font-size: 20px; font-weight: 600; }
+  .ashby-header p { font-size: 13px; color: #555; margin-top: 4px; }
+  fieldset { border: 1px solid #d0d5dd; border-radius: 8px; background: white; margin-bottom: 14px; padding: 16px 20px 20px; }
+  legend { font-weight: 600; font-size: 15px; padding: 0 6px; color: #1f2937; }
+  .field-row { margin-top: 14px; }
+  .field-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #2d3748; }
+  .field-note { font-size: 11px; color: #6b7280; margin-bottom: 3px; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #b0b7c3; border-radius: 5px; font-size: 14px; background: white; }
+  input:focus, select:focus, textarea:focus { border-color: #2563eb; outline: 2px solid #bfdbfe; }
+  .yesno-group { display: flex; gap: 6px; margin-top: 6px; }
+  .yesno-btn { padding: 7px 18px; border: 1px solid #b0b7c3; border-radius: 20px; background: white; font-size: 13px; cursor: pointer; transition: 0.1s; }
+  .yesno-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+  .yesno-btn:focus-visible { outline: 2px solid #2563eb; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 8px 10px; border: 1px solid #b0b7c3; border-radius: 5px; font-size: 14px; background: white; cursor: default; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input[aria-expanded="true"] { border-color: #2563eb; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #b0b7c3; border-radius: 6px; max-height: 180px; overflow-y: auto; z-index: 20; display: none; box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
+  .listbox.show { display: block; }
+  .listbox-option { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .listbox-option:hover, .listbox-option[aria-selected="true"] { background: #eff6ff; }
+  .pill-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .pill { border: 1px solid #b0b7c3; border-radius: 16px; padding: 4px 14px; font-size: 12px; background: white; cursor: pointer; }
+  .pill.selected { background: #2563eb; color: white; border-color: #2563eb; }
+  details { margin-top: 14px; border: 1px solid #d0d5dd; border-radius: 6px; padding: 6px 10px; background: #fafbfc; }
+  details summary { cursor: pointer; font-weight: 500; font-size: 13px; padding: 4px 0; }
+  .hidden-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .distant-label { position: absolute; left: -9999px; }
+  .inline-glue { display: flex; align-items: baseline; gap: 4px; }
+  .glue-span { font-size: 13px; font-weight: 500; color: #2d3748; }
+  .shadow-host { display: block; border: 1px dashed #9aa6b5; padding: 8px; border-radius: 6px; background: #f9fafb; margin-top: 6px; }
+  .iframe-shell { border: 1px dashed #9aa6b5; border-radius: 6px; overflow: hidden; margin-top: 10px; }
+  .iframe-shell iframe { width: 100%; border: none; display: block; }
+  .readonly-prefill { background: #f3f4f6; color: #1f2937; padding: 8px 10px; border: 1px solid #d0d5dd; border-radius: 5px; font-size: 14px; }
+  hr { margin: 16px 0; border: none; border-top: 1px solid #e5e7eb; }
+  .btn-primary { background: #2563eb; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .flex-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .flex-row > * { flex: 1 1 180px; }
+  .field-group { margin-top: 10px; }
+  .field-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .field-group input, .field-group select { width: 100%; padding: 8px 10px; border: 1px solid #b0b7c3; border-radius: 5px; font-size: 14px; }
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+  .checkbox-group label { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .radio-group { display: flex; gap: 12px; margin-top: 6px; }
+  .radio-group label { display: flex; align-items: center; gap: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="ashby-header">
+    <h1>Senior Platform Engineer</h1>
+    <p>Ashby · Remote · Full-time · <span id="reqId">REQ-2025-0192</span></p>
+  </div>
+
+  <!-- iframe apply shell (srcdoc) -->
+  <div class="iframe-shell">
+    <iframe srcdoc='
+      <style>body{font-family:sans-serif;padding:10px;background:#f0f2f5;margin:0;}.if-field{margin:6px 0;}.if-label{font-size:12px;font-weight:500;display:block;}input{width:100%;padding:5px 8px;border:1px solid #aaa;border-radius:4px;font-size:13px;}</style>
+      <div>
+        <div class="if-field"><label class="if-label">Email (iframe)</label><input type="email" placeholder="you@example.com" aria-label="Email"></div>
+        <div class="if-field"><label class="if-label">Phone (iframe)</label><input type="tel" placeholder="+44 7700 900000" title="UK format please" aria-describedby="telhint"><span id="telhint" style="font-size:11px;color:#555;">UK mobile, e.g. 07700 900000</span></div>
+        <div class="if-field"><label class="if-label">LinkedIn (iframe)</label><input type="url" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn URL"></div>
+        <div class="if-field"><label class="if-label">GitHub (iframe)</label><input type="url" placeholder="https://github.com/..." aria-label="GitHub URL"></div>
+      </div>
+    ' style="height:200px;"></iframe>
+  </div>
+
+  <!-- Personal Information fieldset -->
+  <fieldset>
+    <legend>Personal Information</legend>
+    
+    <!-- Full name with aria-labelledby pointing at distant span -->
+    <div class="field-row">
+      <span id="fnLabel" class="distant-label" style="position:absolute;left:-9999px;">Full name (legal)</span>
+      <div class="inline-glue"><span class="glue-span" aria-hidden="true">Full name</span><span style="color:#b91c1c;">*</span></div>
+      <input type="text" placeholder="e.g. Jane Smith" aria-labelledby="fnLabel" aria-describedby="fnHint" style="margin-top:4px;">
+      <span id="fnHint" style="font-size:11px;color:#6b7280;display:block;">As it appears on your ID</span>
+    </div>
+
+    <div class="flex-row">
+      <div class="field-row" style="flex:1;">
+        <label for="emailMain" class="field-label">Email</label>
+        <input type="email" id="emailMain" placeholder="you@company.com" aria-describedby="emailDesc">
+        <span id="emailDesc" style="font-size:11px;color:#6b7280;">We will send confirmation</span>
+      </div>
+      <div class="field-row" style="flex:1;">
+        <span id="phoneLabelSpan" class="hidden-label">Phone number</span>
+        <div class="inline-glue"><span class="glue-span">Phone</span></div>
+        <input type="tel" placeholder="07700 900000" aria-labelledby="phoneLabelSpan" title="UK format preferred" aria-describedby="phoneNote">
+        <span id="phoneNote" style="font-size:11px;color:#6b7280;">Include country code if outside UK</span>
+      </div>
+    </div>
+
+    <!-- Address fields -->
+    <div class="field-row">
+      <label for="address" class="field-label">Current address</label>
+      <input type="text" id="address" placeholder="Street, city, postcode" aria-describedby="addrHint">
+      <span id="addrHint" style="font-size:11px;color:#6b7280;">We use this for location-based benefits</span>
+    </div>
+
+    <div class="flex-row">
+      <div class="field-row" style="flex:1;">
+        <label for="city" class="field-label">City</label>
+        <input type="text" id="city" placeholder="e.g. London">
+      </div>
+      <div class="field-row" style="flex:1;">
+        <label for="postcode" class="field-label">Postcode</label>
+        <input type="text" id="postcode" placeholder="e.g. SW1A 1AA">
+      </div>
+    </div>
+
+    <!-- Ashby yes/no buttons for relocation -->
+    <div class="field-row">
+      <span class="field-label" id="relocLabel">Willing to relocate?</span>
+      <div class="yesno-group" role="radiogroup" aria-labelledby="relocLabel">
+        <button type="button" class="yesno-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+        <button type="button" class="yesno-btn" role="radio" aria-checked="false" data-value="no">No</button>
+      </div>
+    </div>
+
+    <!-- Ashby yes/no buttons for remote work -->
+    <div class="field-row">
+      <span class="field-label" id="remoteLabel">Open to fully remote?</span>
+      <div class="yesno-group" role="radiogroup" aria-labelledby="remoteLabel">
+        <button type="button" class="yesno-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+        <button type="button" class="yesno-btn" role="radio" aria-checked="false" data-value="no">No</button>
+      </div>
+    </div>
+
+    <!-- Date of birth with aria-labelledby hidden span -->
+    <div class="field-row">
+      <span id="dobLabel" class="hidden-label">Date of birth</span>
+      <div class="inline-glue"><span class="glue-span">Date of birth</span></div>
+      <input type="date" aria-labelledby="dobLabel" aria-describedby="dobHint">
+      <span id="dobHint" style="font-size:11px;color:#6b7280;">Optional, for diversity monitoring</span>
+    </div>
+
+    <!-- National insurance number with placeholder-only label -->
+    <div class="field-row">
+      <span class="field-label" aria-hidden="true">National Insurance number</span>
+      <input type="text" placeholder="e.g. QQ 12 34 56 C" aria-label="National Insurance number">
+    </div>
+
+    <!-- Additional personal fields to reach 26+ -->
+    <div class="flex-row">
+      <div class="field-row" style="flex:1;">
+        <label for="middleName" class="field-label">Middle name (optional)</label>
+        <input type="text" id="middleName" placeholder="e.g. Marie">
+      </div>
+      <div class="field-row" style="flex:1;">
+        <label for="preferredName" class="field-label">Preferred name</label>
+        <input type="text" id="preferredName" placeholder="e.g. Jay">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label for="countryCode" class="field-label">Country of residence</label>
+      <input type="text" id="countryCode" placeholder="e.g. United Kingdom">
+    </div>
+
+    <div class="field-row">
+      <label for="timezone" class="field-label">Timezone</label>
+      <input type="text" id="timezone" placeholder="e.g. GMT, EST">
+    </div>
+  </fieldset>
+
+  <!-- Experience & Skills fieldset -->
+  <fieldset>
+    <legend>Experience &amp; Skills</legend>
+
+    <!-- custom combobox for years of experience using aria-haspopup=listbox -->
+    <div class="field-row">
+      <span class="field-label" id="yoeLabel">Years of experience</span>
+      <div class="combobox-wrapper">
+        <button type="button" class="combobox-input" id="yoeCombo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="yoeLabel" aria-controls="yoeListbox">
+          <span id="yoeValue">Select</span>
+          <span style="font-size:10px;">▼</span>
+        </button>
+        <div class="listbox" id="yoeListbox" role="listbox" aria-labelledby="yoeLabel" style="display:none;">
+          <div role="option" class="listbox-option" data-value="0-1">&lt;1 year</div>
+          <div role="option" class="listbox-option" data-value="1-3">1-3 years</div>
+          <div role="option" class="listbox-option" data-value="3-5">3-5 years</div>
+          <div role="option" class="listbox-option" data-value="5-10">5-10 years</div>
+          <div role="option" class="listbox-option" data-value="10+">10+ years</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current role title -->
+    <div class="field-row">
+      <label for="currentRole" class="field-label">Current job title</label>
+      <input type="text" id="currentRole" placeholder="e.g. Senior DevOps Engineer">
+    </div>
+
+    <!-- Company name -->
+    <div class="field-row">
+      <label for="company" class="field-label">Current employer</label>
+      <input type="text" id="company" placeholder="e.g. Acme Corp">
+    </div>
+
+    <!-- Notice period with combobox -->
+    <div class="field-row">
+      <span class="field-label" id="noticeLabel">Notice period</span>
+      <div class="combobox-wrapper">
+        <button type="button" class="combobox-input" id="noticeCombo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="noticeLabel" aria-controls="noticeListbox">
+          <span id="noticeValue">Select</span>
+          <span style="font-size:10px;">▼</span>
+        </button>
+        <div class="listbox" id="noticeListbox" role="listbox" aria-labelledby="noticeLabel" style="display:none;">
+          <div role="option" class="listbox-option" data-value="0">Immediate</div>
+          <div role="option" class="listbox-option" data-value="1">1 week</div>
+          <div role="option" class="listbox-option" data-value="2">2 weeks</div>
+          <div role="option" class="listbox-option" data-value="4">1 month</div>
+          <div role="option" class="listbox-option" data-value="8">2 months</div>
+          <div role="option" class="listbox-option" data-value="12">3 months</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- skills pill buttons (custom widget) -->
+    <div class="field-row">
+      <span class="field-label" id="skillsLabel">Core Skills (select all that apply)</span>
+      <div class="pill-group" role="group" aria-labelledby="skillsLabel">
+        <span class="pill" role="button" tabindex="0" data-selected="false">Kubernetes</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">Terraform</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">AWS</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">Go</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">Python</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">Docker</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">CI/CD</span>
+        <span class="pill" role="button" tabindex="0" data-selected="false">Linux</span>
+      </div>
+    </div>
+
+    <!-- Additional skills textarea -->
+    <div class="field-row">
+      <label for="addSkills" class="field-label">Additional skills</label>
+      <textarea id="addSkills" rows="2" placeholder="List any other relevant skills..."></textarea>
+    </div>
+
+    <!-- LinkedIn with placeholder-only label -->
+    <div class="field-row">
+      <span class="field-label">LinkedIn profile (optional)</span>
+      <input type="url" placeholder="https://linkedin.com/in/yourprofile" aria-label="LinkedIn URL">
+    </div>
+
+    <!-- GitHub profile -->
+    <div class="field-row">
+      <span class="field-label">GitHub profile (optional)</span>
+      <input type="url" placeholder="https://github.com/yourhandle" aria-label="GitHub URL">
+    </div>
+
+    <!-- Portfolio URL -->
+    <div class="field-row">
+      <span class="field-label">Portfolio URL (optional)</span>
+      <input type="url" placeholder="https://yourportfolio.com" aria-label="Portfolio URL">
+    </div>
+
+    <!-- Additional experience fields -->
+    <div class="flex-row">
+      <div class="field-row" style="flex:1;">
+        <label for="prevRole" class="field-label">Previous job title</label>
+        <input type="text" id="prevRole" placeholder="e.g. DevOps Engineer">
+      </div>
+      <div class="field-row" style="flex:1;">
+        <label for="prevCompany" class="field-label">Previous employer</label>
+        <input type="text" id="prevCompany" placeholder="e.g. Previous Corp">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label for="yearsPrev" class="field-label">Years at previous role</label>
+      <input type="text" id="yearsPrev" placeholder="e.g. 2">
+    </div>
+
+    <!-- details/accordion: hidden until click (cover letter) -->
+    <details>
+      <summary>Add cover letter (optional)</summary>
+      <div style="margin-top:8px;">
+        <textarea rows="3" placeholder="Write a short note..." aria-label="Cover letter"></textarea>
+      </div>
+    </details>
+
+    <!-- shadow DOM host: declarative shadow root with fields inside -->
+    <div class="shadow-host">
+      <span style="font-size:11px;color:#6b7280;">🔒 Internal section (shadow root)</span>
+      <div id="shadowHostContainer">
+        <template shadowrootmode="open">
+          <style>
+            :host { display: block; padding: 6px 0; }
+            .sh-field { margin: 4px 0; }
+            .sh-label { font-size: 12px; font-weight: 500; }
+            input { padding: 4px 8px; border: 1px solid #aaa; border-radius: 4px; width: 100%; }
+          </style>
+          <div class="sh-field">
+            <span class="sh-label" id="shLabel">Preferred start date</span>
+            <input type="date" aria-labelledby="shLabel" placeholder="dd/mm/yyyy">
+          </div>
+          <div class="sh-field">
+            <span class="sh-label" id="shLabel2">Salary expectation (USD)</span>
+            <input type="text" inputmode="numeric" aria-labelledby="shLabel2" placeholder="e.g. 120000">
+          </div>
+          <div class="sh-field">
+            <span class="sh-label" id="shLabel3">Equity preference</span>
+            <input type="text" aria-labelledby="shLabel3" placeholder="e.g. 0.1%">
+          </div>
+        </template>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Additional questions fieldset -->
+  <fieldset>
+    <legend>Additional Questions</legend>
+
+    <!-- How did you hear? glue span label + aria-labelledby -->
+    <div class="field-row">
+      <div class="inline-glue"><span class="glue-span" id="hearLabel">How did you hear about this role?</span></div>
+      <input type="text" aria-labelledby="hearLabel" placeholder="e.g. LinkedIn, referral, job board">
+    </div>
+
+    <!-- Referral name -->
+    <div class="field-row">
+      <label for="referral" class="field-label">Referral name (if applicable)</label>
+      <input type="text" id="referral" placeholder="e.g. John Smith">
+    </div>
+
+    <!-- checkbox group with aria-label -->
+    <div class="field-row" role="group" aria-label="Work authorization">
+      <span class="field-label">Work authorization</span>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="auth"> I am authorized to work in the UK</label>
+        <label><input type="checkbox" name="auth"> I require visa sponsorship</label>
+        <label><input type="checkbox" name="auth"> I have EU settled status</label>
+      </div>
+    </div>
+
+    <!-- Gender: glue span + placeholder only + hidden label -->
+    <div class="field-row">
+      <span id="genderLabelSpan" class="hidden-label">Gender</span>
+      <div class="inline-glue"><span class="glue-span">Gender (optional)</span></div>
+      <input type="text" placeholder="Female / Male / Non-binary / Prefer not to say" aria-labelledby="genderLabelSpan">
+    </div>
+
+    <!-- Ethnicity (aria-labelledby distant span) -->
+    <div class="field-row">
+      <span id="ethLabel" class="distant-label" style="position:absolute;left:-9999px;">Ethnicity</span>
+      <span class="field-label" aria-hidden="true">Ethnicity</span>
+      <input type="text" placeholder="Select or type" aria-labelledby="ethLabel">
+    </div>
+
+    <!-- Disability status with combobox -->
+    <div class="field-row">
+      <span class="field-label" id="disLabel">Disability status</span>
+      <div class="combobox-wrapper">
+        <button type="button" class="combobox-input" id="disCombo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="disLabel" aria-controls="disListbox">
+          <span id="disValue">Prefer not to say</span>
+          <span style="font-size:10px;">▼</span>
+        </button>
+        <div class="listbox" id="disListbox" role="listbox" aria-labelledby="disLabel" style="display:none;">
+          <div role="option" class="listbox-option" data-value="">Prefer not to say</div>
+          <div role="option" class="listbox-option" data-value="yes">Yes</div>
+          <div role="option" class="listbox-option" data-value="no">No</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Veteran status with radio buttons -->
+    <div class="field-row">
+      <span class="field-label" id="vetLabel">Veteran status</span>
+      <div class="radio-group" role="radiogroup" aria-labelledby="vetLabel">
+        <label><input type="radio" name="vet" value="yes"> Yes</label>
+        <label><input type="radio" name="vet" value="no"> No</label>
+        <label><input type="radio" name="vet" value="prefer"> Prefer not to say</label>
+      </div>
+    </div>
+
+    <!-- Education level with combobox -->
+    <div class="field-row">
+      <span class="field-label" id="eduLabel">Highest education level</span>
+      <div class="combobox-wrapper">
+        <button type="button" class="combobox-input" id="eduCombo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="eduLabel" aria-controls="eduListbox">
+          <span id="eduValue">Select</span>
+          <span style="font-size:10px;">▼</span>
+        </button>
+        <div class="listbox" id="eduListbox" role="listbox" aria-labelledby="eduLabel" style="display:none;">
+          <div role="option" class="listbox-option" data-value="highschool">High school</div>
+          <div role="option" class="listbox-option" data-value="associate">Associate degree</div>
+          <div role="option" class="listbox-option" data-value="bachelor">Bachelor's degree</div>
+          <div role="option" class="listbox-option" data-value="master">Master's degree</div>
+          <div role="option" class="listbox-option" data-value="doctorate">Doctorate</div>
+          <div role="option" class="listbox-option" data-value="other">Other</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Field of study -->
+    <div class="field-row">
+      <label for="fieldOfStudy" class="field-label">Field of study</label>
+      <input type="text" id="fieldOfStudy" placeholder="e.g. Computer Science">
+    </div>
+
+    <!-- Certifications textarea -->
+    <div class="field-row">
+      <label for="certs" class="field-label">Relevant certifications</label>
+      <textarea id="certs" rows="2" placeholder="e.g. AWS Certified Solutions Architect, CKA"></textarea>
+    </div>
+
+    <!-- Languages spoken -->
+    <div class="field-row">
+      <label for="languages" class="field-label">Languages spoken</label>
+      <input type="text" id="languages" placeholder="e.g. English, Spanish, French">
+    </div>
+
+    <!-- Additional fields to reach 26+ -->
+    <div class="field-row">
+      <label for="linkedinUrl2" class="field-label">Alternative contact (optional)</label>
+      <input type="url" id="linkedinUrl2" placeholder="e.g. personal website">
+    </div>
+
+    <div class="field-row">
+      <label for="twitterHandle" class="field-label">Twitter/X handle (optional)</label>
+      <input type="text" id="twitterHandle" placeholder="@username">
+    </div>
+
+    <!-- readonly prefill glued span -->
+    <div class="field-row">
+      <span class="field-label">Referral code (if any)</span>
+      <div class="readonly-prefill" aria-label="Referral code">ASHBY-INT-2025</div>
+    </div>
+
+    <!-- another details/hidden reveal for diversity survey -->
+    <details>
+      <summary>Diversity survey (optional, hidden)</summary>
+      <div style="margin-top:8px;">
+        <div class="field-row">
+          <span class="field-label">Sexual orientation</span>
+          <input type="text" placeholder="e.g. Heterosexual, Gay, Lesbian, Bisexual" aria-label="Sexual orientation">
+        </div>
+        <div class="field-row">
+          <span class="field-label">Religion or belief</span>
+          <input type="text" placeholder="e.g. Christian, Muslim, Hindu, None" aria-label="Religion or belief">
+        </div>
+      </div>
+    </details>
+  </fieldset>
+
+  <!-- Submit row -->
+  <div style="display:flex;justify-content:flex-end;gap:12px;align-items:center;margin-top:8px;">
+    <span style="font-size:12px;color:#6b7280;">All fields required unless marked optional</span>
+    <button type="submit" class="btn-primary" onclick="alert('Application submitted (demo)');return false;">Submit application</button>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // Yes/no radio buttons
+    document.querySelectorAll('.yesno-group').forEach(function(group){
+      group.querySelectorAll('.yesno-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          group.querySelectorAll('.yesno-btn').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+          btn.classList.add('active'); btn.setAttribute('aria-checked','true');
+        });
+      });
+    });
+
+    // Combo box helper
+    function setupCombobox(btnId, listboxId, valueId) {
+      var comboBtn = document.getElementById(btnId);
+      var listbox = document.getElementById(listboxId);
+      var valueSpan = document.getElementById(valueId);
+      if (comboBtn && listbox) {
+        comboBtn.addEventListener('click', function(){
+          var expanded = comboBtn.getAttribute('aria-expanded') === 'true';
+          comboBtn.setAttribute('aria-expanded', !expanded);
+          listbox.style.display = expanded ? 'none' : 'block';
+        });
+        listbox.querySelectorAll('.listbox-option').forEach(function(opt){
+          opt.addEventListener('click', function(){
+            valueSpan.textContent = opt.textContent;
+            listbox.style.display = 'none';
+            comboBtn.setAttribute('aria-expanded', 'false');
+            listbox.querySelectorAll('[aria-selected]').forEach(function(o){ o.removeAttribute('aria-selected'); });
+            opt.setAttribute('aria-selected', 'true');
+          });
+        });
+        document.addEventListener('click', function(e) {
+          if (!comboBtn.contains(e.target) && !listbox.contains(e.target)) {
+            listbox.style.display = 'none';
+            comboBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    }
+
+    setupCombobox('yoeCombo', 'yoeListbox', 'yoeValue');
+    setupCombobox('noticeCombo', 'noticeListbox', 'noticeValue');
+    setupCombobox('disCombo', 'disListbox', 'disValue');
+    setupCombobox('eduCombo', 'eduListbox', 'eduValue');
+
+    // pill buttons
+    document.querySelectorAll('.pill').forEach(function(pill){
+      pill.addEventListener('click', function(){
+        var sel = pill.getAttribute('data-selected') === 'true';
+        pill.setAttribute('data-selected', sel ? 'false' : 'true');
+        pill.classList.toggle('selected');
+      });
+      pill.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') { e.preventDefault(); pill.click(); } });
+    });
+  })();
+</script>
+</body>
+</html>

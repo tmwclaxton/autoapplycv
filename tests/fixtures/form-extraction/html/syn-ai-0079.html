@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f4f6f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; padding: 20px; }
+  .app-shell { max-width: 1100px; margin: 0 auto; }
+  .app-header { background: #161b33; color: #fff; padding: 24px 32px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center; }
+  .app-header h1 { font-size: 22px; font-weight: 600; }
+  .app-header .badge { background: #3a4a6b; padding: 4px 14px; border-radius: 30px; font-size: 12px; }
+  .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #fff; padding: 28px 32px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+  .full-width { grid-column: 1 / -1; }
+  label { font-size: 13px; font-weight: 500; color: #2c3e50; display: block; margin-bottom: 4px; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; transition: border 0.15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #4a6cf7; box-shadow: 0 0 0 3px rgba(74,108,247,0.12); }
+  .field-group { margin-bottom: 16px; }
+  .readonly-field { background: #f2f4f7; color: #475467; cursor: not-allowed; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; border: 1px solid #e2e8f0; }
+  td, th { padding: 10px 12px; border: 1px solid #e2e8f0; text-align: left; vertical-align: middle; }
+  th { background: #f8fafc; font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 8px 18px; border-radius: 30px; border: 1px solid #cbd5e1; background: #fff; font-size: 13px; cursor: pointer; }
+  .pill-btn.active { background: #161b33; color: #fff; border-color: #161b33; }
+  details { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; background: #fafbfc; }
+  summary { font-weight: 600; font-size: 14px; cursor: pointer; color: #1e293b; }
+  .dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+  dialog { border: none; border-radius: 16px; padding: 0; max-width: 560px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .dialog-content { padding: 28px 32px; }
+  .dialog-header { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+  .btn-primary { background: #161b33; color: #fff; border: none; padding: 10px 28px; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 14px; }
+  .btn-primary:hover { background: #1f2a4a; }
+  .btn-outline { background: transparent; border: 1px solid #cbd5e1; padding: 10px 28px; border-radius: 8px; cursor: pointer; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { padding-right: 36px; }
+  .combobox-menu { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d0d5dd; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); max-height: 200px; overflow-y: auto; z-index: 50; display: none; }
+  .combobox-menu.open { display: block; }
+  .combobox-option { padding: 10px 14px; cursor: pointer; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+  .combobox-option:hover { background: #f1f5f9; }
+  .combobox-option[aria-selected="true"] { background: #eef2ff; font-weight: 500; }
+  .glued-span { background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-size: 11px; color: #475569; display: inline-block; margin-bottom: 4px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  fieldset { border: 1px solid #d0d5dd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  legend { font-weight: 600; font-size: 14px; padding: 0 8px; color: #1e293b; }
+  .checkbox-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .checkbox-row label { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; font-size: 14px; cursor: pointer; }
+  .checkbox-row input[type="checkbox"] { width: auto; }
+  .two-col-table { display: table; width: 100%; }
+  .two-col-row { display: table-row; }
+  .two-col-cell { display: table-cell; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  iframe { border: 1px solid #d0d5dd; border-radius: 6px; width: 100%; height: 160px; background: #fafbfc; }
+  .hidden-field { display: none; }
+  .inline-group { display: flex; gap: 12px; align-items: center; }
+  .inline-group input { flex: 1; }
+  .inline-group label { margin-bottom: 0; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <h1>Senior Product Designer</h1>
+    <span class="badge">Full-time · Remote</span>
+  </div>
+  <div class="grid-2col">
+    <!-- LEFT COLUMN -->
+    <div>
+      <div class="field-group">
+        <label for="first-name">First name</label>
+        <input id="first-name" name="firstName" placeholder="e.g. Alex" autocomplete="given-name">
+      </div>
+      <div class="field-group">
+        <label for="last-name">Last name</label>
+        <input id="last-name" name="lastName" placeholder="e.g. Rivera" autocomplete="family-name">
+      </div>
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field-group">
+        <span class="glued-span">Phone</span>
+        <input aria-label="Phone number" name="phone" placeholder="+1 (555) 000-9999" autocomplete="tel">
+      </div>
+      <div class="field-group">
+        <label>Current company</label>
+        <div class="combobox-wrapper">
+          <input class="combobox-input" id="company-input" aria-haspopup="listbox" aria-expanded="false" aria-controls="company-listbox" role="combobox" placeholder="Type to search…" autocomplete="off">
+          <div id="company-listbox" class="combobox-menu" role="listbox" aria-label="Company suggestions">
+            <div class="combobox-option" role="option" aria-selected="false">Google</div>
+            <div class="combobox-option" role="option" aria-selected="false">Apple</div>
+            <div class="combobox-option" role="option" aria-selected="false">Meta</div>
+            <div class="combobox-option" role="option" aria-selected="false">Amazon</div>
+            <div class="combobox-option" role="option" aria-selected="false">Netflix</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>LinkedIn profile</label>
+        <input aria-labelledby="linkedin-hint" placeholder="https://linkedin.com/in/..." id="linkedin-url">
+        <span id="linkedin-hint" class="glued-span">optional but recommended</span>
+      </div>
+      <div class="field-group">
+        <label>How did you hear about us?</label>
+        <div class="pill-group" role="radiogroup" aria-label="Source">
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="linkedin">LinkedIn</button>
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="referral">Referral</button>
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="twitter">Twitter</button>
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="other">Other</button>
+        </div>
+        <input type="hidden" name="source" id="source-input">
+      </div>
+      <div class="field-group">
+        <label>Portfolio URL</label>
+        <input aria-label="Portfolio website" placeholder="https://yourportfolio.design" name="portfolio">
+      </div>
+      <div class="field-group">
+        <div role="textbox" contenteditable="true" aria-label="Cover letter" style="min-height:80px;border:1px solid #d0d5dd;border-radius:6px;padding:10px;font-size:14px;background:#fff;">
+          Write your cover letter here…
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Preferred pronouns</label>
+        <input aria-label="Pronouns" placeholder="e.g. she/her, he/him, they/them" name="pronouns">
+      </div>
+      <div class="field-group">
+        <label>Current location</label>
+        <input aria-label="City, State" placeholder="e.g. San Francisco, CA" name="location">
+      </div>
+    </div>
+    <!-- RIGHT COLUMN -->
+    <div>
+      <div class="field-group">
+        <label for="resume">Resume / CV</label>
+        <input id="resume" type="file" name="resume" accept=".pdf,.doc,.docx">
+      </div>
+      <div class="field-group">
+        <label>Expected salary (USD)</label>
+        <input aria-label="Salary expectation" type="number" placeholder="100000" name="salary">
+      </div>
+      <div class="field-group">
+        <label>Start date</label>
+        <input type="date" name="startDate" aria-label="Available start date">
+      </div>
+      <div class="field-group">
+        <label>Work authorization</label>
+        <select aria-label="Visa status">
+          <option value="">Select…</option>
+          <option>US Citizen</option>
+          <option>Permanent Resident</option>
+          <option>H-1B</option>
+          <option>F-1 OPT</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <span class="glued-span">Profile sync</span>
+        <input readonly class="readonly-field" value="alex.rivera@domain.com (imported)" aria-label="Imported email from profile">
+      </div>
+      <div class="field-group">
+        <label>Years of experience</label>
+        <input type="number" min="0" max="50" placeholder="5" aria-label="Years of professional experience" name="yearsExp">
+      </div>
+      <div class="field-group">
+        <label>Highest education</label>
+        <select aria-label="Education level">
+          <option value="">Select…</option>
+          <option>High School</option>
+          <option>Associate</option>
+          <option>Bachelor</option>
+          <option>Master</option>
+          <option>PhD</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>University</label>
+        <input placeholder="e.g. Stanford" aria-label="University name" name="university">
+      </div>
+      <div class="field-group">
+        <label>Field of study</label>
+        <input placeholder="e.g. Computer Science" aria-label="Major" name="major">
+      </div>
+      <div class="field-group full-width">
+        <!-- Table layout for skills -->
+        <table>
+          <thead><tr><th>Skill</th><th>Proficiency</th><th>Years</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="e.g. Figma" aria-label="Skill name"></td><td><select aria-label="Level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option></select></td><td><input type="number" min="0" max="30" placeholder="0" aria-label="Years of experience" style="width:60px"></td></tr>
+            <tr><td><input placeholder="e.g. Prototyping" aria-label="Skill name"></td><td><select aria-label="Level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option></select></td><td><input type="number" min="0" max="30" placeholder="0" aria-label="Years of experience" style="width:60px"></td></tr>
+          </tbody>
+        </table>
+        <button class="btn-outline" style="font-size:12px;padding:6px 16px;">+ Add skill</button>
+      </div>
+      <details>
+        <summary>Additional information</summary>
+        <div style="margin-top:12px;">
+          <div class="field-group">
+            <label>GitHub profile</label>
+            <input placeholder="https://github.com/yourhandle">
+          </div>
+          <div class="field-group">
+            <label>Personal website</label>
+            <input placeholder="https://yourname.dev">
+          </div>
+          <div class="field-group">
+            <label>How many years of UX design experience?</label>
+            <input type="number" min="0" step="0.5" placeholder="3">
+          </div>
+          <div class="field-group">
+            <label>Design tools you use</label>
+            <input placeholder="e.g. Figma, Sketch, Adobe XD">
+          </div>
+          <div class="field-group">
+            <label>Certifications</label>
+            <input placeholder="e.g. UX Certified, Google UX">
+          </div>
+        </div>
+      </details>
+      <!-- Checkbox group without fieldset -->
+      <div class="field-group" style="margin-top:8px;">
+        <span style="font-size:13px;font-weight:500;display:block;margin-bottom:4px;">I am interested in:</span>
+        <div class="checkbox-row">
+          <label><input type="checkbox" name="interest" value="product"> Product design</label>
+          <label><input type="checkbox" name="interest" value="design-systems"> Design systems</label>
+          <label><input type="checkbox" name="interest" value="research"> UX research</label>
+          <label><input type="checkbox" name="interest" value="prototyping"> Prototyping</label>
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:12px;">
+        <button class="btn-primary" id="submit-app">Submit application</button>
+        <button class="btn-outline" id="save-draft">Save draft</button>
+      </div>
+    </div>
+    <!-- Full-width iframe apply shell (srcdoc) -->
+    <div class="full-width" style="margin-top:10px;">
+      <details>
+        <summary>Apply via embedded form (iframe)</summary>
+        <iframe srcdoc='<!DOCTYPE html><html><body style="font-family:sans-serif;padding:12px;"><h4 style="margin:0 0 10px;font-size:15px;">Quick apply</h4><label>Name <input placeholder="Jane Doe" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;"></label><br><label>Email <input type="email" placeholder="j@example.com" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;"></label><br><label>Phone <input type="tel" placeholder="+1 555-0000" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;"></label><br><button style="margin-top:10px;padding:6px 18px;background:#161b33;color:#fff;border:none;border-radius:6px;">Send</button></body></html>' title="Quick apply iframe"></iframe>
+    </div>
+    <!-- Triple nested fieldsets -->
+    <div class="full-width">
+      <fieldset>
+        <legend>Employment details</legend>
+        <fieldset>
+          <legend>Current role</legend>
+          <fieldset>
+            <legend>Compensation</legend>
+            <div style="display:flex;gap:12px;">
+              <input placeholder="Base salary" aria-label="Base salary" style="flex:1;">
+              <input placeholder="Equity (if any)" aria-label="Equity" style="flex:1;">
+            </div>
+          </fieldset>
+          <div style="margin-top:8px;">
+            <input placeholder="Job title" aria-label="Job title" style="width:100%;">
+          </div>
+        </fieldset>
+        <div style="margin-top:8px;">
+          <input placeholder="Years at current company" aria-label="Years at current company" style="width:100%;">
+        </div>
+      </fieldset>
+    </div>
+    <!-- Hidden dialog trigger -->
+    <div class="full-width" style="text-align:right;">
+      <button id="show-dialog-btn" class="btn-outline">View privacy notice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog for privacy notice (form inside dialog) -->
+<dialog id="privacy-dialog">
+  <div class="dialog-content">
+    <div class="dialog-header">Data processing consent</div>
+    <p style="font-size:14px;color:#475569;margin-bottom:16px;">We process your personal data for recruitment purposes. Please confirm below.</p>
+    <div class="field-group">
+      <label><input type="checkbox" name="consent"> I consent to data processing as described in the privacy policy.</label>
+    </div>
+    <div class="field-group">
+      <label><input type="checkbox" name="share"> I agree to share my profile with partner companies.</label>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-outline" id="close-dialog">Close</button>
+      <button class="btn-primary" id="confirm-dialog">Confirm</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function(){
+    // Pill button logic
+    const pillGroup = document.querySelector('.pill-group');
+    if(pillGroup) {
+      const pills = pillGroup.querySelectorAll('.pill-btn');
+      const hiddenInput = document.getElementById('source-input');
+      pills.forEach(btn => {
+        btn.addEventListener('click', function(){
+          pills.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
+          this.classList.add('active');
+          this.setAttribute('aria-checked','true');
+          if(hiddenInput) hiddenInput.value = this.dataset.value;
+        });
+      });
+    }
+
+    // Combobox
+    const comboboxInput = document.getElementById('company-input');
+    const listbox = document.getElementById('company-listbox');
+    if(comboboxInput && listbox) {
+      const options = listbox.querySelectorAll('.combobox-option');
+      comboboxInput.addEventListener('focus', function(){ listbox.classList.add('open'); this.setAttribute('aria-expanded','true'); });
+      comboboxInput.addEventListener('blur', function(){ setTimeout(() => { listbox.classList.remove('open'); this.setAttribute('aria-expanded','false'); }, 200); });
+      comboboxInput.addEventListener('input', function(){
+        const val = this.value.toLowerCase();
+        options.forEach(opt => {
+          if(opt.textContent.toLowerCase().includes(val)) opt.style.display = 'block';
+          else opt.style.display = 'none';
+        });
+        listbox.classList.add('open');
+        this.setAttribute('aria-expanded','true');
+      });
+      options.forEach(opt => {
+        opt.addEventListener('mousedown', function(e){
+          e.preventDefault();
+          comboboxInput.value = this.textContent;
+          listbox.classList.remove('open');
+          comboboxInput.setAttribute('aria-expanded','false');
+          options.forEach(o => o.setAttribute('aria-selected','false'));
+          this.setAttribute('aria-selected','true');
+        });
+      });
+    }
+
+    // Dialog logic
+    const dialog = document.getElementById('privacy-dialog');
+    const showBtn = document.getElementById('show-dialog-btn');
+    const closeBtn = document.getElementById('close-dialog');
+    const confirmBtn = document.getElementById('confirm-dialog');
+    if(dialog && showBtn) {
+      showBtn.addEventListener('click', function(){ dialog.showModal(); });
+      if(closeBtn) closeBtn.addEventListener('click', function(){ dialog.close(); });
+      if(confirmBtn) confirmBtn.addEventListener('click', function(){ dialog.close(); });
+    }
+
+    // Submit button dummy
+    document.getElementById('submit-app')?.addEventListener('click', function(e){
+      e.preventDefault();
+      alert('Application submitted (demo).');
+    });
+    document.getElementById('save-draft')?.addEventListener('click', function(e){
+      e.preventDefault();
+      alert('Draft saved (demo).');
+    });
+  })();
+</script>
+</body>
+</html>

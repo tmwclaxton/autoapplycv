@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Senior Product Designer - Ashby Application</title>
+<style>
+  * { box-sizing: border-box; font-family: -apple-system, 'Inter', sans-serif; }
+  body { background: #f4f5f7; margin: 0; padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; justify-content: center; }
+  .app-shell { max-width: 820px; width: 100%; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 28px 32px; }
+  .decoy-card { max-width: 320px; width: 100%; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 18px 20px; }
+  table.form-table { width: 100%; border-collapse: collapse; }
+  table.form-table td { padding: 4px 6px; vertical-align: middle; }
+  .field-group { margin-bottom: 12px; }
+  .inline-flex { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill-btn { background: #f0f0f0; border-radius: 24px; padding: 8px 18px; font-size: 14px; cursor: pointer; border: 1px solid transparent; transition: all 0.1s; }
+  .pill-btn.active { background: #1a73e8; color: white; border-color: #1557b0; }
+  .combobox-container { position: relative; }
+  .combobox-trigger { background: white; border: 1px solid #c4c4c4; border-radius: 6px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .combobox-dropdown { display: none; position: absolute; top: 110%; left: 0; right: 0; background: white; border: 1px solid #d0d0d0; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .combobox-dropdown.show { display: block; }
+  .combobox-option { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #eee; }
+  .combobox-option:hover { background: #eaf3ff; }
+  details.field-details { margin: 12px 0; border: 1px solid #e2e2e2; border-radius: 8px; overflow: hidden; }
+  details.field-details summary { padding: 12px 14px; background: #f7f8fa; font-weight: 500; cursor: pointer; }
+  .shadow-host { display: block; width: 100%; min-height: 60px; border: 1px dashed #aaa; padding: 8px; background: #f9f9fb; margin: 12px 0; }
+  .glued-label { display: inline; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .decoy-form input { width: 100%; padding: 8px 10px; margin: 4px 0; border: 1px solid #d4d4d4; border-radius: 6px; }
+  .decoy-form button { background: #222; color: white; padding: 8px 16px; border: none; border-radius: 6px; width: 100%; margin-top: 6px; }
+  .readonly-prefill { background: #efefef; padding: 8px 12px; border-radius: 6px; color: #444; font-size: 14px; }
+  .inline-edit[contenteditable="true"] { border: 1px solid #c8c8c8; border-radius: 6px; padding: 8px 12px; min-height: 40px; background: white; }
+</style>
+</head>
+<body>
+
+<!-- DECOY FORM: Newsletter signup (separate decoy) -->
+<div class="decoy-card" role="region" aria-label="Newsletter signup">
+  <h3 style="font-size: 16px; margin-top: 0; margin-bottom: 12px;">📬 Stay in the loop</h3>
+  <form class="decoy-form" action="#" method="post">
+    <div>
+      <label style="font-size: 13px; color: #555;">Email <span style="color:red;">*</span></label>
+      <input type="email" name="newsletter-email" placeholder="you@example.com" required>
+    </div>
+    <div>
+      <label style="font-size: 13px; color: #555;">Name</label>
+      <input type="text" name="newsletter-name" placeholder="Your name">
+    </div>
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+
+<!-- MAIN APPLICATION FORM -->
+<div class="app-shell" id="application-form-shell">
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-weight: 600; font-size: 22px; margin: 0 0 4px 0;">Senior Product Designer</h2>
+    <div style="color: #5f6368; font-size: 14px;">Ashby · Remote · Full-time</div>
+  </div>
+
+  <!-- Hidden declarative shadow root host placeholder (shadow DOM simulation using a slot-like container) -->
+  <div class="shadow-host" id="shadow-host-container">
+    <template shadowroot="open">
+      <style>
+        .shadow-field { display: flex; flex-direction: column; gap: 4px; }
+        .shadow-label { font-size: 13px; font-weight: 500; color: #333; }
+        .shadow-input { border: 1px solid #bbb; border-radius: 6px; padding: 10px 12px; }
+      </style>
+      <div class="shadow-field">
+        <span class="shadow-label">Portfolio URL (shadow DOM)</span>
+        <input class="shadow-input" type="url" placeholder="https://portfolio.design" aria-label="Portfolio URL">
+      </div>
+    </template>
+    <div style="font-size: 12px; color: #888;">[shadow host active]</div>
+  </div>
+
+  <!-- TABLE LAYOUT section (reference: table layout form) -->
+  <table class="form-table" role="presentation">
+    <tr>
+      <td style="width: 100px;">
+        <span style="font-size: 14px; color: #333; white-space: nowrap;">Full name <span style="color:red;">*</span></span>
+      </td>
+      <td>
+        <!-- glued-label-text: 'Full name' split across spans with no space between words; also includes 'required' glued -->
+        <span class="glued-label" style="font-size:0;">
+          <span style="font-size:14px;">first name</span><span style="font-size:14px;">required</span>
+        </span>
+        <input type="text" name="name" placeholder="e.g. Alex Rivera" aria-label="first namerequired" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span style="font-size: 14px;">Email <span style="color:red;">*</span></span>
+      </td>
+      <td>
+        <!-- Concatenated label words: 'Email' + '(required)' no space -->
+        <span style="font-size: 14px; margin-right: 4px;">Email</span><span style="font-size: 14px; color:red;">(required)</span>
+        <input type="email" name="email" placeholder="a.rivera@example.com" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span style="font-size: 14px;">Phone</span>
+      </td>
+      <td>
+        <input type="tel" name="phone" placeholder="+1 555 0000" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+      </td>
+    </tr>
+  </table>
+
+  <!-- DUPLICATE NAME ATTRS: Radio group (multiple controls sharing name='work_authorization') -->
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Work authorization <span style="color:red;">*</span></div>
+    <div class="inline-flex">
+      <label style="display:flex; align-items:center; gap: 4px; font-size:14px;">
+        <input type="radio" name="work_authorization" value="us-citizen"> US Citizen
+      </label>
+      <label style="display:flex; align-items:center; gap: 4px; font-size:14px;">
+        <input type="radio" name="work_authorization" value="green-card"> Green Card
+      </label>
+      <label style="display:flex; align-items:center; gap: 4px; font-size:14px;">
+        <input type="radio" name="work_authorization" value="visa"> Visa holder
+      </label>
+    </div>
+  </div>
+
+  <!-- PILL BUTTONS (custom widget: pill yes/no buttons for 'Will you relocate?') -->
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Willing to relocate?</div>
+    <div class="pill-group" role="radiogroup" aria-label="Relocation">
+      <button class="pill-btn" role="radio" aria-checked="false" data-value="yes" onclick="selectPill(this)">Yes</button>
+      <button class="pill-btn active" role="radio" aria-checked="true" data-value="no" onclick="selectPill(this)">No</button>
+      <button class="pill-btn" role="radio" aria-checked="false" data-value="maybe" onclick="selectPill(this)">Maybe</button>
+    </div>
+    <input type="hidden" name="relocate" value="no" id="relocate-hidden">
+  </div>
+
+  <!-- COMBOBOX custom widget (listbox combobox) for 'How did you hear about us?' -->
+  <div class="field-group combobox-container" id="combobox-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px;">How did you hear? <span style="color:red;">*</span></div>
+    <div class="combobox-trigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Referral source" aria-controls="source-listbox" id="combobox-trigger" onclick="toggleCombobox()">
+      <span id="combobox-selected">Select source</span>
+      <span style="font-size: 12px;">▼</span>
+    </div>
+    <div class="combobox-dropdown" id="source-listbox" role="listbox" aria-label="Referral source options">
+      <div class="combobox-option" role="option" data-value="linkedin" onclick="selectOption(this)">LinkedIn</div>
+      <div class="combobox-option" role="option" data-value="glassdoor" onclick="selectOption(this)">Glassdoor</div>
+      <div class="combobox-option" role="option" data-value="friend" onclick="selectOption(this)">Friend referral</div>
+      <div class="combobox-option" role="option" data-value="other" onclick="selectOption(this)">Other</div>
+    </div>
+    <input type="hidden" name="source" id="source-hidden" value="">
+  </div>
+
+  <!-- DETAILS/ACCORDION: 'Additional information' with fields inside -->
+  <details class="field-details" id="additional-details">
+    <summary>📎 Additional information (optional)</summary>
+    <div style="padding: 12px 14px;">
+      <div style="margin-bottom: 10px;">
+        <span style="font-size: 14px;">LinkedIn profile</span>
+        <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+      </div>
+      <div style="margin-bottom: 10px;">
+        <span style="font-size: 14px;">GitHub / portfolio</span>
+        <div class="readonly-prefill" tabindex="0" role="textbox" aria-label="GitHub URL (readonly prefill)" contenteditable="false">https://github.com/alexrivera</div>
+      </div>
+      <!-- Div with role=textbox contenteditable (custom widget) -->
+      <div style="margin-bottom: 6px;">
+        <span style="font-size: 14px; display: block; margin-bottom: 4px;">Cover letter (optional)</span>
+        <div class="inline-edit" role="textbox" contenteditable="true" aria-label="Cover letter" style="min-height: 80px;"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- DUPLICATE NAME ATTRS: Checkbox group 'skills' sharing name='skills[]' -->
+  <div class="field-group" style="margin-top: 8px;">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Skills (select all that apply)</div>
+    <div class="inline-flex" style="flex-wrap: wrap; gap: 8px;">
+      <label style="display:flex; align-items:center; gap: 4px;"><input type="checkbox" name="skills[]" value="ux"> UX</label>
+      <label style="display:flex; align-items:center; gap: 4px;"><input type="checkbox" name="skills[]" value="ui"> UI</label>
+      <label style="display:flex; align-items:center; gap: 4px;"><input type="checkbox" name="skills[]" value="figma"> Figma</label>
+      <label style="display:flex; align-items:center; gap: 4px;"><input type="checkbox" name="skills[]" value="research"> Research</label>
+      <label style="display:flex; align-items:center; gap: 4px;"><input type="checkbox" name="skills[]" value="prototyping"> Prototyping</label>
+    </div>
+  </div>
+
+  <!-- Additional fields to meet min 14 fields -->
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Current company</div>
+    <input type="text" name="current_company" placeholder="e.g. Design Studio" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+  </div>
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Years of experience</div>
+    <input type="number" name="years_experience" placeholder="e.g. 5" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+  </div>
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Portfolio URL</div>
+    <input type="url" name="portfolio_url" placeholder="https://myportfolio.com" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+  </div>
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">Salary expectation</div>
+    <input type="text" name="salary_expectation" placeholder="e.g. $120,000" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+  </div>
+  <div class="field-group">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">How did you find this job?</div>
+    <input type="text" name="job_source" placeholder="e.g. LinkedIn, referral" style="width:100%; padding: 10px 12px; border:1px solid #c4c4c4; border-radius:6px;">
+  </div>
+
+  <!-- Hidden field (conditional reveal: shown only if details open, but always present) -->
+  <div id="hidden-field-container" style="margin-top: 8px; display: none;">
+    <label style="font-size: 14px;">Preferred start date</label>
+    <input type="date" name="start_date" style="padding: 10px; border:1px solid #c4c4c4; border-radius:6px; width:100%;">
+  </div>
+
+  <!-- Buttons -->
+  <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
+    <button style="background: #1a73e8; color: white; border: none; padding: 12px 32px; border-radius: 8px; font-weight: 500; cursor: pointer;">Submit application</button>
+    <button style="background: transparent; border: 1px solid #ccc; padding: 12px 20px; border-radius: 8px;">Save draft</button>
+  </div>
+</div>
+
+<script>
+  // Pill select (non-semantic radiogroup)
+  function selectPill(el) {
+    var parent = el.closest('.pill-group');
+    var pills = parent.querySelectorAll('.pill-btn');
+    pills.forEach(function(p) { p.classList.remove('active'); p.setAttribute('aria-checked', 'false'); });
+    el.classList.add('active');
+    el.setAttribute('aria-checked', 'true');
+    var hidden = document.getElementById('relocate-hidden');
+    if (hidden) hidden.value = el.getAttribute('data-value');
+  }
+
+  // Combobox toggle
+  function toggleCombobox() {
+    var list = document.getElementById('source-listbox');
+    var trigger = document.getElementById('combobox-trigger');
+    var expanded = trigger.getAttribute('aria-expanded') === 'true' ? false : true;
+    list.classList.toggle('show', expanded);
+    trigger.setAttribute('aria-expanded', expanded);
+  }
+
+  function selectOption(el) {
+    var value = el.getAttribute('data-value');
+    var text = el.textContent;
+    document.getElementById('combobox-selected').textContent = text;
+    document.getElementById('source-hidden').value = value;
+    document.getElementById('source-listbox').classList.remove('show');
+    document.getElementById('combobox-trigger').setAttribute('aria-expanded', 'false');
+  }
+
+  // Close combobox on outside click
+  document.addEventListener('click', function(e) {
+    var container = document.getElementById('combobox-group');
+    if (container && !container.contains(e.target)) {
+      var list = document.getElementById('source-listbox');
+      var trigger = document.getElementById('combobox-trigger');
+      if (list) list.classList.remove('show');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Show hidden date field if details open (conditional reveal simulation)
+  var detailsEl = document.getElementById('additional-details');
+  var hiddenContainer = document.getElementById('hidden-field-container');
+  if (detailsEl) {
+    detailsEl.addEventListener('toggle', function() {
+      if (detailsEl.open) {
+        hiddenContainer.style.display = 'block';
+      } else {
+        hiddenContainer.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>

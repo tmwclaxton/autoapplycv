@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f4f6f9; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; padding: 40px 20px; }
+  .outer-shell { width: 100%; max-width: 900px; border: 1px solid #d0d5dd; border-radius: 12px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  iframe { width: 100%; height: 2800px; border: none; display: block; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+
+<div class="outer-shell">
+  <iframe srcdoc='
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { font-family: system-ui, -apple-system, sans-serif; box-sizing: border-box; }
+  body { margin: 0; padding: 24px 28px; background: #fff; color: #1a1a1a; }
+  h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .subhead { font-size: 14px; color: #555; margin-bottom: 24px; }
+  dl { display: block; width: 100%; }
+  dt { font-size: 14px; font-weight: 500; color: #333; margin: 18px 0 6px 0; }
+  dd { margin: 0 0 4px 0; }
+  .field-group { margin-bottom: 6px; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; background: #fff; transition: 0.2s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+  td { padding: 6px 4px; vertical-align: top; }
+  td:first-child { width: 40%; padding-left: 0; }
+  td:last-child { width: 60%; padding-right: 0; }
+  .glued-label { display: inline; font-size: 14px; font-weight: 500; color: #333; }
+  .glued-label span { display: inline; letter-spacing: normal; }
+  .glued-label .sp1 { margin-right: 0; }
+  .glued-label .sp2 { margin-left: 0; }
+  .pill-group { display: flex; gap: 8px; margin-top: 4px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #cbd5e1; border-radius: 20px; background: #fff; cursor: pointer; font-size: 14px; transition: 0.15s; }
+  .pill-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .drag-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 28px 16px; text-align: center; background: #fafbfc; cursor: pointer; position: relative; }
+  .drag-zone.dragover { background: #eef2ff; border-color: #2563eb; }
+  .drag-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .drag-zone .custom-btn { display: inline-block; background: #2563eb; color: #fff; padding: 8px 24px; border-radius: 6px; font-size: 14px; margin-top: 8px; }
+  .salary-row { display: flex; align-items: center; gap: 10px; }
+  .salary-row span.prefix { font-size: 16px; font-weight: 500; color: #333; }
+  .salary-row input[type="range"] { flex: 1; }
+  .salary-row input[type="number"] { width: 100px; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; background: #fff; cursor: default; display: flex; align-items: center; justify-content: space-between; }
+  .combobox-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+  .combobox-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; max-height: 180px; overflow-y: auto; z-index: 10; margin-top: 2px; }
+  .combobox-list div { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combobox-list div:hover { background: #f1f5f9; }
+  .hidden-field { display: none; }
+  .reveal-trigger { color: #2563eb; font-size: 14px; cursor: pointer; text-decoration: underline; }
+  .hidden-content { display: none; margin-top: 8px; }
+  .hidden-content.open { display: block; }
+  .readonly-prefill { background: #f1f5f9; color: #333; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 15px; }
+  .error-msg { color: #dc2626; font-size: 13px; margin-top: 2px; }
+</style>
+</head>
+<body>
+  <h2>Senior Frontend Engineer Application</h2>
+  <div class="subhead">Please complete all fields. Some fields are required.</div>
+
+  <form id="appForm">
+    <dl>
+      <dt><label for="fullName">Full Name</label></dt>
+      <dd><input id="fullName" name="fullName" placeholder="e.g. Jane Doe" /></dd>
+
+      <dt><label for="emailAddr">Email Address</label></dt>
+      <dd><input id="emailAddr" name="email" type="email" placeholder="you@company.com" /></dd>
+
+      <dt><span>Phone Number</span></dt>
+      <dd>
+        <table><tr>
+          <td><select id="countryCode" name="countryCode" style="width:100%"><option>+1</option><option>+44</option><option>+91</option><option>+61</option></select></td>
+          <td><input id="localPhone" name="localPhone" placeholder="555-0123" /></td>
+        </tr></table>
+      </dd>
+
+      <dt><div class="glued-label"><span class="sp1">Curr</span><span class="sp2">entRole</span></div></dt>
+      <dd><input id="currentRole" name="currentRole" placeholder="e.g. Senior Developer" /></dd>
+
+      <dt><span>Do you have 5+ years of frontend experience?</span></dt>
+      <dd>
+        <div class="pill-group" role="radiogroup" aria-label="Years experience">
+          <button type="button" class="pill-btn" data-value="yes" onclick="setPill(this)">Yes</button>
+          <button type="button" class="pill-btn active" data-value="no" onclick="setPill(this)">No</button>
+        </div>
+        <input type="hidden" name="exp5plus" id="exp5plus" value="no" />
+      </dd>
+
+      <dt><span>Expected Salary (USD)</span></dt>
+      <dd>
+        <div class="salary-row">
+          <span class="prefix">$</span>
+          <input type="range" min="30000" max="250000" value="120000" step="5000" id="salaryRange" oninput="document.getElementById('salaryNum').value=this.value" />
+          <input type="number" id="salaryNum" name="salary" value="120000" min="30000" max="250000" step="5000" oninput="document.getElementById('salaryRange').value=this.value" />
+        </div>
+      </dd>
+
+      <dt><span>Preferred Framework</span></dt>
+      <dd>
+        <div class="combobox-wrapper">
+          <div class="combobox-input" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="combobox-label" id="comboboxTrigger" onclick="toggleCombobox()">React  <span style="float:right">▼</span></div>
+          <span id="combobox-label" class="sr-only">Preferred Framework</span>
+          <div class="combobox-list" id="comboboxList" role="listbox" aria-label="Framework">
+            <div role="option" data-value="React" onclick="selectOption(this)">React</div>
+            <div role="option" data-value="Vue" onclick="selectOption(this)">Vue</div>
+            <div role="option" data-value="Angular" onclick="selectOption(this)">Angular</div>
+            <div role="option" data-value="Svelte" onclick="selectOption(this)">Svelte</div>
+          </div>
+          <input type="hidden" name="framework" id="frameworkField" value="React" />
+        </div>
+      </dd>
+
+      <dt><span id="hiddenLabelRef" class="sr-only">GitHub profile URL (hidden label)</span></dt>
+      <dd><input aria-labelledby="hiddenLabelRef" name="github" placeholder="https://github.com/yourhandle" /></dd>
+
+      <dt><span>Resume / CV</span></dt>
+      <dd>
+        <div class="drag-zone" id="dragZone">
+          <input type="file" name="resume" accept=".pdf,.doc,.docx" />
+          <div><strong>Drag & drop</strong> your resume here, or <span class="custom-btn">Browse</span></div>
+          <div style="font-size:12px;color:#777;margin-top:4px;">PDF, DOC, DOCX (max 5MB)</div>
+        </div>
+      </dd>
+
+      <dt><span>Address</span></dt>
+      <dd>
+        <table>
+          <tr><td><input placeholder="Street" name="street" /></td><td><input placeholder="City" name="city" /></td></tr>
+          <tr><td><input placeholder="State" name="state" /></td><td><input placeholder="ZIP" name="zip" /></td></tr>
+        </table>
+      </dd>
+
+      <dt><span>LinkedIn Profile</span></dt>
+      <dd><input aria-label="LinkedIn URL" name="linkedin" placeholder="https://linkedin.com/in/" /></dd>
+
+      <dt><span>Portfolio</span></dt>
+      <dd><input placeholder="Portfolio URL (optional)" name="portfolio" /></dd>
+
+      <dt><span>Work Authorization</span></dt>
+      <dd>
+        <select name="workAuth" onchange="toggleVisaReveal(this.value)">
+          <option value="US Citizen">US Citizen</option>
+          <option value="Green Card">Green Card</option>
+          <option value="Visa">Visa</option>
+          <option value="Other">Other</option>
+        </select>
+        <div id="visaReveal" class="hidden-content">
+          <input placeholder="Visa type" name="visaType" style="margin-top:8px;" />
+        </div>
+      </dd>
+
+      <dt><span>Referral source (prefilled)</span></dt>
+      <dd><div class="readonly-prefill" aria-readonly="true">LinkedIn – Senior Dev group</div><input type="hidden" name="referral" value="LinkedIn" /></dd>
+
+      <dt><label for="coverLetter">Cover Letter / Notes</label></dt>
+      <dd><textarea id="coverLetter" name="coverLetter" rows="4" placeholder="Optional note to the hiring team..."></textarea></dd>
+
+      <dt><span>Years of Experience</span></dt>
+      <dd><input type="number" name="yearsExp" min="0" max="50" placeholder="e.g. 5" /></dd>
+
+      <dt><span>Highest Degree</span></dt>
+      <dd>
+        <select name="degree">
+          <option value="High School">High School</option>
+          <option value="Associate">Associate</option>
+          <option value="Bachelor">Bachelor</option>
+          <option value="Master">Master</option>
+          <option value="PhD">PhD</option>
+        </select>
+      </dd>
+
+      <dt><span>University</span></dt>
+      <dd><input placeholder="University name" name="university" /></dd>
+
+      <dt><span>Graduation Year</span></dt>
+      <dd><input type="number" name="gradYear" min="1970" max="2030" placeholder="e.g. 2018" /></dd>
+
+      <dt><span>Current Company</span></dt>
+      <dd><input placeholder="Company name" name="currentCompany" /></dd>
+
+      <dt><span>Notice Period (weeks)</span></dt>
+      <dd><input type="number" name="noticePeriod" min="0" max="12" placeholder="e.g. 2" /></dd>
+
+      <dt><span>Willing to Relocate?</span></dt>
+      <dd>
+        <div class="pill-group" role="radiogroup" aria-label="Relocate">
+          <button type="button" class="pill-btn active" data-value="yes" onclick="setPill(this)">Yes</button>
+          <button type="button" class="pill-btn" data-value="no" onclick="setPill(this)">No</button>
+        </div>
+        <input type="hidden" name="relocate" id="relocate" value="yes" />
+      </dd>
+
+      <dt><span>Available Start Date</span></dt>
+      <dd><input type="date" name="startDate" /></dd>
+
+      <dt><span>How did you hear about us?</span></dt>
+      <dd>
+        <select name="source">
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="Indeed">Indeed</option>
+          <option value="Referral">Referral</option>
+          <option value="Other">Other</option>
+        </select>
+      </dd>
+
+      <dt><span>Additional Skills</span></dt>
+      <dd><textarea name="skills" rows="3" placeholder="e.g. TypeScript, GraphQL, AWS"></textarea></dd>
+
+      <dt><span>Certifications</span></dt>
+      <dd><input placeholder="e.g. AWS Certified Developer" name="certifications" /></dd>
+
+      <dt><span>Preferred Location</span></dt>
+      <dd><input placeholder="City, State" name="preferredLocation" /></dd>
+
+      <dt><span>Remote Preference</span></dt>
+      <dd>
+        <select name="remotePref">
+          <option value="Remote">Remote</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="On-site">On-site</option>
+        </select>
+      </dd>
+    </dl>
+
+    <div style="margin-top:24px;">
+      <button type="submit" style="background:#2563eb;color:#fff;border:none;padding:12px 32px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;">Submit Application</button>
+    </div>
+  </form>
+
+  <script>
+    function setPill(btn) {
+      var group = btn.closest(".pill-group");
+      group.querySelectorAll(".pill-btn").forEach(function(b){ b.classList.remove("active"); });
+      btn.classList.add("active");
+      var hiddenId = group.closest("dd").querySelector("input[type=hidden]");
+      if(hiddenId) hiddenId.value = btn.getAttribute("data-value");
+    }
+    function toggleCombobox() {
+      var list = document.getElementById("comboboxList");
+      var trigger = document.getElementById("comboboxTrigger");
+      var expanded = trigger.getAttribute("aria-expanded") === "true";
+      trigger.setAttribute("aria-expanded", !expanded);
+      list.style.display = expanded ? "none" : "block";
+    }
+    function selectOption(el) {
+      var val = el.getAttribute("data-value");
+      document.getElementById("comboboxTrigger").childNodes[0].textContent = val;
+      document.getElementById("frameworkField").value = val;
+      document.getElementById("comboboxList").style.display = "none";
+      document.getElementById("comboboxTrigger").setAttribute("aria-expanded", "false");
+    }
+    document.addEventListener("click", function(e) {
+      var wrapper = document.querySelector(".combobox-wrapper");
+      if (!wrapper.contains(e.target)) {
+        document.getElementById("comboboxList").style.display = "none";
+        document.getElementById("comboboxTrigger").setAttribute("aria-expanded", "false");
+      }
+    });
+    var dz = document.getElementById("dragZone");
+    if(dz) {
+      dz.addEventListener("dragover", function(e){ e.preventDefault(); dz.classList.add("dragover"); });
+      dz.addEventListener("dragleave", function(){ dz.classList.remove("dragover"); });
+      dz.addEventListener("drop", function(e){ e.preventDefault(); dz.classList.remove("dragover"); });
+    }
+    function toggleVisaReveal(val) {
+      var el = document.getElementById("visaReveal");
+      if(val === "Visa") { el.classList.add("open"); } else { el.classList.remove("open"); }
+    }
+    document.getElementById("appForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Application submitted (demo mode).");
+    });
+  </script>
+</body>
+</html>
+' title="Application Form"></iframe>
+</div>
+
+</body>
+</html>

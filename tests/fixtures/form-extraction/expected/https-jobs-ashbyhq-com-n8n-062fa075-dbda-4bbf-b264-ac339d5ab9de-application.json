@@ -1,0 +1,615 @@
+{
+  "id": "https-jobs-ashbyhq-com-n8n-062fa075-dbda-4bbf-b264-ac339d5ab9de-application",
+  "min_fields": 25,
+  "exact_field_count": 25,
+  "fields": [
+    {
+      "question": "first and last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I can be based in the UK and do not need visa support",
+        "I want to be based in the UK but will need visa support",
+        "I can be based in Germany and do not need visa support",
+        "I want to be based in Germany but will need visa support",
+        "I can be based in a European country other than Germany or the UK where I do not need visa support",
+        "I want to be based in a European country other than Germany or the UK where I will need visa support (non EU citizen)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_a4a29324-9828-4c4f-960a-d180471b0873-labeled-radio-0",
+        "name": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_a4a29324-9828-4c4f-960a-d180471b0873",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what would be your preferred main location for your contract?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your expected yearly salary for the role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9fb2ed6e-87d3-40d5-9369-5272177f0caf",
+        "name": "9fb2ed6e-87d3-40d5-9369-5272177f0caf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9fb2ed6e-87d3-40d5-9369-5272177f0caf",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what about n8n or the role caught your attention and made you apply?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "5f9ac065-79b0-4028-97cf-e0c55046fb5b",
+        "name": "5f9ac065-79b0-4028-97cf-e0c55046fb5b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5f9ac065-79b0-4028-97cf-e0c55046fb5b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about a strategic enterprise customer account where you were the primary technical owner. what was the customer trying to achieve, what technical or adoption risks did you identify, what actions did you take, and what measurable business outcome resulted?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "1fc15797-c850-4362-886d-26ecb40c86e1",
+        "name": "1fc15797-c850-4362-886d-26ecb40c86e1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1fc15797-c850-4362-886d-26ecb40c86e1",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have in a customer-facing technical role?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 2 years",
+        "2–3 years",
+        "3–5 years",
+        "5–8 years",
+        "8+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_afc13775-bf74-4125-98f9-ce21dc5bcf0d-labeled-radio-0",
+        "name": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_afc13775-bf74-4125-98f9-ce21dc5bcf0d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which roles best describe your recent experience?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Technical Account Manager",
+        "Solutions Engineer / Sales Engineer",
+        "Customer Engineer",
+        "Solutions Architect",
+        "Site Reliability Engineer in a customer-facing role",
+        "Customer Success Manager with technical ownership",
+        "Support Engineer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_0c808ef9-2aab-47a6-91d8-662da4d58873-labeled-checkbox-0",
+        "name": "Technical Account Manager",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what size customers have you directly owned or supported as a primary technical contact?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SMB only",
+        "Mid-market only",
+        "Enterprise accounts as part of a team",
+        "Enterprise / strategic accounts as the primary technical owner",
+        "Global / complex enterprise accounts with multiple senior stakeholders"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_547ce643-2228-43ca-8ac1-5fcaa4bc8e12-labeled-checkbox-0",
+        "name": "SMB only",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which technical areas do you have hands-on working experience with?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "REST APIs",
+        "Webhooks",
+        "JavaScript or other scripting language",
+        "Docker",
+        "Kubernetes",
+        "Self-hosted / on-prem deployments",
+        "SQL or data concepts",
+        "Distributed systems / cloud infrastructure"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_23ee7150-4664-4acc-95ff-be32810db8c5-labeled-checkbox-0",
+        "name": "REST APIs",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you diagnosed production performance, reliability, or scalability issues for customer environments?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No",
+        "Yes, but only with internal support",
+        "Yes, independently for standard issues",
+        "Yes, for complex enterprise or high-severity incidents"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_75726880-1e7a-46fc-9b16-d27595636bf6-labeled-radio-0",
+        "name": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_75726880-1e7a-46fc-9b16-d27595636bf6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you owned commercial or business outcomes for enterprise customers?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "No",
+        "Supported indirectly only",
+        "Yes, adoption or retention outcomes",
+        "Yes, adoption, retention, and expansion outcomes",
+        "Yes, including churn-risk mitigation and executive business reviews"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_3124f278-70d2-4e3d-9cbe-7fa4cece4c83-labeled-checkbox-0",
+        "name": "No",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your customer engagement style?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Mostly reactive support / ticket handling",
+        "Mix of reactive support and proactive guidance",
+        "Proactive technical advisor with success planning",
+        "Strategic advisor who teaches customers to become self-sufficient"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_5b9a9c07-2dfc-46b3-ad13-893b2c66dfed-labeled-radio-0",
+        "name": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_5b9a9c07-2dfc-46b3-ad13-893b2c66dfed",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github profile (optional but strongly encouraged)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "befc940c-ad94-43a0-bb55-10a95440d672",
+        "name": "befc940c-ad94-43a0-bb55-10a95440d672",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "befc940c-ad94-43a0-bb55-10a95440d672",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what knowledge/experience do you have with n8n?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "I've tried n8n briefly before applying",
+        "I've used other automation tools in current or previous roles",
+        "I've been building workflows with n8n for 1-3 months",
+        "I've been building workflows with n8n for 3-6 months",
+        "I've been building workflows with n8n for 6-12 months",
+        "I've been building workflows with n8n for over a year"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_2bc47edd-8c40-4578-bc9a-59552104fc92-labeled-radio-0",
+        "name": "cfb316a0-c640-4c7e-b5f0-e0f600b71aea_2bc47edd-8c40-4578-bc9a-59552104fc92",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you've used n8n, drop us a screenshot of your favorite workflow: (optional, file drop)",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "470c16d8-b9e2-4940-b4d8-5b776eed111e",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "470c16d8-b9e2-4940-b4d8-5b776eed111e",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Under 30",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "65030158-2361-46eb-a512-2997503d9727_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68-labeled-radio-0",
+        "name": "65030158-2361-46eb-a512-2997503d9727_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-Binary",
+        "Another Gender Identity",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "65030158-2361-46eb-a512-2997503d9727_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "65030158-2361-46eb-a512-2997503d9727_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "65030158-2361-46eb-a512-2997503d9727_0a90dc7e-908c-449f-9151-95612d844b10-labeled-radio-0",
+        "name": "65030158-2361-46eb-a512-2997503d9727_0a90dc7e-908c-449f-9151-95612d844b10",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bisexual",
+        "Lesbian",
+        "Gay",
+        "Queer",
+        "Heterosexual / straight",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "65030158-2361-46eb-a512-2997503d9727_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-0",
+        "name": "Bisexual",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian or Asian American",
+        "Black or African American",
+        "Hispanic or Latine",
+        "Indigenous or Native American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "65030158-2361-46eb-a512-2997503d9727_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-0",
+        "name": "Asian or Asian American",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Person with disability",
+        "Neurodiverse",
+        "Veteran",
+        "Parent",
+        "Refugee or immigrant",
+        "None of the above",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "65030158-2361-46eb-a512-2997503d9727_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-0",
+        "name": "Person with disability",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "12972c0f-b61e-4c85-8401-ebf237c3b586__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

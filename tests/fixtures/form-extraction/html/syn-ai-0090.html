@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Product Designer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f2f4f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; color: #1a1a1a; }
+  dialog { width: 100%; max-width: 800px; border: 0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); padding: 0; background: white; }
+  dialog::backdrop { background: rgba(0,0,0,0.4); }
+  .app-container { padding: 32px; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .subhead { color: #5f6b7a; font-size: 14px; margin-bottom: 24px; }
+  fieldset { border: 1px solid #e0e4e8; border-radius: 8px; padding: 20px 24px; margin-bottom: 24px; background: #fafbfc; }
+  legend { font-weight: 600; font-size: 16px; padding: 0 8px; color: #1a1a1a; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 6px; vertical-align: top; }
+  .field-wrap { margin-bottom: 12px; }
+  label { display: block; font-size: 13px; font-weight: 500; color: #2c3e50; margin-bottom: 4px; }
+  input, select, textarea { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; background: white; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+  .inline-group { display: flex; gap: 8px; align-items: flex-start; }
+  .inline-group select { width: auto; min-width: 100px; }
+  .inline-group input { flex: 1; }
+  .btn-apply { background: #1a5cff; color: white; border: 0; padding: 10px 24px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .btn-apply:hover { background: #0045d6; }
+  .decoy-section { margin-top: 24px; padding: 20px; border: 1px dashed #b0bec5; border-radius: 8px; background: #f0f4f8; }
+  .decoy-section h3 { font-size: 14px; color: #455a64; margin-bottom: 12px; }
+  .decoy-section .inline-group { max-width: 400px; }
+  .decoy-section .btn-decoy { background: #6b7280; color: white; border: 0; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { padding: 6px 16px; border: 1px solid #cbd5e0; border-radius: 20px; background: white; cursor: pointer; font-size: 13px; user-select: none; }
+  .pill.active { background: #1a5cff; color: white; border-color: #1a5cff; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .hidden-field { display: none; }
+  details { margin-top: 8px; }
+  details summary { cursor: pointer; font-weight: 500; color: #1a5cff; font-size: 14px; padding: 4px 0; }
+  .glued-label { font-size: 13px; font-weight: 500; color: #2c3e50; }
+  .shadow-host { display: block; min-height: 60px; border: 1px dashed #94a3b8; border-radius: 6px; padding: 12px; background: #f8fafc; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<dialog id="appDialog" open>
+  <div class="app-container">
+    <h1>Senior Product Designer</h1>
+    <div class="subhead">Ashby · Remote · Full-time · Apply by March 30</div>
+
+    <!-- ====== MAIN APPLICATION FORM ====== -->
+    <form id="mainAppForm">
+      
+      <!-- CONTACT INFO - table layout -->
+      <fieldset>
+        <legend>Contact Information</legend>
+        <table>
+          <tr>
+            <td style="width:50%">
+              <div class="field-wrap">
+                <!-- aria-labelledby example: email field -->
+                <span id="emailLabel" class="sr-only">Email address</span>
+                <input type="email" aria-labelledby="emailLabel" placeholder="you@example.com" style="width:100%" required>
+              </div>
+            </td>
+            <td style="width:50%">
+              <div class="field-wrap">
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" placeholder="Jane Doe" required>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="field-wrap">
+                <!-- split-phone: country code + local number in separate wrappers -->
+                <label>Phone number</label>
+                <div class="inline-group">
+                  <select id="phoneCountry" aria-label="Country code">
+                    <option value="+1">US +1</option>
+                    <option value="+44">UK +44</option>
+                    <option value="+91">IN +91</option>
+                    <option value="+61">AU +61</option>
+                  </select>
+                  <input type="tel" id="phoneLocal" placeholder="(555) 123-4567" aria-label="Local phone number">
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="field-wrap">
+                <label for="linkedin">LinkedIn (optional)</label>
+                <input id="linkedin" type="url" placeholder="https://linkedin.com/in/...">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrap">
+                <label for="portfolio">Portfolio</label>
+                <input id="portfolio" type="url" placeholder="https://...">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <!-- EXPERIENCE & SKILLS - mix of native and custom widgets -->
+      <fieldset>
+        <legend>Experience & Skills</legend>
+        <table>
+          <tr>
+            <td style="width:60%">
+              <div class="field-wrap">
+                <label for="expYears">Years of experience</label>
+                <input id="expYears" type="number" min="0" max="30" placeholder="e.g. 6">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrap">
+                <span class="glued-label">Work authorization</span>
+                <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+                  <span class="pill active" role="radio" aria-checked="true" tabindex="0">US Citizen</span>
+                  <span class="pill" role="radio" aria-checked="false" tabindex="-1">Green Card</span>
+                  <span class="pill" role="radio" aria-checked="false" tabindex="-1">Visa needed</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="field-wrap">
+                <!-- custom listbox combobox for skills -->
+                <span id="skillsLabel" class="glued-label">Top skills (combobox)</span>
+                <div style="position:relative">
+                  <input type="text" id="skillInput" placeholder="Type to search skills..." aria-labelledby="skillsLabel" role="combobox" aria-expanded="false" aria-controls="skillListbox" aria-autocomplete="list">
+                  <div id="skillListbox" role="listbox" aria-label="Available skills" style="position:absolute;top:100%;left:0;right:0;background:white;border:1px solid #cbd5e0;border-radius:6px;max-height:140px;overflow-y:auto;display:none;z-index:10;">
+                    <div role="option" aria-selected="false" tabindex="-1">Figma</div>
+                    <div role="option" aria-selected="false" tabindex="-1">User Research</div>
+                    <div role="option" aria-selected="false" tabindex="-1">Prototyping</div>
+                    <div role="option" aria-selected="false" tabindex="-1">Design Systems</div>
+                    <div role="option" aria-selected="false" tabindex="-1">HTML/CSS</div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="field-wrap">
+                <!-- datalist autocomplete for location -->
+                <label for="location">Preferred location</label>
+                <input id="location" type="text" list="locationSuggestions" placeholder="City or remote">
+                <datalist id="locationSuggestions">
+                  <option value="San Francisco, CA">
+                  <option value="New York, NY">
+                  <option value="Austin, TX">
+                  <option value="Remote - US">
+                  <option value="Remote - Global">
+                </datalist>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <!-- RESUME & COVER LETTER - details accordion -->
+      <details>
+        <summary>📎 Resume & Cover Letter (click to expand)</summary>
+        <div style="margin-top:12px;">
+          <div class="field-wrap">
+            <label for="resume">Upload resume</label>
+            <input id="resume" type="file" accept=".pdf,.doc,.docx">
+          </div>
+          <div class="field-wrap">
+            <label for="coverLetter">Cover letter (optional)</label>
+            <textarea id="coverLetter" rows="4" placeholder="Tell us why you're a great fit..."></textarea>
+          </div>
+        </div>
+      </details>
+
+      <!-- ADDITIONAL QUESTIONS - shadow DOM host -->
+      <fieldset>
+        <legend>Additional Questions</legend>
+        <div class="shadow-host" id="shadowHostContainer">
+          <!-- Declarative shadow root for shadow-host pattern -->
+          <template shadowrootmode="open">
+            <style>
+              .shadow-field { margin-bottom: 12px; }
+              label { font-size: 13px; font-weight: 500; color: #2c3e50; display: block; margin-bottom: 4px; }
+              input, select { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; background: white; }
+              .pill-group { display: flex; gap: 8px; }
+              .pill { padding: 6px 16px; border: 1px solid #cbd5e0; border-radius: 20px; background: white; cursor: pointer; font-size: 13px; }
+              .pill.active { background: #1a5cff; color: white; border-color: #1a5cff; }
+            </style>
+            <div class="shadow-field">
+              <label for="shadowReferral">How did you hear about us?</label>
+              <select id="shadowReferral">
+                <option>LinkedIn</option>
+                <option>Glassdoor</option>
+                <option>Friend referral</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="shadow-field">
+              <span style="font-size:13px;font-weight:500;color:#2c3e50;">Are you willing to relocate?</span>
+              <div class="pill-group" role="radiogroup" aria-label="Relocation">
+                <span class="pill active" role="radio" aria-checked="true" tabindex="0">Yes</span>
+                <span class="pill" role="radio" aria-checked="false" tabindex="-1">No</span>
+                <span class="pill" role="radio" aria-checked="false" tabindex="-1">Maybe</span>
+              </div>
+            </div>
+            <div class="shadow-field">
+              <label for="shadowStart">Earliest start date</label>
+              <input id="shadowStart" type="date">
+            </div>
+          </template>
+        </div>
+        <!-- Fallback fields outside shadow for visibility (progressive enhancement) -->
+        <div style="display:none;">
+          <input name="fallbackReferral" placeholder="How did you hear?">
+        </div>
+      </fieldset>
+
+      <!-- EQUAL OPPORTUNITY - hidden reveal -->
+      <details>
+        <summary>🏳️ Equal Opportunity Questions (optional)</summary>
+        <div style="margin-top:12px;">
+          <div class="field-wrap">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="">Prefer not to say</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+            </select>
+          </div>
+          <div class="field-wrap">
+            <label for="veteran">Veteran status</label>
+            <select id="veteran">
+              <option value="">Prefer not to say</option>
+              <option>Veteran</option>
+              <option>Not a veteran</option>
+            </select>
+          </div>
+          <div class="field-wrap">
+            <label for="disability">Disability status</label>
+            <select id="disability">
+              <option value="">Prefer not to say</option>
+              <option>Yes, I have a disability</option>
+              <option>No, I do not</option>
+            </select>
+          </div>
+        </div>
+      </details>
+
+      <!-- Submit -->
+      <div style="margin-top:24px; display:flex; gap:12px; align-items:center;">
+        <button type="submit" class="btn-apply">Submit Application</button>
+        <span style="font-size:12px; color:#6b7280;">You'll receive a confirmation email</span>
+      </div>
+    </form>
+
+    <!-- ====== DECOY FORM: Newsletter signup ====== -->
+    <div class="decoy-section">
+      <h3>📬 Stay updated on similar roles</h3>
+      <form id="decoyForm" onsubmit="event.preventDefault(); alert('Newsletter signup (decoy)');">
+        <div class="inline-group">
+          <input type="email" placeholder="your@email.com" aria-label="Email for newsletter" required>
+          <button type="submit" class="btn-decoy">Subscribe</button>
+        </div>
+        <p style="font-size:11px; color:#6b7280; margin-top:8px;">No spam, unsubscribe anytime.</p>
+      </form>
+    </div>
+
+  </div>
+</dialog>
+
+<script>
+  // Pill toggle for work authorization
+  document.querySelectorAll('.pill-group[role="radiogroup"]').forEach(group => {
+    group.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        group.querySelectorAll('.pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-checked','false'); });
+        this.classList.add('active');
+        this.setAttribute('aria-checked','true');
+      });
+      // keyboard support
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          pill.click();
+        }
+      });
+    });
+  });
+
+  // custom combobox for skills
+  const skillInput = document.getElementById('skillInput');
+  const skillListbox = document.getElementById('skillListbox');
+  if (skillInput && skillListbox) {
+    skillInput.addEventListener('focus', () => {
+      skillListbox.style.display = 'block';
+      skillInput.setAttribute('aria-expanded', 'true');
+    });
+    skillInput.addEventListener('blur', () => {
+      setTimeout(() => {
+        skillListbox.style.display = 'none';
+        skillInput.setAttribute('aria-expanded', 'false');
+      }, 200);
+    });
+    skillInput.addEventListener('input', () => {
+      const filter = skillInput.value.toLowerCase();
+      skillListbox.querySelectorAll('[role="option"]').forEach(opt => {
+        opt.style.display = opt.textContent.toLowerCase().includes(filter) ? 'block' : 'none';
+      });
+      skillListbox.style.display = 'block';
+      skillInput.setAttribute('aria-expanded', 'true');
+    });
+    skillListbox.addEventListener('click', (e) => {
+      if (e.target.getAttribute('role') === 'option') {
+        skillInput.value = e.target.textContent;
+        skillListbox.style.display = 'none';
+        skillInput.setAttribute('aria-expanded', 'false');
+      }
+    });
+    // keyboard navigation
+    skillInput.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const first = skillListbox.querySelector('[role="option"]:not([style*="display: none"])');
+        if (first) first.focus();
+      }
+    });
+    skillListbox.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        skillListbox.style.display = 'none';
+        skillInput.setAttribute('aria-expanded', 'false');
+        skillInput.focus();
+      }
+    });
+  }
+
+  // Main form submit
+  document.getElementById('mainAppForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Application submitted (demo) — in production this would send to ATS.');
+  });
+</script>
+
+</body>
+</html>

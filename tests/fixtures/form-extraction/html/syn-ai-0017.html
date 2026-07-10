@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application · Senior Frontend Engineer</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+  body{background:#f0f2f5;padding:20px;display:flex;flex-direction:column;gap:24px;align-items:center}
+  .app-wrapper{max-width:780px;width:100%}
+  .ashby-header{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:24px 28px 8px 28px;margin-bottom:16px}
+  .ashby-header h1{font-size:24px;font-weight:600;color:#0d0d12;margin-bottom:4px}
+  .ashby-header .sub{color:#5f5f6b;font-size:14px;display:flex;gap:16px;flex-wrap:wrap}
+  .ashby-body{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:20px 28px 28px 28px;overflow:hidden}
+  .decoy-section{background:#faf9fc;border-radius:8px;padding:16px 18px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border:1px solid #e9e8ed}
+  .decoy-section .decoy-title{font-size:13px;font-weight:600;color:#2b2b36}
+  .decoy-section input[type="email"]{padding:8px 10px;border:1px solid #d5d4de;border-radius:6px;font-size:13px;width:200px;background:#fff}
+  .decoy-section button{background:#6c5ce7;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;font-weight:500}
+  .decoy-section button:hover{background:#5f4bd1}
+  table.app-table{width:100%;border-collapse:collapse}
+  table.app-table td{padding:8px 6px 8px 0;vertical-align:top}
+  table.app-table td.label-cell{width:140px;padding-right:12px;padding-top:14px;font-size:13px;font-weight:500;color:#1e1e28}
+  table.app-table td.field-cell{width:auto}
+  .field-cell input[type="text"],.field-cell input[type="email"],.field-cell input[type="tel"],.field-cell input[type="number"],.field-cell textarea,.field-cell select{width:100%;padding:10px 12px;border:1px solid #d5d4de;border-radius:6px;font-size:14px;background:#fff;transition:border .15s}
+  .field-cell input:focus,.field-cell select:focus,.field-cell textarea:focus{outline:none;border-color:#6c5ce7;box-shadow:0 0 0 3px rgba(108,92,231,.15)}
+  .field-cell select{appearance:auto}
+  .phone-split{display:flex;gap:8px;align-items:stretch}
+  .phone-split select{width:110px;flex-shrink:0;padding:10px 8px}
+  .phone-split input{flex:1;min-width:0}
+  .readonly-field{background:#f5f4f8!important;color:#3a3a48;cursor:not-allowed}
+  .pill-group{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
+  .pill-btn{background:#fff;border:1px solid #d5d4de;border-radius:100px;padding:8px 18px;font-size:13px;cursor:pointer;transition:all .1s;color:#2b2b36;font-weight:450}
+  .pill-btn.active{background:#6c5ce7;border-color:#6c5ce7;color:#fff}
+  .pill-btn:hover:not(.active){border-color:#b2acf0}
+  .skill-tag-container{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+  .skill-tag{background:#edeaff;color:#3d2f9e;padding:3px 10px;border-radius:100px;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+  .skill-tag .remove{background:none;border:none;cursor:pointer;font-size:14px;line-height:1;color:#5f4bd1;padding:0}
+  .skill-select-wrapper{position:relative}
+  .skill-select-wrapper select{width:100%;padding:10px 12px;border:1px solid #d5d4de;border-radius:6px;font-size:14px;background:#fff;height:100px}
+  .glued-label{font-size:12px;font-weight:600;color:#5f5f6b;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;display:block}
+  .textarea-count{text-align:right;font-size:11px;color:#8a8a99;margin-top:3px}
+  .combobox-custom{position:relative;width:100%}
+  .combobox-trigger{width:100%;padding:10px 36px 10px 12px;border:1px solid #d5d4de;border-radius:6px;background:#fff;text-align:left;font-size:14px;cursor:pointer;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .combobox-trigger::after{content:"\25be";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:#7a7a87}
+  .combobox-listbox{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d5d4de;border-radius:6px;margin-top:4px;max-height:180px;overflow-y:auto;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.12);display:none}
+  .combobox-listbox.open{display:block}
+  .combobox-option{padding:10px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f0eff5}
+  .combobox-option:hover{background:#f5f3fd}
+  .combobox-option[aria-selected="true"]{background:#edeaff;font-weight:500}
+  .self-assessment-wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .self-assessment-wrap meter{width:120px;height:18px}
+  .self-assessment-wrap input{width:80px;padding:8px 10px;border:1px solid #d5d4de;border-radius:6px;font-size:14px}
+  .self-assessment-wrap span{font-size:13px;color:#3a3a48;min-width:50px}
+  .hidden-section{display:none;margin-top:6px}
+  .reveal-checkbox:checked ~ .hidden-section{display:block}
+  .form-actions{margin-top:24px;display:flex;justify-content:flex-end;gap:12px;align-items:center;border-top:1px solid #eeeef4;padding-top:20px}
+  .form-actions button{background:#6c5ce7;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:500;cursor:pointer}
+  .form-actions button:hover{background:#5f4bd1}
+  .form-actions .later{color:#6c5ce7;font-size:13px;cursor:pointer;text-decoration:none}
+  hr.divider{margin:16px 0;border:0;border-top:1px solid #eeeef4}
+  .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media(max-width:620px){
+    table.app-table td{display:block;width:100%!important;padding:4px 0}
+    .phone-split{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <div class="ashby-header">
+    <h1>Senior Frontend Engineer</h1>
+    <div class="sub">
+      <span>Acme Labs · Remote (US/EU)</span>
+      <span>Full-time · Apply by 15 June</span>
+    </div>
+  </div>
+
+  <!-- DECOY FORM : newsletter signup -->
+  <div class="decoy-section" aria-hidden="true">
+    <div>
+      <div class="decoy-title">⚡ Don't miss future openings</div>
+      <label style="font-size:12px;color:#5f5f6b;">Get notified when we post new roles.</label>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <input type="email" placeholder="you@company.com" aria-label="Newsletter email (decoy)">
+      <button type="button" onclick="alert('Decoy newsletter — not part of application.')">Subscribe</button>
+    </div>
+  </div>
+
+  <div class="ashby-body">
+
+    <table class="app-table">
+      <tbody>
+        <!-- FULL NAME : native input + label[for] + readonly prefill (disabled) -->
+        <tr>
+          <td class="label-cell"><label for="fullname">Full name</label></td>
+          <td class="field-cell">
+            <input type="text" id="fullname" value="Alex Rivera" readonly disabled class="readonly-field" tabindex="-1">
+            <span style="font-size:11px;color:#8a8a99;display:block;margin-top:2px;">Prefilled from profile</span>
+          </td>
+        </tr>
+
+        <!-- EMAIL : native input + label[for] -->
+        <tr>
+          <td class="label-cell"><label for="email">Email</label></td>
+          <td class="field-cell">
+            <input type="email" id="email" value="alex.r@example.com" class="readonly-field" readonly disabled tabindex="-1">
+          </td>
+        </tr>
+
+        <!-- PHONE : split country code + local number -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Phone</span></td>
+          <td class="field-cell">
+            <div class="phone-split">
+              <select aria-label="Country code" id="countryCode">
+                <option value="+1">US +1</option>
+                <option value="+44" selected>UK +44</option>
+                <option value="+91">IN +91</option>
+                <option value="+49">DE +49</option>
+                <option value="+61">AU +61</option>
+              </select>
+              <input type="tel" placeholder="71234 567890" aria-label="Local phone number" id="localPhone" value="7911 123456">
+            </div>
+          </td>
+        </tr>
+
+        <!-- CURRENT COMPANY : glued label + aria-label only (no label[for]) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label" aria-hidden="true">Current company</span></td>
+          <td class="field-cell">
+            <input type="text" aria-label="Current company name" placeholder="e.g. Stripe, Figma" value="Webflow">
+          </td>
+        </tr>
+
+        <!-- YEARS OF EXPERIENCE : meter + text input (self-assessment) -->
+        <tr>
+          <td class="label-cell"><span id="expLabel">Experience</span></td>
+          <td class="field-cell">
+            <div class="self-assessment-wrap">
+              <meter min="0" max="20" low="2" high="8" optimum="10" value="6" aria-labelledby="expLabel"></meter>
+              <input type="number" placeholder="years" aria-label="Years of experience" value="6" style="width:80px;">
+              <span>6 yrs</span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- SKILLS : multiple select (native select multiple) -->
+        <tr>
+          <td class="label-cell"><label for="skills-select">Skills</label></td>
+          <td class="field-cell">
+            <select id="skills-select" multiple style="height:80px;">
+              <option value="react" selected>React</option>
+              <option value="typescript" selected>TypeScript</option>
+              <option value="css">CSS/SCSS</option>
+              <option value="node">Node.js</option>
+              <option value="graphql">GraphQL</option>
+              <option value="figma">Figma</option>
+            </select>
+            <div class="skill-tag-container">
+              <span class="skill-tag">React <button class="remove" type="button" aria-label="remove React">&times;</button></span>
+              <span class="skill-tag">TypeScript <button class="remove" type="button" aria-label="remove TypeScript">&times;</button></span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- JOB ROLE (combobox) : custom listbox combobox, NOT native select -->
+        <tr>
+          <td class="label-cell"><span id="roleLabel">Role interest</span></td>
+          <td class="field-cell">
+            <div class="combobox-custom" id="comboboxContainer">
+              <div class="combobox-trigger" role="combobox" tabindex="0" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="roleLabel" id="comboboxTrigger">Frontend Engineer</div>
+              <div class="combobox-listbox" role="listbox" id="comboboxListbox">
+                <div class="combobox-option" role="option" aria-selected="true" data-value="Frontend Engineer">Frontend Engineer</div>
+                <div class="combobox-option" role="option" aria-selected="false" data-value="Fullstack Engineer">Fullstack Engineer</div>
+                <div class="combobox-option" role="option" aria-selected="false" data-value="Design Engineer">Design Engineer</div>
+                <div class="combobox-option" role="option" aria-selected="false" data-value="Engineering Manager">Engineering Manager</div>
+              </div>
+              <!-- hidden native select for fallback, but combobox is the real widget -->
+              <select aria-hidden="true" tabindex="-1" style="position:absolute;opacity:0;pointer-events:none;height:0;width:0;">
+                <option selected>Frontend Engineer</option>
+                <option>Fullstack Engineer</option>
+                <option>Design Engineer</option>
+                <option>Engineering Manager</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+
+        <!-- WILLING TO RELOCATE : pill yes/no buttons (Ashby style) -->
+        <tr>
+          <td class="label-cell"><span aria-hidden="true">Relocate?</span></td>
+          <td class="field-cell">
+            <div class="pill-group" role="radiogroup" aria-label="Willing to relocate">
+              <button type="button" class="pill-btn active" role="radio" aria-checked="true" tabindex="0">Yes</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" tabindex="-1">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" tabindex="-1">Flexible</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- COVER LETTER : textarea with placeholder-only labeling (no label[for]) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Message</span></td>
+          <td class="field-cell">
+            <textarea placeholder="Write a brief note to the hiring team (optional)" rows="3" aria-label="Cover letter or message"></textarea>
+            <div class="textarea-count">0/500</div>
+          </td>
+        </tr>
+
+        <!-- PORTFOLIO : URL + hidden reveal conditional -->
+        <tr>
+          <td class="label-cell"><label for="portfolio">Portfolio</label></td>
+          <td class="field-cell">
+            <input type="text" id="portfolio" placeholder="https:// ..." value="https://alex.design">
+          </td>
+        </tr>
+
+        <!-- WORK AUTHORIZATION : hidden reveal checkbox (details/hidden reveal) -->
+        <tr>
+          <td class="label-cell"><span>Visa</span></td>
+          <td class="field-cell">
+            <label style="font-size:13px;display:flex;align-items:center;gap:6px;">
+              <input type="checkbox" class="reveal-checkbox" id="visaCheck"> 
+              I need visa sponsorship
+            </label>
+            <div class="hidden-section" id="visaDetails" style="margin-top:6px;">
+              <input type="text" placeholder="Current visa type / country" aria-label="Visa details" style="width:100%;padding:8px 10px;border:1px solid #d5d4de;border-radius:6px;">
+            </div>
+          </td>
+        </tr>
+
+        <!-- HOW DID YOU HEAR? : custom combobox-like field using glued spans + placeholder (production messy) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Referral</span></td>
+          <td class="field-cell">
+            <div role="textbox" contenteditable="true" aria-label="How did you hear about this role?" style="border:1px solid #d5d4de;border-radius:6px;padding:10px 12px;font-size:14px;min-height:20px;background:#fff;" data-placeholder="LinkedIn, referral, newsletter...">LinkedIn</div>
+          </td>
+        </tr>
+
+        <!-- ADDITIONAL FIELDS TO MEET MIN 14 REQUIREMENT -->
+        <!-- GITHUB URL -->
+        <tr>
+          <td class="label-cell"><label for="github">GitHub</label></td>
+          <td class="field-cell">
+            <input type="text" id="github" placeholder="https://github.com/username" value="https://github.com/alexrivera">
+          </td>
+        </tr>
+
+        <!-- LINKEDIN URL -->
+        <tr>
+          <td class="label-cell"><label for="linkedin">LinkedIn</label></td>
+          <td class="field-cell">
+            <input type="text" id="linkedin" placeholder="https://linkedin.com/in/username" value="https://linkedin.com/in/alexrivera">
+          </td>
+        </tr>
+
+        <!-- EXPECTED SALARY -->
+        <tr>
+          <td class="label-cell"><label for="salary">Salary expectation</label></td>
+          <td class="field-cell">
+            <input type="text" id="salary" placeholder="e.g. $150,000" value="$160,000">
+          </td>
+        </tr>
+
+        <!-- EARLIEST START DATE -->
+        <tr>
+          <td class="label-cell"><label for="startDate">Start date</label></td>
+          <td class="field-cell">
+            <input type="text" id="startDate" placeholder="e.g. 2 weeks notice" value="Immediately">
+          </td>
+        </tr>
+
+        <!-- GENDER (optional, for diversity tracking) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Gender (optional)</span></td>
+          <td class="field-cell">
+            <select aria-label="Gender">
+              <option value="">Prefer not to say</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+              <option value="other">Other</option>
+            </select>
+          </td>
+        </tr>
+
+        <!-- ETHNICITY (optional, for diversity tracking) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Ethnicity (optional)</span></td>
+          <td class="field-cell">
+            <select aria-label="Ethnicity">
+              <option value="">Prefer not to say</option>
+              <option value="asian">Asian</option>
+              <option value="black">Black or African American</option>
+              <option value="hispanic">Hispanic or Latino</option>
+              <option value="white">White</option>
+              <option value="other">Other</option>
+            </select>
+          </td>
+        </tr>
+
+        <!-- VETERAN STATUS (optional) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Veteran status</span></td>
+          <td class="field-cell">
+            <div class="pill-group" role="radiogroup" aria-label="Veteran status">
+              <button type="button" class="pill-btn active" role="radio" aria-checked="true" tabindex="0">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" tabindex="-1">Yes</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- DISABILITY STATUS (optional) -->
+        <tr>
+          <td class="label-cell"><span class="glued-label">Disability</span></td>
+          <td class="field-cell">
+            <div class="pill-group" role="radiogroup" aria-label="Disability status">
+              <button type="button" class="pill-btn active" role="radio" aria-checked="true" tabindex="0">No</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" tabindex="-1">Yes</button>
+              <button type="button" class="pill-btn" role="radio" aria-checked="false" tabindex="-1">Prefer not to say</button>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <hr class="divider">
+    <div class="form-actions">
+      <a href="#" class="later">Save for later</a>
+      <button type="submit" onclick="alert('Application submitted (demo).')">Submit application</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function(){
+    // pill button toggle
+    document.querySelectorAll('.pill-group').forEach(function(group){
+      group.addEventListener('click', function(e){
+        var btn = e.target.closest('.pill-btn');
+        if(!btn) return;
+        var siblings = group.querySelectorAll('.pill-btn');
+        siblings.forEach(function(s){ s.classList.remove('active'); s.setAttribute('aria-checked','false'); s.tabIndex = -1; });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked','true');
+        btn.tabIndex = 0;
+        btn.focus();
+      });
+    });
+
+    // combobox widget
+    var trigger = document.getElementById('comboboxTrigger');
+    var listbox = document.getElementById('comboboxListbox');
+    var options = listbox.querySelectorAll('.combobox-option');
+    var currentIndex = 0;
+
+    function updateSelected(opt){
+      options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+      opt.setAttribute('aria-selected','true');
+      trigger.textContent = opt.getAttribute('data-value');
+      trigger.setAttribute('aria-expanded','false');
+      listbox.classList.remove('open');
+      // update hidden select for form
+    }
+
+    trigger.addEventListener('click', function(){
+      var expanded = trigger.getAttribute('aria-expanded') === 'true';
+      if(expanded){
+        trigger.setAttribute('aria-expanded','false');
+        listbox.classList.remove('open');
+      } else {
+        trigger.setAttribute('aria-expanded','true');
+        listbox.classList.add('open');
+        var selected = listbox.querySelector('[aria-selected="true"]');
+        if(selected) selected.scrollIntoView({block:'nearest'});
+      }
+    });
+
+    document.addEventListener('click', function(e){
+      if(!document.getElementById('comboboxContainer').contains(e.target)){
+        trigger.setAttribute('aria-expanded','false');
+        listbox.classList.remove('open');
+      }
+    });
+
+    options.forEach(function(opt, idx){
+      opt.addEventListener('click', function(){
+        updateSelected(opt);
+      });
+      opt.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); updateSelected(opt); }
+      });
+    });
+
+    trigger.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowDown'){
+        e.preventDefault();
+        var open = trigger.getAttribute('aria-expanded') === 'true';
+        if(!open){ trigger.setAttribute('aria-expanded','true'); listbox.classList.add('open'); }
+        var current = listbox.querySelector('[aria-selected="true"]');
+        var next = current ? current.nextElementSibling : null;
+        if(!next){ next = listbox.querySelector('.combobox-option'); }
+        if(next) { 
+          options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+          next.setAttribute('aria-selected','true');
+          next.scrollIntoView({block:'nearest'});
+        }
+      }
+      if(e.key === 'ArrowUp'){
+        e.preventDefault();
+        var current = listbox.querySelector('[aria-selected="true"]');
+        var prev = current ? current.previousElementSibling : null;
+        if(!prev) prev = listbox.querySelector('.combobox-option:last-child');
+        if(prev){
+          options.forEach(function(o){ o.setAttribute('aria-selected','false'); });
+          prev.setAttribute('aria-selected','true');
+          prev.scrollIntoView({block:'nearest'});
+        }
+      }
+      if(e.key === 'Enter' && trigger.getAttribute('aria-expanded') === 'true'){
+        e.preventDefault();
+        var selected = listbox.querySelector('[aria-selected="true"]');
+        if(selected) updateSelected(selected);
+      }
+      if(e.key === 'Escape'){
+        trigger.setAttribute('aria-expanded','false');
+        listbox.classList.remove('open');
+      }
+    });
+
+    // reveal toggle for visa
+    document.getElementById('visaCheck').addEventListener('change', function(){
+      var details = document.getElementById('visaDetails');
+      details.style.display = this.checked ? 'block' : 'none';
+    });
+    // initial state
+    document.getElementById('visaDetails').style.display = 'none';
+
+    // skill tags remove demo
+    document.querySelectorAll('.skill-tag .remove').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        this.parentElement.remove();
+      });
+    });
+
+    // textarea char count (simple)
+    document.querySelector('textarea').addEventListener('input', function(){
+      var count = this.value.length;
+      var max = 500;
+      var display = this.parentElement.querySelector('.textarea-count');
+      if(display) display.textContent = count + '/' + max;
+    });
+
+  })();
+</script>
+
+</body>
+</html>

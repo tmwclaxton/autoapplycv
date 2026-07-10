@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Oceaneering Careers</title>
+</head>
+<body>
+<form>
+<div class="preload" aria-hidden="true">
+            <div class="preload__icons"></div>
+            <div class="preload__primary-font"></div>
+            <div class="preload__secondary-font"></div>
+        </div>
+        <div class="app-loading-spinner"></div>
+        <div class="app" data-bind="view: 'layout'">
+
+
+<skip-navigation-link><a class="skip-navigation-link" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs#main" data-bind="a11y.skipTo: skipTo, i18n: 'general.a11y.skip-navigation-link', i18nAttr: {'aria-label': skipNavLinkAriaLabel}" aria-label="Skip to main content.">Skip to main content.</a>
+
+
+<ai-assistant-skip-navigation-link>
+</ai-assistant-skip-navigation-link>
+
+</skip-navigation-link>
+
+<div class="app__viewport">
+    <div class="app__wrapper">
+        <div class="app__main">
+            
+
+
+            <div class="app__top-wrapper">
+                <div class="app__top">
+                    
+<header>
+    <div class="app-header component-styling-wrapper-default" data-bind="class: uniqueWrapperClass">
+        
+        
+
+        
+        <app-header-hamburger params="
+            globalHeaderSettings:globalHeaderSettings,
+            logoImages:logoImages,
+            headerId:headerId,
+            uniqueWrapperClass: uniqueWrapperClass
+        "><div class="app-header-hamburger">
+    <company-logo params="isLogoHidden: isLogoHidden, logoImages:logoImages, headerId:headerId">
+
+<a class="app-header__logo app-header__logo--mobile" data-bind="route: 'home-page',
+    i18nAttr: { title: 'general.a11y.go-to-home-page', 'aria-label': 'general.a11y.go-to-home-page' }" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/" title="Go to Home Page" aria-label="Go to Home Page">
+    <img class="app-header__logo-image--mobile" data-bind="attr: {'src': logoMobile}, event: { load: adjustLogoSize }" alt="" src="https://www.oceaneering.com/wp-content/uploads/2023/08/header-logo-300x87.png">
+</a>
+
+
+
+<a class="app-header__logo app-header__logo--desktop" data-bind="route: 'home-page',
+    i18nAttr: { title: 'general.a11y.go-to-home-page', 'aria-label': 'general.a11y.go-to-home-page' }" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/" title="Go to Home Page" aria-label="Go to Home Page">
+    <img class="app-header__logo-image" data-bind="attr: {'src': logoDesktop}, event: { load: adjustLogoSize }" alt="" src="https://www.oceaneering.com/wp-content/uploads/2023/08/header-logo-300x87.png">
+</a>
+
+
+</company-logo>
+
+    <div class="app-header__actions">
+        <sitemap-link><a data-bind="attr: { href: url }" class="sitemap-link" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/sitemaps/sitemapIndex">sitemap</a>
+</sitemap-link>
+        <favourite-jobs>
+</favourite-jobs>
+        <user-menu class="user-menu" params="profileText: profileText, isProfileButtonHidden: isProfileButtonHidden"><div class="header-menu user-menu__container" data-bind="css: { 'header-menu--active': isOpened } ,
+    clickOutside: { action: closeMenu, when: isOpened},
+    a11y.keysHandler: {keys: 'esc', handler: closeMenu},
+    a11y.setInitialFocus: { isVisible: isOpened, resetFocus: '.user-menu__header'}" tabindex="-1">
+    
+    <a class="user-menu__header focused-tooltip" id="user-menu-header" data-bind="click: menuClicked, css: {'theme-color-1': isOpened},
+            attr: {
+                'href': url,
+                'title': getUserMenuButtonLabel,
+                'aria-label': getUserMenuButtonLabel,
+                'aria-expanded': showUserData() ? (isOpened() ? 'true' : 'false') : 'undefined'
+            }" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/my-profile/sign-in" title="Manage profile" aria-label="Manage profile" aria-expanded="undefined">
+        
+        
+        <span class="user-menu__icon"></span>
+        
+
+        
+        
+
+        
+    </a>
+    
+
+    <div aria-live="polite" class="header-menu__dropdown user-menu__dropdown" data-bind="a11y.trapFocus">
+        <p class="user-menu__title-item" data-bind="text: model.title"></p>
+        <p dir="ltr" class="user-menu__subtitle-item text-color-secondary" data-bind="attr:{title: model.subtitle}, text: model.subtitle"></p>
+        <hr class="user-menu__separator">
+        <ul>
+            <li class="user-menu__action-item">
+                <button data-bind="click: goToCss,
+                    i18n: 'candidate-self-service.user-menu.my-profile'">Profile</button>
+            </li>
+            <li class="user-menu__action-item">
+                <button data-bind="i18n: 'candidate-self-service.sign-out',
+                    click: signOut">Sign Out</button>
+            </li>
+        </ul>
+    </div>
+</div>
+</user-menu>
+        
+        <app-menu-toggle class="app-menu-toggle" params="uniqueWrapperClass: uniqueWrapperClass"><button class="app-toggle-menu__container focused-tooltip" data-bind="
+        click: open,
+        boolAttr: {'aria-expanded': isVisible},
+        i18nAttr: { title: 'general.a11y.open-menu', 'aria-label': 'general.a11y.open-menu' }
+    " aria-expanded="false" title="Open menu" aria-label="Open menu">
+    <span class="app-toggle-menu__strap-group">
+        <em class="app-toggle-menu__strap"></em>
+        <em class="app-toggle-menu__strap"></em>
+        <em class="app-toggle-menu__strap"></em>
+    </span>
+</button>
+</app-menu-toggle>
+        
+    </div>
+</div>
+</app-header-hamburger>
+        
+    </div>
+</header>
+
+
+                    <div class="app__top-background-wrapper">
+                        <div class="app__top-background"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app__content-wrapper">
+                <main id="main" class="app__content" data-bind="view: 'main'" tabindex="-1">
+
+<div class="home-page home-page--animated" data-bind="css: { 'home-page--default': !splashPage() }">
+    <cc-video-background params="videoUrl: splashPage().params.videoUrl, videoWrapper: false, isFullscreen: true">
+</cc-video-background>
+    <div class="cc-page cc-page--boxed cc-page--splash-page" data-bind="
+        css: {'cc-page--boxed': isPageDisplayBoxed},
+        class: classWithModifier
+    ">
+    <div class="cc-page__content">
+        
+        <div class="cc-section cc-section--width-" data-bind="css: cssClass, style: { backgroundColor: params.backgroundColor, backgroundImage: backgroundSrc }" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled">
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: section.params.backgroundVideo, videoWrapper: true, isFullscreen: false">
+</cc-video-background>
+
+    <div class="cc-section__content">
+        
+
+        
+        <div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        
+        <div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled">
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false">
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        
+        <div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><h1 class="home-page__heading font-family-secondary theme-color-1" style="text-align: center"><b>The Sky is Not the Limit</b><br>Your next career move starts here</h1></div>
+
+        
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+        
+        <div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        
+        <div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled">
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false">
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        
+        <div data-bind="class: uniqueWrapperClass" class="component-styling-wrapper-0">
+    
+    
+
+    
+
+    
+
+    <div role="search" class="search-box-compact font-family-secondary" data-bind="class: customizationParams.commonParams ? customizationParams.commonParams.cssClass : '',
+        css: { 'search-box-compact--admin-mode': isAdminMode },
+        attr: { id: customizationParams.commonParams ? customizationParams.commonParams.cssId : '' },
+        customStyles: customizationParams.commonParams,
+        sticky: {
+            isEnabled: isStickySearchBarEnabled,
+            isReady: isReady,
+            className: 'search-box-compact--sticky'
+        }
+    " id="">
+        <div class="search-box-compact__form text-color-secondary">
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--keyword" id="keyword-container">
+                <div class="search-box-compact__label text-color-secondary">
+                    <span data-bind="i18n: searchKeywordLabel">Find</span>
+                </div>
+                <div class="search-box-compact__field">
+                    <label for="keyword" class="oj-helper-hidden-accessible" data-bind="i18n: 'search.keyword-placeholder'">Job title, skill, keyword</label>
+                    <input id="keyword" class="search-box-compact__input text-color-primary ui-autocomplete-input" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-owns="suggestions-keywords" aria-controls="suggestions-keywords" data-control-id="suggestions-keywords" data-qa="searchKeywordsInput" data-bind="textInput: keyword,
+        attr: {'aria-label': searchKeywordAriaLabel },
+        i18nAttr: { placeholder: searchKeywordPlaceHolder },
+        autocomplete: { model: keyword, source: fetch,
+        appendTo: '#keyword-container', id: 'suggestions-keywords',
+        select: (event, suggestion) => onSelectSuggestion(event, suggestion) },
+        a11y.keysHandler: { keys: 'enter', handler: action },
+        hasFocus: hasFocus" aria-label="Find jobs and events" placeholder="Job title, skill, keyword, event" autocomplete="off" aria-expanded="false">
+
+
+
+                </div>
+            <ul id="suggestions-keywords" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete text-color-primary background-color-dropdown ui-front" role="listbox" style="display: none;"></ul></div>
+            <div class="search-box-compact__fieldset-spacer"></div>
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--location" id="location-container">
+                <mode-menu><div class="search-box-compact__label text-color-secondary">
+    
+    <button class="search-box-compact__menu-button" data-bind="click: toggleModeMenu, boolAttr: {'aria-expanded': isModeMenuVisible}, i18nAttr: {'aria-label' : {key: 'search.mode-menu.selected-mode', tokens: { search_mode:toggleButtonText}}}" aria-expanded="false" aria-label="You've selected the Job Location search mode.">
+        <span data-bind="text: toggleButtonText">Job Location</span>
+        <em class="search-box-compact__menu-icon icon-triangle-down"></em>
+    </button>
+    
+    
+</div>
+
+<div class="search-box-compact__menu" data-bind="
+         css: { 'search-box-compact__menu--active': isModeMenuVisible },
+         a11y.trapFocus,
+         a11y.setInitialFocus: { isVisible: isModeMenuVisible, delay: 400 },
+         a11y.keysHandler: {keys: 'esc', handler: hideModeMenu},
+         clickOutside: { action: hideModeMenu, when: isModeMenuVisible, excludeElement: '.search-box-compact__menu-button' }" tabindex="-1">
+    <ul class="search-box-compact__menu-list">
+        
+        
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.RECRUITING_LOCATION),
+                    attr: {'aria-current': mode() === 'job-location' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.job-location')}}},
+                    i18n: 'search.mode-menu.job-location'" aria-current="true" aria-label="Search by Job Location">Job Location</button>
+        </li>
+        
+        
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.GEO_LOCATION),
+                    attr: {'aria-current': mode() === 'geolocation' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.geolocation')}}},
+                    i18n: 'search.mode-menu.geolocation'" aria-current="false" aria-label="Search by My Location">My Location</button>
+        </li>
+        
+        
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.ZIPCODE),
+                    attr: {'aria-current': mode() === 'zipcode' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.zipcode')}}},
+                    i18n: 'search.mode-menu.zipcode'" aria-current="false" aria-label="Search by Postal Code">Postal Code</button>
+        </li>
+        
+    </ul>
+</div>
+</mode-menu>
+                <div class="search-box-compact__field">
+                    <label for="location" class="oj-helper-hidden-accessible" data-bind="i18n: locationInputLabel">City, state, country</label>
+                    
+
+                    
+                    <div class="input-row__control-container search-box-compact-recruiting-location" data-bind="calculateSearchInputWidth, event: { focusout: onBlur }">
+    <oj-combobox-one id="recruiting_location" class="input-row__control input-row__search-input oj-combobox oj-component oj-enabled oj-form-control oj-text-field oj-has-no-value oj-complete" value="{{value}}" value-option="{{valueOption}}" raw-value="{{rawValue}}" options="[[fetchOptions]]" options-keys="[[{ value: 'locationUID', label: 'name' }]]" placeholder="[[placeholder]]" picker-attributes="[[{ 'class': 'input-row__listbox search-box-compact-recruiting-location__dropdown background-color-dropdown' }]]" data-bind="hasFocus: hasFocus"><div class="oj-text-field-container oj-text-field-has-end-slot" role="presentation">  <div class="oj-combobox-choice oj-combobox-accessible-container" tabindex="-1" role="presentation" id="oj-combobox-choice-recruiting_location">   <div class="oj-text-field-middle">     <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="oj-combobox-input" role="combobox" aria-expanded="false" aria-autocomplete="list" id="recruiting_location|input" aria-controls="oj-listbox-results-recruiting_location" placeholder="City, state, country">   </div>   <abbr class="oj-combobox-clear-entry" role="presentation"></abbr>   <span class="oj-combobox-divider" role="presentation"></span>   <span class="oj-text-field-end">     <span class="oj-combobox-arrow oj-combobox-icon oj-component-icon oj-clickable-icon-nocontext oj-combobox-open-icon" aria-hidden="true"></span>   </span>  </div></div><div class="oj-listbox-drop input-row__listbox search-box-compact-recruiting-location__dropdown background-color-dropdown" role="presentation" data-oj-containerid="recruiting_location" style="display: none;">   <div class="oj-listbox-loader-wrapper"></div>   <ul class="oj-listbox-results" role="listbox" data-oj-context="" id="oj-listbox-results-recruiting_location">   </ul></div><div class="oj-helper-hidden-accessible oj-listbox-liveregion" aria-live="polite" id="oj-listbox-live-recruiting_location"></div><input data-oj-internal="" tabindex="-1" aria-hidden="true" class="oj-component-initnode" style="display: none;"></oj-combobox-one>
+</div>
+<div>
+    
+</div>
+
+
+
+
+                    
+
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+
+        <button class="search-box-compact__button text-color-secondary focused-tooltip" type="button" data-qa="searchStartBtn" data-bind="
+            click: performSearch,
+            i18nAttr: { title: searchTooltipLabel, 'aria-label': searchTooltipLabel }
+        " title="Search for Jobs and Events" aria-label="Search for Jobs and Events">
+            <em class="icon-search-thin theme-color-1"></em>
+
+            <span class="search-box-compact__button-background text-color-primary"></span>
+            <span class="search-box-compact__button-border text-color-secondary"></span>
+        </button>
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+        
+        <div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        
+        <div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled">
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false">
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        
+        <ul class="categories-list font-family-secondary" data-bind="i18nAttr: {'aria-label': 'facets.facet-list-context-label'}" aria-label="Search categories">
+    
+
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: viewAll, attr: {title: allJobsTitle, 'aria-label': allJobsTitle, href: getViewAllJobsUrl()}" data-qa="searchCategoriesShowAllJobsLink" title="All Jobs 253" aria-label="All Jobs 253" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs">
+            <span class="categories-list__title" data-bind="i18n: 'search.all-jobs'">All Jobs</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: totalJobsCount">253</span>)
+            </span>
+        </a>
+    </li>
+
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: filterNewest, attr: {title: filterNewestTitle, 'aria-label': filterNewestTitle, href: getNewJobsUrl()}" title="New Jobs 98" aria-label="New Jobs 98" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=POSTING_DATES&amp;selectedPostingDatesFacet=30">
+            <span class="categories-list__title" data-bind="i18n: 'search.new-jobs'">New Jobs</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: newestJobsCount">98</span>)
+            </span>
+        </a>
+    </li>
+    
+
+    
+
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Engineering 97" data-filter-name="Engineering" aria-label="Engineering 97" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747002">
+            <span class="categories-list__title" data-bind="text: category.text">Engineering</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">97</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Operations 33" data-filter-name="Operations" aria-label="Operations 33" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747038">
+            <span class="categories-list__title" data-bind="text: category.text">Operations</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">33</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Finance 15" data-filter-name="Finance" aria-label="Finance 15" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011776283">
+            <span class="categories-list__title" data-bind="text: category.text">Finance</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">15</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Project Management 14" data-filter-name="Project Management" aria-label="Project Management 14" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747048">
+            <span class="categories-list__title" data-bind="text: category.text">Project Management</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">14</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Manufacturing 13" data-filter-name="Manufacturing" aria-label="Manufacturing 13" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747030">
+            <span class="categories-list__title" data-bind="text: category.text">Manufacturing</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">13</span>)
+            </span>
+        </a>
+    </li>
+    
+
+    
+
+    
+
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: $parent.filterByCategory, attr: {title: category.text + ' ' + category.totalCount, 'aria-label': category.text + ' ' + category.totalCount, href: $parent.getCategoryJobsUrl(category)}" title="IT 12" aria-label="IT 12" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747021">
+            <span class="categories-list__title" data-bind="text: category.text">IT</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">12</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: $parent.filterByCategory, attr: {title: category.text + ' ' + category.totalCount, 'aria-label': category.text + ' ' + category.totalCount, href: $parent.getCategoryJobsUrl(category)}" title="Supply Chain Management 9" aria-label="Supply Chain Management 9" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747066">
+            <span class="categories-list__title" data-bind="text: category.text">Supply Chain Management</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">9</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: $parent.filterByCategory, attr: {title: category.text + ' ' + category.totalCount, 'aria-label': category.text + ' ' + category.totalCount, href: $parent.getCategoryJobsUrl(category)}" title="Business Development 8" aria-label="Business Development 8" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011746980">
+            <span class="categories-list__title" data-bind="text: category.text">Business Development</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">8</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: $parent.filterByCategory, attr: {title: category.text + ' ' + category.totalCount, 'aria-label': category.text + ' ' + category.totalCount, href: $parent.getCategoryJobsUrl(category)}" title="Quality 8" aria-label="Quality 8" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011747057">
+            <span class="categories-list__title" data-bind="text: category.text">Quality</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">8</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: $parent.filterByCategory, attr: {title: category.text + ' ' + category.totalCount, 'aria-label': category.text + ' ' + category.totalCount, href: $parent.getCategoryJobsUrl(category)}" title="Business Support 3" aria-label="Business Support 3" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000011776269">
+            <span class="categories-list__title" data-bind="text: category.text">Business Support</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">3</span>)
+            </span>
+        </a>
+    </li>
+    
+
+    
+
+    
+
+    
+    <li class="categories-list__group categories-list__events">
+        <a class="categories-list__button" data-bind="click: viewAllEvents, attr: {title: viewAllEventsTitle, 'aria-label': viewAllEventsTitle, href: getViewAllEventsUrl()}" data-qa="searchCategoriesShowAllEventsLink" title="All Events 1" aria-label="All Events 1" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/events">
+            <span class="categories-list__title" data-bind="i18n: 'search.all-events'">All Events</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: totalEventsCount">1</span>)
+            </span>
+        </a>
+    </li>
+    
+
+    
+</ul>
+
+        
+        
+<div data-bind="class: uniqueWrapperClass" class="recommended-jobs-widget-wrapper component-styling-wrapper-0">
+    
+    <div class="recommended-jobs-widget recommended-jobs-widget--large recommended-jobs-widget--call-to-action" data-bind="
+            event: isDragAndDropActive()
+                ? {
+                    dragover: handleDragOver,
+                    dragenter: handleDragEnter,
+                    dragleave: handleDragLeave,
+                    drop: handleDrop.bind($component, event)
+                }
+                : null,
+            class: widgetClasses,
+            attr: { id: customizationParams.commonParams.cssId },
+            customStyles: customizationParams.commonParams
+        ">
+        <div class="recommended-jobs-widget__text-section">
+            <div class="recommended-jobs-widget__icon-cloud"></div>
+            
+            
+            <div class="recommended-jobs-widget__text-upload">
+                <span class="recommended-jobs-widget__call-to-action-text" data-bind="text: callToActionText, attr: {'aria-label': callToActionText}" aria-label="Upload or drag and drop your resume here to get recommended jobs based on your skills and experience.">Upload or drag and drop your resume here to get recommended jobs based on your skills and experience.</span>
+                
+            </div>
+            
+            
+            
+
+            
+        </div>
+
+        <div class="recommended-jobs-widget__upload-section" data-bind="css: {'recommended-jobs-widget__upload-section--disable': isResumeParsingInProgress() || isReuploadInProgress()}">
+    <input type="file" accept=".doc,.docx,.pdf,.txt" class="recommended-jobs-widget__upload-input" data-bind="event: { change: onFileSelected },
+                value: selectedFile(),
+                disable: isResumeParsingInProgress() || isReuploadInProgress(),
+                attr: { 'aria-label': callToActionText, 'title': messages.callToActionButtonText}" aria-label="Upload or drag and drop your resume here to get recommended jobs based on your skills and experience." title="Upload Resume">
+    <button class="recommended-jobs-widget__button recommended-jobs-widget__button--upload" type="button" tabindex="-1" aria-hidden="true" data-bind="text: messages.callToActionButtonText">Upload Resume</button>
+</div>
+
+    </div>
+</div>
+
+
+
+        
+        
+
+        
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+        
+    </div>
+</div>
+
+</div>
+
+<div class="home-page__background">
+    
+    
+    <div class="home-page__background-inner default-bg" data-bind="frontImageBackground" style="background-image: url(&quot;https://ebfr.fa.us2.oraclecloud.com:443/hcmRestApi/CandidateExperience/images?imageId=BC74A68B-6111-4510-9732-D52EC3FA3A54&quot;);"></div>
+    
+</div>
+
+</main>
+            </div>
+
+            
+        </div>
+
+        
+
+
+        
+<footer class="app__custom-footer">
+    
+
+    
+    <div data-bind="template: { name: 'custom-footer' }">
+            <div class="footer_wrap">
+    <div class="fl-rich-text">
+        <p>© 2026 Oceaneering International, Inc.&nbsp; All Rights Reserved.</p>
+    </div>
+
+    <ul id="menu-footer-utility-menu" class="menu fl-menu-horizontal fl-toggle-none">
+        <li id="menu-item-1184" class="menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://www.oceaneering.com/terms-and-conditions/" target="_blank" rel="noopener noreferrer" data-kmt="1">
+                Terms and Conditions
+            </a>
+        </li>
+        <li id="menu-item-1185" class="menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://www.oceaneering.com/privacy-policy/" target="_blank" rel="noopener noreferrer" data-kmt="1">
+                Privacy Policy
+            </a>
+        </li>
+    </ul>
+</div>
+        </div>
+    
+</footer>
+
+
+    </div>
+    <ai-assistant-container>
+</ai-assistant-container>
+</div>
+
+
+
+<div class="app-menu font-family-secondary" role="dialog" data-bind="
+                boolAttr: {'aria-hidden': !isVisible()},
+                a11y.keysHandler: {keys: 'esc', handler: close},
+                a11y.setInitialFocus: {isVisible: isVisible, delay: 600, focusOn: focusOn},
+                a11y.trapFocus,
+                i18nAttr: { 'aria-label': 'candidate-self-service.show-menu-options'}" aria-hidden="true" tabindex="-1" aria-label="Show menu options">
+    <div class="app-menu__wrapper background-color-dialog" data-bind="css: wrapperClassName">
+        <div class="app-menu__header">
+            
+            <language-select params="headerOption: 'humburger-menu'"><div class="language-select" data-bind="react: { component: 'cx-menu-button',
+            props: {
+                id: headerOption + '-language-select-menu-button',
+                buttonLabel: getSelectedLanguageLabel(),
+                options: getOptions(),
+                selectedItem: $component.activeLang(),
+                action: changeLanguage,
+                ariaLabel: langSelectorAriaLabel,
+                className: headerOption,
+                disabled: isDisabled
+            }}
+        "><div class="humburger-menu cx-menu-button__component-container "><button id="humburger-menu-language-select-menu-button" type="button" aria-label="Change Site Language American English" aria-haspopup="true" aria-controls="humburger-menu-language-select-menu-button-menu-list" aria-expanded="false" class="cx-menu-button "><span>American English</span><span class="cx-menu-button__arrow-icon icon-triangle-down"></span></button><div class="cx-menu-button-actions-container "><ul id="humburger-menu-language-select-menu-button-menu-list" tabindex="-1" role="menu" aria-labelledby="humburger-menu-language-select-menu-button" aria-activedescendant="humburger-menu-language-select-menu-button-menu--item--1" class="cx-menu-button__list"><li role="none" lang="pt-BR" class="cx-menu-button__item"><a id="humburger-menu-language-select-menu-button-menu--item-0" role="menuitem" class="cx-menu-button__link ">Português do Brasil</a></li><li role="none" lang="en" class="cx-menu-button__item"><a id="humburger-menu-language-select-menu-button-menu--item-1" role="menuitem" class="cx-menu-button__link cx-menu-button__link--selected">American English</a></li></ul></div></div></div>
+</language-select>
+            
+            <span class="app-menu__language-filler"></span>
+            <button class="app-menu__close" data-bind="
+                    click: close,
+                    i18nAttr: { title: 'general.a11y.close-menu', 'aria-label': 'general.a11y.close-menu' }" title="Close menu" aria-label="Close menu"></button>
+        </div>
+        <div class="app-menu__content">
+            <ul class="app-menu__links" role="menu" data-bind="click: onLinkClicked.bind($component)">
+                
+                <li class="app-menu__item" role="menuitem">
+                    
+                    
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/jobs">All Jobs</a>
+                    
+
+                    
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    
+                    
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://www.oceaneering.com/careers/">Careers on Oceaneering.com</a>
+                    
+
+                    
+                </li>
+                
+            </ul>
+
+            
+            <div class="app-menu__miscellaneous">
+                <div class="app-menu__miscellaneous-line background-color-secondary"></div>
+                <div class="app-menu__miscellaneous-list text-color-secondary">
+                    <div class="app-menu__miscellaneous-item">
+                        <internal-user-login-button params="employeeText: employeeText">
+<a class="text-color-secondary" data-bind="
+        text: userLoginButtonText(),
+        attr: {
+            'href': iceUrl,
+            'title': userLoginButtonAriaLabel(),
+            'aria-label': userLoginButtonAriaLabel()
+        }" href="https://ebfr.fa.us2.oraclecloud.com/fscmUI/faces/deeplink?objType=IRC_RECRUITING&amp;action=ICE_JOB_SEARCH_RESP" title="I am an employee" aria-label="I am an employee">I am an employee</a>
+
+</internal-user-login-button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="app-menu__overlay" data-bind="click: close"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div role="alert" aria-live="assertive" aria-relevant="additions" class="notifications font-family-primary" data-bind="css: { 'notifications--active': showNotifications }, a11y.setInitialFocus: { isVisible: showNotifications, focusOn: '.notifications__remove-item--focus' }" tabindex="-1">
+    
+</div>
+
+
+<minimal-dialog params="isVisible: isDialogVisible, cancelBehavior:'none', baseClass: 'session-expire-dialog', isEnableBodyClass: true"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="modeless" aria-modal="true" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary session-expire-dialog oj-dialog oj-component oj-incomplete" id="ui-id-2" tabindex="-1" role="dialog" style="display: none;">
+    <div class="oj-dialog-header app-dialog__hide-header" slot="header"></div>
+
+    <div class="app-dialog__wrapper app-dialog__wrapper--align-center" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog session-expire-dialog__main session-expire-dialog__main-center" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            
+
+            
+
+            
+        <div data-bind="css: className" class="standard-apply-session-expire-container">
+            <div class="app-dialog__header">
+                <h1 class="heading" data-bind="i18n: 'general.session-expire.modal.title'">Are You Still With Us?</h1>
+            </div>
+
+            <div class="app-dialog__content">
+                <span data-bind="i18n: {key: key, tokens: tokens}">It seems you've been gone for a while. For security reasons we will end your session automatically in <span data-i18n-token="countdown" data-bind="text: $parent.counter()">03:00</span> unless you would like to continue working.</span>
+
+            </div>
+
+            <div class="app-dialog__footer">
+                <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                    <button class="button app-dialog__footer-button end-session-button" data-bind="click: signOut">
+                        <span class="button__label" data-bind="i18n: 'general.session-expire.modal.end-session-button'">End Session</span>
+                    </button>
+
+                    <button class="button app-dialog__footer-button theme-color-1" data-bind="click: continueWorking">
+                        <span class="button__label" data-bind="i18n: 'general.session-expire.modal.continue-button'">Continue Working</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+        </div>
+    </div>
+
+    <div class="app-dialog__background" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div>
+</oj-dialog>
+</minimal-dialog>
+
+
+<minimal-dialog params="isVisible: isDialogVisible"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="modeless" aria-modal="true" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary oj-dialog oj-component oj-incomplete" id="ui-id-3" tabindex="-1" role="dialog" style="display: none;">
+    <div class="oj-dialog-header app-dialog__hide-header" slot="header"></div>
+
+    <div class="app-dialog__wrapper app-dialog__wrapper--align-center" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            
+
+            
+        <div class="app-dialog__bar text-color-secondary">
+            <button class="app-dialog__close focused-tooltip" data-bind="click: () => action('Decline'), i18nAttr: {'title': 'general.cancel-button', 'aria-label': 'general.cancel-button'}" title="Cancel" aria-label="Cancel"></button>
+        </div>
+    
+
+            
+        <div class="app-dialog__header">
+            <h1 class="heading" data-bind="i18n : 'chatbot.popup.work-summary.header'">Work Summary</h1>
+        </div>
+        <div class="app-dialog__content">
+            <p class="oda-dialog__hint" data-bind="i18n: 'chatbot.popup.work-summary.edit-hint'" style="text-align: center">This summary is generated by AI Assist. Click inside the summary text box to make changes as necessary.</p>
+            <oj-text-area id="oda-work-summary-text-area" class="oda-dialog-text-area__content oj-textarea oj-form-control oj-component oj-text-field oj-has-no-value oj-incomplete" max-rows="-1" value="{{body}}" length.counter="remaining" length.max="1000" required="true"><div role="presentation" class="oj-text-field-container"><div class="oj-text-field-middle"><textarea data-oj-internal="" class="oj-textarea-input oj-text-field-input" placeholder="">            </textarea></div></div></oj-text-area>
+        </div>
+        <div class="app-dialog__footer">
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button" data-bind="click: () => action('Decline')">
+                    <span class="button__label" data-bind="i18n: 'chatbot.popup.work-summary.discard-button-label'">Discard</span>
+                </button>
+                <button class="button app-dialog__footer-button" data-bind="click: () => action('Accept')">
+                    <span class="button__label" data-bind="i18n : 'chatbot.popup.work-summary-add-button-label'">Add Summary</span>
+                </button>
+            </div>
+        </div>
+    
+        </div>
+    </div>
+
+    <div class="app-dialog__background" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div>
+</oj-dialog>
+</minimal-dialog>
+
+
+<div role="status" class="oj-helper-hidden-accessible" aria-live="polite" aria-relevant="additions" data-bind="accessibleMessage: status"></div>
+<div role="alert" class="oj-helper-hidden-accessible" aria-live="assertive" aria-relevant="additions" data-bind="accessibleMessage: alert"></div>
+
+
+
+</div>
+                
+       
+    
+
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="oda-chat-wrapper oda-chat-redwood-dark oda-chat- oda-chat-expanded" style="--color-text-light: #000000; --color-user-text: #212121; --color-header-background: #0097a9; --position-top: unset; --position-left: unset; --position-right: 20px; --position-bottom: 20px; --widget-max-height: calc(100vh - 60px - 20px); font: 16px &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; --width-full-screen: 440px;"><div class="oda-chat-widget oda-chat-flex oda-chat-col" role="region" aria-labelledby="oda-chat-title" style="width: 440px; height: 620px;"><div class="oda-chat-header oda-chat-flex"><div class="oda-chat-header-info-wrapper"><div class="oda-chat-title" dir="auto" id="oda-chat-title">Personal Job Assistant</div><div class="oda-chat-subtitle oda-chat-none" dir="auto"></div><div class="oda-chat-connection-status oda-chat-none" dir="auto"></div></div><div class="oda-chat-header-gap"></div><div class="oda-chat-header-actions oda-chat-flex"><button class="oda-chat-icon oda-chat-header-button oda-chat-flex" dir="auto" type="button" title="Audio Response Off" id="oda-chat-tts"></button><button class="oda-chat-icon oda-chat-header-button oda-chat-flex" dir="auto" type="button" title="Close" id="oda-chat-collapse"></button></div></div><div class="oda-chat-conversation"><div class="oda-chat-conversation-pane oda-chat-"><div class="oda-chat-conversation-container" role="log" aria-live="polite" aria-atomic="false"><div class="oda-chat-timestamp-header" dir="auto">Thu Jul 9, 11:11 PM</div><div class="oda-chat-message-block oda-chat-flex oda-chat-left"><div class="oda-chat-messages-wrapper oda-chat-flex oda-chat-col"><span class="oda-chat-screen-reader-only" dir="auto">Skill says</span><div class="oda-chat-message-list oda-chat-flex oda-chat-col"><div class="oda-chat-message" lang="en"><div class="oda-chat-message-wrapper"><div class="oda-chat-message-bubble" style="padding: 15px;"><div class="oda-chat-message-text" dir="auto">Hi, I'm your virtual job assistant and I'm here to help you explore career opportunities at Oceaneering.</div></div></div></div><div class="oda-chat-message" lang="en"><div class="oda-chat-message-wrapper"><div class="oda-chat-message-bubble" style="padding: 15px;"><div class="oda-chat-message-text" dir="auto">You can ask me things like "search for jobs in San Francisco, CA "or "check on my applications". You can also type "Help".</div></div><div class="oda-chat-message-global-actions oda-chat-col" dir="auto"><button class="oda-chat-action-postback oda-chat- oda-chat-flex" dir="auto" type="button"><div dir="auto">Search for Jobs</div></button><button class="oda-chat-action-postback oda-chat- oda-chat-flex" dir="auto" type="button"><div dir="auto">Match Jobs Using Resume</div></button></div></div></div></div></div></div><div dir="auto" class="oda-chat-relative-timestamp oda-chat-left ">Now</div></div></div></div><div class="oda-chat-footer oda-chat-mode-keyboard"><div class="oda-chat-footer-mode-voice oda-chat-flex"><div class="oda-chat-footer-visualizer-wrapper"><canvas width="244" height="32"></canvas></div></div><div class="oda-chat-footer-mode-keyboard oda-chat-flex"><label class="oda-chat-hidden" dir="auto" id="oda-chat-user-text-input-label" for="oda-chat-user-text-input">Ask Me Something</label><textarea class="oda-chat-user-input oda-chat-user-input-inline-send" dir="auto" enterkeyhint="send" id="oda-chat-user-text-input" rows="1" placeholder="Ask Me Something" aria-autocomplete="list" aria-controls="oda-chat-suggestions-list" aria-expanded="false" autocomplete="off" role="combobox" style="height: 44px;"></textarea><ul class="oda-chat-autocomplete-items" id="oda-chat-suggestions-list" aria-labelledby="oda-chat-user-text-input-label" aria-live="polite" role="listbox"></ul><div class="oda-chat-footer-actions oda-chat-flex"><button class="oda-chat-icon oda-chat-footer-button oda-chat-flex oda-chat-button-send oda-chat-none" dir="auto" type="button" title="Send" disabled=""></button><button class="oda-chat-icon oda-chat-footer-button oda-chat-flex oda-chat-button-switch-voice" dir="auto" type="button" title="Talk to Me"></button><button class="oda-chat-icon oda-chat-footer-button oda-chat-flex oda-chat-button-switch-kbd" dir="auto" type="button" title="Ask Me Something"></button><div><button class="oda-chat-icon oda-chat-footer-button oda-chat-flex oda-chat-button-upload" dir="auto" type="button" title="Upload File" id="oda-chat-share-button" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="oda-chat-share-menu"></button><ul class="oda-chat-popup oda-chat-share-popup-list" id="oda-chat-share-menu" tabindex="-1" role="menu" aria-labelledby="oda-chat-share-button"><li class="oda-chat-share-popup-item oda-chat-false" dir="auto" id="oda-chat-share_txt_rtf_doc_docx_pdf_odt_htm_html" tabindex="-1" role="menuitem" data-value="share_txt_rtf_doc_docx_pdf_odt_htm_html"><span class="oda-chat-text oda-chat-share-popup-item-text oda-chat-ellipsis" dir="auto">Attachment</span></li></ul><input class="oda-chat-none" type="file" tabindex="-1" aria-hidden="true"></div></div></div></div><div class="oda-chat-webview-container oda-chat-none"><div class="oda-chat-header oda-chat-webview-header oda-chat-flex"><div class="oda-chat-title oda-chat-webview-title oda-chat-ellipsis" dir="auto"></div><button class="oda-chat-icon oda-chat-header-button oda-chat-webview-button-close oda-chat-flex" dir="auto" type="button" title="Done" id="oda-chat-webview-button-close"></button></div><div class="oda-chat-webview" name="oda-chat-webview" title="In-widget WebView to display links" referrerpolicy="no-referrer-when-downgrade" data-original-tag="iframe"></div></div></div><button class="oda-chat-button oda-chat-flex focused-tooltip-top oda-chat-none" dir="auto" type="button" title="Personal Job Assistant" style="user-select: none; transform: translate(0px, 0px);"></button></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Senior AI Engineer Application</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; background: #f5f5f5; }
+  .app-container { max-width: 900px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .field-group { margin-bottom: 20px; }
+  .field-row { margin-bottom: 12px; position: relative; }
+  label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
+  .req-star { color: #e53935; margin-left: 2px; font-size: 16px; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea, select, .custom-combobox { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: #fff; }
+  input:read-only, input:disabled { background: #f0f0f0; color: #666; }
+  .pill-group { display: flex; gap: 8px; margin-top: 4px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #ccc; border-radius: 20px; cursor: pointer; background: #fff; font-size: 14px; }
+  .pill-btn.active { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .hidden-field { display: none; margin-top: 8px; }
+  .glued-label { font-size: 14px; font-weight: 600; color: #333; display: inline; }
+  .glued-label span { display: inline; }
+  details { margin-bottom: 16px; }
+  details summary { cursor: pointer; font-weight: 600; color: #1a73e8; padding: 8px 0; }
+  .details-content { padding: 12px; border: 1px solid #e0e0e0; border-radius: 6px; margin-top: 8px; background: #fafafa; }
+  .listbox-container { position: relative; }
+  .listbox-input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; cursor: pointer; background: #fff; }
+  .listbox-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; border: 1px solid #ccc; border-radius: 6px; background: #fff; z-index: 10; max-height: 180px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .listbox-dropdown.open { display: block; }
+  .listbox-option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+  .listbox-option:hover { background: #f0f0f0; }
+  .listbox-option.selected { background: #e3f2fd; font-weight: 600; }
+  .inline-flex { display: flex; align-items: center; gap: 8px; }
+  .inline-flex label { margin-bottom: 0; }
+  .error-text { color: #e53935; font-size: 12px; margin-top: 4px; display: none; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 24px 0 12px; border-bottom: 2px solid #eee; padding-bottom: 6px; }
+  .small-meta { font-size: 12px; color: #777; margin-top: 2px; }
+  .checkbox-wrapper { display: flex; align-items: center; gap: 8px; }
+  .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <h2 style="margin-top:0;">Senior AI Engineer Application</h2>
+  <p style="color:#555; margin-bottom:20px;">Please complete all sections. Fields marked with <span class="req-star">*</span> are required.</p>
+
+  <div class="section-title">Personal Information</div>
+
+  <div class="field-row">
+    <label for="fullname">Full Name</label><span class="req-star" aria-hidden="true">*</span>
+    <input type="text" id="fullname" placeholder="e.g. Jane Doe" required>
+  </div>
+
+  <div class="field-row">
+    <label for="email" style="height:0;overflow:hidden;position:absolute;width:1px;"></label>
+    <input type="email" id="email" placeholder="Email address (required)" required style="margin-top:0;">
+  </div>
+
+  <div class="field-row">
+    <div class="glued-label">
+      <span>Phone</span><span>Number</span><span class="req-star">*</span>
+    </div>
+    <input type="tel" id="phone" placeholder="+1 555-000-0000" required>
+  </div>
+
+  <div class="field-row">
+    <label for="linkedin">LinkedIn Profile</label>
+    <input type="url" id="linkedin" value="https://linkedin.com/in/johndoe" readonly>
+  </div>
+
+  <div class="field-row">
+    <label for="portfolio">Portfolio / Personal Website</label>
+    <input type="url" id="portfolio" placeholder="https://...">
+  </div>
+
+  <div class="field-row">
+    <label for="current_company">Current Company</label>
+    <input type="text" id="current_company" placeholder="e.g. Acme Corp">
+  </div>
+
+  <div class="field-row">
+    <label for="current_title">Current Title</label>
+    <input type="text" id="current_title" placeholder="e.g. Senior ML Engineer">
+  </div>
+
+  <div class="field-row">
+    <label for="location">Location (City, State)</label>
+    <input type="text" id="location" placeholder="e.g. San Francisco, CA" required>
+  </div>
+
+  <div class="field-row">
+    <label for="timezone">Timezone</label>
+    <select id="timezone">
+      <option value="">Select</option>
+      <option>PST</option>
+      <option>MST</option>
+      <option>CST</option>
+      <option>EST</option>
+      <option>GMT</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <label for="pronouns">Pronouns</label>
+    <input type="text" id="pronouns" placeholder="e.g. she/her">
+  </div>
+
+  <div class="section-title">Work Authorization</div>
+
+  <div class="field-row">
+    <label>Will you require visa sponsorship? <span class="req-star">*</span></label>
+    <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+      <button class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="togglePill(this)">Yes</button>
+      <button class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="togglePill(this)">No</button>
+    </div>
+    <input type="hidden" id="visa_sponsorship" value="no">
+  </div>
+
+  <div class="field-row">
+    <label>Legally authorized to work in the US? <span class="req-star">*</span></label>
+    <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+      <button class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="togglePill(this)">Yes</button>
+      <button class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="togglePill(this)">No</button>
+    </div>
+    <input type="hidden" id="work_auth" value="yes">
+  </div>
+
+  <div class="section-title">Experience & Skills</div>
+
+  <div class="field-row">
+    <label for="years_exp">Years of relevant experience <span class="req-star">*</span></label>
+    <select id="years_exp" required>
+      <option value="">Select</option>
+      <option>0-1</option>
+      <option>2-3</option>
+      <option selected>4-6</option>
+      <option>7-9</option>
+      <option>10+</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <label for="primary_skill_combobox">Primary skill set <span class="req-star">*</span></label>
+    <div class="listbox-container">
+      <div class="listbox-input" id="primary_skill_combobox" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Primary skill set" onclick="toggleListbox(event)" onkeydown="listboxKeydown(event)">
+        Select a skill
+      </div>
+      <div class="listbox-dropdown" id="primary_skill_listbox" role="listbox" aria-label="Skills">
+        <div class="listbox-option" role="option" data-value="ml" onclick="selectOption(this)">Machine Learning</div>
+        <div class="listbox-option selected" role="option" data-value="dl" onclick="selectOption(this)">Deep Learning</div>
+        <div class="listbox-option" role="option" data-value="nlp" onclick="selectOption(this)">NLP</div>
+        <div class="listbox-option" role="option" data-value="cv" onclick="selectOption(this)">Computer Vision</div>
+        <div class="listbox-option" role="option" data-value="genai" onclick="selectOption(this)">Generative AI</div>
+      </div>
+      <input type="hidden" id="primary_skill" value="dl">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <label for="secondary_skill">Secondary skill set</label>
+    <select id="secondary_skill">
+      <option value="">Select</option>
+      <option>Machine Learning</option>
+      <option>Deep Learning</option>
+      <option>NLP</option>
+      <option>Computer Vision</option>
+      <option>Generative AI</option>
+      <option>Data Engineering</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <label for="programming_languages">Programming Languages (comma separated)</label>
+    <input type="text" id="programming_languages" placeholder="e.g. Python, C++, Java">
+  </div>
+
+  <div class="field-row">
+    <label for="frameworks">Frameworks (comma separated)</label>
+    <input type="text" id="frameworks" placeholder="e.g. TensorFlow, PyTorch, LangChain">
+  </div>
+
+  <div class="field-row">
+    <label for="num_publications">Number of publications</label>
+    <input type="text" id="num_publications" placeholder="e.g. 5">
+  </div>
+
+  <div class="field-row">
+    <label for="h_index">h-index (if applicable)</label>
+    <input type="text" id="h_index" placeholder="e.g. 12">
+  </div>
+
+  <div class="field-row">
+    <label for="github_stars">GitHub stars earned</label>
+    <input type="text" id="github_stars" placeholder="e.g. 1k">
+  </div>
+
+  <div class="field-row">
+    <label>How did you hear about us? <span class="req-star">*</span></label>
+    <div class="inline-flex" style="flex-wrap:wrap; gap:12px;">
+      <div class="checkbox-wrapper">
+        <input type="checkbox" name="referral" value="LinkedIn" onchange="otherReveal()"> LinkedIn
+      </div>
+      <div class="checkbox-wrapper">
+        <input type="checkbox" name="referral" value="Indeed" onchange="otherReveal()"> Indeed
+      </div>
+      <div class="checkbox-wrapper">
+        <input type="checkbox" name="referral" value="Referral" onchange="otherReveal()"> Referral
+      </div>
+      <div class="checkbox-wrapper">
+        <input type="checkbox" name="referral" value="Other" id="referral_other_checkbox" onchange="otherReveal()"> Other
+      </div>
+    </div>
+    <div id="referral_other_field" class="hidden-field" style="margin-top:8px;">
+      <input type="text" id="referral_other_text" placeholder="Please specify" style="width:100%;">
+    </div>
+  </div>
+
+  <details>
+    <summary>Additional Questions (click to expand)</summary>
+    <div class="details-content">
+      <div class="field-row">
+        <label for="start_date">Earliest start date</label>
+        <input type="text" id="start_date" placeholder="MM/DD/YYYY">
+      </div>
+
+      <div class="field-row">
+        <input type="text" id="salary_expect" placeholder="Salary expectation (optional)" aria-label="Salary expectation" style="width:100%;">
+      </div>
+
+      <div class="field-row">
+        <label for="availability">Availability</label>
+        <select id="availability">
+          <option value="">Select</option>
+          <option>Immediate</option>
+          <option>2 weeks</option>
+          <option>1 month</option>
+        </select>
+      </div>
+
+      <div class="field-row">
+        <label for="preferred_hours">Preferred working hours</label>
+        <input type="text" id="preferred_hours" placeholder="e.g. 9-5 PST">
+      </div>
+
+      <div class="field-row">
+        <label>Willing to relocate? <span class="req-star">*</span></label>
+        <div class="pill-group" role="radiogroup" aria-label="Relocate">
+          <button class="pill-btn active" data-value="yes" role="radio" aria-checked="true" onclick="togglePill(this)">Yes</button>
+          <button class="pill-btn" data-value="no" role="radio" aria-checked="false" onclick="togglePill(this)">No</button>
+        </div>
+        <input type="hidden" id="relocate" value="yes">
+      </div>
+
+      <div class="field-row">
+        <label for="remote_preference">Remote work preference</label>
+        <select id="remote_preference">
+          <option value="">Select</option>
+          <option>Fully remote</option>
+          <option>Hybrid</option>
+          <option>On-site</option>
+        </select>
+      </div>
+
+      <div class="field-row">
+        <label for="pytorch_exp">Years of PyTorch experience</label>
+        <input type="text" id="pytorch_exp" value="3" disabled>
+      </div>
+
+      <div class="field-row">
+        <label for="tensorflow_exp">Years of TensorFlow experience</label>
+        <input type="text" id="tensorflow_exp" value="2" disabled>
+      </div>
+
+      <div class="field-row">
+        <span id="github_label" style="font-size:14px;font-weight:600;">GitHub Profile</span>
+        <input type="url" id="github" placeholder="https://github.com/yourhandle" aria-labelledby="github_label" style="width:100%;">
+      </div>
+
+      <div class="field-row">
+        <label for="kaggle_profile">Kaggle Profile</label>
+        <input type="url" id="kaggle_profile" placeholder="https://kaggle.com/yourhandle">
+      </div>
+
+      <div class="field-row">
+        <label for="leadership_experience">Leadership experience (years)</label>
+        <input type="text" id="leadership_experience" placeholder="e.g. 2">
+      </div>
+
+      <div class="field-row">
+        <label for="team_size">Previously managed team size</label>
+        <input type="text" id="team_size" placeholder="e.g. 10">
+      </div>
+
+      <div class="field-row">
+        <label for="why_join">Why do you want to join?</label>
+        <textarea id="why_join" placeholder="Brief explanation..." style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;"></textarea>
+      </div>
+    </div>
+  </details>
+
+  <div class="section-title">Documents</div>
+
+  <div class="field-row">
+    <label for="resume_file">Resume <span class="req-star">*</span></label>
+    <input type="file" id="resume_file" accept=".pdf,.doc,.docx" required>
+  </div>
+
+  <div class="field-row">
+    <label>Cover letter (optional)</label>
+    <div role="textbox" contenteditable="true" aria-label="Cover letter" style="min-height:80px;border:1px solid #ccc;border-radius:6px;padding:10px;font-size:14px;background:#fff;" placeholder="Write your cover letter here..."></div>
+  </div>
+
+  <div class="section-title">References</div>
+
+  <div class="field-row">
+    <label for="ref_name_1">Reference 1: Name</label>
+    <input type="text" id="ref_name_1" placeholder="Full name">
+  </div>
+
+  <div class="field-row">
+    <label for="ref_email_1">Reference 1: Email</label>
+    <input type="email" id="ref_email_1" placeholder="email@example.com">
+  </div>
+
+  <div class="field-row">
+    <label for="ref_phone_1">Reference 1: Phone</label>
+    <input type="tel" id="ref_phone_1" placeholder="+1 555-000-0000">
+  </div>
+
+  <div class="section-title">Diversity (Optional)</div>
+
+  <div class="field-row">
+    <button type="button" onclick="toggleDiversity()" style="background:none;border:none;color:#1a73e8;cursor:pointer;font-size:14px;padding:0;">+ Self-identification questions</button>
+  </div>
+  <div id="diversity_section" style="display:none; margin-top:8px; padding:12px; border:1px solid #e0e0e0; border-radius:6px; background:#fafafa;">
+    <div class="field-row">
+      <label>Gender</label>
+      <select aria-label="Gender">
+        <option value="">Prefer not to say</option>
+        <option>Female</option>
+        <option>Male</option>
+        <option>Non-binary</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <label>Veteran status</label>
+      <div class="pill-group" role="radiogroup" aria-label="Veteran status">
+        <button class="pill-btn active" data-value="no" role="radio" aria-checked="true" onclick="togglePill(this)">No</button>
+        <button class="pill-btn" data-value="yes" role="radio" aria-checked="false" onclick="togglePill(this)">Yes</button>
+      </div>
+      <input type="hidden" id="veteran" value="no">
+    </div>
+    <div class="field-row">
+      <label for="ethnicity">Ethnicity</label>
+      <input type="text" id="ethnicity" placeholder="Optional">
+    </div>
+    <div class="field-row">
+      <label for="disability">Disability status</label>
+      <select id="disability">
+        <option value="">Prefer not to say</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="display:none;">
+    <form>
+      <input type="text" placeholder="Decoy field">
+      <button type="submit">Hidden Submit</button>
+    </form>
+  </div>
+
+  <div style="margin-top:24px; text-align:right;">
+    <button type="submit" onclick="submitForm()" style="background:#1a73e8;color:#fff;padding:12px 32px;border:none;border-radius:6px;font-size:16px;cursor:pointer;">Submit Application</button>
+  </div>
+</div>
+
+<script>
+  function togglePill(btn) {
+    var group = btn.closest('.pill-group');
+    var hiddenInput = group.parentElement.querySelector('input[type="hidden"]');
+    group.querySelectorAll('.pill-btn').forEach(function(b) {
+      b.classList.remove('active');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    if (hiddenInput) hiddenInput.value = btn.getAttribute('data-value');
+  }
+
+  function toggleListbox(e) {
+    var container = e.currentTarget.closest('.listbox-container');
+    var dropdown = container.querySelector('.listbox-dropdown');
+    var input = container.querySelector('.listbox-input');
+    var isOpen = dropdown.classList.contains('open');
+    if (isOpen) {
+      dropdown.classList.remove('open');
+      input.setAttribute('aria-expanded', 'false');
+    } else {
+      dropdown.classList.add('open');
+      input.setAttribute('aria-expanded', 'true');
+    }
+    e.stopPropagation();
+  }
+
+  function selectOption(opt) {
+    var container = opt.closest('.listbox-container');
+    var dropdown = container.querySelector('.listbox-dropdown');
+    var input = container.querySelector('.listbox-input');
+    var hidden = container.querySelector('input[type="hidden"]');
+    dropdown.querySelectorAll('.listbox-option').forEach(function(o) { o.classList.remove('selected'); });
+    opt.classList.add('selected');
+    input.innerText = opt.textContent;
+    dropdown.classList.remove('open');
+    input.setAttribute('aria-expanded', 'false');
+    if (hidden) hidden.value = opt.getAttribute('data-value');
+  }
+
+  function listboxKeydown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleListbox(e);
+    }
+    if (e.key === 'Escape') {
+      var container = e.currentTarget.closest('.listbox-container');
+      var dropdown = container.querySelector('.listbox-dropdown');
+      dropdown.classList.remove('open');
+      e.currentTarget.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.listbox-container')) {
+      document.querySelectorAll('.listbox-dropdown').forEach(function(d) { d.classList.remove('open'); });
+      document.querySelectorAll('.listbox-input').forEach(function(i) { i.setAttribute('aria-expanded', 'false'); });
+    }
+  });
+
+  function otherReveal() {
+    var otherCheck = document.getElementById('referral_other_checkbox');
+    var otherField = document.getElementById('referral_other_field');
+    if (otherCheck.checked) {
+      otherField.style.display = 'block';
+    } else {
+      otherField.style.display = 'none';
+    }
+  }
+
+  function toggleDiversity() {
+    var div = document.getElementById('diversity_section');
+    if (div.style.display === 'none') {
+      div.style.display = 'block';
+    } else {
+      div.style.display = 'none';
+    }
+  }
+
+  function submitForm() {
+    var required = document.querySelectorAll('[required]');
+    var allValid = true;
+    required.forEach(function(el) {
+      if (!el.value) {
+        el.style.borderColor = '#e53935';
+        allValid = false;
+      } else {
+        el.style.borderColor = '#ccc';
+      }
+    });
+    if (allValid) {
+      alert('Application submitted (demo).');
+    } else {
+      alert('Please fill all required fields marked with *');
+    }
+  }
+</script>
+</body>
+</html>

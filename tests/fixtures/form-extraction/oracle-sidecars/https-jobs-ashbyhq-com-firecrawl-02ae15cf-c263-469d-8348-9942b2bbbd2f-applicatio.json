@@ -1,0 +1,96 @@
+{
+  "id": "https-jobs-ashbyhq-com-firecrawl-02ae15cf-c263-469d-8348-9942b2bbbd2f-applicatio",
+  "status": "disagree",
+  "captured_at": "2026-07-10T15:19:53.435Z",
+  "page_url": "https://jobs.ashbyhq.com/firecrawl/02ae15cf-c263-469d-8348-9942b2bbbd2f/application",
+  "page_title": "Product Engineer — Search @ Firecrawl",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 1,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "are you located in the americas and able to work during us business hours (et–pt)?",
+      "name",
+      "email",
+      "resume",
+      "linkedln",
+      "github",
+      "1. describe a time you took a research-level improvement (ranking, retrieval, ml model, etc.) and shipped it as a product change developers actually noticed. what was the improvement, what product decisions did you make along the way, and how did you know developers cared?",
+      "you're reviewing firecrawl's search api for the first time. walk us through how you'd evaluate it — what are you looking at, what are you testing, and what would make you say 'this needs to be fixed before anything else'?",
+      "what interests you about working at firecrawl? what should we know about you?"
+    ],
+    "ai_only": [
+      "Autofill from resume"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=9, ai=1)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt is truncated and ends abruptly during the rendering of the autofill component. No other form fields (name, email, etc.) are present in the provided snippet.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you located in the americas and able to work during us business hours (et–pt)?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedln",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "github",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "1. describe a time you took a research-level improvement (ranking, retrieval, ml model, etc.) and shipped it as a product change developers actually noticed. what was the improvement, what product decisions did you make along the way, and how did you know developers cared?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "you're reviewing firecrawl's search api for the first time. walk us through how you'd evaluate it — what are you looking at, what are you testing, and what would make you say 'this needs to be fixed before anything else'?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what interests you about working at firecrawl? what should we know about you?",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

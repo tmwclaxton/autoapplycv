@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0048",
+    "seed": 2762641451,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "unstyled div soup with inline styles only",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "glued-label-text",
+                "notes": "Label text split across multiple spans with no space between words"
+            },
+            {
+                "id": "decoy-form",
+                "notes": "Newsletter or login decoy form separate from job application form"
+            },
+            {
+                "id": "readonly-prefill",
+                "notes": "At least one readonly or disabled input with prefilled profile value"
+            },
+            {
+                "id": "custom-combobox",
+                "notes": "Combobox: button or input with aria-haspopup=listbox plus listbox\/options"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Radio styled as buttons",
+                "notes": "Native radios hidden; visible pill buttons styled via CSS class",
+                "category": "weird-control",
+                "dom_excerpt": "<main><h1>Radio pill buttons<\/h1> <form action=\"\/apply\" method=\"post\"> <p>Are you authorized to work in the UK?<\/p> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"yes\" style=\"position:absolute;opacity:0\"> Yes<\/label> <label class=\"pill\"><input type=\"radio\" name=\"uk_auth\" value=\"no\" style=\"position:absolu",
+                "requires_interaction": false
+            },
+            {
+                "title": "Asterisk in sibling span",
+                "notes": "Required marker asterisk lives in sibling span, not inside label text",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Sibling asterisk<\/h1> <form action=\"\/apply\" method=\"post\"> <div class=\"field-row\"><label for=\"ast_name\">Full name<\/label><span aria-hidden=\"true\" class=\"required\">*<\/span><input type=\"text\" id=\"ast_name\" name=\"ast_name\" required><\/div> <div class=\"field-row\"><label for=\"ast_email\">Email address<\/label><span c",
+                "requires_interaction": false
+            },
+            {
+                "title": "Duplicate name attributes",
+                "notes": "Two distinct fields share the same name attribute (invalid but seen in the wild)",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Duplicate name attributes<\/h1> <form action=\"\/apply\" method=\"post\"> <label>Preferred name <input type=\"text\" name=\"full_name\" id=\"pref_name\"><\/label> <label>Legal name <input type=\"text\" name=\"full_name\" id=\"legal_name\"><\/label> <label for=\"dup_email\">Email<\/label><input type=\"email\" id=\"dup_email\" name=\"dup_",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Label text split across multiple spans with no space between words Required: Newsletter or login decoy form separate from job application form Required: At least one readonly or disabled input with prefilled profile value Required: Combobox: button or input with aria-haspopup=listbox plus listbox\/options Reference DOM (Radio styled as buttons): Native radios hidden; visible pill buttons styled via CSS class Reference DOM (Asterisk in sibling span): Required marker asterisk lives in sibling span, not inside label text Reference DOM (Duplicate name attributes): Two distinct fields share the same name attribute (invalid but seen in the wild) Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: duplicate-name-attrs, glued-label-text, decoy-form, readonly-prefill, custom-combobox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: unstyled div soup with inline styles only. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Radio styled as buttons; Asterisk in sibling span; Duplicate name attributes."
+}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f4f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  .ashby-outer { max-width: 820px; margin: 20px auto; background: #fff; border: 1px solid #d0d5dd; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .ashby-header { padding: 20px 24px 0; border-bottom: 1px solid #eaecf0; }
+  .ashby-header h2 { font-size: 20px; font-weight: 600; color: #101828; }
+  .ashby-header p { font-size: 14px; color: #667085; margin: 4px 0 12px; }
+  .ashby-body { padding: 16px 24px 24px; }
+  .app-table { width: 100%; border-collapse: collapse; }
+  .app-table td { padding: 8px 6px; vertical-align: top; }
+  .app-table .label-cell { width: 30%; padding-right: 12px; }
+  .app-table .input-cell { width: 70%; }
+  .micro1-label { font-size: 13px; font-weight: 500; color: #344054; display: block; margin-bottom: 2px; }
+  .micro1-label .qnum { color: #667085; font-weight: 400; }
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  select,
+  textarea { width: 100%; padding: 8px 10px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; }
+  input[readonly], input:disabled { background: #f2f4f7; color: #475467; cursor: not-allowed; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 14px; border: 1px solid #d0d5dd; border-radius: 20px; background: #fff; font-size: 13px; cursor: pointer; color: #344054; }
+  .pill-btn.active { background: #2e90fa; color: #fff; border-color: #2e90fa; }
+  .combobox-wrap { position: relative; }
+  .combobox-wrap select { appearance: auto; }
+  .role-textbox { border: 1px solid #d0d5dd; border-radius: 6px; padding: 8px 10px; min-height: 38px; background: #fff; font-size: 14px; color: #101828; outline: none; }
+  .role-textbox:focus { border-color: #2e90fa; box-shadow: 0 0 0 2px rgba(46,144,250,0.2); }
+  .hidden-input-wrap { position: relative; }
+  .hidden-input-wrap input[type='text'] { display: none; }
+  .hidden-input-wrap label { display: block; padding: 8px 10px; border: 1px dashed #98a2b3; border-radius: 6px; background: #f9fafb; font-size: 13px; color: #667085; cursor: default; }
+  .glued-span-label { display: inline; font-size: 13px; color: #344054; background: #f2f4f7; padding: 4px 6px; border-radius: 4px; margin-right: 4px; }
+  .distant-label { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .iframe-shell { border: 2px solid #eaecf0; border-radius: 8px; background: #fcfcfd; padding: 4px; margin-bottom: 16px; }
+  .iframe-shell iframe { width: 100%; height: 420px; border: none; overflow: auto; }
+  .decoy-form { margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #eaecf0; }
+  .decoy-form h4 { font-size: 14px; color: #667085; margin-bottom: 8px; }
+  .reveal-trigger { color: #2e90fa; cursor: pointer; font-size: 13px; margin: 6px 0; display: inline-block; }
+  .hidden-fields { display: none; margin-top: 8px; }
+  .hidden-fields.open { display: table-row-group; }
+  .btn-submit { background: #2e90fa; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; }
+  .btn-submit:hover { background: #1570ef; }
+  .error-msg { color: #d92d20; font-size: 12px; margin-top: 2px; }
+  hr { margin: 16px 0; border: 0; border-top: 1px solid #eaecf0; }
+  .custom-combobox { position: relative; }
+  .custom-combobox input { width: 100%; padding: 8px 10px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; cursor: pointer; }
+  .custom-combobox .dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d0d5dd; border-radius: 6px; z-index: 10; max-height: 150px; overflow-y: auto; }
+  .custom-combobox .dropdown.open { display: block; }
+  .custom-combobox .dropdown div { padding: 8px 10px; font-size: 14px; cursor: pointer; }
+  .custom-combobox .dropdown div:hover { background: #f2f4f7; }
+  .custom-combobox .dropdown div.selected { background: #e0f2fe; }
+</style>
+</head>
+<body>
+<div class="ashby-outer">
+  <div class="ashby-header">
+    <h2>Senior Frontend Engineer</h2>
+    <p>Ashby · Remote · Full-time · <span style="color:#667085;">ID: REQ-1034</span></p>
+  </div>
+  <div class="ashby-body">
+    <div class="iframe-shell">
+      <iframe srcdoc="
+        <html><body style='font-family:sans-serif;padding:8px;background:#fff;'>
+        <h3 style='font-size:15px;margin:0 0 8px;color:#101828;'>Apply via Ashby (internal iframe)</h3>
+        <p style='font-size:13px;color:#667085;'>Your data is processed securely.</p>
+        </body></html>
+      "></iframe>
+    </div>
+    <form id="applyForm" onsubmit="return false;">
+      <table class="app-table">
+        <tbody>
+          <tr>
+            <td class="label-cell">
+              <span class="micro1-label"><span class="qnum">Q1.</span> full name</span>
+            </td>
+            <td class="input-cell">
+              <input type="text" id="fullname" name="fullname" placeholder="e.g. Jane Smith" autocomplete="name">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span style="font-size:13px;color:#667085;">Email <span style="color:#d92d20;">*</span></span>
+            </td>
+            <td class="input-cell">
+              <input type="email" id="email" name="email" aria-label="Email address" placeholder="you@company.com" autocomplete="email">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span style="font-size:13px;color:#667085;">Phone</span>
+            </td>
+            <td class="input-cell">
+              <input type="tel" id="phone" name="phone" aria-label="Phone number" placeholder="+1 (555) 000-9999">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q2.</span> current company</span></td>
+            <td class="input-cell">
+              <input type="text" id="currentcompany" name="currentcompany" readonly value="Acme Corp (from profile)">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span id="linkedinLabel" class="distant-label">LinkedIn URL (hidden label)</span>
+              <span style="font-size:13px;color:#667085;">LinkedIn</span>
+            </td>
+            <td class="input-cell">
+              <input type="text" id="linkedin" name="linkedin" aria-labelledby="linkedinLabel" placeholder="https://linkedin.com/in/...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q3.</span> portfolio</span></td>
+            <td class="input-cell">
+              <div class="hidden-input-wrap">
+                <input type="text" id="portfolio" name="portfolio" value="https://portfolio.dev" style="display:none;">
+                <label for="portfolio">Portfolio URL (hidden field, click to edit not possible)</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q4.</span> years of experience</span></td>
+            <td class="input-cell">
+              <div class="role-textbox" role="textbox" contenteditable="true" aria-label="Years of experience" style="min-height:38px;">5+</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span style="font-size:13px;color:#667085;">Category</span></td>
+            <td class="input-cell">
+              <div class="custom-combobox" id="categoryCombobox">
+                <input type="text" id="categoryInput" name="category" aria-label="Job category" placeholder="Select..." readonly>
+                <div class="dropdown" id="categoryDropdown">
+                  <div data-value="engineering">Engineering</div>
+                  <div data-value="design">Design</div>
+                  <div data-value="product">Product</div>
+                  <div data-value="marketing">Marketing</div>
+                  <div data-value="sales">Sales</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span class="glued-span-label">Skills</span>
+              <span style="font-size:12px;color:#667085;">(pick top 3)</span>
+            </td>
+            <td class="input-cell">
+              <div class="pill-group">
+                <button type="button" class="pill-btn active" data-skill="react">React</button>
+                <button type="button" class="pill-btn" data-skill="typescript">TypeScript</button>
+                <button type="button" class="pill-btn" data-skill="css">CSS</button>
+                <button type="button" class="pill-btn" data-skill="node">Node.js</button>
+                <button type="button" class="pill-btn" data-skill="python">Python</button>
+                <button type="button" class="pill-btn" data-skill="go">Go</button>
+              </div>
+              <input type="hidden" name="skills" id="skills" value="react">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q5.</span> resume</span></td>
+            <td class="input-cell">
+              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" style="font-size:13px;">
+              <span style="display:block;font-size:11px;color:#667085;">PDF or DOCX, max 5MB</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q6.</span> cover letter</span></td>
+            <td class="input-cell">
+              <textarea id="coverletter" name="coverletter" rows="3" placeholder="Optional but recommended..."></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span style="font-size:13px;color:#667085;">Salary expectation</span></td>
+            <td class="input-cell">
+              <input type="text" id="salary" name="salary" aria-label="Salary expectation in USD" placeholder="e.g. $120,000">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q7.</span> earliest start date</span></td>
+            <td class="input-cell">
+              <input type="text" id="startdate" name="startdate" readonly value="2 weeks (from profile)">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span id="referralLabel" class="distant-label">How did you hear about us? (hidden)</span>
+              <span style="font-size:13px;color:#667085;">Referral source</span>
+            </td>
+            <td class="input-cell">
+              <input type="text" id="referral" name="referral" aria-labelledby="referralLabel" placeholder="e.g. LinkedIn, friend">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q8.</span> work authorization</span></td>
+            <td class="input-cell">
+              <div class="role-textbox" role="textbox" contenteditable="true" aria-label="Work authorization status">US Citizen</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span style="font-size:13px;color:#667085;">Gender (optional)</span></td>
+            <td class="input-cell">
+              <select id="gender" name="gender" aria-label="Gender">
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="nonbinary">Non-binary</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q9.</span> veteran status</span></td>
+            <td class="input-cell">
+              <div class="pill-group">
+                <button type="button" class="pill-btn" data-veteran="yes">Yes</button>
+                <button type="button" class="pill-btn active" data-veteran="no">No</button>
+                <button type="button" class="pill-btn" data-veteran="decline">Decline</button>
+              </div>
+              <input type="hidden" name="veteran" id="veteran" value="no">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q10.</span> disability</span></td>
+            <td class="input-cell">
+              <span class="reveal-trigger" onclick="document.getElementById('disabilityFields').classList.toggle('open')">+ disclose disability (click)</span>
+              <table id="disabilityFields" class="hidden-fields" style="width:100%;">
+                <tr><td style="padding:4px 0;">
+                  <label style="font-size:13px;"><input type="radio" name="disability" value="yes"> Yes</label>
+                  <label style="font-size:13px;margin-left:8px;"><input type="radio" name="disability" value="no"> No</label>
+                  <label style="font-size:13px;margin-left:8px;"><input type="radio" name="disability" value="decline"> Decline</label>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span style="font-size:13px;color:#667085;">Additional notes</span></td>
+            <td class="input-cell">
+              <textarea id="notes" name="notes" aria-label="Additional notes for the recruiter" rows="2" placeholder="Anything else?"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q11.</span> github profile</span></td>
+            <td class="input-cell">
+              <input type="text" id="github" name="github" aria-label="GitHub URL" placeholder="https://github.com/username">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q12.</span> twitter handle</span></td>
+            <td class="input-cell">
+              <input type="text" id="twitter" name="twitter" aria-label="Twitter handle" placeholder="@username">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q13.</span> personal website</span></td>
+            <td class="input-cell">
+              <input type="text" id="website" name="website" aria-label="Personal website" placeholder="https://example.com">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q14.</span> preferred pronouns</span></td>
+            <td class="input-cell">
+              <input type="text" id="pronouns" name="pronouns" aria-label="Preferred pronouns" placeholder="e.g. they/them">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q15.</span> timezone</span></td>
+            <td class="input-cell">
+              <select id="timezone" name="timezone" aria-label="Timezone">
+                <option value="">Select...</option>
+                <option value="EST">EST (UTC-5)</option>
+                <option value="CST">CST (UTC-6)</option>
+                <option value="MST">MST (UTC-7)</option>
+                <option value="PST">PST (UTC-8)</option>
+                <option value="GMT">GMT (UTC+0)</option>
+                <option value="CET">CET (UTC+1)</option>
+                <option value="IST">IST (UTC+5:30)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q16.</span> highest education</span></td>
+            <td class="input-cell">
+              <select id="education" name="education" aria-label="Highest education level">
+                <option value="">Select...</option>
+                <option value="highschool">High School</option>
+                <option value="associate">Associate's</option>
+                <option value="bachelor">Bachelor's</option>
+                <option value="master">Master's</option>
+                <option value="doctorate">Doctorate</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q17.</span> years in industry</span></td>
+            <td class="input-cell">
+              <input type="number" id="industryyears" name="industryyears" aria-label="Years in industry" placeholder="0" min="0" max="50">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q18.</span> willing to relocate</span></td>
+            <td class="input-cell">
+              <div class="pill-group">
+                <button type="button" class="pill-btn" data-relocate="yes">Yes</button>
+                <button type="button" class="pill-btn active" data-relocate="no">No</button>
+                <button type="button" class="pill-btn" data-relocate="maybe">Maybe</button>
+              </div>
+              <input type="hidden" name="relocate" id="relocate" value="no">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q19.</span> languages</span></td>
+            <td class="input-cell">
+              <input type="text" id="languages" name="languages" aria-label="Languages spoken" placeholder="e.g. English, Spanish">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q20.</span> certifications</span></td>
+            <td class="input-cell">
+              <input type="text" id="certifications" name="certifications" aria-label="Relevant certifications" placeholder="e.g. AWS, Google Cloud">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q21.</span> availability</span></td>
+            <td class="input-cell">
+              <select id="availability" name="availability" aria-label="Availability">
+                <option value="">Select...</option>
+                <option value="immediate">Immediate</option>
+                <option value="2weeks">2 weeks</option>
+                <option value="1month">1 month</option>
+                <option value="3months">3 months</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q22.</span> remote preference</span></td>
+            <td class="input-cell">
+              <div class="pill-group">
+                <button type="button" class="pill-btn active" data-remote="remote">Remote</button>
+                <button type="button" class="pill-btn" data-remote="hybrid">Hybrid</button>
+                <button type="button" class="pill-btn" data-remote="onsite">On-site</button>
+              </div>
+              <input type="hidden" name="remote" id="remote" value="remote">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q23.</span> portfolio password</span></td>
+            <td class="input-cell">
+              <input type="password" id="portfoliopassword" name="portfoliopassword" aria-label="Portfolio password if protected" placeholder="Leave blank if none">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q24.</span> code challenge repo</span></td>
+            <td class="input-cell">
+              <input type="text" id="coderepo" name="coderepo" aria-label="Code challenge repository URL" placeholder="https://github.com/...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q25.</span> preferred IDE</span></td>
+            <td class="input-cell">
+              <input type="text" id="ide" name="ide" aria-label="Preferred IDE" placeholder="e.g. VS Code, WebStorm">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q26.</span> OS preference</span></td>
+            <td class="input-cell">
+              <select id="os" name="os" aria-label="Operating system preference">
+                <option value="">Select...</option>
+                <option value="mac">macOS</option>
+                <option value="windows">Windows</option>
+                <option value="linux">Linux</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q27.</span> linkedin url</span></td>
+            <td class="input-cell">
+              <input type="text" id="linkedin2" name="linkedin2" aria-label="LinkedIn profile URL" placeholder="https://linkedin.com/in/...">
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><span class="micro1-label"><span class="qnum">Q28.</span> github url</span></td>
+            <td class="input-cell">
+              <input type="text" id="github2" name="github2" aria-label="GitHub profile URL" placeholder="https://github.com/...">
+            </td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan="2"><input type="hidden" name="token" value="abc123"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="decoy-form">
+        <h4>📁 Optional: attach additional documents</h4>
+        <p style="font-size:12px;color:#667085;">This is a decoy section, not required.</p>
+        <input type="file" id="extra1" style="font-size:12px;">
+        <input type="file" id="extra2" style="font-size:12px;margin-top:4px;">
+      </div>
+
+      <button type="submit" class="btn-submit" onclick="alert('Application submitted (simulated)');">Submit Application</button>
+    </form>
+  </div>
+</div>
+<script>
+  // Custom combobox logic
+  document.querySelectorAll('.custom-combobox').forEach(combobox => {
+    const input = combobox.querySelector('input');
+    const dropdown = combobox.querySelector('.dropdown');
+    const options = dropdown.querySelectorAll('div');
+    
+    input.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.classList.toggle('open');
+    });
+    
+    options.forEach(opt => {
+      opt.addEventListener('click', function() {
+        input.value = this.textContent;
+        input.dataset.value = this.dataset.value;
+        options.forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        dropdown.classList.remove('open');
+      });
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!combobox.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+  });
+
+  // Pill toggle for skills
+  document.querySelectorAll('.pill-group').forEach(group => {
+    const hidden = group.parentElement.querySelector('input[type="hidden"]');
+    if (hidden) {
+      group.querySelectorAll('.pill-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (this.dataset.skill) {
+            this.classList.toggle('active');
+            const activeSkills = Array.from(group.querySelectorAll('.pill-btn.active')).map(b => b.dataset.skill).join(',');
+            hidden.value = activeSkills || '';
+          } else if (this.dataset.veteran || this.dataset.relocate || this.dataset.remote) {
+            group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            hidden.value = this.dataset.veteran || this.dataset.relocate || this.dataset.remote;
+          }
+        });
+      });
+    }
+  });
+</script>
+</body>
+</html>

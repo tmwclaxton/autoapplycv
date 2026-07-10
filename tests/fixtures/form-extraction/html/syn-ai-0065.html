@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Senior Backend Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f2f4f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; }
+  .app-shell { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); padding: 32px; }
+  h2 { font-size: 22px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
+  .subhead { color: #5a5d72; font-size: 14px; margin-bottom: 24px; }
+  .field-group { margin-bottom: 22px; }
+  .field-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .field-row > div { flex: 1 1 200px; }
+  .custom-field-error { border: 1px solid #e0e3eb; border-radius: 8px; padding: 10px 14px; min-height: 44px; background: #fff; outline: none; transition: border 0.15s; }
+  .custom-field-error:focus { border-color: #4a6cf7; box-shadow: 0 0 0 3px rgba(74,108,247,0.15); }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .pill-btn { border: 1px solid #d0d5dd; background: #fff; border-radius: 100px; padding: 8px 18px; font-size: 14px; cursor: pointer; transition: all 0.15s; color: #1a1a2e; }
+  .pill-btn.selected { background: #4a6cf7; color: #fff; border-color: #4a6cf7; }
+  .pill-btn:hover { border-color: #4a6cf7; }
+  .combobox-wrapper { position: relative; }
+  .combobox-trigger { display: flex; align-items: center; justify-content: space-between; border: 1px solid #e0e3eb; border-radius: 8px; padding: 10px 14px; background: #fff; cursor: pointer; min-height: 44px; }
+  .combobox-trigger:focus { border-color: #4a6cf7; box-shadow: 0 0 0 3px rgba(74,108,247,0.15); outline: none; }
+  .combobox-trigger .arrow { transition: transform 0.2s; }
+  .combobox-trigger.open .arrow { transform: rotate(180deg); }
+  .combobox-list { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #e0e3eb; border-radius: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.1); z-index: 50; max-height: 200px; overflow-y: auto; display: none; margin-top: 4px; }
+  .combobox-list.open { display: block; }
+  .combobox-option { padding: 10px 14px; cursor: pointer; font-size: 14px; transition: background 0.1s; }
+  .combobox-option:hover { background: #f0f2f7; }
+  .combobox-option[aria-selected="true"] { background: #eef2ff; font-weight: 500; }
+  .details-field { border: 1px solid #e0e3eb; border-radius: 8px; padding: 12px 16px; background: #fafbfc; }
+  .details-field summary { cursor: pointer; font-weight: 500; font-size: 14px; color: #1a1a2e; }
+  .details-field .details-content { padding-top: 12px; }
+  .glued-span-label { display: block; font-size: 13px; color: #5a5d72; margin-bottom: 2px; }
+  .glued-span-label + input { margin-top: 0; }
+  .reverse-field { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; }
+  .reverse-field input { width: auto; flex: 0 0 auto; }
+  .reverse-field label { font-size: 14px; color: #1a1a2e; }
+  .deep-label-wrapper { position: relative; }
+  .deep-label-wrapper .inner-wrap { padding: 0; }
+  .deep-label-wrapper .inner-wrap .core-wrap { display: flex; flex-direction: column; }
+  .deep-label-wrapper .inner-wrap .core-wrap label { font-size: 14px; color: #1a1a2e; margin-bottom: 4px; display: block; }
+  .deep-label-wrapper .inner-wrap .core-wrap input { width: 100%; padding: 10px 14px; border: 1px solid #e0e3eb; border-radius: 8px; outline: none; }
+  .deep-label-wrapper .inner-wrap .core-wrap input:focus { border-color: #4a6cf7; }
+  .disclaimer { font-size: 12px; color: #8a8da0; margin-top: 4px; }
+  hr { margin: 24px 0; border: none; border-top: 1px solid #eceef2; }
+  .submit-btn { background: #4a6cf7; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .submit-btn:hover { background: #3a5ce5; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <h2>Senior Backend Engineer</h2>
+  <div class="subhead">Ashby · Remote · Full-time</div>
+  <form id="jobAppForm" novalidate>
+    <!-- 1) Full name: reverse field order (input before label) -->
+    <div class="field-group reverse-field" style="margin-bottom: 20px;">
+      <input type="text" id="fullName" placeholder="e.g. Alex Rivera" style="padding: 10px 14px; border: 1px solid #e0e3eb; border-radius: 8px; flex: 1; outline: none;" />
+      <label for="fullName" style="font-size:14px; color:#1a1a2e; white-space:nowrap;">Full name</label>
+    </div>
+
+    <!-- 2) Email: aria-label only (no visible label) -->
+    <div class="field-group">
+      <input type="email" aria-label="Email address" placeholder="you@example.com" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 3) Phone: another aria-label only field -->
+    <div class="field-group">
+      <input type="tel" aria-label="Phone number" placeholder="+1 (555) 000-1234" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 4) Custom text field: div[role=textbox][contenteditable] (no native input) -->
+    <div class="field-group">
+      <span id="coverLabel" class="sr-only">Cover letter or note</span>
+      <div class="field-label" style="font-size:13px; color:#5a5d72; margin-bottom:4px;">Cover letter <span style="color:#8a8da0;">(optional)</span></div>
+      <div role="textbox" contenteditable="true" aria-labelledby="coverLabel" class="custom-field-error" style="min-height:80px; white-space:pre-wrap;"></div>
+    </div>
+
+    <!-- 5) Years of experience: number min/max + deep wrapped label -->
+    <div class="field-group deep-label-wrapper">
+      <div class="inner-wrap">
+        <div class="core-wrap">
+          <label>Years of experience
+            <div style="margin-top:4px;">
+              <input type="number" min="1" max="30" step="1" placeholder="4" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Current company: deep wrapped label -->
+    <div class="field-group deep-label-wrapper">
+      <div class="inner-wrap"><div class="core-wrap"><label>Current company
+        <div style="margin-top:4px;"><input type="text" placeholder="e.g. Stripe" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" /></div>
+      </label></div></div>
+    </div>
+
+    <!-- 7) LinkedIn: aria-labelledby pointing at hidden span -->
+    <div class="field-group">
+      <span id="linkedinHelp" style="display:none;">Your LinkedIn profile URL</span>
+      <div style="font-size:13px; color:#5a5d72; margin-bottom:4px;">LinkedIn <span style="color:#8a8da0;">(optional)</span></div>
+      <input type="url" aria-labelledby="linkedinHelp" placeholder="https://linkedin.com/in/..." style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 8) Portfolio: aria-labelledby distant span -->
+    <div class="field-group">
+      <span id="portfolioHelp" style="position:absolute;left:-9999px;">Link to portfolio or personal site</span>
+      <div style="font-size:13px; color:#5a5d72; margin-bottom:4px;">Portfolio <span style="color:#8a8da0;">(optional)</span></div>
+      <input type="url" aria-labelledby="portfolioHelp" placeholder="https://" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 9) Combobox: custom listbox combobox for 'How did you hear about us?' -->
+    <div class="field-group">
+      <label style="font-size:14px; color:#1a1a2e; display:block; margin-bottom:4px;">How did you hear?</label>
+      <div class="combobox-wrapper" id="comboboxWidget">
+        <div class="combobox-trigger" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Referral source" id="comboboxTrigger">
+          <span id="comboboxValue">Select source</span>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="combobox-list" role="listbox" id="comboboxList">
+          <div class="combobox-option" role="option" aria-selected="false" data-value="linkedin">LinkedIn</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="github">GitHub</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="referral">Employee referral</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="other">Other</div>
+        </div>
+        <input type="hidden" id="hearAbout" name="hearAbout" value="" />
+      </div>
+    </div>
+
+    <!-- 10) Gender: pill yes/no buttons (non-semantic) -->
+    <div class="field-group">
+      <div style="font-size:14px; color:#1a1a2e; margin-bottom:6px;">Gender <span style="color:#8a8da0;">(optional)</span></div>
+      <div class="pill-group" id="genderPills" role="radiogroup" aria-label="Gender">
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="male">Male</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="female">Female</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="non-binary">Non-binary</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="decline">Decline</div>
+      </div>
+      <input type="hidden" id="genderValue" name="gender" value="" />
+    </div>
+
+    <!-- 11) Race/ethnicity: details/accordion pattern -->
+    <div class="field-group details-field">
+      <details>
+        <summary>Race & ethnicity <span style="color:#8a8da0;">(optional, click to expand)</span></summary>
+        <div class="details-content">
+          <div style="margin-bottom:8px; font-size:13px; color:#5a5d72;">Select all that apply</div>
+          <div class="pill-group" id="racePills">
+            <div class="pill-btn" role="checkbox" aria-checked="false" tabindex="0" data-value="asian">Asian</div>
+            <div class="pill-btn" role="checkbox" aria-checked="false" tabindex="0" data-value="black">Black or African American</div>
+            <div class="pill-btn" role="checkbox" aria-checked="false" tabindex="0" data-value="hispanic">Hispanic or Latino</div>
+            <div class="pill-btn" role="checkbox" aria-checked="false" tabindex="0" data-value="white">White</div>
+            <div class="pill-btn" role="checkbox" aria-checked="false" tabindex="0" data-value="decline">Decline</div>
+          </div>
+          <input type="hidden" id="raceValue" name="race" value="" />
+        </div>
+      </details>
+    </div>
+
+    <!-- 12) Veteran status: details/accordion -->
+    <div class="field-group details-field">
+      <details>
+        <summary>Veteran status <span style="color:#8a8da0;">(optional)</span></summary>
+        <div class="details-content">
+          <div class="pill-group" id="veteranPills" role="radiogroup" aria-label="Veteran status">
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="yes">I am a veteran</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="no">Not a veteran</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="decline">Decline</div>
+          </div>
+          <input type="hidden" id="veteranValue" name="veteran" value="" />
+        </div>
+      </details>
+    </div>
+
+    <!-- 13) Disability status: details/accordion -->
+    <div class="field-group details-field">
+      <details>
+        <summary>Disability status <span style="color:#8a8da0;">(optional)</span></summary>
+        <div class="details-content">
+          <div class="pill-group" id="disabilityPills" role="radiogroup" aria-label="Disability status">
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes, I have a disability</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+            <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="decline">Decline</div>
+          </div>
+          <input type="hidden" id="disabilityValue" name="disability" value="" />
+        </div>
+      </details>
+    </div>
+
+    <!-- 14) Glued span labels: City and State -->
+    <div class="field-row field-group">
+      <div style="flex:1;">
+        <span class="glued-span-label">City</span>
+        <input type="text" placeholder="e.g. San Francisco" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+      </div>
+      <div style="flex:1;">
+        <span class="glued-span-label">State</span>
+        <input type="text" placeholder="e.g. CA" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+      </div>
+    </div>
+
+    <!-- 15) Decoy secondary form: hidden visually but in DOM -->
+    <div style="display:none;" aria-hidden="true">
+      <h3>Internal notes (hidden)</h3>
+      <input type="text" name="decoy_field_1" />
+      <input type="text" name="decoy_field_2" />
+    </div>
+
+    <!-- 16) Readonly prefilled fields -->
+    <div class="field-group">
+      <label style="font-size:14px; color:#1a1a2e; display:block; margin-bottom:4px;">Source <span style="color:#8a8da0;">(auto)</span></label>
+      <input type="text" value="Ashby Careers" readonly style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; background:#f5f6fa; color:#5a5d72; outline:none;" />
+    </div>
+
+    <!-- 17) Additional textarea (aria-label) -->
+    <div class="field-group">
+      <textarea aria-label="Additional information" placeholder="Anything else we should know?" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; min-height:70px; outline:none;"></textarea>
+    </div>
+
+    <!-- 18) Preferred start date: date input with aria-label -->
+    <div class="field-group">
+      <input type="date" aria-label="Preferred start date" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 19) Salary expectation: number input with aria-label -->
+    <div class="field-group">
+      <input type="number" aria-label="Salary expectation (USD)" placeholder="120000" min="50000" max="300000" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 20) GitHub profile: aria-labelledby pointing at hidden span -->
+    <div class="field-group">
+      <span id="githubHelp" style="display:none;">Your GitHub profile URL</span>
+      <div style="font-size:13px; color:#5a5d72; margin-bottom:4px;">GitHub <span style="color:#8a8da0;">(optional)</span></div>
+      <input type="url" aria-labelledby="githubHelp" placeholder="https://github.com/..." style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 21) Twitter profile: aria-labelledby pointing at distant span -->
+    <div class="field-group">
+      <span id="twitterHelp" style="position:absolute;left:-9999px;">Your Twitter profile URL</span>
+      <div style="font-size:13px; color:#5a5d72; margin-bottom:4px;">Twitter <span style="color:#8a8da0;">(optional)</span></div>
+      <input type="url" aria-labelledby="twitterHelp" placeholder="https://twitter.com/..." style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 22) Website: aria-label only -->
+    <div class="field-group">
+      <input type="url" aria-label="Personal website" placeholder="https://yoursite.com" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 23) How many years in current role: number min/max -->
+    <div class="field-group deep-label-wrapper">
+      <div class="inner-wrap">
+        <div class="core-wrap">
+          <label>Years in current role
+            <div style="margin-top:4px;">
+              <input type="number" min="0" max="20" step="1" placeholder="2" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 24) Referral name: deep wrapped label -->
+    <div class="field-group deep-label-wrapper">
+      <div class="inner-wrap"><div class="core-wrap"><label>Referral name
+        <div style="margin-top:4px;"><input type="text" placeholder="e.g. Jane Doe" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" /></div>
+      </label></div></div>
+    </div>
+
+    <!-- 25) Preferred pronouns: text input with aria-label -->
+    <div class="field-group">
+      <input type="text" aria-label="Preferred pronouns" placeholder="e.g. they/them" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 26) Willing to relocate: pill buttons (radio) -->
+    <div class="field-group">
+      <div style="font-size:14px; color:#1a1a2e; margin-bottom:6px;">Willing to relocate?</div>
+      <div class="pill-group" id="relocatePills" role="radiogroup" aria-label="Willing to relocate">
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="maybe">Maybe</div>
+      </div>
+      <input type="hidden" id="relocateValue" name="relocate" value="" />
+    </div>
+
+    <!-- 27) Authorized to work in US: pill buttons (radio) -->
+    <div class="field-group">
+      <div style="font-size:14px; color:#1a1a2e; margin-bottom:6px;">Authorized to work in US?</div>
+      <div class="pill-group" id="authPills" role="radiogroup" aria-label="Authorized to work in US">
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+        <div class="pill-btn" role="radio" aria-checked="false" tabindex="-1" data-value="need-sponsorship">Need sponsorship</div>
+      </div>
+      <input type="hidden" id="authValue" name="auth" value="" />
+    </div>
+
+    <!-- 28) Highest education level: combobox -->
+    <div class="field-group">
+      <label style="font-size:14px; color:#1a1a2e; display:block; margin-bottom:4px;">Highest education</label>
+      <div class="combobox-wrapper" id="educationCombobox">
+        <div class="combobox-trigger" role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox" aria-label="Education level" id="educationTrigger">
+          <span id="educationValue">Select level</span>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="combobox-list" role="listbox" id="educationList">
+          <div class="combobox-option" role="option" aria-selected="false" data-value="high-school">High School</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="associate">Associate</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="bachelor">Bachelor's</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="master">Master's</div>
+          <div class="combobox-option" role="option" aria-selected="false" data-value="phd">PhD</div>
+        </div>
+        <input type="hidden" id="educationValue" name="education" value="" />
+      </div>
+    </div>
+
+    <!-- 29) Skills: text input with aria-label -->
+    <div class="field-group">
+      <input type="text" aria-label="Skills (comma separated)" placeholder="e.g. Python, Go, Kubernetes" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <!-- 30) Certifications: text input with aria-label -->
+    <div class="field-group">
+      <input type="text" aria-label="Certifications" placeholder="e.g. AWS Solutions Architect" style="width:100%; padding:10px 14px; border:1px solid #e0e3eb; border-radius:8px; outline:none;" />
+    </div>
+
+    <hr />
+    <button type="button" class="submit-btn" onclick="handleSubmit()">Submit application</button>
+    <div id="formStatus" style="margin-top:12px; font-size:14px; color:#5a5d72;"></div>
+  </form>
+</div>
+
+<script>
+  (function() {
+    // Combobox logic
+    function initCombobox(triggerId, listId, valueSpanId, hiddenInputId) {
+      const trigger = document.getElementById(triggerId);
+      const list = document.getElementById(listId);
+      const valueSpan = document.getElementById(valueSpanId);
+      const hiddenInput = document.getElementById(hiddenInputId);
+      const options = list.querySelectorAll('.combobox-option');
+
+      function openCombobox() {
+        list.classList.add('open');
+        trigger.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeCombobox() {
+        list.classList.remove('open');
+        trigger.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+
+      function selectOption(opt) {
+        options.forEach(o => o.setAttribute('aria-selected', 'false'));
+        opt.setAttribute('aria-selected', 'true');
+        valueSpan.textContent = opt.textContent;
+        hiddenInput.value = opt.getAttribute('data-value');
+        closeCombobox();
+      }
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (list.classList.contains('open')) closeCombobox(); else openCombobox();
+      });
+
+      options.forEach(opt => {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          selectOption(this);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!document.getElementById(triggerId).parentElement.contains(e.target)) closeCombobox();
+      });
+    }
+
+    initCombobox('comboboxTrigger', 'comboboxList', 'comboboxValue', 'hearAbout');
+    initCombobox('educationTrigger', 'educationList', 'educationValue', 'educationValue');
+
+    // Pill buttons logic
+    function setupPillGroup(containerId, hiddenInputId, type) {
+      const container = document.getElementById(containerId);
+      const pills = container.querySelectorAll('.pill-btn');
+      const hidden = document.getElementById(hiddenInputId);
+      pills.forEach(pill => {
+        pill.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          if (type === 'radio') {
+            pills.forEach(p => { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); });
+            this.classList.add('selected');
+            this.setAttribute('aria-checked', 'true');
+            hidden.value = value;
+          } else if (type === 'checkbox') {
+            if (value === 'decline') {
+              pills.forEach(p => { p.classList.remove('selected'); p.setAttribute('aria-checked', 'false'); });
+              this.classList.add('selected');
+              this.setAttribute('aria-checked', 'true');
+              hidden.value = value;
+            } else {
+              this.classList.toggle('selected');
+              const isSelected = this.classList.contains('selected');
+              this.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+              const selected = [];
+              pills.forEach(p => {
+                if (p.classList.contains('selected') && p.getAttribute('data-value') !== 'decline') selected.push(p.getAttribute('data-value'));
+              });
+              hidden.value = selected.join(',');
+              pills.forEach(p => {
+                if (p.getAttribute('data-value') === 'decline' && selected.length > 0) {
+                  p.classList.remove('selected');
+                  p.setAttribute('aria-checked', 'false');
+                }
+              });
+            }
+          }
+        });
+        pill.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+    }
+
+    setupPillGroup('genderPills', 'genderValue', 'radio');
+    setupPillGroup('veteranPills', 'veteranValue', 'radio');
+    setupPillGroup('disabilityPills', 'disabilityValue', 'radio');
+    setupPillGroup('racePills', 'raceValue', 'checkbox');
+    setupPillGroup('relocatePills', 'relocateValue', 'radio');
+    setupPillGroup('authPills', 'authValue', 'radio');
+  })();
+
+  function handleSubmit() {
+    const status = document.getElementById('formStatus');
+    status.textContent = 'Application submitted (demo). In production, we would process your data.';
+    status.style.color = '#2e7d32';
+  }
+</script>
+</body>
+</html>

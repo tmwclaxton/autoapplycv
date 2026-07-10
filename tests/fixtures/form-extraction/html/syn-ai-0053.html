@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer Application - Ashby</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f3f5f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; color: #1a1a2e; }
+  .app-shell { max-width: 720px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 28px 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+  .subhead { color: #5f6368; font-size: 14px; margin-bottom: 24px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 20px 0 8px 0; color: #202124; letter-spacing: 0.01em; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 6px 4px; vertical-align: top; }
+  .field-wrap { min-height: 44px; position: relative; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; background: white; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid #1967d2; outline-offset: -1px; border-color: transparent; }
+  .decoy-field { background: #f1f3f4; color: #80868b; cursor: not-allowed; }
+  .decoy-field:disabled { opacity: 0.7; }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-pill { padding: 8px 20px; border: 1px solid #dadce0; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; color: #202124; }
+  .btn-pill.active { background: #1967d2; color: white; border-color: #1967d2; }
+  .btn-pill:focus { outline: 2px solid #1967d2; }
+  .custom-textbox { border: 1px solid #dadce0; border-radius: 6px; padding: 10px 12px; min-height: 60px; background: white; font-size: 14px; line-height: 1.5; }
+  .custom-textbox:focus { outline: 2px solid #1967d2; border-color: transparent; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; font-weight: 500; font-size: 14px; padding: 6px 0; color: #1967d2; }
+  .hidden-section { display: none; margin-top: 8px; }
+  .hidden-section.revealed { display: block; }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .checkbox-row input { width: auto; }
+  .radio-group { display: flex; gap: 16px; }
+  .radio-group label { display: flex; align-items: center; gap: 4px; font-size: 14px; }
+  .submit-btn { background: #1967d2; color: white; border: none; border-radius: 6px; padding: 12px 28px; font-size: 16px; font-weight: 500; margin-top: 20px; cursor: pointer; }
+  .submit-btn:hover { background: #1557b0; }
+  .note { color: #5f6368; font-size: 12px; margin-top: 4px; }
+  [role="group"] { border: none; padding: 0; }
+  .combobox-wrapper { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; background: white; cursor: pointer; text-align: left; }
+  .combobox-input:focus { outline: 2px solid #1967d2; border-color: transparent; }
+  .listbox { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #dadce0; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; display: none; max-height: 200px; overflow-y: auto; }
+  .listbox.open { display: block; }
+  .listbox-option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+  .listbox-option:hover, .listbox-option.highlighted { background: #f1f3f4; }
+  .listbox-option[aria-selected="true"] { background: #e8f0fe; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <h1>Senior Frontend Engineer</h1>
+  <div class="subhead">Ashby · Remote · Full-time · <span aria-hidden="true">ID: SF-2025-03</span></div>
+  
+  <!-- section: contact information with table layout for some fields -->
+  <h3>Contact information</h3>
+  <table>
+    <tr>
+      <td style="width:50%">
+        <div class="field-wrap">
+          <!-- aria-label-only field: full name -->
+          <input type="text" name="fullName" aria-label="Full name" placeholder="e.g. Jane Smith" autocomplete="name">
+        </div>
+      </td>
+      <td style="width:50%">
+        <div class="field-wrap">
+          <!-- aria-label-only field: email -->
+          <input type="email" name="email" aria-label="Email address" placeholder="you@company.com" autocomplete="email">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="field-wrap">
+          <!-- decoy disabled field + active duplicate below -->
+          <input type="text" class="decoy-field" value="Full name (disabled decoy)" disabled aria-label="Disabled name field (decoy)">
+          <div style="margin-top:4px">
+            <input type="text" name="fullName_alt" aria-label="Full name (active)" placeholder="Full name (active copy)">
+          </div>
+          <span class="note">Disabled field is a decoy — please fill the active field below.</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- custom div role=textbox (contenteditable) -->
+  <h3>Professional summary</h3>
+  <div class="custom-textbox" role="textbox" contenteditable="true" aria-label="Professional summary (custom text field)" aria-multiline="true" aria-placeholder="Briefly describe your experience..."></div>
+  <div class="note" style="margin-top:4px">Custom rich-text field – click to edit.</div>
+
+  <!-- custom combobox widget (replaces native select) -->
+  <h3>How did you hear about this role?</h3>
+  <div class="combobox-wrapper" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Referral source">
+    <button class="combobox-input" id="combobox-btn" aria-autocomplete="none" aria-controls="listbox-id" aria-activedescendant="" onclick="toggleListbox()" onkeydown="handleComboboxKeydown(event)">
+      <span id="combobox-value">— Select —</span>
+      <span style="float:right; opacity:0.6;">▼</span>
+    </button>
+    <ul class="listbox" id="listbox-id" role="listbox" aria-label="Referral source options">
+      <li role="option" class="listbox-option" data-value="" aria-selected="true" onclick="selectOption(this)">— Select —</li>
+      <li role="option" class="listbox-option" data-value="linkedin" aria-selected="false" onclick="selectOption(this)">LinkedIn</li>
+      <li role="option" class="listbox-option" data-value="ashby" aria-selected="false" onclick="selectOption(this)">Ashby</li>
+      <li role="option" class="listbox-option" data-value="referral" aria-selected="false" onclick="selectOption(this)">Employee referral</li>
+      <li role="option" class="listbox-option" data-value="other" aria-selected="false" onclick="selectOption(this)">Other</li>
+    </ul>
+    <input type="hidden" name="referralSource" value="" id="referralSourceField">
+  </div>
+  
+  <!-- duplicate-name-attrs: checkbox group with same name -->
+  <h3>Work authorization</h3>
+  <div role="group" aria-label="Work authorization">
+    <div class="checkbox-row"><input type="checkbox" name="workAuth[]" value="us"> <span>US Citizen</span></div>
+    <div class="checkbox-row"><input type="checkbox" name="workAuth[]" value="gc"> <span>Green Card</span></div>
+    <div class="checkbox-row"><input type="checkbox" name="workAuth[]" value="visa"> <span>Visa sponsorship needed</span></div>
+  </div>
+
+  <!-- Ashby yes/no buttons (pill buttons) -->
+  <h3>Willing to relocate?</h3>
+  <div class="btn-group" role="radiogroup" aria-label="Relocation willingness">
+    <button type="button" class="btn-pill" role="radio" aria-checked="false" data-value="yes" onclick="togglePill(this)">Yes</button>
+    <button type="button" class="btn-pill active" role="radio" aria-checked="true" data-value="no" onclick="togglePill(this)">No</button>
+  </div>
+  <input type="hidden" name="relocate" value="no" id="relocateField">
+
+  <!-- details/accordion with hidden fields -->
+  <details>
+    <summary>Additional details (click to expand)</summary>
+    <div style="margin-top:8px">
+      <h3>Links</h3>
+      <!-- aria-label-only inside details -->
+      <input type="url" name="portfolio" aria-label="Portfolio URL" placeholder="https://your-portfolio.com" style="margin-bottom:8px">
+      <input type="url" name="github" aria-label="GitHub profile" placeholder="https://github.com/yourhandle">
+      
+      <h3>Availability</h3>
+      <!-- role group for radios (not fieldset) -->
+      <div role="group" aria-label="Start date preference">
+        <div class="radio-group">
+          <label><input type="radio" name="startDate" value="immediate"> Immediate</label>
+          <label><input type="radio" name="startDate" value="2weeks"> 2 weeks</label>
+          <label><input type="radio" name="startDate" value="1month"> 1 month</label>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- duplicate-name-attrs: radio cluster for gender (demographics) -->
+  <h3>Demographics (optional)</h3>
+  <div role="group" aria-label="Gender">
+    <div class="radio-group">
+      <label><input type="radio" name="gender" value="male"> Male</label>
+      <label><input type="radio" name="gender" value="female"> Female</label>
+      <label><input type="radio" name="gender" value="nonbinary"> Non-binary</label>
+      <label><input type="radio" name="gender" value="prefer-not"> Prefer not to say</label>
+    </div>
+  </div>
+
+  <!-- another set of duplicate names: skills checkboxes -->
+  <h3>Skills</h3>
+  <div role="group" aria-label="Skills">
+    <div class="checkbox-row"><input type="checkbox" name="skills[]" value="react"> <span>React</span></div>
+    <div class="checkbox-row"><input type="checkbox" name="skills[]" value="typescript"> <span>TypeScript</span></div>
+    <div class="checkbox-row"><input type="checkbox" name="skills[]" value="node"> <span>Node.js</span></div>
+    <div class="checkbox-row"><input type="checkbox" name="skills[]" value="graphql"> <span>GraphQL</span></div>
+  </div>
+
+  <!-- additional table-layout for last fields -->
+  <h3>Salary expectations</h3>
+  <table>
+    <tr>
+      <td style="width:48%">
+        <div class="field-wrap">
+          <input type="number" name="salaryMin" aria-label="Minimum salary" placeholder="Min (USD)">
+        </div>
+      </td>
+      <td style="width:4%; text-align:center; padding-top:10px">–</td>
+      <td style="width:48%">
+        <div class="field-wrap">
+          <input type="number" name="salaryMax" aria-label="Maximum salary" placeholder="Max (USD)">
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- hidden conditional reveal section (simulated wizard step) -->
+  <div>
+    <h3>Do you have prior startup experience?</h3>
+    <div class="btn-group" role="radiogroup" aria-label="Startup experience">
+      <button type="button" class="btn-pill" role="radio" aria-checked="false" data-value="yes" onclick="togglePill(this); revealStartupDetails()">Yes</button>
+      <button type="button" class="btn-pill active" role="radio" aria-checked="true" data-value="no" onclick="togglePill(this); revealStartupDetails()">No</button>
+    </div>
+    <input type="hidden" name="startupExp" value="no" id="startupExpField">
+  </div>
+  <div id="startupDetails" class="hidden-section">
+    <h3>Startup details</h3>
+    <input type="text" name="startupName" aria-label="Startup name" placeholder="Company name">
+    <input type="text" name="startupRole" aria-label="Role at startup" placeholder="Your role" style="margin-top:6px">
+  </div>
+
+  <!-- glued span labels: inline label attached to input using aria-labelledby -->
+  <h3>LinkedIn profile</h3>
+  <div style="display:flex; align-items:center; border:1px solid #dadce0; border-radius:6px; overflow:hidden;">
+    <span id="linkedin-prefix" style="background:#f1f3f4; padding:8px 12px; font-size:14px; color:#5f6368; border-right:1px solid #dadce0;">linkedin.com/in/</span>
+    <input type="text" aria-labelledby="linkedin-prefix" placeholder="username" style="border:none; flex:1; padding:8px 12px; outline:none;">
+  </div>
+
+  <button type="submit" class="submit-btn" onclick="alert('Application submitted (demo)'); return false;">Submit application</button>
+  <div style="margin-top:12px; font-size:12px; color:#80868b;">Fields marked with * are required (demo). This form uses production-like ATS patterns.</div>
+</div>
+
+<script>
+  function togglePill(btn) {
+    var group = btn.closest('[role="radiogroup"]');
+    if (!group) return;
+    var pills = group.querySelectorAll('.btn-pill');
+    pills.forEach(function(p) { p.classList.remove('active'); p.setAttribute('aria-checked', 'false'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    // update hidden field if present
+    var hidden = group.parentElement.querySelector('input[type="hidden"]');
+    if (hidden) hidden.value = btn.getAttribute('data-value');
+  }
+
+  function revealStartupDetails() {
+    var activePill = document.querySelector('[role="radiogroup"][aria-label="Startup experience"] .btn-pill.active');
+    if (!activePill) return;
+    var val = activePill.getAttribute('data-value');
+    var section = document.getElementById('startupDetails');
+    var hidden = document.getElementById('startupExpField');
+    if (hidden) hidden.value = val || 'no';
+    if (val === 'yes') {
+      section.classList.add('revealed');
+    } else {
+      section.classList.remove('revealed');
+    }
+  }
+
+  // combobox functions
+  var listboxOpen = false;
+  function toggleListbox() {
+    var listbox = document.getElementById('listbox-id');
+    var combobox = document.querySelector('.combobox-wrapper');
+    if (listboxOpen) {
+      listbox.classList.remove('open');
+      combobox.setAttribute('aria-expanded', 'false');
+      listboxOpen = false;
+    } else {
+      listbox.classList.add('open');
+      combobox.setAttribute('aria-expanded', 'true');
+      listboxOpen = true;
+    }
+  }
+
+  function selectOption(option) {
+    var value = option.getAttribute('data-value');
+    var text = option.textContent;
+    document.getElementById('combobox-value').textContent = text;
+    document.getElementById('referralSourceField').value = value;
+    
+    // update aria-selected
+    var options = document.querySelectorAll('#listbox-id .listbox-option');
+    options.forEach(function(opt) { opt.setAttribute('aria-selected', 'false'); });
+    option.setAttribute('aria-selected', 'true');
+    
+    // close listbox
+    var listbox = document.getElementById('listbox-id');
+    var combobox = document.querySelector('.combobox-wrapper');
+    listbox.classList.remove('open');
+    combobox.setAttribute('aria-expanded', 'false');
+    listboxOpen = false;
+    
+    // update activedescendant
+    document.getElementById('combobox-btn').setAttribute('aria-activedescendant', option.id || '');
+  }
+
+  function handleComboboxKeydown(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleListbox();
+    } else if (event.key === 'Escape') {
+      var listbox = document.getElementById('listbox-id');
+      var combobox = document.querySelector('.combobox-wrapper');
+      listbox.classList.remove('open');
+      combobox.setAttribute('aria-expanded', 'false');
+      listboxOpen = false;
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      var options = document.querySelectorAll('#listbox-id .listbox-option');
+      var currentIndex = -1;
+      options.forEach(function(opt, idx) {
+        if (opt.classList.contains('highlighted')) currentIndex = idx;
+      });
+      var nextIndex = (currentIndex + 1) % options.length;
+      options.forEach(function(opt) { opt.classList.remove('highlighted'); });
+      options[nextIndex].classList.add('highlighted');
+      document.getElementById('combobox-btn').setAttribute('aria-activedescendant', options[nextIndex].id || '');
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      var options = document.querySelectorAll('#listbox-id .listbox-option');
+      var currentIndex = -1;
+      options.forEach(function(opt, idx) {
+        if (opt.classList.contains('highlighted')) currentIndex = idx;
+      });
+      var prevIndex = (currentIndex - 1 + options.length) % options.length;
+      options.forEach(function(opt) { opt.classList.remove('highlighted'); });
+      options[prevIndex].classList.add('highlighted');
+      document.getElementById('combobox-btn').setAttribute('aria-activedescendant', options[prevIndex].id || '');
+    }
+  }
+
+  // close listbox on outside click
+  document.addEventListener('click', function(event) {
+    var combobox = document.querySelector('.combobox-wrapper');
+    if (combobox && !combobox.contains(event.target)) {
+      var listbox = document.getElementById('listbox-id');
+      if (listbox && listbox.classList.contains('open')) {
+        listbox.classList.remove('open');
+        combobox.setAttribute('aria-expanded', 'false');
+        listboxOpen = false;
+      }
+    }
+  });
+
+  // initialize hidden fields and startup details on load
+  document.addEventListener('DOMContentLoaded', function() {
+    revealStartupDetails();
+    // initialise relocate field
+    var relocateHidden = document.getElementById('relocateField');
+    if (relocateHidden) {
+      var activeRelocate = document.querySelector('[aria-label="Relocation willingness"] .btn-pill.active');
+      if (activeRelocate) relocateHidden.value = activeRelocate.getAttribute('data-value');
+    }
+  });
+</script>
+</body>
+</html>

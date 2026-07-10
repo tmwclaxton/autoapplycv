@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>R&amp;D Product Developer, Mechanics - Glamox</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        Glamox and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics and marketing purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://career.glamox.com/cookie-policy">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, which is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://career.glamox.com/cookie-policy">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Marketing</label>
+
+    <p>These cookies are used to make advertising messages more relevant to you. In some cases, they also deliver additional functions on the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Meta</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0 header--horizontal-menu" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;">
+    <div class="
+    header__logo absolute @md:inset-0 @md:flex @md:items-center @md:justify-start w-full
+    @md:mx-6 @md:relative
+  ">
+          
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="ecad68292232abd362e520c3aa6ec551c" data-test="company-logo" data-turbo-permanent="true" href="https://career.glamox.com/">
+    <img alt="Glamox career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/574e502b-a167-4f6f-aaa5-a4e56df1a3ef/original.svg">
+</a>
+
+</div>
+
+<div class="flex-grow hidden @md:block"></div>
+
+<div class="flex items-center h-full flex-row-reverse">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2 header-menu--horizontal" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.glamox.com/">Careers</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.glamox.com/jobs">Job openings</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://career.glamox.com/pages/students-and-graduates">Students and Graduates</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://career.glamox.com/sso_login">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://career.glamox.com/connect/login">Log in to Connect</a>
+
+</div>  </div>
+</div>
+
+
+    <span class="header__separator hidden @md:block"></span>
+    <div class="absolute right-0 mx-2 @md:right-auto @md:relative">
+                <div data-controller="common--share" data-common--share-url-value="https://career.glamox.com/jobs/8005788-r-d-product-developer-mechanics?promotion=2082415-finn-no" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="You must select an option">
+
+
+  <button type="button" role="button" id="trigger-dropdown-e4dde8d6" aria-required="false" aria-label="Share page" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-e4dde8d6" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Share page</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-e4dde8d6" role="menu" aria-labelledby="trigger-dropdown-e4dde8d6" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://career.glamox.com/jobs/8005788-r-d-product-developer-mechanics?promotion=2082415-finn-no" href="mailto:?subject=Check out this job at Glamox&amp;body=I found this job and thought I should share it with you:%0D%0A%0D%0Ahttps://career.glamox.com/jobs/8005788-r-d-product-developer-mechanics?promotion=2082415-finn-no">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+    </div>
+</div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="8005788" data-careersite--jobs--form-overlay-job-application-url-value="https://career.glamox.com/jobs/8005788-r-d-product-developer-mechanics/applications/new?promotion=2082415-finn-no" id="main-content">
+  
+        
+
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] @lg:min-h-[650px] block-cover--with-background-8005788 relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Marine, Offshore &amp; Wind</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Ålesund</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Hybrid
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">R&amp;D Product Developer, Mechanics</h1>
+    
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Apply for this job</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay " style="background-color: #000000; opacity: 50%"></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Scroll to content">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <h4><strong>Introduction</strong></h4><p><span>Are you motivated by developing robust mechanical solutions for innovative lighting products used in demanding marine, offshore, and harsh environments?</span></p><p><span>You'll design mechanical solutions that endure some of the harshest conditions on the planet — corrosive saltwater environments, explosive atmospheres, and the relentless vibration of offshore platforms. What you build will be installed on vessels and structures across the globe.</span></p><div><p><span>Glamox Marine, Offshore &amp; Wind is looking for a Product Developer Mechanics to join our dedicated R&amp;D team. This is a key role where your technical expertise directly influences product quality, performance, and reliability.</span></p></div><h4><strong>What you'll do</strong></h4><p><span>You will be involved in the design and development of mechanical solutions for advanced lighting products used in marine, offshore, and defense applications — collaborating closely with electronics, software, optical, and production engineers in a forward-thinking cross-functional environment.</span></p><p><span>WHAT YOU'LL WORK ON:</span></p><div><p><span>— Design and develop mechanical solutions for next-generation lighting products</span></p></div><div><p><span>— Create and refine 3D models, drawings, and technical product documentation</span></p></div><div><p><span>— Participate in system integration to ensure seamless interaction between mechanical, electronic, optical, and software components</span></p></div><div><p><span>— Plan, support, and document mechanical testing and product verification activities</span></p></div><div><p><span>— Contribute to design for manufacturability, robustness, and long-term reliability of installation-friendly products</span></p></div><div><p><span>— Contribute to mechanical development across other product categories when needed</span></p></div><h4><strong>Who you are</strong></h4><p><span>WHAT WE'RE LOOKING FOR:</span></p><div><p><span>Qualifications</span></p></div><div><p><span>— Bachelor's degree in mechanical engineering, product design, or a related field</span></p></div><div><p><span>— 3–5 years of relevant experience in mechanical product development</span></p></div><div><p><span>— Experience in 3D CAD design software — SolidWorks or similar tools</span></p></div><div><p><span>— Good understanding of materials, manufacturing methods, and assembly processes</span></p></div><div><p><span>— Hands-on attitude with regard to prototyping and building functional mock-ups</span></p></div><div><p><span>— Ability to collaborate closely with electronics, software, optical, production, and laboratory engineers</span></p></div><div><p><span>— Experience with lighting products, thermal design, harsh environments, ATEX, or marine/offshore applications — considered a strong advantage</span></p></div><div><p><span>— Strong communication skills in Norwegian and/or English</span></p></div><div><p></p></div><div><p><span>Personal attributes</span></p></div><div><p><span>— A team player with a collaborative mindset</span></p></div><div><p><span>— Strong analytical and problem-solving skills</span></p></div><div><p><span>— Curious, driven, and eager to learn new technologies</span></p></div><div><p><span>— Thrives in a dynamic and innovative environment</span></p></div><div><p><span>— Takes pride in delivering robust, high-quality solutions</span></p></div><h4><strong>Why join Glamox</strong></h4><p>We offer an end-to-end product development involvement — from prototyping and testing to industrialization and launch. We are an international, purpose-driven company operating in demanding, high-stakes industries, and we have strong focus on innovation, quality, and modern technologies</p><div><p>We offer flexible working hours and the option to work remotely for a genuine work-life balance with competitive compensation and benefits. We have a supportive and inclusive work culture, were there are plenty of opportunties for continuous learning and professional development.</p></div><h5><strong>Questions?</strong></h5><p>Contact <strong>Frode Kolgrov</strong> — Team Lead, MOW R&amp;D</p><div><p><a target="_blank" href="mailto:frode.kolgrov@glamox.com">frode.kolgrov@glamox.com</a></p></div><p></p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Department</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Marine, Offshore &amp; Wind
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Role</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Product
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Locations</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Ålesund
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Remote status</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Hybrid
+
+</dd>
+
+
+          <dt class="w-full font-semibold md:w-half">Employment type</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Full-time
+
+</dd>
+
+
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-56658651" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #28001e;" class="block--locations-map   bg-company-primary text-company-primary" data-section-route="section" data-section-model="56658651" data-section-name="locations-map" data-section-label="Locations map">
+    <div id="locations-map" class="text-lg locations-map" data-controller="blocks--locations-map" data-blocks--locations-map-selected-location-value="4816132" data-blocks--locations-map-locations-value="[{&quot;id&quot;:4816132,&quot;lat&quot;:&quot;62.45953169999999&quot;,&quot;long&quot;:&quot;6.349355399999999&quot;}]">
+  <template data-blocks--locations-map-target="largeMarkerIcon">
+    <i class="text-3xl filter drop-shadow fas fa-location-dot text-company-link"></i>
+  </template>
+
+  <template data-blocks--locations-map-target="smallMarkerIcon">
+    <i class="filter drop-shadow fas fa-circle-small fa-xs text-company-link"></i>
+  </template>
+
+  <div class="flex flex-col @lg:flex-row">
+    <div class="
+        flex flex-col items-center justify-start w-full py-20 @lg:w-half
+        bg-company-secondary block-px
+      ">
+        <h2 class="mb-5 text-3xl text-center @md:text-4xl font-company-header text-company-secondary">Ålesund</h2>
+
+      <turbo-frame id="location_details" src="https://career.glamox.com/locations/map_details?editor=false&amp;location_id=4816132" loading="lazy" data-blocks--locations-map-target="details"></turbo-frame>
+    </div>
+
+    <div class="w-full @lg:w-half h-[320px] @md:h-[450px] z-career-locations-map" data-blocks--locations-map-target="map"></div>
+</div></div>
+</section>
+
+  
+  <section id="section-56646207" style="--block-base-text-color: 37, 37, 37;--block-base-link-color: 15, 59, 127;--block-base-background-color: 255, 255, 255;--block-base-highlight-color: 15, 59, 127;--block-background-color: #ffffff;--block-title-color: #252525;--block-text-color: 37, 37, 37;--block-link-color: #0f3b7f;--block-image-background: #28001e;" class="block--video   block-padding bg-block-preset-custom bg-block-background text-block-text" data-section-route="section" data-section-model="56646207" data-section-name="video" data-section-label="Video">
+    <div class="text-lg company-links">
+  <div class="block-px">
+    <div class="mx-auto mb-10 block-max-w--md">
+        <h2 class="text-4xl text-center text-block-title font-company-header">More than just a job</h2>
+
+    </div>
+  </div>
+
+    <div class="@lg:px-5">
+  <div class="w-full mx-auto block-max-w--lg">
+    <div class="flex items-start @lg:gap-x-4 @lg:items-center">
+        <div class="relative flex-col flex-shrink-0 max-w-[96%] snap-center px-2 @lg:px-0 @lg:flex-row @lg:w-full @lg:max-w-[60%] @xl:max-w-[52%] aspect-video h-auto hidden @lg:flex">
+          <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0">
+                  <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/c0e9c880-0880-46a0-9d31-7a998b39e17d/original.webp?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/c0e9c880-0880-46a0-9d31-7a998b39e17d/original.webp" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="sECoEImeDe0"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                rounded absolute bg-white bottom-3 ltr:left-3 rtl:right-3
+                backdrop-blur-[21px] px-3 py-2 bg-opacity-[1%] text-white
+                text-shadow-strong z-above-video-poster
+              ">
+                <h3 class="mb-1 text-lg font-semibold">Glamox</h3>
+
+            </div>
+</div>
+      <div class="
+          @lg:max-h-[345px] @lg:gap-y-4 snap snap-x snap-mandatory pb-8
+          @lg:max-w-[48%] w-full rounded flex @lg:flex-col @lg:h-full
+          @lg:overflow-y-auto @lg:no-snap overflow-x-auto @lg:overflow-x-hidden
+          @lg:bg-primary-text-background @lg:py-3 px-3
+        ">
+          <div class="flex relative flex-col flex-shrink-0 max-w-[96%] @lg:max-w-full snap-center @xl:px-0 px-2 @xl:gap-x-3 @xl:flex-row w-full @lg:hidden">
+            <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0 @xl:max-w-[260px]">
+                    <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/c0e9c880-0880-46a0-9d31-7a998b39e17d/original.webp?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/c0e9c880-0880-46a0-9d31-7a998b39e17d/original.webp" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="sECoEImeDe0"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                px-2 mt-6 @xl:px-0 @lg:mt-2 @xl:mt-0 @lg:flex @lg:flex-col
+                @lg:justify-center @lg:w-full
+              ">
+                <h3 class="mb-1 text-lg font-semibold">Glamox</h3>
+
+            </div>
+</div>          <div class="flex relative flex-col flex-shrink-0 max-w-[96%] @lg:max-w-full snap-center @xl:px-0 px-2 @xl:gap-x-3 @xl:flex-row w-full">
+            <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0 @xl:max-w-[260px]">
+                    <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/b9eca746-311c-4b41-b136-73979418b08f/original.jpeg?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/b9eca746-311c-4b41-b136-73979418b08f/original.jpeg" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="BbBtR5f2cS4"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                px-2 mt-6 @xl:px-0 @lg:mt-2 @xl:mt-0 @lg:flex @lg:flex-col
+                @lg:justify-center @lg:w-full
+              ">
+                <h3 class="mb-1 text-lg font-semibold">PBS</h3>
+
+            </div>
+</div>          <div class="flex relative flex-col flex-shrink-0 max-w-[96%] @lg:max-w-full snap-center @xl:px-0 px-2 @xl:gap-x-3 @xl:flex-row w-full">
+            <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0 @xl:max-w-[260px]">
+                    <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/b89e91dd-6b02-4285-b524-6e6415da99fd/original.jpeg?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/b89e91dd-6b02-4285-b524-6e6415da99fd/original.jpeg" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="M_eklwigWeE"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                px-2 mt-6 @xl:px-0 @lg:mt-2 @xl:mt-0 @lg:flex @lg:flex-col
+                @lg:justify-center @lg:w-full
+              ">
+                <h3 class="mb-1 text-lg font-semibold">MOW</h3>
+
+            </div>
+</div>          <div class="flex relative flex-col flex-shrink-0 max-w-[96%] @lg:max-w-full snap-center @xl:px-0 px-2 @xl:gap-x-3 @xl:flex-row w-full">
+            <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0 @xl:max-w-[260px]">
+                    <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/cd054731-568f-49aa-be9f-74bc410c0ab3/original.png?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/cd054731-568f-49aa-be9f-74bc410c0ab3/original.png" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="BKN9qCg82IM"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                px-2 mt-6 @xl:px-0 @lg:mt-2 @xl:mt-0 @lg:flex @lg:flex-col
+                @lg:justify-center @lg:w-full
+              ">
+                <h3 class="mb-1 text-lg font-semibold">Our values</h3>
+
+            </div>
+</div>          <div class="flex relative flex-col flex-shrink-0 max-w-[96%] @lg:max-w-full snap-center @xl:px-0 px-2 @xl:gap-x-3 @xl:flex-row w-full">
+            <div data-controller="common--video-player-modal" data-common--video-player-modal-in-editor-value="false" class="w-full h-auto relative aspect-video @lg:flex-shrink-0 @xl:max-w-[260px]">
+                    <button class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100" aria-label="Watch the film" data-action="click->common--video-player-modal#toggleModal">
+    <figure>
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/444ba8da-5c61-48e8-ab3a-2c2f88adc679/original.jpeg?outputFormat=webp" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/landscape_16_9-v3/image_uploads/444ba8da-5c61-48e8-ab3a-2c2f88adc679/original.jpeg" alt="" loading="lazy" class="object-cover z-video-poster-image w-full h-full rounded overflow-hidden">
+</picture>
+  
+</figure>
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</button>
+
+
+  <template data-common--video-player-modal-target="template">
+    <div inert="inert" class="bg-white fixed top-0 left-0 z-modal flex items-center justify-center w-full h-full transform transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="mx-2 @sm:mx-25 max-h-screen h-auto w-full @lg:min-w-screen-md">
+        <button type="button" aria-label="Close modal" class="fixed size-16 top-4 right-4 flex justify-center text-3xl p-4 rounded-full text-gray-700 cursor-pointer @sm:absolute hover:opacity-75" data-close="true">
+          <i class="fal fa-xmark"></i>
+</button>
+        <div class="
+            max-w-screen-xl max-h-screen mx-auto my-8 overflow-hidden
+            transition duration-200 delay-100 scale-50 rounded
+            shadow-form-strong
+          " data-player-container="">
+          <div class="w-full h-full relative rounded cursor-pointer aspect-video" data-controller="common--video-player" data-common--video-player-aspect-ratio-value="16:9" data-common--video-player-initialize-value="true" data-common--video-player-thumbnail-image-value="false" data-common--video-player-is-external-value="true" data-common--video-player-no-controls-value="false" data-common--video-player-autoplay-value="false" data-common--video-player-hidden-class="!hidden" data-common--video-player-in-editor-value="false" data-action="stop-all-video-players@window->common--video-player#stopVideo">
+  <div class="group w-full absolute inset-0 rounded no-company-style z-video-poster appearance-none @lg:bg-opacity-100 pointer-events-none" data-common--video-player-target="thumbnail">
+
+    <span class="absolute inset-0 transition-opacity duration-150 bg-black z-video-poster-bg rounded opacity-0 group-hover:opacity-15"></span>
+    <span class="
+        absolute flex items-center justify-center size-16 text-xl text-black
+        transition-opacity duration-150 transform -translate-x-8
+        -translate-y-8 bg-white rounded-full shadow-form
+        group-hover:opacity-100 opacity-90 left-half top-half
+        z-video-poster-button
+      ">
+      <i class="fas fa-play fa-fw"></i>
+    </span>
+</div>
+
+    <div class="w-full" data-common--video-player-target="player" data-plyr-provider="youtube" data-plyr-embed-id="EDiIialrrgk"></div>
+
+    <template data-common--video-player-target="controlsTemplate">
+      <div class="flex flex-col w-full plyr__controls pointer-events-none">
+        <div class="flex items-center w-full">
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Play" data-plyr="play">
+            <i class="fas fa-pause icon--pressed fa-fw" role="presentation"></i>
+            <i class="fas fa-play icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <div class="ml-2 mr-auto plyr__time plyr__time--current pointer-events-auto" aria-label="Current time">
+            00:00
+</div>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Mute" data-plyr="mute">
+            <i class="fas fa-volume-xmark icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-volume icon--not-pressed fa-fw" role="presentation"></i>
+</button>
+          <button type="button" class="plyr__control pointer-events-auto" aria-label="Full-screen" data-plyr="fullscreen">
+            <i class="fas fa-compress icon--pressed fa-fw" role="presentation"></i>
+
+            <i class="fas fa-expand icon--not-pressed fa-fw" role="presentation"></i>
+</button>        </div>
+
+        <div class="w-full mt-2 plyr__progress pointer-events-auto">
+          <input type="range" min="0" max="100" step="0.01" value="0" class="plyr__control pointer-events-auto" aria-label="Seek" data-plyr="seek">
+
+          <progress class="plyr__progress__buffer" min="0" max="100" value="0">
+            % buffered
+</progress>        </div>
+      </div>
+    </template>
+</div>
+        </div>
+</div></div>  </template>
+</div>
+            <div class="
+                px-2 mt-6 @xl:px-0 @lg:mt-2 @xl:mt-0 @lg:flex @lg:flex-col
+                @lg:justify-center @lg:w-full
+              ">
+                <h3 class="mb-1 text-lg font-semibold">HCL</h3>
+
+            </div>
+</div>      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</section>
+
+  
+  <section id="section-56646204" style="--block-base-text-color: 0, 0, 0;--block-base-link-color: 225, 29, 34;--block-base-background-color: 240, 245, 245;--block-base-highlight-color: var(--company-color);--block-background-color: #f0f5f5;--block-title-color: #000000;--block-text-color: 0, 0, 0;--block-link-color: #e11d22;--block-image-background: #28001e;" class="block--faq   block-padding bg-block-preset-custom bg-block-background text-block-text" data-section-route="section" data-section-model="56646204" data-section-sub-type="ContentBlock::Faq" data-section-name="faq" data-section-label="FAQ">
+    <div class="px-5 text-lg">
+  <div class="mx-auto max-w-750">
+      <h2 class="mb-6 text-4xl text-center font-company-header text-block-title">FAQ</h2>
+
+    <ul role="list">
+        <li class="border-b border-block-base-text border-opacity-15 last:border-b-0">
+  <details class="faq-disclosure group">
+    <summary class="relative block w-full py-4 px-2 cursor-pointer list-none hover:bg-block-hover [&amp;::-webkit-details-marker]:hidden focus-visible:company-colors-dependant-outline" data-allow-click="true">
+      <h3 class="flex items-center justify-between w-full font-medium leading-snug gap-x-4">
+          <span>Can I send an unsolicited application?</span>
+
+        <span class="transition-transform duration-500 motion-reduce:transition-none group-open:-rotate-45">
+          <i class="size-6 fas fa-plus"></i>
+</span></h3></summary>
+    <div class="overflow-hidden min-h-0 min-w-0">
+      <div class="prose pb-4 pe-12 ps-2 text-md max-w-none company-links"><p>We are always looking for new colleagues! Stay up to date on future jobs, or tell us why you would like to work with us by clicking <a href="https://glamox.teamtailor.com/connect" target="_blank" rel="noopener noreferrer">here</a> to connect! Here you can also subscribe to positions.</p></div>
+</div></details></li>
+        <li class="border-b border-block-base-text border-opacity-15 last:border-b-0">
+  <details class="faq-disclosure group">
+    <summary class="relative block w-full py-4 px-2 cursor-pointer list-none hover:bg-block-hover [&amp;::-webkit-details-marker]:hidden focus-visible:company-colors-dependant-outline" data-allow-click="true">
+      <h3 class="flex items-center justify-between w-full font-medium leading-snug gap-x-4">
+          <span>When will I receive an answer to my application?
+</span>
+
+        <span class="transition-transform duration-500 motion-reduce:transition-none group-open:-rotate-45">
+          <i class="size-6 fas fa-plus"></i>
+</span></h3></summary>
+    <div class="overflow-hidden min-h-0 min-w-0">
+      <div class="prose pb-4 pe-12 ps-2 text-md max-w-none company-links"><p>Each job advertisement states when you can expect a response. It depends a bit on the type of job, and we process applications continuously. Sometimes it takes time to find the right match. Contact the recruiter if you think it has been a long time.</p></div>
+</div></details></li>
+        <li class="border-b border-block-base-text border-opacity-15 last:border-b-0">
+  <details class="faq-disclosure group">
+    <summary class="relative block w-full py-4 px-2 cursor-pointer list-none hover:bg-block-hover [&amp;::-webkit-details-marker]:hidden focus-visible:company-colors-dependant-outline" data-allow-click="true">
+      <h3 class="flex items-center justify-between w-full font-medium leading-snug gap-x-4">
+          <span>​What does the recruitment process look like?
+</span>
+
+        <span class="transition-transform duration-500 motion-reduce:transition-none group-open:-rotate-45">
+          <i class="size-6 fas fa-plus"></i>
+</span></h3></summary>
+    <div class="overflow-hidden min-h-0 min-w-0">
+      <div class="prose pb-4 pe-12 ps-2 text-md max-w-none company-links"><p>It varies depending on the role. Normally, we form the recruitment process as follows: application, telephone interview, first-time interview, second-time interview, and tests.</p></div>
+</div></details></li>
+        <li class="border-b border-block-base-text border-opacity-15 last:border-b-0">
+  <details class="faq-disclosure group">
+    <summary class="relative block w-full py-4 px-2 cursor-pointer list-none hover:bg-block-hover [&amp;::-webkit-details-marker]:hidden focus-visible:company-colors-dependant-outline" data-allow-click="true">
+      <h3 class="flex items-center justify-between w-full font-medium leading-snug gap-x-4">
+          <span>Can I apply for more than one role?</span>
+
+        <span class="transition-transform duration-500 motion-reduce:transition-none group-open:-rotate-45">
+          <i class="size-6 fas fa-plus"></i>
+</span></h3></summary>
+    <div class="overflow-hidden min-h-0 min-w-0">
+      <div class="prose pb-4 pe-12 ps-2 text-md max-w-none company-links"><p>Yes, you’re welcome to apply for multiple roles if your experience matches the requirements. We encourage you to tailor your application to each position.</p></div>
+</div></details></li>
+        <li class="border-b border-block-base-text border-opacity-15 last:border-b-0">
+  <details class="faq-disclosure group">
+    <summary class="relative block w-full py-4 px-2 cursor-pointer list-none hover:bg-block-hover [&amp;::-webkit-details-marker]:hidden focus-visible:company-colors-dependant-outline" data-allow-click="true">
+      <h3 class="flex items-center justify-between w-full font-medium leading-snug gap-x-4">
+          <span>Do you offer remote or hybrid work?</span>
+
+        <span class="transition-transform duration-500 motion-reduce:transition-none group-open:-rotate-45">
+          <i class="size-6 fas fa-plus"></i>
+</span></h3></summary>
+    <div class="overflow-hidden min-h-0 min-w-0">
+      <div class="prose pb-4 pe-12 ps-2 text-md max-w-none company-links"><p>Work arrangements vary by role and location. Many of our positions offer flexible or hybrid working options. Please check the job description for details.</p></div>
+</div></details></li>
+    </ul>
+  </div>
+</div>
+
+</section>
+
+  
+  
+  <section id="section-56646200" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #28001e;" class="block--numbers   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-model="56646200" data-section-name="numbers" data-section-label="Numbers">
+    <div class="w-full text-lg block-px font-company-body" style="--number-text-color: rgb(var(--block-base-highlight-color));">
+    <div class="mx-auto mb-12 block-max-w--md">
+        <h2 class="text-4xl text-center font-company-header text-block-title">Glamox in numbers</h2>
+
+    </div>
+
+  <dl class="grid grid-cols-1 gap-[48px] mx-auto block-max-w--lg w-full @md:grid-cols-3">
+      <div class="mb-8 w-full flex flex-col justify-start" data-controller="common--number" data-common--number-animated-class="opacity-0 animate__animated animate__faster" data-common--number-faded-in-class="animate__fadeInUp" data-common--number-number-value="17" data-common--number-index-value="0" data-common--number-abbreviated-value="false" data-common--number-animated-value="true" data-common--number-language-value="en-GB">
+  <dd class="flex items-center justify-center w-full text-[105px] font-bold text-center">
+    <span class="text-number w-full leading-none text-block-highlight w-full" data-common--number-target="number"></span>
+</dd>
+    <dt class="mt-8 text-xl text-center">Countries </dt>
+</div>
+      <div class="mb-8 w-full flex flex-col justify-start" data-controller="common--number" data-common--number-animated-class="opacity-0 animate__animated animate__faster" data-common--number-faded-in-class="animate__fadeInUp" data-common--number-number-value="2000" data-common--number-index-value="1" data-common--number-abbreviated-value="false" data-common--number-animated-value="true" data-common--number-language-value="en-GB">
+  <dd class="flex items-center justify-center w-full text-[105px] font-bold text-center">
+    <span class="text-number w-full leading-none text-block-highlight w-full" data-common--number-target="number"></span>
+</dd>
+    <dt class="mt-8 text-xl text-center">Team members </dt>
+</div>
+      <div class="mb-8 w-full flex flex-col justify-start" data-controller="common--number" data-common--number-animated-class="opacity-0 animate__animated animate__faster" data-common--number-faded-in-class="animate__fadeInUp" data-common--number-number-value="80" data-common--number-index-value="2" data-common--number-abbreviated-value="false" data-common--number-animated-value="true" data-common--number-language-value="en-GB">
+  <dd class="flex items-center justify-center w-full text-[105px] font-bold text-center">
+    <span class="text-number w-full leading-none text-block-highlight w-full" data-common--number-target="number"></span>
+</dd>
+    <dt class="mt-8 text-xl text-center">Years on the market</dt>
+</div>
+</dl></div>
+</section>
+
+
+
+    
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Apply for this job</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Marine, Offshore &amp; Wind</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>Ålesund</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Hybrid
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">R&amp;D Product Developer, Mechanics</h1>
+    
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://career.glamox.com/jobs/8005788-r-d-product-developer-mechanics/applications/new?promotion=2082415-finn-no">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Loading application form
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Close modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-padding">
+  <div class="w-full mx-auto @sm:flex block-max-w--lg">
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-menu">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Career site
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.glamox.com/">Careers</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.glamox.com/jobs">Job openings</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://career.glamox.com/pages/students-and-graduates">Students and Graduates</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/data-privacy">Data &amp; privacy</a>
+
+</li>      <li class="w-full text-md leading-tight">
+                    <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Manage cookies" class="company-link font-company-body text-unset py-1">Manage cookies</button>
+
+</li>  </ul>
+</div>
+
+
+
+    <div class="flex flex-col items-center justify-center grow shrink-0 text-base @sm:items-end @sm:justify-end"></div></div></div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="/sso_login">Employee login</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Candidate Connect login</a>
+
+        </div>
+      </div>
+</footer></div>
+
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e0424dfb78c6bf67af74749b49b101e45" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=career.glamox.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Applicant tracking system</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="career.glamox.com">
+</div>
+</form>
+</body>
+</html>

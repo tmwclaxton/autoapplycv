@@ -1,0 +1,71 @@
+{
+  "id": "web-www-apec-fr-en-2025-la-candidature-spontanee-se-reinvente-adoptez-le",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "candidat recruteur",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Candidat Recruteur"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "source",
+        "name": "source",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "adresse email identifiant",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "emailid",
+        "name": "emailid",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Identifiant",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mot de passe",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "password",
+        "name": "password",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Mot de passe",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

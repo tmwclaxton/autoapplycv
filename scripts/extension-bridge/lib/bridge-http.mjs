@@ -127,3 +127,42 @@ export async function clearActiveBridgeWindow(options = {}) {
         body: JSON.stringify(body),
     }, { baseUrl: options.baseUrl });
 }
+
+/**
+ * Pin bridge commands to a scrape tab without requiring Chrome focus.
+ *
+ * @param {number} tabId
+ * @param {{ instanceId?: string | null, baseUrl?: string }} [options]
+ */
+export async function setActiveBridgeTab(tabId, options = {}) {
+    const instanceId = resolveBridgeInstanceId(options.instanceId);
+    const body = { tabId };
+
+    if (instanceId) {
+        body.instanceId = instanceId;
+    }
+
+    return bridgeFetch('/active-tab', {
+        method: 'POST',
+        body: JSON.stringify(body),
+    }, { baseUrl: options.baseUrl });
+}
+
+/**
+ * Release the bridge active-tab override after bulk capture.
+ *
+ * @param {{ instanceId?: string | null, baseUrl?: string }} [options]
+ */
+export async function clearActiveBridgeTab(options = {}) {
+    const instanceId = resolveBridgeInstanceId(options.instanceId);
+    const body = {};
+
+    if (instanceId) {
+        body.instanceId = instanceId;
+    }
+
+    return bridgeFetch('/active-tab', {
+        method: 'DELETE',
+        body: JSON.stringify(body),
+    }, { baseUrl: options.baseUrl });
+}

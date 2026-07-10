@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Comment créer un formulaire de candidature en WordPress</title>
+</head>
+<body>
+<form>
+<header id="header" class="site-header" role="banner">
+		<div class="header-inner">
+			<div class="logo site-branding">
+				<a href="https://wpforms.com/fr/" title="WPForms">
+					<img src="https://wpforms.com/wp-content/themes/wpf-theme/images/svg/logo-wpf.svg" alt="Logo WPForms" title="Logo WPForms" class="site-logo" width="265" height="70">
+				</a>
+			</div>
+			<nav id="navigation" class="site-navigation" role="navigation">
+				<button id="navigation-toggle" aria-controls="navigation" aria-label="Activer le menu" aria-expanded="false">
+					<span class="line"></span>
+					<span class="line"></span>
+				</button>
+				<ul id="menu-primary" class="wpf-mega-menu"><li id="menu-item-2924949" class="wpf-features-mega menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-2924949"><a href="https://wpforms.com/fr/features/">Fonctionnalités</a><button class="menu-item menu-item-mobile-submenu-trigger" aria-expanded="false"><span class="sr-only">Activer le menu</span></button><section class="wpf-mega-menu-panel"><div class="inner-wrapper"><ul class="sub-menu nested-menu-level-0">	<li id="menu-item-3227928" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227928"><a href="/fr/features/">FONCTIONNALITÉS PRINCIPALES</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227929" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227929"><a href="https://wpforms.com/fr/features/drag-drop-online-form-builder/">Constructeur par glisser-déposer</a>		</li><li id="menu-item-3227930" class="wpf-badge-ai menu-item menu-item-type-post_type menu-item-object-features menu-item-3227930"><a href="https://wpforms.com/fr/features/wpforms-ai/">IA WPForms</a>		</li><li id="menu-item-3227931" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227931"><a href="https://wpforms.com/fr/features/form-templates/">2&nbsp;000+&nbsp;modèles</a>		</li><li id="menu-item-3227932" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227932"><a href="https://wpforms.com/fr/features/conditional-logic/">Logique conditionnelle</a>		</li><li id="menu-item-3227933" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227933"><a href="https://wpforms.com/fr/features/entry-management/">Gestion des entrées</a>		</li><li id="menu-item-3227934" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227934"><a href="/fr/features/stripe-payments/">Formulaires de paiement</a>		</li><li id="menu-item-3227935" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227935"><a href="https://wpforms.com/fr/features/file-uploads/">Téléchargements de fichiers</a>	</li></ul>
+	</li><li id="menu-item-3227936" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227936"><a href="/fr/features/">OUTILS DE CONVERSION</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227937" class="wpf-badge-new menu-item menu-item-type-post_type menu-item-object-features menu-item-3227937"><a href="https://wpforms.com/fr/features/lead-forms-addon/">Formulaires de prospects</a>		</li><li id="menu-item-3227938" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227938"><a href="https://wpforms.com/fr/features/conversational-forms-addon/">Formulaires conversationnels</a>		</li><li id="menu-item-3227939" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227939"><a href="https://wpforms.com/fr/features/form-abandonment/">Abandon de formulaire</a>		</li><li id="menu-item-3227940" class="wpf-badge-new menu-item menu-item-type-post_type menu-item-object-features menu-item-3227940"><a href="https://wpforms.com/fr/features/calculations-addon/">Calculs</a>		</li><li id="menu-item-3227941" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227941"><a href="https://wpforms.com/fr/features/form-pages-addon/">Pages de destination de formulaire</a>		</li><li id="menu-item-3227942" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227942"><a href="https://wpforms.com/fr/features/multi-page-forms/">Formulaires multipages</a>		</li><li id="menu-item-3227943" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227943"><a href="/fr/features/form-locker-addon/">Planification de formulaire</a>	</li></ul>
+	</li><li id="menu-item-3227944" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227944"><a href="/fr/features/">FONCTIONNALITÉS AVANCÉES</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227945" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227945"><a href="https://wpforms.com/fr/features/surveys-and-polls-addon/">Sondages et enquêtes</a>		</li><li id="menu-item-3227946" class="wpf-badge-new menu-item menu-item-type-post_type menu-item-object-features menu-item-3227946"><a href="https://wpforms.com/fr/features/quiz-addon/">Générateur de quiz</a>		</li><li id="menu-item-3227947" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227947"><a href="https://wpforms.com/fr/features/digital-signatures/">Signatures numériques</a>		</li><li id="menu-item-3227948" class="wpf-badge-new menu-item menu-item-type-post_type menu-item-object-features menu-item-3227948"><a href="https://wpforms.com/fr/features/pdf-addon/">Générateur de PDF</a>		</li><li id="menu-item-3227949" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227949"><a href="https://wpforms.com/fr/features/save-and-resume-addon/">Enregistrer et reprendre</a>		</li><li id="menu-item-3227950" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227950"><a href="https://wpforms.com/fr/features/offline-forms-addon/">Formulaires hors ligne</a>		</li><li id="menu-item-3227951" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-3227951"><a href="https://wpforms.com/fr/features/user-registration/">Inscription d'utilisateur</a>	</li></ul>
+</li><li class="view-all"><a href="/fr/features/">Voir toutes les fonctionnalités</a></li></ul>
+<div class="wpf-mega-inserted-content wpf-features-mega">
+<h3 class="panel-title">Nouveautés</h3>
+
+<ul class="menu-posts-list">
+			<li>
+			<a href="https://wpforms.com/fr/introducing-sendgrid-marketing-addon/">
+								<figure class="image">
+					<picture class="attachment-196x103 size-196x103 wp-post-image" decoding="async" title="Présentation de l'intégration marketing SendGrid pour WPForms - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-768x403.png.webp 768w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-790x415.png.webp 790w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0.png.webp 1250w" sizes="(max-width: 196px) 100vw, 196px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTYiIGhlaWdodD0iMTAzIiB2aWV3Qm94PSIwIDAgMTk2IDEwMyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" width="196" height="103" data-src="https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-300x157.png" alt="Bannière d'annonce : Présentation de l'intégration Marketing SendGrid pour WPForms, avec mascotte à gauche et logo bleu mosaïque à droite." decoding="async" data-srcset="https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-300x157.png 300w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-768x403.png 768w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0-790x415.png 790w, https://wpforms.com/wp-content/uploads/2026/06/6a3a36f4e9dc0.png 1250w" data-sizes="(max-width: 196px) 100vw, 196px">
+</picture>
+				</figure>
+								<div class="content">
+					<span class="title">Présentation de l'intégration Marketing SendGrid pour WPForms</span>
+					<span class="view-all link-arrow">Lire la suite</span>
+				</div>
+			</a>
+		</li>
+			<li>
+			<a href="https://wpforms.com/fr/announcing-write-support-abilities-api/">
+								<figure class="image">
+					<picture class="attachment-196x103 size-196x103 wp-post-image" decoding="async" title="WPForms permet désormais aux assistants IA de créer et de modifier vos formulaires - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-768x403.png.webp 768w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-790x415.png.webp 790w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f.png.webp 1250w" sizes="(max-width: 196px) 100vw, 196px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTYiIGhlaWdodD0iMTAzIiB2aWV3Qm94PSIwIDAgMTk2IDEwMyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" width="196" height="103" data-src="https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-300x157.png" alt="WPForms permet désormais aux assistants IA de créer et de modifier vos formulaires" decoding="async" data-srcset="https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-300x157.png 300w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-768x403.png 768w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f-790x415.png 790w, https://wpforms.com/wp-content/uploads/2026/06/6a2a4fe8ab23f.png 1250w" data-sizes="(max-width: 196px) 100vw, 196px">
+</picture>
+				</figure>
+								<div class="content">
+					<span class="title">WPForms permet désormais aux assistants IA de créer et de modifier vos formulaires</span>
+					<span class="view-all link-arrow">Lire la suite</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+
+	<a href="https://wpforms.com/fr/category/announcement/" class="view-all link-arrow">Voir toutes les mises à jour</a>
+</div></div></section></li><li id="menu-item-2924966" class="wpf-solutions-mega menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2924966"><a href="https://wpforms.com/fr/solutions/">Solutions</a><button class="menu-item menu-item-mobile-submenu-trigger" aria-expanded="false"><span class="sr-only">Activer le menu</span></button><section class="wpf-mega-menu-panel"><div class="inner-wrapper"><ul class="sub-menu nested-menu-level-0">	<li id="menu-item-3227952" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227952"><a href="/fr/solutions/">PAR SECTEUR</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227953" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227953"><a href="/templates/category/health-wellness/">Santé et Médecine</a>		</li><li id="menu-item-3227954" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227954"><a href="/templates/category/education/">Éducation et Écoles</a>		</li><li id="menu-item-3227955" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227955"><a href="/templates/category/nonprofit/">Organismes à but non lucratif et Associations</a>		</li><li id="menu-item-3227956" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227956"><a href="/templates/?s=real+estate">Immobilier</a>		</li><li id="menu-item-3227957" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227957"><a href="/fr/categories/integrations/ecommerce/">eCommerce et Vente au détail</a>		</li><li id="menu-item-3227958" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227958"><a href="/fr/solutions/business-operations/">Services Professionnels</a>	</li></ul>
+	</li><li id="menu-item-3227959" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227959"><a href="/fr/solutions/">PAR CAS D'USAGE</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227961" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227961"><a href="/fr/features/stripe-payments/">Formulaires de Paiement et de Commande</a>		</li><li id="menu-item-3227962" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227962"><a href="/fr/features/user-registration/">Formulaires d'Inscription</a>		</li><li id="menu-item-3227963" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227963"><a href="/fr/features/surveys-and-polls-addon/">Formulaires de Sondage et de Feedback</a>		</li><li id="menu-item-3227964" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227964"><a href="/fr/features/lead-forms-addon/">Formulaires de Génération de Prospects</a>		</li><li id="menu-item-3227965" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227965"><a href="/templates/?s=application">Formulaires de Candidature</a>		</li><li id="menu-item-3227966" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227966"><a href="/templates/category/registrations/">Formulaires de Réservation</a>	</li></ul>
+	</li><li id="menu-item-3227967" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3227967"><a href="/fr/solutions/">PAR RÔLE</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-3227968" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227968"><a href="/fr/solutions/marketing-sales/">Marketeurs</a>		</li><li id="menu-item-3227969" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227969"><a href="/fr/solutions/it/">Professionnels de l'informatique</a>		</li><li id="menu-item-3227970" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227970"><a href="/fr/solutions/customer-service/">Service client</a>		</li><li id="menu-item-3227971" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227971"><a href="/fr/solutions/finance/">Finance</a>		</li><li id="menu-item-3227972" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3227972"><a href="/fr/solutions/human-resources/">Ressources Humaines</a>	</li></ul>
+</li><li class="view-all"><a href="/templates/">Parcourir plus de 2 000 modèles</a></li></ul>
+</div></section></li><li id="menu-item-2925000" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2925000"><a href="https://wpforms.com/fr/pricing/">Tarifs</a></li><li id="menu-item-2925001" class="wpf-integrations-mega menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2925001"><a href="https://wpforms.com/fr/integrations/">Intégrations</a><button class="menu-item menu-item-mobile-submenu-trigger" aria-expanded="false"><span class="sr-only">Activer le menu</span></button><section class="wpf-mega-menu-panel"><div class="inner-wrapper"><ul class="sub-menu nested-menu-level-0">	<li id="menu-item-2925002" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2925002"><a href="https://wpforms.com/fr/integrations/">Toutes les intégrations</a><ul class="sub-menu nested-menu-level-1">		<li id="menu-item-2925003" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925003"><a href="/fr/categories/integrations/marketing/">Marketing</a>		</li><li id="menu-item-2925004" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925004"><a href="/fr/categories/integrations/payments/">Paiements</a>		</li><li id="menu-item-2925005" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925005"><a href="/fr/categories/integrations/productivity/">Productivité</a>		</li><li id="menu-item-2925006" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925006"><a href="/fr/categories/integrations/ecommerce/">eCommerce</a>		</li><li id="menu-item-2925007" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925007"><a href="/fr/categories/integrations/events/">Événements</a>		</li><li id="menu-item-2925008" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925008"><a href="/fr/categories/integrations/social-media/">Médias sociaux</a>		</li><li id="menu-item-2925009" class="view-all menu-item menu-item-type-custom menu-item-object-custom menu-item-2925009"><a href="/fr/integrations/">Voir tout</a>	</li></ul>
+</li></ul>
+<div class="wpf-mega-inserted-content wpf-integrations-mega">
+<h3 class="panel-title">Intégrations en vedette</h3>
+
+<ul class="integrations-posts">
+			<li class="integration-post">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/stripe-payments/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/stripe-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/stripe-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>Stripe</span>
+			</a>
+		</li>
+			<li class="integration-post">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/paypal-commerce/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/paypal-commerce-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>PayPal</span>
+			</a>
+		</li>
+			<li class="integration-post wpf-badge-new">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/square-addon/">
+									<figure class="integration-post-featured">
+						<picture>
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/07/square-icon-100x100.png.webp 100w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-300x300.png.webp 300w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-150x150.png.webp 150w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-128x128.png.webp 128w" sizes="(max-width: 38px) 100vw, 38px">
+<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/square-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/square-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/square-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/square-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">
+</picture>
+					</figure>
+								<span>Square</span>
+			</a>
+		</li>
+			<li class="integration-post">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/mailchimp-addon/">
+									<figure class="integration-post-featured">
+						<picture>
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-100x100.png.webp 100w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-128x128.png.webp 128w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon.png.webp 512w" sizes="(max-width: 38px) 100vw, 38px">
+<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/mailchimp-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">
+</picture>
+					</figure>
+								<span>Mailchimp</span>
+			</a>
+		</li>
+			<li class="integration-post">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/zapier-addon/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/zapier-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/zapier-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>Zapier</span>
+			</a>
+		</li>
+			<li class="integration-post wpf-badge-new">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/hubspot-addon/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/hubspot-icon-1.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>HubSpot</span>
+			</a>
+		</li>
+			<li class="integration-post">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/google-sheets-addon/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/google-sheets-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>Google Sheets</span>
+			</a>
+		</li>
+			<li class="integration-post wpf-badge-new">
+			<a class="integration-post-title" href="https://wpforms.com/fr/features/salesforce-addon/">
+									<figure class="integration-post-featured">
+						<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-100x100.png" alt="" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-100x100.png 100w, https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-300x300.png 300w, https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-150x150.png 150w, https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-128x128.png 128w, https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon-256x256.png 256w, https://wpforms.com/wp-content/uploads/2024/07/salesforce-icon.png 512w" data-sizes="(max-width: 38px) 100vw, 38px">					</figure>
+								<span>Salesforce</span>
+			</a>
+		</li>
+	</ul>
+</div></div></section></li><li id="menu-item-2925010" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2925010"><a href="https://wpforms.com/fr/user-reviews/">Témoignages</a></li><li id="menu-item-2925011" class="wpf-resources-mega menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2925011"><a href="https://wpforms.com/fr/blog/">Ressources</a><button class="menu-item menu-item-mobile-submenu-trigger" aria-expanded="false"><span class="sr-only">Activer le menu</span></button><section class="wpf-mega-menu-panel"><div class="inner-wrapper"><ul class="sub-menu nested-menu-level-0">	<li id="menu-item-2925012" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925012"><a href="/fr/docs/">Documentation</a><span class="description">Guides étape par étape sur tout ce qui concerne WPForms.</span>	</li><li id="menu-item-2925013" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925013"><a href="/fr/blog/">Blog</a><span class="description">Nos derniers conseils, tutoriels et aperçus.</span>	</li><li id="menu-item-2925014" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925014"><a href="/fr/developers/">Développeurs</a><span class="description">Ressources développeur approfondies et guides avancés.</span>	</li><li id="menu-item-2925015" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925015"><a href="/templates/">Modèles de formulaires</a><span class="description">Notre galerie de modèles de formulaires pré-faits et personnalisables.</span>	</li><li id="menu-item-2925016" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2925016"><a href="https://facebook.com/groups/wpformsvip/">Groupe Facebook</a><span class="description">Support communautaire et mises à jour exclusives.</span></li></ul>
+<div class="wpf-mega-inserted-content wpf-resources-mega">
+<h3 class="panel-title">Articles de blog en vedette</h3>
+<ul class="menu-posts-list">
+				<li>
+				<a href="https://wpforms.com/fr/how-to-generate-branded-pdfs-with-wpforms/">
+											<figure class="image">
+							<picture title="695c3c4a57137png - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-768x403.png.webp 768w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-790x415.png.webp 790w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137.png.webp 1250w" sizes="(max-width: 196px) 100vw, 196px">
+<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-300x157.png" alt="Image vedette pour l'article de blog vedette 1" data-srcset="https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-300x157.png 300w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-768x403.png 768w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137-790x415.png 790w, https://wpforms.com/wp-content/uploads/2026/01/695c3c4a57137.png 1250w" data-sizes="(max-width: 196px) 100vw, 196px">
+</picture>
+						</figure>
+										<div class="content">
+						<span class="title">Comment générer des PDF de marque avec WPForms</span>
+						<span class="view-all link-arrow">Lire la suite</span>
+					</div>
+				</a>
+			</li>
+									<li>
+				<a href="https://wpforms.com/fr/the-best-tools-for-building-online-surveys/">
+											<figure class="image">
+							<picture title="meilleurs-outils-pour-créer-des-sondages-en-ligne_b - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-768x403.png.webp 768w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-790x415.png.webp 790w" sizes="(max-width: 196px) 100vw, 196px">
+<img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-300x157.png" alt="Image vedette pour l'article de blog vedette 2" data-srcset="https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-300x157.png 300w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-768x403.png 768w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b-790x415.png 790w, https://wpforms.com/wp-content/uploads/2025/09/best-tools-for-building-online-surveys_b.png 1250w" data-sizes="(max-width: 196px) 100vw, 196px">
+</picture>
+						</figure>
+										<div class="content">
+						<span class="title">Les 5 meilleurs outils pour créer des sondages en ligne</span>
+						<span class="view-all link-arrow">Lire la suite</span>
+					</div>
+				</a>
+			</li>
+						</ul>
+</div></div></section></li><li id="menu-item-2925017" class="menu-login menu-item menu-item-type-post_type menu-item-object-page menu-item-2925017"><a href="https://wpforms.com/fr/login/">Se connecter</a></li><li id="menu-item-2925018" class="menu-get-wpforms menu-item menu-item-type-post_type menu-item-object-page menu-item-2925018"><a href="https://wpforms.com/fr/pricing/">Obtenir WPForms</a></li></ul>			</nav>
+		</div>
+	</header>
+
+	<div id="content" class="site-inner">
+<div class="intro-header">
+	<div class="wrapper">
+		<p class="title">Blog WPForms</p>
+					<div class="description">Tutoriels, astuces et ressources WordPress pour vous aider à développer votre entreprise</div>
+			</div>
+</div>
+
+<div class="container">
+	<div id="primary" class="site-content">
+		<main id="main" class="site-main" role="main">
+
+					<article class="post-20717 post type-post status-publish format-standard has-post-thumbnail hentry category-wordpress-tutorials tag-application tag-conditional-logic tag-file-upload tag-job-application-form tag-repeater-field">
+				<div class="entry-image"><picture class="attachment-blog size-blog wp-post-image wpf-no-lazy wp-post-image" decoding="async" fetchpriority="high" title="Créer un formulaire de candidature en WordPress - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-625x328.png.webp 625w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-768x403.png.webp 768w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress.png.webp 1250w" sizes="(max-width: 625px) 100vw, 625px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MjUiIGhlaWdodD0iMzI4IiB2aWV3Qm94PSIwIDAgNjI1IDMyOCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" width="625" height="328" data-src="https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-625x328.png" alt="Créer un formulaire de candidature en WordPress" decoding="async" fetchpriority="high" data-srcset="https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-625x328.png 625w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-300x157.png 300w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress-768x403.png 768w, https://wpforms.com/wp-content/uploads/2024/06/Create-a-Job-Application-Form-in-WordPress.png 1250w" data-sizes="(max-width: 625px) 100vw, 625px">
+</picture>
+</div>				<header class="entry-header">
+										<h1 class="entry-title">Comment créer un formulaire de candidature en WordPress</h1>
+					
+	<div class="entry-meta">
+
+		<span class="post-date">Mis à jour : <time datetime="2026-06-15T23:58:32-04:00">15 juin 2026, 23:58</time></span>
+
+				<a href="#post-disclosure-section" class="post-disclosure-link">Divulgation du lecteur</a>
+		
+			<div class="wpf-author-meta">
+			<div class="wpf-author-card" itemtype="https://schema.org/Person" itemscope="itemscope" itemprop="author">
+		<a class="author-image" href="https://wpforms.com/fr/author/hamza-shahid/" aria-label="Author image"><img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" alt="Hamza Shahid" data-src="https://secure.gravatar.com/avatar/e2335e0d989dc43f8107fc25177b370d674355d2c47777637a70d68cf8296df7?s=44&amp;d=mm&amp;r=g" data-srcset="https://secure.gravatar.com/avatar/e2335e0d989dc43f8107fc25177b370d674355d2c47777637a70d68cf8296df7?s=88&amp;d=mm&amp;r=g 2x" class="avatar avatar-44 photo" height="44" decoding="async"></a>
+		<div>Par <a title="Voir tous les articles de Hamza Shahid" href="https://wpforms.com/fr/author/hamza-shahid/" rel="author" itemprop="url">
+				<span class="wpf-author-name" itemprop="name">Hamza Shahid</span>
+			</a></div>
+
+		<p class="author-job-title">Rédacteur</p>
+
+	</div>
+				<div class="wpf-author-card" itemtype="https://schema.org/Person" itemscope="itemscope" itemprop="author">
+		<a class="author-image" href="https://wpforms.com/fr/author/syed-balkhi/" aria-label="Author image"><img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" alt="Syed Balkhi" data-src="https://secure.gravatar.com/avatar/5c6a49f4f13fc4cdabc66ce7b1caec12755fe628d90039c0e112654f80e50193?s=44&amp;d=mm&amp;r=g" data-srcset="https://secure.gravatar.com/avatar/5c6a49f4f13fc4cdabc66ce7b1caec12755fe628d90039c0e112654f80e50193?s=88&amp;d=mm&amp;r=g 2x" class="avatar avatar-44 photo" height="44" decoding="async"></a>
+		<div><span class="wpf-reviewer">
+					
+					VÉRIFIÉ
+				</span>
+						Par <a title="Voir tous les articles de Syed Balkhi" href="https://wpforms.com/fr/author/syed-balkhi/" rel="author" itemprop="url">
+				<span class="wpf-author-name" itemprop="name">Syed Balkhi</span>
+			</a></div>
+
+		<p class="author-job-title">Cofondateur</p>
+
+	</div>
+		</div>
+		</div>
+
+					</header>
+
+				<div class="entry-content">
+							<div class="entry-tools">
+		<div class="shared-counts-wrap before_content style-block"><a href="https://www.facebook.com/sharer/sharer.php?u=https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/&amp;display=popup&amp;ref=plugin&amp;src=share_button" title="Partager sur Facebook" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button facebook shared-counts-no-count" data-postid="20717" data-social-network="Facebook" data-social-action="Share" data-social-target="https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"></span><span class="shared-counts-label">Facebook</span></span></a><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/" title="Partager sur LinkedIn" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button linkedin shared-counts-no-count" data-postid="20717" data-social-network="LinkedIn" data-social-action="Share" data-social-target="https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"></span><span class="shared-counts-label">LinkedIn</span></span></a><a href="https://twitter.com/share?url=https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/&amp;text=How%20to%20Create%20a%20Job%20Application%20Form%20in%20WordPress&amp;via=easywpforms" title="Partager sur Twitter" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button twitter shared-counts-no-count" data-postid="20717" data-social-network="Twitter" data-social-action="Tweet" data-social-target="https://wpforms.com/how-to-create-a-job-application-form-in-wordpress/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"></span><span class="shared-counts-label">Tweeter</span></span></a></div><div class="wpf-ai-summarize wpf-ai-summarize--menu">
+				<button type="button" class="wpf-ai-menu-trigger" aria-expanded="false">Résumer l'article</button>
+				<div class="wpf-ai-menu-dropdown" hidden=""><button type="button" class="wpf-ai-menu-item" data-ai-action="quick" data-ai-summarize-provider="internal" data-post-id="20717" data-length="medium" aria-label="Résumé rapide">Résumé rapide</button><a class="wpf-ai-menu-item wpf-ai-summarize-chatgpt" href="https://chat.openai.com/?q=Visit%20this%20URL%20https%3A%2F%2Fwpforms.com%2Fhow-to-create-a-job-application-form-in-wordpress%2F%20and%20summarize%20this%20post%20for%20me." target="_blank" rel="noopener noreferrer nofollow" data-ai-summarize-provider="chatgpt" aria-label="ChatGPT">ChatGPT</a><a class="wpf-ai-menu-item wpf-ai-summarize-perplexity" href="https://www.perplexity.ai/search/new?q=Visit%20this%20URL%20https%3A%2F%2Fwpforms.com%2Fhow-to-create-a-job-application-form-in-wordpress%2F%20and%20summarize%20this%20post%20for%20me." target="_blank" rel="noopener noreferrer nofollow" data-ai-summarize-provider="perplexity" aria-label="Perplexity">Perplexity</a></div>
+			</div>
+			<div class="wpf-ai-summary-output" aria-live="polite" hidden="">
+				<h4 class="wpf-ai-summary-title">Résumé IA</h4>
+			</div>
+			<div class="wpf-ai-byline-buttons"><button type="button" class="button wpf-ai-summarize-button wpf-ai-copy-llm" data-ai-action="copy-llm" data-md-url="https://wpforms.com/how-to-create-a-job-application-form-in-wordpress.md" aria-label="Copier pour LLM">Copier pour LLM</button><a class="button wpf-ai-summarize-button wpf-ai-view-markdown" href="https://wpforms.com/fr/how-to-create-a-job-application-form-in-wordpress.md" target="_blank" rel="noopener noreferrer nofollow" aria-label="View Markdown">Afficher Markdown</a></div></div>
+<p>Un formulaire de candidature WordPress est le moyen le plus simple de collecter des CV, des lettres de motivation et les détails des candidats en un seul endroit organisé, au lieu de fouiller dans une boîte de réception désordonnée.</p>
+
+
+
+<p>WPForms est le meilleur plugin WordPress pour cette tâche. Il vous fournit un modèle de formulaire de candidature prêt à l'emploi, des champs glisser-déposer et des téléchargements de fichiers pour les CV, le tout sans nécessiter de codage.</p>
+
+
+
+<p>Dans ce guide, je vais vous montrer comment créer un formulaire de candidature WordPress étape par étape, afin que vous soyez prêt à commencer à collecter des candidatures en quelques minutes.</p>
+
+
+
+<p style="text-align:center;"><a href="https://wpforms.com/fr/pricing/" class="button button-blog-cta" data-vars-ga-action="click" data-vars-ga-label="Create Your Job Application Form Now">Créez votre formulaire de candidature maintenant</a></p>
+
+
+
+<h3 class="wp-block-heading" id="making-a-job-application-form-online-video-tutorial">Créer un formulaire de candidature en ligne [Tutoriel vidéo]</h3>
+
+
+
+<p>J'utiliserai le meilleur plugin de candidature WordPress pour vous montrer comment créer un formulaire de candidature simple.</p>
+
+
+
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+
+</div></figure>
+
+
+
+<p>Vous préférez lire ? Les étapes écrites ci-dessous incluent les informations les plus à jour.</p>
+
+
+
+<h2 class="wp-block-heading" id="how-to-create-a-job-application-form-in-wordpress">Comment créer un formulaire de candidature en WordPress</h2>
+
+
+
+<p>Suivez ces cinq étapes pour créer, personnaliser et publier votre formulaire.</p>
+
+
+
+<div id="toc_container" class="no_bullets"><p class="toc_title">Dans cet article</p><ul class="toc_list"><li><a href="#1_Install_and_Activate_the_WPForms_Plugin">1. Installer et activer le plugin WPForms</a></li><li><a href="#2_Select_a_Job_Application_Form_Template">2. Sélectionner un modèle de formulaire de candidature</a></li><li><a href="#3_Customize_Your_Job_Application_Form">3. Personnaliser votre formulaire de candidature</a></li><li><a href="#4_Configure_the_Notification_Confirmation_Message">4. Configurer le message de notification et de confirmation</a></li><li><a href="#5_Add_Your_Job_Application_Form_to_Your_Website">5. Ajouter votre formulaire de candidature à votre site web</a></li><li><a href="#FAQ_More_Questions_about_Job_Application_Forms">FAQ : Questions supplémentaires sur les formulaires de candidature</a></li></ul></div>
+
+
+
+
+<h3 class="wp-block-heading" id="1-install-and-activate-the-wpforms-plugin"><span id="1_Install_and_Activate_the_WPForms_Plugin">1. Installer et activer le plugin WPForms</span></h3>
+
+
+
+<p>En tant que l'un des meilleurs plugins de création de formulaires, WPForms vous permet de créer des formulaires de candidature qui sont esthétiques et entièrement personnalisés pour répondre à vos besoins et objectifs spécifiques. Pour commencer, vous pouvez acheter une licence <a href="https://wpforms.com/fr/pricing/">WPForms Pro</a>.</p>
+
+
+
+<p>La version payante de WPForms offre une multitude de fonctionnalités utiles, y compris la possibilité de créer des formulaires de candidature, des calculs et des intégrations pratiques avec Google Sheets et d'autres plateformes marketing.</p>
+
+
+
+<figure class="wp-block-image size-full"><a href="https://wpforms.com/fr/pricing/"><picture title="WPForms-Page-Tarifs - WPForms" decoding="async" class="wp-image-2931825">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page.png.webp 1600w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-300x147.png.webp 300w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-1024x500.png.webp 1024w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-768x375.png.webp 768w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-1536x751.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9Ijc4MiIgdmlld0JveD0iMCAwIDE2MDAgNzgyIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="782" data-src="https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page.png" alt="La page de tarification de WPForms." data-srcset="https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page.png 1600w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-300x147.png 300w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-1024x500.png 1024w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-768x375.png 768w, https://wpforms.com/wp-content/uploads/2024/08/WPForms-Pricing-Page-1536x751.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</a></figure>
+
+
+
+<p>Ces fonctionnalités font de WPForms la <a href="https://wpforms.com/fr/how-wpforms-can-help-streamline-your-hiring-process/">solution idéale pour rationaliser votre processus d'embauche</a>.</p>
+
+
+
+<p>Après avoir acheté la licence, vous devriez procéder à l'installation de WPForms sur votre site. Si vous avez besoin d'aide pour installer un plugin sur votre site, vous pouvez consulter ce guide étape par étape sur <a href="https://wpforms.com/fr/docs/install-wpforms-plugin/">comment installer un plugin WordPress</a>.</p>
+
+
+
+<p style="text-align:center;"><a href="https://wpforms.com/fr/pricing/" class="button button-blog-cta" data-vars-ga-action="click" data-vars-ga-label="Upgrade to WPForms Pro Now!">Passez à WPForms Pro maintenant !</a></p>
+
+
+
+<h3 class="wp-block-heading" id="2-select-a-job-application-form-template"><span id="2_Select_a_Job_Application_Form_Template">2. Sélectionner un modèle de formulaire de candidature</span></h3>
+
+
+
+<p>Une fois le plugin installé, vous pouvez facilement créer votre formulaire de candidature. Depuis votre tableau de bord WordPress, naviguez simplement vers <strong>WPForms</strong> et cliquez sur le bouton <strong>Ajouter un nouveau</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="Ajouter un nouveau formulaire - WPForms" decoding="async" class="wp-image-2861276">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form.png.webp 1600w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-300x149.png.webp 300w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-1024x509.png.webp 1024w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-768x382.png.webp 768w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-1536x764.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9Ijc5NiIgdmlld0JveD0iMCAwIDE2MDAgNzk2Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="796" data-src="https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form.png" alt="wpforms ajouter nouveau formulaire" data-srcset="https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form.png 1600w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-300x149.png 300w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-1024x509.png 1024w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-768x382.png 768w, https://wpforms.com/wp-content/uploads/2018/07/wpforms-add-new-form-1536x764.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Donnez un nom à votre formulaire, puis faites défiler vers le bas pour sélectionner un modèle. Pour votre commodité, WPForms inclut <a href="https://wpforms.com/templates/">plus de 2 100 modèles de formulaires</a> parmi lesquels choisir, y compris des <a href="https://wpforms.com/fr/business-form-templates-for-wordpress/">modèles pour les formulaires d'entreprise</a> et les candidatures, tels que :</p>
+
+
+
+<ul class="wp-block-list">
+<li><a href="https://wpforms.com/templates/simple-job-application-form-template/">Formulaire de candidature simple</a></li>
+
+
+
+<li><a href="https://wpforms.com/templates/simple-employment-application-form-template/">Formulaire d'emploi simple</a></li>
+
+
+
+<li><a href="https://wpforms.com/templates/restaurant-application-form-template/">Formulaire de candidature pour restaurant</a></li>
+
+
+
+<li><a href="https://wpforms.com/templates/job-application-upload-form-template/">Formulaire de candidature d'emploi</a></li>
+</ul>
+
+
+
+<p>Pour simplifier les choses dans ce tutoriel, je nommerai mon formulaire "Formulaire de candidature" et je sélectionnerai le <a href="https://wpforms.com/templates/job-application-form-template/">modèle de formulaire de candidature</a> en cliquant sur le bouton <strong>Utiliser le modèle</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="modèle de formulaire de candidature - WPForms" decoding="async" class="wp-image-2886754">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/job-application-template.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-300x268.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-1024x915.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-768x686.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-1536x1372.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjE0MjkiIHZpZXdCb3g9IjAgMCAxNjAwIDE0MjkiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" decoding="async" width="1600" height="1429" data-src="https://wpforms.com/wp-content/uploads/2019/12/job-application-template.png" alt="modèle de formulaire de candidature" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/job-application-template.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-300x268.png 300w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-1024x915.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-768x686.png 768w, https://wpforms.com/wp-content/uploads/2019/12/job-application-template-1536x1372.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Après avoir sélectionné le modèle, il se chargera dans votre constructeur de formulaires en quelques instants. Remarquez qu'il inclut déjà presque tous les champs dont vous aurez généralement besoin dans votre candidature ? C'est l'avantage d'utiliser un modèle WPForms.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="aperçu du formulaire de candidature - WPForms" decoding="async" class="wp-image-2886755">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-300x245.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-1024x835.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-768x626.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-1536x1252.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjEzMDQiIHZpZXdCb3g9IjAgMCAxNjAwIDEzMDQiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" decoding="async" width="1600" height="1304" data-src="https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview.png" alt="aperçu du formulaire de candidature" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-300x245.png 300w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-1024x835.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-768x626.png 768w, https://wpforms.com/wp-content/uploads/2019/12/job-application-form-preview-1536x1252.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Le meilleur, c'est que même si vous souhaitez ajouter, supprimer ou modifier quoi que ce soit dans ce modèle, vous pouvez facilement le faire avec le constructeur de formulaires par glisser-déposer. Je vais vous montrer comment à l'étape suivante.</p>
+
+
+
+<h2 class="wp-block-heading" id="rather-build-your-form-with-ai">Préférez-vous créer votre formulaire avec l'IA ?</h2>
+
+
+
+<p>WPForms AI rend encore plus facile la création rapide de formulaires. Dites simplement quelques mots sur le type de formulaire que vous souhaitez et l'IA s'occupera du reste. Conversez pour apporter les modifications nécessaires jusqu'à ce que vous obteniez exactement ce dont vous avez besoin dans votre formulaire. <a href="https://wpforms.com/fr/docs/generating-forms-with-wpforms-ai/">En savoir plus sur les formulaires IA</a>.</p>
+
+
+
+<h3 class="wp-block-heading" id="3-customize-your-job-application-form"><span id="3_Customize_Your_Job_Application_Form">3. Personnaliser votre formulaire de candidature</span></h3>
+
+
+
+<p>WPForms permet de créer très facilement un formulaire à partir de zéro ou de personnaliser un formulaire existant. Certaines personnalisations simples incluent la spécification des types de fichiers, l'ajout d'un champ Répéteur et un aperçu des entrées.</p>
+
+
+
+<h4 class="wp-block-heading" id="add-a-repeater-field-to-your-form">Ajouter un champ Répéteur à votre formulaire</h4>
+
+
+
+<p>Si vous souhaitez recueillir plus de détails auprès des candidats qui postulent à votre emploi, voici quelques idées de champs de formulaire supplémentaires que vous pourriez vouloir ajouter à l'aide du constructeur de formulaires par glisser-déposer et du champ <strong>Répéteur</strong> spécifiquement :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Organisation</strong> — Vous pouvez utiliser un champ de texte d'une seule ligne pour que les gens spécifient l'organisation pour laquelle ils ont déjà travaillé.</li>
+
+
+
+<li><strong>Titre du poste</strong> — Ajoutez un champ de titre de poste et rendez-le répétable pour voir les nombreuses expériences de vos candidats.</li>
+
+
+
+<li><strong>Date de début</strong> — Un champ de sélection de date est idéal pour collecter des informations sur les dates d'embauche pour le poste particulier.</li>
+
+
+
+<li><strong>Date de fin —</strong> Ceci vous donnera une idée de la durée pendant laquelle le candidat a travaillé dans l'organisation.</li>
+</ul>
+
+
+
+<p>Ces champs devraient déjà être disponibles dans le modèle, mais vous devez simplement les ajouter à un champ Répéteur. Faites simplement glisser le champ <strong>Répéteur</strong> du côté gauche de l'écran vers la droite.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="Champ Répéteur WPForms - WPForms" decoding="async" class="wp-image-2875447">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1.png.webp 1600w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-300x174.png.webp 300w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-1024x593.png.webp 1024w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-768x444.png.webp 768w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-1536x889.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkyNiIgdmlld0JveD0iMCAwIDE2MDAgOTI2Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="926" data-src="https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1.png" alt="WPF_ChampRépéteur" data-srcset="https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1.png 1600w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-300x174.png 300w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-1024x593.png 1024w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-768x444.png 768w, https://wpforms.com/wp-content/uploads/2024/06/WPF_RepeaterField-1-1536x889.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Une fois le champ Répéteur inséré, cliquez dessus pour afficher les <strong>Options de champ</strong> associées à gauche. Pour l'<strong>Affichage</strong>, je recommanderais de choisir l'option <strong>Blocs</strong> pour faciliter l'ajout de plusieurs ensembles de données dans une seule ligne.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="blocs répéteurs - WPForms" decoding="async" class="wp-image-2886786">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-300x143.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-1024x488.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-768x366.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-1536x732.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9Ijc2MyIgdmlld0JveD0iMCAwIDE2MDAgNzYzIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="763" data-src="https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks.png" alt="blocs répéteurs" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-300x143.png 300w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-1024x488.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-768x366.png 768w, https://wpforms.com/wp-content/uploads/2019/12/repeater-blocks-1536x732.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Concernant la <strong>Mise en page</strong>, je sélectionnerai la mise en page à quatre colonnes, mais vous êtes libre de choisir celle qui vous convient le mieux. Il existe 9 préréglages de mise en page différents disponibles pour le champ Répéteur.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="mise en page répéteur à quatre colonnes - WPForms" decoding="async" class="wp-image-2886789">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-300x159.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-1024x543.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-768x408.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-1536x815.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9Ijg0OSIgdmlld0JveD0iMCAwIDE2MDAgODQ5Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="849" data-src="https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout.png" alt="mise en page répéteur à quatre colonnes" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-300x159.png 300w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-1024x543.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-768x408.png 768w, https://wpforms.com/wp-content/uploads/2019/12/four-column-repeater-layout-1536x815.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Après avoir choisi l'<strong>Affichage</strong> et la <strong>Mise en page</strong> et modifié l'<strong>Étiquette</strong>, vous pouvez ajouter des champs aux colonnes du champ Répéteur. Pour ajouter un champ à n'importe quelle colonne du champ Répéteur, faites-le glisser depuis la barre latérale vers la colonne souhaitée.</p>
+
+
+
+<p>Pour ce tutoriel, je ferai glisser les champs <strong>Organisation</strong>, <strong>Titre du poste</strong>, <strong>Date de début</strong> et <strong>Date de fin</strong> un par un dans les zones de dépôt du champ Répéteur et je masquerai l'étiquette pour lui donner un aspect complet. Voici à quoi cela ressemble :</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="aperçu du champ répéteur - WPForms" decoding="async" class="wp-image-2886829">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-300x130.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-1024x443.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-768x332.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-1536x664.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjY5MiIgdmlld0JveD0iMCAwIDE2MDAgNjkyIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="692" data-src="https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview.png" alt="aperçu du champ répéteur" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-300x130.png 300w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-1024x443.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-768x332.png 768w, https://wpforms.com/wp-content/uploads/2019/12/repeater-field-preview-1536x664.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<h4 class="wp-block-heading" id="customize-the-file-upload-fields-settings">Personnaliser les paramètres des champs de téléchargement de fichiers</h4>
+
+
+
+<p>Vous pouvez également personnaliser les champs de téléchargement de fichiers pour joindre des CV et des lettres de motivation. Pour modifier les paramètres du champ de téléchargement de fichiers, cliquez d'abord sur le champ dans votre formulaire. Cela ouvrira son menu <strong>Options de champ</strong> sur la gauche.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="options du champ de téléchargement de fichiers - WPForms" decoding="async" class="wp-image-2886763">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-300x133.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-1024x453.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-768x340.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-1536x680.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjcwOCIgdmlld0JveD0iMCAwIDE2MDAgNzA4Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="708" data-src="https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1.png" alt="options du champ de téléchargement de fichiers" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-300x133.png 300w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-1024x453.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-768x340.png 768w, https://wpforms.com/wp-content/uploads/2019/12/file-upload-field-options-1-1536x680.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Vous trouverez maintenant diverses options dans le volet de gauche du constructeur de formulaires. Je suggère de modifier l'étiquette du champ pour spécifier le type de fichier auquel vous souhaitez restreindre les candidats.</p>
+
+
+
+<p>Vous pouvez facilement modifier l’étiquette en mettant à jour le texte dans la zone Étiquette de vos options de champ. L’étiquette sera immédiatement reflétée dans l’aperçu du formulaire à votre droite afin que vous puissiez voir les modifications en temps réel.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="changer l'étiquette du formulaire de candidature - WPForms" decoding="async" class="wp-image-2886768">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-300x93.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-1024x318.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-768x239.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-1536x477.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjQ5NyIgdmlld0JveD0iMCAwIDE2MDAgNDk3Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="497" data-src="https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form.png" alt="modifier le libellé du formulaire de candidature" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-300x93.png 300w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-1024x318.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-768x239.png 768w, https://wpforms.com/wp-content/uploads/2019/12/change-label-job-application-form-1536x477.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>En mentionnant clairement vos exigences dans l’étiquette du champ, vous pouvez éliminer toute confusion, car les candidats sauront exactement quels types de fichiers télécharger lors de leur candidature.</p>
+
+
+
+<p>Mais l’étiquette n’indique qu’une exigence. Si vous souhaitez réellement imposer des restrictions sur votre champ de téléchargement de fichiers, vous trouverez quelques options en faisant défiler vers le bas sous les paramètres d’étiquette et de description, tels que :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Extensions de fichiers autorisées</strong> – La saisie des noms d’extensions de fichiers ici forcera le champ à n’accepter que ces types de fichiers. Assurez-vous de séparer les types de fichiers par des virgules (.pdf, .docx, etc.).</li>
+
+
+
+<li><strong>Taille maximale des fichiers</strong> – Entrez un nombre inférieur à vos paramètres de taille maximale de fichiers par défaut pour limiter la taille des fichiers qui peuvent être téléchargés dans ce champ. Cette option accepte des valeurs en mégaoctets (Mo).</li>
+
+
+
+<li><strong>Nombre maximal de téléchargements de fichiers</strong> – Spécifiez le nombre total de fichiers qui peuvent être téléchargés dans le champ. Par exemple, vous pouvez définir la limite à 1, car vous n’avez besoin que du candidat pour télécharger son CV dans ce champ.</li>
+</ul>
+
+
+
+<figure class="wp-block-image size-full"><picture title="champ de téléversement de fichier - réglages - WPForms" decoding="async" class="wp-image-2886771">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-300x285.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-1024x973.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-768x730.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-1536x1459.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjE1MjAiIHZpZXdCb3g9IjAgMCAxNjAwIDE1MjAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" decoding="async" width="1600" height="1520" data-src="https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field.png" alt="champ de téléversement de fichier - réglages" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-300x285.png 300w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-1024x973.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-768x730.png 768w, https://wpforms.com/wp-content/uploads/2019/12/settings-file-upload-field-1536x1459.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<p>Vous pouvez répéter les mêmes étapes que ci-dessus pour le deuxième champ de téléchargement de fichiers de ce formulaire (qui est destiné aux lettres de motivation). La modification des étiquettes des champs pour refléter des détails importants comme le type de fichier est toujours une bonne idée !</p>
+
+
+
+<p>WPForms vous permet également de stocker un fichier téléchargé dans votre médiathèque WordPress. Pour activer cette fonctionnalité pour vos champs de téléchargement de fichiers, déplacez le curseur vers la position ACTIVÉ à côté de <strong>Stocker le fichier dans la médiathèque WordPress</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="enregistrer le fichier dans la médiathèque - WPForms" decoding="async" class="wp-image-2886775">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-300x260.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-1024x887.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-768x665.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-1536x1331.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjEzODYiIHZpZXdCb3g9IjAgMCAxNjAwIDEzODYiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" decoding="async" width="1600" height="1386" data-src="https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library.png" alt="enregistrer le fichier dans la médiathèque" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-300x260.png 300w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-1024x887.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-768x665.png 768w, https://wpforms.com/wp-content/uploads/2019/12/store-file-in-media-library-1536x1331.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<h4 class="wp-block-heading" id="add-an-entry-preview-field">Ajouter un champ d’aperçu des entrées</h4>
+
+
+
+<p>Enfin, les candidats voudront certainement vérifier les informations qu’ils ont ajoutées à chaque champ du formulaire et avoir la possibilité de revenir en arrière et de modifier quoi que ce soit avant de soumettre la candidature.</p>
+
+
+
+<p>Vous pouvez facilement ajouter cette fonctionnalité à votre formulaire en ajoutant le champ <strong>Aperçu des entrées</strong>, qui informera le candidat de vérifier toutes les informations ajoutées avant de soumettre le formulaire.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="ajouter un champ d'aperçu d'entrée - WPForms" decoding="async" class="wp-image-2886833">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-300x146.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-1024x499.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-768x374.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-1536x748.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9Ijc3OSIgdmlld0JveD0iMCAwIDE2MDAgNzc5Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" decoding="async" width="1600" height="779" data-src="https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field.png" alt="ajouter un champ d'aperçu d'entrée" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-300x146.png 300w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-1024x499.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-768x374.png 768w, https://wpforms.com/wp-content/uploads/2019/12/add-entry-preview-field-1536x748.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<h3 class="wp-block-heading" id="4-configure-the-notification-confirmation-message"><span id="4_Configure_the_Notification_Confirmation_Message">4. Configurer le message de notification et de confirmation</span></h3>
+
+
+
+<p>Par défaut, WPForms vous enverra une notification par e-mail à votre adresse e-mail d’administrateur WordPress par défaut chaque fois qu’un candidat soumet le formulaire. Vous pouvez vérifier vos paramètres de notification en allant dans <strong>Paramètres » Notifications</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" title="Paramètres de notification - WPForms" decoding="async" data-src="https://wpforms.com/wp-content/uploads/2019/12/notifications-settings.png" alt="Paramètres de notification" class="wp-image-2796301"></figure>
+
+
+
+<p>À partir de ces options, vous pouvez modifier la ligne d’objet, l’adresse e-mail d’envoi, le contenu réel de la notification, etc. Vous pouvez également recevoir facilement les fichiers de CV et de lettre de motivation soumis en pièces jointes dans vos notifications.</p>
+
+
+
+<p>Faites simplement défiler vers le bas jusqu'à la section <strong>Avancé</strong> des paramètres de notification et activez le bouton <strong>Activer les pièces jointes de téléchargement de fichiers</strong>. Ensuite, utilisez le menu déroulant pour sélectionner les champs de téléchargement de fichiers contenant les pièces jointes.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9Ijk0MCIgdmlld0JveD0iMCAwIDExMTYgOTQwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Activer les pièces jointes de téléchargement de fichiers - WPForms" decoding="async" width="1116" height="940" data-src="https://wpforms.com/wp-content/uploads/2019/12/enable-file-upload-attachments.png" alt="Activer les pièces jointes par téléversement de fichier" class="wp-image-2796298" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/enable-file-upload-attachments.png 1116w, https://wpforms.com/wp-content/uploads/2019/12/enable-file-upload-attachments-300x253.png 300w, https://wpforms.com/wp-content/uploads/2019/12/enable-file-upload-attachments-1024x863.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/enable-file-upload-attachments-768x647.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Lorsque vous avez terminé ici, je vous recommande de configurer une autre notification, celle-ci pour les candidats qui soumettent le formulaire de candidature. De cette façon, les candidats seront assurés que leurs documents ont été soumis avec succès.</p>
+
+
+
+<h4 class="wp-block-heading" id="setting-up-a-second-notification-optional">Configuration d'une deuxième notification (facultatif)</h4>
+
+
+
+<p>Si vous ne souhaitez pas envoyer de notification aux candidats, vous pouvez ignorer cette partie. Vous pouvez configurer la deuxième notification en faisant défiler jusqu'en haut des paramètres de notification et en cliquant sur <strong>Ajouter une nouvelle notification</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9Ijk2OSIgdmlld0JveD0iMCAwIDExMTYgOTY5Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Nouvelle notification - WPForms" decoding="async" width="1116" height="969" data-src="https://wpforms.com/wp-content/uploads/2019/12/new-notification.png" alt="Nouvelle notification" class="wp-image-2796299" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/new-notification.png 1116w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-300x260.png 300w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-1024x889.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-768x667.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Donnez un nom à la nouvelle notification et appuyez sur <strong>OK</strong>. Comme cette notification est destinée à la personne qui remplit le formulaire, j'utiliserai l'adresse e-mail fournie par le candidat dans le formulaire comme Adresse e-mail de destination.</p>
+
+
+
+<p>Cliquez sur le lien Afficher les balises intelligentes à côté de l'option Adresse e-mail de destination (ce lien indiquera Masquer les balises intelligentes une fois que vous aurez cliqué dessus) et sélectionnez le champ <strong>E-mail</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjYxNyIgdmlld0JveD0iMCAwIDExMTYgNjE3Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Notification par courriel pour le candidat - WPForms" decoding="async" width="1116" height="617" data-src="https://wpforms.com/wp-content/uploads/2019/12/new-notification-setup-e1706544738350.png" alt="notification par courriel pour le candidat" class="wp-image-2796300" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/new-notification-setup-e1706544738350.png 1116w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-setup-e1706544738350-300x166.png 300w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-setup-e1706544738350-1024x566.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/new-notification-setup-e1706544738350-768x425.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Une fois cela fait, modifiez les autres parties de l'e-mail, comme la ligne d'objet et le Nom de l'expéditeur, afin qu'elles soient appropriées et pertinentes du point de vue du candidat. Faites défiler plus loin et modifiez le message de l'e-mail.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjQ2OCIgdmlld0JveD0iMCAwIDExMTYgNDY4Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Message de notification du candidat - WPForms" decoding="async" width="1116" height="468" data-src="https://wpforms.com/wp-content/uploads/2019/12/applicant-notification-email-e1706544699418.png" alt="message de notification pour le candidat" class="wp-image-2796295" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/applicant-notification-email-e1706544699418.png 1116w, https://wpforms.com/wp-content/uploads/2019/12/applicant-notification-email-e1706544699418-300x126.png 300w, https://wpforms.com/wp-content/uploads/2019/12/applicant-notification-email-e1706544699418-1024x429.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/applicant-notification-email-e1706544699418-768x322.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Le message de confirmation sur la page est un autre domaine que vous pouvez utiliser pour fournir des détails supplémentaires sur les prochaines étapes de la candidature. Pour vérifier le message de confirmation, cliquez sur <strong>Confirmations</strong> tout en étant dans <strong>Paramètres</strong>.</p>
+
+
+
+<p>Utilisez l'éditeur de texte à droite pour modifier le message de confirmation. Vous pouvez même ajouter un lien pour rediriger les personnes vers une page sur l'historique de votre entreprise afin d'aider les candidats à en savoir plus sur vous.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjU0NyIgdmlld0JveD0iMCAwIDExMTYgNTQ3Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Confirmation de modification - WPForms" decoding="async" width="1116" height="547" data-src="https://wpforms.com/wp-content/uploads/2019/12/editing-confirmation.png" alt="confirmation de modification" class="wp-image-2796317" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/editing-confirmation.png 1116w, https://wpforms.com/wp-content/uploads/2019/12/editing-confirmation-300x147.png 300w, https://wpforms.com/wp-content/uploads/2019/12/editing-confirmation-1024x502.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/editing-confirmation-768x376.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Avec cela, vous avez terminé la personnalisation de votre formulaire de candidature. Cependant, n'oubliez pas que vous devez enregistrer toute votre progression. Par conséquent, après avoir effectué vos modifications, cliquez sur le bouton <strong>Enregistrer</strong> pour enregistrer toutes les modifications de votre formulaire.</p>
+
+
+
+<figure class="wp-block-image size-full"><picture title="enregistrer le formulaire de candidature - WPForms" decoding="async" class="wp-image-2886835">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form.png.webp 1600w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-300x240.png.webp 300w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-1024x819.png.webp 1024w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-768x614.png.webp 768w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-1536x1228.png.webp 1536w" sizes="(max-width: 1600px) 100vw, 1600px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCAxNjAwIDEyNzkiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" decoding="async" width="1600" height="1279" data-src="https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form.png" alt="enregistrer le formulaire de candidature" data-srcset="https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form.png 1600w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-300x240.png 300w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-1024x819.png 1024w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-768x614.png 768w, https://wpforms.com/wp-content/uploads/2019/12/save-job-application-form-1536x1228.png 1536w" data-sizes="(max-width: 1600px) 100vw, 1600px">
+</picture>
+</figure>
+
+
+
+<h3 class="wp-block-heading" id="5-add-your-job-application-form-to-your-website"><span id="5_Add_Your_Job_Application_Form_to_Your_Website">5. Ajouter votre formulaire de candidature à votre site web</span></h3>
+
+
+
+<p>La manière la plus rapide de publier votre formulaire de candidature WordPress est via l'assistant d'intégration WPForms. Pour commencer, cliquez sur le bouton <strong>Intégrer</strong> (qui se trouve juste à côté de Enregistrer en haut).</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjI1NSIgdmlld0JveD0iMCAwIDExMTYgMjU1Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Bouton d'intégration - WPForms" decoding="async" width="1116" height="255" data-src="https://wpforms.com/wp-content/uploads/2023/03/Embed-Button.png" alt="Intégrez votre formulaire avec le bouton d'intégration" class="wp-image-2389874" data-srcset="https://wpforms.com/wp-content/uploads/2023/03/Embed-Button.png 1116w, https://wpforms.com/wp-content/uploads/2023/03/Embed-Button-300x69.png 300w, https://wpforms.com/wp-content/uploads/2023/03/Embed-Button-1024x234.png 1024w, https://wpforms.com/wp-content/uploads/2023/03/Embed-Button-768x175.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Une fois que vous avez fait cela, sélectionnez si vous souhaitez intégrer le formulaire dans une page existante ou une nouvelle page. À des fins d'illustration, j'utiliserai l'option <strong>Créer une nouvelle page</strong> (bien que les deux étapes soient similaires).</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjU1MSIgdmlld0JveD0iMCAwIDExMTYgNTUxIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Créer une nouvelle page - WPForms" decoding="async" width="1116" height="551" data-src="https://wpforms.com/wp-content/uploads/2023/08/create-new-page.png" alt="Créer une nouvelle page" class="wp-image-2593134" data-srcset="https://wpforms.com/wp-content/uploads/2023/08/create-new-page.png 1116w, https://wpforms.com/wp-content/uploads/2023/08/create-new-page-300x148.png 300w, https://wpforms.com/wp-content/uploads/2023/08/create-new-page-1024x506.png 1024w, https://wpforms.com/wp-content/uploads/2023/08/create-new-page-768x379.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Après cela, vous verrez une invite vous demandant de nommer votre page. Le nom que vous entrez ici sera utilisé comme H1 de votre page de formulaire lorsque vous la publierez. Lorsque vous avez entré le nom, appuyez sur <strong>C'est parti</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9IjQ5MCIgdmlld0JveD0iMCAwIDExMTYgNDkwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="WPForms Nommez Votre Page - WPForms" decoding="async" width="1116" height="490" data-src="https://wpforms.com/wp-content/uploads/2022/09/WPForms-Name-Your-Page.png" alt="champ de nommage de page WPForms" class="wp-image-2182095" data-srcset="https://wpforms.com/wp-content/uploads/2022/09/WPForms-Name-Your-Page.png 1116w, https://wpforms.com/wp-content/uploads/2022/09/WPForms-Name-Your-Page-300x132.png 300w, https://wpforms.com/wp-content/uploads/2022/09/WPForms-Name-Your-Page-1024x450.png 1024w, https://wpforms.com/wp-content/uploads/2022/09/WPForms-Name-Your-Page-768x337.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Vous vous retrouverez dans votre éditeur de blocs WordPress avec le formulaire intégré. À partir de là, vous pouvez prévisualiser votre formulaire pour un dernier coup d'œil. Lorsque vous êtes satisfait, allez-y et appuyez sur le bouton <strong>Publier</strong>.</p>
+
+
+
+<figure class="wp-block-image size-full"><img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTE2IiBoZWlnaHQ9Ijg5MyIgdmlld0JveD0iMCAwIDExMTYgODkzIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" title="Publier le formulaire de candidature - WPForms" decoding="async" width="1116" height="893" data-src="https://wpforms.com/wp-content/uploads/2022/11/publish-job-application-form.png" alt="Publication de votre formulaire de candidature" class="wp-image-2236536" data-srcset="https://wpforms.com/wp-content/uploads/2022/11/publish-job-application-form.png 1116w, https://wpforms.com/wp-content/uploads/2022/11/publish-job-application-form-300x240.png 300w, https://wpforms.com/wp-content/uploads/2022/11/publish-job-application-form-1024x819.png 1024w, https://wpforms.com/wp-content/uploads/2022/11/publish-job-application-form-768x615.png 768w" data-sizes="(max-width: 1116px) 100vw, 1116px"></figure>
+
+
+
+<p>Pour afficher les entrées du formulaire de candidature après leur soumission, consultez ce <a href="https://wpforms.com/fr/docs/complete-guide-to-form-entries/">guide complet des entrées de formulaire</a>. Par exemple, vous pouvez :</p>
+
+
+
+<ul class="wp-block-list">
+<li>Afficher, rechercher, filtrer, imprimer et supprimer toutes les entrées du formulaire de candidature.</li>
+
+
+
+<li><a href="https://wpforms.com/fr/how-to-export-wordpress-form-entries-to-csv/">Exportez toutes vos candidatures dans un fichier CSV</a>.</li>
+</ul>
+
+
+
+<p style="text-align:center;"><a href="https://wpforms.com/fr/pricing/" class="button button-blog-cta" data-vars-ga-action="click" data-vars-ga-label="Create Your Job Application Form Now">Créez votre formulaire de candidature maintenant</a></p>
+
+
+
+<section class="wp-block-wpforms-site-blocks-faq-accordion-section wpforms-site-blocks-section is-style-blog"><div class="items-wrapper">
+<div class="wp-block-wpforms-site-blocks-section-header">
+<h3 class="wp-block-heading"><span id="FAQ_More_Questions_about_Job_Application_Forms">FAQ : Questions supplémentaires sur les formulaires de candidature</span></h3>
+
+
+
+<p class="has-text-align-left">Les formulaires de candidature sont un sujet d'intérêt populaire parmi nos lecteurs. Voici quelques réponses rapides à certaines des questions les plus fréquemment posées :</p>
+</div>
+
+
+
+<div class="wp-block-wpforms-site-blocks-faq-accordion">
+<div data-schema-only="false" class="wp-block-aioseo-faq"><h4 class="aioseo-faq-block-question">Comment créer un formulaire de candidature dans WordPress ?</h4><div class="aioseo-faq-block-answer">
+<p>Pour créer un formulaire de candidature dans WordPress, utilisez le plugin WPForms. Installez et activez le plugin, puis sélectionnez le modèle de formulaire de candidature.</p>
+
+
+
+<p>Personnalisez les champs du formulaire selon vos besoins, et ajoutez le champ Répéteur pour permettre plusieurs entrées pour des sections comme l'expérience professionnelle ou l'éducation. Enfin, intégrez le formulaire sur la page souhaitée à l'aide du bloc WPForms.</p>
+</div></div>
+
+
+
+<div data-schema-only="false" class="wp-block-aioseo-faq"><h4 class="aioseo-faq-block-question">Comment ajouter une offre d'emploi dans WordPress ?</h4><div class="aioseo-faq-block-answer">
+<p>Ajouter une offre d'emploi dans WordPress est simple avec WPForms. Créez un nouvel article ou une nouvelle page, puis utilisez le bloc WPForms pour intégrer votre formulaire de candidature.</p>
+
+
+
+<p>Remplissez les détails de l'emploi, tels que le titre, la description et les exigences, puis publiez l'article. Cela permet aux candidats de postuler directement sur votre site.</p>
+</div></div>
+
+
+
+<div data-schema-only="false" class="wp-block-aioseo-faq"><h4 class="aioseo-faq-block-question">Comment créer un site web de recrutement sur WordPress ?</h4><div class="aioseo-faq-block-answer">
+<p>Pour créer un site web de recrutement sur WordPress, commencez par choisir un thème de recrutement. Installez WPForms pour gérer efficacement les formulaires de candidature.</p>
+
+
+
+<p>Utilisez le champ Répéteur pour des informations détaillées sur les candidats. Créez des pages pour les offres d'emploi, les formulaires de candidature et les informations sur l'entreprise. Personnalisez le site avec des plugins SEO et de sécurité, puis publiez votre site de recrutement.</p>
+</div></div>
+
+
+
+<div data-schema-only="false" class="wp-block-aioseo-faq"><h4 class="aioseo-faq-block-question">Quel est le meilleur plugin WordPress pour les formulaires de candidature ?</h4><div class="aioseo-faq-block-answer">
+<p>WPForms est le meilleur plugin WordPress pour les formulaires de candidature. Il est livré avec un modèle de formulaire de candidature prêt à l'emploi, un constructeur glisser-déposer, des champs de téléchargement de fichiers pour les CV et les lettres de motivation, et un champ Répéteur pour capturer l'historique de travail, afin que vous puissiez créer et publier un formulaire sans écrire de code.</p>
+</div></div>
+
+
+
+<div data-schema-only="false" class="wp-block-aioseo-faq"><h4 class="aioseo-faq-block-question">Le modèle de formulaire de candidature WPForms est-il gratuit ?</h4><div class="aioseo-faq-block-answer">
+<p>Le modèle de formulaire de candidature est livré avec une licence WPForms payante, et les champs de téléchargement de fichiers pour les CV et les lettres de motivation sont disponibles à partir du plan Basic et supérieur. WPForms Lite est gratuit si vous souhaitez commencer avec un formulaire plus simple d'abord et passer à la version supérieure une fois que vous avez besoin de téléchargements de fichiers et de gestion des entrées.</p>
+</div></div>
+</div>
+</div></section>
+
+
+
+<h3 class="wp-block-heading" id="next-take-your-wordpress-forms-to-the-next-level">Ensuite, faites passer vos formulaires WordPress au niveau supérieur</h3>
+
+
+
+<p>Vous avez probablement réalisé maintenant que WPForms est un constructeur de formulaires extrêmement polyvalent. Si vous souhaitez en savoir plus, voici quelques articles présentant d'autres capacités impressionnantes que vous obtenez avec WPForms :</p>
+
+
+
+<ul class="wp-block-list">
+<li>Si votre candidature est longue et que vous souhaitez diviser le formulaire en sections plus faciles à digérer, assurez-vous de consulter <a href="https://wpforms.com/fr/how-to-create-a-multi-part-form-in-wordpress/">comment créer un formulaire multipage dans WordPress</a>.</li>
+
+
+
+<li>Nous avons également d'autres conseils sur la <a href="https://wpforms.com/fr/how-to-refer-a-friend-form/">création d'un formulaire de parrainage</a> et l'ajout d'incitations.</li>
+
+
+
+<li>Si un employé quitte l'entreprise, vous pouvez facilement recueillir ses commentaires en posant ces <a href="https://wpforms.com/fr/exit-survey-questions/">questions d'enquête de départ</a>.</li>
+
+
+
+<li>Découvrez nos suggestions pour <a href="https://wpforms.com/fr/ways-to-use-wpforms-for-educational-websites/">utiliser WPForms sur des sites Web éducatifs</a>.</li>
+</ul>
+
+
+
+<p style="text-align:center;"><a href="https://wpforms.com/fr/pricing/" class="button button-blog-cta" data-vars-ga-action="click" data-vars-ga-label="Build Your WordPress Form Now">Créez votre formulaire WordPress maintenant</a></p>
+
+
+
+<p>Prêt à créer votre formulaire ? Commencez dès aujourd'hui avec le plugin de création de formulaires WordPress le plus simple. <a href="https://wpforms.com/fr/pricing">WPForms Pro</a> inclut de nombreux modèles gratuits et offre une garantie de remboursement de 14 jours.</p>
+
+
+
+<p>Si cet article vous a aidé, veuillez nous suivre sur <a href="https://facebook.com/wpforms" target="_blank" rel="noopener nofollow">Facebook</a> et <a href="https://twitter.com/easywpforms" target="_blank" rel="noopener nofollow">Twitter</a> pour plus de tutoriels et de guides WordPress gratuits.</p>
+				</div>
+			</article>
+			<div id="post-disclosure-section">
+	<p class="post-disclosure"><strong>Divulgation</strong> : Notre contenu est soutenu par nos lecteurs. Cela signifie que si vous cliquez sur certains de nos liens, nous pouvons gagner une commission. <a href="https://wpforms.com/fr/editorial-policy/" target="_blank">Découvrez comment WPForms est financé, pourquoi c'est important et comment vous pouvez nous soutenir</a>.</p>
+</div>
+
+<div class="author-box" itemscope="" itemtype="http://schema.org/Person">
+    <div class="author-avatar" itemprop="image">
+        <img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTgiIGhlaWdodD0iMTU4IiB2aWV3Qm94PSIwIDAgMTU4IDE1OCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" alt="" data-src="https://secure.gravatar.com/avatar/e2335e0d989dc43f8107fc25177b370d674355d2c47777637a70d68cf8296df7?s=158&amp;d=mm&amp;r=g" data-srcset="https://secure.gravatar.com/avatar/e2335e0d989dc43f8107fc25177b370d674355d2c47777637a70d68cf8296df7?s=316&amp;d=mm&amp;r=g 2x" class="avatar avatar-158 photo" height="158" width="158" decoding="async">    </div>
+	<h3><span itemprop="name">Hamza Shahid</span></h3>
+	<div class="author-description" itemprop="description">
+		<p>Hamza est rédacteur pour l'équipe WPForms, et se spécialise également dans les sujets liés au marketing numérique, à la cybersécurité, aux plugins WordPress et aux systèmes ERP.			<a href="https://wpforms.com/fr/author/hamza-shahid/" class="author-link">En savoir plus</a></p>
+	</div>
+	<meta itemprop="url" content="https://wpforms.com/author/hamza-shahid/">
+</div>
+
+<div class="wpf-install-cta" style="background-image:url(https://wpforms.com/wp-content/uploads/2024/07/non-logged-in-cta.png)">
+	<div class="wrapper">
+					<h3>Le meilleur plugin de création de formulaires par glisser-déposer pour WordPress</h3>
+		
+					<p>Facile, rapide et sécurisé. Rejoignez plus de 6 millions de propriétaires de sites Web qui font confiance à WPForms.</p>
+		
+		<div class="wpforms-container wpforms-container-full wpforms-container-quiz wpforms-container-save-resume wpforms-render-modern" id="wpforms-2924812"><form id="wpforms-form-2924812" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="2924812" method="post" enctype="multipart/form-data" action="/how-to-create-a-job-application-form-in-wordpress/" data-token="b7b4f2b1f0968ab241d8c016c4ddfc72" data-token-time="1783639939"><div id="wpforms-error-noscript" style="display: none;">Veuillez activer JavaScript dans votre navigateur pour compléter ce formulaire.</div><div class="wpforms-field-container"><div id="wpforms-2924812-field_1-container" class="wpforms-field wpforms-field-url" data-field-type="url" data-field-id="1"><label class="wpforms-field-label" for="wpforms-2924812-field_1">Entrez l'URL de votre site Web WordPress pour installer <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="url" id="wpforms-2924812-field_1" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][1]" placeholder="https://yoursite.com" aria-errormessage="wpforms-2924812-field_1-error" required=""></div><div id="wpforms-2924812-field_2-container" class="wpforms-field wpforms-field-layout" data-field-type="layout" data-field-id="2"><div class="wpforms-field-layout-columns wpforms-field-layout-preset-50-50"><div class="wpforms-layout-column wpforms-layout-column-50"><div id="wpforms-2924812-field_3-container" class="wpforms-field wpforms-field-name" data-field-type="name" data-field-id="3"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924812-field_3" aria-hidden="false">Nom <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="text" id="wpforms-2924812-field_3" class="wpforms-field-medium wpforms-field-required" name="wpforms[fields][3]" placeholder="Nom" aria-errormessage="wpforms-2924812-field_3-error" required=""></div></div><div class="wpforms-layout-column wpforms-layout-column-50"><div id="wpforms-2924812-field_4-container" class="wpforms-field wpforms-field-email" data-field-type="email" data-field-id="4"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924812-field_4" aria-hidden="false">E-mail <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="email" id="wpforms-2924812-field_4" class="wpforms-field-medium wpforms-field-required" data-rule-restricted-email="1" name="wpforms[fields][4]" placeholder="E-mail" spellcheck="false" aria-errormessage="wpforms-2924812-field_4-error" required=""></div></div></div></div></div><div class="wpforms-recaptcha-container wpforms-is-turnstile"><div class="wpforms-turnstile" data-sitekey="0x4AAAAAAAhKpo5OL_aCZqQA" data-action="FormID-2924812"></div><input type="text" name="g-recaptcha-hidden" class="wpforms-recaptcha-hidden" style="position:absolute!important;clip:rect(0,0,0,0)!important;height:1px!important;width:1px!important;border:0!important;overflow:hidden!important;padding:0!important;margin:0!important;" data-rule-turnstile="1"></div></form></div>  	</div>
+</div>
+	<h2 class="popular-posts-title">Populaire sur WPForms en ce moment !</h2>
+	<div class="popular-posts">
+		<article class="popular-post post-3105478 post type-post status-publish format-standard has-post-thumbnail hentry category-wordpress-tutorials tag-automated-entry-export tag-data-routing tag-email-confirmation tag-lead-forms tag-payment-forms">
+	<a href="https://wpforms.com/fr/ways-wpforms-can-automate-your-business/" title="Rationalisez vos opérations : 5 façons dont WPForms peut automatiser votre entreprise">
+		<div class="entry-image"><picture class="attachment-blog size-blog wp-post-image wpf-no-lazy wp-post-image" decoding="async" title="simplifiez vos opérations&nbsp;: comment WPForms peut automatiser votre entreprise_g - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-790x415.png.webp 790w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-768x403.png.webp 768w" sizes="(max-width: 790px) 100vw, 790px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3OTAiIGhlaWdodD0iNDE1IiB2aWV3Qm94PSIwIDAgNzkwIDQxNSI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" width="790" height="415" data-src="https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-790x415.png" alt="" decoding="async" data-srcset="https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-790x415.png 790w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-300x157.png 300w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g-768x403.png 768w, https://wpforms.com/wp-content/uploads/2025/07/streamline-your-operations-ways-wpforms-can-automate-your-business_g.png 1250w" data-sizes="(max-width: 790px) 100vw, 790px">
+</picture>
+</div>	</a>
+	<header class="entry-header">
+		<h2 class="entry-title">
+			<a href="https://wpforms.com/fr/ways-wpforms-can-automate-your-business/" title="Rationalisez vos opérations : 5 façons dont WPForms peut automatiser votre entreprise">Rationalisez vos opérations : 5 façons dont WPForms peut automatiser votre entreprise</a>
+		</h2>
+	</header>
+	<div class="entry-content">
+		<p>WPForms peut vous aider à éliminer les étapes manuelles qui vous ralentissent. Pas avec des systèmes maladroits ou des flux de travail compliqués, mais avec de simples automatisations basées sur des formulaires qui font le travail discrètement en arrière-plan.</p>
+	</div>
+</article>
+<article class="popular-post post-2901597 post type-post status-publish format-standard has-post-thumbnail hentry category-wordpress-tutorials tag-custom-templates tag-form-conversion-rate tag-form-data tag-form-management tag-form-revisions tag-save-and-resume-addon tag-time-saving-tips tag-wpforms-features">
+	<a href="https://wpforms.com/fr/hidden-wpforms-features/" title="Fonctionnalités cachées de WPForms que vous ne connaissiez pas">
+		<div class="entry-image"><picture class="attachment-blog size-blog wp-post-image wpf-no-lazy wp-post-image" decoding="async" title="Fonctionnalités cachées de WPForms que vous ignoriez - WPForms">
+<source type="image/webp" srcset="https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-625x328.png.webp 625w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-300x157.png.webp 300w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-1024x537.png.webp 1024w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-768x403.png.webp 768w" sizes="(max-width: 625px) 100vw, 625px">
+<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MjUiIGhlaWdodD0iMzI4IiB2aWV3Qm94PSIwIDAgNjI1IDMyOCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuNTsiLz48L3N2Zz4=" width="625" height="328" data-src="https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-625x328.png" alt="Fonctionnalités cachées de WPForms que vous ignoriez" decoding="async" data-srcset="https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-625x328.png 625w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-300x157.png 300w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-1024x537.png 1024w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b-768x403.png 768w, https://wpforms.com/wp-content/uploads/2024/07/hidden-features-of-wpforms-you-didnt-know-about_b.png 1250w" data-sizes="(max-width: 625px) 100vw, 625px">
+</picture>
+</div>	</a>
+	<header class="entry-header">
+		<h2 class="entry-title">
+			<a href="https://wpforms.com/fr/hidden-wpforms-features/" title="Fonctionnalités cachées de WPForms que vous ne connaissiez pas">Fonctionnalités cachées de WPForms que vous ne connaissiez pas</a>
+		</h2>
+	</header>
+	<div class="entry-content">
+		<p>Découvrez la puissance cachée de WPForms avec ces fonctionnalités moins connues qui peuvent transformer votre expérience de création de formulaires. Des boosters de productivité aux outils de gestion de données, découvrez les secrets pour créer des formulaires plus efficaces et conviviaux.</p>
+<p>Que vous soyez un utilisateur expérimenté de WPForms ou que vous débutiez, ces pépites cachées vous aideront à créer des formulaires qui non seulement sont beaux, mais fonctionnent plus intelligemment. Libérez tout le potentiel de WPForms et rationalisez votre processus de gestion des formulaires avec ces conseils et astuces d'experts.</p>
+	</div>
+</article>
+	</div>
+	<section id="comments" class="comments-area" aria-label="Post Comments">
+			<ol class="comment-list">
+					</ol>
+		
+	<article class="comments-form">
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Ajouter un commentaire <small><a rel="nofollow" id="cancel-comment-reply-link" href="/fr/how-to-create-a-job-application-form-in-wordpress/#respond" style="display:none;">Annuler la réponse</a></small></h3><form action="https://wpforms.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="commentpolicy">Nous sommes heureux que vous ayez choisi de laisser un commentaire. N'oubliez pas que tous les commentaires sont modérés conformément à notre <a href="/fr/privacy" title="Politique de confidentialité">politique de confidentialité</a>, et tous les liens sont nofollow. N'utilisez PAS de mots-clés dans le champ du nom. Ayons une conversation personnelle et significative.</p><p class="comment-form-comment"><label for="author">Votre commentaire</label><textarea name="comment" id="comment" placeholder="Votre commentaire"></textarea></p><p class="comment-form-author"><label for="author">Votre nom complet</label><input type="text" name="author" id="author" placeholder="Votre nom complet" required=""></p>
+<p class="comment-form-email"><label for="email">Votre adresse e-mail</label><input type="email" name="email" id="email" placeholder="Votre adresse e-mail" required=""></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">Enregistrez mon nom, mon e-mail et mon site Web dans ce navigateur pour la prochaine fois que je commenterai.</label></p>
+		<p style="font-size:12px;color:#888;margin-top:-15px;">Ce formulaire est protégé par Cloudflare Turnstile et la <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">politique de confidentialité</a> et les <a href="https://www.cloudflare.com/website-terms/" rel="noopener noreferrer" target="_blank">conditions d'utilisation</a> de Cloudflare s'appliquent.</p>
+		</form>	</div>
+		</article>
+</section>
+
+		</main>
+
+	</div>
+
+	<aside id="secondary" class="sidebar site-sidebar sidebar-primary widget-area sidebar-blog" role="complementary"><section id="simpleimage-4" class="widget widget_simpleimage"><div class="widget-wrap">
+
+	<p class="simple-image">
+		<a href="https://wpforms.com/fr/pricing"><img width="600" height="1200" src="https://wpforms.com/wp-content/uploads/2024/02/sidebar-save-time-cta.png" class="attachment-full size-full" alt="Obtenir WPForms Pro CTA" decoding="async" srcset="https://wpforms.com/wp-content/uploads/2024/02/sidebar-save-time-cta.png 600w, https://wpforms.com/wp-content/uploads/2024/02/sidebar-save-time-cta-150x300.png 150w, https://wpforms.com/wp-content/uploads/2024/02/sidebar-save-time-cta-512x1024.png 512w" sizes="(max-width: 600px) 100vw, 600px" title="Obtenir WPForms Pro CTA - WPForms"></a>	</p>
+
+
+</div></section><section id="search-2" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" class="search-form" action="https://wpforms.com/">
+	<div class="wrap">
+		<button type="submit">
+			
+		</button>
+		<input type="text" name="s" id="s" value="" placeholder="Rechercher WPForms">
+	</div>
+<div class="search-hp-wrapper wpf-hide" aria-hidden="true">
+				<input type="text" name="s_85411140" id="s_85411140" autocomplete="off" tabindex="-1" aria-hidden="true">
+			</div></form>
+</div></section><section id="widget_unslider_menus-2" class="widget widget_unslider_menus"><div class="widget-wrap"><h4 class="widget-title">Ressources populaires</h4>		<ul class="slider cS-hidden">
+							<li>
+					<ul id="menu-popular-post-1" class=""><li id="menu-item-2938839" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938839"><a href="https://wpforms.com/fr/build-smarter-forms-faster-conditional-logic-for-the-layout-field/">Créez des formulaires plus intelligents plus rapidement : Logique conditionnelle pour le champ de mise en page</a></li>
+<li id="menu-item-2931174" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931174"><a href="https://wpforms.com/fr/wpforms-lite-vs-pro/">WPForms Lite vs Pro : Quelle version vous convient le mieux ?</a></li>
+<li id="menu-item-2938843" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938843"><a href="https://wpforms.com/fr/introducing-wpforms-1-8-9-the-repeater-field-is-here/">Révolutionnez vos formulaires avec des champs répétables</a></li>
+<li id="menu-item-2938840" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938840"><a href="https://wpforms.com/fr/the-best-invoicing-software-for-your-wordpress-order-forms/">Facturation WordPress : 2 façons de facturer plus intelligemment, pas plus difficilement</a></li>
+<li id="menu-item-2938841" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938841"><a href="https://wpforms.com/fr/restaurant-online-order-form/">Comment créer un formulaire de commande en ligne pour restaurant avec WordPress</a></li>
+<li id="menu-item-2938842" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938842"><a href="https://wpforms.com/fr/how-to-create-an-email-newsletter/">Comment créer une newsletter par e-mail dans WordPress (2025)</a></li>
+</ul>				</li>
+								<li>
+					<ul id="menu-popular-post-2" class=""><li id="menu-item-2938845" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938845"><a href="https://wpforms.com/fr/how-to-create-a-user-registration-form-in-wordpress/">Comment créer facilement un formulaire d'inscription d'utilisateur WordPress</a></li>
+<li id="menu-item-2938846" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938846"><a href="https://wpforms.com/fr/wpforms-woocommerce-integration-connect-with-no-code/">Intégration WPForms WooCommerce : Connectez sans code</a></li>
+<li id="menu-item-2938847" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938847"><a href="https://wpforms.com/fr/best-form-builders-with-conditional-logic/">7 meilleurs constructeurs de formulaires avec logique conditionnelle</a></li>
+<li id="menu-item-2924919" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924919"><a href="http://www.wpbeginner.com/start-a-wordpress-blog/">Comment démarrer un blog de A à Z</a></li>
+<li id="menu-item-2938848" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938848"><a href="https://wpforms.com/fr/how-to-create-a-multi-part-form-in-wordpress/">Comment créer un formulaire en plusieurs étapes dans WordPress (sans code)</a></li>
+<li id="menu-item-2938849" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938849"><a href="https://wpforms.com/fr/address-line-1-vs-address-line-2/">Ligne d’adresse 1 vs Ligne d’adresse 2 : À quoi servent-elles (+EXEMPLES)</a></li>
+</ul>				</li>
+								<li>
+					<ul id="menu-popular-post-3" class=""><li id="menu-item-2931189" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931189"><a href="https://wpforms.com/fr/how-to-create-a-price-calculator-for-your-website/">Comment créer un calculateur de prix pour votre site Web</a></li>
+<li id="menu-item-2931191" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931191"><a href="https://wpforms.com/fr/best-docusign-alternatives/">11 meilleures alternatives à DocuSign pour 2026 (gratuites et payantes)</a></li>
+<li id="menu-item-2931192" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931192"><a href="https://wpforms.com/fr/simple-tricks-to-eliminate-spam-user-registration/">10 astuces simples pour arrêter les inscriptions de spam d'utilisateurs dans WordPress</a></li>
+<li id="menu-item-2931193" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931193"><a href="https://wpforms.com/fr/how-to-require-email-address-to-download-files-in-wordpress/">Comment exiger un e-mail pour télécharger un fichier dans WordPress</a></li>
+<li id="menu-item-2931194" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931194"><a href="https://wpforms.com/fr/where-does-wpforms-data-go/">Où vont les données WPForms ? [Guide pour débutants]</a></li>
+<li id="menu-item-2938850" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938850"><a href="https://wpforms.com/fr/how-to-securely-send-wordpress-emails-using-gmail-smtp/">Comment configurer WP Mail SMTP avec Gmail (2 options)</a></li>
+</ul>				</li>
+								<li>
+					<ul id="menu-popular-post-4" class=""><li id="menu-item-2931195" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931195"><a href="https://wpforms.com/fr/how-to-create-a-client-booking-form-in-wordpress/">Comment créer un formulaire de réservation dans WordPress 📅</a></li>
+<li id="menu-item-2931196" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931196"><a href="https://wpforms.com/fr/how-to-send-confirmation-emails-to-users-after-form-submission/">Comment envoyer un e-mail de confirmation après la soumission d’un formulaire</a></li>
+<li id="menu-item-2931202" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2931202"><a href="https://wpforms.com/fr/how-to-write-summary-survey-results/">Comment créer un rapport de résultats d’enquête (+7 exemples à copier)</a></li>
+<li id="menu-item-2938851" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938851"><a href="https://wpforms.com/fr/social-media-plugins-wordpress/">17 meilleurs plugins de médias sociaux pour WordPress (2026)</a></li>
+<li id="menu-item-2938852" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938852"><a href="https://wpforms.com/fr/donation-page-examples-to-inspire-your-online-fundraising/">12 meilleurs exemples de pages de dons pour inspirer votre collecte de fonds en ligne</a></li>
+<li id="menu-item-2938853" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938853"><a href="https://wpforms.com/fr/best-whatsapp-plugins-for-wordpress/">Les 8 meilleurs plugins WhatsApp que j’ai trouvés pour WordPress</a></li>
+</ul>				</li>
+								<li>
+					<ul id="menu-popular-post-5" class=""><li id="menu-item-2924937" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924937"><a href="https://wpforms.com/fr/beginners-guide-what-is-a-likert-scale-and-how-to-use-it/">Guide pour débutants : Qu’est-ce qu’une échelle de Likert et comment l’utiliser ?</a></li>
+<li id="menu-item-2924938" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924938"><a href="https://wpforms.com/fr/how-to-create-a-net-promoter-score-nps-survey-in-wordpress/">Comment créer un formulaire d’enquête NPS dans WordPress</a></li>
+<li id="menu-item-2924940" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924940"><a href="https://wpforms.com/fr/top-crms-for-your-small-business/">7 meilleurs logiciels CRM pour petites entreprises (en 2025)</a></li>
+<li id="menu-item-2924941" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924941"><a href="https://wpforms.com/fr/beautiful-contact-form-designs-you-can-steal/">6 magnifiques conceptions de formulaires de contact que vous pouvez copier (exemples CSS)</a></li>
+<li id="menu-item-2924942" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924942"><a href="https://wpforms.com/fr/best-drag-and-drop-wordpress-page-builders/">11 incroyables constructeurs de pages WordPress (glisser-déposer) pour 2025</a></li>
+<li id="menu-item-2938854" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2938854"><a href="https://wpforms.com/fr/best-buy-me-a-coffee-alternatives/">8 meilleures alternatives à Buy Me a Coffee en 2026</a></li>
+</ul>				</li>
+								<li>
+					<ul id="menu-popular-post-6" class=""><li id="menu-item-2924943" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924943"><a href="https://wpforms.com/fr/best-wordpress-popup-plugins/">9+ meilleurs plugins de pop-up WordPress pour 2026 (options gratuites et payantes testées)</a></li>
+<li id="menu-item-2924944" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924944"><a href="https://wpforms.com/fr/online-form-statistics-facts/">101 statistiques et faits incroyables sur les formulaires en ligne pour 2024</a></li>
+<li id="menu-item-2924945" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924945"><a href="https://wpforms.com/fr/how-to-add-a-wordpress-form-with-datepicker/">Comment créer un formulaire avec sélecteur de date WordPress</a></li>
+<li id="menu-item-2924946" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924946"><a href="https://wpforms.com/fr/best-cdn-providers/">8 meilleurs fournisseurs de CDN pour accélérer votre site Web (avantages et inconvénients)</a></li>
+<li id="menu-item-2924947" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924947"><a href="https://wpforms.com/fr/how-to-create-a-user-registration-form-in-wordpress/">Comment créer facilement un formulaire d'inscription d'utilisateur WordPress</a></li>
+<li id="menu-item-2924948" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924948"><a href="https://wpforms.com/fr/best-business-voip-and-internet-phone-systems/">10 meilleurs services de téléphonie VoIP en 2024 (comparés et testés)</a></li>
+</ul>				</li>
+						</ul>
+		</div></section><section id="wpforms-widget-2" class="newsletter-widget widget wpforms-widget"><div class="widget-wrap"><h4 class="widget-title">Recevez des conseils et des ressources gratuits directement dans votre boîte de réception, avec plus de 60 000 autres personnes</h4><div class="wpforms-container wpforms-container-full wpforms-container-quiz wpforms-container-save-resume form-template-disabled wpforms-render-modern" id="wpforms-2924816"><form id="wpforms-form-2924816" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="2924816" method="post" enctype="multipart/form-data" action="/how-to-create-a-job-application-form-in-wordpress/" data-token="7195aa802ca29127c40555b505ee2e8d" data-token-time="1783639939"><div id="wpforms-error-noscript" style="display: none;">Veuillez activer JavaScript dans votre navigateur pour compléter ce formulaire.</div><div class="wpforms-field-container"><div id="wpforms-2924816-field_1-container" class="wpforms-field wpforms-field-name" data-field-type="name" data-field-id="1"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924816-field_1" aria-hidden="false">Nom <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="text" id="wpforms-2924816-field_1" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][1]" placeholder="Prénom" aria-errormessage="wpforms-2924816-field_1-error" required=""></div><div id="wpforms-2924816-field_2-container" class="wpforms-field wpforms-field-email" data-field-type="email" data-field-id="2"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924816-field_2" aria-hidden="false">E-mail <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="email" id="wpforms-2924816-field_2" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][2]" placeholder="E-mail" spellcheck="false" aria-errormessage="wpforms-2924816-field_2-error" required=""></div></div><div class="wpforms-recaptcha-container wpforms-is-turnstile"><div class="wpforms-turnstile" data-sitekey="0x4AAAAAAAhKpo5OL_aCZqQA" data-action="FormID-2924816"></div><input type="text" name="g-recaptcha-hidden" class="wpforms-recaptcha-hidden" style="position:absolute!important;clip:rect(0,0,0,0)!important;height:1px!important;width:1px!important;border:0!important;overflow:hidden!important;padding:0!important;margin:0!important;" data-rule-turnstile="1"></div></form></div>  </div></section><section id="widget_social-3" class="widget widget_social"><div class="widget-wrap"><h4 class="widget-title">Suivez-nous</h4>		<ul>
+								<li class="facebook">
+						<a href="https://facebook.com/wpforms" target="_blank" rel="noopener noreferrer nofollow" class="facebook">
+															
+													</a>
+					</li>
+										<li class="twitter">
+						<a href="http://x.com/easywpforms" target="_blank" rel="noopener noreferrer nofollow" class="twitter">
+															
+													</a>
+					</li>
+										<li class="linkedin">
+						<a href="https://www.linkedin.com/company/wpforms" target="_blank" rel="noopener noreferrer nofollow" class="linkedin">
+															
+													</a>
+					</li>
+										<li class="youtube">
+						<a href="https://www.youtube.com/wpformsplugin" target="_blank" rel="noopener noreferrer nofollow" class="youtube">
+															
+													</a>
+					</li>
+							</ul>
+		</div></section><section id="wpforms-widget-3" class="getlite-cta-widget widget wpforms-widget"><div class="widget-wrap"><h4 class="widget-title">Le meilleur plugin de création de formulaires WordPress par glisser-déposer</h4><div class="wpforms-container wpforms-container-full wpforms-container-quiz wpforms-container-save-resume wpforms-render-modern" id="wpforms-2924812"><form id="wpforms-form-2924812" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="2924812" method="post" enctype="multipart/form-data" action="/how-to-create-a-job-application-form-in-wordpress/" data-token="b7b4f2b1f0968ab241d8c016c4ddfc72" data-token-time="1783639939"><div id="wpforms-error-noscript" style="display: none;">Veuillez activer JavaScript dans votre navigateur pour compléter ce formulaire.</div><div class="wpforms-field-container"><div id="wpforms-2924812-field_1-container" class="wpforms-field wpforms-field-url" data-field-type="url" data-field-id="1"><label class="wpforms-field-label" for="wpforms-2924812-field_1">Entrez l'URL de votre site Web WordPress pour installer <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="url" id="wpforms-2924812-field_1" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][1]" placeholder="https://yoursite.com" aria-errormessage="wpforms-2924812-field_1-error" required=""></div><div id="wpforms-2924812-field_2-container" class="wpforms-field wpforms-field-layout" data-field-type="layout" data-field-id="2"><div class="wpforms-field-layout-columns wpforms-field-layout-preset-50-50"><div class="wpforms-layout-column wpforms-layout-column-50"><div id="wpforms-2924812-field_3-container" class="wpforms-field wpforms-field-name" data-field-type="name" data-field-id="3"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924812-field_3" aria-hidden="false">Nom <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="text" id="wpforms-2924812-field_3" class="wpforms-field-medium wpforms-field-required" name="wpforms[fields][3]" placeholder="Nom" aria-errormessage="wpforms-2924812-field_3-error" required=""></div></div><div class="wpforms-layout-column wpforms-layout-column-50"><div id="wpforms-2924812-field_4-container" class="wpforms-field wpforms-field-email" data-field-type="email" data-field-id="4"><label class="wpforms-field-label wpforms-label-hide" for="wpforms-2924812-field_4" aria-hidden="false">E-mail <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="email" id="wpforms-2924812-field_4" class="wpforms-field-medium wpforms-field-required" data-rule-restricted-email="1" name="wpforms[fields][4]" placeholder="E-mail" spellcheck="false" aria-errormessage="wpforms-2924812-field_4-error" required=""></div></div></div></div></div><div class="wpforms-recaptcha-container wpforms-is-turnstile"><div class="wpforms-turnstile" data-sitekey="0x4AAAAAAAhKpo5OL_aCZqQA" data-action="FormID-2924812"></div><input type="text" name="g-recaptcha-hidden" class="wpforms-recaptcha-hidden" style="position:absolute!important;clip:rect(0,0,0,0)!important;height:1px!important;width:1px!important;border:0!important;overflow:hidden!important;padding:0!important;margin:0!important;" data-rule-turnstile="1"></div></form></div>  </div></section></aside>
+</div>
+
+
+	</div>
+
+	
+<div class="block-cta block footer-promo-cta">
+	<div class="wrapper" style="background-color:#17233f;">
+		<div class="content">
+			<div class="title">Commencez à créer des formulaires<br>WordPress plus intelligents</div>
+			<div class="description">Créez et publiez des formulaires en quelques minutes...<br>Qu'attendez-vous ?</div>
+			<div class="action">
+				<a href="https://wpforms.com/fr/pricing/" class="button button-arrow" data-vars-ga-category="Before Footer CTA" data-vars-ga-action="click" data-vars-ga-label="Get WPForms Now">Obtenez WPForms maintenant</a>
+									<a href="https://wpforms.com/fr/contact/" class="talk-expert" data-vars-ga-category="Before Footer CTA" data-vars-ga-action="click" data-vars-ga-label="Talk to an expert">
+					<span>Parler à un expert</span>
+					</a>
+							</div>
+		</div>
+		<div class="image" style="background-image:url(https://wpforms.com/wp-content/uploads/2025/01/footer-banner.png);"></div>
+	</div>
+</div>
+
+	<div class="footer-widgets">
+		<div class="container">
+									<div class="column column-1">
+							<section id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><div class="widget-title">Entreprise</div><div class="menu-footer-company-container"><ul id="menu-footer-company" class="menu"><li id="menu-item-2924840" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924840"><a target="_blank" href="https://awesomemotive.com/career/">Carrières</a></li>
+<li id="menu-item-2924841" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924841"><a href="https://wpforms.com/fr/user-reviews/">Témoignages</a></li>
+<li id="menu-item-2924842" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924842"><a href="https://wpforms.com/fr/contact/">Contact</a></li>
+<li id="menu-item-2924843" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924843"><a href="https://wpforms.com/fr/press/">Presse</a></li>
+<li id="menu-item-2924844" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924844"><a href="https://wpforms.com/fr/affiliates/">Affiliés</a></li>
+<li id="menu-item-2924845" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-2924845"><a href="https://wpforms.com/fr/blog/">Blog</a></li>
+<li id="menu-item-2924846" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924846"><a href="https://wpforms.com/fr/ftc-disclosure/">Divulgation FTC</a></li>
+</ul></div></div></section><section id="widget_social-2" class="widget widget_social"><div class="widget-wrap">		<ul>
+								<li class="facebook">
+						<a href="https://facebook.com/wpforms" target="_blank" rel="noopener noreferrer nofollow" class="facebook">
+															
+													</a>
+					</li>
+										<li class="twitter">
+						<a href="http://x.com/easywpforms" target="_blank" rel="noopener noreferrer nofollow" class="twitter">
+															
+													</a>
+					</li>
+										<li class="youtube">
+						<a href="https://www.youtube.com/c/Wpformsplugin" target="_blank" rel="noopener noreferrer nofollow" class="youtube">
+															
+													</a>
+					</li>
+							</ul>
+		</div></section>						</div>
+											<div class="column column-2">
+							<section id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><div class="widget-title">Fonctionnalités principales</div><div class="menu-footer-features-1-container"><ul id="menu-footer-features-1" class="menu"><li id="menu-item-2924851" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924851"><a href="https://wpforms.com/fr/features/drag-drop-online-form-builder/">Créateur de formulaires en ligne</a></li>
+<li id="menu-item-2924852" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924852"><a href="https://wpforms.com/fr/features/conditional-logic/">Logique conditionnelle</a></li>
+<li id="menu-item-2924853" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924853"><a href="https://wpforms.com/fr/features/conversational-forms-addon/">Formulaires conversationnels</a></li>
+<li id="menu-item-2924854" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924854"><a href="https://wpforms.com/fr/features/form-pages-addon/">Pages de destination de formulaire</a></li>
+<li id="menu-item-2924855" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924855"><a href="https://wpforms.com/fr/features/entry-management/">Gestion des entrées</a></li>
+<li id="menu-item-2924856" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924856"><a href="https://wpforms.com/fr/features/form-abandonment/">Abandon de formulaire</a></li>
+<li id="menu-item-2924857" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924857"><a href="https://wpforms.com/fr/features/instant-notifications/">Notifications de formulaire</a></li>
+<li id="menu-item-2924859" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924859"><a href="https://wpforms.com/fr/features/file-uploads/">Téléchargements de fichiers</a></li>
+<li id="menu-item-2924860" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924860"><a href="https://wpforms.com/fr/features/calculations-addon/">Formulaires de calcul</a></li>
+<li id="menu-item-2924861" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924861"><a href="https://wpforms.com/fr/features/geolocation-addon/">Formulaires de géolocalisation</a></li>
+<li id="menu-item-2924862" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924862"><a href="https://wpforms.com/fr/features/multi-page-forms/">Formulaires multipages</a></li>
+<li id="menu-item-3223966" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223966"><a href="https://wpforms.com/fr/features/repeater-field/">Champs répétitifs</a></li>
+<li id="menu-item-3223968" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223968"><a href="https://wpforms.com/fr/features/pdf-addon/">Génération de PDF</a></li>
+<li id="menu-item-2924865" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924865"><a href="https://wpforms.com/fr/features/post-submissions/">Soumissions de publication</a></li>
+<li id="menu-item-2924866" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924866"><a href="https://wpforms.com/fr/features/digital-signatures/">Formulaires de signature</a></li>
+<li id="menu-item-2924867" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924867"><a href="https://wpforms.com/fr/features/spam-protection/">Protection anti-spam</a></li>
+<li id="menu-item-2924868" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924868"><a href="https://wpforms.com/fr/features/surveys-and-polls-addon/">Sondages et enquêtes</a></li>
+<li id="menu-item-2924869" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924869"><a href="https://wpforms.com/fr/features/user-registration/">Inscription d'utilisateur</a></li>
+<li id="menu-item-3223965" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223965"><a href="https://wpforms.com/fr/features/quiz-addon/">Quiz</a></li>
+<li id="menu-item-2987478" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2987478"><a href="https://wpforms.com/fr/features/wpforms-ai/">IA WPForms</a></li>
+</ul></div></div></section>						</div>
+											<div class="column column-3">
+							<section id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><div class="widget-title">Intégrations</div><div class="menu-integrations-container"><ul id="menu-integrations" class="menu"><li id="menu-item-2924890" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924890"><a href="https://wpforms.com/fr/features/mailchimp-addon/">Mailchimp</a></li>
+<li id="menu-item-3223972" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223972"><a href="https://wpforms.com/fr/features/google-sheets-addon/">Google Sheets</a></li>
+<li id="menu-item-2924892" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924892"><a href="https://wpforms.com/fr/features/salesforce-addon/">Salesforce</a></li>
+<li id="menu-item-2924889" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924889"><a href="https://wpforms.com/fr/features/hubspot-addon/">HubSpot</a></li>
+<li id="menu-item-3223971" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223971"><a href="https://wpforms.com/fr/features/google-drive-addon/">Google Drive</a></li>
+<li id="menu-item-3223973" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223973"><a href="https://wpforms.com/fr/features/slack-addon/">Slack</a></li>
+<li id="menu-item-2924891" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924891"><a href="https://wpforms.com/fr/features/brevo-addon/">Brevo</a></li>
+<li id="menu-item-2924896" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924896"><a href="https://wpforms.com/fr/features/stripe-payments/">Stripe</a></li>
+<li id="menu-item-2924894" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924894"><a href="https://wpforms.com/fr/features/paypal-commerce/">PayPal</a></li>
+<li id="menu-item-2924895" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924895"><a href="https://wpforms.com/fr/features/square-addon/">Square</a></li>
+</ul></div></div></section>						</div>
+											<div class="column column-4">
+							<section id="nav_menu-9" class="widget widget_nav_menu"><div class="widget-wrap"><div class="widget-title">Liens utiles</div><div class="menu-footer-helpful-container"><ul id="menu-footer-helpful" class="menu"><li id="menu-item-2924880" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924880"><a href="https://wpforms.com/account/support/">Support</a></li>
+<li id="menu-item-2924881" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924881"><a href="https://wpforms.com/fr/docs/">Documentation</a></li>
+<li id="menu-item-2924882" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924882"><a href="https://wpforms.com/fr/pricing/">Forfaits et tarifs</a></li>
+<li id="menu-item-2924883" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924883"><a target="_blank" href="https://www.wpbeginner.com/wordpress-hosting/">Hébergement WordPress</a></li>
+<li id="menu-item-2924886" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924886"><a target="_blank" href="https://www.wpbeginner.com/" title="WPBeginner – La ressource n°1 pour apprendre WordPress">WPBeginner</a></li>
+<li id="menu-item-3223978" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223978"><a target="_blank" href="https://wpmailsmtp.com/">WP Mail SMTP</a></li>
+<li id="menu-item-3223981" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223981"><a target="_blank" href="https://wpconsent.com/">WPConsent</a></li>
+<li id="menu-item-3223980" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3223980"><a target="_blank" href="https://universally.com/">Universellement</a></li>
+<li id="menu-item-2924887" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924887"><a href="https://wpforms.com/fr/wordpress-forms-nonprofits/">Formulaires WordPress pour les organisations à but non lucratif</a></li>
+</ul></div></div></section>						</div>
+							</div>
+	</div>
+
+<footer class="site-footer " role="contentinfo">
+		<div class="container">
+			<div class="footer-copyright">
+					<p>
+		<b>Copyright © 2016-2026 WPForms, LLC.</b>
+		<span class="footer-credentials-secondary">WPForms est une marque commerciale de WPForms, LLC.</span>
+	</p>
+					<nav>
+					<ul id="menu-footer-copyright" class=""><li id="menu-item-2924847" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924847"><a href="https://wpforms.com/fr/terms/">Conditions d'utilisation</a></li>
+<li id="menu-item-2924848" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924848"><a href="https://wpforms.com/fr/privacy-policy/">Politique de confidentialité</a></li>
+<li id="menu-item-2924849" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2924849"><a href="https://wpforms.com/fr/sitemap.xml">Plan du site</a></li>
+<li id="menu-item-2924850" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2924850"><a href="https://wpforms.com/fr/wpforms-coupon-code/">Coupon WPForms</a></li>
+</ul>				</nav>
+			</div>
+			<div class="footer-badges">
+					<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDk3IDQ4Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" width="97" height="48" data-src="https://wpforms.com/wp-content/themes/wpf-theme/images/badge-norton-verified.png" alt="Badge vérifié Norton" title="Badge vérifié Norton">
+	<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NSIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDU1IDQ4Ij48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0iZmlsbDojY2ZkNGRiO2ZpbGwtb3BhY2l0eTogMC41OyIvPjwvc3ZnPg==" width="55" height="48" data-src="https://wpforms.com/wp-content/themes/wpf-theme/images/badge-paypal-verified.png" alt="Badge vérifié PayPal" title="Badge vérifié PayPal">
+	<a href="https://www.wpbeginner.com/solutions/wpforms/" target="_blank">
+		<img data-lazyloaded="1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjQiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyMjQgNDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHN0eWxlPSJmaWxsOiNjZmQ0ZGI7ZmlsbC1vcGFjaXR5OiAwLjU7Ii8+PC9zdmc+" width="224" height="40" class="badge-wpbeginner" data-src="https://wpforms.com/wp-content/themes/wpf-theme/images/badge-wpbeginner-verified.png" alt="Badge vérifié WPBeginner" title="Badge vérifié WPBeginner">
+	</a>
+				</div>
+			<div class="trademark-disclaimer">La marque WordPress® est la propriété intellectuelle de la WordPress Foundation. L'utilisation de WordPress® et des noms sur ce site Web est uniquement à des fins d'identification et n'implique aucune approbation par la WordPress Foundation. WPForms n'est ni approuvé, ni détenu, ni affilié à la WordPress Foundation.</div>
+		</div>
+	</footer>
+
+<universally-switcher data-config="{&quot;languages&quot;:[{&quot;name&quot;:&quot;English (American)&quot;,&quot;originalName&quot;:&quot;English&quot;,&quot;region&quot;:&quot;en-us&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/us.svg&quot;,&quot;lang&quot;:&quot;&quot;,&quot;variant&quot;:&quot;&quot;,&quot;urlPrefix&quot;:&quot;&quot;,&quot;isSource&quot;:true,&quot;url&quot;:&quot;https:\/\/wpforms.com\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;Spanish (Spain)&quot;,&quot;originalName&quot;:&quot;Español&quot;,&quot;region&quot;:&quot;es-es&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/es.svg&quot;,&quot;lang&quot;:&quot;es&quot;,&quot;variant&quot;:&quot;es&quot;,&quot;urlPrefix&quot;:&quot;es&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/es\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;Italian (Italy)&quot;,&quot;originalName&quot;:&quot;Italiano&quot;,&quot;region&quot;:&quot;it-it&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/it.svg&quot;,&quot;lang&quot;:&quot;it&quot;,&quot;variant&quot;:&quot;it&quot;,&quot;urlPrefix&quot;:&quot;it&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/it\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;Portuguese (Portugal)&quot;,&quot;originalName&quot;:&quot;Português&quot;,&quot;region&quot;:&quot;pt-pt&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/pt.svg&quot;,&quot;lang&quot;:&quot;pt&quot;,&quot;variant&quot;:&quot;pt&quot;,&quot;urlPrefix&quot;:&quot;pt&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/pt\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;French (France)&quot;,&quot;originalName&quot;:&quot;Français&quot;,&quot;region&quot;:&quot;fr-fr&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/fr.svg&quot;,&quot;lang&quot;:&quot;fr&quot;,&quot;variant&quot;:&quot;fr&quot;,&quot;urlPrefix&quot;:&quot;fr&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/fr\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:true},{&quot;name&quot;:&quot;German (Germany)&quot;,&quot;originalName&quot;:&quot;Deutsch&quot;,&quot;region&quot;:&quot;de-de&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/de.svg&quot;,&quot;lang&quot;:&quot;de&quot;,&quot;variant&quot;:&quot;de&quot;,&quot;urlPrefix&quot;:&quot;de&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/de\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;Japanese (Japan)&quot;,&quot;originalName&quot;:&quot;日本語&quot;,&quot;region&quot;:&quot;ja-jp&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/jp.svg&quot;,&quot;lang&quot;:&quot;ja&quot;,&quot;variant&quot;:&quot;ja&quot;,&quot;urlPrefix&quot;:&quot;ja&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/ja\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false},{&quot;name&quot;:&quot;Portuguese (Brazilian)&quot;,&quot;originalName&quot;:&quot;Português&quot;,&quot;region&quot;:&quot;pt-br&quot;,&quot;flagUrl&quot;:&quot;https:\/\/cdn.universally.com\/flags\/br.svg&quot;,&quot;lang&quot;:&quot;pt&quot;,&quot;variant&quot;:&quot;pt-br&quot;,&quot;urlPrefix&quot;:&quot;pt-br&quot;,&quot;isSource&quot;:false,&quot;isDisabled&quot;:false,&quot;url&quot;:&quot;https:\/\/wpforms.com\/pt-br\/how-to-create-a-job-application-form-in-wordpress\/&quot;,&quot;isCurrent&quot;:false}],&quot;showNames&quot;:true,&quot;showFlags&quot;:true,&quot;flagStyle&quot;:&quot;square&quot;}" style="--universally-trigger-radius:6px;--universally-dropdown-radius:6px"></universally-switcher>	
+	
+	
+	
+
+
+<div class="am-announcement-drawer-overlay" id="am-announcement-drawer-overlay"></div>
+
+<div class="am-announcement-drawer-widget " id="am-announcement-drawer">
+	<div class="am-announcement-drawer-widget__header">
+		<div class="am-announcement-drawer-widget__header-title-wrap">
+			<h2 class="am-announcement-drawer-widget__title">Quoi de neuf</h2>
+			<a href="/fr/wpforms-changelog/" class="am-announcement-drawer-widget__header-link">Voir les dernières mises à jour</a>
+		</div>
+
+		<button class="am-announcement-drawer-widget__close" aria-label="Fermer les annonces">
+			<span class="am-announcement-drawer-widget__close-icon">×</span>
+		</button>
+	</div>
+
+	<div class="am-announcement-drawer-widget__content">
+					<div class="am-announcement-drawer-widget__subscription-component" id="am-subscription-component">
+				<div class="am-announcement-drawer-widget__subscription-trigger" id="am-subscription-trigger">
+					<div class="am-announcement-drawer-widget__subscription-trigger-content">
+						<span class="am-announcement-drawer-widget__subscription-icon">🔔</span>
+						<span class="am-announcement-drawer-widget__subscription-text">Abonnez-vous pour recevoir nos dernières mises à jour</span>
+					</div>
+				</div>
+				
+				<div class="am-announcement-drawer-widget__subscription-options" id="am-subscription-options">
+					<div class="am-announcement-drawer-widget__subscription-buttons" id="am-subscription-buttons">
+						<div class="am-announcement-drawer-widget__subscription-option" id="am-email-subscription-option">
+							<span class="am-announcement-drawer-widget__subscription-option-icon">📧</span>
+							<span class="am-announcement-drawer-widget__subscription-option-text">Abonnez-vous aux e-mails</span>
+						</div>
+					</div>
+					
+											<div class="am-announcement-drawer-widget__subscription-form" id="am-email-subscription-form">
+							<div class="am-announcement-drawer-widget__subscription-form-header">
+								<button class="am-announcement-drawer-widget__subscription-form-close" id="am-email-form-close">
+									<span>×</span>
+								</button>
+								<h4>Abonnement par e-mail</h4>
+							</div>
+							<div class="am-announcement-drawer-widget__subscription-form-content">
+								<div class="wpforms-container wpforms-container-full wpforms-container-quiz wpforms-container-save-resume form-template-disabled wpforms-render-modern" id="wpforms-3231462"><form id="wpforms-form-3231462" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="3231462" method="post" enctype="multipart/form-data" action="/how-to-create-a-job-application-form-in-wordpress/" data-token="fe5cf709885ed3c08c2445fadb293f09" data-token-time="1783639939"><div id="wpforms-error-noscript" style="display: none;">Veuillez activer JavaScript dans votre navigateur pour compléter ce formulaire.</div><div class="wpforms-field-container"><div id="wpforms-3231462-field_9-container" class="wpforms-field wpforms-field-html" data-field-type="html" data-field-id="9"><div id="wpforms-3231462-field_9" aria-errormessage="wpforms-3231462-field_9-error"><h4>Rejoignez notre newsletter</h4></div></div><div id="wpforms-3231462-field_6-container" class="wpforms-field wpforms-field-name" data-field-type="name" data-field-id="6"><label class="wpforms-field-label" for="wpforms-3231462-field_6">Prénom <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="text" id="wpforms-3231462-field_6" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][6]" aria-errormessage="wpforms-3231462-field_6-error" required=""></div><div id="wpforms-3231462-field_7-container" class="wpforms-field wpforms-field-email" data-field-type="email" data-field-id="7"><label class="wpforms-field-label" for="wpforms-3231462-field_7">E-mail <span class="wpforms-required-label" aria-hidden="true">*</span></label><input type="email" id="wpforms-3231462-field_7" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][7]" spellcheck="false" aria-errormessage="wpforms-3231462-field_7-error" required=""></div><div id="wpforms-3231462-field_3-container" class="wpforms-field wpforms-field-html info" data-field-type="html" data-field-id="3"><div id="wpforms-3231462-field_3" aria-errormessage="wpforms-3231462-field_3-error">Nous ne vous enverrons pas de spam. Nous envoyons un e-mail uniquement lorsque nous pensons qu'il vous sera réellement utile. Désabonnez-vous à tout moment !</div></div></div></form></div>  							</div>
+						</div>
+									</div>
+			</div>
+		
+					<div class="am-announcement-drawer-widget__empty">
+				<p>Aucune annonce disponible pour le moment.</p>
+			</div>
+			</div>
+
+	
+	<div class="am-announcement-drawer-widget__footer">
+			</div>
+</div>
+	
+	
+	<div id="wpconsent-root" data-nosnippet="true" style="--wpconsent-z-index: 900000; --wpconsent-background: #0f172a; --wpconsent-text: #f1f5f9; --wpconsent-outline-color: rgba(241, 245, 249, 0.2); --wpconsent-accept-bg: #fcd34d; --wpconsent-cancel-bg: #94a3b8; --wpconsent-preferences-bg: #94a3b8; --wpconsent-accept-color: #1e293b; --wpconsent-cancel-color: #1e293b; --wpconsent-preferences-color: #1e293b; --wpconsent-font-size: 14px;"><div id="wpconsent-container" style="display: none;"></div><template id="wpconsent-template"><div class="wpconsent-banner-holder wpconsent-banner-floating wpconsent-banner-floating-left-bottom" id="wpconsent-banner-holder" tabindex="-1" role="dialog" aria-labelledby="wpconsent-banner-title"><div class="wpconsent-banner" part="wpconsent-banner"><button class="wpconsent-banner-close" id="wpconsent-banner-close" aria-label="Fermer"></button><div class="wpconsent-banner-body" part="wpconsent-banner-body"><h2 id="wpconsent-banner-title" class="screen-reader-text">Cookie Consent</h2><div class="wpconsent-banner-message" tabindex="0"><p>We use cookies to improve your experience on our site. By using our site, you consent to cookies.</p>
+</div></div><div class="wpconsent-banner-footer wpconsent-button-size-small wpconsent-button-corner-slightly-rounded wpconsent-button-type-filled" part="wpconsent-banner-footer"><button type="button" id="wpconsent-preferences-all" class="wpconsent-preferences-cookies wpconsent-banner-button wpconsent-preferences-all wpconsent-button-disabled" part="wpconsent-button-preferences" data-disabled="true">Preferences</button><button type="button" id="wpconsent-cancel-all" class="wpconsent-cancel-cookies wpconsent-banner-button wpconsent-cancel-all" part="wpconsent-button-cancel">Reject</button><button type="button" id="wpconsent-accept-all" class="wpconsent-accept-cookies wpconsent-banner-button wpconsent-accept-all" part="wpconsent-button-accept">Accept</button></div><div class="wpconsent-powered-by"><a style="color: #f1f5f9" href="https://wpconsent.com/powered-by/?utm_source=liteplugin&amp;utm_medium=poweredby&amp;utm_campaign" target="_blank" rel="nofollow noopener noreferrer"><span class="wpconsent-powered-by-text">Powered by</span> <span class="screen-reader-text"> (opens in a new window)</span></a></div></div></div><div id="wpconsent-preferences-modal" class="wpconsent-preferences-modal" style="display:none;" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="wpconsent-preferences-title" part="wpconsent-preferences-modal"><div class="wpconsent-preferences-content" part="wpconsent-preferences-content"><div class="wpconsent-preferences-header" part="wpconsent-preferences-header"><h2 id="wpconsent-preferences-title" tabindex="0" part="wpconsent-preferences-title">Cookie Preferences</h2><div class="wpconsent-preferences-header-right"><button class="wpconsent-preferences-header-close" id="wpconsent-preferences-close" aria-label="Fermer" part="wpconsent-preferences-close">×</button></div></div><div class="wpconsent-preferences-body"><div class="wpconsent_preferences_panel_description" part="wpconsent-preferences-description"><p>Manage your cookie preferences below:</p>
+</div><div class="wpconsent-preference-cookies wpconsent-preferences-accordion" part="wpconsent-preferences-accordion"><div class="wpconsent-preferences-accordion-item wpconsent-cookie-category wpconsent-cookie-category-essential" part="wpconsent-accordion-item wpconsent-category-essential"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Essential</span></button><label for="cookie-category-essential">Essential</label></div><div class="wpconsent-cookie-category-checkbox"><label class="wpconsent-preferences-checkbox-toggle wpconsent-preferences-checkbox-toggle-disabled" part="wpconsent-checkbox-toggle wpconsent-checkbox-toggle-disabled"><input type="checkbox" id="cookie-category-essential" checked="" disabled=""><span class="wpconsent-preferences-checkbox-toggle-slider"></span></label></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-category-description" tabindex="0">Essential cookies enable basic functions and are necessary for the proper function of the website.</p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3092486" part="wpconsent-cookies-list-item"><div class="cookie-name">Cookie Preferences</div><div class="cookie-desc">This cookie is used to store the user's cookie consent preferences.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3092487" part="wpconsent-cookies-list-item"><div class="cookie-name">Cookie Preferences</div><div class="cookie-desc">This cookie is used to store the user's cookie consent preferences.</div><div class="cookie-duration">30 days</div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-easy-digital-downloads"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Easy Digital Downloads</span></button><label>Easy Digital Downloads</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">Easy Digital Downloads is a WordPress plugin for selling digital products effortlessly and managing transactions.</p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072409" part="wpconsent-cookies-list-item"><div class="cookie-name">edd_session_</div><div class="cookie-desc">Stores information about the current user session.</div><div class="cookie-duration">Session</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072410" part="wpconsent-cookies-list-item"><div class="cookie-name">edd_items_in_cart</div><div class="cookie-desc">Stores information about the cart contents.</div><div class="cookie-duration">Session</div></div></div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-login"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Login</span></button><label>Login</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">These cookies are used for managing login functionality on this website.</p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072406" part="wpconsent-cookies-list-item"><div class="cookie-name">wordpress_logged_in</div><div class="cookie-desc">Used to store logged-in users.</div><div class="cookie-duration">Persistent</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072407" part="wpconsent-cookies-list-item"><div class="cookie-name">wordpress_sec</div><div class="cookie-desc">Used to track the user across multiple sessions.</div><div class="cookie-duration">15 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072408" part="wpconsent-cookies-list-item"><div class="cookie-name">wordpress_test_cookie</div><div class="cookie-desc">Used to determine if cookies are enabled.</div><div class="cookie-duration">Session</div></div></div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-wpforms"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle WPForms</span></button><label>WPForms</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">WPForms is a user-friendly WordPress plugin for creating custom forms with drag-and-drop functionality.</p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072411" part="wpconsent-cookies-list-item"><div class="cookie-name">wpfuuid</div><div class="cookie-desc">Used to track user interactions with forms.</div><div class="cookie-duration">11 years</div></div></div></div></div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-category wpconsent-cookie-category-statistics" part="wpconsent-accordion-item wpconsent-category-statistics"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Statistics</span></button><label for="cookie-category-statistics">Statistics</label></div><div class="wpconsent-cookie-category-checkbox"><label class="wpconsent-preferences-checkbox-toggle" part="wpconsent-checkbox-toggle"><input type="checkbox" id="cookie-category-statistics" name="wpconsent_cookie[]" value="statistics"><span class="wpconsent-preferences-checkbox-toggle-slider"></span></label></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-category-description" tabindex="0">Statistics cookies collect information anonymously. This information helps us understand how visitors use our website.</p><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-google-analytics"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Google Analytics</span></button><label>Google Analytics</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">Google Analytics is a powerful tool that tracks and analyzes website traffic for informed marketing decisions.</p><p tabindex="0" class="wpconsent-service-url">Service URL: <a href="https://business.safety.google/privacy/" target="_blank" rel="noopener noreferrer">business.safety.google<span class="screen-reader-text"> (opens in a new window)</span></a></p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072419" part="wpconsent-cookies-list-item"><div class="cookie-name">__utmv</div><div class="cookie-desc">Used to store visitor-level custom variable data.</div><div class="cookie-duration">2 years</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072420" part="wpconsent-cookies-list-item"><div class="cookie-name">__utmz</div><div class="cookie-desc">Stores the traffic source or campaign that explains how the user reached your site.</div><div class="cookie-duration">6 months</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072412" part="wpconsent-cookies-list-item"><div class="cookie-name">_ga</div><div class="cookie-desc">Used to distinguish users.</div><div class="cookie-duration">2 years</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072413" part="wpconsent-cookies-list-item"><div class="cookie-name">_gat</div><div class="cookie-desc">Used to throttle request rate.</div><div class="cookie-duration">1 minute</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072414" part="wpconsent-cookies-list-item"><div class="cookie-name">_gid</div><div class="cookie-desc">Used to distinguish users.</div><div class="cookie-duration">24 hours</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072415" part="wpconsent-cookies-list-item"><div class="cookie-name">__utma</div><div class="cookie-desc">Used to distinguish users.</div><div class="cookie-duration">Persistent</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072416" part="wpconsent-cookies-list-item"><div class="cookie-name">__utmb</div><div class="cookie-desc">Used to determine new sessions/visits.</div><div class="cookie-duration">30 minutes</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072417" part="wpconsent-cookies-list-item"><div class="cookie-name">__utmc</div><div class="cookie-desc">Used to determine if the user is in a new session/visit.</div><div class="cookie-duration">Session</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072418" part="wpconsent-cookies-list-item"><div class="cookie-name">__utmt</div><div class="cookie-desc">Used to throttle request rate.</div><div class="cookie-duration">10 minutes</div></div></div></div></div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-category wpconsent-cookie-category-marketing" part="wpconsent-accordion-item wpconsent-category-marketing"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Marketing</span></button><label for="cookie-category-marketing">Marketing</label></div><div class="wpconsent-cookie-category-checkbox"><label class="wpconsent-preferences-checkbox-toggle" part="wpconsent-checkbox-toggle"><input type="checkbox" id="cookie-category-marketing" name="wpconsent_cookie[]" value="marketing"><span class="wpconsent-preferences-checkbox-toggle-slider"></span></label></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-category-description" tabindex="0">Marketing cookies are used to follow visitors to websites. The intention is to show ads that are relevant and engaging to the individual user.</p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226190" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref_visit_id</div><div class="cookie-desc">Stores the visit ID linked to the referring affiliate.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226191" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref_visit_id</div><div class="cookie-desc">Stores the visit ID linked to the referring affiliate.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226192" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref_visit_id</div><div class="cookie-desc">Stores the visit ID linked to the referring affiliate.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226193" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_campaign</div><div class="cookie-desc">Stores the affiliate campaign name for tracking purposes.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226194" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_campaign</div><div class="cookie-desc">Stores the affiliate campaign name for tracking purposes.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226195" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_campaign</div><div class="cookie-desc">Stores the affiliate campaign name for tracking purposes.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226187" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref</div><div class="cookie-desc">Stores the referring affiliate ID for commission attribution.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226188" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref</div><div class="cookie-desc">Stores the referring affiliate ID for commission attribution.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3226189" part="wpconsent-cookies-list-item"><div class="cookie-name">affwp_ref</div><div class="cookie-desc">Stores the referring affiliate ID for commission attribution.</div><div class="cookie-duration">30 days</div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-optinmonster"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle Optinmonster</span></button><label>Optinmonster</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">OptinMonster is a powerful lead generation tool that helps businesses convert visitors into subscribers and customers.</p><p tabindex="0" class="wpconsent-service-url">Service URL: <a href="https://optinmonster.com/gdpr/cookies/" target="_blank" rel="noopener noreferrer">optinmonster.com<span class="screen-reader-text"> (opens in a new window)</span></a></p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072430" part="wpconsent-cookies-list-item"><div class="cookie-name">om-{id}</div><div class="cookie-desc">used to determine if a visitor has interacted with a campaign ID of {id} on your site.</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072431" part="wpconsent-cookies-list-item"><div class="cookie-name">om-interaction-cookie&nbsp;/&nbsp;omGlobalInteractionCookie</div><div class="cookie-desc">Used to determine if a visitor has interacted with any campaign on your site.</div><div class="cookie-duration">Session</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072432" part="wpconsent-cookies-list-item"><div class="cookie-name">om-global-cookie&nbsp;/&nbsp;omGlobalSuccessCookie</div><div class="cookie-desc">Used to prevent any future OptinMonster campaigns from showing on your site.&nbsp;</div><div class="cookie-duration">Session</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072433" part="wpconsent-cookies-list-item"><div class="cookie-name">_omappvs</div><div class="cookie-desc">Cookie is used to identify returning visitors</div><div class="cookie-duration">1 day</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072434" part="wpconsent-cookies-list-item"><div class="cookie-name">_omappvp</div><div class="cookie-desc">Cookie is used to identify returning visitors</div><div class="cookie-duration">1 day</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072424" part="wpconsent-cookies-list-item"><div class="cookie-name">_omra</div><div class="cookie-desc">Used to store interaction and conversion data for campaigns in conjunction with Revenue Attribution</div><div class="cookie-duration">1 year</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072425" part="wpconsent-cookies-list-item"><div class="cookie-name">omCountdown-{id}-{elementId}</div><div class="cookie-desc">Used for countdown elements {elementId} in campaigns {id} to determine when it should complete</div><div class="cookie-duration">Session</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072426" part="wpconsent-cookies-list-item"><div class="cookie-name">om-{id}-closed&nbsp;/&nbsp;omSlideClosed-{id}</div><div class="cookie-desc">Used specifically with slide-in campaigns {id} to determine if it has been closed or not by a visitor.&nbsp;</div><div class="cookie-duration">30 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072427" part="wpconsent-cookies-list-item"><div class="cookie-name">om-success-cookie&nbsp;/&nbsp;omSuccessCookie</div><div class="cookie-desc">used to determine if a visitor has successfully opted in to any campaign on your site to unlock content when using the&nbsp;Content Locking feature.</div><div class="cookie-duration">365 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072428" part="wpconsent-cookies-list-item"><div class="cookie-name">om-success-{id}&nbsp;/&nbsp;omSuccess-{id}</div><div class="cookie-desc">Used to determine if a visitor has successfully opted in to a campaign with the ID of {id} on your site</div><div class="cookie-duration">365 days</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072429" part="wpconsent-cookies-list-item"><div class="cookie-name">omSeen-{id}</div><div class="cookie-desc">Used to determine if a visitor has been shown a campaign by the slug. No expiration date</div><div class="cookie-duration">30 days</div></div></div></div></div><div class="wpconsent-preferences-accordion-item wpconsent-cookie-service" part="wpconsent-accordion-item wpconsent-service-x-formerly-twitter-pixel"><div class="wpconsent-preferences-accordion-header" part="wpconsent-accordion-header"><div class="wpconsent-cookie-category-text"><button class="wpconsent-preferences-accordion-toggle" aria-expanded="false" part="wpconsent-accordion-toggle"><span class="wpconsent-preferences-accordion-arrow" aria-hidden="true"></span><span class="screen-reader-text">Toggle X (formerly Twitter) Pixel</span></button><label>X (formerly Twitter) Pixel</label></div><div class="wpconsent-cookie-category-checkbox"></div></div><div class="wpconsent-preferences-accordion-content" part="wpconsent-accordion-content"><p class="wpconsent-service-description" tabindex="0">X Pixel enables businesses to track user interactions and optimize ad performance on the X platform effectively.</p><p tabindex="0" class="wpconsent-service-url">Service URL: <a href="https://x.com/en/privacy" target="_blank" rel="noopener noreferrer">x.com<span class="screen-reader-text"> (opens in a new window)</span></a></p><div class="wpconsent-preferences-cookies-list" part="wpconsent-cookies-list"><div class="wpconsent-preferences-list-header" part="wpconsent-cookies-list-header"><div class="cookie-name">Name</div><div class="cookie-desc">Description</div><div class="cookie-duration">Duration</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072421" part="wpconsent-cookies-list-item"><div class="cookie-name">guest_id</div><div class="cookie-desc">This cookie is set by X to identify and track the website visitor. Registers if a users is signed in the X platform and collects information about ad preferences.</div><div class="cookie-duration">2 years</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072422" part="wpconsent-cookies-list-item"><div class="cookie-name">personalization_id</div><div class="cookie-desc">Unique value with which users can be identified by X. Collected information is used to be personalize X services, including X trends, stories, ads and suggestions.</div><div class="cookie-duration">2 years</div></div><div class="wpconsent-preferences-list-item" data-cookie-id="3072423" part="wpconsent-cookies-list-item"><div class="cookie-name">external_referer</div><div class="cookie-desc">Our Website uses X buttons to allow our visitors to follow our promotional X feeds, and sometimes embed feeds on our Website.</div><div class="cookie-duration">2 years</div></div></div></div></div></div></div></div></div><div class="wpconsent-preferences-actions" part="wpconsent-preferences-actions"><div class="wpconsent-preferences-buttons wpconsent-button-size-small wpconsent-button-corner-slightly-rounded wpconsent-button-type-filled" part="wpconsent-preferences-buttons"><div class="wpconsent-preferences-buttons-left" part="wpconsent-preferences-buttons-left"><button class="wpconsent-accept-all wpconsent-banner-button" part="wpconsent-preferences-accept-button">Accept</button><button class="wpconsent-close-preferences wpconsent-banner-button" part="wpconsent-preferences-cancel-button">Close</button></div><button class="wpconsent-save-preferences wpconsent-banner-button" part="wpconsent-preferences-save-button">Save and Close</button></div></div><div class="wpconsent-preferences-powered-by"><div class="wpconsent-powered-by"><a style="color: #f1f5f9" href="https://wpconsent.com/powered-by/?utm_source=liteplugin&amp;utm_medium=poweredby&amp;utm_campaign" target="_blank" rel="nofollow noopener noreferrer"><span class="wpconsent-powered-by-text">Powered by</span> <span class="screen-reader-text"> (opens in a new window)</span></a></div></div></div></div><button id="wpconsent-consent-floating" class="wpconsent-consent-floating-button" part="wpconsent-settings-button" style="background-color: #0f172a; color: #f1f5f9;" aria-label="Préférences de cookies"></button></template></div>	
+		
+	
+	
+	
+		
+			
+		
+		
+		
+
+
+
+
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<div hidden="" id="universally-i18n-markers">
+							<span data-p="wpfAiSummarize.copyLlmCopied">Copié !</span>
+							<span data-p="wpfAiSummarize.copyLlmFailed">Impossible de copier. Veuillez réessayer.</span>
+					</div>
+</form>
+</body>
+</html>

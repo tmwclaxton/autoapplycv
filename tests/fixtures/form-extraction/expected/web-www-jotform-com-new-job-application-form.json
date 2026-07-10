@@ -1,0 +1,56 @@
+{
+  "id": "web-www-jotform-com-new-job-application-form",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search in all form templates",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-input",
+        "name": "q",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search in all Form Templates",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "classic",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Classic",
+        "Card"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "classic",
+        "name": "form-layout",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next Slide"
+    }
+  ],
+  "vet_notes": []
+}

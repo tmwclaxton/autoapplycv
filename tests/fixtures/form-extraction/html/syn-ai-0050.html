@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Apply</title>
+<style>
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f6f9; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+  dialog { border: 0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); padding: 0; max-width: 640px; width: 100%; }
+  dialog::backdrop { background: rgba(0,0,0,0.4); }
+  .app-inner { padding: 24px 28px 36px; }
+  h2 { font-size: 20px; margin: 0 0 4px 0; color: #1a1a1a; }
+  .subhead { color: #5f6b7a; font-size: 14px; margin: 0 0 20px 0; }
+  fieldset { border: 0; padding: 0; margin: 0 0 24px 0; }
+  legend { font-weight: 600; font-size: 15px; padding: 0 0 8px 0; color: #2c3e50; border-bottom: 1px solid #e1e6ec; width: 100%; margin-bottom: 14px; }
+  .field-row { margin-bottom: 16px; }
+  .label-con { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 500; color: #3b4a5c; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea { width: 100%; padding: 10px 12px; border: 1px solid #cfd8e3; border-radius: 6px; font-size: 14px; background: #fff; }
+  input:focus, textarea:focus, .custom-combo:focus-within { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px #bfdbfe; }
+  .radio-group { display: flex; gap: 20px; margin-top: 6px; }
+  .radio-group label { font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .checkbox-group label { font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .req { color: #dc2626; margin-left: 2px; }
+  .custom-combo { position: relative; width: 100%; border: 1px solid #cfd8e3; border-radius: 6px; background: #fff; cursor: default; }
+  .combo-trigger { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; min-height: 44px; }
+  .combo-trigger span.placeholder { color: #7b8a9b; }
+  .combo-trigger span.selected { color: #1a1a1a; }
+  .combo-arrow { border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #7b8a9b; margin-left: 8px; flex-shrink: 0; }
+  .combo-listbox { display: none; position: absolute; top: 100%; left: -1px; right: -1px; background: #fff; border: 1px solid #cfd8e3; border-radius: 0 0 6px 6px; max-height: 180px; overflow-y: auto; z-index: 10; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .custom-combo.open .combo-listbox { display: block; }
+  .combo-option { padding: 10px 14px; font-size: 14px; transition: background 0.1s; }
+  .combo-option:hover, .combo-option.focused { background: #eef2f7; }
+  .combo-option[aria-selected="true"] { background: #dbeafe; font-weight: 500; }
+  .pill-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .pill-btn { padding: 8px 18px; border-radius: 100px; border: 1px solid #cfd8e3; background: #fff; font-size: 13px; cursor: pointer; transition: all 0.15s; color: #2c3e50; }
+  .pill-btn.active { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+  .pill-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .file-upload-area { display: flex; align-items: center; gap: 12px; }
+  .fake-file-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #eef2f7; border-radius: 6px; font-size: 13px; font-weight: 500; color: #2c3e50; border: 1px dashed #a0b1c4; cursor: pointer; transition: background 0.15s; }
+  .fake-file-btn:hover { background: #e1e8f0; }
+  .file-name { font-size: 13px; color: #5f6b7a; }
+  .hidden-file-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .decoy-box { margin: 0 0 28px 0; padding: 16px 20px; background: #f8fafc; border: 1px solid #e1e6ec; border-radius: 8px; }
+  .decoy-box h3 { font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: #4b5a6a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .decoy-inline { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .decoy-inline input[type="email"] { flex: 1; min-width: 180px; }
+  .decoy-inline button { padding: 8px 16px; background: #eef2f7; border: 1px solid #cfd8e3; border-radius: 6px; font-size: 13px; cursor: pointer; }
+  .btn-submit { background: #1d4ed8; color: #fff; border: 0; padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; }
+  .btn-submit:hover { background: #1e40af; }
+  .btn-submit:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .note { font-size: 12px; color: #6b7a8a; margin-top: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  .shadow-host { display: block; width: 100%; }
+  .reveal-content { margin-top: 6px; padding: 10px 14px; background: #f9fbfd; border-radius: 6px; border: 1px solid #e1e6ec; }
+</style>
+</head>
+<body>
+
+<!-- Decoy newsletter form -->
+<div class="decoy-box">
+  <h3>📬 stay updated</h3>
+  <form onsubmit="event.preventDefault(); alert('Decoy: thanks (not really)');">
+    <div class="decoy-inline">
+      <input type="email" placeholder="your email for spam" aria-label="Newsletter email" name="newsletter_email">
+      <button type="submit" aria-label="Subscribe to newsletter">Subscribe</button>
+    </div>
+  </form>
+</div>
+
+<!-- Main application dialog -->
+<dialog id="appDialog" open>
+  <div class="app-inner">
+    <h2>Senior Frontend Engineer</h2>
+    <div class="subhead">Product · Remote · Full-time</div>
+
+    <form id="jobAppForm" novalidate>
+
+      <!-- Personal Information -->
+      <fieldset>
+        <legend>Personal Information</legend>
+
+        <div class="field-row">
+          <span class="label-con" id="nameLabel">Full name <span class="req">*</span></span>
+          <!-- label wraps input through nested divs without for (label-wraps-deep) -->
+          <label style="display:block;">
+            <div>
+              <div>
+                <input type="text" name="full_name" placeholder="e.g. Jane Doe" required aria-labelledby="nameLabel">
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="field-row">
+          <!-- readonly prefilled email (Readonly prefilled email) -->
+          <span class="label-con" id="emailLabel">Email <span class="req">*</span></span>
+          <input type="email" name="email" value="jane.doe@example.com" readonly aria-labelledby="emailLabel" style="background:#f4f6f9; color:#3b4a5c;">
+          <div class="note">Imported from profile</div>
+        </div>
+
+        <div class="two-col">
+          <div class="field-row">
+            <span class="label-con" id="phoneLabel">Phone</span>
+            <input type="tel" name="phone" placeholder="+1 555 000 0000" aria-labelledby="phoneLabel">
+          </div>
+          <div class="field-row">
+            <span class="label-con" id="locLabel">Location</span>
+            <input type="text" name="location" placeholder="City, State" aria-labelledby="locLabel">
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Professional Details -->
+      <fieldset>
+        <legend>Professional Details</legend>
+
+        <div class="field-row">
+          <span class="label-con" id="expLabel">Years of experience</span>
+          <!-- custom listbox combobox (native-select-not-combobox) -->
+          <div class="custom-combo" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="expLabel" tabindex="0">
+            <div class="combo-trigger" aria-hidden="true">
+              <span class="placeholder" data-placeholder="Select range">Select range</span>
+              <span class="combo-arrow"></span>
+            </div>
+            <div class="combo-listbox" role="listbox" aria-label="Experience range">
+              <div role="option" class="combo-option" aria-selected="false" data-value="0-2">0–2 years</div>
+              <div role="option" class="combo-option" aria-selected="false" data-value="3-5">3–5 years</div>
+              <div role="option" class="combo-option" aria-selected="false" data-value="6-10">6–10 years</div>
+              <div role="option" class="combo-option" aria-selected="false" data-value="10+">10+ years</div>
+            </div>
+          </div>
+          <!-- hidden native select for fallback, but we rely on custom listbox -->
+          <select name="experience_range" style="display:none;" aria-hidden="true">
+            <option value="">Select range</option>
+            <option value="0-2">0–2 years</option>
+            <option value="3-5">3–5 years</option>
+            <option value="6-10">6–10 years</option>
+            <option value="10+">10+ years</option>
+          </select>
+          <input type="hidden" name="experience_range" id="expHidden" value="">
+        </div>
+
+        <div class="field-row">
+          <!-- glued span labels (non-semantic) -->
+          <span class="label-con">Current company <span style="font-weight:400;color:#7b8a9b;">(optional)</span></span>
+          <input type="text" name="current_company" placeholder="Company name" aria-label="Current company">
+        </div>
+
+        <div class="field-row">
+          <span class="label-con" id="linkedinLabel">LinkedIn / Portfolio</span>
+          <input type="url" name="linkedin_url" placeholder="https://linkedin.com/in/..." aria-labelledby="linkedinLabel">
+        </div>
+      </fieldset>
+
+      <!-- Work authorization & details -->
+      <fieldset>
+        <legend>Eligibility</legend>
+
+        <div class="field-row">
+          <span class="label-con">Authorized to work in US? <span class="req">*</span></span>
+          <!-- duplicate-name-attrs: radio group with same name -->
+          <div class="radio-group" role="radiogroup" aria-label="Work authorization">
+            <label><input type="radio" name="work_auth" value="yes" required> Yes</label>
+            <label><input type="radio" name="work_auth" value="no"> No</label>
+            <label><input type="radio" name="work_auth" value="need_sponsor"> Need visa</label>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <span class="label-con">Gender identity (demographic)</span>
+          <!-- duplicate-name-attrs: checkbox group same name -->
+          <div class="checkbox-group" role="group" aria-label="Gender identity">
+            <label><input type="checkbox" name="gender_identity" value="woman"> Woman</label>
+            <label><input type="checkbox" name="gender_identity" value="man"> Man</label>
+            <label><input type="checkbox" name="gender_identity" value="nonbinary"> Non-binary</label>
+            <label><input type="checkbox" name="gender_identity" value="prefer_not"> Prefer not to say</label>
+          </div>
+          <div class="note">Check all that apply</div>
+        </div>
+
+        <div class="field-row">
+          <span class="label-con">Veteran status</span>
+          <div class="pill-group" role="radiogroup" aria-label="Veteran status">
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes" onclick="togglePill(this)">Yes</button>
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no" onclick="togglePill(this)">No</button>
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="decline" onclick="togglePill(this)">Decline</button>
+          </div>
+          <input type="hidden" name="veteran_status" id="veteranHidden" value="">
+        </div>
+      </fieldset>
+
+      <!-- Resume & Cover Letter -->
+      <fieldset>
+        <legend>Resume &amp; Cover</legend>
+
+        <div class="field-row">
+          <span class="label-con" id="resumeLabel">Resume / CV <span class="req">*</span></span>
+          <!-- Lever custom file button -->
+          <div class="file-upload-area">
+            <span class="fake-file-btn" role="button" tabindex="0" onclick="document.getElementById('resumeInput').click(); return false;" onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1v10M3 6l5-5 5 5M3 12h10"/></svg>
+              Upload file
+            </span>
+            <span class="file-name" id="resumeFileName">No file chosen</span>
+          </div>
+          <input type="file" id="resumeInput" name="resume_file" accept=".pdf,.doc,.docx" required class="hidden-file-input" aria-labelledby="resumeLabel" onchange="document.getElementById('resumeFileName').textContent = this.files.length ? this.files[0].name : 'No file chosen'">
+        </div>
+
+        <div class="field-row">
+          <span class="label-con" id="coverLabel">Cover letter (optional)</span>
+          <textarea name="cover_letter" rows="3" placeholder="Paste or type your cover letter..." aria-labelledby="coverLabel"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- Additional questions (with conditional reveal) -->
+      <fieldset>
+        <legend>Additional questions</legend>
+
+        <div class="field-row">
+          <span class="label-con" id="referralLabel">How did you hear about us?</span>
+          <input type="text" name="referral_source" placeholder="e.g. LinkedIn, friend, ad" aria-labelledby="referralLabel">
+        </div>
+
+        <div class="field-row">
+          <span class="label-con">Are you willing to relocate? <span class="req">*</span></span>
+          <!-- pill buttons (yes/no) for relocation -->
+          <div class="pill-group" role="radiogroup" aria-label="Willing to relocate">
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="yes" onclick="togglePill(this); revealRelo()">Yes</button>
+            <button type="button" class="pill-btn" role="radio" aria-checked="false" data-value="no" onclick="togglePill(this); revealRelo()">No</button>
+          </div>
+          <input type="hidden" name="willing_relocate" id="relocateHidden" value="">
+          <div id="reloDetails" class="reveal-content" style="display:none;">
+            <label style="font-size:13px;display:block;">If yes, preferred location:</label>
+            <input type="text" name="relocation_preference" placeholder="City or region" style="width:100%;margin-top:4px;">
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Shadow DOM host field -->
+      <fieldset>
+        <legend>Additional profile (shadow)</legend>
+        <div class="field-row">
+          <span class="label-con">Portfolio URL (shadow)</span>
+          <div class="shadow-host" id="shadowHost"></div>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn-submit" onclick="handleSubmit(event)">Submit application</button>
+    </form>
+  </div>
+</dialog>
+
+<script>
+  // Combobox logic
+  document.querySelectorAll('.custom-combo').forEach(combo => {
+    const trigger = combo.querySelector('.combo-trigger');
+    const listbox = combo.querySelector('.combo-listbox');
+    const options = listbox.querySelectorAll('.combo-option');
+    const placeholderSpan = trigger.querySelector('.placeholder');
+    const hiddenInput = combo.parentElement.querySelector('input[type="hidden"]') || document.getElementById('expHidden');
+    const nativeSelect = combo.parentElement.querySelector('select');
+
+    function closeCombo() {
+      combo.classList.remove('open');
+      combo.setAttribute('aria-expanded', 'false');
+    }
+
+    function openCombo() {
+      combo.classList.add('open');
+      combo.setAttribute('aria-expanded', 'true');
+    }
+
+    function selectOption(el) {
+      options.forEach(o => o.setAttribute('aria-selected', 'false'));
+      el.setAttribute('aria-selected', 'true');
+      placeholderSpan.textContent = el.textContent;
+      placeholderSpan.className = 'selected';
+      const val = el.getAttribute('data-value');
+      if (hiddenInput) hiddenInput.value = val;
+      if (nativeSelect) nativeSelect.value = val;
+      closeCombo();
+    }
+
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (combo.classList.contains('open')) closeCombo(); else openCombo();
+    });
+
+    combo.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (combo.classList.contains('open')) closeCombo(); else openCombo();
+      }
+      if (e.key === 'Escape') closeCombo();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!combo.classList.contains('open')) openCombo();
+        const current = listbox.querySelector('.focused');
+        let next;
+        if (e.key === 'ArrowDown') {
+          next = current ? current.nextElementSibling : options[0];
+        } else {
+          next = current ? current.previousElementSibling : options[options.length-1];
+        }
+        if (next) {
+          if (current) current.classList.remove('focused');
+          next.classList.add('focused');
+          next.scrollIntoView({ block: 'nearest' });
+        }
+      }
+      if (e.key === 'Tab' && combo.classList.contains('open')) closeCombo();
+    });
+
+    options.forEach(opt => {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(this);
+      });
+      opt.addEventListener('mousedown', function(e) { e.preventDefault(); });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combo.contains(e.target)) closeCombo();
+    });
+  });
+
+  // Pill toggle
+  function togglePill(btn) {
+    const group = btn.parentElement;
+    const hiddenInput = group.nextElementSibling;
+    group.querySelectorAll('.pill-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    if (hiddenInput && hiddenInput.tagName === 'INPUT') {
+      hiddenInput.value = btn.getAttribute('data-value');
+    }
+  }
+
+  // Conditional reveal
+  function revealRelo() {
+    const active = document.querySelector('.pill-group[aria-label="Willing to relocate"] .pill-btn.active');
+    const container = document.getElementById('reloDetails');
+    if (active && active.getAttribute('data-value') === 'yes') {
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  }
+
+  // Shadow DOM host
+  (function() {
+    const host = document.getElementById('shadowHost');
+    if (host && !host.shadowRoot) {
+      const shadow = host.attachShadow({ mode: 'open' });
+      shadow.innerHTML = `
+        <style>
+          .shadow-field { display:flex; flex-direction:column; gap:4px; }
+          input { padding:10px 12px; border:1px solid #cfd8e3; border-radius:6px; font-size:14px; width:100%; }
+        </style>
+        <div class="shadow-field">
+          <span style="font-size:13px;color:#3b4a5c;">Portfolio / personal site</span>
+          <input type="url" name="portfolio_url" placeholder="https://yoursite.dev" aria-label="Portfolio URL inside shadow">
+        </div>
+      `;
+    }
+  })();
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    // basic validation
+    const name = document.querySelector('input[name="full_name"]');
+    const email = document.querySelector('input[name="email"]');
+    const resume = document.getElementById('resumeInput');
+    if (!name.value.trim() || !email.value.trim() || !resume.files.length) {
+      alert('Please fill in required fields: name, email, resume.');
+      return;
+    }
+    alert('Application submitted (simulation). In production this would be sent to the ATS.');
+  }
+</script>
+
+</body>
+</html>

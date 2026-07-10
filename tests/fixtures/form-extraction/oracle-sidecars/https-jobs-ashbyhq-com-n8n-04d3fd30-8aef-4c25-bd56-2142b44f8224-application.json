@@ -1,0 +1,356 @@
+{
+  "id": "https-jobs-ashbyhq-com-n8n-04d3fd30-8aef-4c25-bd56-2142b44f8224-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T15:15:30.197Z",
+  "page_url": "https://jobs.ashbyhq.com/n8n/04d3fd30-8aef-4c25-bd56-2142b44f8224/application",
+  "page_title": "Technical Account Manager (Remote US) @ n8n",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 12,
+      "count_delta": 13,
+      "label_jaccard": 0.48,
+      "type_agree_rate": 0.9167,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "first and last name",
+        "ai": "First and last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+        "ai": "Tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which u.s. state will you be physically working from if hired?",
+        "ai": "Which U.S. state will you be physically working from if hired?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your expected yearly salary for the role?",
+        "ai": "What is your expected yearly salary for the role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what about n8n or the role caught your attention and made you apply?",
+        "ai": "What about n8n or the role caught your attention and made you apply?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about a strategic enterprise customer account where you were the primary technical owner. what was the customer trying to achieve, what technical or adoption risks did you identify, what actions did you take, and what measurable business outcome resulted?",
+        "ai": "Tell us about a strategic enterprise customer account where you were the primary technical owner. What was the customer trying to achieve, what technical or adoption risks did you identify, what actions did you take, and what measurable business outcome resulted?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have in a customer-facing technical role?",
+        "ai": "How many years of experience do you have in a customer-facing technical role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which roles best describe your recent experience?",
+        "ai": "Which roles best describe your recent experience?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what size customers have you directly owned or supported as a primary technical contact?",
+        "ai": "What size customers have you directly owned or supported as a primary technical contact?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which technical areas do you have hands-on working experience with?",
+        "ai": "Which technical areas do you have hands-on working experience with?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "have you diagnosed production performance, reliability, or scalability issues for customer environments?",
+      "have you owned commercial or business outcomes for enterprise customers?",
+      "which best describes your customer engagement style?",
+      "github profile (optional but strongly encouraged)",
+      "what knowledge/experience do you have with n8n?",
+      "if you've used n8n, drop us a screenshot of your favorite workflow: (optional, file drop)",
+      "what is your current age?",
+      "what is your gender identity?",
+      "do you identify as transgender?",
+      "how do you identify your sexual orientation? please select all that apply.",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply.",
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom combobox for the state selection and custom checkbox/radio components. The HTML excerpt was truncated, so the final checkbox options list might be incomplete.",
+    "fields": [
+      {
+        "question": "First and last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I will be based in the US and do not need visa support",
+          "I will be based in the US and need visa support"
+        ]
+      },
+      {
+        "question": "Which U.S. state will you be physically working from if hired?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your expected yearly salary for the role?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What about n8n or the role caught your attention and made you apply?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Tell us about a strategic enterprise customer account where you were the primary technical owner. What was the customer trying to achieve, what technical or adoption risks did you identify, what actions did you take, and what measurable business outcome resulted?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have in a customer-facing technical role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Less than 2 years",
+          "2–3 years",
+          "3–5 years",
+          "5–8 years",
+          "8+ years"
+        ]
+      },
+      {
+        "question": "Which roles best describe your recent experience?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Technical Account Manager",
+          "Solutions Engineer / Sales Engineer",
+          "Customer Engineer",
+          "Solutions Architect",
+          "Site Reliability Engineer in a customer-facing role",
+          "Customer Success Manager with technical ownership",
+          "Support Engineer"
+        ]
+      },
+      {
+        "question": "What size customers have you directly owned or supported as a primary technical contact?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "SMB only",
+          "Mid-market only",
+          "Enterprise accounts as part of a team",
+          "Enterprise / strategic accounts as the primary technical owner",
+          "Global / complex enterprise accounts with multiple senior stakeholders"
+        ]
+      },
+      {
+        "question": "Which technical areas do you have hands-on working experience with?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "REST APIs",
+          "Webhooks",
+          "JavaScript or other scripting language",
+          "Docker",
+          "Kubernetes",
+          "Self-hosted / on-prem deployments"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first and last name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "which u.s. state will you be physically working from if hired?",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "what is your expected yearly salary for the role?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what about n8n or the role caught your attention and made you apply?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "tell us about a strategic enterprise customer account where you were the primary technical owner. what was the customer trying to achieve, what technical or adoption risks did you identify, what actions did you take, and what measurable business outcome resulted?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "how many years of experience do you have in a customer-facing technical role?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "which roles best describe your recent experience?",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "what size customers have you directly owned or supported as a primary technical contact?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "which technical areas do you have hands-on working experience with?",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "have you diagnosed production performance, reliability, or scalability issues for customer environments?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "have you owned commercial or business outcomes for enterprise customers?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "which best describes your customer engagement style?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "github profile (optional but strongly encouraged)",
+      "field_type": "url",
+      "ref": "f15"
+    },
+    {
+      "question": "what knowledge/experience do you have with n8n?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "if you've used n8n, drop us a screenshot of your favorite workflow: (optional, file drop)",
+      "field_type": "file",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f24"
+    }
+  ]
+}

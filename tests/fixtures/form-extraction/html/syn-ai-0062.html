@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior UI Engineer Application - Ashby</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f5f7; padding: 24px; }
+  .app-wrapper { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 28px 32px; }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+  .field-group { margin-bottom: 20px; }
+  .field-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .field-row > * { flex: 1; min-width: 180px; }
+  .pill-group { display: flex; gap: 0; border-radius: 6px; overflow: hidden; border: 1px solid #d0d5dd; background: #fff; }
+  .pill-btn { flex: 1; text-align: center; padding: 10px 16px; font-size: 14px; cursor: pointer; border-right: 1px solid #d0d5dd; user-select: none; transition: background 0.1s; }
+  .pill-btn:last-child { border-right: none; }
+  .pill-btn.active { background: #0a66c2; color: #fff; font-weight: 500; }
+  .pill-btn input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .text-input { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; }
+  .text-input:focus { outline: 2px solid #0a66c2; outline-offset: -1px; }
+  .custom-combobox { position: relative; }
+  .combobox-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; background: #fff; cursor: pointer; font-size: 14px; }
+  .combobox-trigger:focus { outline: 2px solid #0a66c2; outline-offset: -1px; }
+  .combobox-listbox { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #d0d5dd; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .combobox-listbox.open { display: block; }
+  .listbox-option { padding: 10px 12px; cursor: pointer; font-size: 14px; }
+  .listbox-option:hover, .listbox-option.selected { background: #e6f0fa; }
+  .glued-label span { display: inline; }
+  .shadow-host { all: inherit; display: block; }
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 24px; border-top: 1px solid #eaecf0; padding-top: 20px; }
+  .btn { padding: 10px 20px; border-radius: 6px; border: 1px solid #d0d5dd; background: #fff; cursor: pointer; font-size: 14px; }
+  .btn-primary { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+  .btn:disabled { opacity: 0.5; pointer-events: none; }
+  .error-msg { color: #d92d20; font-size: 12px; margin-top: 4px; display: none; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size: 20px; font-weight: 600;">Senior UI Engineer</h2>
+    <p style="color: #475467; font-size: 14px;">Ashby · Remote · Full-time</p>
+  </div>
+
+  <!-- Step 1: Personal Info (active by default) -->
+  <div id="step-1" class="step-panel active">
+    <div class="field-group">
+      <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">Full name</span>
+        <span style="color: #d92d20;">*</span>
+      </div>
+      <input type="text" class="text-input" placeholder="Jane Doe" aria-label="Full name" style="max-width: 400px;">
+    </div>
+
+    <div class="field-group">
+      <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">Email</span>
+        <span style="color: #d92d20;">*</span>
+      </div>
+      <input type="email" class="text-input" placeholder="you@example.com" aria-label="Email" style="max-width: 400px;">
+    </div>
+
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        <span>Phone</span>
+      </div>
+      <input type="tel" class="text-input" placeholder="+1 555 123 4567" aria-label="Phone number" style="max-width: 280px;">
+    </div>
+
+    <div class="field-group">
+      <div class="glued-label" style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        <span>Years</span><span>of</span><span>experience</span>
+        <span style="color: #d92d20;">*</span>
+      </div>
+      <input type="number" class="text-input" min="0" max="25" placeholder="Years" aria-label="Years of experience" style="max-width: 120px;">
+      <div style="font-size: 12px; color: #667085; margin-top: 2px;">0–25 years</div>
+    </div>
+
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Current location (remote eligible)
+      </div>
+      <div class="custom-combobox" id="location-combo">
+        <div class="combobox-trigger" role="combobox" tabindex="0" aria-expanded="false" aria-controls="location-listbox" aria-label="Select your location">
+          <span id="combo-selected">Select country</span>
+          <span style="color: #98a2b3;">▼</span>
+        </div>
+        <div class="combobox-listbox" id="location-listbox" role="listbox" aria-label="Location options">
+          <div class="listbox-option" role="option" data-value="us">United States</div>
+          <div class="listbox-option" role="option" data-value="ca">Canada</div>
+          <div class="listbox-option" role="option" data-value="uk">United Kingdom</div>
+          <div class="listbox-option" role="option" data-value="de">Germany</div>
+          <div class="listbox-option" role="option" data-value="other">Other</div>
+        </div>
+        <input type="hidden" id="location-hidden" name="location" value="">
+      </div>
+    </div>
+
+    <!-- Radio styled as pill buttons: Work authorization -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Work authorization
+        <span style="color: #d92d20;">*</span>
+      </div>
+      <div class="pill-group" role="radiogroup" aria-label="Work authorization">
+        <label class="pill-btn active" data-value="us-citizen">
+          <input type="radio" name="work_auth" value="us-citizen" checked> US Citizen
+        </label>
+        <label class="pill-btn" data-value="green-card">
+          <input type="radio" name="work_auth" value="green-card"> Green Card
+        </label>
+        <label class="pill-btn" data-value="visa">
+          <input type="radio" name="work_auth" value="visa"> Visa holder
+        </label>
+        <label class="pill-btn" data-value="other">
+          <input type="radio" name="work_auth" value="other"> Other
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Skills & Screening -->
+  <div id="step-2" class="step-panel">
+    <!-- duplicate name attrs: checkbox group -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Skills (select all that apply)
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="skills" value="react"> React
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="skills" value="typescript"> TypeScript
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="skills" value="css"> CSS/UI
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="skills" value="node"> Node.js
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="skills" value="graphql"> GraphQL
+        </label>
+      </div>
+    </div>
+
+    <!-- aria-label only field: LinkedIn -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        LinkedIn profile
+      </div>
+      <input type="url" class="text-input" placeholder="https://linkedin.com/in/..." aria-label="LinkedIn profile URL" style="max-width: 400px;">
+    </div>
+
+    <!-- aria-label only field: Portfolio -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        Portfolio / GitHub
+      </div>
+      <input type="url" class="text-input" placeholder="https://github.com/..." aria-label="Portfolio or GitHub URL" style="max-width: 400px;">
+    </div>
+
+    <!-- Shadow host: declarative shadow root -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        Referral source
+      </div>
+      <div class="shadow-host">
+        <template shadowrootmode="open">
+          <style>
+            :host { display: block; }
+            .shadow-input { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-size: 14px; background: #fff; }
+            .shadow-input:focus { outline: 2px solid #0a66c2; outline-offset: -1px; }
+          </style>
+          <input class="shadow-input" placeholder="e.g. LinkedIn, friend, ad" aria-label="How did you hear about us?" id="shadow-ref">
+        </template>
+      </div>
+    </div>
+
+    <!-- Glued span label for textarea -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;" class="glued-label">
+        <span>Why</span><span>are</span><span>you</span><span>interested?</span>
+        <span style="color: #d92d20;">*</span>
+      </div>
+      <textarea class="text-input" rows="3" placeholder="Briefly tell us why you're excited about this role..." aria-label="Why are you interested" style="resize: vertical;"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn" onclick="prevStep()">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Review & Submit -->
+  <div id="step-3" class="step-panel">
+    <div style="font-size: 14px; font-weight: 500; margin-bottom: 12px;">
+      Additional information
+    </div>
+
+    <!-- Another aria-label only: salary expectation -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 6px;">
+        Salary expectation (USD)
+      </div>
+      <input type="text" class="text-input" placeholder="e.g. 150,000" aria-label="Salary expectation in USD" style="max-width: 200px;">
+    </div>
+
+    <!-- duplicate name attrs: another radio group (gender) -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Gender (optional)
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="radio" name="gender" value="female"> Female
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="radio" name="gender" value="male"> Male
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="radio" name="gender" value="nonbinary"> Non-binary
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="radio" name="gender" value="prefer-not"> Prefer not to say
+        </label>
+      </div>
+    </div>
+
+    <!-- Veteran status (pill buttons using duplicate name) -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Veteran status
+      </div>
+      <div class="pill-group" role="radiogroup" aria-label="Veteran status">
+        <label class="pill-btn" data-value="yes">
+          <input type="radio" name="veteran" value="yes"> Yes
+        </label>
+        <label class="pill-btn active" data-value="no">
+          <input type="radio" name="veteran" value="no" checked> No
+        </label>
+        <label class="pill-btn" data-value="not-say">
+          <input type="radio" name="veteran" value="not-say"> Prefer not
+        </label>
+      </div>
+    </div>
+
+    <!-- Disability (checkbox group with duplicate name) -->
+    <div class="field-group">
+      <div style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+        Disability (optional, select all that apply)
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="disability" value="hearing"> Hearing
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="disability" value="vision"> Vision
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="disability" value="mobility"> Mobility
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+          <input type="checkbox" name="disability" value="none"> None
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn" onclick="prevStep()">← Back</button>
+      <button class="btn btn-primary" onclick="alert('Application submitted! (demo)')">Submit application</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    window.nextStep = function() {
+      if (currentStep < totalSteps) {
+        document.getElementById('step-' + currentStep).classList.remove('active');
+        currentStep++;
+        document.getElementById('step-' + currentStep).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    window.prevStep = function() {
+      if (currentStep > 1) {
+        document.getElementById('step-' + currentStep).classList.remove('active');
+        currentStep--;
+        document.getElementById('step-' + currentStep).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    // Pill button toggle
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      group.querySelectorAll('.pill-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          var radio = this.querySelector('input[type="radio"]');
+          if (radio) {
+            radio.checked = true;
+            group.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+          }
+        });
+      });
+    });
+
+    // Custom combobox (listbox)
+    var combo = document.getElementById('location-combo');
+    var trigger = combo.querySelector('.combobox-trigger');
+    var listbox = combo.querySelector('.combobox-listbox');
+    var hiddenInput = combo.querySelector('#location-hidden');
+    var selectedSpan = combo.querySelector('#combo-selected');
+    var options = listbox.querySelectorAll('.listbox-option');
+    var isOpen = false;
+
+    function openListbox() {
+      isOpen = true;
+      listbox.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeListbox() {
+      isOpen = false;
+      listbox.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function(e) {
+      if (isOpen) closeListbox(); else openListbox();
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!combo.contains(e.target)) closeListbox();
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        options.forEach(function(o) { o.classList.remove('selected'); });
+        this.classList.add('selected');
+        selectedSpan.textContent = this.textContent;
+        hiddenInput.value = this.getAttribute('data-value') || '';
+        closeListbox();
+      });
+    });
+
+    // Keyboard support
+    trigger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (isOpen) closeListbox(); else openListbox();
+      } else if (e.key === 'Escape') {
+        closeListbox();
+      }
+    });
+
+  })();
+</script>
+</body>
+</html>

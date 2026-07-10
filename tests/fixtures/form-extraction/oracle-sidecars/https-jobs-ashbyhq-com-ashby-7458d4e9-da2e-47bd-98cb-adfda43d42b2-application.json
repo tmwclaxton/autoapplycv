@@ -1,0 +1,235 @@
+{
+  "id": "https-jobs-ashbyhq-com-ashby-7458d4e9-da2e-47bd-98cb-adfda43d42b2-application",
+  "status": "disagree",
+  "captured_at": "2026-07-10T15:12:58.367Z",
+  "page_url": "https://jobs.ashbyhq.com/ashby/7458d4e9-da2e-47bd-98cb-adfda43d42b2/application",
+  "page_title": "Engineering Manager, EU @ Ashby",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 12,
+      "count_delta": 2,
+      "label_jaccard": 0.04,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "will you now or in the future require sponsorship for employment visa status to work in this location?",
+      "resume",
+      "linkedin profile",
+      "do you currently live in the emea timezone? if not, please explain why you're applying to this role",
+      "which country do you intend to work from?",
+      "describe the best engineer you've worked with, someone else in your top 5, and the difference between the two.",
+      "what's the most recent thing you've built or shipped? walk us through what it was and why you did it.",
+      "how do you typically communicate a difficult decision or a change in direction to your team? give us a specific example.",
+      "what is your current age?",
+      "what is your gender identity?",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [
+      "Resume/CV",
+      "Phone",
+      "LinkedIn URL",
+      "Portfolio/Personal Website URL",
+      "Additional Information",
+      "How did you hear about this job?",
+      "Gender",
+      "Race",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "reasons": [
+      "label Jaccard 0.040 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered via an Ashby-specific SPA framework. The fields listed are standard for Ashby job applications, though specific screening questions for this role were not visible in the provided excerpt.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio/Personal Website URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional Information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "Veteran Status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am not a protected veteran",
+          "I identify as one or more of the classifications of a protected veteran",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "Disability Status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes, I have a disability (or previously had a disability)",
+          "No, I don't have a disability",
+          "Prefer not to say"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status to work in this location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "do you currently live in the emea timezone? if not, please explain why you're applying to this role",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "which country do you intend to work from?",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "describe the best engineer you've worked with, someone else in your top 5, and the difference between the two.",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what's the most recent thing you've built or shipped? walk us through what it was and why you did it.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "how do you typically communicate a difficult decision or a change in direction to your team? give us a specific example.",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    }
+  ]
+}

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Application - Senior Product Designer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; background: #f4f5f7; color: #1a1a1a; }
+  .app-wrapper { display: flex; min-height: 100vh; }
+  .sidebar { width: 260px; background: #fff; border-right: 1px solid #e0e0e0; padding: 24px 16px; flex-shrink: 0; }
+  .sidebar h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+  .progress-dots { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #d0d5dd; }
+  .dot.active { background: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.3); }
+  .dot.completed { background: #34a853; }
+  .sidebar-nav { list-style: none; }
+  .sidebar-nav li { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; font-size: 14px; color: #444; border-left: 3px solid transparent; }
+  .sidebar-nav li.active { background: #e8f0fe; color: #1a73e8; border-left-color: #1a73e8; font-weight: 500; }
+  .sidebar-nav li .badge { float: right; background: #e0e0e0; border-radius: 10px; padding: 1px 8px; font-size: 11px; }
+  .main { flex: 1; padding: 32px 40px; max-width: 800px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subhead { color: #666; font-size: 14px; margin-bottom: 24px; }
+  .required-asterisk { color: #d93025; }
+  .form-group { margin-bottom: 20px; }
+  .field-row { display: flex; gap: 16px; }
+  .field-row > * { flex: 1; }
+  label, .label-like { display: block; font-size: 13px; font-weight: 500; color: #333; margin-bottom: 4px; }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid #c4c4c4; border-radius: 6px; font-size: 14px; background: #fff; transition: border 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+  .reverse-field { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; }
+  .reverse-field input { width: auto; }
+  .reverse-field label { margin-bottom: 0; font-weight: 400; font-size: 14px; }
+  fieldset { border: 1px solid #d0d5dd; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  legend { font-weight: 600; font-size: 14px; padding: 0 8px; color: #333; }
+  .nested-fieldset { border-color: #b0b8c4; margin: 12px 0; padding: 12px; }
+  .nested-fieldset-2 { border-color: #9aa4b0; margin: 8px 0; padding: 8px; }
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-btn { padding: 6px 16px; border: 1px solid #c4c4c4; border-radius: 20px; background: #fff; cursor: pointer; font-size: 13px; }
+  .pill-btn.selected { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .combobox-container { position: relative; }
+  .combobox-input { width: 100%; padding: 10px 12px; border: 1px solid #c4c4c4; border-radius: 6px; font-size: 14px; background: #fff; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+  .combobox-input[aria-expanded="true"] { border-color: #1a73e8; }
+  .combobox-input:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+  .combobox-listbox { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #c4c4c4; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 10; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .combobox-listbox.show { display: block; }
+  .combobox-option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .combobox-option:hover, .combobox-option.active { background: #e8f0fe; }
+  .details-accordion { margin-bottom: 20px; }
+  .details-accordion summary { cursor: pointer; font-weight: 500; color: #1a73e8; padding: 8px 0; }
+  .details-accordion .inner-content { padding: 12px 0 0 0; }
+  .glued-label { display: inline; font-size: 13px; font-weight: 500; color: #333; }
+  .glued-span { margin-right: 4px; }
+  .checkbox-cluster label { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; font-size: 14px; margin-right: 16px; }
+  .error-text { color: #d93025; font-size: 12px; margin-top: 4px; }
+  .hidden-section { display: none; }
+  .hidden-section.visible { display: block; }
+  .btn-primary { background: #1a73e8; color: #fff; border: none; padding: 12px 32px; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .btn-primary:hover { background: #1557b0; }
+  .btn-secondary { background: #fff; color: #1a73e8; border: 1px solid #1a73e8; padding: 12px 32px; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .divider { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
+  .decoy-form { background: #f9f9fb; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 20px; opacity: 0.7; pointer-events: none; }
+  .decoy-form h4 { color: #888; font-size: 13px; margin-bottom: 8px; }
+  .iframe-shell { border: 1px dashed #aaa; border-radius: 8px; padding: 4px; background: #fff; margin-bottom: 24px; }
+  .iframe-shell iframe { width: 100%; height: 400px; border: none; border-radius: 4px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <h2>Application</h2>
+    <div class="progress-dots">
+      <span class="dot completed"></span>
+      <span class="dot completed"></span>
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="active">Personal Info <span class="badge">✓</span></li>
+      <li>Work Experience <span class="badge">3</span></li>
+      <li>Education</li>
+      <li>Skills & Assessments</li>
+      <li>Additional Info</li>
+      <li>Submit</li>
+    </ul>
+  </aside>
+  <main class="main">
+    <h1>Senior Product Designer</h1>
+    <div class="subhead">Acme Corp · Full-time · Remote · Apply by Dec 15</div>
+
+    <!-- ====== IFRAME APPLY SHELL (srcdoc) ====== -->
+    <div class="iframe-shell">
+      <iframe srcdoc='<!DOCTYPE html><html><head><style>body{font-family:sans-serif;padding:16px;background:#fafafa;}h3{font-size:16px;margin-bottom:12px;}.field{margin-bottom:12px;}label{display:block;font-size:12px;color:#555;}input{width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;}</style></head><body><h3>Internal Referral (iframe sub-form)</h3><div class="field"><label>Referrer code</label><input type="text" placeholder="e.g. REF-2024" aria-label="Referrer code"></div><div class="field"><label>Notes</label><textarea rows="2" aria-label="Referrer notes"></textarea></div></body></html>' title="Referral sub-form"></iframe>
+    </div>
+
+    <form id="mainForm" action="#" method="post">
+      <!-- ====== SECTION: CONTACT ====== -->
+      <fieldset>
+        <legend>Contact Information</legend>
+        
+        <!-- Reverse DOM: input before label -->
+        <div class="form-group reverse-field">
+          <input type="text" id="firstName" name="firstName" placeholder="First name" required>
+          <label for="firstName">First name <span class="required-asterisk">*</span></label>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last name <span class="required-asterisk">*</span></label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email <span class="required-asterisk">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+
+        <!-- ARIA-LABEL ONLY field #1 -->
+        <div class="form-group">
+          <input type="tel" aria-label="Phone number" placeholder="+1 (555) 000-0000" name="phone">
+        </div>
+
+        <!-- ARIA-LABEL ONLY field #2 -->
+        <div class="form-group">
+          <input type="url" aria-label="Portfolio URL" placeholder="https://yourportfolio.com" name="portfolio">
+        </div>
+      </fieldset>
+
+      <!-- ====== SECTION: WORK AUTHORIZATION (duplicate name attrs & pill buttons) ====== -->
+      <fieldset>
+        <legend>Work Authorization</legend>
+        <!-- duplicate name attrs: checkbox cluster -->
+        <div class="form-group">
+          <span class="label-like">Visa sponsorship needed?</span>
+          <div class="pill-group" role="radiogroup" aria-label="Visa sponsorship">
+            <button type="button" class="pill-btn selected" data-value="yes" name="visa_needed" role="radio" aria-checked="true">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" name="visa_needed" role="radio" aria-checked="false">No</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span class="label-like">Authorized to work in US?</span>
+          <div class="pill-group" role="radiogroup" aria-label="Authorized to work in US">
+            <button type="button" class="pill-btn selected" data-value="yes" name="auth_us" role="radio" aria-checked="true">Yes</button>
+            <button type="button" class="pill-btn" data-value="no" name="auth_us" role="radio" aria-checked="false">No</button>
+          </div>
+        </div>
+
+        <!-- duplicate-name checkbox cluster -->
+        <div class="form-group">
+          <span class="label-like">Work locations (select all that apply)</span>
+          <div class="checkbox-cluster">
+            <label><input type="checkbox" name="work_location" value="nyc"> NYC</label>
+            <label><input type="checkbox" name="work_location" value="sf"> SF</label>
+            <label><input type="checkbox" name="work_location" value="remote"> Remote</label>
+            <label><input type="checkbox" name="work_location" value="chi"> Chicago</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ====== SECTION: COMBOMBOX (custom combobox widget) ====== -->
+      <div class="form-group">
+        <label>How did you hear about us?</label>
+        <div class="combobox-container">
+          <div class="combobox-input" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Referral source" tabindex="0" id="combobox-trigger">
+            <span id="combobox-value">Select an option</span>
+            <span aria-hidden="true">▼</span>
+          </div>
+          <ul class="combobox-listbox" role="listbox" aria-label="Referral sources" id="combobox-list">
+            <li role="option" class="combobox-option" data-value="linkedin">LinkedIn</li>
+            <li role="option" class="combobox-option" data-value="glassdoor">Glassdoor</li>
+            <li role="option" class="combobox-option" data-value="friend">Friend referral</li>
+            <li role="option" class="combobox-option" data-value="other">Other</li>
+          </ul>
+          <input type="hidden" name="referral_source" id="referral_source" value="">
+        </div>
+      </div>
+
+      <!-- ====== SECTION: TRIPLE NESTED FIELDSETS ====== -->
+      <fieldset>
+        <legend>Experience Details</legend>
+        <fieldset class="nested-fieldset">
+          <legend>Current Role</legend>
+          <div class="form-group">
+            <label for="current_title">Job Title</label>
+            <input type="text" id="current_title" name="current_title" placeholder="e.g. Senior Designer">
+          </div>
+          <fieldset class="nested-fieldset-2">
+            <legend>Dates</legend>
+            <div class="field-row">
+              <div class="form-group">
+                <label for="start_date">Start</label>
+                <input type="text" id="start_date" name="current_dates" placeholder="MM/YYYY">
+              </div>
+              <div class="form-group">
+                <label for="end_date">End</label>
+                <input type="text" id="end_date" name="current_dates" placeholder="MM/YYYY or Present">
+              </div>
+            </div>
+          </fieldset>
+        </fieldset>
+      </fieldset>
+
+      <!-- ====== SECTION: DETAILS/ACCORDION (hidden until click) ====== -->
+      <div class="details-accordion">
+        <details>
+          <summary>Add previous employment (optional)</summary>
+          <div class="inner-content">
+            <div class="form-group">
+              <label for="prev_company">Company</label>
+              <input type="text" id="prev_company" name="prev_company">
+            </div>
+            <div class="form-group">
+              <label for="prev_title">Title</label>
+              <input type="text" id="prev_title" name="prev_title">
+            </div>
+            <div class="form-group">
+              <label for="prev_years">Years</label>
+              <input type="number" id="prev_years" name="prev_years" min="0" max="30">
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- ====== SECTION: GLUED SPAN LABELS + HIDDEN REVEAL ====== -->
+      <div class="form-group">
+        <span class="glued-label"><span class="glued-span">✏️</span>Years of experience</span>
+        <input type="number" name="years_exp" placeholder="e.g. 5" aria-label="Years of experience" style="margin-top:4px;">
+      </div>
+
+      <div class="form-group">
+        <span id="skill-label" class="glued-label"><span class="glued-span">🛠</span>Top skill</span>
+        <input type="text" name="top_skill" aria-labelledby="skill-label" placeholder="e.g. Design systems">
+      </div>
+
+      <!-- Hidden reveal (conditional) -->
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="toggle-portfolio"> I have a portfolio to share
+        </label>
+        <div id="portfolio-hidden" class="hidden-section" style="margin-top:8px;">
+          <input type="url" name="portfolio_url" placeholder="Portfolio URL" aria-label="Portfolio URL" style="width:100%;">
+        </div>
+      </div>
+
+      <!-- ====== DECOY SECONDARY FORM ====== -->
+      <div class="decoy-form">
+        <h4>⚙️ Legacy import (disabled)</h4>
+        <div class="field-row">
+          <input type="text" placeholder="Old profile ID" aria-label="Old profile ID" disabled>
+          <input type="text" placeholder="Import key" aria-label="Import key" disabled>
+        </div>
+      </div>
+
+      <!-- ====== SKILLS: div role=textbox (contenteditable) ====== -->
+      <div class="form-group">
+        <label>Skills (comma-separated)</label>
+        <div role="textbox" contenteditable="true" aria-label="Skills input" style="border:1px solid #c4c4c4; border-radius:6px; padding:10px 12px; min-height:44px; background:#fff;" name="skills_edit">Design systems, Figma, Prototyping</div>
+      </div>
+
+      <!-- ====== READONLY PREFILLS ====== -->
+      <div class="form-group">
+        <label>Application ID (prefilled)</label>
+        <input type="text" value="APP-2024-11-2837" readonly style="background:#f3f4f6; color:#666;">
+      </div>
+
+      <!-- ====== MISC FIELDS (to reach 26+) ====== -->
+      <div class="field-row">
+        <div class="form-group">
+          <label for="linkedin">LinkedIn URL</label>
+          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/...">
+        </div>
+        <div class="form-group">
+          <label for="github">GitHub</label>
+          <input type="url" id="github" name="github" placeholder="https://github.com/...">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="coverletter">Cover letter (optional)</label>
+        <textarea id="coverletter" name="coverletter" rows="4" placeholder="Tell us why you're a great fit..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Gender (demographic)</label>
+        <select name="gender" aria-label="Gender">
+          <option value="">Prefer not to say</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="nonbinary">Non-binary</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Veteran status</label>
+        <select name="veteran" aria-label="Veteran status">
+          <option value="">I am not a veteran</option>
+          <option value="veteran">I am a veteran</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Disability status</label>
+        <select name="disability" aria-label="Disability status">
+          <option value="">I don't wish to answer</option>
+          <option value="yes">I have a disability</option>
+          <option value="no">I do not have a disability</option>
+        </select>
+      </div>
+
+      <!-- ====== ADDITIONAL FIELDS TO REACH 26+ ====== -->
+      <div class="form-group">
+        <label for="salary_expectation">Salary expectation</label>
+        <input type="text" id="salary_expectation" name="salary_expectation" placeholder="e.g. $120,000">
+      </div>
+
+      <div class="form-group">
+        <label for="start_availability">Start availability</label>
+        <input type="text" id="start_availability" name="start_availability" placeholder="e.g. 2 weeks notice">
+      </div>
+
+      <div class="form-group">
+        <label for="referral_name">Referral name</label>
+        <input type="text" id="referral_name" name="referral_name" placeholder="Who referred you?">
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-group">
+        <div class="reverse-field">
+          <input type="checkbox" id="agree" name="agree" required>
+          <label for="agree">I confirm the information is accurate <span class="required-asterisk">*</span></label>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:flex-end;">
+        <button type="button" class="btn-secondary">Save draft</button>
+        <button type="submit" class="btn-primary">Submit application</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script>
+  (function() {
+    // Pill buttons (radiogroup behavior)
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      var btns = group.querySelectorAll('.pill-btn');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btns.forEach(function(b) { b.classList.remove('selected'); b.setAttribute('aria-checked', 'false'); });
+          this.classList.add('selected');
+          this.setAttribute('aria-checked', 'true');
+        });
+      });
+    });
+
+    // Custom combobox
+    var trigger = document.getElementById('combobox-trigger');
+    var listbox = document.getElementById('combobox-list');
+    var hiddenInput = document.getElementById('referral_source');
+    var valueSpan = document.getElementById('combobox-value');
+    var options = listbox.querySelectorAll('.combobox-option');
+    var isOpen = false;
+
+    function toggleListbox(e) {
+      e.stopPropagation();
+      isOpen = !isOpen;
+      listbox.classList.toggle('show', isOpen);
+      trigger.setAttribute('aria-expanded', isOpen);
+    }
+
+    function selectOption(opt) {
+      valueSpan.textContent = opt.textContent;
+      hiddenInput.value = opt.getAttribute('data-value');
+      options.forEach(function(o) { o.classList.remove('active'); });
+      opt.classList.add('active');
+      isOpen = false;
+      listbox.classList.remove('show');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', toggleListbox);
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(this);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!trigger.contains(e.target) && !listbox.contains(e.target)) {
+        isOpen = false;
+        listbox.classList.remove('show');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Keyboard nav for combobox
+    trigger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleListbox(e);
+      }
+      if (e.key === 'ArrowDown' && isOpen) {
+        e.preventDefault();
+        var active = listbox.querySelector('.combobox-option.active');
+        var next;
+        if (active) {
+          next = active.nextElementSibling;
+        } else {
+          next = options[0];
+        }
+        if (next) {
+          if (active) active.classList.remove('active');
+          next.classList.add('active');
+        }
+      }
+      if (e.key === 'ArrowUp' && isOpen) {
+        e.preventDefault();
+        var active = listbox.querySelector('.combobox-option.active');
+        var prev;
+        if (active) {
+          prev = active.previousElementSibling;
+        }
+        if (prev) {
+          active.classList.remove('active');
+          prev.classList.add('active');
+        }
+      }
+      if (e.key === 'Escape' && isOpen) {
+        e.preventDefault();
+        isOpen = false;
+        listbox.classList.remove('show');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          selectOption(this);
+          trigger.focus();
+        }
+        if (e.key === 'Escape') {
+          isOpen = false;
+          listbox.classList.remove('show');
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.focus();
+        }
+      });
+    });
+
+    // Hidden reveal for portfolio toggle
+    var toggleCheck = document.getElementById('toggle-portfolio');
+    var hiddenDiv = document.getElementById('portfolio-hidden');
+    if (toggleCheck && hiddenDiv) {
+      toggleCheck.addEventListener('change', function() {
+        hiddenDiv.classList.toggle('visible', this.checked);
+        if (this.checked) {
+          hiddenDiv.style.display = 'block';
+        } else {
+          hiddenDiv.style.display = 'none';
+        }
+      });
+      hiddenDiv.style.display = 'none';
+    }
+  })();
+</script>
+
+</body>
+</html>

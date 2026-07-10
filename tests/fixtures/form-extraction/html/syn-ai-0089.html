@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Frontend Engineer - Ashby Clone</title>
+<style>
+  * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f4f5f7; display: flex; justify-content: center; padding: 40px 20px; }
+  .app-shell { max-width: 820px; width: 100%; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+  .app-header { padding: 24px 28px; border-bottom: 1px solid #e1e4e8; display: flex; align-items: center; gap: 12px; background: #f9fafb; }
+  .app-header h1 { font-size: 20px; font-weight: 600; color: #0f172a; }
+  .app-header .badge { background: #dbeafe; color: #1e40af; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 500; }
+  .app-body { padding: 28px; }
+
+  fieldset { border: none; margin: 0 0 28px 0; padding: 0; }
+  legend { font-size: 16px; font-weight: 600; color: #0f172a; padding-bottom: 12px; border-bottom: 1px solid #e1e4e8; width: 100%; margin-bottom: 18px; }
+
+  .field-group { margin-bottom: 20px; }
+  .field-label { display: block; font-size: 14px; font-weight: 500; color: #1e293b; margin-bottom: 6px; }
+  .field-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .input-native { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; transition: border 0.15s; }
+  .input-native:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  textarea.input-native { resize: vertical; min-height: 80px; }
+  select.input-native { appearance: auto; }
+
+  .row-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .row-trio { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* pill yes/no */
+  .pill-group { display: flex; gap: 8px; }
+  .pill-btn { padding: 8px 20px; border: 1px solid #cbd5e1; border-radius: 24px; background: white; font-size: 14px; cursor: pointer; transition: all 0.15s; color: #334155; }
+  .pill-btn.active { background: #1e40af; color: white; border-color: #1e40af; }
+  .pill-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+  /* div textbox */
+  .div-textbox { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; min-height: 42px; outline: none; transition: border 0.15s; }
+  .div-textbox:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  .div-textbox[contenteditable]:empty:before { content: attr(data-placeholder); color: #94a3b8; pointer-events: none; }
+
+  /* salary range */
+  .salary-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .salary-row .currency-prefix { display: flex; align-items: center; gap: 4px; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 14px; color: #334155; }
+  .salary-row input[type=range] { flex: 1; min-width: 140px; }
+  .salary-row input[type=number] { width: 100px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+
+  /* details accordion */
+  details.custom-details { margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #fafafa; }
+  details.custom-details summary { padding: 12px 16px; cursor: pointer; font-weight: 500; font-size: 14px; color: #0f172a; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
+  details.custom-details[open] summary { border-bottom: 1px solid #e2e8f0; }
+  details.custom-details .details-body { padding: 16px; }
+
+  /* decoy secondary form (hidden visually but in DOM) */
+  .decoy-section { display: none; }
+
+  /* iframe host */
+  .iframe-host { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 20px; background: #f8fafc; }
+  .iframe-host iframe { width: 100%; height: 340px; border: none; display: block; }
+
+  /* micro1 Q labels */
+  .q-label { font-size: 13px; font-weight: 500; color: #475569; letter-spacing: 0.02em; }
+  .q-label span { color: #64748b; font-weight: 400; }
+
+  /* misc */
+  .hidden-span { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .submit-row { margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end; }
+  .btn-primary { background: #0f172a; color: white; border: none; padding: 12px 32px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .btn-primary:hover { background: #1e293b; }
+  .btn-secondary { background: white; color: #0f172a; border: 1px solid #cbd5e1; padding: 12px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; }
+
+  /* listbox combobox */
+  .combobox-wrap { position: relative; }
+  .combobox-wrap .input-native { padding-right: 32px; }
+  .combobox-wrap::after { content: '\25be'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; }
+  .listbox { border: 1px solid #cbd5e1; border-radius: 6px; background: white; max-height: 180px; overflow-y: auto; position: absolute; width: 100%; z-index: 10; display: none; }
+  .listbox.show { display: block; }
+  .listbox .option { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .listbox .option:hover, .listbox .option.active { background: #eff6ff; }
+
+  hr { margin: 24px 0; border: none; border-top: 1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <span style="font-size:24px;">⌂</span>
+    <h1>Senior Frontend Engineer</h1>
+    <span class="badge">Full-time · Remote</span>
+  </div>
+  <div class="app-body">
+
+    <!-- iframe apply shell (srcdoc) -->
+    <div class="iframe-host">
+      <iframe srcdoc='<!DOCTYPE html><html><head><style>body{font-family:sans-serif;padding:16px;background:#f8fafc;}label{font-size:13px;font-weight:500;display:block;margin-top:10px;}input,select{width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin-top:4px;}h3{font-size:15px;margin:0 0 8px;}.note{color:#666;font-size:11px;}</style></head><body><h3>Quick pre-screen</h3><label>Years of React experience</label><input type="text" placeholder="e.g. 5" aria-label="Years of React experience"><label>Available start date</label><input type="text" placeholder="e.g. 2 weeks" aria-label="Available start date"><label>Work authorization</label><select aria-label="Work authorization"><option>US Citizen</option><option>Green Card</option><option>Visa needed</option></select></body></html>' title="Pre-screen form"></iframe>
+    </div>
+
+    <!-- SECTION 1: Personal Info -->
+    <fieldset>
+      <legend>Q1. Personal Information</legend>
+
+      <div class="row-duo">
+        <div class="field-group">
+          <span class="q-label"><span>Q1.1</span> First name</span>
+          <input class="input-native" type="text" placeholder="e.g. Jane" aria-label="First name" id="fn">
+        </div>
+        <div class="field-group">
+          <span class="q-label"><span>Q1.2</span> Last name</span>
+          <input class="input-native" type="text" placeholder="e.g. Doe" aria-label="Last name">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="q-label"><span>Q1.3</span> Email</span>
+        <input class="input-native" type="email" placeholder="you@company.com" aria-label="Email address">
+      </div>
+
+      <!-- Phone with aria-labelledby pointing at hidden span -->
+      <div class="field-group">
+        <span class="q-label"><span>Q1.4</span> Phone</span>
+        <span class="hidden-span" id="phone-desc">Include country code if international</span>
+        <input class="input-native" type="tel" placeholder="+1 (555) 123-4567" aria-labelledby="phone-desc">
+      </div>
+
+      <!-- Location with datalist autocomplete -->
+      <div class="field-group">
+        <span class="q-label"><span>Q1.5</span> Location</span>
+        <input class="input-native" type="text" list="locations" placeholder="City, State or Remote" aria-label="Location">
+        <datalist id="locations">
+          <option value="San Francisco, CA">
+          <option value="New York, NY">
+          <option value="Austin, TX">
+          <option value="Remote (US)">
+          <option value="Remote (Global)">
+        </datalist>
+        <span class="field-note">We support remote-first</span>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 2: Experience & Skills -->
+    <fieldset>
+      <legend>Q2. Experience &amp; Skills</legend>
+
+      <!-- Custom div role=textbox contenteditable -->
+      <div class="field-group">
+        <span class="q-label"><span>Q2.1</span> Tell us about your frontend background</span>
+        <div class="div-textbox" role="textbox" contenteditable="true" aria-label="Describe your frontend experience" data-placeholder="e.g. 5 years React, 3 years TypeScript..."></div>
+        <span class="field-note">Include frameworks, tools, years</span>
+      </div>
+
+      <div class="row-trio">
+        <div class="field-group">
+          <span class="q-label"><span>Q2.2</span> Years of experience</span>
+          <select class="input-native" aria-label="Years of experience">
+            <option>0-1</option>
+            <option>1-3</option>
+            <option selected>3-5</option>
+            <option>5-8</option>
+            <option>8+</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="q-label"><span>Q2.3</span> React proficiency</span>
+          <select class="input-native" aria-label="React proficiency">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option selected>Advanced</option>
+            <option>Expert</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="q-label"><span>Q2.4</span> TypeScript</span>
+          <select class="input-native" aria-label="TypeScript level">
+            <option>None</option>
+            <option>Basic</option>
+            <option>Proficient</option>
+            <option selected>Advanced</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Custom listbox combobox for role -->
+      <div class="field-group">
+        <span class="q-label"><span>Q2.5</span> Current / most recent role</span>
+        <div class="combobox-wrap">
+          <input class="input-native" type="text" id="role-input" placeholder="e.g. Senior Frontend Engineer" aria-label="Role" autocomplete="off">
+          <div class="listbox" id="role-listbox">
+            <div class="option" role="option">Senior Frontend Engineer</div>
+            <div class="option" role="option">Frontend Lead</div>
+            <div class="option" role="option">Full Stack Engineer</div>
+            <div class="option" role="option">UI Engineer</div>
+            <div class="option" role="option">Staff Engineer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glued span labels for resume -->
+      <div class="field-group">
+        <span class="q-label"><span>Q2.6</span> Resume</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="background:#f1f5f9;padding:8px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;color:#475569;">☁</span>
+          <span style="font-size:13px;color:#1e40af;">resume_jane_doe_2025.pdf</span>
+          <span style="color:#94a3b8;font-size:12px;">(2.3 MB)</span>
+        </div>
+        <span class="field-note">Uploaded. Replace? Drag new file or <a href="#" style="color:#3b82f6;">browse</a></span>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 3: Skills Assessment (pill yes/no + details accordion) -->
+    <fieldset>
+      <legend>Q3. Skills Assessment</legend>
+
+      <!-- Pill yes/no (no native radio) -->
+      <div class="field-group">
+        <span class="q-label"><span>Q3.1</span> Do you have experience with Next.js?</span>
+        <div class="pill-group" role="radiogroup" aria-label="Next.js experience">
+          <button class="pill-btn active" role="radio" aria-checked="true" data-value="yes">Yes</button>
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="no">No</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="q-label"><span>Q3.2</span> Experience with CSS-in-JS?</span>
+        <div class="pill-group" role="radiogroup" aria-label="CSS-in-JS experience">
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+          <button class="pill-btn active" role="radio" aria-checked="true" data-value="no">No</button>
+        </div>
+      </div>
+
+      <!-- details accordion: hidden fields until clicked -->
+      <details class="custom-details">
+        <summary>▶ Q3.3 Additional technical skills (click to expand)</summary>
+        <div class="details-body">
+          <div class="field-group">
+            <span class="q-label"><span>Q3.3.1</span> Testing frameworks</span>
+            <input class="input-native" type="text" placeholder="e.g. Jest, Cypress, Playwright" aria-label="Testing frameworks">
+          </div>
+          <div class="field-group">
+            <span class="q-label"><span>Q3.3.2</span> State management</span>
+            <input class="input-native" type="text" placeholder="e.g. Redux, Zustand, Jotai" aria-label="State management">
+          </div>
+          <div class="field-group">
+            <span class="q-label"><span>Q3.3.3</span> Other backend experience</span>
+            <input class="input-native" type="text" placeholder="Node, Python, etc." aria-label="Backend experience">
+          </div>
+        </div>
+      </details>
+    </fieldset>
+
+    <!-- SECTION 4: Compensation & Availability -->
+    <fieldset>
+      <legend>Q4. Compensation &amp; Availability</legend>
+
+      <!-- Salary range slider with currency prefix span -->
+      <div class="field-group">
+        <span class="q-label"><span>Q4.1</span> Expected annual salary (USD)</span>
+        <div class="salary-row">
+          <span class="currency-prefix">
+            <span>$</span>
+            <span id="salary-display">130,000</span>
+          </span>
+          <input type="range" min="60000" max="250000" step="5000" value="130000" id="salary-slider" aria-label="Salary range slider">
+          <input type="number" value="130000" step="5000" min="60000" max="250000" id="salary-input" aria-label="Salary exact">
+        </div>
+        <span class="field-note">Adjust slider or type exact value</span>
+      </div>
+
+      <div class="row-duo">
+        <div class="field-group">
+          <span class="q-label"><span>Q4.2</span> Notice period</span>
+          <select class="input-native" aria-label="Notice period">
+            <option>Immediately</option>
+            <option selected>2 weeks</option>
+            <option>1 month</option>
+            <option>2+ months</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="q-label"><span>Q4.3</span> Preferred start date</span>
+          <input class="input-native" type="date" aria-label="Preferred start date">
+        </div>
+      </div>
+
+      <!-- Yes/no willing to relocate -->
+      <div class="field-group">
+        <span class="q-label"><span>Q4.4</span> Willing to relocate?</span>
+        <div class="pill-group" role="radiogroup" aria-label="Relocation willingness">
+          <button class="pill-btn" role="radio" aria-checked="false" data-value="yes">Yes</button>
+          <button class="pill-btn active" role="radio" aria-checked="true" data-value="no">No</button>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 5: Diversity & Inclusion (decoy secondary form hidden, plus aria-labelledby field) -->
+    <fieldset>
+      <legend>Q5. Equal Opportunity (optional)</legend>
+
+      <!-- aria-labelledby pointing at distant span in a separate div -->
+      <div class="field-group">
+        <span class="q-label"><span>Q5.1</span> Gender</span>
+        <span class="hidden-span" id="gender-help">Select how you identify</span>
+        <select class="input-native" aria-labelledby="gender-help" aria-label="Gender">
+          <option>Prefer not to say</option>
+          <option>Man</option>
+          <option>Woman</option>
+          <option>Non-binary</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <span class="q-label"><span>Q5.2</span> Veteran status</span>
+        <select class="input-native" aria-label="Veteran status">
+          <option>I am not a veteran</option>
+          <option>I am a veteran</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+
+      <!-- decoy secondary form (hidden in DOM, not visible to user but exists) -->
+      <div class="decoy-section">
+        <fieldset>
+          <legend>Internal referral (hidden)</legend>
+          <input type="text" placeholder="Referral code">
+        </fieldset>
+      </div>
+    </fieldset>
+
+    <hr>
+    <div class="submit-row">
+      <button class="btn-secondary">Save draft</button>
+      <button class="btn-primary">Submit application</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Pill buttons logic
+    document.querySelectorAll('.pill-group').forEach(function(group) {
+      group.querySelectorAll('.pill-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          group.querySelectorAll('.pill-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-checked', 'true');
+        });
+      });
+    });
+
+    // Salary slider sync
+    var slider = document.getElementById('salary-slider');
+    var input = document.getElementById('salary-input');
+    var display = document.getElementById('salary-display');
+    function syncSalary(val) {
+      var num = parseInt(val, 10);
+      display.textContent = num.toLocaleString();
+      slider.value = num;
+      input.value = num;
+    }
+    slider.addEventListener('input', function() { syncSalary(this.value); });
+    input.addEventListener('input', function() { syncSalary(this.value); });
+
+    // custom listbox combobox
+    var roleInput = document.getElementById('role-input');
+    var roleListbox = document.getElementById('role-listbox');
+    roleInput.addEventListener('focus', function() { roleListbox.classList.add('show'); });
+    roleInput.addEventListener('blur', function() { setTimeout(function() { roleListbox.classList.remove('show'); }, 200); });
+    roleInput.addEventListener('input', function() {
+      var val = this.value.toLowerCase();
+      roleListbox.querySelectorAll('.option').forEach(function(opt) {
+        if (opt.textContent.toLowerCase().includes(val)) {
+          opt.style.display = 'block';
+        } else {
+          opt.style.display = 'none';
+        }
+      });
+      roleListbox.classList.add('show');
+    });
+    roleListbox.querySelectorAll('.option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        roleInput.value = this.textContent;
+        roleListbox.classList.remove('show');
+      });
+    });
+
+    // div textbox placeholder behavior
+    document.querySelectorAll('.div-textbox').forEach(function(el) {
+      el.addEventListener('input', function() {
+        // placeholder shown via :empty pseudo
+      });
+    });
+
+  })();
+</script>
+
+</body>
+</html>

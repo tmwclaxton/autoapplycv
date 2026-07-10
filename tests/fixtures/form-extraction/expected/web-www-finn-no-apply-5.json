@@ -1,0 +1,390 @@
+{
+  "id": "web-www-finn-no-apply-5",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "search for job title or keywords",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "position-query-search",
+        "name": "position-query-search",
+        "data_testid": "position-query-search-search",
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search for job title or keywords",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "turn on job alerts for this search",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Turn on job alerts for this search"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "8l5wdpz",
+        "name": null,
+        "data_testid": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all work type",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-dc74c683-f726-4e8e-91d3-279ab8996400",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all work type",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work type filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Onsite",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "bkmdwn4",
+        "name": "work_type",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all career level",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-4e72182b-112a-4076-fe75-029575a58617",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all career level",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "career level filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entry",
+        "Mid-Level",
+        "Senior",
+        "Manager",
+        "Director",
+        "Intern",
+        "Vice President",
+        "CXO"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "1fivstk",
+        "name": "career_level",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all hiring program",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-eef8d3c2-ee76-461f-8394-885f1eac83da",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all hiring program",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hiring program filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Not Specified",
+        "Other",
+        "Cps (Critical Power Solutions)",
+        "Aerospace",
+        "Mobility",
+        "Eess (Electrical Engineering Services & Systems)",
+        "Data Center",
+        "Dubai (E33)",
+        "Ess (Energy Solutions & Services)",
+        "Supply Chain (Project Foresight)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "ejx0keq",
+        "name": "hiring_program",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all departments",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-ad70a00e-4d9f-4c7d-b661-5bedbe0fb3b7",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all departments",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "departments filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Manufacturing",
+        "Sales",
+        "Research & Development Engineering",
+        "Engineering",
+        "Supply Chain Management",
+        "Quality",
+        "Finance",
+        "Marketing",
+        "Human Resources",
+        "Information Technology"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "72sfbvc",
+        "name": "departments",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all relocation assistance available",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-747c51a4-2bb4-4664-fa10-217edf9e8867",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all relocation assistance available",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "relocation assistance available filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "No",
+        "Relocation From Within Hiring Country Only",
+        "Relocation From Within Hiring Region Only",
+        "International Relocation - Worldwide"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "yz27tm4",
+        "name": "relocation_assistance_available",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all organization",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-17c6267f-808b-4aff-aa20-baa7136bdae2",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all organization",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "organization filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "4137 Es Us Amer Ars Commercial Sumter Sc Plt",
+        "4136 Es Us Amer Ars Pdcad Greenwood Sc Plt",
+        "7481 Es Us Amer Ess Pdrd Waukesha Badger Wi Plt",
+        "4801 Es Ae Emea Reg Dubai Eng",
+        "7475 Es Us Amer Geis Bld Reno Nv Plt",
+        "7869 Cp Hu Emea Budapest Ofc",
+        "4412 Es In Apac Pqd Pondicherry Ofc",
+        "4472 Es Us Amer Ess Cps Svc Vir",
+        "4152 Es Us Amer Ars Commercial Greenwood Sc Plt",
+        "4495 Es Fi Emea Cps Vantaa Plt"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "ujrhw09",
+        "name": "organization",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search all sector",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-box-0439c0ad-a71c-4928-f9b6-3c81f2698ed7",
+        "name": "searchbar",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search all sector",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sector filter options",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Electrical",
+        "Industrial",
+        "Corporate"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "o84s3ke",
+        "name": "sector",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next similar jobs"
+    }
+  ],
+  "vet_notes": []
+}

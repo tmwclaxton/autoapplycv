@@ -1,0 +1,69 @@
+{
+    "id": "syn-ai-0041",
+    "seed": 2330079210,
+    "variety": {
+        "ats_style": "ashby",
+        "widgets": [
+            "combobox"
+        ],
+        "structure": "single-page",
+        "field_count_band": "small"
+    },
+    "constraints": {
+        "complexity_tier": "high",
+        "min_fields": 14,
+        "min_field_types": 6,
+        "min_non_semantic_signals": 5,
+        "min_complexity_score": 6,
+        "layout_style": "nested sections with h3 headings instead of labels",
+        "standalone_html": true,
+        "no_external_scripts": true,
+        "forbid_semantic_only": true,
+        "required_complexity_patterns": [
+            {
+                "id": "split-phone",
+                "notes": "Phone split into country code select and local number input in separate wrappers"
+            },
+            {
+                "id": "native-select-not-combobox",
+                "notes": "When combobox widget requested, use custom listbox - native select alone is insufficient"
+            },
+            {
+                "id": "duplicate-name-attrs",
+                "notes": "Multiple controls sharing name attribute groups (checkbox\/radio clusters)"
+            },
+            {
+                "id": "pill-yes-no",
+                "notes": "Yes\/no question as paired button elements, not native radio inputs"
+            },
+            {
+                "id": "div-role-textbox",
+                "notes": "Custom text field: div with role=textbox and contenteditable, no native input"
+            }
+        ],
+        "reference_templates": [
+            {
+                "title": "Submit outside form",
+                "notes": "Submit button outside form linked via form= attribute",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>External submit<\/h1> <form action=\"\/apply\" method=\"post\" id=\"ext-form\"> <label for=\"ext_name\">Name<\/label><input type=\"text\" id=\"ext_name\" name=\"ext_name\"> <label for=\"ext_email\">Email<\/label><input type=\"email\" id=\"ext_email\" name=\"ext_email\"> <label for=\"ext_motivation\">Why this company?<\/label><textarea id",
+                "requires_interaction": false
+            },
+            {
+                "title": "Optgroup select",
+                "notes": "Department select uses optgroup for grouping options",
+                "category": "weird-dom",
+                "dom_excerpt": "<main><h1>Optgroup select<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"og_name\">Name<\/label><input type=\"text\" id=\"og_name\" name=\"og_name\"> <label for=\"og_dept\">Preferred department<\/label> <select id=\"og_dept\" name=\"og_dept\"><option value=\"\">Select department<\/option> <optgroup label=\"Engineering\"><option>Bac",
+                "requires_interaction": false
+            },
+            {
+                "title": "Question number prefixes",
+                "notes": "Fields prefixed with Q7. Q12. style question numbers",
+                "category": "weird-label",
+                "dom_excerpt": "<main><h1>Question prefixes<\/h1> <form action=\"\/apply\" method=\"post\"> <label for=\"q7_share\">Q7. If so, please share your portfolio URL<\/label><input type=\"url\" id=\"q7_share\" name=\"q7_share\"> <label for=\"q12_explain\">Q12. Explain why you are interested in this role<\/label><textarea id=\"q12_explain\" name=\"q12_explain\" ro",
+                "requires_interaction": false
+            }
+        ]
+    },
+    "prompt_summary": "Create a messy, production-real ashby-style job application (single-page, small, tier=high). Widgets: combobox. Required: Phone split into country code select and local number input in separate wrappers Required: When combobox widget requested, use custom listbox - native select alone is insufficient Required: Multiple controls sharing name attribute groups (checkbox\/radio clusters) Required: Yes\/no question as paired button elements, not native radio inputs Required: Custom text field: div with role=textbox and contenteditable, no native input Reference DOM (Submit outside form): Submit button outside form linked via form= attribute Reference DOM (Optgroup select): Department select uses optgroup for grouping options Reference DOM (Question number prefixes): Fields prefixed with Q7. Q12. style question numbers Do NOT produce a tutorial-style form where every field is label[for]+native input. Mix native controls with non-semantic production DOM from the patterns below. Implement ALL required complexity patterns: split-phone, native-select-not-combobox, duplicate-name-attrs, pill-yes-no, div-role-textbox. Include at least one custom widget (div role=textbox, pill buttons, or listbox combobox). Include at least one labeling strategy besides label-for (aria-label, aria-labelledby, glued spans, placeholder-only). Layout: nested sections with h3 headings instead of labels. Avoid generic centered SaaS card as the only structure. High tier: include shadow DOM host OR iframe apply shell OR wizard\/conditional reveal with hidden fields. Mirror structural messiness like these references: Submit outside form; Optgroup select; Question number prefixes."
+}
