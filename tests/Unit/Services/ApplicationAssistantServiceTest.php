@@ -542,6 +542,87 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertStringContainsString('Acme Corp', (string) ($result['answers'][0]['answer'] ?? ''));
     }
 
+    public function test_answer_questions_includes_full_profile_for_simple_field_batches(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'email' => 'toby@example.com',
+            'phone' => '+447700900123',
+            'linkedin_url' => 'https://linkedin.com/in/toby',
+            'website_url' => 'https://toby.dev',
+            'postcode' => 'HP11 1AA',
+            'raw_cv_text' => 'SECRET_RAW_CV_SHOULD_NOT_APPEAR',
+            'formatted_cv_text' => 'SECRET_FORMATTED_CV_SHOULD_NOT_APPEAR',
+            'extra_context' => 'Open to hybrid London roles.',
+            'application_settings' => [
+                'notice_period' => '1 month',
+                'years_of_experience' => '8',
+            ],
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Riverbank Systems',
+                    'start_date' => '2019-01',
+                    'end_date' => 'Present',
+                    'highlights' => ['Led Laravel platform work'],
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
+            'education' => [
+                [
+                    'institution' => 'Example University',
+                    'degree' => 'BSc Computer Science',
+                ],
+            ],
+        ]);
+
+        $capturedSystemPrompt = null;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$capturedSystemPrompt): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->andReturnUsing(function (array $messages) use (&$capturedSystemPrompt): array {
+                    $capturedSystemPrompt = $messages[0]['content'] ?? null;
+
+                    return [
+                        'answers' => [[
+                            'label' => 'LinkedIn profile URL',
+                            'ref' => 'li',
+                            'answer' => 'https://linkedin.com/in/toby',
+                        ]],
+                    ];
+                });
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'Engineer', 'company' => 'Acme', 'job_description' => 'Long JD that should stay compact for simple batches.'],
+            [[
+                'label' => 'LinkedIn profile URL',
+                'ref' => 'li',
+                'field_type' => 'text',
+            ]],
+            ['yearsOfExperience' => '8'],
+        );
+
+        $this->assertNotNull($result);
+        $prompt = (string) $capturedSystemPrompt;
+
+        $this->assertStringContainsString('toby@example.com', $prompt);
+        $this->assertStringContainsString('+447700900123', $prompt);
+        $this->assertStringContainsString('linkedin.com', $prompt);
+        $this->assertStringContainsString('toby.dev', $prompt);
+        $this->assertStringContainsString('HP11 1AA', $prompt);
+        $this->assertStringContainsString('Riverbank Systems', $prompt);
+        $this->assertStringContainsString('Example University', $prompt);
+        $this->assertStringContainsString('Open to hybrid London roles.', $prompt);
+        $this->assertStringContainsString('1 month', $prompt);
+        $this->assertStringNotContainsString('SECRET_RAW_CV_SHOULD_NOT_APPEAR', $prompt);
+        $this->assertStringNotContainsString('SECRET_FORMATTED_CV_SHOULD_NOT_APPEAR', $prompt);
+    }
+
     public function test_answer_questions_rejects_ungrounded_security_answer(): void
     {
         $user = User::factory()->create();

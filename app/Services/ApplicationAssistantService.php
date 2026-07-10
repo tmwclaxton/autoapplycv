@@ -63,18 +63,16 @@ class ApplicationAssistantService
             ];
         }
 
-        $needsFullProfile = $this->batchNeedsFullProfile($llmQuestions);
+        $needsFullJobContext = $this->batchNeedsFullProfile($llmQuestions);
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
-                'content' => $needsFullProfile
-                    ? $this->systemPrompt($profile, $settings)
-                    : $this->compactSystemPrompt($profile, $settings),
+                'content' => $this->systemPrompt($profile, $settings),
             ],
             [
                 'role' => 'user',
                 'content' => json_encode([
-                    'job' => $this->compactJobForQuestions($job, $needsFullProfile),
+                    'job' => $this->compactJobForQuestions($job, $needsFullJobContext),
                     'questions' => $llmQuestions,
                     'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","ref":"exact ref when provided in input","answer":"string or null"}]}. '
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
@@ -204,30 +202,6 @@ class ApplicationAssistantService
             'company' => $job['company'] ?? null,
             'location' => $job['location'] ?? null,
         ];
-    }
-
-    /**
-     * @param  array<string, mixed>  $settings
-     */
-    private function compactSystemPrompt(CvProfile $profile, array $settings = []): string
-    {
-        $structured = json_encode([
-            'full_name' => $profile->full_name,
-            'headline' => $profile->headline,
-            'email' => $profile->email,
-            'phone' => $profile->phone,
-            'location' => $profile->location,
-            'city' => $profile->city,
-            'country' => $profile->country,
-            'linkedin_url' => $profile->linkedin_url,
-            'summary' => mb_substr((string) ($profile->summary ?? ''), 0, 600),
-            'skills' => array_slice((array) ($profile->skills ?? []), 0, 20),
-            'years_of_experience' => data_get($settings, 'yearsOfExperience') ?? data_get($settings, 'years_of_experience'),
-            'application_settings' => $settings,
-        ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
-
-        return "You help a job seeker answer short employer application questions using ONLY this profile summary:\n{$structured}\n\n"
-            .$this->humanWritingGuidelines();
     }
 
     /**
@@ -1098,22 +1072,47 @@ class ApplicationAssistantService
     }
 
     /**
+     * Profile slice for assist prompts: all candidate facts except raw/formatted CV text and documents.
+     *
      * @param  array<string, mixed>  $settings
+     * @return array<string, mixed>
      */
-    private function systemPrompt(CvProfile $profile, array $settings = []): string
+    private function assistProfilePayload(CvProfile $profile, array $settings = []): array
     {
-        $structured = json_encode([
+        return [
             'full_name' => $profile->full_name,
             'headline' => $profile->headline,
+            'email' => $profile->email,
+            'phone' => $profile->phone,
+            'location' => $profile->location,
+            'city' => $profile->city,
+            'postcode' => $profile->postcode,
+            'country' => $profile->country,
+            'linkedin_url' => $profile->linkedin_url,
+            'website_url' => $profile->website_url,
             'summary' => $profile->summary,
             'skills' => $profile->skills,
             'experience' => $profile->experience,
             'education' => $profile->education,
             'structured_data' => $profile->structured_data,
             'extra_context' => $profile->extra_context,
-            'application_settings' => $settings,
+            'application_settings' => array_replace(
+                (array) ($profile->application_settings ?? []),
+                $settings,
+            ),
             'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
-        ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $settings
+     */
+    private function systemPrompt(CvProfile $profile, array $settings = []): string
+    {
+        $structured = json_encode(
+            $this->assistProfilePayload($profile, $settings),
+            JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE,
+        );
 
         return "You help a job seeker answer employer application questions using ONLY this profile:\n{$structured}\n\n"
             .$this->humanWritingGuidelines();
