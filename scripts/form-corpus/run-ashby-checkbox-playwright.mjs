@@ -99,7 +99,7 @@ async function runFillInPage(page, { useFixture, profile, fillCases }) {
     return page.evaluate(async ({ cases, hearAboutInputId }) => {
         window.AutoCVApplyFieldInventory.buildSnapshot(document, null, {}, {});
 
-        const hearCase = cases.find((c) => c.ref === 'f8') || cases.find((c) => c.label.includes('hear'));
+        const hearCase = cases.find((c) => c.label.includes('hear')) || cases.find((c) => c.ref === 'f9');
         const failures = [];
         const debug = {};
 

@@ -4849,6 +4849,15 @@ const AutoCVApplyFormHeuristics = (() => {
             return setGroupValue(element, value);
         }
 
+        if (element.type === 'file') {
+            heuristicsLog('warn', 'apply.setFieldValue', 'setFieldValue skipped - file input cannot be set programmatically', {
+                id: element.id || null,
+                name: element.name || null,
+            });
+
+            return false;
+        }
+
         if (tag === 'fieldset' || tag === 'div') {
             const choiceInput = element.querySelector('input[type="checkbox"], input[type="radio"]');
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T18:43:52.515Z",
+  "generated_at": "2026-07-10T21:03:53.026Z",
   "totals": {
     "scenarios": 13,
     "evaluated": 10,
@@ -1088,9 +1088,42 @@
       "plan_count": 10,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 0,
+      "a11y_failures": 4,
       "error_banner_count": 0,
-      "failures": [],
+      "failures": [
+        {
+          "stage": "a11yState",
+          "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
+          "ref": "f28",
+          "message": "radioGroupSelectionCount",
+          "expected": 1,
+          "actual": 0
+        },
+        {
+          "stage": "a11yState",
+          "field": "do you have a driver's license?",
+          "ref": "f29",
+          "message": "radioGroupSelectionCount",
+          "expected": 1,
+          "actual": 0
+        },
+        {
+          "stage": "a11yState",
+          "field": "do you have current right to work in the uk?",
+          "ref": "f30",
+          "message": "radioGroupSelectionCount",
+          "expected": 1,
+          "actual": 0
+        },
+        {
+          "stage": "a11yState",
+          "field": "will you require sponsorship within the next 12 months?",
+          "ref": "f78",
+          "message": "radioGroupSelectionCount",
+          "expected": 1,
+          "actual": 0
+        }
+      ],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1118,46 +1151,75 @@
           "fieldType": "tel"
         },
         {
-          "ref": "f15",
+          "ref": "f17",
           "expected": "FillVerify-14",
           "actual": "FillVerify-14",
           "fieldType": "text"
         },
         {
-          "ref": "f17",
+          "ref": "f19",
           "expected": "FillVerify-16",
           "actual": "FillVerify-16",
           "fieldType": "text"
         },
         {
-          "ref": "f26",
+          "ref": "f28",
           "expected": "SVGs not supported by this browser. YES",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f29",
+          "expected": "Yes",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f30",
+          "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
           "ref": "f78",
           "expected": "Yes",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f79",
-          "expected": "Yes",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f91",
-          "expected": "Yes",
-          "actual": "SVGs not supported by this browser. YES",
+          "actual": "checked",
           "fieldType": "radio"
         }
       ],
       "checks": {
         "a11yState": {
-          "passed": true,
-          "failures": []
+          "passed": false,
+          "failures": [
+            {
+              "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
+              "ref": "f28",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "do you have a driver's license?",
+              "ref": "f29",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "do you have current right to work in the uk?",
+              "ref": "f30",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "will you require sponsorship within the next 12 months?",
+              "ref": "f78",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            }
+          ]
         },
         "errorBanner": {
           "passed": true,
