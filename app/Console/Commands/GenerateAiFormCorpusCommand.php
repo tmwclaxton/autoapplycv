@@ -22,17 +22,17 @@ class GenerateAiFormCorpusCommand extends Command
 
     public function handle(FormCorpusAiGeneratorService $generator): int
     {
-        if (blank(config('services.nanogpt.api_key'))) {
-            $this->error('NANOGPT_API_KEY is required.');
-
-            return self::FAILURE;
-        }
-
         $limit = $this->resolveLimit();
         $singleId = $this->option('id');
         $targetCell = $this->option('target-cell');
         $complexityTier = (string) ($this->option('complexity-tier') ?: 'standard');
         $dryRun = (bool) $this->option('dry-run');
+
+        if (! $dryRun && blank(config('services.nanogpt.api_key'))) {
+            $this->error('NANOGPT_API_KEY is required.');
+
+            return self::FAILURE;
+        }
 
         $ids = $singleId
             ? [(string) $singleId]

@@ -24,6 +24,8 @@ class GenerateAiFormCorpusCommandTest extends TestCase
 
     public function test_generate_ai_dry_run_composes_briefs_without_nanogpt(): void
     {
+        config(['services.nanogpt.api_key' => null]);
+
         Process::fake([
             '*' => Process::result(output: json_encode([
                 'id' => 'syn-ai-0001',
@@ -53,6 +55,21 @@ class GenerateAiFormCorpusCommandTest extends TestCase
         ])->assertSuccessful();
 
         $this->assertFileExists(base_path('tests/fixtures/form-extraction/briefs/syn-ai-0001.json'));
+    }
+
+    public function test_generate_ai_requires_api_key_when_not_dry_run(): void
+    {
+        config(['services.nanogpt.api_key' => null]);
+
+        $this->mock(NanoGptService::class, function ($mock): void {
+            $mock->shouldNotReceive('chatJson');
+        });
+
+        $this->artisan('form-corpus:generate-ai', [
+            '--id' => 'syn-ai-0001',
+        ])
+            ->assertFailed()
+            ->expectsOutputToContain('NANOGPT_API_KEY is required');
     }
 
     public function test_generator_resolves_id_batch(): void
