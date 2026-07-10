@@ -1,0 +1,272 @@
+{
+  "id": "https-job-boards-greenhouse-io-propublica-jobs-4053828006",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:05:40.307Z",
+  "page_url": "https://job-boards.greenhouse.io/propublica/jobs/4053828006",
+  "page_title": "Job Application for Freelance Pitch Form at ProPublica",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 30,
+      "ai_count": 5,
+      "count_delta": 25,
+      "label_jaccard": 0.1786,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "attach first name",
+      "linkedin profile",
+      "website",
+      "are you legally allowed to work in the united states? linkedin profile",
+      "will you now or in the future require sponsorship to be legally authorized to work in the united states?  linkedin profile",
+      "what is the story and how do you envision telling it?",
+      "detail what impact your project could have.",
+      "who else has covered this issue and how will your story be different??",
+      "what is your plan for executing the work?",
+      "propublica aims to tell stories that represent the diversity of the united states and the world. how does your story include diverse voices and perspectives? what makes this story crucial to the country or the community where it is being told?",
+      "not all stories are built on data, but in some cases it’s vital to telling a full story. is there data that is important to help tell this story? please describe briefly what data you have or have requested, what assistance you might require and the role you would like data to play in the story.",
+      "please provide a broad outline of projected reporting costs for your work. within that, what are the most vital line items to your reporting (ex: travel, foia requests, translations, etc.)? also include any pending or committed funding sources and award amounts.",
+      "how far along are you in the reporting and how much time do you think you will need to finish it?",
+      "story or project samples",
+      "attach linkedin profile",
+      "project 2",
+      "attach linkedin profile",
+      "project 3",
+      "attach linkedin profile",
+      "is there someone at propublica who is familiar with you or your work?",
+      "how did you hear about this form?",
+      "which of the following best describes your racial or ethnic heritage? select as many as apply.",
+      "which gender identity best describes you?",
+      "are you a military veteran?",
+      "if you’re a member of a community we haven’t mentioned that is underrepresented in journalism, let us know which below. for example: being a first-generation american/immigrant, being involved in a faith community, living with a disability, etc."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt is truncated and does not contain the full application form (e.g., resume upload, cover letter, or custom questions). The fields listed are those present in the provided snippet.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "are you legally allowed to work in the united states? linkedin profile",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "will you now or in the future require sponsorship to be legally authorized to work in the united states?  linkedin profile",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "what is the story and how do you envision telling it?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "detail what impact your project could have.",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "who else has covered this issue and how will your story be different??",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your plan for executing the work?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "propublica aims to tell stories that represent the diversity of the united states and the world. how does your story include diverse voices and perspectives? what makes this story crucial to the country or the community where it is being told?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "not all stories are built on data, but in some cases it’s vital to telling a full story. is there data that is important to help tell this story? please describe briefly what data you have or have requested, what assistance you might require and the role you would like data to play in the story.",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "please provide a broad outline of projected reporting costs for your work. within that, what are the most vital line items to your reporting (ex: travel, foia requests, translations, etc.)? also include any pending or committed funding sources and award amounts.",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "how far along are you in the reporting and how much time do you think you will need to finish it?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "story or project samples",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "attach linkedin profile",
+      "field_type": "file",
+      "ref": "f19"
+    },
+    {
+      "question": "project 2",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "attach linkedin profile",
+      "field_type": "file",
+      "ref": "f21"
+    },
+    {
+      "question": "project 3",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "attach linkedin profile",
+      "field_type": "file",
+      "ref": "f23"
+    },
+    {
+      "question": "is there someone at propublica who is familiar with you or your work?",
+      "field_type": "textarea",
+      "ref": "f24"
+    },
+    {
+      "question": "how did you hear about this form?",
+      "field_type": "checkbox",
+      "ref": "f25"
+    },
+    {
+      "question": "which of the following best describes your racial or ethnic heritage? select as many as apply.",
+      "field_type": "select",
+      "ref": "f26"
+    },
+    {
+      "question": "which gender identity best describes you?",
+      "field_type": "select",
+      "ref": "f27"
+    },
+    {
+      "question": "are you a military veteran?",
+      "field_type": "select",
+      "ref": "f28"
+    },
+    {
+      "question": "if you’re a member of a community we haven’t mentioned that is underrepresented in journalism, let us know which below. for example: being a first-generation american/immigrant, being involved in a faith community, living with a disability, etc.",
+      "field_type": "select",
+      "ref": "f29"
+    }
+  ]
+}

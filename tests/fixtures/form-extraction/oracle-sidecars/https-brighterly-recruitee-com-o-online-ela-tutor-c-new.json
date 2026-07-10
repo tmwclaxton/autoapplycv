@@ -1,0 +1,392 @@
+{
+  "id": "https-brighterly-recruitee-com-o-online-ela-tutor-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:58:27.667Z",
+  "page_url": "https://brighterly.recruitee.com/o/online-ela-tutor/c/new",
+  "page_title": "Brighterly - Online ELA Tutor - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 18,
+      "count_delta": 1,
+      "label_jaccard": 0.6087,
+      "type_agree_rate": 1,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "nationality",
+        "ai": "Nationality",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i am 18 years old or older",
+        "ai": "I am 18 years old or older",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "current brighterly teacher recommended to me to apply for this job",
+        "ai": "Current Brighterly teacher recommended to me to apply for this job",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if so, please insert their full name (referrer name)",
+        "ai": "If so, please insert their full name (Referrer Name)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "did you find our job posting on a career site? if so, please precise where.",
+        "ai": "Did you find our job posting on a career site? If so, please precise where.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a bachelor degree in education (or a similar field)?",
+        "ai": "Do you have a bachelor degree in education (or a similar field)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of teaching experience do you have?",
+        "ai": "How many years of teaching experience do you have?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you ready to work at least 20 hours per week between 4 pm and 8 pm (new york timezone)?",
+        "ai": "Are you ready to work at least 20 hours per week between 4 pm and 8 pm (New York timezone)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "in case you're selected for the role, how soon would you be able to complete a 5-hour-long onboarding training course covering: brighterly overview, how to adopt brighterly materials and use them to teach online, how to use brighterly teacher room and other teaching tools, how to communicate effectively.",
+        "ai": "In case you're selected for the role, how soon would you be able to complete a 5-hour-long onboarding training course covering: Brighterly overview, how to adopt Brighterly materials and use them to teach online, how to use Brighterly Teacher Room and other teaching tools, how to communicate effectively.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please make sure our emails are delivered to your inbox and not your spam folder. check your spam email folder, and if it's in your spam folder, remember to mark the email as not s",
+        "ai": "Please make sure our emails are delivered to your inbox and not your spam folder.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "i understand that the hiring process is a strictly confidential matter and i hereby agree not to disclose any data regarding the process, such as emails, video recordings, photos,",
+        "ai": "I understand that the hiring process is a strictly confidential matter and I hereby agree not to disclose any data regarding the process, such as emails, video recordings, photos, documents, etc. Any violation shall result in the removal of your application from the process.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "i confirm i am not a resident of the following territories: russia, crimea, cuba, lebanon, venezuela, iran, north korea, syria, myanmar, yemen, pakistan and i can provide documenta",
+        "ai": "I confirm I am not a resident",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "each party will only disclose personal data to the other party to process strictly for the permitted purpose, namely the hiring process. applicant confirms that it is entitled to p"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Recruitee's standard dynamic field structure. The final checkbox text was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nationality",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I am 18 years old or older",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "question": "Current Brighterly teacher recommended to me to apply for this job",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If so, please insert their full name (Referrer Name)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Facebook",
+          "Instagram",
+          "TikTok",
+          "Linkedin",
+          "Youtube",
+          "Google Search",
+          "Recommendation",
+          "Job board"
+        ]
+      },
+      {
+        "question": "Did you find our job posting on a career site? If so, please precise where.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have a bachelor degree in education (or a similar field)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "question": "How many years of teaching experience do you have?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No experience",
+          "Less than 1 year",
+          "From 1 to 3 years",
+          "More than 3 year"
+        ]
+      },
+      {
+        "question": "Are you ready to work at least 20 hours per week between 4 pm and 8 pm (New York timezone)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "question": "In case you're selected for the role, how soon would you be able to complete a 5-hour-long onboarding training course covering: Brighterly overview, how to adopt Brighterly materials and use them to teach online, how to use Brighterly Teacher Room and other teaching tools, how to communicate effectively.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I’m ready to complete the onboarding course within 2 days",
+          "I’m ready to complete the onboarding course within 5 days",
+          "I’m ready to complete the onboarding course within a week"
+        ]
+      },
+      {
+        "question": "Please make sure our emails are delivered to your inbox and not your spam folder.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I understand that the hiring process is a strictly confidential matter and I hereby agree not to disclose any data regarding the process, such as emails, video recordings, photos, documents, etc. Any violation shall result in the removal of your application from the process.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I confirm I am not a resident",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "nationality",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "i am 18 years old or older",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "current brighterly teacher recommended to me to apply for this job",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "if so, please insert their full name (referrer name)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "did you find our job posting on a career site? if so, please precise where.",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "do you have a bachelor degree in education (or a similar field)?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years of teaching experience do you have?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "are you ready to work at least 20 hours per week between 4 pm and 8 pm (new york timezone)?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "in case you're selected for the role, how soon would you be able to complete a 5-hour-long onboarding training course covering: brighterly overview, how to adopt brighterly materials and use them to teach online, how to use brighterly teacher room and other teaching tools, how to communicate effectively.",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "please make sure our emails are delivered to your inbox and not your spam folder. check your spam email folder, and if it's in your spam folder, remember to mark the email as not s",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "i understand that the hiring process is a strictly confidential matter and i hereby agree not to disclose any data regarding the process, such as emails, video recordings, photos,",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "i confirm i am not a resident of the following territories: russia, crimea, cuba, lebanon, venezuela, iran, north korea, syria, myanmar, yemen, pakistan and i can provide documenta",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "each party will only disclose personal data to the other party to process strictly for the permitted purpose, namely the hiring process. applicant confirms that it is entitled to p",
+      "field_type": "checkbox",
+      "ref": "f18"
+    }
+  ]
+}

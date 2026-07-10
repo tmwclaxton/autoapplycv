@@ -1,0 +1,206 @@
+{
+  "id": "https-job-boards-greenhouse-io-formbio-jobs-4643361006",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:59:29.465Z",
+  "page_url": "https://job-boards.greenhouse.io/formbio/jobs/4643361006",
+  "page_title": "Job Application for Technical Program Manager (Bioinformatics Projects) at Form Bio",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 6,
+      "count_delta": 11,
+      "label_jaccard": 0.3529,
+      "type_agree_rate": 0.6667,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "attach first name",
+      "are you authorized to work in the us for any employer?",
+      "will you now or in the future require sponsorship to continue working in the us?  are you authorized to work in the us for any employer?",
+      "are you currently based in the dallas, tx metro area? this role requires that you are local to our client. relocation is not an option at this time.  are you authorized to work in the us for any employer?",
+      "the salary range for this position is $100,000–$115,000. is this range within your salary expectations? are you authorized to work in the us for any employer?",
+      "do you have 5+ years experience in project/program management? are you authorized to work in the us for any employer?",
+      "do you have at least 3 years of experience acting as the primary day-to-day point of contact for executive-level stakeholders within an enterprise-scale software services or consulting engagement? are you authorized to work in the us for any employer?",
+      "have you personally managed the delivery of complex technical projects involving at least two of the following: cloud infrastructure (e.g., gcp/aws), data warehousing, or ai/ml workflows? are you authorized to work in the us for any employer?",
+      "do you have proven experience leading agile software engineering teams through the full lifecycle of a custom software application delivery for an external customer? are you authorized to work in the us for any employer?",
+      "do you have direct experience working in or with academic research or biotech r&d organizations? are you authorized to work in the us for any employer?",
+      "do you have a degree in bioinformatics or similar field?  are you authorized to work in the us for any employer?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so only the initial contact fields are captured. The phone input uses an international telephone input library (intl-tel-input) which is represented as a tel field.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "will you now or in the future require sponsorship to continue working in the us?  are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "are you currently based in the dallas, tx metro area? this role requires that you are local to our client. relocation is not an option at this time.  are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "the salary range for this position is $100,000–$115,000. is this range within your salary expectations? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "do you have 5+ years experience in project/program management? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have at least 3 years of experience acting as the primary day-to-day point of contact for executive-level stakeholders within an enterprise-scale software services or consulting engagement? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "have you personally managed the delivery of complex technical projects involving at least two of the following: cloud infrastructure (e.g., gcp/aws), data warehousing, or ai/ml workflows? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have proven experience leading agile software engineering teams through the full lifecycle of a custom software application delivery for an external customer? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have direct experience working in or with academic research or biotech r&d organizations? are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "do you have a degree in bioinformatics or similar field?  are you authorized to work in the us for any employer?",
+      "field_type": "select",
+      "ref": "f16"
+    }
+  ]
+}

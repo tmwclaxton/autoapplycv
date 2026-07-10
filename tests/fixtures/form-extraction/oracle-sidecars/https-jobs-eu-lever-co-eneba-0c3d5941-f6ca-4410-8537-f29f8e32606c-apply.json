@@ -1,0 +1,272 @@
+{
+  "id": "https-jobs-eu-lever-co-eneba-0c3d5941-f6ca-4410-8537-f29f8e32606c-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:55:17.574Z",
+  "page_url": "https://jobs.eu.lever.co/eneba/0c3d5941-f6ca-4410-8537-f29f8e32606c/apply",
+  "page_title": "Eneba - Influencers Manager",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 0.5385,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "yes, eneba can contact me about future job opportunities for up to 3 yearsprivacy policy",
+        "ai": "Yes, Eneba can contact me about future job opportunities for up to 3 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.538 below 0.6 on 13 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-specific application structure. Location input includes an autocomplete/dropdown mechanism. LinkedIn profile button is an external integration.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Remote",
+          "Kaunas",
+          "Lithuania",
+          "Vilnius"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Yes, Eneba can contact me about future job opportunities for up to 3 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "yes, eneba can contact me about future job opportunities for up to 3 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f12"
+    }
+  ]
+}

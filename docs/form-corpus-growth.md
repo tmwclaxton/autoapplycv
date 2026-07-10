@@ -40,7 +40,11 @@ Prerequisites: `npm run extension-bridge`, extension connected, NanoGPT API key.
 npm run form-corpus:curated-oracle
 npm run form-corpus:curated-oracle -- --limit=3
 npm run form-corpus:curated-oracle -- --url=https://jobs.lever.co/leverdemo-8/.../apply
+npm run form-corpus:build-oracle-queue
+npm run form-corpus:dual-oracle-300 -- --start=1 --batches=1
 ```
+
+For a 300-agree inventory campaign: build the queue, then run six batches of 50 (`--batches=1` per session recommended). Progress: `tests/fixtures/form-extraction/dual-oracle-300-progress.json`.
 
 Report: `tests/fixtures/form-extraction/curated-oracle-report.json`.
 

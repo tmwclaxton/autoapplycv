@@ -1,0 +1,201 @@
+{
+  "id": "https-11bitstudios-recruitee-com-o-lead-designer-unannounced-project",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:24:32.356Z",
+  "page_url": "https://11bitstudios.recruitee.com/o/lead-designer-unannounced-project",
+  "page_title": "11 bit studios - Lead Designer (Unannounced Project)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 3,
+      "ai_count": 16,
+      "count_delta": 13,
+      "label_jaccard": 0.1875,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio (file)",
+        "ai": "Portfolio (file)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Full name",
+      "Email address",
+      "Phone number",
+      "To stanowisko wymaga pracy u nas w biurze w Warszawie w modelu hybrydowym - 3 dni w biurze, 2 dni zdalnie. Czy jest to dla Ciebie w porządku?",
+      "Portfolio (link)",
+      "Czy masz już doświadczenie w zarządzaniu zespołem? Jeśli tak, to jakiej był wielkości oraz jaki to był zespół (pod kątem domeny, ról w zespole, doświadczenia pracowników)?",
+      "Czy masz doświadczenie z 'combat design' lub pracy nad grą, w której jest combat?",
+      "Jak wyglądają Twoje oczekiwania finansowe? Podaj proszę: Rodzaj umowy/netto-brutto/kwota miesięczna-roczna",
+      "Kiedy możesz dołączyć do naszego zespołu? Jaka jest Twoja dostępność/okres wypowiedzenia?",
+      "Gdzie widziałeś/aś nasze ogłoszenie? Gdzie się z nim spotkałeś/aś?",
+      "Jeśli zaznaczyłeś/aś \"inne\" będziemy wdzięczni za podpowiedź czym jest \"inne\". :)",
+      "Wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w CV) w celu prowadzenia rekrutacji na stanowisko wskazane w ogłoszeniu przez firmę 11 bit studios S.A.",
+      "Wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w CV) w przyszłych procesach rekrutacyjnych organizowanych przez firmę 11 bit studios S.A."
+    ],
+    "reasons": [
+      "field count delta 13 exceeds tolerance 2 (detector=3, ai=16)",
+      "label Jaccard 0.188 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The phone number input uses a custom country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "To stanowisko wymaga pracy u nas w biurze w Warszawie w modelu hybrydowym - 3 dni w biurze, 2 dni zdalnie. Czy jest to dla Ciebie w porządku?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Tak",
+          "Nie"
+        ]
+      },
+      {
+        "question": "Portfolio (link)",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio (file)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Czy masz już doświadczenie w zarządzaniu zespołem? Jeśli tak, to jakiej był wielkości oraz jaki to był zespół (pod kątem domeny, ról w zespole, doświadczenia pracowników)?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Czy masz doświadczenie z 'combat design' lub pracy nad grą, w której jest combat?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Jak wyglądają Twoje oczekiwania finansowe? Podaj proszę: Rodzaj umowy/netto-brutto/kwota miesięczna-roczna",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Kiedy możesz dołączyć do naszego zespołu? Jaka jest Twoja dostępność/okres wypowiedzenia?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gdzie widziałeś/aś nasze ogłoszenie? Gdzie się z nim spotkałeś/aś?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Strona 11 bit studios",
+          "Facebook",
+          "Instagram",
+          "Twitter",
+          "Linkedin",
+          "Skillshot",
+          "ArtStation",
+          "Indeed",
+          "Pracuj.pl",
+          "Rocket Jobs",
+          "Just Join IT",
+          "No Fluff Jobs",
+          "8 bit job board",
+          "Znajomi/Rodzina",
+          "Reklamy w internecie",
+          "Targi/Eventy",
+          "Inne"
+        ]
+      },
+      {
+        "question": "Jeśli zaznaczyłeś/aś \"inne\" będziemy wdzięczni za podpowiedź czym jest \"inne\". :)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w CV) w celu prowadzenia rekrutacji na stanowisko wskazane w ogłoszeniu przez firmę 11 bit studios S.A.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w CV) w przyszłych procesach rekrutacyjnych organizowanych przez firmę 11 bit studios S.A.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "portfolio (file)",
+      "field_type": "file",
+      "ref": "f2"
+    }
+  ]
+}

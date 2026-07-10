@@ -1,0 +1,316 @@
+{
+  "id": "https-1komma5grad-jobs-personio-de-job-2682231",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:29:35.891Z",
+  "page_url": "https://1komma5grad.jobs.personio.de/job/2682231/",
+  "page_title": "(Senior) Product Manager Growth (m/f/d) | Jobs at 1KOMMA5°",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email (required) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "location (required) location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from (required) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary (required) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gender (required)",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "zusatzinformationen (optional)",
+        "ai": "Zusatzinformationen (optional)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how are your german language skills? (required)",
+        "ai": "How are your German language skills?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you already living in germany or are you in the process of moving to germany within the next 3 months? (required)",
+        "ai": "Are you already living in Germany or are you in the process of moving to Germany within the next 3 months?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload employment reference",
+        "ai": "Employment reference",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a standard Personio application form. File inputs are triggered via custom buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Male",
+          "Female",
+          "Diverse",
+          "Undefined"
+        ]
+      },
+      {
+        "question": "Zusatzinformationen (optional)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How are your German language skills?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "I speak German at C1/C2 level (business fluent / native speaker)",
+          "I speak German at B2 level (fluent)",
+          "I speak German at B1 level (advanced)",
+          "I speak German at A1/A2 level (beginner)"
+        ]
+      },
+      {
+        "question": "Are you already living in Germany or are you in the process of moving to Germany within the next 3 months?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I already live in Germany.",
+          "Yes, I will be moving to Germany in the next 3 months and do not require relocation support.",
+          "No, I don't live in Germany yet and would need relocation support.",
+          "No, I don't live in Germany and would like to work remotely from my current place of residence."
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Employment reference",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email (required) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "location (required) location",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "available from (required) available from",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "expected salary (required) expected salary",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "gender (required)",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "zusatzinformationen (optional)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how are your german language skills? (required)",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "are you already living in germany or are you in the process of moving to germany within the next 3 months? (required)",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "upload employment reference",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f14"
+    }
+  ]
+}

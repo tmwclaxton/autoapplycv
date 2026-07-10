@@ -1,0 +1,89 @@
+{
+  "id": "https-1komma5grad-jobs-personio-de-job-2645316",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:25:54.246Z",
+  "page_url": "https://1komma5grad.jobs.personio.de/job/2645316",
+  "page_title": "Working Student Data Science Forecasting (m/f/d) | Jobs at 1KOMMA5°",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 8,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email",
+      "Phone",
+      "Resume/CV",
+      "Cover letter",
+      "LinkedIn profile",
+      "Portfolio/Website"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=0, ai=8)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The application form is rendered via a Personio SPA (Single Page Application) triggered by the 'Apply for this job' button. The fields listed are standard for Personio job portals, but specific screening questions may only appear after clicking the apply button.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio/Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

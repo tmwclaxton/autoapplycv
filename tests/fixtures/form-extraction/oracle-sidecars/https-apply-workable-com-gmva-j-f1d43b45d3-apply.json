@@ -1,0 +1,260 @@
+{
+  "id": "https-apply-workable-com-gmva-j-f1d43b45d3-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:27:51.863Z",
+  "page_url": "https://apply.workable.com/gmva/j/F1D43B45D3/apply/",
+  "page_title": "Medical Virtual Assistant | PHRN - Global Medical Virtual Assistants - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 30,
+      "ai_count": 4,
+      "count_delta": 26,
+      "label_jaccard": 0.16,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "date of birth",
+      "qa_10725982",
+      "qa_10725983",
+      "course taken",
+      "qa_10725985",
+      "who were you referred by? (this will be your official referrer and cannot be changed later)",
+      "are you currently employed, doing freelancing or esl teaching?",
+      "when can you start?",
+      "input_files_input_tsxdls8ku98uancn",
+      "input_files_input_ihw8lhl1e02ke2to",
+      "input_files_input_l0ifowihme7tg0cu",
+      "how many years of work experience do you have?",
+      "are you amenable to work night shifts, weekends, and holidays?",
+      "are you able and willing to work full time 8 hours daily or 40 hours per week?",
+      "are you able and willing to to do both inbound and outbound calls for an entire 8hrs shift including admin tasks as required by our clients?",
+      "please note that you are only eligible to apply for one position at a time. rest assured that you will be profiled for whichever role your experience suits you best. kindly input \"acknowledged\" if you agree.",
+      "by clicking the \"yes\" button, i confirm that all of the information provided by me on this application is accurate and complete to the best of my knowledge. i understand that if any false information, omissions, or misrepresentations are discovered, my application may be rejected at any time.",
+      "by submitting your application, you consent to the collection and use of your information for recruitment, management, and planning purposes. with your consent, certain information may be shared within the global medical virtual assistants support team. you may withdraw your consent at any time. global medical virtual assistants values your privacy and is committed to the responsible management, use, and protection of personal information.",
+      "are you amenable to work night shifts, weekends, and holidays?",
+      "are you able and willing to work full time 8 hours daily or 40 hours per week?",
+      "are you able and willing to to do both inbound and outbound calls for an entire 8hrs shift including admin tasks as required by our clients?",
+      "by clicking the \"yes\" button, i confirm that all of the information provided by me on this application is accurate and complete to the best of my knowledge. i understand that if any false information, omissions, or misrepresentations are discovered, my application may be rejected at any time.",
+      "by submitting your application, you consent to the collection and use of your information for recruitment, management, and planning purposes. with your consent, certain information may be shared within the global medical virtual assistants support team. you may withdraw your consent at any time. global medical virtual assistants values your privacy and is committed to the responsible management, use, and protection of personal information."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, screening questions, etc.) that likely exist further down the form are missing from this list.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "date of birth",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "qa_10725982",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "qa_10725983",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "course taken",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "qa_10725985",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "who were you referred by? (this will be your official referrer and cannot be changed later)",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "are you currently employed, doing freelancing or esl teaching?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "when can you start?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "input_files_input_tsxdls8ku98uancn",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "input_files_input_ihw8lhl1e02ke2to",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": "input_files_input_l0ifowihme7tg0cu",
+      "field_type": "file",
+      "ref": "f17"
+    },
+    {
+      "question": "how many years of work experience do you have?",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "are you amenable to work night shifts, weekends, and holidays?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "are you able and willing to work full time 8 hours daily or 40 hours per week?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "are you able and willing to to do both inbound and outbound calls for an entire 8hrs shift including admin tasks as required by our clients?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "please note that you are only eligible to apply for one position at a time. rest assured that you will be profiled for whichever role your experience suits you best. kindly input \"acknowledged\" if you agree.",
+      "field_type": "textarea",
+      "ref": "f22"
+    },
+    {
+      "question": "by clicking the \"yes\" button, i confirm that all of the information provided by me on this application is accurate and complete to the best of my knowledge. i understand that if any false information, omissions, or misrepresentations are discovered, my application may be rejected at any time.",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "by submitting your application, you consent to the collection and use of your information for recruitment, management, and planning purposes. with your consent, certain information may be shared within the global medical virtual assistants support team. you may withdraw your consent at any time. global medical virtual assistants values your privacy and is committed to the responsible management, use, and protection of personal information.",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "are you amenable to work night shifts, weekends, and holidays?",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "are you able and willing to work full time 8 hours daily or 40 hours per week?",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "are you able and willing to to do both inbound and outbound calls for an entire 8hrs shift including admin tasks as required by our clients?",
+      "field_type": "radio",
+      "ref": "f27"
+    },
+    {
+      "question": "by clicking the \"yes\" button, i confirm that all of the information provided by me on this application is accurate and complete to the best of my knowledge. i understand that if any false information, omissions, or misrepresentations are discovered, my application may be rejected at any time.",
+      "field_type": "radio",
+      "ref": "f28"
+    },
+    {
+      "question": "by submitting your application, you consent to the collection and use of your information for recruitment, management, and planning purposes. with your consent, certain information may be shared within the global medical virtual assistants support team. you may withdraw your consent at any time. global medical virtual assistants values your privacy and is committed to the responsible management, use, and protection of personal information.",
+      "field_type": "radio",
+      "ref": "f29"
+    }
+  ]
+}

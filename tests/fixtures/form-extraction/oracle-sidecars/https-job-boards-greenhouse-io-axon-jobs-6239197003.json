@@ -1,0 +1,404 @@
+{
+  "id": "https-job-boards-greenhouse-io-axon-jobs-6239197003",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:06:12.066Z",
+  "page_url": "https://job-boards.greenhouse.io/axon/jobs/6239197003",
+  "page_title": "Job Application for Engineering manager embedded at Axon",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 35,
+      "ai_count": 5,
+      "count_delta": 30,
+      "label_jaccard": 0.1471,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "location (city) first name",
+      "attach first name",
+      "attach first name",
+      "linkedin profile",
+      "website",
+      "this role requires being based in boston or seattle, and working from the office four days per week. if you are not currently in one of these locations, could you please confirm your willingness to relocate and meet the in-office requirement? linkedin profile",
+      "are you legally authorized to work in the united states for any us employer now and in the future? linkedin profile",
+      "will you now or in the future require sponsorship for employment in the united states? linkedin profile",
+      "can you provide verification of both your identity and authorization to work in the united states, to the extent required by law? linkedin profile",
+      "are you at least 18 years of age? linkedin profile",
+      "based on the below information, would you meet the requirements for a deemed export license in order to access ear - controlled technology? linkedin profile",
+      "do you have any contractual obligations, agreements, relationships, or commitments to another person or entity that would impact, impede or interfere with your ability to join axon? linkedin profile",
+      "acknowledgment of receipt and review i acknowledge that i received a copy of axon’s prohibited possessor questionnaire (“questionnaire”) and that i read it, understood it, and answered the questions truthfully and accurately. i understand that axon has the maximum discretion permitted by law to interpret, administer, change, modify, or delete this questionnaire at any time with or without notice. i understand that neither this questionnaire nor any other communication by a recruiter, hiring manager, supervisor, manager, axon’s people operations, or any other axon employee, whether oral or written, is intended in any way to create a contract of employment. i understand that axon will keep this information secure and confidential and will not use any such information for any unlawful purpose or in any unlawful way. finally, i again represent that all the information provided herein is truthful and accurate. linkedin profile",
+      "are you a fugitive from justice? linkedin profile",
+      "are you an alien illegally or unlawfully in the united states? linkedin profile",
+      "are you an alien who has been admitted to the united states under a nonimmigrant visa? (i.e. h-1b, tn, f1) linkedin profile",
+      "are you an unlawful user of, or addicted to, marijuana or any depressant, stimulant, narcotic drug, or any other controlled substance? linkedin profile",
+      "are you subject to a court order, including a military protection order issued by a military judge or magistrate, restraining you from harassing, stalking, or threatening your child or an intimate partner or child of such partner? linkedin profile",
+      "are you under indictment or information in any court for a felony, or any other crime for which the judge could imprison you for more than one year, or are you a current member of the military who has been charged with violation(s) of the uniform code of military justice and whose charge(s) have been referred to a general court-martial? linkedin profile",
+      "federal firearms licensee employee accessor questionnaire",
+      "have you ever been adjudicated as a mental defective or have you ever been committed to a mental institution? linkedin profile",
+      "have you ever been convicted in any court of a misdemeanor crime of domestic violence, or are you or have you ever been a member of the military and been convicted of a crime that included, as an element, the use of force against a person as identified in the instructions? linkedin profile",
+      "have you ever been discharged from the armed forces under dishonorable conditions? linkedin profile",
+      "have you ever renounced your united states citizenship? linkedin profile",
+      "what city do you currently reside in?",
+      "have you ever been employed by axon? linkedin profile",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so additional fields (like resume upload or screening questions) that typically appear further down in Greenhouse forms are missing from this list.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": [
+          "Afghanistan",
+          "Åland Islands",
+          "Albania",
+          "Algeria",
+          "American Samoa",
+          "Andorra",
+          "Angola",
+          "Anguilla",
+          "Antigua & Barbuda",
+          "Argentina",
+          "Armenia",
+          "Aruba",
+          "Ascension Island",
+          "Australia",
+          "Austria",
+          "Azerbaijan",
+          "Bahamas",
+          "Bahrain",
+          "Bangladesh",
+          "Barbados",
+          "Belarus",
+          "Belgium",
+          "Belize",
+          "Benin",
+          "Bermuda",
+          "Bhutan",
+          "Bolivia",
+          "Bosnia & Herzegovina",
+          "Botswana",
+          "Brazil",
+          "British Indian Ocean Territory",
+          "British Virgin Islands",
+          "Brunei",
+          "Bulgaria",
+          "Burkina Faso",
+          "Burundi",
+          "Cambodia",
+          "Cameroon",
+          "Canada",
+          "Cape Verde",
+          "Caribbean Netherlands",
+          "Cayman Islands",
+          "Central African Republic",
+          "Chad",
+          "Chile",
+          "China",
+          "Christmas Island",
+          "Cocos (Keeling) Islands",
+          "Colombia",
+          "Comoros",
+          "Congo - Brazzaville",
+          "Congo - Kinshasa",
+          "Cook Islands",
+          "Costa Rica",
+          "Côte d’Ivoire",
+          "Croatia",
+          "Cuba",
+          "Curaçao",
+          "Cyprus",
+          "Czechia",
+          "Denmark",
+          "Djibouti",
+          "Dominica",
+          "Dominican Republic",
+          "Ecuador",
+          "Egypt",
+          "El Salvador",
+          "Equatorial Guinea",
+          "Eritrea",
+          "Estonia",
+          "Eswatini",
+          "Ethiopia",
+          "Falkland Islands",
+          "Faroe Islands",
+          "Fiji",
+          "Finland",
+          "France",
+          "French Guiana",
+          "French Polynesia",
+          "Gabon",
+          "Gambia",
+          "Georgia",
+          "Germany",
+          "Ghana",
+          "Gibraltar",
+          "Greece",
+          "Greenland",
+          "Grenada",
+          "Guadeloupe",
+          "Guam",
+          "Guatemala",
+          "Guernsey",
+          "Guinea",
+          "Guinea-Bissau",
+          "Guyana",
+          "Haiti",
+          "Honduras",
+          "Hong Kong SAR China",
+          "Hungary",
+          "Iceland",
+          "India"
+        ]
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location (city) first name",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "this role requires being based in boston or seattle, and working from the office four days per week. if you are not currently in one of these locations, could you please confirm your willingness to relocate and meet the in-office requirement? linkedin profile",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally authorized to work in the united states for any us employer now and in the future? linkedin profile",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment in the united states? linkedin profile",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "can you provide verification of both your identity and authorization to work in the united states, to the extent required by law? linkedin profile",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "are you at least 18 years of age? linkedin profile",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "based on the below information, would you meet the requirements for a deemed export license in order to access ear - controlled technology? linkedin profile",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "do you have any contractual obligations, agreements, relationships, or commitments to another person or entity that would impact, impede or interfere with your ability to join axon? linkedin profile",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "acknowledgment of receipt and review i acknowledge that i received a copy of axon’s prohibited possessor questionnaire (“questionnaire”) and that i read it, understood it, and answered the questions truthfully and accurately. i understand that axon has the maximum discretion permitted by law to interpret, administer, change, modify, or delete this questionnaire at any time with or without notice. i understand that neither this questionnaire nor any other communication by a recruiter, hiring manager, supervisor, manager, axon’s people operations, or any other axon employee, whether oral or written, is intended in any way to create a contract of employment. i understand that axon will keep this information secure and confidential and will not use any such information for any unlawful purpose or in any unlawful way. finally, i again represent that all the information provided herein is truthful and accurate. linkedin profile",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "are you a fugitive from justice? linkedin profile",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "are you an alien illegally or unlawfully in the united states? linkedin profile",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "are you an alien who has been admitted to the united states under a nonimmigrant visa? (i.e. h-1b, tn, f1) linkedin profile",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "are you an unlawful user of, or addicted to, marijuana or any depressant, stimulant, narcotic drug, or any other controlled substance? linkedin profile",
+      "field_type": "select",
+      "ref": "f21"
+    },
+    {
+      "question": "are you subject to a court order, including a military protection order issued by a military judge or magistrate, restraining you from harassing, stalking, or threatening your child or an intimate partner or child of such partner? linkedin profile",
+      "field_type": "select",
+      "ref": "f22"
+    },
+    {
+      "question": "are you under indictment or information in any court for a felony, or any other crime for which the judge could imprison you for more than one year, or are you a current member of the military who has been charged with violation(s) of the uniform code of military justice and whose charge(s) have been referred to a general court-martial? linkedin profile",
+      "field_type": "select",
+      "ref": "f23"
+    },
+    {
+      "question": "federal firearms licensee employee accessor questionnaire",
+      "field_type": "checkbox",
+      "ref": "f24"
+    },
+    {
+      "question": "have you ever been adjudicated as a mental defective or have you ever been committed to a mental institution? linkedin profile",
+      "field_type": "select",
+      "ref": "f25"
+    },
+    {
+      "question": "have you ever been convicted in any court of a misdemeanor crime of domestic violence, or are you or have you ever been a member of the military and been convicted of a crime that included, as an element, the use of force against a person as identified in the instructions? linkedin profile",
+      "field_type": "select",
+      "ref": "f26"
+    },
+    {
+      "question": "have you ever been discharged from the armed forces under dishonorable conditions? linkedin profile",
+      "field_type": "select",
+      "ref": "f27"
+    },
+    {
+      "question": "have you ever renounced your united states citizenship? linkedin profile",
+      "field_type": "select",
+      "ref": "f28"
+    },
+    {
+      "question": "what city do you currently reside in?",
+      "field_type": "text",
+      "ref": "f29"
+    },
+    {
+      "question": "have you ever been employed by axon? linkedin profile",
+      "field_type": "select",
+      "ref": "f30"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f31"
+    },
+    {
+      "question": "are you hispanic/latino?",
+      "field_type": "select",
+      "ref": "f32"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f33"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f34"
+    }
+  ]
+}

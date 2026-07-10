@@ -1,0 +1,61 @@
+{
+  "id": "https-airliquidehr-wd3-myworkdayjobs-com-en-gb-airliquideexternalcareer-job-pess",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:53:41.469Z",
+  "page_url": "https://airliquidehr.wd3.myworkdayjobs.com/en-GB/AirLiquideExternalCareer/job/PESSOA-ESTAGIARIA-COMERCIAL_R10092777/apply",
+  "page_title": "PESSOA ESTAGIARIA COMERCIAL",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 4,
+      "count_delta": 4,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill with Resume",
+      "Apply Manually",
+      "Use My Last Application",
+      "Apply with LinkedIn"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=0, ai=4)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page is a Workday landing page for job applications. The actual form fields (name, email, etc.) are hidden behind the 'Apply Manually' or 'Autofill with Resume' links, which trigger a dynamic SPA flow not present in this static HTML excerpt.",
+    "fields": [
+      {
+        "question": "Autofill with Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Apply Manually",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Use My Last Application",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Apply with LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

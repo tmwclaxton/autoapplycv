@@ -1,0 +1,39 @@
+{
+  "id": "https-arbetsformedlingen-se",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:26:37.591Z",
+  "page_url": "https://arbetsformedlingen.se/",
+  "page_title": "Arbetsförmedlingen.se - Arbetsförmedlingen",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Sök på webbplatsen"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a homepage for a government agency (Arbetsförmedlingen) and does not contain a job application form. It contains a search input field and various navigation links.",
+    "fields": [
+      {
+        "question": "Sök på webbplatsen",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

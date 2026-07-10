@@ -1,0 +1,110 @@
+{
+  "id": "https-apply-workable-com-ista-2",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:49:15.852Z",
+  "page_url": "https://apply.workable.com/ista-2",
+  "page_title": "ISTA Personnel Solutions - Current Openings",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 9,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "search jobs…"
+    ],
+    "ai_only": [
+      "First Name",
+      "Last Name",
+      "Email",
+      "Phone",
+      "Resume/CV",
+      "Cover Letter",
+      "LinkedIn Profile",
+      "Portfolio",
+      "How did you hear about this job?"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=1, ai=9)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt is a generic Workable landing page header and does not contain the specific job application form fields. The fields listed above are standard for Workable application forms, but may vary based on the specific job selected.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "LinkedIn",
+          "Indeed",
+          "Company Website",
+          "Referral",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search jobs…",
+      "field_type": "search",
+      "ref": "f0"
+    }
+  ]
+}

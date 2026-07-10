@@ -1,0 +1,266 @@
+{
+  "id": "https-job-boards-greenhouse-io-doordashusa-jobs-6972250",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:10:40.473Z",
+  "page_url": "https://job-boards.greenhouse.io/doordashusa/jobs/6972250",
+  "page_title": "Job Application for Embedded Software Engineer - Labs at DoorDash USA",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 29,
+      "ai_count": 5,
+      "count_delta": 24,
+      "label_jaccard": 0.1786,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "location (city) first name",
+      "attach first name",
+      "attach first name",
+      "school",
+      "degree",
+      "linkedin profile",
+      "are you legally authorized to work in the united states? linkedin profile",
+      "will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)? linkedin profile",
+      "will you in the future require immigration require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)?  linkedin profile",
+      "have you worked at doordash? linkedin profile",
+      "do you have a bachelor’s or master’s degree in electrical engineering, computer engineering, or a related field? linkedin profile",
+      "do you have 8 or more years of hands-on experience in embedded systems development? linkedin profile",
+      "do you have deep expertise in bare-metal programming on arm microcontrollers? linkedin profile",
+      "are you proficient in c/c++ for embedded targets and familiar with firmware design patterns? linkedin profile",
+      "do you have a solid understanding of digital electronics, communication buses (i2c, spi, uart, can), and embedded peripherals?",
+      "have you worked on hardware bring-up and low-level debugging on custom boards?",
+      "applicant privacy acknowledgement  linkedin profile",
+      "would you like to receive communications via sms and/or whatsapp to the number provided [above or during the application process] about your application process? message & data rates may apply and message frequency may vary. if you select no, we will only communicate with you via email and/or telephone calls. if you select yes and change your mind, you can always reply stop to opt out. linkedin profile",
+      "gender",
+      "do you identify as transgender?",
+      "are you hispanic or latinx?",
+      "race (please select one option that best describes how you identify)",
+      "protected veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Greenhouse's standard application structure. The HTML excerpt provided is truncated, so additional fields (like resume upload, LinkedIn, or custom screening questions) that typically appear further down in a Greenhouse application form are missing from this output.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location (city) first name",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "school",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "degree",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally authorized to work in the united states? linkedin profile",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)? linkedin profile",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "will you in the future require immigration require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)?  linkedin profile",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "have you worked at doordash? linkedin profile",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have a bachelor’s or master’s degree in electrical engineering, computer engineering, or a related field? linkedin profile",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "do you have 8 or more years of hands-on experience in embedded systems development? linkedin profile",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "do you have deep expertise in bare-metal programming on arm microcontrollers? linkedin profile",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "are you proficient in c/c++ for embedded targets and familiar with firmware design patterns? linkedin profile",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "do you have a solid understanding of digital electronics, communication buses (i2c, spi, uart, can), and embedded peripherals?",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "have you worked on hardware bring-up and low-level debugging on custom boards?",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "applicant privacy acknowledgement  linkedin profile",
+      "field_type": "select",
+      "ref": "f21"
+    },
+    {
+      "question": "would you like to receive communications via sms and/or whatsapp to the number provided [above or during the application process] about your application process? message & data rates may apply and message frequency may vary. if you select no, we will only communicate with you via email and/or telephone calls. if you select yes and change your mind, you can always reply stop to opt out. linkedin profile",
+      "field_type": "select",
+      "ref": "f22"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f23"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "select",
+      "ref": "f24"
+    },
+    {
+      "question": "are you hispanic or latinx?",
+      "field_type": "select",
+      "ref": "f25"
+    },
+    {
+      "question": "race (please select one option that best describes how you identify)",
+      "field_type": "select",
+      "ref": "f26"
+    },
+    {
+      "question": "protected veteran status",
+      "field_type": "select",
+      "ref": "f27"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f28"
+    }
+  ]
+}

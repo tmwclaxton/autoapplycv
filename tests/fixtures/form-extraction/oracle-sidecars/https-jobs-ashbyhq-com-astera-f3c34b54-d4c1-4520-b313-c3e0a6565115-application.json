@@ -1,0 +1,111 @@
+{
+  "id": "https-jobs-ashbyhq-com-astera-f3c34b54-d4c1-4520-b313-c3e0a6565115-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:00:24.840Z",
+  "page_url": "https://jobs.ashbyhq.com/astera/f3c34b54-d4c1-4520-b313-c3e0a6565115/application",
+  "page_title": "General Application @ Astera Institute",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 5,
+      "count_delta": 1,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "pitch your ideal job to us",
+        "ai": "Pitch your ideal job to us",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Resume/CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a drag-and-drop resume upload component that acts as an autofill mechanism. The resume field appears twice in the DOM (once for autofill, once as a required form field).",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pitch your ideal job to us",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "pitch your ideal job to us",
+      "field_type": "textarea",
+      "ref": "f3"
+    }
+  ]
+}

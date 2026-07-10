@@ -28,7 +28,32 @@ export function truncateHtmlForScrutiny(html, maxChars = DEFAULT_HTML_CHARS) {
         return stripped;
     }
 
-    const formIdx = stripped.search(/<form[\s>]/i);
+    let formIdx = -1;
+    const formTagRe = /<form\b[^>]*>/gi;
+    let formMatch = formTagRe.exec(stripped);
+
+    while (formMatch) {
+        const tag = formMatch[0];
+
+        // Skip site chrome search forms (Jotform template gallery, etc.)
+        if (!/\brole\s*=\s*["']search["']/i.test(tag) && !/\bhero-search-form\b/i.test(tag)) {
+            formIdx = formMatch.index;
+            break;
+        }
+
+        formMatch = formTagRe.exec(stripped);
+    }
+
+    if (formIdx < 0) {
+        // Jotform / similar: real fields often live outside a non-search <form>.
+        const fieldAnchor = stripped.search(
+            /\bname\s*=\s*["']q\d|id\s*=\s*["'](?:first_|last_|input_)\d|\[first\]|\[addr_line1\]/i,
+        );
+
+        if (fieldAnchor >= 0) {
+            formIdx = fieldAnchor;
+        }
+    }
 
     if (formIdx >= 0) {
         const start = Math.max(0, formIdx - Math.floor(maxChars * 0.15));

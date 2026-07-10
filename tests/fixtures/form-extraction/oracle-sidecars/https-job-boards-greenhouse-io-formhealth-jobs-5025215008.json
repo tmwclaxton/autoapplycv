@@ -1,0 +1,314 @@
+{
+  "id": "https-job-boards-greenhouse-io-formhealth-jobs-5025215008",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:25:41.636Z",
+  "page_url": "https://job-boards.greenhouse.io/formhealth/jobs/5025215008",
+  "page_title": "Job Application for Nurse Practitioner, Obesity Medicine - Full Time W2 (Region 1) at Form Health",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 37,
+      "ai_count": 5,
+      "count_delta": 32,
+      "label_jaccard": 0.1389,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "location (city) first name",
+      "attach first name",
+      "attach first name",
+      "are you legally authorized to work in the united states?",
+      "will you now or in the future require employer-sponsored visa sponsorship? are you legally authorized to work in the united states?",
+      "in which u.s. state do you currently reside? are you legally authorized to work in the united states?",
+      "how many years of experience do you have working as an advanced practice provider (np/pa)? are you legally authorized to work in the united states?",
+      "how many years of obesity medicine experience do you have? are you legally authorized to work in the united states?",
+      "what interested you in form health?",
+      "please select all states where you currently hold an active medical license. (select all that apply)",
+      "please select all states where you hold a pending or inactive medical license. (select all that apply)",
+      "do you hold a compact license? are you legally authorized to work in the united states?",
+      "this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? are you legally authorized to work in the united states?",
+      "if you answered yes, please provide additional information below.",
+      "are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you legally authorized to work in the united states?",
+      "please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) are you legally authorized to work in the united states?",
+      "have you ever opted out of medicare?",
+      "if you have ever opted out of medicare, please provide the start date of your opt-out period.",
+      "what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy.",
+      "to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications).",
+      "when cost is a barrier, how do you help patients access obesity management medications?",
+      "are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you legally authorized to work in the united states?",
+      "please indicate which type of position (w2, full-time, part-time) you'd be most interested in. (please select all that apply to you). we don't currently offer 1099 or part-time roles for apps at this time and if you choose this option, we will keep your application on file for future needs.",
+      "do you currently hold an oma certification (caeom)? are you legally authorized to work in the united states?",
+      "do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? are you legally authorized to work in the united states?",
+      "bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  are you legally authorized to work in the united states?",
+      "please provide a link to your linkedin profile.",
+      "please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time.",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated during the phone number country selection list. The form is a standard Greenhouse application form.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location (city) first name",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "will you now or in the future require employer-sponsored visa sponsorship? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "in which u.s. state do you currently reside? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "how many years of experience do you have working as an advanced practice provider (np/pa)? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years of obesity medicine experience do you have? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "what interested you in form health?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "please select all states where you currently hold an active medical license. (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "please select all states where you hold a pending or inactive medical license. (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "do you hold a compact license? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "if you answered yes, please provide additional information below.",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "have you ever opted out of medicare?",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "if you have ever opted out of medicare, please provide the start date of your opt-out period.",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy.",
+      "field_type": "textarea",
+      "ref": "f23"
+    },
+    {
+      "question": "to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications).",
+      "field_type": "textarea",
+      "ref": "f24"
+    },
+    {
+      "question": "when cost is a barrier, how do you help patients access obesity management medications?",
+      "field_type": "textarea",
+      "ref": "f25"
+    },
+    {
+      "question": "are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f26"
+    },
+    {
+      "question": "please indicate which type of position (w2, full-time, part-time) you'd be most interested in. (please select all that apply to you). we don't currently offer 1099 or part-time roles for apps at this time and if you choose this option, we will keep your application on file for future needs.",
+      "field_type": "checkbox",
+      "ref": "f27"
+    },
+    {
+      "question": "do you currently hold an oma certification (caeom)? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f28"
+    },
+    {
+      "question": "do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f29"
+    },
+    {
+      "question": "bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f30"
+    },
+    {
+      "question": "please provide a link to your linkedin profile.",
+      "field_type": "text",
+      "ref": "f31"
+    },
+    {
+      "question": "please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time.",
+      "field_type": "textarea",
+      "ref": "f32"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f33"
+    },
+    {
+      "question": "are you hispanic/latino?",
+      "field_type": "select",
+      "ref": "f34"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f35"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f36"
+    }
+  ]
+}

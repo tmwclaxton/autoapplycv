@@ -1,0 +1,184 @@
+{
+  "id": "https-actemium-career-softgarden-de",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:46:48.217Z",
+  "page_url": "https://actemium.career.softgarden.de/",
+  "page_title": "Stellenangebote bei Actemium Deutschland – Jetzt finden!",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 4,
+      "count_delta": 13,
+      "label_jaccard": 0.2353,
+      "type_agree_rate": 0.5,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "meine karrierestufe ist",
+        "ai": "Meine Karrierestufe ist *",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "ich interessiere mich für",
+        "ai": "Ich interessiere mich für *",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "ja, ich möchte über neue stellenangebote informiert werden. zu diesem zweck stimme ich der verarbeitung meiner daten für das jobabo zu. diese zustimmung kann jederzeit, ohne angabe von gründen und mit wirkung für die zukunft, widerrufen werden. informationen zum datenschutz finden sie hier",
+        "ai": "Ja, ich möchte über neue Stellenangebote informiert werden. Zu diesem Zweck stimme ich der Verarbeitung meiner Daten für das JobAbo zu. Diese Zustimmung kann jederzeit, ohne Angabe von Gründen und mit Wirkung für die Zukunft, widerrufen werden. Informationen zum Datenschutz finden Sie hier",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail*",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "suche nach jobs per stichwort stichwort",
+      "suche nach jobs nach standort standortsuche",
+      "radius",
+      "alle karrierestufen",
+      "alle jobkategorien",
+      "alle standorte",
+      "anrede",
+      "vorname",
+      "nachname",
+      "phone",
+      "dokument",
+      "attachments",
+      "analyse / statistiken"
+    ],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.500 below 0.6 on 4 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a job subscription widget. The select fields are implemented as React-Select components (comboboxes). The form is initially hidden and requires interaction to be displayed.",
+    "fields": [
+      {
+        "question": "E-Mail*",
+        "field_type": "email",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Meine Karrierestufe ist *",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ich interessiere mich für *",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ja, ich möchte über neue Stellenangebote informiert werden. Zu diesem Zweck stimme ich der Verarbeitung meiner Daten für das JobAbo zu. Diese Zustimmung kann jederzeit, ohne Angabe von Gründen und mit Wirkung für die Zukunft, widerrufen werden. Informationen zum Datenschutz finden Sie hier",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "suche nach jobs per stichwort stichwort",
+      "field_type": "search",
+      "ref": "f0"
+    },
+    {
+      "question": "suche nach jobs nach standort standortsuche",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "radius",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "alle karrierestufen",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "alle jobkategorien",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "alle standorte",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "meine karrierestufe ist",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "ich interessiere mich für",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "ja, ich möchte über neue stellenangebote informiert werden. zu diesem zweck stimme ich der verarbeitung meiner daten für das jobabo zu. diese zustimmung kann jederzeit, ohne angabe von gründen und mit wirkung für die zukunft, widerrufen werden. informationen zum datenschutz finden sie hier",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "anrede",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f12"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f13"
+    },
+    {
+      "question": "dokument",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "attachments",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "analyse / statistiken",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

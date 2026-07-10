@@ -1,0 +1,69 @@
+{
+  "id": "https-job-boards-greenhouse-io-hellbenderinc",
+  "status": "disagree",
+  "captured_at": "2026-07-10T20:04:51.211Z",
+  "page_url": "https://job-boards.greenhouse.io/hellbenderinc",
+  "page_title": "Jobs at HELLBENDER Inc.",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 2,
+      "ai_count": 2,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.5,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "search",
+        "ai": "Search",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "department",
+        "ai": "Department",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.500 below 0.6 on 2 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page provided is a job board index page. The actual job application forms are located on individual job pages linked from this list. The current page only contains search and filter controls.",
+    "fields": [
+      {
+        "question": "Search",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Department",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "department",
+      "field_type": "select",
+      "ref": "f1"
+    }
+  ]
+}

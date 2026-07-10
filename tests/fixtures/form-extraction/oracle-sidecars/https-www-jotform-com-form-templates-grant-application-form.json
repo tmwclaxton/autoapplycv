@@ -1,0 +1,150 @@
+{
+  "id": "https-www-jotform-com-form-templates-grant-application-form",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:30:02.864Z",
+  "page_url": "https://www.jotform.com/form-templates/grant-application-form",
+  "page_title": "Grant Application Form Template | Jotform",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 0,
+      "count_delta": 20,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "search in all form templates",
+      "name first name",
+      "last name",
+      "phone",
+      "e-mail example@example.com ex: myname@example.com",
+      "mailing address street address",
+      "street address line 2",
+      "city",
+      "state / province",
+      "postal / zip code",
+      "business or organization name",
+      "business address street address",
+      "street address line 2",
+      "city",
+      "state / province",
+      "postal / zip code",
+      "file upload browse files",
+      "i confirm that my small business has no more than 500 employees.",
+      "which practice are you applying for?",
+      "how many acres of silvopasture are you applying for? e.g., 23"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a template gallery page for Jotform, not the actual form itself. The form content is loaded inside an iframe (src='/form-templates/preview/250926698562168/classic&nofs&disableSmartEmbed=1'), which is not accessible in the provided excerpt.",
+    "fields": []
+  },
+  "detector_fields": [
+    {
+      "question": "search in all form templates",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "name first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "e-mail example@example.com ex: myname@example.com",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "mailing address street address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "street address line 2",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "state / province",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "postal / zip code",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "business or organization name",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "business address street address",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "street address line 2",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "state / province",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "postal / zip code",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "file upload browse files",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": "i confirm that my small business has no more than 500 employees.",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "which practice are you applying for?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "how many acres of silvopasture are you applying for? e.g., 23",
+      "field_type": "number",
+      "ref": "f19"
+    }
+  ]
+}

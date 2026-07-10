@@ -1,0 +1,475 @@
+{
+  "id": "https-agbo-breezy-hr-p-477c5544f2b1-expression-of-interest-unreal-environment-ar",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:49:21.848Z",
+  "page_url": "https://agbo.breezy.hr/p/477c5544f2b1-expression-of-interest-unreal-environment-artist/apply",
+  "page_title": "Expression of Interest - Unreal Environment Artist",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 20,
+      "count_delta": 2,
+      "label_jaccard": 0.4074,
+      "type_agree_rate": 0.8182,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary",
+        "ai": "Desired Salary Currency",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your career focus/discipline?",
+        "ai": "What is your career focus/discipline?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of relevant experience do you have?",
+        "ai": "How many years of relevant experience do you have?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have the right to work in the usa?",
+        "ai": "Do you have the right to work in the USA?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located?",
+        "ai": "Where are you currently located?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "attach showreel breakdown:",
+        "ai": "Attach Showreel Breakdown:",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "attach showreel link:",
+        "ai": "Attach Showreel Link:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b",
+      "race or ethnicity",
+      "gender"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from AGBO.",
+      "Desired Salary",
+      "Desired Salary Period",
+      "Experience Summary",
+      "Cover Letter",
+      "Have you previously worked at AGBO?",
+      "Do you need sponsorship to work in the US now or in the future?",
+      "Are you comfortable working hybrid (we're located in downtown LA)?"
+    ],
+    "reasons": [
+      "label Jaccard 0.407 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based questionnaire system. Some fields are dynamically generated from a JSON blob in the HTML. Work history and education sections are dynamic lists.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from AGBO.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Currency",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Desired Salary",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Period",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you previously worked at AGBO?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your career focus/discipline?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of relevant experience do you have?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you need sponsorship to work in the US now or in the future?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have the right to work in the USA?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Where are you currently located?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you comfortable working hybrid (we're located in downtown LA)?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No (prefer fully remote)"
+        ]
+      },
+      {
+        "question": "Attach Showreel Breakdown:",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Attach Showreel Link:",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your career focus/discipline?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how many years of relevant experience do you have?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have the right to work in the usa?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "attach showreel breakdown:",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "attach showreel link:",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

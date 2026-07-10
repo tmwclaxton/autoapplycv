@@ -1,0 +1,200 @@
+{
+  "id": "https-apply-workable-com-hadley-designs-j-9614d79a6e-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:28:50.245Z",
+  "page_url": "https://apply.workable.com/hadley-designs/j/9614D79A6E/apply/",
+  "page_title": "Amazon Category Growth Manager - Hadley Designs - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 5,
+      "count_delta": 13,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline (optional)",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "input_files_input_ihom3rx8cnatcjqi",
+      "summary (optional)",
+      "input_files_input_mmmmqwykmaqxgtby",
+      "cover letter (optional)",
+      "why do you want to work for hadley designs?",
+      "please complete this culture index to see if you match our culture (copy and paste this link in a new tab) https://go.cultureindex.com/p/qiimu9j6q3d6pvq6",
+      "to formally apply for this role please complete this personality assessment (please budget 15 mins) (do not use ai or your results will automatically be disqualified.) (copy and paste this link in a new tab): https://www.ondemandassessment.com/o/jb-0pja4sgtl/landing",
+      "what is your desired salary or hourly rate in usd?",
+      "are you amenable to working us central business hours?",
+      "are you amenable to working us central business hours?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload, screening questions, or further personal info) that likely exist in the full form are missing from this list.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline (optional)",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "input_files_input_ihom3rx8cnatcjqi",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "input_files_input_mmmmqwykmaqxgtby",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "why do you want to work for hadley designs?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "please complete this culture index to see if you match our culture (copy and paste this link in a new tab) https://go.cultureindex.com/p/qiimu9j6q3d6pvq6",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "to formally apply for this role please complete this personality assessment (please budget 15 mins) (do not use ai or your results will automatically be disqualified.) (copy and paste this link in a new tab): https://www.ondemandassessment.com/o/jb-0pja4sgtl/landing",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your desired salary or hourly rate in usd?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "are you amenable to working us central business hours?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "are you amenable to working us central business hours?",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

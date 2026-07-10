@@ -152,6 +152,9 @@ Prerequisites: extension bridge connected, `NANOGPT_API_KEY`, real apply form op
 npm run form-corpus:curated-oracle
 npm run form-corpus:curated-oracle -- --limit=5
 npm run form-corpus:curated-oracle -- --url=https://jobs.lever.co/.../apply
+npm run form-corpus:curated-oracle -- --limit=50 --urls-file=tests/fixtures/form-extraction/oracle-url-queue-batch-01.json
+npm run form-corpus:build-oracle-queue
+# Progress: tests/fixtures/form-extraction/dual-oracle-300-progress.json
 npm run test:form-corpus-inventory-oracle
 ```
 

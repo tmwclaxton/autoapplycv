@@ -1,0 +1,378 @@
+{
+  "id": "https-4c-services-jobs-personio-de-job-2628633",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:31:38.367Z",
+  "page_url": "https://4c-services.jobs.personio.de/job/2628633/",
+  "page_title": "4C Integrity Auditor (Freelancer) - Regional focus East and West Africa, Asia, or Latin America | Jobs at 4C Services GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 18,
+      "count_delta": 0,
+      "label_jaccard": 0.5652,
+      "type_agree_rate": 1,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location (required) location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email (required) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nationality (required) nationality",
+        "ai": "Nationality",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "english language skills (required)",
+        "ai": "English language skills",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "spanish language skills (required)",
+        "ai": "Spanish language skills",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "other language skills (required) other language skills",
+        "ai": "Other language skills",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from (required) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary (required) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birthday",
+        "ai": "Birthday",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload employment reference",
+        "ai": "Employment reference",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom Personio dynamic fields. File inputs are triggered via buttons that open hidden file inputs.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nationality",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "English language skills",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "English A1",
+          "English A2",
+          "English B1",
+          "English B2",
+          "English C1",
+          "English C2",
+          "None",
+          "Native"
+        ]
+      },
+      {
+        "question": "Spanish language skills",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Spanish A1",
+          "Spanish A2",
+          "Spanish B1",
+          "Spanish B2",
+          "Spanish C1",
+          "Spanish C2",
+          "None",
+          "Native"
+        ]
+      },
+      {
+        "question": "Other language skills",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birthday",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Diverse",
+          "Undefined"
+        ]
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Employment reference",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "location (required) location",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email (required) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "nationality (required) nationality",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "english language skills (required)",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "spanish language skills (required)",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "other language skills (required) other language skills",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "available from (required) available from",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "expected salary (required) expected salary",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "birthday",
+      "field_type": "date",
+      "ref": "f11"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "upload employment reference",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f17"
+    }
+  ]
+}

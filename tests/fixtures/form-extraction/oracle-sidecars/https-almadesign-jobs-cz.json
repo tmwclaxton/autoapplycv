@@ -1,0 +1,39 @@
+{
+  "id": "https-almadesign-jobs-cz",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:40:29.465Z",
+  "page_url": "https://almadesign.jobs.cz/",
+  "page_title": "UX Summer Camp - Alma Career Czechia",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Zúčastnit se"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page contains a 'Zúčastnit se' (Participate) button that links to a separate application form page (/prihlasovaci-formular?r=reply&id=2000557290). No form fields are present on the current page.",
+    "fields": [
+      {
+        "question": "Zúčastnit se",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

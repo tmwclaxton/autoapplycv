@@ -1,0 +1,352 @@
+{
+  "id": "https-jobs-eu-lever-co-asobostudio-62ea5ba5-9bbe-455d-8c55-0b6c273e96a8-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:30:51.212Z",
+  "page_url": "https://jobs.eu.lever.co/asobostudio/62ea5ba5-9bbe-455d-8c55-0b6c273e96a8/apply",
+  "page_title": "Asobo Studio - Game Designer H/F (Projet narratif non annoncé)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 17,
+      "count_delta": 0,
+      "label_jaccard": 0.8889,
+      "type_agree_rate": 0.6471,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "peux-tu nous en dire plus sur ta candidature ? / please, tell us more about your application",
+        "ai": "Peux-tu nous en dire plus sur ta candidature ? / Please, tell us more about your application",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "question optionnelle. ces données nous permettent de mesurer la performance de nos actions d&i. / optional question. this data enables us to measure the performance of our d&i actions.",
+        "ai": "Question optionnelle. Ces données nous permettent de mesurer la performance de nos actions D&I. / Optional question. This data enables us to measure the performance of our D&I actions.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "combien d'années d'expériences professionnelles as-tu ? how many years of professional experience do you have?",
+        "ai": "Combien d'années d'expériences professionnelles as-tu ? How many years of professional experience do you have?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "le poste est à pourvoir en présentiel, à bordeaux, est-ce possible pour toi ? / it is an on-site position in bordeaux. is it what you're looking for?",
+        "ai": "Le poste est à pourvoir en présentiel, à Bordeaux, est-ce possible pour toi ? / It is an on-site position in Bordeaux. Is it what you're looking for?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "ce poste exige la maîtrise à l’écrit et à l’oral du français et de l’anglais. peux-tu lire, écrire et parler dans ces deux langues ? / this position requires operational proficiency in both french and english, in reading, writing, and speaking. can you read, write, and speak both languages at an operational level?",
+        "ai": "Ce poste exige la maîtrise à l’écrit et à l’oral du français et de l’anglais. Peux-tu lire, écrire et parler dans ces deux langues ? / This position requires operational proficiency in both French and English, in reading, writing, and speaking. Can you read, write, and speak both languages at an operational level?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, asobo studio can contact me about future job opportunities for up to 2 yearsprivacy policy",
+        "ai": "Yes, Asobo Studio can contact me about future job opportunities for up to 2 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-based application system. Includes an hCaptcha challenge and a LinkedIn auto-fill button.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Peux-tu nous en dire plus sur ta candidature ? / Please, tell us more about your application",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Question optionnelle. Ces données nous permettent de mesurer la performance de nos actions D&I. / Optional question. This data enables us to measure the performance of our D&I actions.",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Femme / Female",
+          "Homme / Male",
+          "Non-binaire / Non-binary",
+          "Autre / Other"
+        ]
+      },
+      {
+        "question": "Combien d'années d'expériences professionnelles as-tu ? How many years of professional experience do you have?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "0-3",
+          "4-7",
+          "> 7"
+        ]
+      },
+      {
+        "question": "Le poste est à pourvoir en présentiel, à Bordeaux, est-ce possible pour toi ? / It is an on-site position in Bordeaux. Is it what you're looking for?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Oui / Yes",
+          "Non / No"
+        ]
+      },
+      {
+        "question": "Ce poste exige la maîtrise à l’écrit et à l’oral du français et de l’anglais. Peux-tu lire, écrire et parler dans ces deux langues ? / This position requires operational proficiency in both French and English, in reading, writing, and speaking. Can you read, write, and speak both languages at an operational level?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Oui / Yes",
+          "Non / No"
+        ]
+      },
+      {
+        "question": "Yes, Asobo Studio can contact me about future job opportunities for up to 2 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "peux-tu nous en dire plus sur ta candidature ? / please, tell us more about your application",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "question optionnelle. ces données nous permettent de mesurer la performance de nos actions d&i. / optional question. this data enables us to measure the performance of our d&i actions.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "combien d'années d'expériences professionnelles as-tu ? how many years of professional experience do you have?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "le poste est à pourvoir en présentiel, à bordeaux, est-ce possible pour toi ? / it is an on-site position in bordeaux. is it what you're looking for?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "ce poste exige la maîtrise à l’écrit et à l’oral du français et de l’anglais. peux-tu lire, écrire et parler dans ces deux langues ? / this position requires operational proficiency in both french and english, in reading, writing, and speaking. can you read, write, and speak both languages at an operational level?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "yes, asobo studio can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "id": "https-apply-workable-com-joey-restaurants-1-j-4b12828e14-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:03:06.284Z",
+  "page_url": "https://apply.workable.com/joey-restaurants-1/j/4B12828E14/apply/",
+  "page_title": "General Application Form - JOEY Sherwood Park - JOEY Restaurants - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 58,
+      "ai_count": 5,
+      "count_delta": 53,
+      "label_jaccard": 0.2941,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "resume",
+      "upload resume (general application form)",
+      "summary",
+      "have you interviewed with the joey restaurant group within the last 6 months?",
+      "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+      "the position you are applying for may involve responsibilities that require a high level of trust and integrity. in connection with this, we ask that you indicate \"yes\" if you have been convicted of a criminal offense that is related to the job requirements, and \"no\" if you have not. please be aware that a criminal record will not automatically prevent you from being considered for the position, and joey will meet its obligations, if any, under applicable human rights legislation.",
+      "cover letter",
+      "are you legally eligible to work in canada?",
+      "have you previously applied at or worked at joey restaurants?",
+      "how are you applying?",
+      "how are you applying?",
+      "how are you applying?",
+      "how are you applying?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what role/s are you applying for?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "what is your availability?",
+      "have you interviewed with the joey restaurant group within the last 6 months?",
+      "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+      "the position you are applying for may involve responsibilities that require a high level of trust and integrity. in connection with this, we ask that you indicate \"yes\" if you have been convicted of a criminal offense that is related to the job requirements, and \"no\" if you have not. please be aware that a criminal record will not automatically prevent you from being considered for the position, and joey will meet its obligations, if any, under applicable human rights legislation.",
+      "are you legally eligible to work in canada?",
+      "how are you applying?",
+      "what role/s are you applying for?",
+      "what is your availability?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an 'Import resume' button which triggers a file upload dialog. The phone input uses a country code selector (combobox) and a text input.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "upload resume (general application form)",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "have you interviewed with the joey restaurant group within the last 6 months?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. in connection with this, we ask that you indicate \"yes\" if you have been convicted of a criminal offense that is related to the job requirements, and \"no\" if you have not. please be aware that a criminal record will not automatically prevent you from being considered for the position, and joey will meet its obligations, if any, under applicable human rights legislation.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "are you legally eligible to work in canada?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "have you previously applied at or worked at joey restaurants?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "how are you applying?",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "how are you applying?",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "how are you applying?",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "how are you applying?",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f24"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f25"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f26"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f27"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f28"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f29"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f30"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f31"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f32"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f33"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f34"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f35"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f36"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f37"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f38"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f39"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f40"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f41"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f42"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f43"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f44"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f45"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f46"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f47"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f48"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f49"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f50"
+    },
+    {
+      "question": "have you interviewed with the joey restaurant group within the last 6 months?",
+      "field_type": "radio",
+      "ref": "f51"
+    },
+    {
+      "question": "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+      "field_type": "radio",
+      "ref": "f52"
+    },
+    {
+      "question": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. in connection with this, we ask that you indicate \"yes\" if you have been convicted of a criminal offense that is related to the job requirements, and \"no\" if you have not. please be aware that a criminal record will not automatically prevent you from being considered for the position, and joey will meet its obligations, if any, under applicable human rights legislation.",
+      "field_type": "radio",
+      "ref": "f53"
+    },
+    {
+      "question": "are you legally eligible to work in canada?",
+      "field_type": "radio",
+      "ref": "f54"
+    },
+    {
+      "question": "how are you applying?",
+      "field_type": "checkbox",
+      "ref": "f55"
+    },
+    {
+      "question": "what role/s are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f56"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "checkbox",
+      "ref": "f57"
+    }
+  ]
+}

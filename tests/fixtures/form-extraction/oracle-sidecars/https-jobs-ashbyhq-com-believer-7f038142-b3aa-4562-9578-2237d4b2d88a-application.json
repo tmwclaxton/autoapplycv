@@ -1,0 +1,162 @@
+{
+  "id": "https-jobs-ashbyhq-com-believer-7f038142-b3aa-4562-9578-2237d4b2d88a-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:11:20.137Z",
+  "page_url": "https://jobs.ashbyhq.com/believer/7f038142-b3aa-4562-9578-2237d4b2d88a/application",
+  "page_title": "Senior Design Director @ Believer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio/website",
+        "ai": "Portfolio/website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "do you now, or will you in the future, require sponsorship for employment authorization to work in the united states?",
+        "ai": "Do you now, or will you in the future, require sponsorship for employment authorization to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field uses a combobox/autocomplete widget. The resume and cover letter fields support file uploads.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio/website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you now, or will you in the future, require sponsorship for employment authorization to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No – I am authorized to work in the U.S. and do not require sponsorship",
+          "Yes – I will require sponsorship now or in the future",
+          "N/A – I am authorized to work in Canada and will be working from Canada",
+          "N/A – I am located outside the U.S. and Canada and request to work remotely from my current country"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "portfolio/website",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "do you now, or will you in the future, require sponsorship for employment authorization to work in the united states?",
+      "field_type": "radio",
+      "ref": "f6"
+    }
+  ]
+}

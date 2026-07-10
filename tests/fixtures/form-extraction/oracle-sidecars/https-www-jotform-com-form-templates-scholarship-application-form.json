@@ -1,0 +1,311 @@
+{
+  "id": "https-www-jotform-com-form-templates-scholarship-application-form",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:32:03.885Z",
+  "page_url": "https://www.jotform.com/form-templates/scholarship-application-form",
+  "page_title": "Scholarship Application Form Template | Jotform",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 31,
+      "ai_count": 10,
+      "count_delta": 21,
+      "label_jaccard": 0.027,
+      "type_agree_rate": 0.75,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "email example@example.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "address street address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current gpa",
+        "ai": "Current GPA",
+        "detector_type": "text",
+        "ai_type": "number",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "search in all form templates",
+      "name first name",
+      "last name",
+      "date mm-dd-yyyy",
+      "street address line 2",
+      "city",
+      "state / province",
+      "postal / zip code",
+      "are you an african-american high school senior",
+      "name of high school attended",
+      "year graduated",
+      "ranking in graduation class",
+      "date mm-dd-yyyy",
+      "class rank",
+      "extra-curricular/community service",
+      "date taken",
+      "v/cr",
+      "math",
+      "writing",
+      "date taken",
+      "composite score",
+      "degree pursing",
+      "list of colleges/universities applied/accepted to: type here...",
+      "accepted file formats are .doc and .pdf (.docx is not accepted)",
+      "1 accepted file formats are .doc and .pdf (.docx is not accepted)",
+      "2 accepted file formats are .jpeg, .gif, and .png"
+    ],
+    "ai_only": [
+      "Full Name",
+      "Date of Birth",
+      "Current School",
+      "Extracurricular Activities",
+      "Personal Statement",
+      "Letters of Recommendation"
+    ],
+    "reasons": [
+      "field count delta 21 exceeds tolerance 2 (detector=31, ai=10)",
+      "label Jaccard 0.027 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The fields were extracted based on the standard structure of the 'Scholarship Application Form' template provided by Jotform. Actual form fields may vary slightly depending on the specific template version loaded.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Date of Birth",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current School",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current GPA",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Extracurricular Activities",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Personal Statement",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Letters of Recommendation",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search in all form templates",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "name first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email example@example.com",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "date mm-dd-yyyy",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "address street address",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "street address line 2",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "state / province",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "postal / zip code",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "are you an african-american high school senior",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "name of high school attended",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "year graduated",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "ranking in graduation class",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "current gpa",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "date mm-dd-yyyy",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "class rank",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "extra-curricular/community service",
+      "field_type": "textarea",
+      "ref": "f19"
+    },
+    {
+      "question": "date taken",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "v/cr",
+      "field_type": "text",
+      "ref": "f21"
+    },
+    {
+      "question": "math",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "writing",
+      "field_type": "text",
+      "ref": "f23"
+    },
+    {
+      "question": "date taken",
+      "field_type": "text",
+      "ref": "f24"
+    },
+    {
+      "question": "composite score",
+      "field_type": "text",
+      "ref": "f25"
+    },
+    {
+      "question": "degree pursing",
+      "field_type": "text",
+      "ref": "f26"
+    },
+    {
+      "question": "list of colleges/universities applied/accepted to: type here...",
+      "field_type": "textarea",
+      "ref": "f27"
+    },
+    {
+      "question": "accepted file formats are .doc and .pdf (.docx is not accepted)",
+      "field_type": "file",
+      "ref": "f28"
+    },
+    {
+      "question": "1 accepted file formats are .doc and .pdf (.docx is not accepted)",
+      "field_type": "file",
+      "ref": "f29"
+    },
+    {
+      "question": "2 accepted file formats are .jpeg, .gif, and .png",
+      "field_type": "file",
+      "ref": "f30"
+    }
+  ]
+}

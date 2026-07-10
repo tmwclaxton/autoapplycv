@@ -5,6 +5,7 @@
  * Usage:
  *   npm run form-corpus:curated-oracle
  *   npm run form-corpus:curated-oracle -- --url=https://jobs.lever.co/.../apply
+ *   npm run form-corpus:curated-oracle -- --limit=50 --urls-file=tests/fixtures/form-extraction/oracle-url-queue-batch-01.json
  *   npm run form-corpus:curated-oracle -- --limit=5
  *
  * Navigate to a real apply form via MCP/browser first (Ashby: board -> job -> Apply).
@@ -22,11 +23,20 @@ import {
 } from '../extension-bridge/lib/bridge-http.mjs';
 import { assertBatchLimit, parseLimitArg } from './lib/batch-cap.mjs';
 import { normalizeBridgeInventory } from './lib/bridge-field-gate.mjs';
+import {
+    loadDualOracle300Progress,
+    parseUrlsFile,
+    parseUrlsFileArg,
+    recordDualOracle300Batch,
+    recordDualOracle300Result,
+    saveDualOracle300Progress,
+} from './lib/dual-oracle-300-progress.mjs';
 import { diffInventoryOracles } from './lib/inventory-oracle-diff.mjs';
 import { extractInventoryOracle } from './lib/inventory-oracle.mjs';
 import { loadManifest, saveManifest, upsertScenario } from './lib/manifest.mjs';
 import { normalizeOptions, normalizeQuestion } from './lib/normalize.mjs';
-import { EXPECTED_DIR, FIXTURE_ROOT } from './lib/paths.mjs';
+import { EXPECTED_DIR, FIXTURE_ROOT, HTML_DIR } from './lib/paths.mjs';
+import { writeHtmlFixture } from './lib/write-html-fixture.mjs';
 
 const REPORT_PATH = join(FIXTURE_ROOT, 'curated-oracle-report.json');
 const ORACLE_SIDECAR_DIR = join(FIXTURE_ROOT, 'oracle-sidecars');
@@ -37,11 +47,197 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Personio job detail pages hide the form until ?apply / &apply is present.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function preferPersonioApplyUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        if (!/\.jobs\.personio\.(?:de|com)$/i.test(parsed.hostname)) {
+            return url;
+        }
+
+        if (/(?:^|[?&])apply(?:&|$|=)/i.test(parsed.search)) {
+            return url;
+        }
+
+        return parsed.search ? `${url}&apply` : `${url}?apply`;
+    } catch {
+        return url;
+    }
+}
+
+/**
+ * Lever job detail URLs need /apply for the real form.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function preferLeverApplyUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        if (!/(?:^|\.)lever\.co$/i.test(parsed.hostname)) {
+            return url;
+        }
+
+        if (/\/apply\/?$/i.test(parsed.pathname)) {
+            return url;
+        }
+
+        // Board hubs like /asobostudio have no job id - leave alone.
+        const parts = parsed.pathname.split('/').filter(Boolean);
+
+        if (parts.length < 2) {
+            return url;
+        }
+
+        parsed.pathname = `${parsed.pathname.replace(/\/$/, '')}/apply`;
+
+        return parsed.toString();
+    } catch {
+        return url;
+    }
+}
+
+/**
+ * Workable job detail pages (`/j/{id}`) hide fields until `/apply/`.
+ * Company hubs without a job id are left alone.
+ * Prefer a trailing slash - bare `/apply` sometimes lands on the Overview tab.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function preferWorkableApplyUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        if (!/(?:^|\.)workable\.com$/i.test(parsed.hostname)) {
+            return url;
+        }
+
+        if (/\/apply\/?$/i.test(parsed.pathname)) {
+            parsed.pathname = `${parsed.pathname.replace(/\/apply\/?$/i, '/apply')}/`;
+
+            return parsed.toString();
+        }
+
+        // Require /j/{jobId} so company boards are not forced to /apply.
+        if (!/\/j\/[^/]+\/?$/i.test(parsed.pathname)) {
+            return url;
+        }
+
+        parsed.pathname = `${parsed.pathname.replace(/\/$/, '')}/apply/`;
+
+        return parsed.toString();
+    } catch {
+        return url;
+    }
+}
+
+/**
+ * Workable Overview tabs expose Apply CTAs but no inputs. Click through when inventory is empty.
+ *
+ * @param {number} tabId
+ * @param {string} pageUrl
+ * @returns {Promise<boolean>}
+ */
+async function ensureWorkableApplyForm(tabId, pageUrl) {
+    try {
+        const host = new URL(pageUrl || 'https://apply.workable.com/').hostname;
+
+        if (!/(?:^|\.)workable\.com$/i.test(host)) {
+            return false;
+        }
+    } catch {
+        return false;
+    }
+
+    const selectors = [
+        'a[data-ui="apply-button"]',
+        'a[data-ui="application-form-tab"]',
+        '[data-ui="apply-button"]',
+        '[data-ui="application-form-tab"]',
+    ];
+
+    for (const selector of selectors) {
+        try {
+            await bridgeCommand(
+                'click_selector',
+                { tabId, selector },
+                { timeoutMs: 15000 },
+            );
+            await sleep(3500);
+
+            return true;
+        } catch {
+            // Try the next selector.
+        }
+    }
+
+    const applyUrl = preferWorkableApplyUrl(pageUrl);
+
+    if (applyUrl && applyUrl !== pageUrl) {
+        try {
+            await bridgeCommand(
+                'navigate_tab',
+                { url: applyUrl, tabId, active: true },
+                { timeoutMs: 90000 },
+            );
+            await sleep(3500);
+
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * @param {string} url
+ * @returns {string}
+ */
+function preferApplyFormUrl(url) {
+    return preferLeverApplyUrl(preferWorkableApplyUrl(preferPersonioApplyUrl(url)));
+}
+
 function parseUrlArgs() {
     return process.argv
         .filter((arg) => arg.startsWith('--url='))
         .map((arg) => arg.slice('--url='.length).trim())
         .filter(Boolean);
+}
+
+/**
+ * @returns {string[]}
+ */
+function resolveUrlQueue() {
+    const fromFlags = parseUrlArgs();
+    const urlsFile = parseUrlsFileArg();
+
+    if (!urlsFile) {
+        return fromFlags;
+    }
+
+    const fromFile = parseUrlsFile(urlsFile);
+
+    return [...fromFlags, ...fromFile];
+}
+
+/**
+ * @param {string[]} argv
+ * @returns {string | null}
+ */
+function parseBatchIdArg(argv = process.argv.slice(2)) {
+    const hit = argv.find((arg) => arg.startsWith('--batch-id='));
+
+    return hit ? hit.slice('--batch-id='.length).trim() || null : null;
 }
 
 function loadReport() {
@@ -104,8 +300,7 @@ function detectorFieldsFromInventory(inventory) {
 }
 
 /**
- * Large Ashby pages often ECONNRESET on a single get_page_html - retry, then
- * fall back to save-fixture HTML on disk.
+ * Large Ashby pages often ECONNRESET on a single get_page_html - retry.
  *
  * @param {number} tabId
  * @param {{ url?: string, tabId?: number }} [options]
@@ -136,33 +331,61 @@ async function fetchPageHtmlWithFallback(tabId, options = {}) {
         }
     }
 
-    const saved = await saveFixtureViaBridge({
-        notes: 'oracle_html_fallback',
-        category: 'captured',
-        tabId: pinnedTabId,
+    const message = lastError instanceof Error ? lastError.message : String(lastError || 'empty html');
+
+    throw new Error(`get_page_html failed after retries: ${message}`);
+}
+
+function slugifyFixtureId(value) {
+    return String(value || 'fixture')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80) || 'fixture';
+}
+
+/**
+ * Write HTML + manifest locally. Avoids /save-fixture which ECONNRESETs on large Ashby HTML.
+ *
+ * @param {{
+ *   html: string,
+ *   pageUrl: string,
+ *   pageTitle: string,
+ *   notes: string,
+ *   category?: string,
+ *   status?: string,
+ *   source?: string,
+ * }} options
+ */
+function saveFixtureLocally(options) {
+    const fixtureId = slugifyFixtureId(options.pageUrl || options.pageTitle || 'captured');
+    const htmlFile = `${fixtureId}.html`;
+    mkdirSync(HTML_DIR, { recursive: true });
+    writeHtmlFixture(join(HTML_DIR, htmlFile), options.html, {
+        pageTitle: options.pageTitle || '',
+        url: options.pageUrl || '',
     });
-    const fixtureId = saved?.id;
 
-    if (!fixtureId) {
-        const message = lastError instanceof Error ? lastError.message : String(lastError || 'empty html');
-
-        throw new Error(`get_page_html failed after retries: ${message}`);
-    }
-
-    const htmlPath = join(FIXTURE_ROOT, 'html', `${fixtureId}.html`);
-
-    if (!existsSync(htmlPath)) {
-        throw new Error(`save-fixture fallback missing HTML at ${htmlPath}`);
-    }
-
-    const fallbackUrl = saved.pageUrl || saved.page_url || options.url || '';
-    assertTabMatchesExpectedUrl(fallbackUrl, options.url || '');
+    const manifest = loadManifest();
+    upsertScenario(manifest, {
+        id: fixtureId,
+        category: options.category || 'captured',
+        source: options.source || 'bridge-oracle',
+        status: options.status || 'draft',
+        html_file: htmlFile,
+        page_url: options.pageUrl || '',
+        page_title: options.pageTitle || '',
+        notes: options.notes,
+        vet_issues: [],
+    });
+    saveManifest(manifest);
 
     return {
-        html: readFileSync(htmlPath, 'utf8'),
-        pageUrl: fallbackUrl,
-        pageTitle: saved.pageTitle || saved.page_title || '',
-        fixtureIdHint: fixtureId,
+        id: fixtureId,
+        pageUrl: options.pageUrl || null,
+        page_url: options.pageUrl || null,
+        pageTitle: options.pageTitle || null,
+        page_title: options.pageTitle || null,
     };
 }
 
@@ -176,7 +399,7 @@ async function pollInventoryBriefly(tabId) {
     let best = { elements: [] };
     let bestCount = -1;
 
-    for (let attempt = 0; attempt < 3; attempt += 1) {
+    for (let attempt = 0; attempt < 5; attempt += 1) {
         const inventory = await bridgeCommand(
             'get_field_inventory',
             { tabId },
@@ -193,7 +416,7 @@ async function pollInventoryBriefly(tabId) {
             break;
         }
 
-        await sleep(2000);
+        await sleep(count === 0 ? 2500 : 2000);
     }
 
     return best;
@@ -248,6 +471,7 @@ function writeOracleSidecar(fixtureId, sidecar) {
  * }} options
  */
 async function saveFixtureViaBridge(options) {
+    // Kept for MCP/manual callers; curated-oracle uses saveFixtureLocally.
     if (typeof options.tabId === 'number') {
         await setActiveBridgeTab(options.tabId);
     }
@@ -343,37 +567,55 @@ async function captureOnce(options = {}) {
 
     let tabId = null;
 
-    if (typeof status.activeTabOverride === 'number') {
+    // Prefer the extension's live focused tab. Stale activeTabOverride values
+    // from prior batches often point at closed tabs and cause ECONNRESET.
+    tabId = status.extension?.activeTab?.id
+        ?? status.extension?.activeTabId
+        ?? null;
+
+    if (tabId === null && typeof status.activeTabOverride === 'number') {
         tabId = status.activeTabOverride;
-    } else if (status.activeTabOverride?.tabId) {
+    } else if (tabId === null && status.activeTabOverride?.tabId) {
         tabId = status.activeTabOverride.tabId;
-    } else {
-        tabId = status.extension?.activeTab?.id
-            ?? status.extension?.activeTabId
-            ?? null;
     }
 
     try {
         if (options.url) {
-            const navigate = await bridgeCommand(
-                'navigate_tab',
-                {
-                    url: options.url,
-                    // Always open a fresh tab for --url captures so parallel
-                    // agents (e.g. Ashby batch) cannot steal the target page.
-                    newTab: true,
-                    active: true,
-                },
-                { timeoutMs: 90000 },
-            );
-            tabId = navigate.tabId ?? null;
+            let lastNavError = null;
+            const navigateUrl = preferApplyFormUrl(options.url);
 
-            if (typeof tabId !== 'number') {
-                throw new Error('navigate_tab did not return a tabId');
+            for (let attempt = 0; attempt < 3; attempt += 1) {
+                try {
+                    const navigate = await bridgeCommand(
+                        'navigate_tab',
+                        {
+                            url: navigateUrl,
+                            // Reuse one tab across a batch to avoid tab storms / ECONNRESET.
+                            newTab: attempt === 0 && !tabId,
+                            tabId: typeof tabId === 'number' ? tabId : undefined,
+                            active: true,
+                        },
+                        { timeoutMs: 90000 },
+                    );
+                    tabId = navigate.tabId ?? tabId;
+
+                    if (typeof tabId !== 'number') {
+                        throw new Error('navigate_tab did not return a tabId');
+                    }
+
+                    await setActiveBridgeTab(tabId);
+                    await sleep(3500 + attempt * 1000);
+                    lastNavError = null;
+                    break;
+                } catch (error) {
+                    lastNavError = error;
+                    await sleep(2000 * (attempt + 1));
+                }
             }
 
-            await setActiveBridgeTab(tabId);
-            await sleep(3000);
+            if (lastNavError) {
+                throw lastNavError;
+            }
         }
 
         if (tabId === null) {
@@ -393,13 +635,28 @@ async function captureOnce(options = {}) {
             await setActiveBridgeTab(tabId);
         }
 
-        const inventory = await pollInventoryBriefly(tabId);
-        const detectorFields = detectorFieldsFromInventory(inventory);
-        const inventoryUrl = inventory?.page_url
+        let inventory = await pollInventoryBriefly(tabId);
+        let detectorFields = detectorFieldsFromInventory(inventory);
+        let inventoryUrl = inventory?.page_url
             || inventory?.snapshot?.page_url
             || inventory?.page?.page_url
             || '';
         assertTabMatchesExpectedUrl(inventoryUrl, options.url || '');
+
+        if (detectorFields.length < 2) {
+            const seedUrl = inventoryUrl || preferApplyFormUrl(options.url || '') || options.url || '';
+            const opened = await ensureWorkableApplyForm(tabId, seedUrl);
+
+            if (opened) {
+                inventory = await pollInventoryBriefly(tabId);
+                detectorFields = detectorFieldsFromInventory(inventory);
+                inventoryUrl = inventory?.page_url
+                    || inventory?.snapshot?.page_url
+                    || inventory?.page?.page_url
+                    || inventoryUrl;
+                assertTabMatchesExpectedUrl(inventoryUrl, options.url || '');
+            }
+        }
 
         await setActiveBridgeTab(tabId);
         const pageHtml = await fetchPageHtmlWithFallback(tabId, { url: options.url || '' });
@@ -426,30 +683,26 @@ async function captureOnce(options = {}) {
         const capturedAt = new Date().toISOString();
 
         if (diff.status === 'agree') {
-            await setActiveBridgeTab(tabId);
-            const saved = pageHtml.fixtureIdHint
-                ? { id: pageHtml.fixtureIdHint, pageUrl: pageUrl, page_url: pageUrl, page_title: pageTitle }
-                : await saveFixtureViaBridge({
-                    notes: 'curated dual-oracle agree',
-                    category: 'captured',
-                    tabId,
-                });
-            const fixtureId = saved.id;
-            assertTabMatchesExpectedUrl(saved.pageUrl || saved.page_url || pageUrl, options.url || '');
-
-            if (!fixtureId) {
-                throw new Error(`save_fixture returned no id: ${JSON.stringify(saved)}`);
-            }
-
             if (detectorFields.length < 2) {
                 throw new Error(`Agree with too few fields (${detectorFields.length}) - skip empty/login wall`);
             }
 
-            patchManifestScenario(fixtureId, {
-                source: 'bridge-oracle',
+            const saved = saveFixtureLocally({
+                html,
+                pageUrl,
+                pageTitle,
                 notes: 'curated dual-oracle agree',
+                category: 'captured',
                 status: 'pending',
+                source: 'bridge-oracle',
             });
+            const fixtureId = saved.id;
+            assertTabMatchesExpectedUrl(saved.pageUrl || saved.page_url || pageUrl, options.url || '');
+
+            if (!fixtureId) {
+                throw new Error(`local fixture save returned no id: ${JSON.stringify(saved)}`);
+            }
+
             writeExpectedFromDetector(detectorFields, fixtureId);
             writeOracleSidecar(fixtureId, {
                 id: fixtureId,
@@ -482,19 +735,20 @@ async function captureOnce(options = {}) {
             };
         }
 
-        await setActiveBridgeTab(tabId);
-        const saved = pageHtml.fixtureIdHint
-            ? { id: pageHtml.fixtureIdHint, pageUrl: pageUrl, page_url: pageUrl, page_title: pageTitle }
-            : await saveFixtureViaBridge({
-                notes: 'oracle_disagree',
-                category: 'captured',
-                tabId,
-            });
+        const saved = saveFixtureLocally({
+            html,
+            pageUrl,
+            pageTitle,
+            notes: 'oracle_disagree',
+            category: 'captured',
+            status: 'draft',
+            source: 'bridge-oracle',
+        });
         const fixtureId = saved.id;
         assertTabMatchesExpectedUrl(saved.pageUrl || saved.page_url || pageUrl, options.url || '');
 
         if (!fixtureId) {
-            throw new Error(`save_fixture returned no id: ${JSON.stringify(saved)}`);
+            throw new Error(`local fixture save returned no id: ${JSON.stringify(saved)}`);
         }
 
         const aiOnly = Array.isArray(diff.ai_only) ? diff.ai_only : [];
@@ -550,23 +804,42 @@ async function captureOnce(options = {}) {
 
 async function main() {
     const limit = assertBatchLimit(parseLimitArg() ?? DEFAULT_LIMIT);
-    const urlQueue = parseUrlArgs();
+    const urlQueue = resolveUrlQueue();
+    const urlsFile = parseUrlsFileArg();
+    const batchId = parseBatchIdArg()
+        || (urlsFile ? urlsFile.split('/').pop()?.replace(/\.json$/i, '') : null)
+        || `session-${Date.now()}`;
 
     const report = loadReport();
+    const campaign = loadDualOracle300Progress();
     const session = {
         started_at: new Date().toISOString(),
         limit,
         agree: 0,
         disagree: 0,
+        error: 0,
         results: [],
+        batch_id: batchId,
+        urls_file: urlsFile,
     };
 
     console.log(`Curated dual-oracle capture: limit=${limit}, mode=${urlQueue.length > 0 ? 'url-list' : 'active-tab'}`);
-    console.log('Navigate Ashby/Lever to the real apply form before each capture (board -> job -> Apply).');
+
+    if (urlsFile) {
+        console.log(`URLs file: ${urlsFile} (${urlQueue.length} urls), batch_id=${batchId}`);
+    }
+
+    console.log('Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.');
+    console.log(`Campaign progress: ${campaign.agree_ids.length}/${campaign.target} agrees`);
 
     let captured = 0;
 
     while (captured < limit) {
+        if (campaign.agree_ids.length >= campaign.target) {
+            console.log(`Campaign target ${campaign.target} reached - stopping early.`);
+            break;
+        }
+
         const url = urlQueue.length > 0 ? urlQueue[captured] : null;
 
         if (urlQueue.length > 0 && !url) {
@@ -581,12 +854,16 @@ async function main() {
             report.results.push({
                 ...result,
                 session_started_at: session.started_at,
+                batch_id: batchId,
             });
+            recordDualOracle300Result(campaign, result, { batch_id: batchId });
+            saveDualOracle300Progress(campaign);
 
             if (result.status === 'agree') {
                 session.agree += 1;
                 console.log(`AGREE -> ${result.fixtureId}`);
                 console.log(`  detector=${result.diff.metrics.detector_count} ai=${result.diff.metrics.ai_count} jaccard=${result.diff.metrics.label_jaccard}`);
+                console.log(`  campaign: ${campaign.agree_ids.length}/${campaign.target}`);
                 console.log(`  next: ${result.next}`);
             } else {
                 session.disagree += 1;
@@ -599,6 +876,7 @@ async function main() {
                     detector_only: result.diff.detector_only,
                     ai_only: result.diff.ai_only,
                     queued_at: new Date().toISOString(),
+                    batch_id: batchId,
                 });
                 console.log(`DISAGREE -> ${result.fixtureId}`);
                 console.log(`  reasons: ${result.diff.reasons.join('; ')}`);
@@ -607,12 +885,20 @@ async function main() {
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             console.error(`Capture failed: ${message}`);
-            session.results.push({ status: 'error', error: message });
-            report.results.push({
+            session.error += 1;
+            const errorResult = {
                 status: 'error',
                 error: message,
+                pageUrl: url || null,
+            };
+            session.results.push(errorResult);
+            report.results.push({
+                ...errorResult,
                 session_started_at: session.started_at,
+                batch_id: batchId,
             });
+            recordDualOracle300Result(campaign, errorResult, { batch_id: batchId });
+            saveDualOracle300Progress(campaign);
         }
 
         captured += 1;
@@ -639,13 +925,26 @@ async function main() {
     session.finished_at = new Date().toISOString();
     report.sessions.push(session);
     saveReport(report);
+    recordDualOracle300Batch(campaign, {
+        batch_id: batchId,
+        urls_file: urlsFile || undefined,
+        agree: session.agree,
+        disagree: session.disagree,
+        error: session.error,
+        started_at: session.started_at,
+        finished_at: session.finished_at,
+    });
+    saveDualOracle300Progress(campaign);
 
     console.log('\n=== Session summary ===');
     console.log(JSON.stringify({
         agree: session.agree,
         disagree: session.disagree,
+        error: session.error,
         captured: session.results.length,
         report: REPORT_PATH,
+        campaign_agrees: campaign.agree_ids.length,
+        campaign_target: campaign.target,
         triage_count: report.triage.length,
     }, null, 2));
 }

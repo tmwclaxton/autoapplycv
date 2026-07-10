@@ -1,0 +1,202 @@
+{
+  "id": "softgarden-ap-solut-unsolicited-uk",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "select one option to upload your cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "idc",
+        "name": "cvBorder:cvBorder_body:cv:upload:twoRowsPanel:cvParser:form:cvFileInput",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "salutation",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please choose",
+        "Not specified",
+        "Mr.",
+        "Ms.",
+        "Diverse"
+      ],
+      "required": false,
+      "fill_verify": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id1",
+        "name": "salutationBorder:salutationBorder_body:salutationChoice",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "academic title",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose One",
+        "Dr.",
+        "Prof.",
+        "Prof. Dr."
+      ],
+      "required": false,
+      "fill_verify": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id2",
+        "name": "academicTitleGroup:academicTitleGroup_body:academicTitleChoice",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id3",
+        "name": "firstNameBorder:firstNameBorder_body:firstName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id4",
+        "name": "lastNameBorder:lastNameBorder_body:lastName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "id6",
+        "name": "emailBorder:emailBorder_body:email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id9",
+        "name": "phoneBorder:phoneBorder_body:phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter type in cover letter or use the upload field \"other attachments\"",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ida",
+        "name": "coverLetterBorder:coverLetterBorder_body:coverLetter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type in cover letter or use the upload field \"Other attachments\"",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "file upload button",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "id10",
+        "name": "attachments:uploadForm:upload",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

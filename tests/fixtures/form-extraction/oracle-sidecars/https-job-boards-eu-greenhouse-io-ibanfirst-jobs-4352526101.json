@@ -1,0 +1,146 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-ibanfirst-jobs-4352526101",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:43:44.691Z",
+  "page_url": "https://job-boards.eu.greenhouse.io/ibanfirst/jobs/4352526101",
+  "page_title": "Candidature à un emploi de FX Sales Executive - Belgium (French speaking) chez iBanFirst",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 5,
+      "count_delta": 4,
+      "label_jaccard": 0.625,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "prénom",
+        "ai": "Prénom",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nom",
+        "ai": "Nom",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "adresse e-mail",
+        "ai": "Adresse e-mail",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "pays",
+        "ai": "Pays",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "téléphone",
+        "ai": "Téléphone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "joindre prénom",
+      "joindre prénom",
+      "linkedin profile",
+      "website"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided was truncated during the phone country list rendering, but the primary fields (name, email, phone, country) are identified. The form likely contains additional fields (resume, cover letter, custom questions) not present in the provided snippet.",
+    "fields": [
+      {
+        "question": "Prénom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Adresse e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pays",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Téléphone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "prénom",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nom",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "pays",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "téléphone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "joindre prénom",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "joindre prénom",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

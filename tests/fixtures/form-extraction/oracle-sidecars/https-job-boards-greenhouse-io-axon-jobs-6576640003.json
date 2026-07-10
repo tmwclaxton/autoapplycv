@@ -1,0 +1,230 @@
+{
+  "id": "https-job-boards-greenhouse-io-axon-jobs-6576640003",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:07:31.062Z",
+  "page_url": "https://job-boards.greenhouse.io/axon/jobs/6576640003",
+  "page_title": "Job Application for Staff Embedded Application Software Engineer at Axon",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 23,
+      "ai_count": 5,
+      "count_delta": 18,
+      "label_jaccard": 0.2273,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "location (city) first name",
+      "attach first name",
+      "attach first name",
+      "linkedin profile",
+      "website",
+      "where are you currently located?",
+      "the role requires you to be in boston, seattle and work in our office 4 days a week. if not in one of those cities, can you confirm your willingness to relocate to one of them, and work in office tuesday through friday? linkedin profile",
+      "are you legally authorized to work in the united states for any us employer now and in the future? linkedin profile",
+      "will you now or in the future require sponsorship for employment in the united states? linkedin profile",
+      "can you provide verification of both your identity and authorization to work in the united states, to the extent required by law? linkedin profile",
+      "are you at least 18 years of age? linkedin profile",
+      "if your scope of work requires exposure to u.s. export administration controlled technology and you are a non-us person as defined below, will you be able to coordinate with axon trade compliance on obtaining u.s. department of commerce licensing as needed? linkedin profile",
+      "do you have any contractual obligations, agreements, relationships, or commitments to another person or entity that would impact, impede or interfere with your ability to join axon? linkedin profile",
+      "have you ever been employed by axon? linkedin profile",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, LinkedIn, or screening questions) that typically appear in Greenhouse forms are missing from this output.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location (city) first name",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "the role requires you to be in boston, seattle and work in our office 4 days a week. if not in one of those cities, can you confirm your willingness to relocate to one of them, and work in office tuesday through friday? linkedin profile",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "are you legally authorized to work in the united states for any us employer now and in the future? linkedin profile",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment in the united states? linkedin profile",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "can you provide verification of both your identity and authorization to work in the united states, to the extent required by law? linkedin profile",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "are you at least 18 years of age? linkedin profile",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "if your scope of work requires exposure to u.s. export administration controlled technology and you are a non-us person as defined below, will you be able to coordinate with axon trade compliance on obtaining u.s. department of commerce licensing as needed? linkedin profile",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "do you have any contractual obligations, agreements, relationships, or commitments to another person or entity that would impact, impede or interfere with your ability to join axon? linkedin profile",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "have you ever been employed by axon? linkedin profile",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "are you hispanic/latino?",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f21"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f22"
+    }
+  ]
+}

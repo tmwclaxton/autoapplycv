@@ -1,0 +1,242 @@
+{
+  "id": "https-jobs-ashbyhq-com-alan-1b8c1b77-5259-4dfc-bb01-b7c970664bd6-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:43:15.499Z",
+  "page_url": "https://jobs.ashbyhq.com/alan/1b8c1b77-5259-4dfc-bb01-b7c970664bd6/application",
+  "page_title": "Fullstack Software Engineer - Frontend T-shaped (x/f/m) - Growth Product @ Alan",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 10,
+      "count_delta": 4,
+      "label_jaccard": 0.7143,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current or last company",
+        "ai": "Current or last company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "links",
+        "ai": "Links",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about opportunities at alan?",
+        "ai": "How did you hear about opportunities at Alan?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you legally able to work from france for any employer?",
+      "are you located or willing to relocate to france?",
+      "do you have more than 3 years of software engineering experience?",
+      "if you selected \"employee recommendation\" or \"other\", could you please specify?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an autofill feature for resumes. The final field in the HTML was truncated in the provided excerpt.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current or last company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Links",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about opportunities at Alan?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Alan Careers Page",
+          "Employee Recommendation",
+          "Company Blog",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally able to work from france for any employer?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you located or willing to relocate to france?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have more than 3 years of software engineering experience?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "current or last company",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "links",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about opportunities at alan?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "if you selected \"employee recommendation\" or \"other\", could you please specify?",
+      "field_type": "text",
+      "ref": "f13"
+    }
+  ]
+}

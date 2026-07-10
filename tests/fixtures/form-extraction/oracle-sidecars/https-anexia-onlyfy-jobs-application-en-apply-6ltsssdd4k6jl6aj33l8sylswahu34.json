@@ -1,0 +1,286 @@
+{
+  "id": "https-anexia-onlyfy-jobs-application-en-apply-6ltsssdd4k6jl6aj33l8sylswahu34",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:42:37.905Z",
+  "page_url": "https://anexia.onlyfy.jobs/application/en/apply/6ltsssdd4k6jl6aj33l8sylswahu34",
+  "page_title": "Application Process",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.9091,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date",
+        "ai": "Birth date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "home city",
+        "ai": "Home city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail address",
+        "ai": "E-mail address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltswunsch / desired salary gehaltswunsch / desired salary bruttogehalt pro monat / gross pay per month",
+        "ai": "Gehaltswunsch / desired salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "frühestes eintrittsdatum / earliest date of joining",
+        "ai": "Frühestes Eintrittsdatum / Earliest date of joining",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "warum sollen wir genau dich nehmen? / why should we take you exactly?",
+        "ai": "Warum sollen wir genau dich nehmen? / Why should we take you exactly?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "für welchen standort bewirbst du dich? / for which location do you apply?",
+        "ai": "Für welchen Standort bewirbst du dich? / For which location do you apply?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you learn about this job opening?",
+        "ai": "How did you learn about this job opening?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cv upload imageclick to upload or drag and dropdoc, docx, pdf, odt|max. 20.00 mb",
+      "upload upload imageclick to upload or drag and droppng, jpg, jpeg, bmp, pdf, doc, docx, odt, txt, zip|max. 20.00 mb"
+    ],
+    "ai_only": [
+      "Salutation",
+      "CV",
+      "Upload"
+    ],
+    "reasons": [
+      "label Jaccard 0.500 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Radix UI components for selects and comboboxes, which are mapped to hidden native select elements. The location combobox options are dynamically loaded and not visible in the static HTML.",
+    "fields": [
+      {
+        "question": "Salutation",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Mr",
+          "Ms",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth date",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Home city",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Für welchen Standort bewirbst du dich? / For which location do you apply?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gehaltswunsch / desired salary",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Frühestes Eintrittsdatum / Earliest date of joining",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Warum sollen wir genau dich nehmen? / Why should we take you exactly?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Upload",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you learn about this job opening?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "anexia.com",
+          "netcup.com",
+          "netcup - Customer Control Panel",
+          "karriere.at",
+          "Stepstone",
+          "Xing",
+          "LinkedIn",
+          "willhaben",
+          "Social Media",
+          "Friends",
+          "Google for Jobs",
+          "devjobs.at",
+          "itstellen.at",
+          "cyberforum.de",
+          "Andere"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "birth date",
+      "field_type": "date",
+      "ref": "f2"
+    },
+    {
+      "question": "home city",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "e-mail address",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "cv upload imageclick to upload or drag and dropdoc, docx, pdf, odt|max. 20.00 mb",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "gehaltswunsch / desired salary gehaltswunsch / desired salary bruttogehalt pro monat / gross pay per month",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "frühestes eintrittsdatum / earliest date of joining",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "warum sollen wir genau dich nehmen? / why should we take you exactly?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "upload upload imageclick to upload or drag and droppng, jpg, jpeg, bmp, pdf, doc, docx, odt, txt, zip|max. 20.00 mb",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "für welchen standort bewirbst du dich? / for which location do you apply?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you learn about this job opening?",
+      "field_type": "select",
+      "ref": "f12"
+    }
+  ]
+}

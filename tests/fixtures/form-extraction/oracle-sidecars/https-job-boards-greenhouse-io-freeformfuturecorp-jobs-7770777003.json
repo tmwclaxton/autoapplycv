@@ -1,0 +1,242 @@
+{
+  "id": "https-job-boards-greenhouse-io-freeformfuturecorp-jobs-7770777003",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:29:52.735Z",
+  "page_url": "https://job-boards.greenhouse.io/freeformfuturecorp/jobs/7770777003",
+  "page_title": "Job Application for Software Engineer (Embedded) at Freeform",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 5,
+      "count_delta": 20,
+      "label_jaccard": 0.2083,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "attach first name",
+      "attach first name",
+      "school",
+      "degree",
+      "discipline",
+      "linkedin profile",
+      "website/portfolio",
+      "how did you hear about us? linkedin profile",
+      "what is your strongest coding language? linkedin profile",
+      "gpa (undergraduate) linkedin profile",
+      "gpa (graduate) linkedin profile",
+      "gpa (doctorate) linkedin profile",
+      "are you open to working onsite 5 days a week?  linkedin profile",
+      "are you currently based in the los angeles area or willing to relocate to the los angeles area? linkedin profile",
+      "citizenship status linkedin profile",
+      "if \"other\", please explain:",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a complex React-based UI (MUI and custom select components) for inputs. The provided HTML excerpt is truncated, so additional fields (like resume upload or screening questions) likely exist in the full form.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "school",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "degree",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "discipline",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website/portfolio",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about us? linkedin profile",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your strongest coding language? linkedin profile",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "gpa (undergraduate) linkedin profile",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "gpa (graduate) linkedin profile",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "gpa (doctorate) linkedin profile",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "are you open to working onsite 5 days a week?  linkedin profile",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "are you currently based in the los angeles area or willing to relocate to the los angeles area? linkedin profile",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "citizenship status linkedin profile",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "if \"other\", please explain:",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f21"
+    },
+    {
+      "question": "are you hispanic/latino?",
+      "field_type": "select",
+      "ref": "f22"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f23"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f24"
+    }
+  ]
+}

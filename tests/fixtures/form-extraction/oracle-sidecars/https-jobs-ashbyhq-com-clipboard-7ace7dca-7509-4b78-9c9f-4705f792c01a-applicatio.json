@@ -1,0 +1,193 @@
+{
+  "id": "https-jobs-ashbyhq-com-clipboard-7ace7dca-7509-4b78-9c9f-4705f792c01a-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:08:40.639Z",
+  "page_url": "https://jobs.ashbyhq.com/clipboard/7ace7dca-7509-4b78-9c9f-4705f792c01a/application",
+  "page_title": "Account Manager - Dental - International @ Clipboard",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how is your experience relevant for this position?",
+        "ai": "How is your experience relevant for this position?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what interests you about this position?",
+        "ai": "What interests you about this position?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "which country do you live in?",
+        "ai": "Which country do you live in?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your desired monthly total compensation in usd?",
+        "ai": "What is your desired monthly total compensation in USD?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is a combobox that likely fetches options dynamically via JavaScript. The resume and cover letter inputs are hidden file inputs triggered by custom buttons.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How is your experience relevant for this position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What interests you about this position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which country do you live in?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your desired monthly total compensation in USD?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "how is your experience relevant for this position?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what interests you about this position?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "which country do you live in?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your desired monthly total compensation in usd?",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

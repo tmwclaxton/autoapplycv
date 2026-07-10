@@ -1,0 +1,388 @@
+{
+  "id": "https-jobs-ashbyhq-com-a1-20garage-20door-20service-4774945f-b745-43a0-a58c-c78b",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:30:35.026Z",
+  "page_url": "https://jobs.ashbyhq.com/A1%20Garage%20Door%20Service/4774945f-b745-43a0-a58c-c78be273ace8/application",
+  "page_title": "Dispatcher @ A1 Garage Door Service",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 18,
+      "count_delta": 0,
+      "label_jaccard": 0.8947,
+      "type_agree_rate": 1,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require sponsorship to work in the united states?",
+        "ai": "Will you now or in the future require sponsorship to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience in a dispatching role?",
+        "ai": "Do you have experience in a dispatching role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you comfortable managing multiple tasks simultaneously while maintaining accuracy and professionalism?",
+        "ai": "Are you comfortable managing multiple tasks simultaneously while maintaining accuracy and professionalism?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked in a fast-paced environment where priorities and schedules change rapidly?",
+        "ai": "Have you worked in a fast-paced environment where priorities and schedules change rapidly?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you confident using multiple computer systems at once (e.g., scheduling tools, communication platforms, microsoft office)?",
+        "ai": "Are you confident using multiple computer systems at once (e.g., scheduling tools, communication platforms, Microsoft Office)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with servicetitan or similar service management software?",
+        "ai": "Do you have experience with ServiceTitan or similar service management software?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you available to work 12:00 pm–8:30 pm and are you available to work both saturday and sunday as part of your regular schedule?",
+        "ai": "Are you available to work 12:00 PM–8:30 PM and are you available to work both Saturday and Sunday as part of your regular schedule?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work full-time onsite at our phoenix office?",
+        "ai": "Are you willing to work full-time onsite at our Phoenix office?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter or additional documents (optional)",
+        "ai": "Cover Letter or Additional Documents (Optional)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you now or have you previously been employed by a1 garage, or any of it's entities?",
+        "ai": "Are you now or have you previously been employed by A1 Garage, or any of it's entities?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "were you referred to a1 by a current employee?",
+        "ai": "Were you referred to A1 by a current employee?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes, what is the the name of the employee that referred you?",
+        "ai": "If Yes, what is the the name of the employee that referred you?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for several screening questions. The 'Yes/No' buttons toggle a hidden checkbox/input state.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter or Additional Documents (Optional)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you now or have you previously been employed by A1 Garage, or any of it's entities?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Were you referred to A1 by a current employee?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If Yes, what is the the name of the employee that referred you?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience in a dispatching role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you comfortable managing multiple tasks simultaneously while maintaining accuracy and professionalism?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you worked in a fast-paced environment where priorities and schedules change rapidly?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you confident using multiple computer systems at once (e.g., scheduling tools, communication platforms, Microsoft Office)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience with ServiceTitan or similar service management software?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you available to work 12:00 PM–8:30 PM and are you available to work both Saturday and Sunday as part of your regular schedule?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to work full-time onsite at our Phoenix office?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require sponsorship to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have experience in a dispatching role?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you comfortable managing multiple tasks simultaneously while maintaining accuracy and professionalism?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "have you worked in a fast-paced environment where priorities and schedules change rapidly?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "are you confident using multiple computer systems at once (e.g., scheduling tools, communication platforms, microsoft office)?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "do you have experience with servicetitan or similar service management software?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "are you available to work 12:00 pm–8:30 pm and are you available to work both saturday and sunday as part of your regular schedule?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "are you willing to work full-time onsite at our phoenix office?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f11"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f13"
+    },
+    {
+      "question": "cover letter or additional documents (optional)",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "are you now or have you previously been employed by a1 garage, or any of it's entities?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "were you referred to a1 by a current employee?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "if yes, what is the the name of the employee that referred you?",
+      "field_type": "text",
+      "ref": "f17"
+    }
+  ]
+}

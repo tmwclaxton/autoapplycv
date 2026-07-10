@@ -1,0 +1,302 @@
+{
+  "id": "https-jobs-ashbyhq-com-angi-048aeff8-5641-4a44-9c93-dd2fb8dea2a0-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:13:55.897Z",
+  "page_url": "https://jobs.ashbyhq.com/angi/048aeff8-5641-4a44-9c93-dd2fb8dea2a0/application",
+  "page_title": "Lead Analyst, Customer Service Analytics @ Angi",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.9333,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "do you require visa sponsorship to work in your preferred country?",
+        "ai": "Do you require visa sponsorship to work in your preferred country?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this job?",
+        "ai": "How did you hear about this job?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your annual salary expectations?",
+        "ai": "What are your annual salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred work location?",
+        "ai": "What is your preferred work location?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you live within 90 mins by public transport to one of our office locations in aix-en-provence, amsterdam, berlin, or london?",
+        "ai": "Do you live within 90 mins by public transport to one of our office locations in Aix-en-Provence, Amsterdam, Berlin, or London?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "when are you available to start a new role?",
+        "ai": "When are you available to start a new role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please acknowledge that you have read and understand angi's privacy policy at the link below.",
+        "ai": "Please acknowledge that you have read and understand Angi's Privacy Policy at the link below.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for the visa sponsorship question. The privacy policy acknowledgment is truncated in the provided HTML but functions as a required radio/checkbox.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your annual salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your preferred work location?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Aix-en-Provence",
+          "Amsterdam",
+          "Berlin",
+          "London"
+        ]
+      },
+      {
+        "question": "Do you live within 90 mins by public transport to one of our office locations in Aix-en-Provence, Amsterdam, Berlin, or London?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Not yet, but I plan on moving soon"
+        ]
+      },
+      {
+        "question": "Do you require visa sponsorship to work in your preferred country?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "When are you available to start a new role?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please acknowledge that you have read and understand Angi's Privacy Policy at the link below.",
+        "field_type": "radio",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you require visa sponsorship to work in your preferred country?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your annual salary expectations?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your preferred work location?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "do you live within 90 mins by public transport to one of our office locations in aix-en-provence, amsterdam, berlin, or london?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "when are you available to start a new role?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "please acknowledge that you have read and understand angi's privacy policy at the link below.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

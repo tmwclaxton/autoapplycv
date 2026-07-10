@@ -1,0 +1,42 @@
+{
+  "id": "https-allasborze-jobline-hu-latogatoknak",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:38:31.258Z",
+  "page_url": "https://allasborze.jobline.hu/latogatoknak/",
+  "page_title": "HVG Állásbörze 2026",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Language"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page is a landing page for a job fair. The only interactive form field found is a language selector widget. There are no job application forms present on this page.",
+    "fields": [
+      {
+        "question": "Language",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "English",
+          "Hungarian"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

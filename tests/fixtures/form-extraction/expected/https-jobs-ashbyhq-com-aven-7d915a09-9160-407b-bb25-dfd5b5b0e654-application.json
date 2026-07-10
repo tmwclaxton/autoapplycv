@@ -1,0 +1,254 @@
+{
+  "id": "https-jobs-ashbyhq-com-aven-7d915a09-9160-407b-bb25-dfd5b5b0e654-application",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "are you comfortable working onsite full-time, five days a week?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8fe636a2-6aa6-424a-b2a4-9e82e7c0e75b",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "07a8d8ad-fb36-4838-88bf-bc93f60228ee",
+        "name": "07a8d8ad-fb36-4838-88bf-bc93f60228ee",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "07a8d8ad-fb36-4838-88bf-bc93f60228ee",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8395b6f9-1784-40e3-9d8f-0e69200b2353",
+        "name": "8395b6f9-1784-40e3-9d8f-0e69200b2353",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8395b6f9-1784-40e3-9d8f-0e69200b2353",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you graduated within the last four years, please attach your transcript",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "0ae3d134-8919-45a2-b344-22771e4eb595",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0ae3d134-8919-45a2-b344-22771e4eb595",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you graduated within the last four years, please attach an official sat or act score report",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "56eba03b-e293-46b8-b144-11c003c8487c",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "56eba03b-e293-46b8-b144-11c003c8487c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which university did you attend for undergrad?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "01201a25-4cd9-41f5-9ab7-0f83143449f4",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your current level?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cc5529c2-1b84-4e8f-a90d-1d5750c34362",
+        "name": "cc5529c2-1b84-4e8f-a90d-1d5750c34362",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cc5529c2-1b84-4e8f-a90d-1d5750c34362",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what’s the most exciting experiment or project you’ve worked on?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "30c31fce-ca2f-4ebf-84b8-c913220c3c8c",
+        "name": "30c31fce-ca2f-4ebf-84b8-c913220c3c8c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "30c31fce-ca2f-4ebf-84b8-c913220c3c8c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were referred, please list the referrer’s name and email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cf3da874-23d8-4b4e-b26d-91dbfd64d9e6",
+        "name": "cf3da874-23d8-4b4e-b26d-91dbfd64d9e6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cf3da874-23d8-4b4e-b26d-91dbfd64d9e6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

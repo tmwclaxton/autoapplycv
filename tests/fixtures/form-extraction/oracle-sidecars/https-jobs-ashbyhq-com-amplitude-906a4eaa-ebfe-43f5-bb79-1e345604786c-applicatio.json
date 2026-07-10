@@ -1,0 +1,262 @@
+{
+  "id": "https-jobs-ashbyhq-com-amplitude-906a4eaa-ebfe-43f5-bb79-1e345604786c-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:11:56.273Z",
+  "page_url": "https://jobs.ashbyhq.com/amplitude/906a4eaa-ebfe-43f5-bb79-1e345604786c/application",
+  "page_title": "Principal Product Marketing Manager, Agents @ Amplitude",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "are you able to work from our san francisco office 2–3 days per week, depending on your proximity to the office?",
+        "ai": "Are you able to work from our San Francisco office 2–3 days per week, depending on your proximity to the office?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have 6+ years of product marketing experience in developer tools, ai/ml, or similarly technical products?",
+        "ai": "Do you have 6+ years of product marketing experience in developer tools, AI/ML, or similarly technical products?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you directly marketed to technical audiences such as developers, data teams, or ai/ml engineers?",
+        "ai": "Have you directly marketed to technical audiences such as developers, data teams, or AI/ML engineers?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have hands-on experience working with or experimenting with ai agent tools (e.g., cursor, claude code, langchain, or similar frameworks)?",
+        "ai": "Do you have hands-on experience working with or experimenting with AI agent tools (e.g., Cursor, Claude Code, LangChain, or similar frameworks)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require visa sponsorship to work in the united states?",
+        "ai": "Will you now or in the future require visa sponsorship to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "based on your understanding of amplitude agents, what is one technical topic you’d be most interested in researching further, and why?",
+        "ai": "Based on your understanding of Amplitude Agents, what is one technical topic you’d be most interested in researching further, and why?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle a hidden checkbox. The autofill feature is handled via a file upload input.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able to work from our San Francisco office 2–3 days per week, depending on your proximity to the office?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have 6+ years of product marketing experience in developer tools, AI/ML, or similarly technical products?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you directly marketed to technical audiences such as developers, data teams, or AI/ML engineers?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have hands-on experience working with or experimenting with AI agent tools (e.g., Cursor, Claude Code, LangChain, or similar frameworks)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Based on your understanding of Amplitude Agents, what is one technical topic you’d be most interested in researching further, and why?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you able to work from our san francisco office 2–3 days per week, depending on your proximity to the office?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have 6+ years of product marketing experience in developer tools, ai/ml, or similarly technical products?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "have you directly marketed to technical audiences such as developers, data teams, or ai/ml engineers?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have hands-on experience working with or experimenting with ai agent tools (e.g., cursor, claude code, langchain, or similar frameworks)?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "based on your understanding of amplitude agents, what is one technical topic you’d be most interested in researching further, and why?",
+      "field_type": "text",
+      "ref": "f11"
+    }
+  ]
+}

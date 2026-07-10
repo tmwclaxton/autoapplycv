@@ -136,7 +136,7 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalize(stripped).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
     }
 
-    const PLACEHOLDER_SELECT_OPTION_PATTERN = /^(select an option|choose an option|please select|select\.\.\.|--)$/i;
+    const PLACEHOLDER_SELECT_OPTION_PATTERN = /^(select an option|choose an option|choose one|please select|please choose|select\.\.\.|--)$/i;
 
     const PHONE_CALLING_CODE_TO_ISO = [
         ['971', 'AE'], ['966', 'SA'], ['972', 'IL'], ['886', 'TW'], ['852', 'HK'],
@@ -583,16 +583,266 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function isPersonioJobsHost(doc = document) {
+        try {
+            return /\.jobs\.personio\.(?:de|com)$/i.test(doc.location?.hostname || '')
+                || /\.personio\.(?:de|com)$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    function isWorkableApplyHost(doc = document) {
+        try {
+            return /(?:^|\.)workable\.com$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Workable apply fields often wrap controls in SVG-only <label for> nodes while the
+     * real question lives on `{token}_label` (aria-labelledby / sibling span).
+     * Without this, inventory falls back to opaque ids like input_files_input_* / qa_*.
+     *
+     * @param {Element} element
+     * @returns {string}
+     */
+    function getWorkableQuestionLabel(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const labelledBy = element.getAttribute?.('aria-labelledby');
+
+        if (labelledBy) {
+            for (const refId of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(refId);
+                const labelledText = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+                if (labelledText.length >= 2 && !/^select an option/i.test(labelledText)) {
+                    return labelledText.slice(0, 200);
+                }
+            }
+        }
+
+        const id = String(element.getAttribute?.('id') || '');
+        const tokenMatch = id.match(/input_files_input_(.+)$/i)
+            || id.match(/^input_(.+)_input$/i)
+            || id.match(/^input_(.+)$/i);
+
+        if (tokenMatch?.[1]) {
+            const byToken = doc.getElementById(`${tokenMatch[1]}_label`);
+            const tokenText = byToken?.textContent ? normalize(byToken.textContent) : '';
+
+            if (tokenText.length >= 2) {
+                return tokenText.slice(0, 200);
+            }
+        }
+
+        const dataUi = element.closest('[data-ui]')?.getAttribute('data-ui');
+
+        if (dataUi && !/^(section-fields|autofill-button|apply-button|phone)$/i.test(dataUi)) {
+            const byUi = doc.getElementById(`${dataUi}_label`);
+            const uiText = byUi?.textContent ? normalize(byUi.textContent) : '';
+
+            if (uiText.length >= 2) {
+                return uiText.slice(0, 200);
+            }
+        }
+
+        // Prefer an explicit name/id label over scanning the whole form (avoids city/postcode
+        // companions inheriting "First name" from the first *_label in the form).
+        const identity = String(element.id || element.name || '');
+
+        if (identity && !/^(city|postcode|postalcode|zip|country|state)$/i.test(identity)) {
+            const byIdentity = doc.getElementById(`${identity}_label`);
+            const identityText = byIdentity?.textContent ? normalize(byIdentity.textContent) : '';
+
+            if (identityText.length >= 2) {
+                return identityText.slice(0, 200);
+            }
+        }
+
+        const fieldRoot = element.closest('[data-role="dropzone"], [data-input-type], [data-ui], label.styles--3aPac, .styles--3IYUq')
+            || element.parentElement;
+        const nearby = fieldRoot?.querySelector?.('[id$="_label"] strong, [id$="_label"]');
+        const nearbyText = nearby?.textContent ? normalize(nearby.textContent) : '';
+
+        if (nearbyText.length >= 2 && !/^select an option/i.test(nearbyText)) {
+            return nearbyText.slice(0, 200);
+        }
+
+        return '';
+    }
+
+    function isLeverJobsHost(doc = document) {
+        try {
+            return /(?:^|\.)lever\.co$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Recruitee keeps the real apply form in a hidden Reach tab panel until "Apply" is
+     * clicked. File inputs already bypass visibility via isLabeledApplicationFileInput;
+     * include the rest of #offer-application-form the same way.
+     */
+    function isRecruiteeApplicationFormControl(element) {
+        if (!element || !isRecruiteeApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        if (element.type === 'hidden') {
+            return false;
+        }
+
+        return element.closest('#offer-application-form') !== null
+            || Boolean(element.closest('form')?.id?.toLowerCase?.().includes('application-form'));
+    }
+
+    /**
+     * Lever location-conditional EEO surveys live in `.application-form.hidden` until a
+     * country is chosen. Keep them in inventory so Draft All / dual-oracle match the DOM.
+     */
+    function isLeverDeferredSurveyControl(element) {
+        if (!element || !isLeverJobsHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        if (element.type === 'hidden') {
+            return false;
+        }
+
+        const name = String(element.getAttribute?.('name') || element.name || '');
+
+        if (!/surveysResponses\[/i.test(name)) {
+            return false;
+        }
+
+        return getLeverApplicationQuestion(element) !== null;
+    }
+
+    const revealedApplicationFormDocs = new WeakSet();
+
+    /**
+     * Open Recruitee / Personio / Workable apply UI when the JD page still shows the closed form shell.
+     * Sync click only - callers that need hydration should re-poll inventory shortly after.
+     */
+    function revealDeferredApplicationForm(doc = document) {
+        if (!doc || revealedApplicationFormDocs.has(doc)) {
+            return false;
+        }
+
+        if (isRecruiteeApplyHost(doc)) {
+            const applyForm = doc.querySelector('#offer-application-form')
+                || Array.from(doc.querySelectorAll('form')).find((form) => (
+                    String(form.id || '').toLowerCase().includes('application-form')
+                ));
+            const hiddenPanel = applyForm?.closest('[hidden], [aria-hidden="true"]');
+
+            if (applyForm && !hiddenPanel) {
+                return false;
+            }
+
+            const applyTab = Array.from(doc.querySelectorAll('[role="tab"], button, a')).find((node) => {
+                const label = normalize(node.textContent || node.getAttribute?.('aria-label') || '');
+
+                return node.getAttribute?.('data-cy') === 'apply-button'
+                    || /^(apply|application|bewerben|postuler)$/i.test(label);
+            });
+
+            if (applyTab && !applyTab.disabled) {
+                revealedApplicationFormDocs.add(doc);
+                applyTab.click();
+
+                return true;
+            }
+        }
+
+        if (isPersonioJobsHost(doc)) {
+            const hasFields = doc.querySelector(
+                'form input:not([type="hidden"]), form textarea, form select, [name="first_name"], [name="email"]',
+            );
+
+            if (hasFields) {
+                return false;
+            }
+
+            const applyControl = Array.from(doc.querySelectorAll('a[href*="apply"], button, a')).find((node) => {
+                const href = String(node.getAttribute?.('href') || '');
+                const label = normalize(node.textContent || node.getAttribute?.('aria-label') || '');
+
+                return /[?&]apply(?:&|$)/i.test(href)
+                    || /apply for this job|bewerben|jetzt bewerben|postuler/i.test(label);
+            });
+
+            if (applyControl && !applyControl.disabled) {
+                revealedApplicationFormDocs.add(doc);
+                applyControl.click();
+
+                return true;
+            }
+        }
+
+        if (isWorkableApplyHost(doc)) {
+            const hasFields = doc.querySelector(
+                'input:not([type="hidden"]), textarea, select, [data-ui="firstname"], [data-ui="email"]',
+            );
+
+            if (hasFields) {
+                return false;
+            }
+
+            const applyControl = doc.querySelector(
+                'a[data-ui="apply-button"], [data-ui="apply-button"], a[data-ui="application-form-tab"], [data-ui="application-form-tab"]',
+            );
+
+            if (applyControl && !applyControl.disabled) {
+                revealedApplicationFormDocs.add(doc);
+                applyControl.click();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Recruitee often surfaces section titles ("My information", "Questions") instead of
      * the per-field label. Prefer label[for], visible field label text, then placeholder.
      */
+    function isRecruiteeSectionHeadingLabel(text) {
+        return /^(my information|questions|legal agreements|fill out the information below|please fill in additional questions)$/i.test(
+            String(text || '').trim(),
+        );
+    }
+
     function getRecruiteeQuestionLabel(element) {
         if (!element || !isRecruiteeApplyHost(element.ownerDocument || document)) {
             return '';
         }
 
         const doc = element.ownerDocument || document;
+
+        // Agreement checkboxes use aria-labelledby pointing at rich-text consent copy
+        // (e.g. "I agree to … Privacy Policy"), not the fieldset legend "Legal Agreements".
+        const labelledBy = element.getAttribute?.('aria-labelledby');
+
+        if (labelledBy) {
+            for (const refId of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(refId);
+                const labelledText = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+                if (labelledText.length >= 2 && !isRecruiteeSectionHeadingLabel(labelledText)) {
+                    return labelledText.slice(0, 180);
+                }
+            }
+        }
+
         const id = element.getAttribute?.('id');
 
         if (id) {
@@ -600,8 +850,22 @@ const AutoCVApplyFormHeuristics = (() => {
             const explicit = doc.querySelector(`label[for="${escapedId}"]`);
             const explicitText = explicit?.textContent ? normalize(explicit.textContent) : '';
 
-            if (explicitText.length >= 2 && !/^(my information|questions|legal agreements)$/i.test(explicitText)) {
+            if (explicitText.length >= 2 && !isRecruiteeSectionHeadingLabel(explicitText)) {
                 return explicitText;
+            }
+        }
+
+        const name = String(element.getAttribute?.('name') || element.name || '');
+        const isAgreementConsent = element.type === 'checkbox'
+            && /candidate\.agreements\.\d+\.consent/i.test(name);
+
+        if (isAgreementConsent) {
+            const consentCopy = element.parentElement?.querySelector('[id*="consent"]')
+                || element.nextElementSibling;
+            const consentText = consentCopy?.textContent ? normalize(consentCopy.textContent) : '';
+
+            if (consentText.length >= 8 && !isRecruiteeSectionHeadingLabel(consentText)) {
+                return consentText.slice(0, 180);
             }
         }
 
@@ -609,7 +873,7 @@ const AutoCVApplyFormHeuristics = (() => {
         const nearbyLabel = fieldRoot?.querySelector('label span, label, legend, [class*="label"]');
         const nearbyText = nearbyLabel?.textContent ? normalize(nearbyLabel.textContent) : '';
 
-        if (nearbyText.length >= 2 && !/^(my information|questions|legal agreements|fill out the information below|please fill in additional questions)$/i.test(nearbyText)) {
+        if (nearbyText.length >= 2 && !isRecruiteeSectionHeadingLabel(nearbyText)) {
             // Prefer the first short label line when the node includes helper copy.
             const firstLine = nearbyText.split(/\s{2,}|\n/)[0] || nearbyText;
 
@@ -630,7 +894,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 || '';
             const agreementText = normalize(agreement);
 
-            if (agreementText.length >= 12) {
+            if (agreementText.length >= 12 && !isRecruiteeSectionHeadingLabel(agreementText)) {
                 return agreementText.slice(0, 180);
             }
         }
@@ -1407,6 +1671,24 @@ const AutoCVApplyFormHeuristics = (() => {
             return hiddenValue.value.trim();
         }
 
+        // Workable custom select: companion value input beside the readonly combobox.
+        const workableRoot = element.closest('[data-input-type="select"]');
+        const workableHidden = workableRoot?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (workableHidden?.value?.trim()) {
+            // Prefer visible option text when the value is an opaque id.
+            const display = workableRoot.querySelector('[data-role="illustrated-input"]')?.textContent
+                || element.getAttribute('aria-label')
+                || '';
+            const displayText = String(display || '').replace(/\s+/g, ' ').trim();
+
+            if (displayText.length >= 2 && !/^select an option/i.test(displayText)) {
+                return displayText;
+            }
+
+            return workableHidden.value.trim();
+        }
+
         const typed = String(element.value || '').trim();
 
         return typed || null;
@@ -2042,8 +2324,9 @@ const AutoCVApplyFormHeuristics = (() => {
         openReactSelectDropdown(element);
 
         const isYesNoAnswer = /^(yes|no)\b/i.test(stringValue.trim());
+        const canType = !element.readOnly && !element.disabled;
 
-        if (!isYesNoAnswer) {
+        if (!isYesNoAnswer && canType) {
             await fillReactTextControl(element, stringValue);
         }
 
@@ -2139,25 +2422,73 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function getOptionLabel(input) {
+        let raw = '';
+
         if (input.labels?.length) {
-            return input.labels[0].textContent.replace(/\s+/g, ' ').trim();
-        }
+            raw = input.labels[0].textContent;
+        } else {
+            const doc = input.ownerDocument || document;
+            const id = input.getAttribute('id');
 
-        const doc = input.ownerDocument || document;
-        const id = input.getAttribute('id');
+            if (id) {
+                const label = doc.querySelector(`label[for="${escapeSelectorValue(id)}"]`);
 
-        if (id) {
-            const label = doc.querySelector(`label[for="${escapeSelectorValue(id)}"]`);
-
-            if (label) {
-                return label.textContent.replace(/\s+/g, ' ').trim();
+                if (label) {
+                    raw = label.textContent;
+                }
             }
         }
 
-        return String(input.value || '').trim();
+        if (!raw) {
+            raw = String(input.value || '');
+        }
+
+        return String(raw || '')
+            .replace(/\s+/g, ' ')
+            .replace(/svgs not supported by this browser\.\s*/gi, '')
+            .trim();
+    }
+
+    function getSmsConsentQuestionLabel(element) {
+        const name = String(element.getAttribute?.('name') || element.name || '');
+
+        if (/communicationConsent|sms.?consent|text.?message.?consent/i.test(name)) {
+            return 'I consent to receiving text messages';
+        }
+
+        if (element.type !== 'radio' && element.type !== 'checkbox') {
+            return '';
+        }
+
+        const groupName = element.name;
+
+        if (!groupName) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const peers = Array.from(doc.querySelectorAll(
+            `input[type="${element.type}"][name="${escapeSelectorValue(groupName)}"]`,
+        ));
+        const optionText = peers
+            .map((peer) => getOptionLabel(peer))
+            .filter(Boolean)
+            .join(' ');
+
+        if (/consent to receiving text|do not consent to receiving text|text messages/i.test(optionText)) {
+            return 'I consent to receiving text messages';
+        }
+
+        return '';
     }
 
     function getQuestionLabel(element) {
+        const smsConsentLabel = getSmsConsentQuestionLabel(element);
+
+        if (smsConsentLabel.length >= 3) {
+            return smsConsentLabel;
+        }
+
         const phoneInputLabel = getPhoneInputFieldLabel(element);
 
         if (phoneInputLabel) {
@@ -2188,10 +2519,16 @@ const AutoCVApplyFormHeuristics = (() => {
             return micro1Label;
         }
 
-        const ashbyTitle = getAshbyQuestionTitle(element);
+        // Ashby honeypots use an empty/nbsp title with placeholder "Type here...".
+        // Prefer excluding them over inventing a label from the placeholder.
+        if (getAshbyFieldEntry(element)) {
+            const ashbyTitle = getAshbyQuestionTitle(element);
 
-        if (ashbyTitle.length >= 3) {
-            return ashbyTitle;
+            if (ashbyTitle.length >= 3) {
+                return ashbyTitle;
+            }
+
+            return '';
         }
 
         const leverLabel = getLeverQuestionLabel(element);
@@ -2204,6 +2541,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (recruiteeLabel.length >= 2) {
             return recruiteeLabel;
+        }
+
+        const workableLabel = getWorkableQuestionLabel(element);
+
+        if (workableLabel.length >= 2) {
+            return workableLabel;
         }
 
         const oracleLabel = getOracleApplyFlowQuestionLabel(element);
@@ -2232,7 +2575,13 @@ const AutoCVApplyFormHeuristics = (() => {
                 : container.querySelector('legend');
 
             if (legend) {
-                return normalize(legend.textContent);
+                const legendText = normalize(legend.textContent);
+
+                // Recruitee wraps consent checkboxes in a "Legal Agreements" fieldset;
+                // the real question is on aria-labelledby / adjacent copy, not the legend.
+                if (legendText.length >= 2 && !isRecruiteeSectionHeadingLabel(legendText)) {
+                    return legendText;
+                }
             }
 
             const groupLabel = container.querySelector('label[aria-required], label[id*="question-label"]');
@@ -2644,25 +2993,33 @@ const AutoCVApplyFormHeuristics = (() => {
         if (labelledBy) {
             for (const id of labelledBy.split(/\s+/)) {
                 const labelEl = doc.getElementById(id);
+                const labelledText = labelEl?.textContent ? normalize(labelEl.textContent) : '';
 
-                if (labelEl?.textContent?.trim()) {
-                    return normalize(labelEl.textContent);
+                if (labelledText.length >= 2 && !isRecruiteeSectionHeadingLabel(labelledText)) {
+                    return labelledText;
                 }
             }
         }
 
         const legend = group.querySelector('legend');
+        const legendText = legend?.textContent ? normalize(legend.textContent) : '';
 
-        if (legend?.textContent?.trim()) {
-            return normalize(legend.textContent);
+        // Recruitee (and similar) use a section legend like "Legal Agreements" while the
+        // real question lives on the checkbox aria-labelledby / adjacent copy.
+        if (legendText.length >= 2 && !isRecruiteeSectionHeadingLabel(legendText)) {
+            return legendText;
         }
 
         const heading = group.closest('fieldset, section, div')?.querySelector(
             'legend, label[aria-required], [class*="question"], h1, h2, h3, h4, p',
         );
+        const headingText = heading?.textContent
+            && !heading.querySelector('input, textarea, select, [role="radio"]')
+            ? normalize(heading.textContent)
+            : '';
 
-        if (heading?.textContent?.trim() && !heading.querySelector('input, textarea, select, [role="radio"]')) {
-            return normalize(heading.textContent);
+        if (headingText.length >= 2 && !isRecruiteeSectionHeadingLabel(headingText)) {
+            return headingText;
         }
 
         return normalize(group.getAttribute('aria-label') || '');
@@ -2705,7 +3062,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
     function getRoleRadioOptions(radios) {
         return radios
-            .map((radio) => (radio.textContent || radio.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim())
+            .map((radio) => (radio.textContent || radio.getAttribute('aria-label') || '')
+                .replace(/\s+/g, ' ')
+                .replace(/svgs not supported by this browser\.\s*/gi, '')
+                .trim())
             .filter((label) => label.length > 0);
     }
 
@@ -2775,6 +3135,226 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    /**
+     * Recruitee (and similar) phone widgets use a button+listbox country picker instead of a
+     * native <select> or role=combobox. Surface it as its own select field.
+     */
+    function isPhoneCountryListboxButton(element) {
+        if (!element || element.tagName?.toLowerCase() !== 'button') {
+            return false;
+        }
+
+        if (element.getAttribute('aria-haspopup') !== 'listbox') {
+            return false;
+        }
+
+        const id = String(element.id || '');
+        const aria = String(element.getAttribute('aria-label') || '');
+
+        if (/^country-select/i.test(id) || /country\s+calling\s+code|select\s+country/i.test(aria)) {
+            return true;
+        }
+
+        return element.closest('.PhoneInput, [class*="PhoneInput"]') !== null;
+    }
+
+    function getPhoneCountryListboxButtonLabel(button) {
+        const aria = String(button.getAttribute('aria-label') || '');
+        const cleaned = aria
+            .replace(/^select\s+/i, '')
+            .replace(/:\s*.+$/, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        if (cleaned.length >= 3) {
+            return normalize(cleaned);
+        }
+
+        if (button.closest('.PhoneInput, [class*="PhoneInput"]')) {
+            return 'country calling code';
+        }
+
+        return normalize(aria) || 'country';
+    }
+
+    function getPhoneCountryListbox(button, doc = button?.ownerDocument || document) {
+        if (!button) {
+            return null;
+        }
+
+        const controls = button.getAttribute('aria-controls');
+
+        if (controls) {
+            const byControls = doc.getElementById(controls);
+
+            if (byControls?.getAttribute('role') === 'listbox') {
+                return byControls;
+            }
+        }
+
+        const id = button.id;
+
+        if (id) {
+            const byLabel = doc.querySelector(
+                `[role="listbox"][aria-labelledby="${escapeSelectorValue(id)}"]`,
+            );
+
+            if (byLabel) {
+                return byLabel;
+            }
+        }
+
+        return button.parentElement?.querySelector('[role="listbox"]')
+            || button.closest('.PhoneInput, [class*="PhoneInput"]')?.querySelector('[role="listbox"]')
+            || null;
+    }
+
+    function readPhoneCountryListboxValue(button) {
+        const aria = String(button.getAttribute('aria-label') || '');
+        const match = aria.match(/:\s*(.+)$/);
+
+        if (match?.[1]) {
+            return match[1].replace(/\s+/g, ' ').trim();
+        }
+
+        const visible = button.querySelector('span, [class*="country"]');
+        const text = (visible?.textContent || button.textContent || '').replace(/\s+/g, ' ').trim();
+
+        return text.length >= 2 ? text : null;
+    }
+
+    function collectPhoneCountrySelectFields(root) {
+        const fields = [];
+        const seen = new Set();
+        const doc = root.ownerDocument || document;
+
+        for (const button of root.querySelectorAll('button[aria-haspopup="listbox"]')) {
+            if (!isVisible(button) || !isPhoneCountryListboxButton(button)) {
+                continue;
+            }
+
+            const label = getPhoneCountryListboxButtonLabel(button);
+            const key = button.id || label;
+
+            if (label.length < 3 || seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+
+            const listbox = getPhoneCountryListbox(button, doc);
+            const optionLabels = listbox
+                ? Array.from(listbox.querySelectorAll('[role="option"]'))
+                    .map((option) => (option.getAttribute('aria-label') || option.textContent || '')
+                        .replace(/\s+/g, ' ')
+                        .trim())
+                    .filter((text) => text.length > 0)
+                    .slice(0, 40)
+                : [];
+
+            fields.push({
+                button,
+                listbox,
+                label,
+                optionLabels,
+            });
+        }
+
+        return fields;
+    }
+
+    async function setPhoneCountryListboxValue(button, answer) {
+        const stringValue = String(answer || '').trim();
+
+        if (!button || !stringValue) {
+            return false;
+        }
+
+        if (optionMatchesAnswer(readPhoneCountryListboxValue(button), stringValue)) {
+            return true;
+        }
+
+        const doc = button.ownerDocument || document;
+
+        dispatchPointerClick(button);
+        button.setAttribute('aria-expanded', 'true');
+        await sleep(120);
+
+        const findMatchingOption = () => {
+            const listbox = getPhoneCountryListbox(button, doc);
+            const scope = listbox || doc;
+            const options = Array.from(scope.querySelectorAll('[role="option"]'));
+
+            return options.find((option) => {
+                const optionText = (option.getAttribute('aria-label') || option.textContent || '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+
+                return optionMatchesAnswer(optionText, stringValue);
+            }) || null;
+        };
+
+        let match = findMatchingOption();
+
+        if (!match) {
+            // Virtualized country lists often filter on typed input while open.
+            const listbox = getPhoneCountryListbox(button, doc);
+            const filterInput = listbox?.querySelector('input')
+                || button.parentElement?.querySelector('input[type="text"], input:not([type])')
+                || null;
+
+            if (filterInput) {
+                await fillReactTextControl(filterInput, stringValue);
+                await sleep(100);
+                match = findMatchingOption();
+            } else {
+                button.focus();
+
+                for (const char of stringValue.slice(0, 24)) {
+                    button.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: char,
+                        bubbles: true,
+                        cancelable: true,
+                    }));
+                    button.dispatchEvent(new KeyboardEvent('keyup', {
+                        key: char,
+                        bubbles: true,
+                        cancelable: true,
+                    }));
+                }
+
+                await sleep(120);
+                match = findMatchingOption();
+            }
+        }
+
+        if (!match) {
+            heuristicsLog('warn', 'apply.phone', 'Phone country listbox option not found', {
+                valuePreview: stringValue.slice(0, 80),
+            });
+
+            return false;
+        }
+
+        dispatchPointerClick(match);
+        match.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        match.setAttribute('aria-selected', 'true');
+        await sleep(80);
+
+        const current = readPhoneCountryListboxValue(button);
+
+        if (!optionMatchesAnswer(current, stringValue)) {
+            // Keep aria-label in sync when the widget does not update under JSDOM.
+            const base = String(button.getAttribute('aria-label') || 'Select country calling code')
+                .replace(/:\s*.+$/, '');
+            button.setAttribute('aria-label', `${base}: ${stringValue}`);
+        }
+
+        button.setAttribute('aria-expanded', 'false');
+
+        return optionMatchesAnswer(readPhoneCountryListboxValue(button), stringValue);
+    }
+
     function getComboboxForListbox(root, listbox) {
         const listboxId = listbox.id;
 
@@ -2808,6 +3388,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         for (const combobox of root.querySelectorAll('[role="combobox"]')) {
             if (!isVisible(combobox) || isIndeedApplyComboboxFilterInput(combobox)) {
+                continue;
+            }
+
+            // Chosen UI is a combobox wrapper around a native select we already inventory.
+            if (combobox.classList?.contains('chosen-container')
+                || (typeof combobox.id === 'string' && combobox.id.endsWith('_chosen'))) {
                 continue;
             }
 
@@ -3016,6 +3602,92 @@ const AutoCVApplyFormHeuristics = (() => {
             && element.closest('.select-shell, .select__container') !== null;
     }
 
+    /**
+     * Chosen.js (Softgarden / Wicket et al.) hides the native <select> with display:none and
+     * renders a visible #${id}_chosen combobox. Keep the native select in inventory/fill.
+     */
+    function isChosenEnhancedSelect(element) {
+        if (!element || element.tagName?.toLowerCase() !== 'select' || element.disabled) {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+        const id = element.id;
+
+        if (id) {
+            const chosenById = doc.getElementById(`${id}_chosen`);
+
+            if (chosenById?.classList?.contains('chosen-container')) {
+                return true;
+            }
+        }
+
+        const sibling = element.nextElementSibling;
+
+        if (sibling?.classList?.contains('chosen-container')) {
+            return true;
+        }
+
+        return element.parentElement?.querySelector(':scope > .chosen-container') !== null;
+    }
+
+    function isChosenSearchInput(element) {
+        return Boolean(
+            element?.classList?.contains('chosen-search-input')
+            || element?.closest?.('.chosen-drop, .chosen-search'),
+        );
+    }
+
+    function syncChosenSelectUi(select) {
+        if (!isChosenEnhancedSelect(select)) {
+            return;
+        }
+
+        const view = select.ownerDocument?.defaultView || window;
+        const jq = view.jQuery || view.$;
+
+        if (typeof jq === 'function') {
+            try {
+                const $select = jq(select);
+
+                if ($select.data?.('chosen') || $select.next?.('.chosen-container').length) {
+                    $select.trigger('chosen:updated');
+
+                    return;
+                }
+            } catch {
+                // Fall through to DOM sync.
+            }
+        }
+
+        const doc = select.ownerDocument || document;
+        const chosen = (select.id && doc.getElementById(`${select.id}_chosen`))
+            || (select.nextElementSibling?.classList?.contains('chosen-container')
+                ? select.nextElementSibling
+                : null);
+
+        if (!chosen) {
+            return;
+        }
+
+        const selected = select.selectedOptions?.[0] || select.options?.[select.selectedIndex];
+        const text = (selected?.textContent || '').replace(/\s+/g, ' ').trim();
+        const single = chosen.querySelector('a.chosen-single, .chosen-single');
+        const span = single?.querySelector('span');
+
+        if (span) {
+            span.textContent = text || ' ';
+        }
+
+        if (single?.classList) {
+            if (!select.value || isPlaceholderSelectOption(selected)) {
+                single.classList.add('chosen-default');
+            } else {
+                single.classList.remove('chosen-default');
+            }
+        }
+    }
+
     function getPhoneInputFieldLabel(element) {
         const fieldset = element.closest('fieldset.phone-input');
 
@@ -3053,6 +3725,35 @@ const AutoCVApplyFormHeuristics = (() => {
                 }
             }
 
+            // Personio et al.: name="phone" with a localized label[for] (e.g. Téléphone).
+            // Prefer the visible label over a hardcoded English "phone" fallback.
+            const phoneId = element.getAttribute('id');
+
+            if (phoneId) {
+                const escapedPhoneId = typeof CSS !== 'undefined' && CSS.escape
+                    ? CSS.escape(phoneId)
+                    : phoneId.replace(/"/g, '\\"');
+                const explicitPhoneLabel = doc.querySelector(`label[for="${escapedPhoneId}"]`);
+
+                if (explicitPhoneLabel) {
+                    const explicitText = normalize(explicitPhoneLabel.textContent);
+
+                    if (explicitText.length >= 2) {
+                        return explicitText;
+                    }
+                }
+            }
+
+            if (element.labels?.length) {
+                const labelsText = normalize(
+                    Array.from(element.labels).map((label) => label.textContent).join(' '),
+                );
+
+                if (labelsText.length >= 2) {
+                    return labelsText;
+                }
+            }
+
             if (element.getAttribute('name') === 'phone' || element.type === 'tel') {
                 return 'phone';
             }
@@ -3082,16 +3783,26 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function getFieldLabel(element) {
+        const smsConsentLabel = getSmsConsentQuestionLabel(element);
+
+        if (smsConsentLabel.length >= 3) {
+            return smsConsentLabel;
+        }
+
         const phoneInputLabel = getPhoneInputFieldLabel(element);
 
         if (phoneInputLabel) {
             return phoneInputLabel;
         }
 
-        const ashbyTitle = getAshbyQuestionTitle(element);
+        if (getAshbyFieldEntry(element)) {
+            const ashbyTitle = getAshbyQuestionTitle(element);
 
-        if (ashbyTitle.length >= 3) {
-            return ashbyTitle;
+            if (ashbyTitle.length >= 3) {
+                return ashbyTitle;
+            }
+
+            return '';
         }
 
         const leverLabel = getLeverQuestionLabel(element);
@@ -3104,6 +3815,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (recruiteeLabel.length >= 2) {
             return recruiteeLabel;
+        }
+
+        const workableLabel = getWorkableQuestionLabel(element);
+
+        if (workableLabel.length >= 2) {
+            return workableLabel;
         }
 
         const labelParts = [];
@@ -3432,6 +4149,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return readReactSelectValue(element);
         }
 
+        if (isPhoneCountryListboxButton(element)) {
+            return readPhoneCountryListboxValue(element);
+        }
+
         if (element.tagName?.toLowerCase() === 'select') {
             const selected = element.selectedOptions?.[0] || element.options?.[element.selectedIndex];
 
@@ -3591,7 +4312,12 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function isVisible(element) {
-        if (!element || element.disabled || element.readOnly) {
+        if (!element || element.disabled) {
+            return false;
+        }
+
+        // Workable (and similar) custom selects use readonly combobox inputs as the visible control.
+        if (element.readOnly && element.getAttribute?.('role') !== 'combobox') {
             return false;
         }
 
@@ -3612,6 +4338,122 @@ const AutoCVApplyFormHeuristics = (() => {
         } catch {
             return false;
         }
+    }
+
+    /**
+     * Template-gallery / docs site search (e.g. Jotform "Search in all Form Templates").
+     * Not an application question - exclude from inventory.
+     */
+    function isSiteSearchChrome(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (element.closest?.('form[role="search"], form.hero-search-form, [role="search"]')) {
+            return true;
+        }
+
+        const id = String(element.id || '').toLowerCase();
+        const name = String(element.getAttribute?.('name') || element.name || '').toLowerCase();
+        const placeholder = String(element.getAttribute?.('placeholder') || '').toLowerCase();
+
+        if (id === 'search-input' || id.includes('search-input')) {
+            return true;
+        }
+
+        if (name === 'q' && /search/.test(placeholder)) {
+            return true;
+        }
+
+        return /search in all (form )?templates/i.test(placeholder);
+    }
+
+    /**
+     * Workable select widgets keep a tabindex=-1 aria-hidden value input beside the readonly
+     * combobox. Inventory the combobox, not this companion field.
+     */
+    function isWorkableHiddenSelectValueInput(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        if (element.tagName?.toLowerCase() !== 'input') {
+            return false;
+        }
+
+        if (element.type === 'radio' || element.type === 'checkbox' || element.type === 'file' || element.type === 'hidden') {
+            return false;
+        }
+
+        if (element.getAttribute('aria-hidden') !== 'true' && element.tabIndex !== -1) {
+            return false;
+        }
+
+        const selectRoot = element.closest('[data-input-type="select"]');
+
+        if (!selectRoot) {
+            return false;
+        }
+
+        return selectRoot.querySelector('[role="combobox"]') !== null;
+    }
+
+    /**
+     * Workable address widgets keep clipped city/postcode/country companions for Places parsing.
+     * They inherit the wrong nearby label (often "First name") if inventoried.
+     */
+    function isWorkableHiddenAddressSubfield(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        const identity = String(element.id || element.name || element.getAttribute?.('data-ui') || '');
+
+        if (!/^(city|postcode|postalcode|zip|zipcode|country|state|region|admin_area)$/i.test(identity)) {
+            return false;
+        }
+
+        if (element.getAttribute('aria-hidden') === 'true' || element.tabIndex === -1) {
+            return true;
+        }
+
+        const clipped = element.closest('div[style*="overflow"]');
+
+        if (!clipped) {
+            return false;
+        }
+
+        const style = String(clipped.getAttribute('style') || '');
+
+        return /width:\s*1px/i.test(style) && /height:\s*1px/i.test(style);
+    }
+
+    function isWorkableAddressField(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        const identity = String(element.id || element.name || element.getAttribute?.('data-ui') || '');
+
+        return /^address$/i.test(identity);
+    }
+
+    /**
+     * Workable often geo-fills Address as "City, Country" with no street/number. Keep it
+     * draftable so applicants can correct the location.
+     */
+    function isWorkableAddressGeoDefault(element) {
+        if (!isWorkableAddressField(element)) {
+            return false;
+        }
+
+        const value = String(element.value || '').trim();
+
+        if (!value || /\d/.test(value)) {
+            return false;
+        }
+
+        return /,\s*\S+/.test(value);
     }
 
     function setNativeValue(element, value) {
@@ -3959,6 +4801,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return filled && verifyFieldApplied(element, 'select', value);
         }
 
+        if (isPhoneCountryListboxButton(element)) {
+            const filled = await setPhoneCountryListboxValue(element, value);
+
+            return filled && verifyFieldApplied(element, 'select', value);
+        }
+
         if (element.type === 'tel' && isIndeedApplyPhoneInput(element)) {
             return setIndeedApplyPhoneInputValue(element, value);
         }
@@ -3988,8 +4836,13 @@ const AutoCVApplyFormHeuristics = (() => {
             element.dispatchEvent(new Event('input', { bubbles: true }));
             element.dispatchEvent(new Event('change', { bubbles: true }));
             element.classList?.remove('fb-dash-form-element__error-field');
+            syncChosenSelectUi(element);
 
-            return verifyFieldApplied(element, 'select', match.value);
+            // readSimpleFieldValue returns option label text, so verify against the requested answer
+            // (or label), not the raw option value (Softgarden uses "0"/"1" values).
+            const optionLabel = (match.textContent || '').replace(/\s+/g, ' ').trim();
+
+            return verifyFieldApplied(element, 'select', optionLabel || value);
         }
 
         if (element.type === 'checkbox' || element.type === 'radio') {
@@ -4020,6 +4873,8 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function collectFillableElements(root) {
+        revealDeferredApplicationForm(root.defaultView?.document || root);
+
         const nativeControls = Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
                 return false;
@@ -4037,6 +4892,18 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
+            if (isWorkableHiddenSelectValueInput(element)) {
+                return false;
+            }
+
+            if (isWorkableHiddenAddressSubfield(element)) {
+                return false;
+            }
+
+            if (isChosenSearchInput(element)) {
+                return false;
+            }
+
             if (isReactPhoneCountrySelect(element)) {
                 return false;
             }
@@ -4046,6 +4913,18 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             if (isLabeledApplicationFileInput(element)) {
+                return true;
+            }
+
+            if (isRecruiteeApplicationFormControl(element)) {
+                return true;
+            }
+
+            if (isLeverDeferredSurveyControl(element)) {
+                return true;
+            }
+
+            if (isChosenEnhancedSelect(element)) {
                 return true;
             }
 
@@ -4167,7 +5046,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return 'select';
         }
 
-        if (element.getAttribute?.('role') === 'combobox') {
+        if (element.getAttribute?.('role') === 'combobox' || isPhoneCountryListboxButton(element)) {
             return 'select';
         }
 
@@ -4229,12 +5108,19 @@ const AutoCVApplyFormHeuristics = (() => {
 
     function elementNeedsDraft(element) {
         const styledChoice = isAshbyStyledChoiceInput(element) || isOracleApplyFlowStyledChoiceInput(element);
+        const recruiteeFormControl = isRecruiteeApplicationFormControl(element);
+        const leverSurveyControl = isLeverDeferredSurveyControl(element);
+        const chosenSelect = isChosenEnhancedSelect(element);
+
+        if (isSiteSearchChrome(element)) {
+            return false;
+        }
 
         if (element.type === 'file') {
             return isLabeledApplicationFileInput(element);
         }
 
-        if (!isVisible(element) && !styledChoice) {
+        if (!isVisible(element) && !styledChoice && !recruiteeFormControl && !leverSurveyControl && !chosenSelect) {
             return false;
         }
 
@@ -4264,6 +5150,8 @@ const AutoCVApplyFormHeuristics = (() => {
         } else if (element.value?.trim()) {
             if (element.type === 'tel' && isPhoneDialCodeOnlyValue(element.value)) {
                 // Treat dial-code-only phone widgets as unfilled.
+            } else if (isWorkableAddressGeoDefault(element)) {
+                // Workable geo-fills "City, Country" without a street address.
             } else if (isMicro1DefaultNumberValue(element)) {
                 // micro1 steppers and hourly rate inputs ship with placeholder default "1".
             } else if (/^\$+$/.test(element.value.trim())) {
@@ -4353,16 +5241,20 @@ const AutoCVApplyFormHeuristics = (() => {
 
                 const groupRoot = element.closest('[role="radiogroup"], fieldset');
                 const qualificationLabel = getIndeedQualificationQuestionLabel(element);
+                const questionLabel = getQuestionLabel(element);
+                const radioGroupLabel = getRadiogroupLabel(groupRoot || element);
                 const label = qualificationLabel.length >= 3
                     ? qualificationLabel
-                    : (getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element));
+                    : (radioGroupLabel || questionLabel);
                 const identity = draftableIdentityKey(element, label, { groupName });
+                const labelIdentity = `label:${label}`;
 
-                if (seen.has(identity)) {
+                if (seen.has(identity) || seen.has(labelIdentity)) {
                     continue;
                 }
 
                 seen.add(identity);
+                seen.add(labelIdentity);
 
                 callback({
                     id,
@@ -4425,14 +5317,10 @@ const AutoCVApplyFormHeuristics = (() => {
             id += 1;
         }
 
-        for (const { radios, label } of collectRoleRadioGroups(root)) {
-            const identity = draftableIdentityKey(radios?.[0], label);
+        for (const { button, label, optionLabels } of collectPhoneCountrySelectFields(root)) {
+            const identity = draftableIdentityKey(button, label);
 
             if (label.length < 3 || seen.has(identity)) {
-                continue;
-            }
-
-            if (isRoleGroupAnswered(radios)) {
                 continue;
             }
 
@@ -4441,9 +5329,36 @@ const AutoCVApplyFormHeuristics = (() => {
             callback({
                 id,
                 label,
+                field_type: 'select',
+                max_chars: undefined,
+                options: optionLabels.length > 0 ? optionLabels : undefined,
+            }, button);
+
+            id += 1;
+        }
+
+        for (const { radios, label } of collectRoleRadioGroups(root)) {
+            const identity = draftableIdentityKey(radios?.[0], label);
+            const labelIdentity = `label:${label}`;
+            const optionLabels = getRoleRadioOptions(radios);
+
+            if (label.length < 3 || seen.has(identity) || seen.has(labelIdentity) || optionLabels.length < 2) {
+                continue;
+            }
+
+            if (isRoleGroupAnswered(radios)) {
+                continue;
+            }
+
+            seen.add(identity);
+            seen.add(labelIdentity);
+
+            callback({
+                id,
+                label,
                 field_type: 'radio',
                 max_chars: undefined,
-                options: getRoleRadioOptions(radios),
+                options: optionLabels,
             }, radios[0], radios);
 
             id += 1;
@@ -4589,6 +5504,16 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        for (const { button, label: countryLabel } of collectPhoneCountrySelectFields(root)) {
+            if (!labelsMatch(countryLabel, normalizedTarget)) {
+                continue;
+            }
+
+            if (await setPhoneCountryListboxValue(button, answer)) {
+                return true;
+            }
+        }
+
         for (const element of collectFillableElements(root)) {
             if (element.type === 'radio' || element.type === 'checkbox') {
                 const groupName = getGroupName(element);
@@ -4602,7 +5527,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 const groupRoot = element.closest('[role="radiogroup"], fieldset');
                 const groupLabel = getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element);
 
-                if (!labelsMatch(groupLabel, normalizedTarget)) {
+                if (!labelsMatch(groupLabel, normalizedTarget) && !labelsMatch(getQuestionLabel(element), normalizedTarget)) {
                     continue;
                 }
 
@@ -4712,6 +5637,8 @@ const AutoCVApplyFormHeuristics = (() => {
             } else {
                 applied = await setAshbyComboboxValue(target, answer);
             }
+        } else if (isPhoneCountryListboxButton(target)) {
+            applied = await setPhoneCountryListboxValue(target, answer);
         } else if (target?.getAttribute?.('role') === 'radiogroup') {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
@@ -4814,6 +5741,7 @@ const AutoCVApplyFormHeuristics = (() => {
         isQuickDraftEligible,
         isTargetConnected,
         looksLikeApplicationForm,
+        revealDeferredApplicationForm,
         resolveTargetFromDom,
         setFieldValue,
         setGroupValue,

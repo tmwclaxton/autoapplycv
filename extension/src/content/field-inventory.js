@@ -35,6 +35,11 @@ const AutoCVApplyFieldInventory = (() => {
             }
         } else if (target?.getAttribute?.('role') === 'listbox' || target?.getAttribute?.('role') === 'combobox') {
             fieldType = 'select';
+        } else if (
+            target?.tagName?.toLowerCase() === 'button'
+            && target?.getAttribute?.('aria-haspopup') === 'listbox'
+        ) {
+            fieldType = 'select';
         } else {
             fieldType = target.type === 'radio' || target.type === 'checkbox'
                 ? target.type
@@ -287,6 +292,25 @@ const AutoCVApplyFieldInventory = (() => {
                 const labelEl = doc.getElementById(id);
 
                 if (labelEl?.getAttribute('aria-required') === 'true') {
+                    return true;
+                }
+            }
+        }
+
+        // Softgarden / Wicket: required marker is <label>...<em>*</em></label>, not HTML required.
+        const doc = anchor.ownerDocument || document;
+        const id = anchor.id;
+
+        if (id && doc.querySelector) {
+            const escapedId = typeof CSS !== 'undefined' && CSS.escape
+                ? CSS.escape(id)
+                : id.replace(/"/g, '\\"');
+            const explicitLabel = doc.querySelector(`label[for="${escapedId}"]`);
+
+            if (explicitLabel) {
+                const marker = (explicitLabel.textContent || '').replace(/\s+/g, ' ');
+
+                if (/\*/.test(marker) || explicitLabel.querySelector('em')?.textContent?.includes('*')) {
                     return true;
                 }
             }

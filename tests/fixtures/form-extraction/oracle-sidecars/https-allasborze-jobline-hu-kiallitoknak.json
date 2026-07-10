@@ -1,0 +1,86 @@
+{
+  "id": "https-allasborze-jobline-hu-kiallitoknak",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:38:56.314Z",
+  "page_url": "https://allasborze.jobline.hu/kiallitoknak",
+  "page_title": "HVG Job Fair 2026",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 7,
+      "count_delta": 7,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "For visitors",
+      "For exhibitors",
+      "Language",
+      "HVG Job Exchange in numbers",
+      "Contact",
+      "Gallery",
+      "Terms and Conditions / GTC"
+    ],
+    "reasons": [
+      "field count delta 7 exceeds tolerance 2 (detector=0, ai=7)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains navigation links and language selectors but no actual job application or contact form fields. The 'fields' listed are navigation elements or links.",
+    "fields": [
+      {
+        "question": "For visitors",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "For exhibitors",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Language",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Select Language",
+          "English",
+          "Hungarian"
+        ]
+      },
+      {
+        "question": "HVG Job Exchange in numbers",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Contact",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gallery",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Terms and Conditions / GTC",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

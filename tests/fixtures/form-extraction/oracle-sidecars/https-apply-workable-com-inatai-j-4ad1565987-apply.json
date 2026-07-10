@@ -1,0 +1,188 @@
+{
+  "id": "https-apply-workable-com-inatai-j-4ad1565987-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:47:27.919Z",
+  "page_url": "https://apply.workable.com/inatai/j/4AD1565987/apply/",
+  "page_title": "Candidate Interest Form (for future opportunities) - Inatai Foundation - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 4,
+      "count_delta": 14,
+      "label_jaccard": 0.25,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "your pronouns (e.g., she/her, he/him, they/them) (optional)",
+      "do you live in the state of washington (wa)?",
+      "ca_45368",
+      "if you do not live in washington (wa), would you be willing to relocate?",
+      "city city",
+      "postcode postcode",
+      "country country",
+      "input_files_input_r5fsfgclwpyoatys",
+      "how did you hear about us?",
+      "please provide a brief summary of your interests and experiences as they relate to the foundation's aspirations.",
+      "please indicate the types of positions for which you would like to be considered (e.g., policy/advocacy, grantmaking, program, research, administrative, finance, investment, communications, human resources, it, operations).",
+      "qa_1223184",
+      "do you live in the state of washington (wa)?",
+      "if you do not live in washington (wa), would you be willing to relocate?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload, LinkedIn, or custom questions) that might exist further down the page are missing from this JSON.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "your pronouns (e.g., she/her, he/him, they/them) (optional)",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "do you live in the state of washington (wa)?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "ca_45368",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "if you do not live in washington (wa), would you be willing to relocate?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "input_files_input_r5fsfgclwpyoatys",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "please provide a brief summary of your interests and experiences as they relate to the foundation's aspirations.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "please indicate the types of positions for which you would like to be considered (e.g., policy/advocacy, grantmaking, program, research, administrative, finance, investment, communications, human resources, it, operations).",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "qa_1223184",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "do you live in the state of washington (wa)?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "if you do not live in washington (wa), would you be willing to relocate?",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

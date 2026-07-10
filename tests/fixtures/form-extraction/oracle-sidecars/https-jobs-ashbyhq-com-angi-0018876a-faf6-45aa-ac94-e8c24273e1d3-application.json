@@ -1,0 +1,293 @@
+{
+  "id": "https-jobs-ashbyhq-com-angi-0018876a-faf6-45aa-ac94-e8c24273e1d3-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:13:42.410Z",
+  "page_url": "https://jobs.ashbyhq.com/angi/0018876a-faf6-45aa-ac94-e8c24273e1d3/application",
+  "page_title": "HR Manager (CDD) @ Angi",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 0.8667,
+      "type_agree_rate": 1,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "do you have extensive experience working with the works council (cse)?",
+        "ai": "Do you have extensive experience working with the Works Council (CSE)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to come to our office in aix at least twice a month?",
+        "ai": "Are you willing to come to our office in Aix at least twice a month?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require visa sponsorship to work in your preferred country?",
+        "ai": "Do you require visa sponsorship to work in your preferred country?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this job?",
+        "ai": "How did you hear about this job?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your annual salary expectations?",
+        "ai": "What are your annual salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "when are you available to start a new role?",
+        "ai": "When are you available to start a new role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please acknowledge that you have read and understand angi's privacy policy at the link below.",
+        "ai": "Please acknowledge that you have read and understand Angi's Privacy Policy at the link below.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "i agree"
+    ],
+    "ai_only": [
+      "I agree to allow Angi Inc. to retain my data for future opportunities for employment for up to 180 days after the conclusion of consideration of my current application for employment."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio/checkbox inputs that are mapped to hidden standard input elements. The 'Yes/No' questions are implemented as radio groups.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have extensive experience working with the Works Council (CSE)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to come to our office in Aix at least twice a month?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your annual salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require visa sponsorship to work in your preferred country?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "When are you available to start a new role?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please acknowledge that you have read and understand Angi's Privacy Policy at the link below.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Select to acknowledge review of this policy."
+        ]
+      },
+      {
+        "question": "I agree to allow Angi Inc. to retain my data for future opportunities for employment for up to 180 days after the conclusion of consideration of my current application for employment.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have extensive experience working with the works council (cse)?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you willing to come to our office in aix at least twice a month?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you require visa sponsorship to work in your preferred country?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your annual salary expectations?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "when are you available to start a new role?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "please acknowledge that you have read and understand angi's privacy policy at the link below.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f13"
+    }
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "id": "https-jobs-eu-lever-co-ivcevidensia-71656913-ebbf-4995-a101-0b844eecafb2-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:25:28.947Z",
+  "page_url": "https://jobs.eu.lever.co/ivcevidensia/71656913-ebbf-4995-a101-0b844eecafb2/apply",
+  "page_title": "IVC - Service Desk Engineer (9 Month FTC)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 27,
+      "ai_count": 17,
+      "count_delta": 10,
+      "label_jaccard": 0.6296,
+      "type_agree_rate": 0.8824,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have the right to work (rtw) in the uk? will you require any type of sponsorship?",
+        "ai": "Do you have the right to work (RTW) in the UK? Will you require any type of sponsorship?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period?",
+        "ai": "What is your notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what interested you in this vacancy?",
+        "ai": "What interested you in this vacancy?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your location?",
+        "ai": "What is your location?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked with ivc previously?",
+        "ai": "Have you worked with IVC previously?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "community background",
+        "ai": "Community Background",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please indicate your gender",
+        "ai": "Please indicate your gender",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what is your age range?",
+      "do you consider yourself to have a disibility under the equality act 2010?",
+      "if you answered yes above, please tick all options applicable below",
+      "i identify my ethnicity as",
+      "what is your sex assigned at birth?",
+      "what gender do you identify as?",
+      "what is your religion of belief?",
+      "how would you describe your sexual orientation?",
+      "do you have any caring responsibilities?",
+      "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a hidden survey section for Northern Ireland applicants. The location input uses a dynamic search widget.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Keynsham, Bristol, England",
+          "Bristol, England"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have the right to work (RTW) in the UK? Will you require any type of sponsorship?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No, i do not have the RTW in the UK",
+          "Yes, but I will require sponsorship",
+          "Yes"
+        ]
+      },
+      {
+        "question": "What is your notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What interested you in this vacancy?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your location?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you worked with IVC previously?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Community Background",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "I am a member of the Roman Catholic community",
+          "I am a member of the Protestant community",
+          "I am a member of neither the Protestant or Roman Catholic community"
+        ]
+      },
+      {
+        "question": "Please indicate your gender",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Male",
+          "Female"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "do you have the right to work (rtw) in the uk? will you require any type of sponsorship?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what interested you in this vacancy?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your location?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "have you worked with ivc previously?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "community background",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "please indicate your gender",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you consider yourself to have a disibility under the equality act 2010?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "if you answered yes above, please tick all options applicable below",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "what is your sex assigned at birth?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "what is your religion of belief?",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "how would you describe your sexual orientation?",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "do you have any caring responsibilities?",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f26"
+    }
+  ]
+}

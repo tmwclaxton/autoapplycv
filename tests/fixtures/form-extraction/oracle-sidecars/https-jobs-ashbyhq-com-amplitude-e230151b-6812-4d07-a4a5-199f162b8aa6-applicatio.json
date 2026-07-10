@@ -1,0 +1,238 @@
+{
+  "id": "https-jobs-ashbyhq-com-amplitude-e230151b-6812-4d07-a4a5-199f162b8aa6-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:12:46.172Z",
+  "page_url": "https://jobs.ashbyhq.com/amplitude/e230151b-6812-4d07-a4a5-199f162b8aa6/application",
+  "page_title": "Sales Development Representative @ Amplitude",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you available to work from our new york office tuesday through thursday?",
+        "ai": "Are you available to work from our New York office Tuesday through Thursday?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you completed an internship or work experience in sales, business development, marketing, recruitment, real estate, or another customer-facing role?",
+        "ai": "Have you completed an internship or work experience in sales, business development, marketing, recruitment, real estate, or another customer-facing role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working in or selling saas products?",
+        "ai": "Do you have experience working in or selling SaaS products?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "can you provide a specific example of a key achievement in academics, athletics, work, or internships (e.g., awards, promotions, top performance rankings)?",
+        "ai": "Can you provide a specific example of a key achievement in academics, athletics, work, or internships (e.g., awards, promotions, top performance rankings)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you interested in a sales career at amplitude?",
+        "ai": "Why are you interested in a sales career at Amplitude?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The yes/no questions use custom button components that toggle a hidden checkbox input.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you available to work from our New York office Tuesday through Thursday?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you completed an internship or work experience in sales, business development, marketing, recruitment, real estate, or another customer-facing role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience working in or selling SaaS products?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Can you provide a specific example of a key achievement in academics, athletics, work, or internships (e.g., awards, promotions, top performance rankings)?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why are you interested in a sales career at Amplitude?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you available to work from our new york office tuesday through thursday?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "have you completed an internship or work experience in sales, business development, marketing, recruitment, real estate, or another customer-facing role?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have experience working in or selling saas products?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "can you provide a specific example of a key achievement in academics, athletics, work, or internships (e.g., awards, promotions, top performance rankings)?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "why are you interested in a sales career at amplitude?",
+      "field_type": "text",
+      "ref": "f10"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-cision-jobs-4818344101",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:29:06.177Z",
+  "page_url": "https://job-boards.eu.greenhouse.io/cision/jobs/4818344101",
+  "page_title": "Job Application for Senior Full Stack Engineer (.NET/React) at Cision",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 5,
+      "count_delta": 8,
+      "label_jaccard": 0.4167,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "attach first name",
+      "attach first name",
+      "where are you currently located?",
+      "linkedin profile",
+      "will you require sponsorship to work in the job required region/country? where are you currently located?",
+      "what are your gross salary expectations?",
+      "what is your notice period?",
+      "how did you hear about this role? where are you currently located?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so the full form (including resume upload and additional questions) is likely missing. The phone input uses a complex international telephone input library (intl-tel-input).",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "will you require sponsorship to work in the job required region/country? where are you currently located?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your gross salary expectations?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about this role? where are you currently located?",
+      "field_type": "select",
+      "ref": "f12"
+    }
+  ]
+}

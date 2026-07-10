@@ -1,0 +1,126 @@
+{
+  "id": "https-aikidosecurity-recruitee-com-o-solutions-engineer-pre-sales-us",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:21:29.160Z",
+  "page_url": "https://aikidosecurity.recruitee.com/o/solutions-engineer-pre-sales-us",
+  "page_title": "Aikido Security - Solutions Engineer (Pre-Sales) US | Aikido Security",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 2,
+      "ai_count": 9,
+      "count_delta": 7,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Full name",
+      "Email address",
+      "Phone number",
+      "Are you currently based in or near Chicago (or willing to commute regularly)?",
+      "Will you now or in the future require sponsorship for employment authorization (e.g., H-1B, OPT, TN, etc.)",
+      "What are your total compensation expectations (base salary + variable/OTE) for your next role?",
+      "Linkedin URL"
+    ],
+    "reasons": [
+      "field count delta 7 exceeds tolerance 2 (detector=2, ai=9)",
+      "label Jaccard 0.222 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Recruitee-based application system. It includes a hidden hCaptcha challenge. The cover letter section has a toggle to switch between file upload and text input (not fully captured in static HTML).",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you currently based in or near Chicago (or willing to commute regularly)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment authorization (e.g., H-1B, OPT, TN, etc.)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your total compensation expectations (base salary + variable/OTE) for your next role?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedin URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f1"
+    }
+  ]
+}

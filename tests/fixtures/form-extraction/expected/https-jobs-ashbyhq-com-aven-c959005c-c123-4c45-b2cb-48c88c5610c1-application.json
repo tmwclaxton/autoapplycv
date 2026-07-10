@@ -1,0 +1,218 @@
+{
+  "id": "https-jobs-ashbyhq-com-aven-c959005c-c123-4c45-b2cb-48c88c5610c1-application",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "b0e9f51a-4615-4f99-9416-e1990119b0db",
+        "name": "b0e9f51a-4615-4f99-9416-e1990119b0db",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b0e9f51a-4615-4f99-9416-e1990119b0db",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb14c7f7-f52a-4992-bb95-057fe889153e",
+        "name": "cb14c7f7-f52a-4992-bb95-057fe889153e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cb14c7f7-f52a-4992-bb95-057fe889153e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nmls#",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "6abdefca-2682-4ba3-99e8-d1e2f084620a",
+        "name": "6abdefca-2682-4ba3-99e8-d1e2f084620a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6abdefca-2682-4ba3-99e8-d1e2f084620a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nmls license – list all states where you’re licensed:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "CA",
+        "FL",
+        "AZ",
+        "MO",
+        "NV",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "39f9cd62-a566-4293-882e-40b048610702_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-0",
+        "name": "CA",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many loans are you typically closing each month?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "0dd71caf-7c95-40bf-8410-ba19377a0d80",
+        "name": "0dd71caf-7c95-40bf-8410-ba19377a0d80",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0dd71caf-7c95-40bf-8410-ba19377a0d80",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how would you convince a customer to choose us when they have a better offer elsewhere, in 100 words or less?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "531be2b5-0ab7-484b-8a8f-711b6b3e7647",
+        "name": "531be2b5-0ab7-484b-8a8f-711b6b3e7647",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "531be2b5-0ab7-484b-8a8f-711b6b3e7647",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were referred, please list the referrer’s name and email.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cab304fc-7781-4f67-bdcf-b0600ffb70b9",
+        "name": "cab304fc-7781-4f67-bdcf-b0600ffb70b9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cab304fc-7781-4f67-bdcf-b0600ffb70b9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

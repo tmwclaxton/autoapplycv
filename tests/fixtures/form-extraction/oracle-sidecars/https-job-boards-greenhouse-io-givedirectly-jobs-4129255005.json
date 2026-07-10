@@ -1,0 +1,218 @@
+{
+  "id": "https-job-boards-greenhouse-io-givedirectly-jobs-4129255005",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:35:04.718Z",
+  "page_url": "https://job-boards.greenhouse.io/givedirectly/jobs/4129255005",
+  "page_title": "Job Application for General Interest at GiveDirectly",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 5,
+      "count_delta": 16,
+      "label_jaccard": 0.2381,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "attach first name",
+      "where are you located? (city, state [if applicable], country)",
+      "please list all languages in which you are fluent (written and verbal).",
+      "how many years of professional experience do you have? where are you located? (city, state [if applicable], country)",
+      "are you open to short-term/contractor work? where are you located? (city, state [if applicable], country)",
+      "for which function are you the most interested in being considered? where are you located? (city, state [if applicable], country)",
+      "in which function do you have the most experience? where are you located? (city, state [if applicable], country)",
+      "in which country are you most interested in working? where are you located? (city, state [if applicable], country)",
+      "do you have work authorization in the country you selected above? where are you located? (city, state [if applicable], country)",
+      "share one specific way your experience and skills can help make an impact at givedirectly. (200 words max)",
+      "other than recipients first, which givedirectly value resonates with you the most and why? (200 words max)",
+      "linkedin profile",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so the form is incomplete. It likely contains additional fields like resume upload, LinkedIn, and custom screening questions further down the page.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "where are you located? (city, state [if applicable], country)",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "please list all languages in which you are fluent (written and verbal).",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "how many years of professional experience do you have? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "are you open to short-term/contractor work? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "for which function are you the most interested in being considered? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "in which function do you have the most experience? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "in which country are you most interested in working? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have work authorization in the country you selected above? where are you located? (city, state [if applicable], country)",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "share one specific way your experience and skills can help make an impact at givedirectly. (200 words max)",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "other than recipients first, which givedirectly value resonates with you the most and why? (200 words max)",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "are you hispanic/latino?",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f20"
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "id": "https-jobs-ashbyhq-com-amplitude-a48e4d8c-492a-41cc-bcc8-0b2c27e36ddb-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:12:20.662Z",
+  "page_url": "https://jobs.ashbyhq.com/amplitude/a48e4d8c-492a-41cc-bcc8-0b2c27e36ddb/application",
+  "page_title": "Staff Fullstack Engineer, Core Analytics @ Amplitude",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "are you legally eligible now or in the future, to work for any employer in the us without sponsorship at any time?",
+        "ai": "Are you legally eligible now or in the future, to work for any employer in the US without sponsorship at any time?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently live in the united states?",
+        "ai": "Do you currently live in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "at amplitude, we value the power of in-person collaboration to fuel our culture, creativity, and team engagement. all full-time employees residing within a two-hour commute distance of an amplitude office are expected to work from the office 1 to 3 days per week. do you understand and agree to adhere to this hybrid in-office expectation if you reside within a commutable distance of an amplitude hub?",
+        "ai": "At Amplitude, we value the power of in-person collaboration to fuel our culture, creativity, and team engagement. All full-time employees residing within a two-hour commute distance of an Amplitude office are expected to work from the office 1 to 3 days per week. Do you understand and agree to adhere to this hybrid in-office expectation if you reside within a commutable distance of an Amplitude hub?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have 7+ years of professional software engineering experience building robust, scalable backends as well as interactive, user-facing applications?",
+        "ai": "Do you have 7+ years of professional software engineering experience building robust, scalable backends as well as interactive, user-facing applications?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "to maintain the reliability of our flagship analytics platform, this role participates in a 24/7 on-call rotation for 1 week every 9 weeks (paging after-hours for severity 1 issues only). are you willing and able to participate in this team rotation?",
+        "ai": "To maintain the reliability of our flagship analytics platform, this role participates in a 24/7 on-call rotation for 1 week every 9 weeks (paging after-hours for Severity 1 issues only). Are you willing and able to participate in this team rotation?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what state and city do you currently live in?",
+        "ai": "What state and city do you currently live in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have professional experience moving fast, shipping iteratively, and taking full a-to-z technical ownership of projects in a startup or mid-sized company environment?",
+        "ai": "Do you have professional experience moving fast, shipping iteratively, and taking full A-to-Z technical ownership of projects in a startup or mid-sized company environment?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. The resume and cover letter fields support drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible now or in the future, to work for any employer in the US without sponsorship at any time?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you currently live in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What state and city do you currently live in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "At Amplitude, we value the power of in-person collaboration to fuel our culture, creativity, and team engagement. All full-time employees residing within a two-hour commute distance of an Amplitude office are expected to work from the office 1 to 3 days per week. Do you understand and agree to adhere to this hybrid in-office expectation if you reside within a commutable distance of an Amplitude hub?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have 7+ years of professional software engineering experience building robust, scalable backends as well as interactive, user-facing applications?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have professional experience moving fast, shipping iteratively, and taking full A-to-Z technical ownership of projects in a startup or mid-sized company environment?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "To maintain the reliability of our flagship analytics platform, this role participates in a 24/7 on-call rotation for 1 week every 9 weeks (paging after-hours for Severity 1 issues only). Are you willing and able to participate in this team rotation?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally eligible now or in the future, to work for any employer in the us without sponsorship at any time?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you currently live in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "at amplitude, we value the power of in-person collaboration to fuel our culture, creativity, and team engagement. all full-time employees residing within a two-hour commute distance of an amplitude office are expected to work from the office 1 to 3 days per week. do you understand and agree to adhere to this hybrid in-office expectation if you reside within a commutable distance of an amplitude hub?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have 7+ years of professional software engineering experience building robust, scalable backends as well as interactive, user-facing applications?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "to maintain the reliability of our flagship analytics platform, this role participates in a 24/7 on-call rotation for 1 week every 9 weeks (paging after-hours for severity 1 issues only). are you willing and able to participate in this team rotation?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what state and city do you currently live in?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have professional experience moving fast, shipping iteratively, and taking full a-to-z technical ownership of projects in a startup or mid-sized company environment?",
+      "field_type": "text",
+      "ref": "f13"
+    }
+  ]
+}

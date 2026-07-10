@@ -1,0 +1,206 @@
+{
+  "id": "https-jobs-ashbyhq-com-abridge-b8206fdb-4d85-472c-bd8f-7c7a2dcbfa69-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:32:19.891Z",
+  "page_url": "https://jobs.ashbyhq.com/abridge/b8206fdb-4d85-472c-bd8f-7c7a2dcbfa69/application",
+  "page_title": "Staff Application Security Engineer @ Abridge",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 23,
+      "ai_count": 3,
+      "count_delta": 20,
+      "label_jaccard": 0.0833,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name",
+        "ai": "Preferred Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you currently based in the united states?",
+      "are you authorized to work in the united states?",
+      "will you require visa sponsorship now or in the future to be employed in the united states?",
+      "are you willing to commute to our sf or ny office at least three (3) times per week?",
+      "do you have production experience with automated tools such as sast / dast / rasp / sca?",
+      "what pronouns do you use?",
+      "email",
+      "phone",
+      "I consent to receiving text messages",
+      "linkedin profile",
+      "which state do you currently reside in?",
+      "where in the united states will you be working from?",
+      "how many years of experience do you have in security working in a regulated environment with compliance frameworks such as soc2 and hitrust.",
+      "why are you interested in working at abridge?",
+      "what is your current age?",
+      "what is your gender identity?",
+      "do you identify as transgender?",
+      "how do you identify your sexual orientation? please select all that apply.",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so the form is incomplete. Only the first few fields are visible.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you currently based in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "will you require visa sponsorship now or in the future to be employed in the united states?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you willing to commute to our sf or ny office at least three (3) times per week?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "do you have production experience with automated tools such as sast / dast / rasp / sca?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what pronouns do you use?",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "which state do you currently reside in?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "where in the united states will you be working from?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "how many years of experience do you have in security working in a regulated environment with compliance frameworks such as soc2 and hitrust.",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "why are you interested in working at abridge?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f22"
+    }
+  ]
+}

@@ -1,0 +1,419 @@
+{
+  "id": "https-apply-workable-com-crewbloom-j-5612fd042a-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:53:50.107Z",
+  "page_url": "https://apply.workable.com/crewbloom/j/5612FD042A/apply/",
+  "page_title": "Data Entry Specialist - CrewBloom - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 45,
+      "ai_count": 10,
+      "count_delta": 35,
+      "label_jaccard": 0.2941,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name / nickname",
+        "ai": "Preferred Name / Nickname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cellphone number",
+        "ai": "Cellphone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "whatsapp",
+        "ai": "WhatsApp",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "photo",
+      "resume",
+      "skill",
+      "tools",
+      "how soon can you start?",
+      "do you have prior commitments that would require you to take a leave in the next 6 months?",
+      "how much is your previous rate? (in usd, hourly)",
+      "how much would be your asking rate? (in usd, hourly)",
+      "are you amenable to work during us hours?",
+      "are you willing to use a time-tracking tool?",
+      "upload the technical specifications of your main device",
+      "upload the technical specifications of your back-up device",
+      "upload the speed test of your main internet connection",
+      "upload the speed test of your back-up internet connection",
+      "as an independent contractor, your agreed-upon compensation is without deductions for government-mandated benefits, all while experiencing the dynamic of a no-work, no-pay arrangement. is this something you can work with?",
+      "are you a previous contractor of crewbloom?",
+      "if you are a previous contractor of crewbloom, which client were you engaged with?",
+      "how did you find out about the opening?",
+      "if you were referred, please indicate the name of your referral, if you answered others, please indicate where did you find the posting",
+      "are you willing to have a time-tracking tool which will take screenshots, monitor your mouse and keyboard activity?",
+      "attach voice/video introduction (insert link of loom video or vocaroo) - limit to 1-2 minutes",
+      "interview availability - mondays to fridays (4:30 am to 9:30 am est)",
+      "whatsapp number (include country/area code)",
+      "please provide your linkedin profile link.",
+      "how soon can you start?",
+      "do you have prior commitments that would require you to take a leave in the next 6 months?",
+      "are you amenable to work during us hours?",
+      "are you willing to use a time-tracking tool?",
+      "as an independent contractor, your agreed-upon compensation is without deductions for government-mandated benefits, all while experiencing the dynamic of a no-work, no-pay arrangement. is this something you can work with?",
+      "are you a previous contractor of crewbloom?",
+      "how did you find out about the opening?",
+      "are you willing to have a time-tracking tool which will take screenshots, monitor your mouse and keyboard activity?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so the form likely contains additional fields (e.g., resume upload, screening questions) not visible in the snippet. The phone field uses a custom dropdown widget.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred Name / Nickname",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cellphone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "WhatsApp",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "full name",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "preferred name / nickname",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "cellphone number",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email address",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "whatsapp",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "country",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "skill",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "tools",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "how soon can you start?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you have prior commitments that would require you to take a leave in the next 6 months?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "how much is your previous rate? (in usd, hourly)",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "how much would be your asking rate? (in usd, hourly)",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "are you amenable to work during us hours?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "are you willing to use a time-tracking tool?",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "upload the technical specifications of your main device",
+      "field_type": "file",
+      "ref": "f23"
+    },
+    {
+      "question": "upload the technical specifications of your back-up device",
+      "field_type": "file",
+      "ref": "f24"
+    },
+    {
+      "question": "upload the speed test of your main internet connection",
+      "field_type": "file",
+      "ref": "f25"
+    },
+    {
+      "question": "upload the speed test of your back-up internet connection",
+      "field_type": "file",
+      "ref": "f26"
+    },
+    {
+      "question": "as an independent contractor, your agreed-upon compensation is without deductions for government-mandated benefits, all while experiencing the dynamic of a no-work, no-pay arrangement. is this something you can work with?",
+      "field_type": "radio",
+      "ref": "f27"
+    },
+    {
+      "question": "are you a previous contractor of crewbloom?",
+      "field_type": "radio",
+      "ref": "f28"
+    },
+    {
+      "question": "if you are a previous contractor of crewbloom, which client were you engaged with?",
+      "field_type": "text",
+      "ref": "f29"
+    },
+    {
+      "question": "how did you find out about the opening?",
+      "field_type": "radio",
+      "ref": "f30"
+    },
+    {
+      "question": "if you were referred, please indicate the name of your referral, if you answered others, please indicate where did you find the posting",
+      "field_type": "text",
+      "ref": "f31"
+    },
+    {
+      "question": "are you willing to have a time-tracking tool which will take screenshots, monitor your mouse and keyboard activity?",
+      "field_type": "radio",
+      "ref": "f32"
+    },
+    {
+      "question": "attach voice/video introduction (insert link of loom video or vocaroo) - limit to 1-2 minutes",
+      "field_type": "textarea",
+      "ref": "f33"
+    },
+    {
+      "question": "interview availability - mondays to fridays (4:30 am to 9:30 am est)",
+      "field_type": "textarea",
+      "ref": "f34"
+    },
+    {
+      "question": "whatsapp number (include country/area code)",
+      "field_type": "textarea",
+      "ref": "f35"
+    },
+    {
+      "question": "please provide your linkedin profile link.",
+      "field_type": "textarea",
+      "ref": "f36"
+    },
+    {
+      "question": "how soon can you start?",
+      "field_type": "radio",
+      "ref": "f37"
+    },
+    {
+      "question": "do you have prior commitments that would require you to take a leave in the next 6 months?",
+      "field_type": "radio",
+      "ref": "f38"
+    },
+    {
+      "question": "are you amenable to work during us hours?",
+      "field_type": "radio",
+      "ref": "f39"
+    },
+    {
+      "question": "are you willing to use a time-tracking tool?",
+      "field_type": "radio",
+      "ref": "f40"
+    },
+    {
+      "question": "as an independent contractor, your agreed-upon compensation is without deductions for government-mandated benefits, all while experiencing the dynamic of a no-work, no-pay arrangement. is this something you can work with?",
+      "field_type": "radio",
+      "ref": "f41"
+    },
+    {
+      "question": "are you a previous contractor of crewbloom?",
+      "field_type": "radio",
+      "ref": "f42"
+    },
+    {
+      "question": "how did you find out about the opening?",
+      "field_type": "radio",
+      "ref": "f43"
+    },
+    {
+      "question": "are you willing to have a time-tracking tool which will take screenshots, monitor your mouse and keyboard activity?",
+      "field_type": "radio",
+      "ref": "f44"
+    }
+  ]
+}

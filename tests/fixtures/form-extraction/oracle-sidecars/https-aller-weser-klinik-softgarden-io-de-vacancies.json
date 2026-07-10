@@ -1,0 +1,134 @@
+{
+  "id": "https-aller-weser-klinik-softgarden-io-de-vacancies",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:39:49.014Z",
+  "page_url": "https://aller-weser-klinik.softgarden.io/de/vacancies",
+  "page_title": "Karriere Board | Aller-Weser-Klinik gGmbH, Krankenhaus Verden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 3,
+      "ai_count": 6,
+      "count_delta": 3,
+      "label_jaccard": 0.2857,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "stichwortsuche",
+        "ai": "Stichwortsuche",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "standortsuche",
+        "ai": "Standortsuche",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zielgruppe oder jobkategorie auswählen",
+        "ai": "Jobkategorie",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Umkreis",
+      "Zielgruppe",
+      "Unternehmen"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=3, ai=6)",
+      "label Jaccard 0.286 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job search board. The fields listed are search filters. Actual application forms are located on individual job detail pages, which were not provided in this excerpt.",
+    "fields": [
+      {
+        "question": "Stichwortsuche",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Standortsuche",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Umkreis",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "1 km",
+          "5 km",
+          "10 km",
+          "25 km",
+          "50 km",
+          "75 km",
+          "100 km"
+        ]
+      },
+      {
+        "question": "Zielgruppe",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Auszubildende",
+          "Schüler/in",
+          "Berufseinsteiger",
+          "Berufserfahrene"
+        ]
+      },
+      {
+        "question": "Jobkategorie",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Ärztlicher Dienst",
+          "Ausbildung / Studium / FSJ / BFD",
+          "Funktionsdienst",
+          "Pflege",
+          "sonstige Berufe im Gesundheitswesen",
+          "Verwaltung"
+        ]
+      },
+      {
+        "question": "Unternehmen",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Aller-Weser-Care gGmbH",
+          "Aller-Weser-Klinik gGmbH, Krankenhaus Achim",
+          "Aller-Weser-Klinik gGmbH, Krankenhaus Verden"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "stichwortsuche",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "standortsuche",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "zielgruppe oder jobkategorie auswählen",
+      "field_type": "select",
+      "ref": "f2"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "id": "https-jobs-ashbyhq-com-ashgro-5071c238-b98d-4a9b-9c30-b026f2c114f7-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:14:15.074Z",
+  "page_url": "https://jobs.ashbyhq.com/ashgro/5071c238-b98d-4a9b-9c30-b026f2c114f7/application",
+  "page_title": "Operations Associate @ Ashgro",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "country & state of residence",
+        "ai": "Country & State of Residence",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "anonymized résumé / cv",
+        "ai": "Anonymized résumé / CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an initial text field with no label. The resume upload field is part of a custom component that supports drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country & State of Residence",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Anonymized résumé / CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "country & state of residence",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "anonymized résumé / cv",
+      "field_type": "file",
+      "ref": "f3"
+    }
+  ]
+}

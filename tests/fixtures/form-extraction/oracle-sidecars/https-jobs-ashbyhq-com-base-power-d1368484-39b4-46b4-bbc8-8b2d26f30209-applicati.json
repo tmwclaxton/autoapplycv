@@ -1,0 +1,288 @@
+{
+  "id": "https-jobs-ashbyhq-com-base-power-d1368484-39b4-46b4-bbc8-8b2d26f30209-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:07:06.940Z",
+  "page_url": "https://jobs.ashbyhq.com/base-power/d1368484-39b4-46b4-bbc8-8b2d26f30209/application",
+  "page_title": "Last Mile Driver (San Antonio) @ Base Power Company",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 12,
+      "count_delta": 4,
+      "label_jaccard": 0.6471,
+      "type_agree_rate": 0.75,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "are you available to work 5 days a week from the city posted on the job description?",
+        "ai": "Are you available to work 5 days a week from the city posted on the job description?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current Location*",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "in 1-3 short sentences, please tell us why you're a good fit for this position.",
+        "ai": "In 1-3 short sentences, please tell us why you're a good fit for this position.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your earliest available start date?",
+        "ai": "What is your earliest available start date?",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the u.s.?",
+        "ai": "Are you legally authorized to work in the U.S.?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you hear about base power company?",
+        "ai": "How did you hear about Base Power Company?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred to base, please share the name of your referrer.",
+        "ai": "If you were referred to Base, please share the name of your referrer.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "which locations would you be comfortable working from?",
+      "gender",
+      "race",
+      "veteran status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom React-based components for comboboxes and date pickers which may require specific interaction handling. The resume upload is handled via a drag-and-drop or file input.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes - I consent to receiving text messages",
+          "No - I do not consent to receiving text messages"
+        ]
+      },
+      {
+        "question": "Current Location*",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "In 1-3 short sentences, please tell us why you're a good fit for this position.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you available to work 5 days a week from the city posted on the job description?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your earliest available start date?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the U.S.?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about Base Power Company?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Base Power Company website",
+          "LinkedIn",
+          "Job Board (e.g., Indeed, Built In, AngelList, Handshake, 12Twenty, etc.)",
+          "Base employee or recruiter",
+          "Referral (friend, peer, professor, etc.)",
+          "Career fair or on-campus event",
+          "Social media (e.g., Instagram, Twitter, TikTok)",
+          "News article, podcast, or media mention",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you were referred to Base, please share the name of your referrer.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you available to work 5 days a week from the city posted on the job description?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "in 1-3 short sentences, please tell us why you're a good fit for this position.",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your earliest available start date?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you legally authorized to work in the u.s.?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "how did you hear about base power company?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "if you were referred to base, please share the name of your referrer.",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "which locations would you be comfortable working from?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f15"
+    }
+  ]
+}

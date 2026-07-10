@@ -1,0 +1,304 @@
+{
+  "id": "https-jobs-ashbyhq-com-a1-20garage-20door-20service-0b3ade0d-2b8e-4a14-b743-61e4",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:28:37.972Z",
+  "page_url": "https://jobs.ashbyhq.com/A1%20Garage%20Door%20Service/0b3ade0d-2b8e-4a14-b743-61e410defcdc/application",
+  "page_title": "Customer Engagement Specialist, Inbound @ A1 Garage Door Service",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 0.8667,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "are you now or have you previously been employed by a1 garage, or any of it's entities?",
+        "ai": "Are you now or have you previously been employed by A1 Garage, or any of it's entities?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "were you referred to a1 by a current employee?",
+        "ai": "Were you referred to A1 by a current employee?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship to work in the united states?",
+        "ai": "Will you now or in the future require sponsorship to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a minimum of 12 months call center experience, upselling preferred?",
+        "ai": "Do you have a minimum of 12 months call center experience, upselling preferred?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you available to work flexible hours between 5:00am and 9:30pm mst, including weekends?",
+        "ai": "Are you available to work flexible hours between 5:00am and 9:30pm MST, including weekends?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located in one of the following states: az, nm, or, nv, co, tx, mn, wi, ok, fl, tn, nc, mi, in, oh, ga, id, ks, mo and sc? this position is remote, however you must be based in a state where we are operating.",
+        "ai": "Are you located in one of the following states: AZ, NM, OR, NV, CO, TX, MN, WI, OK, FL, TN, NC, MI, IN, OH, GA, ID, KS, MO and SC? This position is remote, however you MUST be based in a state where we are operating.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter or additional documents (optional)",
+        "ai": "Cover Letter or Additional Documents (Optional)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes, what is the the name of the employee that referred you?",
+        "ai": "If Yes, what is the the name of the employee that referred you?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. The communication consent is a radio group.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter or Additional Documents (Optional)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you now or have you previously been employed by A1 Garage, or any of it's entities?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Were you referred to A1 by a current employee?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If Yes, what is the the name of the employee that referred you?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have a minimum of 12 months call center experience, upselling preferred?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you available to work flexible hours between 5:00am and 9:30pm MST, including weekends?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located in one of the following states: AZ, NM, OR, NV, CO, TX, MN, WI, OK, FL, TN, NC, MI, IN, OH, GA, ID, KS, MO and SC? This position is remote, however you MUST be based in a state where we are operating.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you now or have you previously been employed by a1 garage, or any of it's entities?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "were you referred to a1 by a current employee?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work in the united states?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have a minimum of 12 months call center experience, upselling preferred?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "are you available to work flexible hours between 5:00am and 9:30pm mst, including weekends?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "are you located in one of the following states: az, nm, or, nv, co, tx, mn, wi, ok, fl, tn, nc, mi, in, oh, ga, id, ks, mo and sc? this position is remote, however you must be based in a state where we are operating.",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f11"
+    },
+    {
+      "question": "cover letter or additional documents (optional)",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "if yes, what is the the name of the employee that referred you?",
+      "field_type": "text",
+      "ref": "f13"
+    }
+  ]
+}

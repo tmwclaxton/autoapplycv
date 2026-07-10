@@ -1,0 +1,407 @@
+{
+  "id": "https-jobs-eu-lever-co-ivcevidensia-ef55c389-d271-430e-8c02-a061a50a0eb4-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:32:15.971Z",
+  "page_url": "https://jobs.eu.lever.co/ivcevidensia/ef55c389-d271-430e-8c02-a061a50a0eb4/apply",
+  "page_title": "IVC - Warehouse Operative",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 26,
+      "ai_count": 16,
+      "count_delta": 10,
+      "label_jaccard": 0.6154,
+      "type_agree_rate": 0.8125,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have the right to work in the uk?",
+        "ai": "Do you have the Right to Work in the UK?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently (or have you previously) worked for an ivc evidensia company?",
+        "ai": "Do you currently (or have you previously) worked for an IVC Evidensia Company?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period?",
+        "ai": "What is your notice period?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations for this role?",
+        "ai": "What are your salary expectations for this role?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you see our vacancy advertised?",
+        "ai": "Where did you see our vacancy advertised?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "can you confirm that you are able to commit to the working hours?",
+        "ai": "Can you confirm that you are able to commit to the working hours?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous experience within a pick and pack environment?",
+        "ai": "Do you have previous experience within a pick and pack environment?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "can you confirm that you can commute to warehouse location of bs31 2ed",
+        "ai": "Can you confirm that you can commute to Warehouse location of BS31 2ED",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what is your age range?",
+      "do you consider yourself to have a disibility under the equality act 2010?",
+      "if you answered yes above, please tick all options applicable below",
+      "i identify my ethnicity as",
+      "what is your sex assigned at birth?",
+      "what gender do you identify as?",
+      "what is your religion of belief?",
+      "how would you describe your sexual orientation?",
+      "do you have any caring responsibilities?",
+      "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with embedded custom fields. The 'Current location' field includes a hidden input for location selection.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have the Right to Work in the UK?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Sponsorship Required"
+        ]
+      },
+      {
+        "question": "Do you currently (or have you previously) worked for an IVC Evidensia Company?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your notice period?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations for this role?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where did you see our vacancy advertised?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "IVC Evidensia Website",
+          "LinkedIn",
+          "Indeed",
+          "Word of Mouth",
+          "Facebook",
+          "Event",
+          "Internal Job Board",
+          "Vet Times",
+          "ACCA Careers",
+          "Other External Job Board"
+        ]
+      },
+      {
+        "question": "Can you confirm that you are able to commit to the working hours?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have previous experience within a pick and pack environment?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Can you confirm that you can commute to Warehouse location of BS31 2ED",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "do you have the right to work in the uk?",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "do you currently (or have you previously) worked for an ivc evidensia company?",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "what are your salary expectations for this role?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "where did you see our vacancy advertised?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "can you confirm that you are able to commit to the working hours?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have previous experience within a pick and pack environment?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "can you confirm that you can commute to warehouse location of bs31 2ed",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "do you consider yourself to have a disibility under the equality act 2010?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "if you answered yes above, please tick all options applicable below",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "what is your sex assigned at birth?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "what is your religion of belief?",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "how would you describe your sexual orientation?",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "do you have any caring responsibilities?",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f25"
+    }
+  ]
+}

@@ -57,7 +57,7 @@ function isPlaceholderOption(option) {
         return true;
     }
 
-    return /^(select|choose|--|please select|pick one)/i.test(text);
+    return /^(select|choose|--|please select|please choose|pick one)/i.test(text);
 }
 
 function firstMeaningfulOption(options) {

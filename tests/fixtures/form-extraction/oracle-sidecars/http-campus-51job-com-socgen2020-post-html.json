@@ -1,0 +1,46 @@
+{
+  "id": "http-campus-51job-com-socgen2020-post-html",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:14:03.015Z",
+  "page_url": "http://campus.51job.com/socgen2020/post.html",
+  "page_title": "【法国兴业银行2020校园招聘】法国兴业银行前程无忧官方校园招聘网",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 2,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "2020 Management Trainee-Front Office Stream",
+      "2020 Management Trainee - Global Business Service Unit"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains links to external 51job.com application pages. There are no actual form input fields present on this specific page; it acts as a landing page for job descriptions.",
+    "fields": [
+      {
+        "question": "2020 Management Trainee-Front Office Stream",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "2020 Management Trainee - Global Business Service Unit",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

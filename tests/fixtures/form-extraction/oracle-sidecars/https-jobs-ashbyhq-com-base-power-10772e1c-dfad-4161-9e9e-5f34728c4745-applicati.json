@@ -1,0 +1,302 @@
+{
+  "id": "https-jobs-ashbyhq-com-base-power-10772e1c-dfad-4161-9e9e-5f34728c4745-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:16:27.330Z",
+  "page_url": "https://jobs.ashbyhq.com/base-power/10772e1c-dfad-4161-9e9e-5f34728c4745/application",
+  "page_title": "Software Engineer, Infrastructure @ Base Power Company",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 13,
+      "count_delta": 4,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 0.7692,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "are you available to work on-site five days per week at the designated job location?",
+        "ai": "Are you available to work on-site five days per week at the designated job location?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile url",
+        "ai": "LinkedIn Profile URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "tell us why you're a good fit for this position.",
+        "ai": "Tell us why you're a good fit for this position.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your earliest available start date?",
+        "ai": "What is your earliest available start date?",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the u.s.?",
+        "ai": "Are you legally authorized to work in the U.S.?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you hear about base power company?",
+        "ai": "How did you hear about Base Power Company?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "if you were referred to base, please share the name of your referrer.",
+      "gender",
+      "race",
+      "veteran status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components for comboboxes and date pickers which may require specific interaction to populate. The 'How did you hear about' field is truncated in the HTML but clearly represents a checkbox group.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us why you're a good fit for this position.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you available to work on-site five days per week at the designated job location?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your earliest available start date?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the U.S.?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about Base Power Company?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Base Power Company website",
+          "LinkedIn",
+          "Job Board (e.g., Indeed, Built In, AngelList, Handshake, 12Twenty, etc.)",
+          "Base employee or recruiter",
+          "Referral (friend, peer, professor, etc.)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you available to work on-site five days per week at the designated job location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "tell us why you're a good fit for this position.",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your earliest available start date?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally authorized to work in the u.s.?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about base power company?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "if you were referred to base, please share the name of your referrer.",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f16"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "id": "https-jobs-ashbyhq-com-aven-b1bdc3be-89c6-4645-8e79-8ea528f058da-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:15:59.012Z",
+  "page_url": "https://jobs.ashbyhq.com/aven/b1bdc3be-89c6-4645-8e79-8ea528f058da/application",
+  "page_title": "Machine Learning Engineer @ Aven",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 12,
+      "count_delta": 1,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 0.9091,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "publications",
+        "ai": "Publications",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "which university did you attend for undergrad",
+        "ai": "Which university did you attend for undergrad",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what is the highest-impact project that you have done?",
+        "ai": "What is the highest-impact project that you have done?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is the hardest thing you have ever worked on in your life?",
+        "ai": "What is the hardest thing you have ever worked on in your life?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what do you think is your single biggest accomplishment to date?",
+        "ai": "What do you think is your single biggest accomplishment to date?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred, please list the referrer’s name and email.",
+        "ai": "If you were referred, please list the referrer’s name and email.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Resume"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an autofill feature via resume upload. The university field is a combobox that likely fetches options dynamically via API.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Publications",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Which university did you attend for undergrad",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the highest-impact project that you have done?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the hardest thing you have ever worked on in your life?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What do you think is your single biggest accomplishment to date?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you were referred, please list the referrer’s name and email.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "publications",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "which university did you attend for undergrad",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "what is the highest-impact project that you have done?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what is the hardest thing you have ever worked on in your life?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what do you think is your single biggest accomplishment to date?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "if you were referred, please list the referrer’s name and email.",
+      "field_type": "text",
+      "ref": "f10"
+    }
+  ]
+}

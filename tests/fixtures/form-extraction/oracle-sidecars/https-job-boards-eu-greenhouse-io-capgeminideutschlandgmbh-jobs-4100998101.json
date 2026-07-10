@@ -1,0 +1,194 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-capgeminideutschlandgmbh-jobs-4100998101",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:25:26.380Z",
+  "page_url": "https://job-boards.eu.greenhouse.io/capgeminideutschlandgmbh/jobs/4100998101",
+  "page_title": "Bewerbung als (Associate) Consultant Finance Transformation – Future of Finance (w/m/d) bei Capgemini Invent",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 5,
+      "count_delta": 12,
+      "label_jaccard": 0.3125,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "land",
+        "ai": "Land",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "anhängen vorname",
+      "anhängen vorname",
+      "linkedin profile",
+      "what is your highest level of education? linkedin profile",
+      "what are your salary expectations? (please specify both fixed and variable salary)",
+      "in addition to fluency in german and english, do you speak any other languages fluently?",
+      "anhängen linkedin profile",
+      "how often are you willing to travel for business purposes? linkedin profile",
+      "how did you hear about us? linkedin profile",
+      "if you connected with us at a job fair or another recruiting event, please specify which one",
+      "privacy policy linkedin profile",
+      "capgemini invent hat meine einwilligung zur erhebung, speicherung und verarbeitung meiner daten für den zweck, mich für eine anstellung in betracht zu ziehen, und bis zu 180 tage danach."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated during the phone number country selection list, but the standard Greenhouse application form structure is present. The form likely contains additional fields (resume, cover letter, etc.) not visible in the provided snippet.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Land",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "land",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "anhängen vorname",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "anhängen vorname",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your highest level of education? linkedin profile",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your salary expectations? (please specify both fixed and variable salary)",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "in addition to fluency in german and english, do you speak any other languages fluently?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "anhängen linkedin profile",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "how often are you willing to travel for business purposes? linkedin profile",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you hear about us? linkedin profile",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "if you connected with us at a job fair or another recruiting event, please specify which one",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "privacy policy linkedin profile",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "capgemini invent hat meine einwilligung zur erhebung, speicherung und verarbeitung meiner daten für den zweck, mich für eine anstellung in betracht zu ziehen, und bis zu 180 tage danach.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

@@ -516,15 +516,22 @@ body {
     min-height: 0;
 }
 
-.pending-fields-section {
-    flex-shrink: 0;
-    max-height: min(38vh, 260px);
-    overflow-y: auto;
+.pending-fields-section:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
     padding: 12px 16px 0;
-    border-bottom: 2px solid var(--postbox-grey);
+}
+
+.shell-assist-panel:has(.pending-fields-section:not([hidden])) .assist-messages-scroll,
+.shell-assist-panel:has(.pending-fields-section:not([hidden])) .assist-composer {
+    display: none;
 }
 
 .pending-fields-header {
+    flex-shrink: 0;
     margin-bottom: 10px;
 }
 
@@ -550,8 +557,11 @@ body {
 .pending-fields-list {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
     gap: 10px;
-    padding-bottom: 12px;
+    overflow-y: auto;
+    padding-bottom: 14px;
 }
 
 .pending-field-card {

@@ -7,6 +7,24 @@ export const COUNT_TOLERANCE = 2;
 export const LABEL_JACCARD_MIN = 0.7;
 
 /**
+ * ATS chrome / autofill helpers that models sometimes list as fields.
+ *
+ * @param {string} question
+ * @returns {boolean}
+ */
+export function isNonFieldOracleLabel(question) {
+    const label = normalizeQuestion(question);
+
+    if (!label) {
+        return true;
+    }
+
+    return /^(import resume(?: from)?|autofill with resume|use my last application|apply manually|apply with linkedin|upload from linkedin|dropbox|google drive|type here\.{0,3}|unlabeled text field(?: \(likely a honeypot or hidden field\))?)$/i.test(
+        label,
+    );
+}
+
+/**
  * @param {{ question?: string, label?: string, field_type?: string, type?: string }[]} fields
  * @returns {{ question: string, field_type: string }[]}
  */
@@ -20,7 +38,7 @@ export function normalizeOracleFields(fields = []) {
 
             return { question, field_type: fieldType };
         })
-        .filter((field) => field.question.length > 0);
+        .filter((field) => field.question.length > 0 && !isNonFieldOracleLabel(field.question));
 }
 
 /**

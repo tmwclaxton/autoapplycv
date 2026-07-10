@@ -1,0 +1,85 @@
+{
+  "id": "https-advancy-recruitee-com-o-sydney-strategy-consultant-1-3-years-experience-c-",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:26:07.013Z",
+  "page_url": "https://advancy.recruitee.com/o/sydney-strategy-consultant-1-3-years-experience/c/new",
+  "page_title": "Advancy Partners - Sydney - Strategy Consultant (1-3 years experience) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 3,
+      "ai_count": 3,
+      "count_delta": 0,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form on the page is a basic contact form. The job description explicitly directs candidates to a separate external JotForm (https://form.jotform.com/252013055506849) for the full application, including resume and cover letter uploads.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f2"
+    }
+  ]
+}

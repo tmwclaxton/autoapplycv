@@ -1,0 +1,339 @@
+{
+  "id": "https-jobs-ashbyhq-com-alan-c111add6-6218-457a-aabe-b5f5010a730b-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:45:21.747Z",
+  "page_url": "https://jobs.ashbyhq.com/alan/c111add6-6218-457a-aabe-b5f5010a730b/application",
+  "page_title": "Community & Advocacy Manager @ Alan",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 16,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8125,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "are you legally able to work from france for any employer?",
+        "ai": "Are you legally able to work from France for any employer?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have advanced level in english?",
+        "ai": "Do you have advanced level in English?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "are you currently based in paris or able to travel to paris at least 1-2 time per quarter?",
+        "ai": "Are you currently based in Paris or able to travel to Paris at least 1-2 time per quarter?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "links",
+        "ai": "Links",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about opportunities at alan?",
+        "ai": "How did you hear about opportunities at Alan?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you selected \"employee recommendation\" or \"other\", could you please specify?",
+        "ai": "If you selected \"Employee Recommendation\" or \"Other\", could you please specify?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how would you describe your french level (written and spoken):",
+        "ai": "How would you describe your French level (written and spoken):",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "is there anything else you want us to be aware of?",
+        "ai": "Is there anything else you want us to be aware of?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based components for 'Yes/No' questions that act as checkboxes/radios. The resume upload is handled by a custom file input component.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Links",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about opportunities at Alan?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Alan Careers Page",
+          "Employee Recommendation",
+          "Company Blog",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you selected \"Employee Recommendation\" or \"Other\", could you please specify?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally able to work from France for any employer?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How would you describe your French level (written and spoken):",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Beginner",
+          "Below average / Intermediate",
+          "Above average / Advanced",
+          "Native / Fluent"
+        ]
+      },
+      {
+        "question": "Do you have advanced level in English?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently based in Paris or able to travel to Paris at least 1-2 time per quarter?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Is there anything else you want us to be aware of?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally able to work from france for any employer?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have advanced level in english?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you currently based in paris or able to travel to paris at least 1-2 time per quarter?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "links",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "how did you hear about opportunities at alan?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "if you selected \"employee recommendation\" or \"other\", could you please specify?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how would you describe your french level (written and spoken):",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "is there anything else you want us to be aware of?",
+      "field_type": "textarea",
+      "ref": "f15"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "id": "https-20four7va-breezy-hr-p-ed076c7ead1b-p-cpt-0019-content-writing-for-pooling-",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:39:21.104Z",
+  "page_url": "https://20four7va.breezy.hr/p/ed076c7ead1b-p-cpt-0019-content-writing-for-pooling-purposes",
+  "page_title": "P-CPT-0019 Content Writing - For Pooling Purposes at 20four7VA",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 6,
+      "count_delta": 6,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Resume/CV",
+      "Full Name",
+      "Email Address",
+      "Phone Number",
+      "Link to Portfolio/Website",
+      "LinkedIn Profile"
+    ],
+    "reasons": [
+      "field count delta 6 exceeds tolerance 2 (detector=0, ai=6)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is the landing page. The actual application form is located at the '/apply' sub-path, which is a dynamic SPA (Breezy HR). The fields listed are the standard fields typically present on Breezy HR application forms.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Link to Portfolio/Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

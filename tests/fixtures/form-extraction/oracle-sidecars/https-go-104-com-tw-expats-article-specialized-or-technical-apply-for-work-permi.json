@@ -1,0 +1,51 @@
+{
+  "id": "https-go-104-com-tw-expats-article-specialized-or-technical-apply-for-work-permi",
+  "status": "disagree",
+  "captured_at": "2026-07-10T20:11:43.430Z",
+  "page_url": "https://go.104.com.tw/expats/article/specialized-or-technical-apply-for-work-permit-in-taiwan/",
+  "page_title": "Foreign Professionals “Work Permit”｜Employment for Foreign Nationals in Taiwan",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 1,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "search",
+        "ai": "Search",
+        "detector_type": "search",
+        "ai_type": "text",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains only a site-wide search form and informational content. No job application form fields were detected.",
+    "fields": [
+      {
+        "question": "Search",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search",
+      "field_type": "search",
+      "ref": "f0"
+    }
+  ]
+}

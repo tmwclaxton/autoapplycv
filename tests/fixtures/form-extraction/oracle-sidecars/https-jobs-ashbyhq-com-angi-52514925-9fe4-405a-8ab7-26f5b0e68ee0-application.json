@@ -1,0 +1,680 @@
+{
+  "id": "https-jobs-ashbyhq-com-angi-52514925-9fe4-405a-8ab7-26f5b0e68ee0-application",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:14:39.944Z",
+  "page_url": "https://jobs.ashbyhq.com/angi/52514925-9fe4-405a-8ab7-26f5b0e68ee0/application",
+  "page_title": "Inside Sales Manager @ Angi",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 21,
+      "count_delta": 4,
+      "label_jaccard": 0.4333,
+      "type_agree_rate": 0.9231,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "have you previously been employed by angi or any of its subsidiaries?",
+        "ai": "Have you previously been employed by Angi or any of its subsidiaries?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now, or in the future, require visa sponsorship in order to continue employment?",
+        "ai": "Will you now, or in the future, require visa sponsorship in order to continue employment?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this job?",
+        "ai": "How did you hear about this job?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile url",
+        "ai": "LinkedIn Profile URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "in which state do you permanently reside?",
+        "ai": "In which state do you permanently reside?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "how many years of people management experience do you have?",
+        "ai": "How many years of people management experience do you have?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "education history",
+      "education history",
+      "education history",
+      "education history",
+      "which b2b market segments do you have experience in? (select all that apply)",
+      "when are you able to start a new position?",
+      "please click the link below to review angi's employee and applicant privacy notice.",
+      "what is your gender identity?",
+      "do you identify as transgender?",
+      "how do you identify your sexual orientation? please select all that apply.",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [
+      "School",
+      "Degree",
+      "Field of Study",
+      "Start Date (Month)",
+      "Start Date (Year)",
+      "End Date (Month)",
+      "End Date (Year)",
+      "Still Student?"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=25, ai=21)",
+      "label Jaccard 0.433 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components for radio buttons and selects. The final question was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "School",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Degree",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Field of Study",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Start Date (Month)",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ]
+      },
+      {
+        "question": "Start Date (Year)",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "2027",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010",
+          "2009",
+          "2008",
+          "2007",
+          "2006",
+          "2005",
+          "2004",
+          "2003",
+          "2002",
+          "2001",
+          "2000",
+          "1999",
+          "1998",
+          "1997",
+          "1996",
+          "1995",
+          "1994",
+          "1993",
+          "1992",
+          "1991",
+          "1990",
+          "1989",
+          "1988",
+          "1987",
+          "1986",
+          "1985",
+          "1984",
+          "1983",
+          "1982",
+          "1981",
+          "1980",
+          "1979",
+          "1978",
+          "1977",
+          "1976",
+          "1975",
+          "1974",
+          "1973",
+          "1972",
+          "1971",
+          "1970",
+          "1969",
+          "1968",
+          "1967",
+          "1966",
+          "1965",
+          "1964",
+          "1963",
+          "1962",
+          "1961",
+          "1960",
+          "1959",
+          "1958",
+          "1957",
+          "1956",
+          "1955",
+          "1954",
+          "1953",
+          "1952",
+          "1951",
+          "1950",
+          "1949",
+          "1948",
+          "1947",
+          "1946",
+          "1945",
+          "1944",
+          "1943",
+          "1942",
+          "1941",
+          "1940",
+          "1939",
+          "1938",
+          "1937",
+          "1936",
+          "1935",
+          "1934",
+          "1933",
+          "1932",
+          "1931",
+          "1930",
+          "1929",
+          "1928",
+          "1927",
+          "1926",
+          "1925",
+          "1924",
+          "1923",
+          "1922",
+          "1921",
+          "1920",
+          "1919",
+          "1918",
+          "1917",
+          "1916",
+          "1915",
+          "1914",
+          "1913",
+          "1912",
+          "1911",
+          "1910",
+          "1909",
+          "1908"
+        ]
+      },
+      {
+        "question": "End Date (Month)",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ]
+      },
+      {
+        "question": "End Date (Year)",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "2027",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010",
+          "2009",
+          "2008",
+          "2007",
+          "2006",
+          "2005",
+          "2004",
+          "2003",
+          "2002",
+          "2001",
+          "2000",
+          "1999",
+          "1998",
+          "1997",
+          "1996",
+          "1995",
+          "1994",
+          "1993",
+          "1992",
+          "1991",
+          "1990",
+          "1989",
+          "1988",
+          "1987",
+          "1986",
+          "1985",
+          "1984",
+          "1983",
+          "1982",
+          "1981",
+          "1980",
+          "1979",
+          "1978",
+          "1977",
+          "1976",
+          "1975",
+          "1974",
+          "1973",
+          "1972",
+          "1971",
+          "1970",
+          "1969",
+          "1968",
+          "1967",
+          "1966",
+          "1965",
+          "1964",
+          "1963",
+          "1962",
+          "1961",
+          "1960",
+          "1959",
+          "1958",
+          "1957",
+          "1956",
+          "1955",
+          "1954",
+          "1953",
+          "1952",
+          "1951",
+          "1950",
+          "1949",
+          "1948",
+          "1947",
+          "1946",
+          "1945",
+          "1944",
+          "1943",
+          "1942",
+          "1941",
+          "1940",
+          "1939",
+          "1938",
+          "1937",
+          "1936",
+          "1935",
+          "1934",
+          "1933",
+          "1932",
+          "1931",
+          "1930",
+          "1929",
+          "1928",
+          "1927",
+          "1926",
+          "1925",
+          "1924",
+          "1923",
+          "1922",
+          "1921",
+          "1920",
+          "1919",
+          "1918",
+          "1917",
+          "1916",
+          "1915",
+          "1914",
+          "1913",
+          "1912",
+          "1911",
+          "1910",
+          "1909",
+          "1908"
+        ]
+      },
+      {
+        "question": "Still Student?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you previously been employed by Angi or any of its subsidiaries?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now, or in the future, require visa sponsorship in order to continue employment?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "In which state do you permanently reside?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of people management experience do you have?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Less than 2 years",
+          "2 - 5 years",
+          "5 - 10 years",
+          "10+ years"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "have you previously been employed by angi or any of its subsidiaries?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "will you now, or in the future, require visa sponsorship in order to continue employment?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "education history",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "education history",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "education history",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "education history",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "in which state do you permanently reside?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "how many years of people management experience do you have?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "which b2b market segments do you have experience in? (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "when are you able to start a new position?",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "please click the link below to review angi's employee and applicant privacy notice.",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f24"
+    }
+  ]
+}

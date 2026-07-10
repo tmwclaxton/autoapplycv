@@ -1,0 +1,282 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-168aaa0b-6e11-432d-8381-43a4f7c99a71-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:29:25.829Z",
+  "page_url": "https://jobs.ashbyhq.com/camunda/168aaa0b-6e11-432d-8381-43a4f7c99a71/application",
+  "page_title": "Technical Account Manager - East Coast North America @ Camunda",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 12,
+      "count_delta": 4,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 0.75,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "are you legally eligible to work in the country where you’re planning to work from?",
+        "ai": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able and willing to work remotely?",
+        "ai": "Are you able and willing to work remotely?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you are eligible, please select the status that allows you to work and live in that country",
+        "ai": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns for others to use when referring to you?",
+        "ai": "What are your pronouns for others to use when referring to you?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "if you have discussed this role with a current camunda employee, please enter their full name here",
+        "ai": "If you have discussed this role with a current Camunda employee, please enter their full name here",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of professional experience do you have in technical account management or a closely related role within enterprise software?",
+        "ai": "How many years of professional experience do you have in Technical Account Management or a closely related role within enterprise software?",
+        "detector_type": "radio",
+        "ai_type": "other",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "are you able and willing to travel and spend time on-site with customer teams?",
+      "for which of the following cloud providers do you have hands-on experience in an enterprise environment? (select all that apply)",
+      "are you comfortable discussing technical concepts (like architecture or devops/kubernetes topics) directly with enterprise it stakeholders?",
+      "i agree"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components for radio buttons and comboboxes. The final field was truncated in the HTML excerpt provided.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work in the country where you’re planning to work from?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you are eligible, please select the status that allows you to work and live in that Country",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I am a citizen / permanent resident of the country where I plan to live & work from.",
+          "I have a work visa in the country where I plan to live & work from.",
+          "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+        ]
+      },
+      {
+        "question": "What are your pronouns for others to use when referring to you?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able and willing to work remotely?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you have discussed this role with a current Camunda employee, please enter their full name here",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of professional experience do you have in Technical Account Management or a closely related role within enterprise software?",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you able and willing to travel and spend time on-site with customer teams?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how many years of professional experience do you have in technical account management or a closely related role within enterprise software?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "for which of the following cloud providers do you have hands-on experience in an enterprise environment? (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "are you comfortable discussing technical concepts (like architecture or devops/kubernetes topics) directly with enterprise it stakeholders?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

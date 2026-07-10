@@ -1,0 +1,51 @@
+{
+  "id": "https-go-104-com-tw-expats-article-resources-for-working-in-taiwan",
+  "status": "disagree",
+  "captured_at": "2026-07-10T20:10:40.280Z",
+  "page_url": "https://go.104.com.tw/expats/article/resources-for-working-in-taiwan/",
+  "page_title": "Overseas Chinese/Foreigners Working in Taiwan｜Employment and Living Resources",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 1,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "search",
+        "ai": "Search",
+        "detector_type": "search",
+        "ai_type": "text",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains a search form, but no job application form fields. The search input was identified as a text field.",
+    "fields": [
+      {
+        "question": "Search",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search",
+      "field_type": "search",
+      "ref": "f0"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "id": "https-jobs-eu-lever-co-asobostudio-62ea5ba5-9bbe-455d-8c55-0b6c273e96a8",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:28:53.747Z",
+  "page_url": "https://jobs.eu.lever.co/asobostudio/62ea5ba5-9bbe-455d-8c55-0b6c273e96a8",
+  "page_title": "Asobo Studio - Game Designer H/F (Projet narratif non annoncé)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 8,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Resume/CV",
+      "Full name",
+      "Email",
+      "Phone",
+      "Current company",
+      "LinkedIn Profile",
+      "Portfolio URL",
+      "Additional information"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=0, ai=8)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is the job description page. The actual application form is located at the URL /apply, which is a separate page not included in the provided excerpt. The fields listed above are the standard fields typically found on Lever application forms.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

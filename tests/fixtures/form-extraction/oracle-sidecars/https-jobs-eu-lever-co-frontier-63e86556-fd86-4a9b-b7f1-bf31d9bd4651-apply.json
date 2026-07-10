@@ -1,0 +1,465 @@
+{
+  "id": "https-jobs-eu-lever-co-frontier-63e86556-fd86-4a9b-b7f1-bf31d9bd4651-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:10:20.922Z",
+  "page_url": "https://jobs.eu.lever.co/frontier/63e86556-fd86-4a9b-b7f1-bf31d9bd4651/apply",
+  "page_title": "Frontier Developments - Principal Concept Artist",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 22,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7727,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "current / most recent basic salary (please include currency)",
+        "ai": "Current / most recent basic salary (please include currency)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current notice period?",
+        "ai": "What is your current notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current country of residence?",
+        "ai": "What is your current country of residence?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you looking for a hybrid or studio based role? please specify",
+        "ai": "Are you looking for a hybrid or studio based role? Please specify",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require employer sponsorship to have the right to work in the uk?",
+        "ai": "Do you require employer sponsorship to have the right to work in the UK?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "if you answered 'no' to the above question, please specify how you are eligible to work in the uk for example, uk citizen, student visa, spousal visa etc",
+        "ai": "If you answered 'no' to the above question, please specify how you are eligible to work in the UK for example, UK citizen, student visa, spousal visa etc",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "i understand that this role is based at frontier's studio in cambridge, uk, on a hybrid working basis (minimum 3 days per week in studio), and i am prepared to relocate if necessary. please note that we cannot consider your application if you answer \"no\"",
+        "ai": "I understand that this role is based at Frontier's studio in Cambridge, UK, on a hybrid working basis (minimum 3 days per week in studio), and I am prepared to relocate if necessary. Please note that we cannot consider your application if you answer \"No\"",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age?",
+        "ai": "What is your age?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your ethnic background?",
+        "ai": "What is your ethnic background?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how would you describe your gender?",
+        "ai": "How would you describe your gender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "would you consider yourself to have a disability?",
+        "ai": "Would you consider yourself to have a disability?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Demographic survey fields are optional. Location input uses a dynamic lookup widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current / most recent basic salary (please include currency)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your current notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your current country of residence?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you looking for a hybrid or studio based role? Please specify",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require employer sponsorship to have the right to work in the UK?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you answered 'no' to the above question, please specify how you are eligible to work in the UK for example, UK citizen, student visa, spousal visa etc",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I understand that this role is based at Frontier's studio in Cambridge, UK, on a hybrid working basis (minimum 3 days per week in studio), and I am prepared to relocate if necessary. Please note that we cannot consider your application if you answer \"No\"",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your age?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "17 or younger",
+          "18-20",
+          "21-29",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "What is your ethnic background?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White / Caucasian - English, Welsh, Scottish, Northern Irish, British, Irish, Gypsy or Irish Traveller, Any other White background",
+          "Mixed or Multiple ethnic groups - White and Black Caribbean, White and Black African, White and Asian, Any other Mixed or Multiple ethnic background",
+          "Asian or Asian British - Indian, Pakistani, Bangladeshi, Chinese, Any other Asian background",
+          "Black, African, Caribbean or Black British - African, Caribbean, Any other Black, African or Caribbean background",
+          "Other ethnic group - Arab, Any other ethnic group",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "How would you describe your gender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Transgender",
+          "Gender neutral",
+          "Non-Binary",
+          "Agender",
+          "Pangender",
+          "Genderqueer",
+          "Two-spirit",
+          "Third Gender",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "Would you consider yourself to have a disability?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer not to say"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "current / most recent basic salary (please include currency)",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what is your current notice period?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your current country of residence?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "are you looking for a hybrid or studio based role? please specify",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "do you require employer sponsorship to have the right to work in the uk?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "if you answered 'no' to the above question, please specify how you are eligible to work in the uk for example, uk citizen, student visa, spousal visa etc",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "i understand that this role is based at frontier's studio in cambridge, uk, on a hybrid working basis (minimum 3 days per week in studio), and i am prepared to relocate if necessary. please note that we cannot consider your application if you answer \"no\"",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your age?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "what is your ethnic background?",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "how would you describe your gender?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "would you consider yourself to have a disability?",
+      "field_type": "radio",
+      "ref": "f21"
+    }
+  ]
+}

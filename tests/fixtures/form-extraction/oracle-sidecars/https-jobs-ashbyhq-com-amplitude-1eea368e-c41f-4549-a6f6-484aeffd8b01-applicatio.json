@@ -1,0 +1,202 @@
+{
+  "id": "https-jobs-ashbyhq-com-amplitude-1eea368e-c41f-4549-a6f6-484aeffd8b01-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:11:42.192Z",
+  "page_url": "https://jobs.ashbyhq.com/amplitude/1eea368e-c41f-4549-a6f6-484aeffd8b01/application",
+  "page_title": "Global Startup and Venture Program Lead @ Amplitude",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "do you have at least 6 years of experience working in startups, venture capital, startup ecosystem partnerships, or programs supporting early-stage founders?",
+        "ai": "Do you have at least 6 years of experience working in startups, venture capital, startup ecosystem partnerships, or programs supporting early-stage founders?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you led or managed startup-focused events, founder communities, or ecosystem programs as part of your role?",
+        "ai": "Have you led or managed startup-focused events, founder communities, or ecosystem programs as part of your role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work from our san francisco office at least three days per week?",
+        "ai": "Are you able to work from our San Francisco office at least three days per week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle a hidden checkbox. The resume and cover letter fields support drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have at least 6 years of experience working in startups, venture capital, startup ecosystem partnerships, or programs supporting early-stage founders?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you led or managed startup-focused events, founder communities, or ecosystem programs as part of your role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to work from our San Francisco office at least three days per week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have at least 6 years of experience working in startups, venture capital, startup ecosystem partnerships, or programs supporting early-stage founders?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "have you led or managed startup-focused events, founder communities, or ecosystem programs as part of your role?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you able to work from our san francisco office at least three days per week?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "https-airliquidehr-wd3-myworkdayjobs-com-en-gb-airliquideexternalcareer-job-mexi",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:53:19.214Z",
+  "page_url": "https://airliquidehr.wd3.myworkdayjobs.com/en-GB/AirLiquideExternalCareer/job/Mexico-Apodaca/Chofer-De-Reparto--local--PG_R10094977/apply",
+  "page_title": "Chofer De Reparto (local) PG",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill with Resume"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is the landing page for the application process. It contains links to start the application (Autofill with Resume, Apply Manually, Use My Last Application, or Apply with LinkedIn). The actual form fields are not present in this initial landing page HTML and would be loaded dynamically after selecting an application method.",
+    "fields": [
+      {
+        "question": "Autofill with Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

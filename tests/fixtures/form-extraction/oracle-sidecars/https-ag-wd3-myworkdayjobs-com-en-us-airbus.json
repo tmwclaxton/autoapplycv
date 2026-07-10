@@ -1,0 +1,81 @@
+{
+  "id": "https-ag-wd3-myworkdayjobs-com-en-us-airbus",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:48:37.790Z",
+  "page_url": "https://ag.wd3.myworkdayjobs.com/en-US/Airbus",
+  "page_title": "Search for Jobs",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 5,
+      "count_delta": 4,
+      "label_jaccard": 0.2,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "search for jobs or keywords",
+        "ai": "Search for jobs or keywords",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Location",
+      "Posting Date",
+      "Job Category",
+      "More"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=1, ai=5)",
+      "label Jaccard 0.200 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "This is a job search landing page. The actual application form fields (name, email, resume, etc.) are only available after clicking on a specific job listing, which triggers a dynamic Workday application flow.",
+    "fields": [
+      {
+        "question": "Search for jobs or keywords",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Posting Date",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Job Category",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "More",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search for jobs or keywords",
+      "field_type": "text",
+      "ref": "f0"
+    }
+  ]
+}

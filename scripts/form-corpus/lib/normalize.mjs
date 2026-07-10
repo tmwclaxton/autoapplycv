@@ -16,6 +16,12 @@ const QUESTION_ALIASES = [
     ['name', 'full name', 'your name'],
     ['phone', 'phone number', 'mobile', 'mobile phone', 'telephone'],
     ['portfolio url', 'portfolio', 'portfolio link', 'website', 'personal website'],
+    [
+        'i consent to receiving text messages',
+        'yes - i consent to receiving text messages',
+        'sms consent',
+        'text message consent',
+    ],
 ];
 
 function aliasKey(normalized) {

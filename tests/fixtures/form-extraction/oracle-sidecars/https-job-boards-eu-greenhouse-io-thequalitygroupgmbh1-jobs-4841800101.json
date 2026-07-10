@@ -1,0 +1,158 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-thequalitygroupgmbh1-jobs-4841800101",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:00:52.168Z",
+  "page_url": "https://job-boards.eu.greenhouse.io/thequalitygroupgmbh1/jobs/4841800101",
+  "page_title": "Bewerbung als Planning Intern (gn) - More Nutrition bei The Quality Group GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 5,
+      "count_delta": 6,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "land",
+        "ai": "Land",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "anhängen vorname",
+      "anhängen vorname",
+      "earliest possible start / nächstmöglicher start",
+      "salary expectations / gehaltsvorstellungen",
+      "additional notes / zusätzliche anmerkungen",
+      "indem ich dieses kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass the quality group gmbh meine daten für zukünftige beschäftigungsmöglichkeiten bis zu 90 tage nach abschluss der prüfung meiner aktuellen bewerbung speichert."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload or custom questions) that typically appear in Greenhouse forms are missing from this output.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Land",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "land",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "anhängen vorname",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "anhängen vorname",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "earliest possible start / nächstmöglicher start",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "salary expectations / gehaltsvorstellungen",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "additional notes / zusätzliche anmerkungen",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "indem ich dieses kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass the quality group gmbh meine daten für zukünftige beschäftigungsmöglichkeiten bis zu 90 tage nach abschluss der prüfung meiner aktuellen bewerbung speichert.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

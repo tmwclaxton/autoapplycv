@@ -1,0 +1,296 @@
+{
+  "id": "https-jobs-ashbyhq-com-black-mountain-dynamics-b18939c7-446b-4481-a1eb-9fd56e423",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:12:40.426Z",
+  "page_url": "https://jobs.ashbyhq.com/black-mountain-dynamics/b18939c7-446b-4481-a1eb-9fd56e4230d2/application",
+  "page_title": "Senior Network Engineer @ Black Mountain Dynamics",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.9286,
+      "type_agree_rate": 1,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "this role requires residence within the san francisco bay area and up to ~40% travel for client deployments. are you able to meet this requirement?",
+        "ai": "This role requires residence within the San Francisco Bay Area and up to ~40% travel for client deployments. Are you able to meet this requirement?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the u.s.",
+        "ai": "Are you authorized to work in the U.S.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "please submit a cover letter detailing your relevant experience and explaining why your specific skill set makes you a strong match for the this position.",
+        "ai": "Please submit a cover letter detailing your relevant experience and explaining why your specific skill set makes you a strong match for the this position.",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have working with enterprise network infrastructure?",
+        "ai": "How many years of experience do you have working with enterprise network infrastructure?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "which networking platforms have you worked with?",
+        "ai": "Which networking platforms have you worked with?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how comfortable are you explaining complex technical issues to non-technical clients?",
+        "ai": "How comfortable are you explaining complex technical issues to non-technical clients?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe the most complex network issue you have personally diagnosed and resolved.",
+        "ai": "Briefly describe the most complex network issue you have personally diagnosed and resolved.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations for this role?",
+        "ai": "What are your salary expectations for this role?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred by a black mountain dynamics employee, please enter their name below.",
+        "ai": "If you were referred by a Black Mountain Dynamics employee, please enter their name below.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill from resume"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs. The 'Yes/No' fields are represented as radio groups in the JSON for clarity.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please submit a cover letter detailing your relevant experience and explaining why your specific skill set makes you a strong match for the this position.",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role requires residence within the San Francisco Bay Area and up to ~40% travel for client deployments. Are you able to meet this requirement?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How many years of experience do you have working with enterprise network infrastructure?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which networking platforms have you worked with?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Cisco",
+          "Palo Alto Networks",
+          "Juniper",
+          "Ruckus",
+          "Meraki",
+          "Aruba",
+          "Fortinet",
+          "Ekahau"
+        ]
+      },
+      {
+        "question": "How comfortable are you explaining complex technical issues to non-technical clients?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Very confident",
+          "Confident",
+          "Moderately confident",
+          "Limited confidence"
+        ]
+      },
+      {
+        "question": "Briefly describe the most complex network issue you have personally diagnosed and resolved.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations for this role?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the U.S.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you were referred by a Black Mountain Dynamics employee, please enter their name below.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "this role requires residence within the san francisco bay area and up to ~40% travel for client deployments. are you able to meet this requirement?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you authorized to work in the u.s.",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "please submit a cover letter detailing your relevant experience and explaining why your specific skill set makes you a strong match for the this position.",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "how many years of experience do you have working with enterprise network infrastructure?",
+      "field_type": "number",
+      "ref": "f7"
+    },
+    {
+      "question": "which networking platforms have you worked with?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "how comfortable are you explaining complex technical issues to non-technical clients?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "briefly describe the most complex network issue you have personally diagnosed and resolved.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "what are your salary expectations for this role?",
+      "field_type": "number",
+      "ref": "f11"
+    },
+    {
+      "question": "if you were referred by a black mountain dynamics employee, please enter their name below.",
+      "field_type": "text",
+      "ref": "f12"
+    }
+  ]
+}

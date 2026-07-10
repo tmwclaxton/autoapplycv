@@ -1,0 +1,47 @@
+{
+  "id": "https-app-welcometothejungle-com-companies-cloudflare-1-company-mission-section",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:45:13.018Z",
+  "page_url": "https://app.welcometothejungle.com/companies/Cloudflare-1#company-mission-section",
+  "page_title": "Cloudflare Jobs and Careers | Welcome to the Jungle (formerly Otta)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 1,
+      "count_delta": 0,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "react-select-2-input"
+    ],
+    "ai_only": [
+      "Location filter"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a company profile page on Welcome to the Jungle. It contains a location filter (combobox) for browsing jobs, but no actual job application form fields (like name, email, or resume upload) are present on this page. Application forms are likely located on individual job detail pages linked from this list.",
+    "fields": [
+      {
+        "question": "Location filter",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "react-select-2-input",
+      "field_type": "select",
+      "ref": "f0"
+    }
+  ]
+}

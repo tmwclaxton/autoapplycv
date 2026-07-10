@@ -1,0 +1,212 @@
+{
+  "id": "https-apply-workable-com-flosum-j-c5eab26a9d-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:23:37.289Z",
+  "page_url": "https://apply.workable.com/flosum/j/C5EAB26A9D/apply/",
+  "page_title": "Online Social Media Manager - Flosum - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 5,
+      "count_delta": 15,
+      "label_jaccard": 0.1905,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline (optional)",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "city city",
+      "postcode postcode",
+      "country country",
+      "input_files_input_vrgtq0po9ylh2vwe",
+      "summary (optional)",
+      "input_files_input_ojldc4o1nq10corj",
+      "linkedin profile url",
+      "cover letter (optional)",
+      "what are your salary expectations?",
+      "what is your most creative social media campaign? why was it successful? describe what you achieved in terms of meaningful metrics.",
+      "what works on social media? what does not work on social media? what are the top lessons you've learned?",
+      "what strategy would you use to engage our top 100 accounts in a meaningful way — both for end users and c-level buyers?",
+      "tell us about a creative contest, campaign, or community activation you launched that drove measurable engagement. what was the creative insight behind it, how did you execute it, and what results did it deliver in terms of new audience growth and conversation?",
+      "what strategies have you used to drive brand awareness with executives? and with developers?",
+      "what total compensation are you looking for?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated during the phone number country code list. The form uses a Workable-specific 'autofill' feature via resume upload, which is represented by the 'Import resume' button.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline (optional)",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "input_files_input_vrgtq0po9ylh2vwe",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "input_files_input_ojldc4o1nq10corj",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your most creative social media campaign? why was it successful? describe what you achieved in terms of meaningful metrics.",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what works on social media? what does not work on social media? what are the top lessons you've learned?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "what strategy would you use to engage our top 100 accounts in a meaningful way — both for end users and c-level buyers?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "tell us about a creative contest, campaign, or community activation you launched that drove measurable engagement. what was the creative insight behind it, how did you execute it, and what results did it deliver in terms of new audience growth and conversation?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "what strategies have you used to drive brand awareness with executives? and with developers?",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "what total compensation are you looking for?",
+      "field_type": "textarea",
+      "ref": "f19"
+    }
+  ]
+}

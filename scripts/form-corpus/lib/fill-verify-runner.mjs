@@ -376,6 +376,12 @@ function readDomValue(document, field, dom) {
     const tag = element.tagName?.toLowerCase();
     const role = element.getAttribute?.('role');
 
+    if (tag === 'select') {
+        const selected = readSelectedOptionText(element);
+
+        return selected ? { kind: 'option', value: selected } : null;
+    }
+
     if (role === 'combobox' || fieldType === 'combobox' || fieldType === 'select') {
         const reactSelectValue = readReactSelectDomValue(element);
 
@@ -403,7 +409,7 @@ function readDomValue(document, field, dom) {
         return textValue.length > 0 ? { kind: 'text', value: textValue } : null;
     }
 
-    if (tag === 'select' || fieldType === 'select') {
+    if (fieldType === 'select') {
         const selected = readSelectedOptionText(element);
 
         return selected ? { kind: 'option', value: selected } : null;

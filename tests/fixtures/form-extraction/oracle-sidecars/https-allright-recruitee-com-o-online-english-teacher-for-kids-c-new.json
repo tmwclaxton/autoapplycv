@@ -1,0 +1,324 @@
+{
+  "id": "https-allright-recruitee-com-o-online-english-teacher-for-kids-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:29:50.638Z",
+  "page_url": "https://allright.recruitee.com/o/online-english-teacher-for-kids/c/new",
+  "page_title": "All Right - Online English teacher for kids - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.8235,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "name:",
+        "ai": "Name:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "surname:",
+        "ai": "Surname:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "date of birth (in format dd/mm/yyyy)",
+        "ai": "Date of Birth (in format DD/MM/YYYY)",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "nationality:",
+        "ai": "Nationality:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "residence:",
+        "ai": "Residence:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "native language(s):",
+        "ai": "Native language(s):",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "languages you speak minimum at b1 level:",
+        "ai": "Languages you speak minimum at B1 level:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please let us know how you learned about this position. if you are being referred by another teacher who is currently working at all right, please mention their name.",
+        "ai": "Please let us know how you learned about this position. If you are being referred by another teacher who is currently working at All Right, please mention their name.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a bachelor's degree in education or a related field?",
+        "ai": "Do you have a Bachelor's degree in Education or a related field?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you have a different teaching certificate, please specify which one:",
+        "ai": "If you have a different teaching certificate, please specify which one:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how long have you been teaching english?",
+        "ai": "How long have you been teaching English?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Do you have a teaching certificate for teaching English as a Second Language (ESL)? If yes, please select which one(s):"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom phone input component and a hCaptcha widget. The application form is contained within a tabbed interface.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Surname:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Date of Birth (in format DD/MM/YYYY)",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nationality:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Residence:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Native language(s):",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Languages you speak minimum at B1 level:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please let us know how you learned about this position. If you are being referred by another teacher who is currently working at All Right, please mention their name.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have a Bachelor's degree in Education or a related field?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have a teaching certificate for teaching English as a Second Language (ESL)? If yes, please select which one(s):",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "No",
+          "TESOL",
+          "TEFL",
+          "CELTA",
+          "DELTA",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you have a different teaching certificate, please specify which one:",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How long have you been teaching English?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No experience",
+          "Less than 12 months",
+          "1 to 3 years",
+          "More than 3 years"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "name:",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "surname:",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "date of birth (in format dd/mm/yyyy)",
+      "field_type": "date",
+      "ref": "f6"
+    },
+    {
+      "question": "nationality:",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "residence:",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "native language(s):",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "languages you speak minimum at b1 level:",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please let us know how you learned about this position. if you are being referred by another teacher who is currently working at all right, please mention their name.",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have a bachelor's degree in education or a related field?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "if you have a different teaching certificate, please specify which one:",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how long have you been teaching english?",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

@@ -495,7 +495,7 @@ async function fillResumeFileInput() {
     }
 }
 
-async function loadProfile() {
+async function loadProfile({ force = false } = {}) {
     if (!ensureExtensionContextOrTeardown()) {
         profile = null;
 
@@ -519,7 +519,7 @@ async function loadProfile() {
                 return;
             }
 
-            ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE' }, onResponse);
+            ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE', force }, onResponse);
         });
     } catch {
         profile = null;
@@ -538,9 +538,9 @@ function removeLegacyFillOverlay() {
 async function runFullFill() {
     contentLog('info', 'draft-all.start', 'Draft All triggered from content script', {});
 
-    if (!profile) {
-        await loadProfile();
-    }
+    // Always refresh subscription before the gate - content-script profile can stay
+    // stale for the whole page lifetime (e.g. after a bonus award or period reset).
+    await loadProfile({ force: true });
 
     if (!profile) {
         return { ok: false, message: '⚠ Sign in to AutoCVApply first' };
@@ -549,7 +549,11 @@ async function runFullFill() {
     const remaining = profile.subscription?.credits_remaining ?? 0;
 
     if (remaining <= 0 || profile.subscription?.can_use_credits === false) {
-        contentLog('warn', 'draft-all.start', 'Credit limit reached', { remaining });
+        contentLog('warn', 'draft-all.start', 'Credit limit reached', {
+            remaining,
+            canUseCredits: profile.subscription?.can_use_credits,
+            blockReason: profile.subscription?.credit_block_reason ?? null,
+        });
 
         return { ok: false, message: '⚠ Monthly limit reached' };
     }

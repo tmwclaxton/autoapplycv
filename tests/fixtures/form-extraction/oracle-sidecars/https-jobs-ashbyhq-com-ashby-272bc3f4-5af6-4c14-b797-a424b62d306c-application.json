@@ -1,0 +1,343 @@
+{
+  "id": "https-jobs-ashbyhq-com-ashby-272bc3f4-5af6-4c14-b797-a424b62d306c-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:57:18.411Z",
+  "page_url": "https://jobs.ashbyhq.com/ashby/272bc3f4-5af6-4c14-b797-a424b62d306c/application",
+  "page_title": "Senior Product Engineer, Canada @ Ashby",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 16,
+      "count_delta": 0,
+      "label_jaccard": 0.9375,
+      "type_agree_rate": 0.9333,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status to work in this location?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status to work in this location?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have 4+ years of experience as a full-time engineer?",
+        "ai": "Do you have 4+ years of experience as a full-time engineer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "which country do you intend to work from?",
+        "ai": "Which country do you intend to work from?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "describe a role you were in or a project you led that brought out your absolute best work? what setup or attributes of the role/project enabled that?",
+        "ai": "Describe a role you were in or a project you led that brought out your absolute best work? What setup or attributes of the role/project enabled that?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe a choice you made when shipping a product or working on a technical challenge that didn’t come from a product manager or an engineering manager/lead. how did you advocate for it, and what impact did it have on your end users?",
+        "ai": "Describe a choice you made when shipping a product or working on a technical challenge that didn’t come from a product manager or an engineering manager/lead. How did you advocate for it, and what impact did it have on your end users?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe a time you challenged and changed a product request for a better user experience or business outcome.",
+        "ai": "Describe a time you challenged and changed a product request for a better user experience or business outcome.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what’s something, in a professional context, that you’ve gone deep on purely because you couldn’t let it go?",
+        "ai": "What’s something, in a professional context, that you’ve gone deep on purely because you couldn’t let it go?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current age?",
+        "ai": "What is your current age?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender identity?",
+        "ai": "What is your gender identity?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which ethnicity(ies) do you identify with? please select all that apply.",
+        "ai": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [
+      "Resume"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom radio/checkbox components that are not standard HTML inputs. The 'Yes/No' questions are implemented as buttons with hidden checkboxes. The diversity survey is optional.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Which country do you intend to work from?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status to work in this location?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have 4+ years of experience as a full-time engineer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Describe a role you were in or a project you led that brought out your absolute best work? What setup or attributes of the role/project enabled that?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe a choice you made when shipping a product or working on a technical challenge that didn’t come from a product manager or an engineering manager/lead. How did you advocate for it, and what impact did it have on your end users?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Describe a time you challenged and changed a product request for a better user experience or business outcome.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What’s something, in a professional context, that you’ve gone deep on purely because you couldn’t let it go?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your current age?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Under 30",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "What is your gender identity?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Asian or Asian American",
+          "Black or African American",
+          "Hispanic or Latine",
+          "Indigenous or Native American",
+          "Native Hawaiian or Other Pacific Islander",
+          "White",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status to work in this location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have 4+ years of experience as a full-time engineer?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "which country do you intend to work from?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "describe a role you were in or a project you led that brought out your absolute best work? what setup or attributes of the role/project enabled that?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "describe a choice you made when shipping a product or working on a technical challenge that didn’t come from a product manager or an engineering manager/lead. how did you advocate for it, and what impact did it have on your end users?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "describe a time you challenged and changed a product request for a better user experience or business outcome.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "what’s something, in a professional context, that you’ve gone deep on purely because you couldn’t let it go?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

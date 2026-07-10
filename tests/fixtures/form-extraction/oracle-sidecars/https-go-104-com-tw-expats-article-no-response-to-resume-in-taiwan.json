@@ -1,0 +1,51 @@
+{
+  "id": "https-go-104-com-tw-expats-article-no-response-to-resume-in-taiwan",
+  "status": "disagree",
+  "captured_at": "2026-07-10T20:09:32.734Z",
+  "page_url": "https://go.104.com.tw/expats/article/no-response-to-resume-in-taiwan/",
+  "page_title": "Are You an Expat Getting No Responses to Your Resume? Try These Tips to Break the Silence!",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 1,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "search",
+        "ai": "Search",
+        "detector_type": "search",
+        "ai_type": "text",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains only a site-wide search form. No job application forms or candidate input fields were found in the provided excerpt.",
+    "fields": [
+      {
+        "question": "Search",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search",
+      "field_type": "search",
+      "ref": "f0"
+    }
+  ]
+}

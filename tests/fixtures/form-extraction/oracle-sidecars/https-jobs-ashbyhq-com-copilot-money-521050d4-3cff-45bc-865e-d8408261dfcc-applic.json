@@ -1,0 +1,232 @@
+{
+  "id": "https-jobs-ashbyhq-com-copilot-money-521050d4-3cff-45bc-865e-d8408261dfcc-applic",
+  "status": "agree",
+  "captured_at": "2026-07-10T20:13:02.347Z",
+  "page_url": "https://jobs.ashbyhq.com/copilot-money/521050d4-3cff-45bc-865e-d8408261dfcc/application",
+  "page_title": "Senior Web Engineer @ Copilot Money",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.9091,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current Company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "github url (optional)",
+        "ai": "GitHub URL (optional)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio url (optional)",
+        "ai": "Portfolio URL (optional)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you based in the santiago area with the ability to work in our local office two days each week?",
+        "ai": "Are you based in the Santiago area with the ability to work in our local office two days each week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is a combobox that likely fetches suggestions dynamically. The form uses an 'autocvapply' feature for resume parsing.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL (optional)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL (optional)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you based in the Santiago area with the ability to work in our local office two days each week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url (optional)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url (optional)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you based in the santiago area with the ability to work in our local office two days each week?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "id": "https-airliquidehr-wd3-myworkdayjobs-com-en-us-airliquideexternalcareer-job-mach",
+  "status": "disagree",
+  "captured_at": "2026-07-10T18:54:49.801Z",
+  "page_url": "https://airliquidehr.wd3.myworkdayjobs.com/en-us/airliquideexternalcareer/job/machinist_r10093406/apply",
+  "page_title": "Machinist",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 4,
+      "count_delta": 4,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill with Resume",
+      "Apply Manually",
+      "Use My Last Application",
+      "Apply with LinkedIn"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=0, ai=4)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page is a Workday application landing page. The actual application form fields are hidden behind the 'Apply Manually' or 'Autofill with Resume' triggers, which load dynamic content via JavaScript/iframes not present in the static HTML.",
+    "fields": [
+      {
+        "question": "Autofill with Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Apply Manually",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Use My Last Application",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Apply with LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

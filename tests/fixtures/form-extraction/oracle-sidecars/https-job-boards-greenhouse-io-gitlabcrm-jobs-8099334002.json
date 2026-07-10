@@ -1,0 +1,218 @@
+{
+  "id": "https-job-boards-greenhouse-io-gitlabcrm-jobs-8099334002",
+  "status": "agree",
+  "captured_at": "2026-07-10T19:33:42.594Z",
+  "page_url": "https://job-boards.greenhouse.io/gitlabcrm/jobs/8099334002",
+  "page_title": "Job Application for People Expression of Interest Form at GitLab Prospects",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 6,
+      "count_delta": 13,
+      "label_jaccard": 0.3333,
+      "type_agree_rate": 0.6667,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "location (city) first name",
+      "attach first name",
+      "attach first name",
+      "please select from the skills listed below you have relevant experience in",
+      "how many total years of people experience do you have?  please select from the skills listed below you have relevant experience in",
+      "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
+      "are you proficient in both writing and speaking any other languages? please select from the skills listed below you have relevant experience in",
+      "where are you located? please note: due to regulatory requirements, gitlab can only hire in certain countries. depending on your location, we may not be able to move forward with your application. please select from the skills listed below you have relevant experience in",
+      "will you now or in the future require sponsorship for a visa to remain in your current location? please select from the skills listed below you have relevant experience in",
+      "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
+      "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
+      "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
+      "linkedin profile"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, LinkedIn, or custom screening questions) that typically appear in Greenhouse forms are missing from this output.",
+    "fields": [
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "location (city) first name",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "attach first name",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "how many total years of people experience do you have?  please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "are you proficient in both writing and speaking any other languages? please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "where are you located? please note: due to regulatory requirements, gitlab can only hire in certain countries. depending on your location, we may not be able to move forward with your application. please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for a visa to remain in your current location? please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f18"
+    }
+  ]
+}

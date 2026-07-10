@@ -1,0 +1,105 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-raisin",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:57:48.793Z",
+  "page_url": "https://job-boards.eu.greenhouse.io/raisin",
+  "page_title": "Jobs at Raisin",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.25,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "search",
+        "ai": "Search",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "department",
+        "ai": "Department",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "office",
+        "ai": "Office",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "legal entity",
+        "ai": "Legal Entity",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.250 below 0.6 on 4 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job board index page, not a specific job application form. The fields identified are filters for searching job listings. No application-specific fields (like name, email, or resume upload) are present on this page.",
+    "fields": [
+      {
+        "question": "Search",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Department",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Office",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Legal Entity",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "department",
+      "field_type": "select",
+      "ref": "f1"
+    },
+    {
+      "question": "office",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "legal entity",
+      "field_type": "select",
+      "ref": "f3"
+    }
+  ]
+}

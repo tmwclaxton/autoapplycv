@@ -24,6 +24,43 @@ test('normalizeOracleFields drops empty questions', () => {
     assert.equal(fields[1].field_type, 'email');
 });
 
+test('normalizeOracleFields drops ATS autofill chrome labels', () => {
+    const fields = normalizeOracleFields([
+        { question: 'Full name', field_type: 'text' },
+        { question: 'Import resume', field_type: 'file' },
+        { question: 'Autofill with Resume', field_type: 'other' },
+        { question: 'Email', field_type: 'email' },
+    ]);
+
+    assert.deepEqual(
+        fields.map((field) => field.question),
+        ['Full name', 'Email'],
+    );
+});
+
+test('diffInventoryOracles agrees when Import resume is the only ai_only chrome', () => {
+    const detector = [
+        { question: 'Full name', field_type: 'text' },
+        { question: 'Email', field_type: 'email' },
+        { question: 'Phone', field_type: 'tel' },
+        { question: 'Resume', field_type: 'file' },
+        { question: 'LinkedIn', field_type: 'url' },
+        { question: 'Gender', field_type: 'radio' },
+    ];
+    const ai = [
+        { question: 'Full name', field_type: 'text' },
+        { question: 'Email', field_type: 'email' },
+        { question: 'Phone', field_type: 'tel' },
+        { question: 'Resume', field_type: 'file' },
+        { question: 'Import resume', field_type: 'file' },
+    ];
+
+    const result = diffInventoryOracles(detector, ai);
+
+    assert.equal(result.status, 'agree');
+    assert.equal(result.ai_only.length, 0);
+});
+
 test('jaccardSimilarity handles empty and overlap', () => {
     assert.equal(jaccardSimilarity([], []), 1);
     assert.equal(jaccardSimilarity(['a'], []), 0);

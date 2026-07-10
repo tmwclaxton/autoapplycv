@@ -1,0 +1,388 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-21754393-b3fe-4c14-b18d-4cd13fffa140-application",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0c5734b9-5ba0-44f0-83ab-5916ffa14e22",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "fa3e1cf3-e8f9-44a4-922e-d976b96e1b08",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a citizen / permanent resident of the country where I plan to live & work from.",
+        "I have a work visa in the country where I plan to live & work from.",
+        "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_0c29443f-c814-43c3-81bd-e56e8a034f24-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_0c29443f-c814-43c3-81bd-e56e8a034f24",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "ac9c223b-aa17-463d-a35a-2c8155dd5dab",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8b5bd22e-8790-4649-878e-f01134951982",
+        "name": "8b5bd22e-8790-4649-878e-f01134951982",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8b5bd22e-8790-4649-878e-f01134951982",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "6cf029f9-b5be-4278-9dad-17d02425012d",
+        "name": "6cf029f9-b5be-4278-9dad-17d02425012d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6cf029f9-b5be-4278-9dad-17d02425012d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "70515f81-c656-4c8e-94ec-9f60eb36250e",
+        "name": "70515f81-c656-4c8e-94ec-9f60eb36250e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "70515f81-c656-4c8e-94ec-9f60eb36250e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience managing engineers who keep a saas product's production infrastructure running?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I've directly managed engineers who run production cloud infrastructure for a SaaS product",
+        "I've managed infrastructure or platform engineers, but not for a production SaaS product",
+        "I've led technical work in this area but didn't manage people directly",
+        "I haven't directly managed engineers in this area"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_31b27b02-131f-46aa-b6e4-713ea3f30094-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_31b27b02-131f-46aa-b6e4-713ea3f30094",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your kubernetes experience in production?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I've led teams and worked directly on production Kubernetes at scale, covering reliability, scaling, and cluster lifecycle",
+        "I've worked directly with production Kubernetes but wasn't the team lead",
+        "I've used Kubernetes outside production, or only in limited production settings",
+        "I don't have meaningful Kubernetes experience"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_a8209216-fdc4-4be4-b464-0f1a1d517a15-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_a8209216-fdc4-4be4-b464-0f1a1d517a15",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your multi-cloud infrastructure experience?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I've led design or operations across two or more major cloud providers in production",
+        "I've gone deep in one cloud and have some experience with a second",
+        "I've only worked in one cloud",
+        "I don't have substantial cloud infrastructure experience"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_55f0d06d-01d7-448d-a152-3fe8fd0aa3ac-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_55f0d06d-01d7-448d-a152-3fe8fd0aa3ac",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience working across engineering and adjacent teams to improve platform reliability or developer productivity?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I've led cross-functional infrastructure projects with teams like security, support, or product and delivered measurable improvements in reliability, scalability, or developer productivity",
+        "I've contributed to these projects but didn't lead them",
+        "I've worked across teams occasionally but wasn't responsible for the results",
+        "I don't have much cross-functional experience like this"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_07002797-1795-4865-8db4-34d6ef9f0171-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_07002797-1795-4865-8db4-34d6ef9f0171",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes how you use ai in cloud infrastructure or platform engineering work today?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I use AI regularly across infrastructure operations (analysis, automation, incident support, documentation) and can explain the guardrails I apply",
+        "I use AI occasionally for productivity but it's not yet part of how I regularly approach infrastructure work",
+        "I've experimented with AI tools, but not in cloud infrastructure work",
+        "I don't use AI tools in my work"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_4c976746-96ed-4c24-b613-118795df2947-labeled-radio-0",
+        "name": "5d72ab1b-6658-4b99-bf80-1a0dfa4a9e9a_4c976746-96ed-4c24-b613-118795df2947",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b8e4b10b-b11e-4b04-af5e-e7bbde4962c1__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

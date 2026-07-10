@@ -1,0 +1,214 @@
+{
+  "id": "https-jobs-ashbyhq-com-aven-ef418ae1-de4c-47c4-9818-088c76c14eed-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T18:16:12.101Z",
+  "page_url": "https://jobs.ashbyhq.com/aven/ef418ae1-de4c-47c4-9818-088c76c14eed/application",
+  "page_title": "Executive Administrative Assistant & Ops @ Aven",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 10,
+      "count_delta": 0,
+      "label_jaccard": 0.8182,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "this role requires full onsite presence, a strong commitment to long hours, and being responsive outside of normal business hours. are you comfortable with these expectations?",
+        "ai": "This role requires full onsite presence, a strong commitment to long hours, and being responsive outside of normal business hours. Are you comfortable with these expectations?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what’s the hardest and most intense thing you’ve ever worked on in your life?",
+        "ai": "What’s the hardest and most intense thing you’ve ever worked on in your life?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is the highest-impact task that you have done for an executive?",
+        "ai": "What is the highest-impact task that you have done for an executive?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "imagine you're responsible for planning an off-site for a company of 100 employees. most employees are local and work in person, but a number of employees are remote. you have a limited budget. how would you design the event, and what specific steps would you take to ensure remote employees feel included?",
+        "ai": "Imagine you're responsible for planning an off-site for a company of 100 employees. Most employees are local and work in person, but a number of employees are remote. You have a limited budget. How would you design the event, and what specific steps would you take to ensure remote employees feel included?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "imagine you're supporting an executive who is scheduled to fly from san francisco to new york that evening. the executive has a full day of meetings the following day. the afternoon before departure, you learn that the flight has been canceled. the next best available replacement flight would arrive in new york at 8:00 am est. the executive's schedule for that day includes: a 2-hour client meeting that could influence a major partnership deal, a 1-hour interview with a cfo candidate, and several internal meetings throughout the day with the team. walk me through how you would approach this situation. what factors would you consider, what options would you evaluate, and how would you make recommendations to the executive?",
+        "ai": "Imagine you're supporting an executive who is scheduled to fly from San Francisco to New York that evening. The executive has a full day of meetings the following day. The afternoon before departure, you learn that the flight has been canceled. The next best available replacement flight would arrive in New York at 8:00 AM EST. The executive's schedule for that day includes: A 2-hour client meeting that could influence a major partnership deal, a 1-hour interview with a CFO candidate, and several internal meetings throughout the day with the team. Walk me through how you would approach this situation. What factors would you consider, what options would you evaluate, and how would you make recommendations to the executive?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom checkbox implementation for the 'Yes/No' question. The resume upload is handled via a drag-and-drop zone that triggers a file input.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role requires full onsite presence, a strong commitment to long hours, and being responsive outside of normal business hours. Are you comfortable with these expectations?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What’s the hardest and most intense thing you’ve ever worked on in your life?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the highest-impact task that you have done for an executive?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Imagine you're responsible for planning an off-site for a company of 100 employees. Most employees are local and work in person, but a number of employees are remote. You have a limited budget. How would you design the event, and what specific steps would you take to ensure remote employees feel included?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Imagine you're supporting an executive who is scheduled to fly from San Francisco to New York that evening. The executive has a full day of meetings the following day. The afternoon before departure, you learn that the flight has been canceled. The next best available replacement flight would arrive in New York at 8:00 AM EST. The executive's schedule for that day includes: A 2-hour client meeting that could influence a major partnership deal, a 1-hour interview with a CFO candidate, and several internal meetings throughout the day with the team. Walk me through how you would approach this situation. What factors would you consider, what options would you evaluate, and how would you make recommendations to the executive?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "this role requires full onsite presence, a strong commitment to long hours, and being responsive outside of normal business hours. are you comfortable with these expectations?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "what’s the hardest and most intense thing you’ve ever worked on in your life?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "what is the highest-impact task that you have done for an executive?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "imagine you're responsible for planning an off-site for a company of 100 employees. most employees are local and work in person, but a number of employees are remote. you have a limited budget. how would you design the event, and what specific steps would you take to ensure remote employees feel included?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "imagine you're supporting an executive who is scheduled to fly from san francisco to new york that evening. the executive has a full day of meetings the following day. the afternoon before departure, you learn that the flight has been canceled. the next best available replacement flight would arrive in new york at 8:00 am est. the executive's schedule for that day includes: a 2-hour client meeting that could influence a major partnership deal, a 1-hour interview with a cfo candidate, and several internal meetings throughout the day with the team. walk me through how you would approach this situation. what factors would you consider, what options would you evaluate, and how would you make recommendations to the executive?",
+      "field_type": "textarea",
+      "ref": "f9"
+    }
+  ]
+}

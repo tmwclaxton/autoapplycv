@@ -1,0 +1,39 @@
+{
+  "id": "https-alushta-superjob-ru",
+  "status": "disagree",
+  "captured_at": "2026-07-10T19:42:08.940Z",
+  "page_url": "https://alushta.superjob.ru/",
+  "page_title": "Captcha",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Are you sure you’re not a robot?"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page is a CAPTCHA challenge. No standard job application fields are present.",
+    "fields": [
+      {
+        "question": "Are you sure you’re not a robot?",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

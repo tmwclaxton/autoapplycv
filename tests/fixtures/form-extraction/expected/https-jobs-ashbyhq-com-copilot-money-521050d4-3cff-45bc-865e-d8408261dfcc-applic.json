@@ -1,0 +1,234 @@
+{
+  "id": "https-jobs-ashbyhq-com-copilot-money-521050d4-3cff-45bc-865e-d8408261dfcc-applic",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "9f855c0f-3bb8-4da7-8ea8-9fdbf5cd60a0",
+        "name": "9f855c0f-3bb8-4da7-8ea8-9fdbf5cd60a0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9f855c0f-3bb8-4da7-8ea8-9fdbf5cd60a0",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "91cb9ac8-0ca2-450d-aecc-5f7dcaaa3b0c",
+        "name": "91cb9ac8-0ca2-450d-aecc-5f7dcaaa3b0c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "91cb9ac8-0ca2-450d-aecc-5f7dcaaa3b0c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b512d573-2812-421f-b1fa-ba1c4f7d28ee",
+        "name": "b512d573-2812-421f-b1fa-ba1c4f7d28ee",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b512d573-2812-421f-b1fa-ba1c4f7d28ee",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "77e41d98-1b82-4ee6-bfc6-6bfa662267d2",
+        "name": "77e41d98-1b82-4ee6-bfc6-6bfa662267d2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "77e41d98-1b82-4ee6-bfc6-6bfa662267d2",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5244ac80-106a-4a9d-9e1d-f8fae7f3275c",
+        "name": "5244ac80-106a-4a9d-9e1d-f8fae7f3275c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5244ac80-106a-4a9d-9e1d-f8fae7f3275c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you based in the santiago area with the ability to work in our local office two days each week?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "427db0e5-6f9d-4bf8-895b-28daf3a43641_4c5df5b7-a325-4a00-9095-0af35fb5abcb-labeled-radio-0",
+        "name": "427db0e5-6f9d-4bf8-895b-28daf3a43641_4c5df5b7-a325-4a00-9095-0af35fb5abcb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "94c75673-4ae6-4a8b-b4b2-9601bc0cd2c1",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "94c75673-4ae6-4a8b-b4b2-9601bc0cd2c1",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}
