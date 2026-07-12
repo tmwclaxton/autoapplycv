@@ -57,6 +57,7 @@ export function openBlobInNewTab({ base64, mimeType }) {
 
     if (!previewWindow) {
         URL.revokeObjectURL(url);
+
         throw new Error('Popup blocked. Allow popups to preview documents.');
     }
 

@@ -4,7 +4,6 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import {
     filterMarketingConsentPendingFields,
     isAgreementCheckboxField,
@@ -17,6 +16,7 @@ import {
     shouldPromptUserForMissingDraftAnswer,
     shouldSaveToApplicationAnswers,
 } from '../../extension/src/shared/pending-fields.js';
+import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
