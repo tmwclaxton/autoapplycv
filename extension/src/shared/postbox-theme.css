@@ -6,6 +6,7 @@
     --postbox-paper: #fafaf8;
     --postbox-grey: #e8e6e1;
     --postbox-grey-dark: #6b6b6b;
+    --postbox-grey-mid: #9ca3af;
     --postbox-ink: #1a1a2e;
     --postbox-surface: #ffffff;
     --postbox-panel-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
@@ -14,9 +15,27 @@
     --postbox-success-bg: rgb(34 197 94 / 10%);
     --postbox-success-border: rgb(34 197 94 / 35%);
     --postbox-success-text: #166534;
+    --postbox-success-solid: #15803d;
     --postbox-error-bg: rgb(200 16 46 / 8%);
     --postbox-error-border: rgb(200 16 46 / 35%);
     --postbox-error-text: #991b1b;
+    --postbox-muted-divider: rgb(27 54 93 / 12%);
+    --postbox-muted-border: rgb(27 54 93 / 18%);
+    --postbox-muted-border-strong: rgb(27 54 93 / 28%);
+    --postbox-muted-text: rgb(27 54 93 / 72%);
+    --postbox-chip-surface: rgb(255 255 255 / 92%);
+    --postbox-chip-surface-muted: rgb(255 255 255 / 88%);
+    --postbox-profile-chip-bg: rgb(200 16 46 / 6%);
+    --postbox-profile-chip-border: rgb(200 16 46 / 28%);
+    --postbox-draft-panel-bg: rgb(200 16 46 / 4%);
+    --postbox-draft-panel-border: rgb(200 16 46 / 45%);
+    --postbox-warn: #92400e;
+    --postbox-warn-bg: #fff7ed;
+    --postbox-warn-border: #92400e;
+    --postbox-log-divider: rgb(0 0 0 / 6%);
+    --postbox-toggle-knob: #ffffff;
+    --postbox-overlay: rgb(250 250 248 / 92%);
+    --postbox-on-accent: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +44,7 @@
         --postbox-navy: #8eb4d8;
         --postbox-grey: #1a2030;
         --postbox-grey-dark: #94a3b8;
+        --postbox-grey-mid: #64748b;
         --postbox-ink: #e8eaef;
         --postbox-surface: #161b27;
         --postbox-panel-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
@@ -33,9 +53,26 @@
         --postbox-success-bg: rgb(34 197 94 / 12%);
         --postbox-success-border: rgb(34 197 94 / 35%);
         --postbox-success-text: #86efac;
+        --postbox-success-solid: #22c55e;
         --postbox-error-bg: rgb(200 16 46 / 12%);
         --postbox-error-border: rgb(200 16 46 / 40%);
         --postbox-error-text: #fca5a5;
+        --postbox-muted-divider: rgb(142 180 216 / 12%);
+        --postbox-muted-border: rgb(142 180 216 / 18%);
+        --postbox-muted-border-strong: rgb(142 180 216 / 28%);
+        --postbox-muted-text: rgb(148 163 184 / 85%);
+        --postbox-chip-surface: rgb(22 27 39 / 92%);
+        --postbox-chip-surface-muted: rgb(22 27 39 / 88%);
+        --postbox-profile-chip-bg: rgb(200 16 46 / 12%);
+        --postbox-profile-chip-border: rgb(200 16 46 / 35%);
+        --postbox-draft-panel-bg: rgb(200 16 46 / 8%);
+        --postbox-draft-panel-border: rgb(200 16 46 / 45%);
+        --postbox-warn: #fbbf24;
+        --postbox-warn-bg: rgb(146 64 14 / 18%);
+        --postbox-warn-border: #fbbf24;
+        --postbox-log-divider: rgb(255 255 255 / 8%);
+        --postbox-toggle-knob: #e8eaef;
+        --postbox-overlay: rgb(15 18 25 / 92%);
     }
 }
 
@@ -57,6 +94,7 @@ body.postbox-page {
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    color-scheme: light dark;
 }
 
 .postbox-bar-top {

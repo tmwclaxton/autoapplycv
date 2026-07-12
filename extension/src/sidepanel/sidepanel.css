@@ -185,7 +185,7 @@ body {
     flex-shrink: 0;
 }
 
-.dot.green { background: #22c55e; }
+.dot.green { background: var(--postbox-success-solid); }
 .dot.red { background: var(--postbox-red); }
 
 .message {
@@ -348,7 +348,7 @@ body {
 
 .toggle input:checked + .slider:before {
     transform: translateX(16px);
-    background: #ffffff;
+    background: var(--postbox-toggle-knob);
 }
 
 .focused-field,
@@ -460,13 +460,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 16px;
-    background: rgb(250 250 248 / 92%);
-}
-
-@media (prefers-color-scheme: dark) {
-    .onboarding-overlay {
-        background: rgb(15 18 25 / 92%);
-    }
+    background: var(--postbox-overlay);
 }
 
 .onboarding-card {
@@ -544,10 +538,13 @@ body {
 
 .pending-fields-clarifying-question {
     margin: 0 0 8px;
+    padding: 10px 12px;
+    border: 2px solid var(--postbox-draft-panel-border);
+    background: var(--postbox-draft-panel-bg);
     font-size: 13px;
     line-height: 1.45;
     font-weight: 600;
-    color: var(--postbox-navy);
+    color: var(--postbox-ink);
 }
 
 .pending-fields-summary {
@@ -575,12 +572,17 @@ body {
     margin: 0;
     font-size: 13px;
     font-weight: 600;
-    color: var(--postbox-navy);
+    color: var(--postbox-ink);
     line-height: 1.4;
 }
 
 .pending-field-hint {
     margin: 0;
+}
+
+.pending-field-input {
+    background: var(--postbox-surface);
+    color: var(--postbox-ink);
 }
 
 .pending-field-actions {
@@ -695,9 +697,9 @@ body {
 }
 
 .assist-message-copy-btn.is-copied {
-    border-color: rgb(21 128 61 / 45%);
-    color: rgb(21 128 61);
-    background: rgb(21 128 61 / 8%);
+    border-color: var(--postbox-success-border);
+    color: var(--postbox-success-text);
+    background: var(--postbox-success-bg);
 }
 
 .assist-message-assistant .assist-message-content {
@@ -824,7 +826,7 @@ body {
 
 .assist-action-divider {
     border: none;
-    border-top: 1px solid rgb(27 54 93 / 12%);
+    border-top: 1px solid var(--postbox-muted-divider);
     margin: 0 0 0.5rem;
 }
 
@@ -844,7 +846,7 @@ body {
     padding: 4px 12px;
     border-radius: 999px;
     background: var(--postbox-red);
-    color: #fff;
+    color: var(--postbox-on-accent);
     font-size: 11px;
     font-weight: 700;
     line-height: 1.3;
@@ -863,7 +865,7 @@ body {
 }
 
 .assist-action-apply-all.is-applied {
-    background: rgb(21 128 61);
+    background: var(--postbox-success-solid);
 }
 
 .assist-action-tag {
@@ -872,28 +874,28 @@ body {
     gap: 6px;
     max-width: 100%;
     padding: 4px 6px 4px 10px;
-    border: 1px solid rgb(27 54 93 / 18%);
+    border: 1px solid var(--postbox-muted-border);
     border-radius: 999px;
-    background: rgb(255 255 255 / 92%);
+    background: var(--postbox-chip-surface);
     font-size: 11px;
     line-height: 1.3;
     color: var(--postbox-navy);
 }
 
 .assist-action-tag-draft {
-    border-color: rgb(27 54 93 / 28%);
+    border-color: var(--postbox-muted-border-strong);
     cursor: pointer;
     font-weight: 600;
 }
 
 .assist-action-tag-profile {
-    border-color: rgb(200 16 46 / 28%);
-    background: rgb(200 16 46 / 6%);
+    border-color: var(--postbox-profile-chip-border);
+    background: var(--postbox-profile-chip-bg);
 }
 
 .assist-action-tag.is-applied {
-    border-color: rgb(21 128 61 / 35%);
-    background: rgb(21 128 61 / 8%);
+    border-color: var(--postbox-success-border);
+    background: var(--postbox-success-bg);
 }
 
 .assist-action-tag-label {
@@ -913,7 +915,7 @@ body {
     padding: 2px 8px;
     border-radius: 999px;
     background: var(--postbox-red);
-    color: #fff;
+    color: var(--postbox-on-accent);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -924,7 +926,7 @@ body {
 .assist-action-tag-link {
     background: transparent;
     color: var(--postbox-navy);
-    border: 1px solid rgb(27 54 93 / 18%);
+    border: 1px solid var(--postbox-muted-border);
     text-decoration: none;
 }
 
@@ -942,8 +944,8 @@ body {
 }
 
 .assist-message-draft-batch .assist-message-content {
-    border-color: rgb(200 16 46 / 45%);
-    background: rgb(200 16 46 / 4%);
+    border-color: var(--postbox-draft-panel-border);
+    background: var(--postbox-draft-panel-bg);
 }
 
 .assist-draft-batch-header {
@@ -959,7 +961,7 @@ body {
     padding: 4px 12px 0;
     font-size: 12px;
     line-height: 1.45;
-    color: rgb(27 54 93 / 72%);
+    color: var(--postbox-muted-text);
 }
 
 .assist-draft-batch-list {
@@ -974,8 +976,8 @@ body {
     flex-direction: column;
     gap: 6px;
     padding: 10px;
-    border: 1px solid rgb(27 54 93 / 16%);
-    background: rgb(255 255 255 / 88%);
+    border: 1px solid var(--postbox-muted-border);
+    background: var(--postbox-chip-surface-muted);
 }
 
 .assist-draft-answer-label {
@@ -1006,8 +1008,8 @@ body {
 }
 
 .assist-draft-answer-copy.is-copied {
-    border-color: rgb(21 128 61 / 35%);
-    color: rgb(21 128 61);
+    border-color: var(--postbox-success-border);
+    color: var(--postbox-success-text);
 }
 
 .assist-tools {
@@ -1270,11 +1272,11 @@ body {
 
 .auto-apply-log-line {
     padding: 4px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--postbox-log-divider);
 }
 
 .auto-apply-log-success {
-    color: #166534;
+    color: var(--postbox-success-text);
 }
 
 .auto-apply-log-error {
@@ -1282,20 +1284,20 @@ body {
 }
 
 .auto-apply-log-warn {
-    color: #92400e;
+    color: var(--postbox-warn);
 }
 
 .auto-apply-pause-banner {
     margin-top: 10px;
     padding: 12px;
-    border-left: 4px solid #92400e;
-    background: #fff7ed;
+    border-left: 4px solid var(--postbox-warn-border);
+    background: var(--postbox-warn-bg);
 }
 
 .auto-apply-pause-banner strong {
     display: block;
     margin-bottom: 4px;
-    color: #92400e;
+    color: var(--postbox-warn);
 }
 
 .auto-apply-pause-message {
