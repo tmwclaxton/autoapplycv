@@ -3,9 +3,9 @@
   "campaign": "draft-all-live-quality",
   "profile_email": "tmwclaxton@gmail.com",
   "started_at": "2026-07-11T07:56:00+01:00",
-  "updated_at": "2026-07-12T21:05:00+01:00",
+  "updated_at": "2026-07-12T21:58:32+01:00",
   "deadline_local": "2026-07-12T23:00:00+01:00",
-  "extension_version": "2.25.56",
+  "extension_version": "2.25.61",
   "campaign_status": "resumed",
   "premature_wrap": {
     "at": "2026-07-12T18:30:00+01:00",
@@ -18,8 +18,8 @@
     "staging_head": "4aa67d85",
     "extension_version": "2.25.51",
     "profile_filter": "e4ad56ed",
-    "forms_tested_count": 201,
-    "forms_reviewed_july_12": 77,
+    "forms_tested_count": 254,
+    "forms_reviewed_july_12": 121,
     "discipline": "inventory -> draft all -> read_field_values -> validation -> notes -> fix+reverify -> corpus -> status JSON -> push staging. No real submits.",
     "incident": "Teamtailor Aignostics real submit on 2026-07-11; validation trigger fixed to reportValidity-only. No submits this session.",
     "fixes_shipped_tonight": [
@@ -182,7 +182,9 @@
       "fields_filled": 14,
       "inventory_count": 21,
       "reviewed_at": "2026-07-11T10:35:00+01:00",
-      "commits": ["ed2b1a2f"],
+      "commits": [
+        "ed2b1a2f"
+      ],
       "fixture_id": "https-job-boards-greenhouse-io-givedirectly-jobs-4129255005",
       "notes": [
         "job-boards URL stays on apply form",
@@ -200,7 +202,9 @@
       "fields_filled": 16,
       "inventory_count": 26,
       "reviewed_at": "2026-07-11T10:40:00+01:00",
-      "commits": ["ed2b1a2f"],
+      "commits": [
+        "ed2b1a2f"
+      ],
       "fixture_id": "https-job-boards-greenhouse-io-discord-jobs-8571766002",
       "notes": [
         "job-boards URL stays on apply; 26-field inventory clean",
@@ -218,7 +222,10 @@
       "result": "pass_after_fix",
       "fields_filled": 10,
       "reviewed_at": "2026-07-11T11:00:00+01:00",
-      "commits": ["5e71b406", "973fdff9"],
+      "commits": [
+        "5e71b406",
+        "973fdff9"
+      ],
       "fixture_id": "https-job-boards-greenhouse-io-perfectserve-jobs-6104761004",
       "notes": [
         "job-boards URL stays on apply form (boards.greenhouse.io redirects)",
@@ -237,7 +244,9 @@
       "fields_filled": 20,
       "inventory_count": 30,
       "reviewed_at": "2026-07-11T10:55:00+01:00",
-      "commits": ["973fdff9"],
+      "commits": [
+        "973fdff9"
+      ],
       "fixture_id": "https-job-boards-greenhouse-io-propublica-jobs-4053828006",
       "notes": [
         "30-field batch timeout fix: all 8 pitch textareas filled (was 16/30 before)",
@@ -270,7 +279,10 @@
       "fields_filled": 24,
       "inventory_count": 32,
       "reviewed_at": "2026-07-11T10:20:00+01:00",
-      "commits": ["39e42667", "3f49f487"],
+      "commits": [
+        "39e42667",
+        "3f49f487"
+      ],
       "fixture_id": "https-jobs-lever-co-coalfire-f63093ae-75e0-4793-b872-5e8b20b6538c-apply",
       "notes": [
         "US residence/work auth/visa all No PASS; EEO declines PASS",
@@ -321,7 +333,9 @@
       "result": "pass_with_notes_after_fix",
       "fields_filled": 12,
       "reviewed_at": "2026-07-11T10:25:00+01:00",
-      "commits": ["3f49f487"],
+      "commits": [
+        "3f49f487"
+      ],
       "notes": [
         "US work auth No PASS (preference over stale memo)",
         "Screening radios Yes via memo/LLM; cover letter stale Aignostics context",
@@ -352,7 +366,10 @@
       "result": "pass_with_notes_after_fix",
       "fields_filled": 15,
       "reviewed_at": "2026-07-11T10:15:00+01:00",
-      "commits": ["8e951645", "d8522ae9"],
+      "commits": [
+        "8e951645",
+        "d8522ae9"
+      ],
       "fixture_id": "live-review-lever-onceuponafarm-general-20260711",
       "notes": [
         "URLs/LinkedIn/portfolio instant fill PASS",
@@ -370,7 +387,10 @@
       "result": "pass_after_fix",
       "fields_filled": 11,
       "reviewed_at": "2026-07-11T10:02:00+01:00",
-      "commits": ["2b57324a", "6428f478"],
+      "commits": [
+        "2b57324a",
+        "6428f478"
+      ],
       "notes": [
         "Citizenship re-verify PASS: United Kingdom (commit 2b57324a)",
         "Cover letter PDF attach PASS via FILL_COVER_LETTER (commit 6428f478)",
@@ -386,7 +406,9 @@
       "fields_filled": 15,
       "inventory_count": 18,
       "reviewed_at": "2026-07-11T10:10:00+01:00",
-      "commits": ["d8522ae9"],
+      "commits": [
+        "d8522ae9"
+      ],
       "fixture_id": "live-review-workable-saltlik-general-20260711",
       "notes": [
         "SVG label decontamination PASS: 18 clean fields (was 21 polluted)",
@@ -443,7 +465,9 @@
       "fields_filled": 12,
       "inventory_count": 18,
       "reviewed_at": "2026-07-11T10:35:00+01:00",
-      "commits": ["79fbe592"],
+      "commits": [
+        "79fbe592"
+      ],
       "fixture_id": "https-job-boards-greenhouse-io-tactacam-jobs-4242911009",
       "notes": [
         "Billings MT relocate: location_clarify pending after city-specific partition fix (was wrongly Yes)",
@@ -988,7 +1012,9 @@
       "title": "Divergent (closed)",
       "result": "skipped_closed",
       "reviewed_at": "2026-07-11T12:00:00+01:00",
-      "notes": ["Redirected to ?error=true closed job board"]
+      "notes": [
+        "Redirected to ?error=true closed job board"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/hellbenderinc/jobs/4623701008",
@@ -996,7 +1022,9 @@
       "title": "HELLBENDER (closed)",
       "result": "skipped_closed",
       "reviewed_at": "2026-07-11T12:00:00+01:00",
-      "notes": ["Redirected to ?error=true closed job board"]
+      "notes": [
+        "Redirected to ?error=true closed job board"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/figureai/jobs/4006360006",
@@ -1004,7 +1032,9 @@
       "title": "Figure AI (closed)",
       "result": "skipped_closed",
       "reviewed_at": "2026-07-11T12:18:00+01:00",
-      "notes": ["Redirected to ?error=true closed job board"]
+      "notes": [
+        "Redirected to ?error=true closed job board"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/phantomai/jobs/4674281006",
@@ -1012,7 +1042,9 @@
       "title": "Phantom AI (closed)",
       "result": "skipped_closed",
       "reviewed_at": "2026-07-11T12:19:00+01:00",
-      "notes": ["Redirected to ?error=true closed job board"]
+      "notes": [
+        "Redirected to ?error=true closed job board"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/zone5technologies/jobs/5032964008",
@@ -1166,7 +1198,9 @@
       "title": "Form Health (closed)",
       "result": "skipped_closed",
       "reviewed_at": "2026-07-11T11:44:00+01:00",
-      "notes": ["Redirected to ?error=true closed job board"]
+      "notes": [
+        "Redirected to ?error=true closed job board"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/formhealth/jobs/5290202008",
@@ -1176,7 +1210,9 @@
       "fields_filled": 7,
       "reviewed_at": "2026-07-11T11:45:00+01:00",
       "fixture_id": "https-job-boards-greenhouse-io-formhealth-jobs-5290202008",
-      "notes": ["Simple identity/location OK; resume pending"]
+      "notes": [
+        "Simple identity/location OK; resume pending"
+      ]
     },
     {
       "url": "https://job-boards.greenhouse.io/julieproducts/jobs/4253390005",
@@ -1339,7 +1375,10 @@
       "fields_filled": 15,
       "inventory_count": 30,
       "reviewed_at": "2026-07-12T17:30:00+01:00",
-      "commits": ["b9d0ac33", "b8b51895"],
+      "commits": [
+        "b9d0ac33",
+        "b8b51895"
+      ],
       "fixture_id": "web-boards-greenhouse-io-block-jobs-5243410008",
       "notes": [
         "Use embed URL (block.xyz iframe) for inventory; 15/30 filled clean-page retest v2.25.43",
@@ -1425,7 +1464,7 @@
     {
       "url": "https://umsskeldarab.teamtailor.com/jobs/6952995-systemsakerhetsingenjor/applications/new",
       "ats": "teamtailor",
-      "title": "UMS Skeldar Systemsäkerhetsingenjör",
+      "title": "UMS Skeldar Systems\u00e4kerhetsingenj\u00f6r",
       "result": "pass_with_notes",
       "fields_filled": 6,
       "inventory_count": 8,
@@ -1514,7 +1553,7 @@
     {
       "url": "https://vekst.teamtailor.com/jobs/2848071/applications/new",
       "ats": "teamtailor",
-      "title": "Vekst Spontanansökan",
+      "title": "Vekst Spontanans\u00f6kan",
       "result": "pass_with_notes",
       "fields_filled": 11,
       "inventory_count": 13,
@@ -1670,7 +1709,7 @@
       "result": "pass_with_notes",
       "fields_filled": 5,
       "inventory_count": 6,
-      "reviewed_at": "2026-07-12T21:42:00+01:00",
+      "reviewed_at": "2026-07-12T21:23:00+01:00",
       "fixture_id": "https-jobs-ashbyhq-com-litmus-9608b815-8da1-4b34-91c8-ca1b0eca6cec-application",
       "notes": [
         "Form 91: v2.25.48 Ashby instant identity PASS - name Toby Claxton, email tmwclaxton@gmail.com full",
@@ -1912,7 +1951,7 @@
       "inventory_count": 12,
       "reviewed_at": "2026-07-12T19:10:00+01:00",
       "notes": [
-        "Form 106: identity + pronouns He/him + URLs PASS; US eligible No; salary £50000",
+        "Form 106: identity + pronouns He/him + URLs PASS; US eligible No; salary \u00a350000",
         "Current location combobox empty; voluntary EEO survey radios not in inventory",
         "Resume not attached; corpus captured; submit not clicked"
       ]
@@ -2398,7 +2437,7 @@
     {
       "url": "https://job-boards.eu.greenhouse.io/capfigroupe/jobs/4106682101",
       "ats": "greenhouse",
-      "title": "CAPFI Candidature Spontanée Paris (form 138)",
+      "title": "CAPFI Candidature Spontan\u00e9e Paris (form 138)",
       "result": "pass_with_notes",
       "fields_filled": 11,
       "inventory_count": 12,
@@ -2774,7 +2813,7 @@
     {
       "url": "https://apexenergies.recruitee.com/o/candidature-spontanee-1/c/new",
       "ats": "recruitee",
-      "title": "APEX Energies Candidature spontanée (form 163)",
+      "title": "APEX Energies Candidature spontan\u00e9e (form 163)",
       "result": "pass_with_notes",
       "fields_filled": 3,
       "inventory_count": 4,
@@ -3029,7 +3068,7 @@
     {
       "url": "https://centreon.recruitee.com/o/candidature-spontanee",
       "ats": "recruitee",
-      "title": "Centreon Candidature spontanée (form 180)",
+      "title": "Centreon Candidature spontan\u00e9e (form 180)",
       "result": "pass_with_notes",
       "fields_filled": 6,
       "inventory_count": 8,
@@ -3067,7 +3106,7 @@
       "reviewed_at": "2026-07-12T21:16:00+01:00",
       "notes": [
         "Form 182: GH EU TQG German Planning Intern 11-field More Nutrition",
-        "Identity + salary £50000 (no NaN) + notes essay + GDPR retention checkbox PASS",
+        "Identity + salary \u00a350000 (no NaN) + notes essay + GDPR retention checkbox PASS",
         "Start date empty; resume pending; bilingual DE/EN salary labels"
       ]
     },
@@ -3098,7 +3137,7 @@
       "reviewed_at": "2026-07-12T21:25:00+01:00",
       "notes": [
         "Form 184: GH EU TQG gmbh2 general app 14-field talent pool",
-        "Identity + LinkedIn + salary £50000 + Technology area checkbox + GDPR PASS",
+        "Identity + LinkedIn + salary \u00a350000 + Technology area checkbox + GDPR PASS",
         "Start date + relocate combobox empty; notes essay filled; resume pending"
       ]
     },
@@ -3366,8 +3405,1007 @@
         "EEO age/gender/trans/orientation/ethnicity/communities all prefer-not-to-answer PASS",
         "Resume pending; submit not clicked"
       ]
+    },
+    {
+      "url": "http://job-boards.eu.greenhouse.io/capgeminideutschlandgmbh/jobs/4100998101",
+      "ats": "greenhouse",
+      "title": "Capgemini Invent Finance Consultant Germany (form 202)",
+      "result": "pass_with_notes",
+      "fields_filled": 12,
+      "inventory_count": 17,
+      "pending_count": 3,
+      "reviewed_at": "2026-07-12T21:06:00+01:00",
+      "fixture_id": "https-job-boards-eu-greenhouse-io-capgeminideutschlandgmbh-jobs-4100998101",
+      "notes": [
+        "Form 202: GH EU Capgemini German 17-field finance consultant - 12/17 MCP",
+        "Identity UK +44 phone + LinkedIn PASS; salary 50000 GBP fixed PASS; GDPR consent checked PASS",
+        "Education typed BSc instead of Bachelor select; travel shows High not select option",
+        "How-heard filled with generic essay not LinkedIn option; German/English languages empty",
+        "Reference letters (Zeugnisse) required file pending; resume attach pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://1komma5grad.jobs.personio.de/job/2645316?language=en",
+      "ats": "personio",
+      "title": "1KOMMA5 Working Student Data Science (form 203)",
+      "result": "pass_with_notes",
+      "fields_filled": 12,
+      "inventory_count": 17,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:10:00+01:00",
+      "fixture_id": "https-1komma5grad-jobs-personio-de-job-2645316",
+      "notes": [
+        "Form 203: Personio 1KOMMA5 16-field working student DE - PERFECT 12/12 MCP text/select",
+        "Identity + London + phone + availability + salary 50000 + gender Undefined PASS",
+        "Graduate timeline In more than 2 semesters; German enrollment No; remote from UK PASS",
+        "CV required validation error; cover/refs files optional pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://advancy.recruitee.com/o/sydney-strategy-consultant-1-3-years-experience/c/new",
+      "ats": "recruitee",
+      "title": "Advancy Sydney Strategy Consultant (form 204)",
+      "result": "skipped",
+      "fields_filled": 3,
+      "inventory_count": 3,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:12:00+01:00",
+      "fixture_id": "https-advancy-recruitee-com-o-sydney-strategy-consultant-1-3-years-experience-c-",
+      "notes": [
+        "Form 204: Recruitee Advancy Sydney - SKIPPED already-applied state",
+        "Page shows You've already applied; only 3 identity fields in inventory",
+        "Open questions (resume/transcript/cover) not exposed; 3/3 identity PASS; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/asobostudio/3edcc5db-2619-4c98-98d1-81778e6c4e66/apply",
+      "ats": "lever",
+      "title": "Asobo Studio Level Designer French (form 205)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 14,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:15:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-asobostudio-3edcc5db-2619-4c98-98d1-81778e6c4e66-apply",
+      "notes": [
+        "Form 205: Lever Asobo French 14-field level designer - 11/14 MCP",
+        "Identity + CineArk + LinkedIn/GitHub/portfolio PASS; bilingual essay PASS",
+        "D&I radio Homme/Male selected; Twitter optional sidebar pending",
+        "Inventory missed 3+ required Lever card radio groups visible in read_field_values; location Wycombe not London; resume pending"
+      ]
+    },
+    {
+      "url": "https://1komma5grad.jobs.personio.de/job/2670092?display=en&language=en&apply",
+      "ats": "personio",
+      "title": "1KOMMA5 CTO Office Associate (form 206)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 16,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:18:00+01:00",
+      "fixture_id": "https-1komma5grad-jobs-personio-de-job-2670092",
+      "notes": [
+        "Form 206: Personio 1KOMMA5 16-field CTO Office - PERFECT 11/11 MCP text/select",
+        "Identity + London + phone + availability + salary 50000 + gender Undefined PASS",
+        "German skills A1/A2 beginner; remote from UK PASS; essay filled",
+        "CV required validation error; sidebar falsely pending salary/German; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/applause-4/j/426ACF0F2D",
+      "ats": "workable",
+      "title": "Applause Senior Product Manager (form 207)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 14,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:20:00+01:00",
+      "fixture_id": "https-apply-workable-com-applause-4-j-426acf0f2d-apply",
+      "notes": [
+        "Form 207: Workable Applause 14-field US Senior PM - 11/19 MCP controls",
+        "Identity + London address + headline + summary PASS; resume already attached",
+        "E2E ownership Yes + customer research Yes PASS; US work auth No PASS (UK profile)",
+        "5+ years PM required radio left empty; cover letter 4Subsea bleed; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://aikidosecurity.recruitee.com/o/solutions-engineer-pre-sales-us",
+      "ats": "recruitee",
+      "title": "Aikido Solutions Engineer Pre-Sales US (form 208)",
+      "result": "pass_with_notes",
+      "fields_filled": 7,
+      "inventory_count": 9,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:02:00+01:00",
+      "fixture_id": "https-aikidosecurity-recruitee-com-o-solutions-engineer-pre-sales-us-c-new",
+      "notes": [
+        "Form 208: Recruitee Aikido US 9-field Chicago pre-sales - STRONG 7/7 MCP",
+        "Identity + phone PASS; Chicago commute No PASS; US sponsorship No PASS",
+        "Compensation 50000 USD number field + LinkedIn PASS; CV file pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "http://job-boards.eu.greenhouse.io/cision/jobs/4818344101",
+      "ats": "greenhouse",
+      "title": "Cision Senior Full Stack Engineer Hungary (form 209)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 13,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:04:00+01:00",
+      "fixture_id": "https-job-boards-eu-greenhouse-io-cision-jobs-4818344101",
+      "notes": [
+        "Form 209: GH EU Cision 13-field Hungary remote .NET - 9/13 MCP",
+        "Identity UK +44 + London location + LinkedIn + salary 50000 + notice 2 weeks PASS",
+        "Sponsorship combobox empty; how-heard combobox empty (GH react-select gap); resume pending"
+      ]
+    },
+    {
+      "url": "https://1komma5grad.jobs.personio.de/job/2682231/?utm_source=Jobgether&utm_content=6a39fdc963c956434a82aa58-senior-product-manager-growth-m-f-d&utm_campaign=search&utm_medium=website&apply",
+      "ats": "personio",
+      "title": "1KOMMA5 Senior Product Manager Growth (form 210)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 16,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:06:00+01:00",
+      "fixture_id": "https-1komma5grad-jobs-personio-de-job-2682231",
+      "notes": [
+        "Form 210: Personio 1KOMMA5 16-field PM Growth - PERFECT 11/11 MCP text/select",
+        "Identity + London + phone + availability + salary 50000 + gender Undefined PASS",
+        "German A1/A2 + remote from UK PASS; CV required validation; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/A1%20Garage%20Door%20Service/0b3ade0d-2b8e-4a14-b743-61e410defcdc/application?utm_source=bandana",
+      "ats": "ashby",
+      "title": "A1 Garage Customer Engagement Specialist (form 211)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 14,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:08:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-a1-20garage-20door-20service-0b3ade0d-2b8e-4a14-b743-61e4",
+      "notes": [
+        "Form 211: Ashby A1 Garage US 14-field call center inbound - STRONG 11/13 MCP",
+        "Identity + phone + email PASS; SMS consent No (notGiven) PASS",
+        "Screening: prior employee No, referral No, US sponsorship No, call center No, US state No PASS",
+        "Flexible hours Yes (optimistic for UK); resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://allright.recruitee.com/o/online-english-teacher-for-kids",
+      "ats": "recruitee",
+      "title": "All Right Online English Teacher (form 212)",
+      "result": "partial",
+      "fields_filled": 10,
+      "inventory_count": 16,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:10:00+01:00",
+      "fixture_id": "https-allright-recruitee-com-o-online-english-teacher-for-kids-c-new",
+      "notes": [
+        "Form 212: Recruitee All Right ESL teacher 16-field - PARTIAL 10/24 MCP",
+        "Identity + name/surname split PASS; nationality UK PASS; how-heard essay PASS",
+        "DOB empty; residence/native/B1 languages empty; degree No + ESL cert No + no experience PASS",
+        "Already-applied banner on page; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/asobostudio/62ea5ba5-9bbe-455d-8c55-0b6c273e96a8/apply",
+      "ats": "lever",
+      "title": "Asobo Studio Game Designer French (form 213)",
+      "result": "pass_with_notes",
+      "fields_filled": 12,
+      "inventory_count": 14,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:12:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-asobostudio-62ea5ba5-9bbe-455d-8c55-0b6c273e96a8-apply",
+      "notes": [
+        "Form 213: Lever Asobo French 14-field game designer - 12/14 MCP (same pattern as form 205)",
+        "Identity + URLs + essay PASS; D&I Homme/Male; Twitter filled from profile",
+        "Inventory missed required Lever card radio groups; resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/A1%20Garage%20Door%20Service/4774945f-b745-43a0-a58c-c78be273ace8/application",
+      "ats": "ashby",
+      "title": "A1 Garage Dispatcher Phoenix (form 214)",
+      "result": "pass_with_notes",
+      "fields_filled": 15,
+      "inventory_count": 18,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:07:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-a1-20garage-20door-20service-4774945f-b745-43a0-a58c-c78b",
+      "notes": [
+        "Form 214: Ashby A1 Garage 18-field US dispatcher Phoenix - STRONG 15/19 MCP",
+        "US sponsorship No; dispatch No; multi-task/fast-paced/computer Yes; ServiceTitan No",
+        "Weekend schedule No + Phoenix onsite No PASS for UK; prior employee/referral No; resume pending"
+      ]
+    },
+    {
+      "url": "https://4c-services.jobs.personio.de/job/2628633/",
+      "ats": "personio",
+      "title": "4C Integrity Auditor Freelancer (form 215)",
+      "result": "pass_with_notes",
+      "fields_filled": 13,
+      "inventory_count": 18,
+      "pending_count": 3,
+      "reviewed_at": "2026-07-12T21:09:00+01:00",
+      "fixture_id": "https-4c-services-jobs-personio-de-job-2628633",
+      "notes": [
+        "Form 215: Personio 4C 18-field integrity auditor - STRONG 13/14 MCP",
+        "Identity + London + nationality UK + English Native + Spanish None PASS",
+        "Birthday 2002-05-15 + LinkedIn + salary 50000 PASS; other languages empty",
+        "CV/cover/refs files required validation; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/asobostudio/f198929f-6a24-4b47-aa52-cf76b86f93b2/apply",
+      "ats": "lever",
+      "title": "Asobo Flight Sim Gameplay Programmer (form 216)",
+      "result": "pass_with_notes",
+      "fields_filled": 12,
+      "inventory_count": 14,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:11:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-asobostudio-f198929f-6a24-4b47-aa52-cf76b86f93b2-apply",
+      "notes": [
+        "Form 216: Lever Asobo 14-field flight sim programmer - 12/14 MCP (saved answers)",
+        "Identity + URLs + essay PASS; same Lever card-radio inventory gap as 205/213",
+        "Resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://job-boards.eu.greenhouse.io/econoler/jobs/4552009101",
+      "ats": "greenhouse",
+      "title": "Econoler Candidature Spontanee FR (form 217)",
+      "result": "pass_with_notes",
+      "fields_filled": 16,
+      "inventory_count": 13,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:13:00+01:00",
+      "fixture_id": "https-job-boards-eu-greenhouse-io-econoler-jobs-4552009101",
+      "notes": [
+        "Form 217: GH EU Econoler French spontaneous RETEST (was form 152 7/13)",
+        "STRONG 16/16 MCP; French/English/Canada work auth comboboxes filled vs prior empty read",
+        "Identity + motivation + expertise PASS; CV file still pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://adeor.jobs.personio.de/job/780310",
+      "ats": "personio",
+      "title": "Adeor Initiative Application DE (form 218)",
+      "result": "pass_with_notes",
+      "fields_filled": 6,
+      "inventory_count": 6,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:14:00+01:00",
+      "fixture_id": "https-adeor-jobs-personio-de-job-780310",
+      "notes": [
+        "Form 218: Personio Adeor 6-field DE medical initiative - PERFECT 6/6 MCP text/select",
+        "Simple identity + screening; CV required validation only; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/booksy-1/j/B23F702280/apply",
+      "ats": "workable",
+      "title": "Booksy PM Early Careers Poland (form 219)",
+      "result": "pass_with_notes",
+      "fields_filled": 19,
+      "inventory_count": 20,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:15:00+01:00",
+      "fixture_id": "https-apply-workable-com-booksy-1-j-b23f702280-apply",
+      "notes": [
+        "Form 219: Workable Booksy PM early careers 20-field RETEST (was form 160 19/20)",
+        "Identity + essays + PM tools + salary 50000 PASS; Poland sponsorship No PASS",
+        "Sept 2026 start required radio still empty (same gap as form 160)",
+        "Cover letter 4Subsea bleed; Polish national selected despite UK profile; resume pending"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/blackshark/56a85834-d986-4105-9cc8-98f9cd482f1a/apply",
+      "ats": "lever",
+      "title": "Blackshark Platform Engineer Deployment (form 220)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 12,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:18:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-blackshark-56a85834-d986-4105-9cc8-98f9cd482f1a-apply",
+      "notes": [
+        "Form 220: Lever Blackshark 12-field platform engineer - STRONG 9/11 MCP",
+        "Identity E.164 + CineArk + all URLs PASS; location empty; marketing consent unchecked (good)",
+        "Other URL duplicate GitHub; resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/alan/1b8c1b77-5259-4dfc-bb01-b7c970664bd6/application",
+      "ats": "ashby",
+      "title": "Alan Fullstack Engineer Growth FR (form 221)",
+      "result": "pass_with_notes",
+      "fields_filled": 12,
+      "inventory_count": 14,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:22:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-alan-1b8c1b77-5259-4dfc-bb01-b7c970664bd6-application",
+      "notes": [
+        "Form 221: Ashby Alan 14-field French fullstack - STRONG 12/17 MCP",
+        "France work auth No + relocate No + 3yr experience No PASS for UK profile",
+        "Identity instant fill PASS; additional info Akasa bleed; how-heard Other empty specify",
+        "Resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/1B3B561E99/apply",
+      "ats": "workable",
+      "title": "Coconut Video Editor (form 222)",
+      "result": "skipped",
+      "fields_filled": 0,
+      "inventory_count": 0,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:23:00+01:00",
+      "notes": [
+        "Form 222: Workable Coconut job URL returned not_found=true listing only",
+        "No apply form host; queue URL stale; skipped"
+      ]
+    },
+    {
+      "url": "https://aesir.jobs.personio.de/job/182897?language=en&apply",
+      "ats": "personio",
+      "title": "Aesir Game Designer Munich (form 223)",
+      "result": "partial",
+      "fields_filled": 7,
+      "inventory_count": 16,
+      "pending_count": 3,
+      "reviewed_at": "2026-07-12T21:26:00+01:00",
+      "fixture_id": "https-aesir-jobs-personio-de-job-182897",
+      "notes": [
+        "Form 223: Personio Aesir 16-field DE game designer - PARTIAL 7/13 MCP",
+        "Identity + availability + salary 50000 PASS; EU citizen wrongly yes for UK",
+        "Munich relocate + German/English + job status + experience custom text fields empty",
+        "CV required validation; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://agriportance.jobs.personio.com/job/2666153?language=en&apply",
+      "ats": "personio",
+      "title": "Agriportance Account Manager Spain (form 224)",
+      "result": "pass_with_notes",
+      "fields_filled": 6,
+      "inventory_count": 10,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:28:00+01:00",
+      "fixture_id": "https-agriportance-jobs-personio-com-job-2666153",
+      "notes": [
+        "Form 224: Personio Agriportance 10-field remote account manager - 6/7 MCP",
+        "Identity + availability + salary 50000 PASS; weekly hours 40 empty",
+        "CV required validation; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/alan/c111add6-6218-457a-aabe-b5f5010a730b/application",
+      "ats": "ashby",
+      "title": "Alan Community Advocacy Manager (form 225)",
+      "result": "pass_with_notes",
+      "fields_filled": 14,
+      "inventory_count": 16,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:35:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-alan-c111add6-6218-457a-aabe-b5f5010a730b-application",
+      "notes": [
+        "Form 225: Ashby Alan 16-field community manager FR - STRONG 14/22 MCP after v2.25.57 reload",
+        "France work No + English advanced Yes + Paris travel Yes + French Beginner PASS",
+        "Identity instant fill PASS; additional info Akasa bleed; how-heard Other empty specify",
+        "Resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/cirrus/a14b8cbd-0fee-4118-9535-34309a0e6772/apply",
+      "ats": "lever",
+      "title": "Cirrus Logic Senior Talent Development (form 226)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 14,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:40:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-cirrus-a14b8cbd-0fee-4118-9535-34309a0e6772-apply",
+      "notes": [
+        "Form 226: Lever Cirrus 14-field US HR role - 9/44 MCP controls",
+        "Identity E.164 + CineArk + all URLs PASS; location empty",
+        "Commutable distance Lever card radio empty (same gap as Asobo); GDPR ack unchecked",
+        "Race/ethnicity correctly sidebar eeo_clarify pending; resume pending"
+      ]
+    },
+    {
+      "url": "https://adidasfoundation.jobs.personio.de/job/2683144?language=en&apply",
+      "ats": "personio",
+      "title": "adidas Foundation Youth Participation Consultant (form 227)",
+      "result": "pass_with_notes",
+      "fields_filled": 6,
+      "inventory_count": 10,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:22:00+01:00",
+      "fixture_id": "https-adidasfoundation-jobs-personio-de-job-2683144",
+      "notes": [
+        "Form 227: Personio adidas Foundation 10-field consultant proposal - 6/7 MCP visible controls",
+        "Identity + phone + availability PASS; English proficiency Proficient (C2) selected despite sidebar pending",
+        "Other languages empty; CV and Other files required validation; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://aubay.recruitee.com/l/sv/o/candidature-spontanee/c/new?lang=fr",
+      "ats": "recruitee",
+      "title": "Aubay Candidature Spontanee Luxembourg (form 228)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 11,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:27:00+01:00",
+      "fixture_id": "https-aubay-recruitee-com-l-sv-o-candidature-spontanee-c-new",
+      "notes": [
+        "Form 228: Recruitee Aubay French spontaneous 11-field Luxembourg - 9/23 MCP controls",
+        "Identity + phone PASS; French No, English Yes, German No, Luxembourgish No PASS",
+        "Role D\u00e9veloppeur Fullstack selected; salary 50000 PASS",
+        "Notice textarea empty despite no validation errors; CV/cover files pending; already-applied text present; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/2FA46DC8DC/apply",
+      "ats": "workable",
+      "title": "Coconut Technical Customer Support (form 229)",
+      "result": "pass_with_notes",
+      "fields_filled": 14,
+      "inventory_count": 18,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:31:00+01:00",
+      "fixture_id": "https-apply-workable-com-coconutva-j-2fa46dc8dc-apply",
+      "notes": [
+        "Form 229: Workable Coconut 18-field support role - 14/36 MCP controls",
+        "Identity + UK phone/address + C2 English + tools list + low USD rate + 40h + managed/direct either PASS",
+        "Intro video and job code correctly pending/empty; how-heard Other selected but specify empty",
+        "Resume/profile-template No and photo/resume files pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://ailylabs.jobs.personio.com/job/2537218?apply",
+      "ats": "personio",
+      "title": "Aily Labs Senior Pharma Business Impact Lead NYC (form 230)",
+      "result": "skipped",
+      "fields_filled": 0,
+      "inventory_count": 0,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:34:00+01:00",
+      "notes": [
+        "Form 230: Personio Aily Labs queue URL returned 404 This URL does not exist",
+        "No apply form host; skipped"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/alaro/16241a99-a352-4372-bad9-23c949492ae8/application",
+      "ats": "ashby",
+      "title": "Alaro Product Engineer Frontend (form 231)",
+      "result": "pass_with_notes",
+      "fields_filled": 4,
+      "inventory_count": 4,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:38:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-alaro-16241a99-a352-4372-bad9-23c949492ae8-application",
+      "notes": [
+        "Form 231: Ashby Alaro minimal 4-field frontend engineer - PERFECT 4/4 DOM",
+        "Name + email + GitHub + LinkedIn PASS; sidebar briefly pending GitHub despite DOM value",
+        "No safe validation trigger on Ashby; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/cirrus/ab0bf23e-76ce-41e9-920c-7f9af78f831e/apply",
+      "ats": "lever",
+      "title": "Cirrus Logic Embedded Software Test Engineer (form 232)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 15,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:42:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-cirrus-ab0bf23e-76ce-41e9-920c-7f9af78f831e-apply",
+      "notes": [
+        "Form 232: Lever Cirrus embedded software test engineer - 9/51 MCP controls",
+        "Identity E.164 + CineArk + all URLs PASS; location empty",
+        "Commutable distance card radio and export-control required fields empty; privacy ack unchecked",
+        "Race/ethnicity correctly sidebar eeo_clarify pending; resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/9638FB1B12/apply",
+      "ats": "workable",
+      "title": "Coconut Sales Development Representative (form 233)",
+      "result": "pass_with_notes",
+      "fields_filled": 14,
+      "inventory_count": 18,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:24:00+01:00",
+      "fixture_id": "https-apply-workable-com-coconutva-j-9638fb1b12-apply",
+      "notes": [
+        "Form 233: Workable Coconut SDR 18-field shell - same pattern as form 229",
+        "Identity + UK phone/address + C2 English + tools list + low USD rate + 40h + managed/direct either PASS",
+        "Intro video and job code correctly pending/empty; how-heard Other selected but specify empty",
+        "Resume/profile-template No and photo/resume files pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://aionbank.jobs.personio.com/job/2287155?language=en&apply",
+      "ats": "personio",
+      "title": "Aion Bank Corporate Sales Manager (form 234)",
+      "result": "skipped",
+      "fields_filled": 0,
+      "inventory_count": 0,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:47:00+01:00",
+      "notes": [
+        "Form 234: Personio Aion Bank/UniCredit queue URL returned 404 This URL does not exist",
+        "No apply form host; skipped"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/ami/34d3053f-381f-4350-9c9b-172e5d6a6b70/application",
+      "ats": "ashby",
+      "title": "AMI General Application (form 235)",
+      "result": "pass_with_notes",
+      "fields_filled": 4,
+      "inventory_count": 5,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:25:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-ami-34d3053f-381f-4350-9c9b-172e5d6a6b70-application",
+      "notes": [
+        "Form 235: Ashby AMI general application 5-field - PERFECT 4/4 visible DOM controls",
+        "Name + email + why-AMI + accomplishment textareas PASS and tailored",
+        "Resume pending; no safe validation trigger on Ashby; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/coinspaid/565ae94f-400f-4026-a739-9ae88b957efc/apply",
+      "ats": "lever",
+      "title": "CoinsPaid Senior Golang Engineer (form 236)",
+      "result": "pass_with_notes",
+      "fields_filled": 15,
+      "inventory_count": 16,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:26:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-coinspaid-565ae94f-400f-4026-a739-9ae88b957efc-apply",
+      "notes": [
+        "Form 236: Lever CoinsPaid Golang engineer 16-field - 15/41 MCP controls",
+        "Identity + phone + Wycombe/London + CineArk + URLs PASS; CET Yes and start date PASS",
+        "Salary filled 60000 - 70000 EUR despite sidebar pending; timezone explanation tailored",
+        "Extra visible Lever card radio groups after inventory remain empty; resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/DCAD922F80/apply",
+      "ats": "workable",
+      "title": "Coconut Project Manager (form 237)",
+      "result": "pass_with_notes",
+      "fields_filled": 14,
+      "inventory_count": 18,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:27:00+01:00",
+      "fixture_id": "https-apply-workable-com-coconutva-j-dcad922f80-apply",
+      "notes": [
+        "Form 237: Workable Coconut PM 18-field shell - same pattern as forms 229/233",
+        "Identity + UK phone/address + C2 English + tools list + low USD rate + 40h + managed/direct either PASS",
+        "Intro video and job code correctly pending/empty; how-heard Other selected but specify empty",
+        "Resume/profile-template No and photo/resume files pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://ambifox.jobs.personio.de/job/624952?language=en&apply",
+      "ats": "personio",
+      "title": "Ambifox Internship (form 238)",
+      "result": "pass_with_notes",
+      "fields_filled": 4,
+      "inventory_count": 7,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:27:00+01:00",
+      "fixture_id": "https-ambifox-jobs-personio-de-job-624952",
+      "notes": [
+        "Form 238: Personio Ambifox internship 7-field - PERFECT 4/4 visible controls",
+        "First/last/email/phone PASS; CV and Other required file validation remains",
+        "Submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/angi/11f454cb-98b1-47dc-834b-d8c6b6bb1d7e/application",
+      "ats": "ashby",
+      "title": "Angi Manager Care Operations (form 239)",
+      "result": "pass_with_notes",
+      "fields_filled": 15,
+      "inventory_count": 19,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T21:31:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-angi-11f454cb-98b1-47dc-834b-d8c6b6bb1d7e-application",
+      "notes": [
+        "Form 239: Ashby Angi 19-field US operations manager - STRONG 15/42 MCP controls",
+        "Identity + phone + LinkedIn + salary 50000 PASS; US authorization No and sponsorship No PASS for UK profile",
+        "State selected England; previous employment No; EEO gender/trans/orientation/ethnicity/community prefer-not answers PASS",
+        "Privacy notice acknowledgement pending; resume/cover files pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/coinspaid/716baaa9-a45b-4528-981d-8b2e54b08956/apply",
+      "ats": "lever",
+      "title": "CoinsPaid Technical Product Manager (form 240)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 10,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:34:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-coinspaid-716baaa9-a45b-4528-981d-8b2e54b08956-apply",
+      "notes": [
+        "Form 240: Lever CoinsPaid technical product manager 10-field - PERFECT 9/9 visible controls",
+        "Identity + phone + location + company + LinkedIn/GitHub/portfolio/other URLs PASS",
+        "Resume pending; no validation errors; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/E516D39DDF/apply",
+      "ats": "workable",
+      "title": "Coconut Business Development Specialist (form 241)",
+      "result": "pass_with_notes",
+      "fields_filled": 14,
+      "inventory_count": 18,
+      "pending_count": 2,
+      "reviewed_at": "2026-07-12T21:38:00+01:00",
+      "fixture_id": "https-apply-workable-com-coconutva-j-e516d39ddf-apply",
+      "notes": [
+        "Form 241: Workable Coconut business development 18-field shell - same pattern as forms 229/233/237",
+        "Identity + UK phone/address + C2 English + tools list + low USD rate + 40h + managed/direct either PASS",
+        "Intro video and job code correctly pending/empty; how-heard Other selected but specify empty",
+        "Resume/profile-template No and photo/resume files pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://antares-consulting-1.jobs.personio.com/privacy-policy?language=fr",
+      "ats": "personio",
+      "title": "Antares Consulting Personio Privacy Policy (form 242)",
+      "result": "skipped",
+      "fields_filled": 0,
+      "inventory_count": 0,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:41:00+01:00",
+      "notes": [
+        "Form 242: Personio queue URL was a privacy-policy page, not an apply form",
+        "No form host or fields; skipped"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/angi/efa8ea30-71ea-46ea-9b3f-b5215f90e713/application",
+      "ats": "ashby",
+      "title": "Angi Unknown Ashby Job (form 243)",
+      "result": "skipped",
+      "fields_filled": 0,
+      "inventory_count": 0,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:43:00+01:00",
+      "notes": [
+        "Form 243: Ashby Angi queue URL loaded generic Jobs page with no form fields",
+        "No form host; skipped"
+      ]
+    },
+    {
+      "url": "https://jobs.eu.lever.co/csmcy/fab9d332-31e5-47bb-bc65-f8f28900aa18/apply",
+      "ats": "lever",
+      "title": "Columbia Shipmanagement General Application (form 244)",
+      "result": "partial",
+      "fields_filled": 11,
+      "inventory_count": 15,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:46:00+01:00",
+      "fixture_id": "https-jobs-eu-lever-co-csmcy-fab9d332-31e5-47bb-bc65-f8f28900aa18-apply",
+      "notes": [
+        "Form 244: Lever Columbia Shipmanagement maritime general application - PARTIAL 11/14 visible controls",
+        "Identity + phone + Wycombe + CineArk + LinkedIn + title Mr. + passport first/last names PASS",
+        "DOB empty; nationality stayed placeholder; role/position stayed placeholder; marketing consent unchecked",
+        "Resume pending; reportValidity showed no errors; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apply.workable.com/coconutva/j/FE812935BC/apply",
+      "ats": "workable",
+      "title": "Coconut VA Philippine Talent Pool (form 245)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 18,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:50:00+01:00",
+      "fixture_id": "https-apply-workable-com-coconutva-j-fe812935bc-apply",
+      "notes": [
+        "Form 245: Coconut Workable Philippine talent pool - 14/36 readback same shell as 229/233/237/241",
+        "Identity + address + summary + salary + tailored textareas PASS; intro video and job code pending",
+        "How-heard Other + specify empty; photo/resume files pending; profile-template No selected",
+        "Submit not clicked"
+      ]
+    },
+    {
+      "url": "https://aesir.jobs.personio.de/job/182897?language=en",
+      "ats": "personio",
+      "title": "Aesir Interactive Game Designer Munich (form 246)",
+      "result": "partial",
+      "fields_filled": 8,
+      "inventory_count": 16,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:00:00+01:00",
+      "fixture_id": "https-aesir-jobs-personio-de-job-182897",
+      "notes": [
+        "Form 246: Aesir Personio game designer - PARTIAL 7/13 visible text controls",
+        "Identity + phone + availability + salary 50000 + EU citizen yes PASS",
+        "Munich relocate, German, English, current job, experience level empty; job-ad source empty",
+        "CV file pending; validation This field is required; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://agriportance.jobs.personio.com/job/2666153?language=en",
+      "ats": "personio",
+      "title": "Agriportance Account Manager Biomethane (form 247)",
+      "result": "pass_with_notes",
+      "fields_filled": 7,
+      "inventory_count": 10,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:05:00+01:00",
+      "fixture_id": "https-agriportance-jobs-personio-com-job-2666153",
+      "notes": [
+        "Form 247: Agriportance Personio account manager - 6/7 text controls PASS",
+        "Identity + phone + availability + salary 50000 PASS; weekly hours (40h) empty",
+        "CV file pending; validation This field is required likely CV; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://augustinetherapeuticsnv.recruitee.com/o/spontaneous-application/c/new",
+      "ats": "recruitee",
+      "title": "Augustine Therapeutics Spontaneous Application (form 248)",
+      "result": "pass_with_notes",
+      "fields_filled": 3,
+      "inventory_count": 5,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:48:00+01:00",
+      "fixture_id": "https-augustinetherapeuticsnv-recruitee-com-o-spontaneous-application-c-new",
+      "notes": [
+        "Form 248: Augustine Recruitee Belgium spontaneous - 3/3 identity PASS",
+        "CV + cover letter files pending; reportValidity clean; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://apexenergies.recruitee.com/o/candidature-spontanee-1/c/new",
+      "ats": "recruitee",
+      "title": "Apex Energies Candidature Spontanee FR (form 249)",
+      "result": "pass_with_notes",
+      "fields_filled": 3,
+      "inventory_count": 4,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:52:00+01:00",
+      "fixture_id": "https-apexenergies-recruitee-com-o-candidature-spontanee-1-c-new",
+      "notes": [
+        "Form 249: Apex Energies FR spontaneous Recruitee - 3/3 FR identity PASS",
+        "CV required on page but not inventoried as separate field; cover letter optional pending",
+        "Submit not clicked"
+      ]
+    },
+    {
+      "url": "https://ballysintralotsa.recruitee.com/o/application-security-engineer/c/new",
+      "ats": "recruitee",
+      "title": "Bally Intralot Application Security Engineer (form 250)",
+      "result": "pass_with_notes",
+      "fields_filled": 5,
+      "inventory_count": 7,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T21:58:00+01:00",
+      "fixture_id": "https-ballysintralotsa-recruitee-com-o-application-security-engineer-c-new",
+      "notes": [
+        "Form 250: Bally Recruitee Athens appsec - 5/8 controls PASS",
+        "Identity + Greece residency No + privacy policy checked PASS",
+        "CV pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://up42gmbh.recruitee.com/o/sales-manager-north-america-mfx-2/c/new",
+      "ats": "recruitee",
+      "title": "UP42 Sales Manager North America (form 251)",
+      "result": "pass_with_notes",
+      "fields_filled": 8,
+      "inventory_count": 11,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:15:00+01:00",
+      "fixture_id": "https-up42gmbh-recruitee-com-o-sales-manager-north-america-mfx-2-c-new",
+      "notes": [
+        "Form 251: UP42 Recruitee US sales - 8/20 controls PASS",
+        "Identity + GIS Yes + US work auth No + US based No + legal consent + how-heard Other PASS",
+        "Other specify empty; CV pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/astera/f3c34b54-d4c1-4520-b313-c3e0a6565115/application",
+      "ats": "ashby",
+      "title": "Astera Institute General Application (form 252)",
+      "result": "pass_with_notes",
+      "fields_filled": 3,
+      "inventory_count": 4,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:20:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-astera-f3c34b54-d4c1-4520-b313-c3e0a6565115-application",
+      "notes": [
+        "Form 252: Astera Ashby general - 3/3 text fields PASS (name/email/pitch)",
+        "Resume _systemfield_resume still pending (v2.25.59 retest gap); submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.lever.co/Hively/429e18b7-e52f-47a8-9ef3-278b677ebaad/apply",
+      "ats": "lever",
+      "title": "Hively General Application (form 253)",
+      "result": "pass_with_notes",
+      "fields_filled": 15,
+      "inventory_count": 16,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:28:00+01:00",
+      "fixture_id": "https-jobs-lever-co-hively-429e18b7-e52f-47a8-9ef3-278b677ebaad-apply",
+      "notes": [
+        "Form 253: Hively Lever general - 15/32 controls PASS strong",
+        "Pronouns He/him + full-time checkbox + US auth No + EEO declines + disability signature PASS",
+        "Languages-other-than-English textarea empty (pending); location empty; resume optional pending",
+        "Submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/kindred/8868c144-1909-47f2-9c1c-e59a9e4ddce0/application",
+      "ats": "ashby",
+      "title": "Kindred Staff Product Manager (form 254)",
+      "result": "pass_with_notes",
+      "fields_filled": 19,
+      "inventory_count": 20,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:35:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-kindred-8868c144-1909-47f2-9c1c-e59a9e4ddce0-application",
+      "notes": [
+        "Form 254: Kindred Ashby staff PM - 19/55 controls PASS strong",
+        "Identity + London location + URLs + tailored pitch + sponsorship No + He/Him pronouns PASS",
+        "DEI voluntary prefer-not on age/gender/trans/orientation/ethnicity/communities PASS",
+        "Resume _systemfield_resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://framestore.recruitee.com/o/vfx-production-coordinator-07-2026/c/new",
+      "ats": "recruitee",
+      "title": "Framestore VFX Production Coordinator (form 255)",
+      "result": "pass_with_notes",
+      "fields_filled": 11,
+      "inventory_count": 13,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:00:00+01:00",
+      "notes": [
+        "Form 255: Recruitee Framestore NYC - 11/20 controls; identity + screening radios PASS",
+        "CV/cover file required in inventory but attach pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://jobs.lever.co/getpoint/4cdeaefb-0ee7-44bb-be52-d051a23acda4/apply",
+      "ats": "lever",
+      "title": "GetPoint Senior React Native Engineer (form 256)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 10,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:58:00+01:00",
+      "notes": [
+        "Form 256: GetPoint Lever - 9/10 controls PASS",
+        "v2.25.61 (6e5586bf): f8 github url instant fill https://github.com/tmwclaxton; pendingCount 0",
+        "LinkedIn/Twitter/Portfolio/Other URLs PASS; location autocomplete empty; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://fairfood-freiburg.jobs.personio.de/job/270216?apply",
+      "ats": "personio",
+      "title": "Fairfood Initiative Application (form 257)",
+      "result": "pass_with_notes",
+      "fields_filled": 9,
+      "inventory_count": 9,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:05:00+01:00",
+      "fixture_id": "https-fairfood-freiburg-jobs-personio-de-job-270216",
+      "notes": [
+        "Form 257: Personio Fairfood - 9/9 readback PASS",
+        "Custom selects Vollzeit + LinkedIn source PASS; phone +44 partial; CV attach pending"
+      ]
+    },
+    {
+      "url": "https://job-boards.eu.greenhouse.io/veeamsoftware/jobs/4913141101",
+      "ats": "greenhouse",
+      "title": "Veeam C# Developer Warsaw (form 258)",
+      "result": "partial",
+      "fields_filled": 8,
+      "inventory_count": 16,
+      "pending_count": 1,
+      "reviewed_at": "2026-07-12T22:10:00+01:00",
+      "notes": [
+        "Form 258: Veeam GH EU - identity + salary + overlap textarea + GDPR checkbox PASS",
+        "React-select screening comboboxes empty in readback (partial vs Econoler PASS); resume pending"
+      ]
+    },
+    {
+      "url": "https://jobs.ashbyhq.com/synthesia/848ccd2d-a001-436a-953f-452898f49ebe/application",
+      "ats": "ashby",
+      "title": "Synthesia Senior Product Marketing Manager (form 259)",
+      "result": "pass_with_notes",
+      "fields_filled": 6,
+      "inventory_count": 6,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:15:00+01:00",
+      "fixture_id": "https-jobs-ashbyhq-com-synthesia-848ccd2d-a001-436a-953f-452898f49ebe-applicatio",
+      "notes": [
+        "Form 259: Synthesia Ashby - 6/6 text/URL/location PASS",
+        "Resume _systemfield_resume pending; submit not clicked"
+      ]
+    },
+    {
+      "url": "https://palebluedotrecruitment.recruitee.com/o/product-builder-operator-candidate-registration-portal/c/new",
+      "ats": "recruitee",
+      "title": "Pale Blue Dot Product Builder Portal (form 260)",
+      "result": "pass_with_notes",
+      "fields_filled": 5,
+      "inventory_count": 9,
+      "pending_count": 0,
+      "reviewed_at": "2026-07-12T22:20:00+01:00",
+      "notes": [
+        "Form 260: Recruitee talent pool - identity + Ireland sponsorship No + privacy checkbox PASS",
+        "Talent-pool Yes radio unchecked; CV in inventory attach pending; submit not clicked"
+      ]
     }
   ],
+  "v2_25_59_retest": {
+    "at": "2026-07-12T21:52:00+01:00",
+    "commit": "a591d1ee",
+    "extension_version": "2.25.59",
+    "discipline": "MCP navigate -> start_draft_all -> read_field_values -> read_form_validation; no submit",
+    "results": [
+      {
+        "area": "lever_card_radios_asobo",
+        "url": "https://jobs.eu.lever.co/asobostudio/3edcc5db-2619-4c98-98d1-81778e6c4e66/apply",
+        "verdict": "partial",
+        "notes": "Bordeaux onsite Non/No + French/English Non/No + gender Homme/Male checked; experience-years card (0-3/4-7/>7) still empty"
+      },
+      {
+        "area": "lever_card_radios_cirrus",
+        "url": "https://jobs.eu.lever.co/cirrus/a14b8cbd-0fee-4118-9535-34309a0e6772/apply",
+        "verdict": "partial",
+        "notes": "Relocate willingness Yes + US citizen No + visa N/A checked; commutable-distance field0 (Yes/No within distance) still empty"
+      },
+      {
+        "area": "workable_radios_booksy",
+        "url": "https://apply.workable.com/booksy-1/j/B23F702280/apply",
+        "verdict": "fail",
+        "notes": "Sept 2026 start QA_11301620 both radios unchecked after Draft All; other Workable radios/comboboxes OK"
+      },
+      {
+        "area": "greenhouse_react_select_readback",
+        "url": "https://job-boards.eu.greenhouse.io/econoler/jobs/4552009101",
+        "verdict": "pass",
+        "notes": "French Aucune, English Bilingue, Canada auth No, status Aucun - 16/16 readback"
+      },
+      {
+        "area": "personio_custom_selects",
+        "url": "https://adidasfoundation.jobs.personio.de/job/2683144?language=en&apply",
+        "verdict": "pass",
+        "notes": "English proficiency Proficient (C2) readback; identity/phone/availability PASS"
+      },
+      {
+        "area": "resume_attach_personio",
+        "url": "https://adidasfoundation.jobs.personio.de/job/2683144?language=en&apply",
+        "verdict": "partial",
+        "notes": "CV TobyClaxton04_2026.docx attached in UI; Other required file still empty; validation This field is required"
+      },
+      {
+        "area": "resume_attach_ashby",
+        "url": "https://jobs.ashbyhq.com/ami/34d3053f-381f-4350-9c9b-172e5d6a6b70/application",
+        "verdict": "fail",
+        "notes": "_systemfield_resume still unfilled after Draft All; text fields 4/4"
+      }
+    ]
+  },
   "clarifying_sidebar_test": {
     "status": "manual_only",
     "tested_at": "2026-07-12T16:35:00+01:00",
@@ -3502,7 +4540,7 @@
     },
     {
       "id": "block-future-recruitment-consent",
-      "summary": "Block LLM yes on marketing/future recruitment; Polish przyszłych rekrut pattern"
+      "summary": "Block LLM yes on marketing/future recruitment; Polish przysz\u0142ych rekrut pattern"
     },
     {
       "id": "draft-all-module-split",
@@ -3510,7 +4548,7 @@
     },
     {
       "id": "pl-availability-salary-keywords",
-      "summary": "Polish dostępność/wypowiedzenie and oczekiwania finansowe salary keywords"
+      "summary": "Polish dost\u0119pno\u015b\u0107/wypowiedzenie and oczekiwania finansowe salary keywords"
     },
     {
       "id": "greenhouse-field-wrapper-labels",
@@ -3701,7 +4739,7 @@
     "cc9533a1"
   ],
   "summary": {
-    "forms_tested_count": 201,
+    "forms_tested_count": 260,
     "ats_covered": [
       "ashby",
       "greenhouse",
@@ -3714,7 +4752,7 @@
     "verdict": "23:00 London wrap complete. 96 forms reviewed; staging 4aa67d85 / v2.25.51. Top follow-ups: resume attach E2E, GH inventory hang, Real 28-field full Draft All at 900s.",
     "queue_pending": 4208,
     "queue_tested": 29,
-    "staging_head": "4aa67d85",
+    "staging_head": "6e5586bf",
     "discipline": "extension-e2e-mcp-testing + corpus capture on every edge case (save_fixture, manifest, expected, fill-verify)",
     "corpus_capture": {
       "mandatory": true,
@@ -3775,7 +4813,8 @@
         "https-jobs-smartrecruiters-com-oneclick-ui-company-cncsinfotechllc-publication-8",
         "https-apply-workable-com-inatai-j-4ad1565987-apply"
       ]
-    }
+    },
+    "forms_reviewed_july_12": 127
   },
   "user_feedback": {
     "at": "2026-07-11T09:10:00+01:00",
@@ -3820,6 +4859,29 @@
       "unusual labels",
       "job-specific questions",
       "education details"
+    ]
+  },
+  "forms_tested_count": 260,
+  "v2_25_60_booksy_retest": {
+    "at": "2026-07-12T21:55:00+01:00",
+    "commit": "dc5b7755",
+    "extension_version": "2.25.60",
+    "verdict": "pass",
+    "notes": "QA_11301620 Sept 2026 start radio checked yes after Draft All; was FAIL on v2.25.59"
+  },
+  "v2_25_61_retest": {
+    "at": "2026-07-12T21:58:00+01:00",
+    "commit": "6e5586bf",
+    "extension_version": "2.25.61",
+    "discipline": "extension:build-reload -> MCP navigate -> start_draft_all -> read_field_values",
+    "results": [
+      {
+        "area": "github_url_profile_mapping",
+        "url": "https://jobs.lever.co/getpoint/4cdeaefb-0ee7-44bb-be52-d051a23acda4/apply",
+        "field": "f8 github url / urls[GitHub]",
+        "verdict": "pass",
+        "notes": "Instant fill https://github.com/tmwclaxton from profile links; pendingCount 0 (was sidebar pending on v2.25.60)"
+      }
     ]
   }
 }
