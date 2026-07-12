@@ -22,6 +22,11 @@ class ExtensionProfileDocumentController extends Controller
         return $controller->destroy($request, $profileDocument);
     }
 
+    public function preview(Request $request, ProfileDocument $profileDocument, WebProfileDocumentController $controller): StreamedResponse
+    {
+        return $controller->preview($request, $profileDocument);
+    }
+
     public function download(Request $request, ProfileDocument $profileDocument, WebProfileDocumentController $controller): StreamedResponse
     {
         return $controller->download($request, $profileDocument);

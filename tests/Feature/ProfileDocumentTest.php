@@ -67,7 +67,31 @@ class ProfileDocumentTest extends TestCase
         $this->actingAs($user)
             ->get(route('profile.documents.download', $document))
             ->assertOk()
-            ->assertDownload('certificate.pdf');
+            ->assertHeader('content-disposition', 'attachment; filename="certificate.pdf"');
+    }
+
+    #[Test]
+    public function test_user_can_preview_pdf_inline_in_browser(): void
+    {
+        $user = User::factory()->create();
+        $path = 'profile-documents/'.$user->id.'/cover-letter.pdf';
+        Storage::disk('local')->put($path, '%PDF-1.4 sample');
+
+        $document = ProfileDocument::factory()->for($user)->create([
+            'stored_path' => $path,
+            'original_filename' => 'cover-letter.pdf',
+            'mime_type' => 'application/pdf',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('profile.documents.preview', $document))
+            ->assertOk()
+            ->assertHeader('content-type', 'application/pdf')
+            ->assertHeader('content-disposition', 'inline; filename="cover-letter.pdf"');
+
+        $frontend = $document->toFrontendArray();
+        $this->assertSame(route('profile.documents.preview', $document), $frontend['preview_url']);
+        $this->assertSame(route('profile.documents.download', $document), $frontend['download_url']);
     }
 
     #[Test]
@@ -193,11 +217,12 @@ class ProfileDocumentTest extends TestCase
     #[Test]
     public function test_document_categories_include_cv_option(): void
     {
-        $values = collect(ProfileDocumentCategory::options())
+        $values = collect(ProfileDocumentCategory::uploadOptions())
             ->pluck('value')
             ->all();
 
         $this->assertContains(ProfileDocumentCategory::Cv->value, $values);
+        $this->assertNotContains(ProfileDocumentCategory::CoverLetter->value, $values);
     }
 
     #[Test]

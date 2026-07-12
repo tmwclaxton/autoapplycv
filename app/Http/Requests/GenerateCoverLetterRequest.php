@@ -21,7 +21,7 @@ class GenerateCoverLetterRequest extends FormRequest
             'job.title' => ['nullable', 'string', 'max:255'],
             'job.company' => ['nullable', 'string', 'max:255'],
             'job.description' => ['required', 'string', 'min:40', 'max:20000'],
-            'job.link' => ['nullable', 'url', 'max:2048'],
+            'job.link' => ['nullable', 'string', 'max:2048'],
             'tone' => ['nullable', 'string', 'max:32'],
         ];
     }

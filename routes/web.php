@@ -43,6 +43,7 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
     Route::post('/profile/documents', [ProfileDocumentController::class, 'store'])->name('profile.documents.store');
     Route::delete('/profile/documents/{profileDocument}', [ProfileDocumentController::class, 'destroy'])->name('profile.documents.destroy');
+    Route::get('/profile/documents/{profileDocument}/preview', [ProfileDocumentController::class, 'preview'])->name('profile.documents.preview');
     Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('profile.documents.download');
 
     Route::post('/extension/connection', [ExtensionTokenController::class, 'store'])->name('extension.connection.store');

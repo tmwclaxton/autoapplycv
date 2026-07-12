@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Download, FileText, Loader2, Trash2, Upload } from 'lucide-vue-next';
+import {
+    Download,
+    Eye,
+    FileText,
+    Loader2,
+    Trash2,
+    Upload,
+} from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useConfirm } from '@/composables/useConfirm';
 import {
@@ -199,9 +206,10 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
     <div id="profile-documents" class="postbox-panel p-4 sm:p-6">
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
-            Upload your CV or résumé here, or add certificates, reference
-            letters, and other supporting files. Only one CV is kept - a new
-            upload replaces the previous one and refreshes your profile.
+            Upload your CV or résumé here, add certificates and supporting
+            files, and review cover letters saved when you draft applications.
+            Only one CV is kept - a new upload replaces the previous one and
+            refreshes your profile.
         </p>
 
         <div class="rounded-md border border-postbox-navy/10 p-4">
@@ -331,7 +339,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                         </p>
                         <p
                             v-if="document.notes"
-                            class="mt-1 text-sm text-muted-foreground"
+                            class="mt-1 text-sm whitespace-pre-line text-muted-foreground"
                         >
                             {{ document.notes }}
                         </p>
@@ -339,6 +347,16 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                 </div>
 
                 <div class="flex shrink-0 items-center gap-2">
+                    <a
+                        v-if="document.preview_url"
+                        :href="document.preview_url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
+                    >
+                        <Eye class="size-4" />
+                        Preview
+                    </a>
                     <a
                         :href="document.download_url"
                         class="postbox-btn-outline inline-flex items-center gap-2 text-sm"

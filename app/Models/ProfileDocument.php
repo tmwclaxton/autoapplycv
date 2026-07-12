@@ -21,6 +21,7 @@ class ProfileDocument extends Model
         'mime_type',
         'file_size',
         'notes',
+        'source_key',
     ];
 
     protected function casts(): array
@@ -41,6 +42,8 @@ class ProfileDocument extends Model
      */
     public function toFrontendArray(string $downloadRoute = 'profile.documents.download'): array
     {
+        $previewRoute = str_replace('.download', '.preview', $downloadRoute);
+
         return [
             'id' => $this->id,
             'category' => $this->category->value,
@@ -53,7 +56,18 @@ class ProfileDocument extends Model
             'notes' => $this->notes,
             'created_at' => $this->created_at?->toIso8601String(),
             'download_url' => route($downloadRoute, $this),
+            'preview_url' => $this->canPreviewInBrowser()
+                ? route($previewRoute, $this)
+                : null,
         ];
+    }
+
+    public function canPreviewInBrowser(): bool
+    {
+        return in_array($this->mime_type, [
+            'application/pdf',
+            'text/plain',
+        ], true);
     }
 
     public function deleteStoredFile(): void
