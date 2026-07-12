@@ -132,22 +132,6 @@ export function buildIndeedJobOpenUrl(
 }
 
 /**
- * Direct Indeed Apply form entry URL (avoids popup-blocked new-tab clicks).
- *
- * @param {string} jobId Indeed jk hex id
- * @returns {string}
- */
-export function buildIndeedSmartApplyUrl(jobId) {
-    const jk = String(jobId || '').trim();
-
-    if (!/^[a-f0-9]{16}$/i.test(jk)) {
-        throw new Error(`Invalid Indeed job id: ${jobId}`);
-    }
-
-    return `https://smartapply.indeed.com/beta/indeedapply/form/profile-location?jk=${jk}`;
-}
-
-/**
  * @param {string} currentUrl
  * @param {string} expectedUrl
  * @param {IndeedSearchFilters|null|undefined} filters

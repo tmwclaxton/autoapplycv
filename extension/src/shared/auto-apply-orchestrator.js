@@ -70,7 +70,6 @@ import {
 } from './glassdoor-platform.js';
 import {
     buildIndeedJobOpenUrl,
-    buildIndeedSmartApplyUrl,
     isIndeedJobsSearchUrl,
     urlsMatchIndeedSearch,
 } from './indeed-platform.js';
@@ -3961,12 +3960,11 @@ async function processIndeedJob(
     }).catch(() => null);
 
     if (!bootstrapState?.open && job.jobId) {
-        const searchTabId = tabId;
         let windowId = session?.windowId ?? null;
 
         if (typeof windowId !== 'number') {
             try {
-                const searchTab = await chrome.tabs.get(searchTabId);
+                const searchTab = await chrome.tabs.get(tabId);
                 windowId = searchTab?.windowId ?? null;
             } catch {
                 windowId = null;
@@ -3974,11 +3972,40 @@ async function processIndeedJob(
         }
 
         const applyTab = await chrome.tabs.create({
-            url: buildIndeedSmartApplyUrl(job.jobId),
+            url: buildIndeedJobOpenUrl(job.jobId, {
+                filters: session.filters,
+                location: session.filters?.location,
+            }),
             windowId: typeof windowId === 'number' ? windowId : undefined,
             active: true,
         });
         tabId = applyTab.id ?? tabId;
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
+        await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY').catch(() => {});
+
+        const smartApplyDeadline = Date.now() + 20_000;
+
+        while (Date.now() < smartApplyDeadline) {
+            try {
+                const applyTabState = await chrome.tabs.get(tabId);
+
+                if (
+                    /smartapply\.indeed\.com/i.test(applyTabState?.url || '')
+                ) {
+                    break;
+                }
+            } catch {
+                break;
+            }
+
+            await sleep(600);
+        }
+
+        tabId = await resolveIndeedApplyTabId(tabId, {
+            windowId,
+            timeoutMs: 5_000,
+        });
         await waitForTabLoadComplete(tabId);
     }
 

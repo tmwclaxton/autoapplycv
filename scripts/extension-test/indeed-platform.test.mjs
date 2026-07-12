@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { buildIndeedJobSearchUrl, buildIndeedSmartApplyUrl } from '../../extension/src/shared/indeed-platform.js';
+import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
 
 describe('indeed-platform market override', () => {
     it('buildIndeedJobSearchUrl uses www.indeed.com for San Jose auto market', () => {
@@ -27,14 +27,5 @@ describe('indeed-platform market override', () => {
         });
 
         assert.match(url, /uk\.indeed\.com/);
-    });
-
-    it('buildIndeedSmartApplyUrl opens profile-location for a jk id', () => {
-        const url = buildIndeedSmartApplyUrl('d1484f00c2ca6382');
-
-        assert.equal(
-            url,
-            'https://smartapply.indeed.com/beta/indeedapply/form/profile-location?jk=d1484f00c2ca6382',
-        );
     });
 });

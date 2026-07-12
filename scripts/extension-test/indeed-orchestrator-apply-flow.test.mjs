@@ -24,8 +24,18 @@ assert.match(
 );
 assert.match(
     processIndeedJobBlock,
-    /buildIndeedSmartApplyUrl/,
-    'Indeed apply should fall back to direct smartapply navigation',
+    /buildIndeedJobOpenUrl/,
+    'Indeed apply fallback should open viewjob page and click Apply there',
+);
+assert.match(
+    processIndeedJobBlock,
+    /INDEED_OPEN_APPLY/,
+    'Indeed apply fallback should reuse the content-script apply click',
+);
+assert.doesNotMatch(
+    processIndeedJobBlock,
+    /smartapply\.indeed\.com\/beta/,
+    'Indeed apply should not navigate to raw smartapply URLs (session handoff breaks)',
 );
 
 console.log('indeed-orchestrator-apply-flow tests passed.');
