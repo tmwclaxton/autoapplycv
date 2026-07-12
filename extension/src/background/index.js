@@ -22,6 +22,7 @@ import {
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import { initExtensionBridge } from './bridge-client.js';
+import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import {
     clearConnection,
     getApiToken,
@@ -29,6 +30,7 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
+import { buildCoverLetterPdfBytes, buildCoverLetterPdfFileName } from './cover-letter-pdf.js';
 import {
     clearLogs,
     exportLogsForTest,
@@ -40,6 +42,7 @@ import {
     logInfo,
     logWarn,
 } from './debug-log.js';
+import { filterMarketingConsentPendingFields } from './draft-all/consent-fields.js';
 import {
     buildMechanicalInventoryFields,
     canUseMechanicalInventory,
@@ -48,6 +51,7 @@ import {
     enrichFieldsWithSnapshotDom,
     shouldReuseCachedDraftAllSnapshot,
     snapshotFingerprint,
+    fetchGreenhouseJobPostingLocation,
     tryInferJobContextFromPage,
 } from './draft-all-optimizations.js';
 import {
@@ -72,11 +76,14 @@ import {
     sendTabMessage,
     validateBlockedFieldOnTab,
 } from './form-frame-messaging.js';
-import { capturePageFromTab } from './page-capture.js';
 import {
     buildPendingFieldsFromUnfilledSnapshot,
+    enrichFieldsWithJobPostingLocation,
+    extractJobPostingLocationSnippet,
+    filterPendingFieldsForInventory,
     formatProfileSaveValue,
     isMeaningfulAnswer,
+    isMarketingOrFutureConsentField,
     mergePendingFields,
     pendingFieldsStorageKey,
     resolveIdentityProfileAnswer,
@@ -275,7 +282,7 @@ async function deleteProfileDocument(documentId) {
     return data;
 }
 
-async function downloadProfileDocument(documentId) {
+async function fetchProfileDocument(documentId) {
     const profileData = await getProfile();
     const document = (profileData.documents || []).find((item) => item.id === documentId);
 
@@ -287,12 +294,12 @@ async function downloadProfileDocument(documentId) {
     const response = await fetch(document.download_url, {
         headers: {
             Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/octet-stream',
+            Accept: document.mime_type || 'application/octet-stream',
         },
     });
 
     if (!response.ok) {
-        throw new Error('Failed to download file.');
+        throw new Error('Failed to load file.');
     }
 
     const buffer = await response.arrayBuffer();
@@ -302,6 +309,12 @@ async function downloadProfileDocument(documentId) {
         fileName: document.original_filename || document.title || 'document',
         mimeType: document.mime_type || 'application/octet-stream',
     };
+}
+
+async function downloadProfileDocument(documentId) {
+    const payload = await fetchProfileDocument(documentId);
+
+    return payload;
 }
 
 function configureSidePanel() {
@@ -389,6 +402,7 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 let draftAllRunning = false;
+const savedCoverLetterSourceKeys = new Set();
 let sidePanelPort = null;
 
 function isInjectableTabUrl(url) {
@@ -514,6 +528,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'GET_COVER_LETTER_DOCUMENT') {
+        getCoverLetterDocument(message.job || null).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'SAVE_COVER_LETTER_DOCUMENT') {
+        persistCoverLetterDocument({
+            job: message.job || null,
+            text: message.text || null,
+        }).then(sendResponse).catch((err) => sendResponse({ error: err.message, saved: false }));
+
+        return true;
+    }
+
     if (message.type === 'RECORD_AUTOFILL') {
         recordCreditUsage(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
@@ -552,6 +581,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'DOWNLOAD_PROFILE_DOCUMENT') {
         downloadProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'PREVIEW_PROFILE_DOCUMENT') {
+        fetchProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -1039,6 +1074,10 @@ async function saveLocalMemo(answers, fieldsByRef = null, profileData = null) {
             if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
                 continue;
             }
+
+            if (isMarketingOrFutureConsentField(field)) {
+                continue;
+            }
         }
 
         memoUpdates[answer.label] = answer.answer;
@@ -1079,18 +1118,71 @@ function broadcastPendingFieldsUpdated(tabId, fields) {
     }).catch(() => {});
 }
 
+async function enrichPendingFieldFromSnapshot(tabId, field) {
+    if (Array.isArray(field?.options) && field.options.length >= 2) {
+        return field;
+    }
+
+    try {
+        const formFrameId = await findBestFormFrameId(tabId);
+        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const element = (snapshotResponse?.snapshot?.elements || [])
+            .find((item) => item.ref === field.ref);
+
+        if (!element) {
+            return field;
+        }
+
+        return {
+            ...field,
+            field_type: field.field_type || element.field_type || null,
+            options: Array.isArray(element.options) && element.options.length >= 2
+                ? element.options
+                : field.options ?? null,
+            dom: field.dom || element.dom || null,
+        };
+    } catch {
+        return field;
+    }
+}
+
+async function resolvePendingFieldJob(tabId) {
+    const tab = await chrome.tabs.get(tabId);
+
+    let job = {
+        title: tab.title || 'Job application',
+        company: 'Unknown company',
+        link: tab.url?.split('?')[0] || tab.url,
+    };
+
+    try {
+        const meta = await chrome.tabs.sendMessage(tabId, { type: 'GET_JOB_META' });
+
+        if (meta?.job) {
+            job = meta.job;
+        }
+    } catch {
+        // Use tab fallback metadata.
+    }
+
+    return job;
+}
+
 async function savePendingFieldAnswer(tabId, field, answer) {
     if (!field?.ref) {
         throw new Error('Missing field reference.');
     }
 
     const profileData = await getProfile();
+    const userAnswer = String(answer || '').trim();
+    const enrichedField = await enrichPendingFieldFromSnapshot(tabId, field);
     const trimmed = normalizeFieldAnswerForQuestion(
-        field.label || field.question || '',
-        String(answer || '').trim(),
+        enrichedField.label || enrichedField.question || '',
+        userAnswer,
         {
             profileYears: profileData?.application_settings?.years_of_experience ?? null,
-            fieldType: field.field_type || null,
+            fieldType: enrichedField.field_type || null,
+            options: enrichedField.options || null,
         },
     );
 
@@ -1098,17 +1190,17 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         throw new Error('Enter an answer first.');
     }
 
-    const mapping = field.profile_path
-        ? { path: field.profile_path, label: field.profile_label ?? null }
-        : resolveProfileMappingForLabel(field.label || field.question || '', profileData, field.dom || null);
+    const mapping = enrichedField.profile_path
+        ? { path: enrichedField.profile_path, label: enrichedField.profile_label ?? null }
+        : resolveProfileMappingForLabel(enrichedField.label || enrichedField.question || '', profileData, enrichedField.dom || null);
 
-    if (shouldSaveToApplicationAnswers(field, mapping)) {
-        await appendApplicationAnswer(field.label || field.question, trimmed);
+    if (shouldSaveToApplicationAnswers(enrichedField, mapping)) {
+        await appendApplicationAnswer(enrichedField.label || enrichedField.question, trimmed);
     } else if (mapping?.path) {
         const pathParts = mapping.path.split('.');
         const fieldKey = pathParts[pathParts.length - 1];
         const profileValue = formatProfileSaveValue(
-            { ...field, profile_path: mapping.path },
+            { ...enrichedField, profile_path: mapping.path },
             trimmed,
             profileData,
         );
@@ -1121,47 +1213,67 @@ async function savePendingFieldAnswer(tabId, field, answer) {
     }
 
     await saveLocalMemo([{
-        label: field.label || field.question,
+        label: enrichedField.label || enrichedField.question,
         answer: trimmed,
     }]);
 
     let applied = false;
+    let fillAnswer = trimmed;
 
     try {
-        const formFrameId = await findBestFormFrameId(tabId);
-        const result = await sendTabMessage(tabId, {
-            type: 'APPLY_DRAFT_ANSWER',
-            ref: field.ref,
-            label: field.label || field.question,
-            answer: trimmed,
-        }, formFrameId);
+        const [formFrameId, job, settings] = await Promise.all([
+            findBestFormFrameId(tabId),
+            resolvePendingFieldJob(tabId),
+            buildAutofillSettings(),
+        ]);
+
+        fillAnswer = await resolvePendingFieldFillAnswer(enrichedField, userAnswer, {
+            requestDraftField,
+            job,
+            settings,
+            profileData,
+        });
+
+        const result = await applyDraftAnswerToTab(
+            tabId,
+            enrichedField.label || enrichedField.question,
+            fillAnswer,
+            {
+                ref: enrichedField.ref,
+                dom: enrichedField.dom || null,
+                field_type: enrichedField.field_type || null,
+                options: enrichedField.options || null,
+                data_field_path: enrichedField.dom?.data_field_path || null,
+                frameId: formFrameId,
+            },
+        );
         applied = Boolean(result?.success);
     } catch {
         // Best-effort fill after profile save.
     }
 
-    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== field.ref);
+    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== enrichedField.ref);
     await savePendingFields(tabId, pending);
 
     const autoApplySession = await loadAutoApplySession();
 
     if (
         autoApplySession?.status === 'paused_for_input'
-        && autoApplySession.pauseContext?.blockerField?.ref === field.ref
+        && autoApplySession.pauseContext?.blockerField?.ref === enrichedField.ref
     ) {
-        const modalState = await validateBlockedFieldOnTab(tabId, field);
+        const modalState = await validateBlockedFieldOnTab(tabId, enrichedField);
 
         const validationError = modalState?.validationError
-            || (modalState ? findFieldValidationError(modalState, field) : null);
+            || (modalState ? findFieldValidationError(modalState, enrichedField) : null);
 
-        if (validationError && (modalState?.valid === false || fieldHasValidationError(modalState, field))) {
+        if (validationError && (modalState?.valid === false || fieldHasValidationError(modalState, enrichedField))) {
             const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
             const pauseContext = await rePauseAutoApplyForValidationRetry({
                 tabId,
                 job: autoApplySession.pauseContext.job,
                 modalState,
-                blockerField: field,
-                lastAttempt: trimmed,
+                blockerField: enrichedField,
+                lastAttempt: fillAnswer,
                 validationError,
                 validationAttempt,
             });
@@ -1318,6 +1430,9 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
         await savePendingFields(tabId, nextPendingFields);
     }
 
+    nextPendingFields = filterMarketingConsentPendingFields(nextPendingFields);
+    pendingCount = nextPendingFields.length;
+
     if (validationScan.hasErrors) {
         const errorPreview = validationScan.validationErrors.slice(0, 2).join('; ')
             || `${validationScan.invalidFieldCount} field(s) failed validation`;
@@ -1345,7 +1460,83 @@ function inventoryFieldsToDraftShape(inventoryFields) {
         options: field.options,
         dom: field.dom || null,
         context: field.context || null,
+        job_posting_location: field.job_posting_location || null,
     }));
+}
+
+/**
+ * Lever reveals disability signature/date inputs after the disability select changes.
+ * Fill them from profile when they appear during the EEO stage.
+ */
+async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profileData) {
+    await new Promise((resolve) => setTimeout(resolve, 150));
+
+    let snapshot;
+
+    try {
+        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        snapshot = snapshotResponse?.snapshot;
+    } catch {
+        return 0;
+    }
+
+    const fullName = String(
+        profileData?.full_name
+        || profileData?.profile?.full_name
+        || profileData?.user?.name
+        || '',
+    ).trim();
+    const today = new Date();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const yyyy = String(today.getFullYear());
+    const todayUs = `${mm}/${dd}/${yyyy}`;
+    const answers = [];
+
+    for (const element of snapshot?.elements || []) {
+        const name = String(element?.dom?.name || '');
+        const label = String(element?.question || element?.label || '').toLowerCase();
+
+        if (!element?.ref) {
+            continue;
+        }
+
+        if (name === 'eeo[disabilitySignature]' || (label === 'name' && name.includes('disability'))) {
+            if (fullName) {
+                answers.push({
+                    ref: element.ref,
+                    label: element.question || element.label || 'name',
+                    field_type: element.field_type || 'text',
+                    dom: element.dom || null,
+                    answer: fullName,
+                });
+            }
+        }
+
+        if (name === 'eeo[disabilitySignatureDate]' || (label === 'date' && name.includes('disability'))) {
+            answers.push({
+                ref: element.ref,
+                label: element.question || element.label || 'date',
+                field_type: element.field_type || 'text',
+                dom: element.dom || null,
+                answer: todayUs,
+            });
+        }
+    }
+
+    if (answers.length === 0) {
+        return 0;
+    }
+
+    const applyResult = await applyDraftBatchToTab(tabId, answers, formFrameId);
+
+    logInfo('background', 'draft-all.eeo', 'Filled revealed disability signature fields', {
+        count: answers.length,
+        success: applyResult?.success,
+        applied: applyResult?.applied,
+    }, tabId);
+
+    return Number(applyResult?.applied || 0);
 }
 
 function jobContextCacheKey(pageUrl) {
@@ -1832,8 +2023,6 @@ async function runDraftAll(tabId, e2eOptions = null) {
             e2eMock: Boolean(e2eOptions?.fields?.length),
         }, tabId);
 
-        void capturePageFromTab(tabId, tab);
-
         const resolved = e2eOptions?.fields?.length
             ? {
                 fields: inventoryFieldsToDraftShape(e2eOptions.fields),
@@ -1854,10 +2043,22 @@ async function runDraftAll(tabId, e2eOptions = null) {
             return { error: resolved.error };
         }
 
-        const { fields, job, formFrameId } = resolved;
+        const { fields: resolvedFields, job, formFrameId } = resolved;
+        let jobPostingLocation = resolvedFields.find((field) => field.job_posting_location)?.job_posting_location
+            || extractJobPostingLocationSnippet([
+                job?.job_description,
+                job?.title,
+                tab.title,
+            ].filter(Boolean).join('\n'));
+
+        if (!jobPostingLocation) {
+            jobPostingLocation = await fetchGreenhouseJobPostingLocation(tab.url || '');
+        }
+
+        const fields = enrichFieldsWithJobPostingLocation(resolvedFields, jobPostingLocation);
         const profileData = await getProfile();
         const fieldsByRef = new Map(fields.map((field) => [field.ref, field]));
-        let pendingFields = await loadPendingFields(tabId);
+        let pendingFields = filterPendingFieldsForInventory(await loadPendingFields(tabId), fields);
 
         // Draft All never keyword-maps profile values into fields. Profile context goes to the LLM;
         // question memo applies only explicit user-saved answers; pending-fields sidebar prompts for gaps.
@@ -1877,6 +2078,11 @@ async function runDraftAll(tabId, e2eOptions = null) {
             memo: (count) => `Applying ${count} saved answer(s)…`,
             reference: (count) => `Applying ${count} reference field(s)…`,
             identity: (count) => `Applying ${count} profile field(s)…`,
+            preference: (count) => `Applying ${count} preference field(s)…`,
+            agreement: (count) => `Applying ${count} agreement checkbox(es)…`,
+            signature: (count) => `Applying ${count} electronic signature field(s)…`,
+            eeo: (count) => `Applying ${count} voluntary EEO field(s)…`,
+            marketing_consent: (count) => `Applying ${count} optional consent field(s)…`,
         };
 
         for (const stage of draftPlan.applyStages) {
@@ -1889,7 +2095,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             let answersToApply = stage.answers;
 
             if (stage.type === 'memo') {
-                ({ toApply: answersToApply } = partitionDraftAllBatchAnswers(
+                const partitioned = partitionDraftAllBatchAnswers(
                     stage.answers.map(({ ref, label, answer, field_type }) => ({
                         ref,
                         label,
@@ -1898,14 +2104,26 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     })),
                     fieldsByRef,
                     profileData,
-                ));
+                );
+                answersToApply = partitioned.toApply;
+                pendingFields = mergePendingFields(pendingFields, partitioned.pending);
             }
 
             const perfPhase = stage.type === 'memo'
                 ? 'apply.memo'
                 : stage.type === 'reference'
                     ? 'apply.references'
-                    : 'apply.identity';
+                    : stage.type === 'eeo'
+                        ? 'apply.eeo'
+                        : stage.type === 'preference'
+                            ? 'apply.preference'
+                    : stage.type === 'agreement'
+                        ? 'apply.agreement'
+                        : stage.type === 'signature'
+                            ? 'apply.signature'
+                            : stage.type === 'marketing_consent'
+                                ? 'apply.marketing_consent'
+                                : 'apply.identity';
 
             perf.start(perfPhase);
             const applyResult = await applyDraftBatchToTab(
@@ -1919,7 +2137,17 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 ? 'draft-all.memo'
                 : stage.type === 'reference'
                     ? 'draft-all.references'
-                    : 'draft-all.identity';
+                    : stage.type === 'eeo'
+                        ? 'draft-all.eeo'
+                        : stage.type === 'preference'
+                            ? 'draft-all.preference'
+                        : stage.type === 'agreement'
+                            ? 'draft-all.agreement'
+                            : stage.type === 'signature'
+                                ? 'draft-all.signature'
+                                : stage.type === 'marketing_consent'
+                                    ? 'draft-all.marketing-consent'
+                                    : 'draft-all.identity';
 
             logInfo('background', logPhase, `Applied ${stage.type} profile fields`, {
                 count: stageCount,
@@ -1929,6 +2157,15 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             totalFieldsFilled += Number(applyResult?.applied || stageCount || 0);
             pushDraftAnswersToSidepanelChat(0, answersToApply, fieldsByRef);
+
+            if (stage.type === 'eeo') {
+                const signatureFilled = await fillRevealedDisabilitySignatureFields(
+                    tabId,
+                    formFrameId,
+                    profileData,
+                );
+                totalFieldsFilled += signatureFilled;
+            }
         }
 
         if (draftPlan.skipsLlm) {
@@ -1940,11 +2177,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     : 'No fields required AI drafting.';
 
             if (!isAutoApplyRunning()) {
-                try {
-                    await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
-                } catch {
-                    // Best-effort profile fill after memo-only apply.
-                }
+                await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
             }
 
             const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message, {
@@ -2101,16 +2334,16 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
                 if (!resumePromise && !isAutoApplyRunning()) {
                     perf.start('resume.fill');
-                    resumePromise = sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId)
-                        .then((resumeResult) => {
+                    resumePromise = fillApplicationDocumentsOnTab(tabId, formFrameId, job)
+                        .then(() => {
                             perf.end('resume.fill');
-                            logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
+                            logInfo('background', 'fill.resume', 'Application documents fill complete', {}, tabId);
 
-                            return resumeResult;
+                            return { success: true };
                         })
                         .catch((error) => {
                             perf.end('resume.fill');
-                            logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
+                            logWarn('background', 'fill.resume', 'Application documents fill failed (best-effort)', {
                                 error: error instanceof Error ? error.message : error,
                             }, tabId);
 
@@ -2159,13 +2392,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
         } else if (!isAutoApplyRunning()) {
             try {
                 perf.start('resume.fill');
-                logDebug('background', 'fill.resume', 'Sending FILL_RESUME to tab', { formFrameId }, tabId);
-                const resumeResult = await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+                logDebug('background', 'fill.resume', 'Sending application document fills to tab', { formFrameId }, tabId);
+                await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
                 perf.end('resume.fill');
-                logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
+                logInfo('background', 'fill.resume', 'Application documents fill complete', {}, tabId);
             } catch (error) {
                 perf.end('resume.fill');
-                logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
+                logWarn('background', 'fill.resume', 'Application documents fill failed (best-effort)', {
                     error: error instanceof Error ? error.message : error,
                 }, tabId);
             }
@@ -2233,7 +2466,6 @@ async function quickAnswerFocused(tabId) {
     }
 
     const tab = await chrome.tabs.get(tabId);
-    void capturePageFromTab(tabId, tab);
 
     let job = {
         title: tab.title || 'Job application',
@@ -2406,6 +2638,138 @@ async function getCvDocument() {
     return cachedCvDocument;
 }
 
+function buildDraftCoverLetterText(profileData, job = {}) {
+    const profile = profileData?.profile || profileData || {};
+    const name = String(profile.full_name || 'Applicant').trim();
+    const headline = String(profile.headline || profile.title || '').trim();
+    const summary = String(profile.summary || profile.bio || '').trim();
+    const company = job?.company && job.company !== 'Unknown company' ? job.company : 'your organisation';
+    const title = String(job?.title || 'this role').trim();
+    const paragraphs = [
+        'Dear Hiring Manager,',
+        '',
+        `I am writing to apply for the ${title} position at ${company}.`,
+    ];
+
+    if (headline) {
+        paragraphs.push(headline.endsWith('.') ? headline : `${headline}.`);
+    }
+
+    if (summary) {
+        paragraphs.push(summary.split('\n').map((line) => line.trim()).filter(Boolean)[0]?.slice(0, 400) || '');
+    }
+
+    paragraphs.push(
+        '',
+        'Thank you for considering my application. I would welcome the opportunity to discuss how my experience fits your team.',
+        '',
+        'Yours sincerely,',
+        name,
+    );
+
+    return paragraphs.filter((line, index, lines) => !(line === '' && lines[index - 1] === '')).join('\n');
+}
+
+function coverLetterSourceKey(job = {}) {
+    const link = String(job?.link || '').trim().toLowerCase();
+
+    if (link) {
+        return link;
+    }
+
+    return `${String(job?.title || '').trim().toLowerCase()}|${String(job?.company || '').trim().toLowerCase()}`;
+}
+
+async function persistCoverLetterDocument({ job = null, bytes = null, text = null, fileName = null }) {
+    const sourceKey = coverLetterSourceKey(job || {});
+
+    if (savedCoverLetterSourceKeys.has(sourceKey)) {
+        return { saved: false, duplicate: true };
+    }
+
+    try {
+        const apiToken = await getApiToken();
+        const apiBase = await getStoredApiBase();
+        const payload = {
+            job: job || {},
+        };
+
+        if (typeof text === 'string' && text.trim() !== '') {
+            payload.text = text.trim();
+        } else if (bytes) {
+            payload.file_base64 = arrayBufferToBase64(bytes);
+            payload.file_name = fileName;
+        } else {
+            return { saved: false, duplicate: false, error: 'Cover letter content missing.' };
+        }
+
+        const response = await fetch(`${apiBase}/api/profile/cover-letters`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${apiToken}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok) {
+            savedCoverLetterSourceKeys.add(sourceKey);
+            invalidateProfileCache();
+        } else {
+            logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
+                status: response.status,
+                message: data.message || data.error || null,
+            });
+        }
+
+        return data;
+    } catch (error) {
+        logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
+            error: error instanceof Error ? error.message : error,
+        });
+
+        return { saved: false, duplicate: false };
+    }
+}
+
+async function getCoverLetterDocument(job = null) {
+    const profileData = await getProfile();
+    const text = buildDraftCoverLetterText(profileData, job || {});
+    const bytes = buildCoverLetterPdfBytes(text, { profile: profileData, job: job || {} });
+    const fileName = buildCoverLetterPdfFileName({
+        jobTitle: job?.title || null,
+        company: job?.company || null,
+    });
+
+    void persistCoverLetterDocument({ job, bytes, fileName });
+
+    return {
+        base64: `data:application/pdf;base64,${arrayBufferToBase64(bytes)}`,
+        fileName,
+        mimeType: 'application/pdf',
+    };
+}
+
+async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
+    if (isAutoApplyRunning()) {
+        return;
+    }
+
+    try {
+        await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+    } catch {
+        // Best-effort profile fill after draft apply.
+    }
+
+    try {
+        await sendTabMessage(tabId, { type: 'FILL_COVER_LETTER', job }, formFrameId);
+    } catch {
+        // Best-effort cover letter fill when the form has a cover letter upload.
+    }
+}
+
 async function assistCoverLetter(message) {
     return postAssist('/api/applications/assist/cover-letter', {
         job: message.job,
@@ -2450,6 +2814,10 @@ async function postAssist(path, body) {
 
     if (cachedProfile && data.subscription) {
         cachedProfile.subscription = data.subscription;
+    }
+
+    if (data.document_saved || data.saved || data.saved_document) {
+        invalidateProfileCache();
     }
 
     return data;
