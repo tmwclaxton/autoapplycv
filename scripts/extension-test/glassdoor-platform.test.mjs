@@ -35,6 +35,14 @@ describe('glassdoor-platform', () => {
         assert.equal(new URL(countryUrl).searchParams.get('locT'), null);
     });
 
+    it('buildGlassdoorJobSearchUrl honors explicit US market with empty location', () => {
+        const url = buildGlassdoorJobSearchUrl('Scientist', {
+            filters: { market: 'us' },
+        });
+
+        assert.match(url, /www\.glassdoor\.com/);
+    });
+
     it('readGlassdoorJobIdFromHref parses jl and jobListingId query params', () => {
         assert.equal(
             readGlassdoorJobIdFromHref('/job-listing/job.htm?jl=1010028281977'),
@@ -63,6 +71,21 @@ describe('glassdoor-platform', () => {
         );
         assert.equal(
             isGlassdoorJobsSearchUrl('https://www.glassdoor.com/job-listing/job.htm?jl=1'),
+            false,
+        );
+    });
+
+    it('urlsMatchGlassdoorSearch rejects UK host when US search expected', () => {
+        const expected = buildGlassdoorJobSearchUrl('Scientist', {
+            filters: { location: 'San Jose CA USA' },
+        });
+        const current =
+            'https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=Scientist&locKeyword=San+Jose+CA+USA';
+
+        assert.equal(
+            urlsMatchGlassdoorSearch(current, expected, {
+                location: 'San Jose CA USA',
+            }),
             false,
         );
     });

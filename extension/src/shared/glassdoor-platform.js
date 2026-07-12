@@ -1,7 +1,7 @@
 import {
     isCountryOnlyLocation,
     resolveGlassdoorHost,
-    resolveJobBoardMarket,
+    resolveSessionMarket,
 } from './job-board-market.js';
 
 export const GLASSDOOR_PLATFORM_ID = 'glassdoor';
@@ -9,6 +9,7 @@ export const GLASSDOOR_PLATFORM_ID = 'glassdoor';
 /**
  * @typedef {Object} GlassdoorSearchFilters
  * @property {string} [location]
+ * @property {string} [market]
  */
 
 /**
@@ -51,7 +52,12 @@ export function resolveGlassdoorHostFromOptions({
 
     const locationText = String(location || filters?.location || '').trim();
 
-    return resolveGlassdoorHost(resolveJobBoardMarket(locationText));
+    return resolveGlassdoorHost(
+        resolveSessionMarket({
+            market: filters?.market,
+            location: locationText,
+        }),
+    );
 }
 
 /**
@@ -190,6 +196,12 @@ export function urlsMatchGlassdoorSearch(
         if (
             !isGlassdoorJobsSearchUrl(currentUrl) ||
             !isGlassdoorJobsSearchUrl(expectedUrl)
+        ) {
+            return false;
+        }
+
+        if (
+            current.hostname.toLowerCase() !== expected.hostname.toLowerCase()
         ) {
             return false;
         }
