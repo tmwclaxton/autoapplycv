@@ -61,7 +61,9 @@ function collectHighlightedChoiceFields(window) {
 
             const anchor = roleRadios?.[0] || (Array.isArray(target) ? target[0] : target);
             const groupInputs = window.AutoCVApplyFormHeuristics.getGroupInputs(anchor);
-            const highlightedLabels = groupInputs.map((input) => input.closest('label') || input);
+            const highlightedLabels = groupInputs.map((input) => input.closest('label')
+                || input.closest('[class*="_option_"]')
+                || input);
             const highlightedCount = highlightedLabels.filter((element) => element.classList.contains(HIGHLIGHT_CLASS)).length;
 
             fields.push({
@@ -185,6 +187,19 @@ test('Draft All fill matches pronoun and multi-select opportunity options generi
 
     assert.equal(fullTime?.checked, true);
     assert.equal(partTime?.checked, true);
+});
+
+test('Ashby labeled-radio group outlines every visible option row', () => {
+    const window = loadLeverFixture(
+        'tests/fixtures/form-extraction/html/https-jobs-ashbyhq-com-alan-1b8c1b77-5259-4dfc-bb01-b7c970664bd6-application.html',
+        'https://jobs.ashbyhq.com/alan/1b8c1b77-5259-4dfc-bb01-b7c970664bd6/application',
+    );
+    const fields = collectHighlightedChoiceFields(window);
+    const hearField = fields.find((entry) => /how did you hear about opportunities at alan/i.test(entry.label));
+
+    assert(hearField, `missing hear-about field: ${JSON.stringify(fields.map((entry) => entry.label))}`);
+    assert.equal(hearField.groupInputCount, 5);
+    assert.equal(hearField.highlightedCount, 5, `${hearField.label} should outline all 5 Ashby option rows`);
 });
 
 test('Lever choice group highlighting outlines every option label in pronoun and opportunity groups', () => {
