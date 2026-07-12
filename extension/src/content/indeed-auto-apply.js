@@ -370,6 +370,58 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return card;
     }
 
+    function cardHasExternalApply(card, cardText) {
+        for (const element of card.querySelectorAll('a, button, span')) {
+            if (!(element instanceof HTMLElement)) {
+                continue;
+            }
+
+            const text = normalize(element.textContent);
+            const label = normalize(element.getAttribute('aria-label') || '');
+
+            if (
+                /^apply on company site$/i.test(text) ||
+                /^apply externally$/i.test(text) ||
+                /apply on company site/i.test(label) ||
+                /apply on employer site/i.test(text)
+            ) {
+                return true;
+            }
+        }
+
+        return (
+            /\bapply on company site\b/i.test(cardText) ||
+            /\bapply externally\b/i.test(cardText)
+        );
+    }
+
+    function cardHasIndeedApply(card, cardText) {
+        if (cardHasExternalApply(card, cardText)) {
+            return false;
+        }
+
+        if (
+            card.querySelector(
+                '[data-testid="indeedApply"], [data-testid="indeedApplyButton-test"], #indeedApplyButton, [data-indeed-apply]',
+            )
+        ) {
+            return true;
+        }
+
+        if (
+            card.querySelector(
+                '[class*="iaLabel"], [class*="IndeedApply"], [aria-label*="Apply with Indeed"], [aria-label*="Easily apply"]',
+            )
+        ) {
+            return true;
+        }
+
+        return (
+            /\beasily apply\b/i.test(cardText) ||
+            /\bapply with indeed\b/i.test(cardText)
+        );
+    }
+
     function readJobCardsFromDocument() {
         const jobs = [];
         const seen = new Set();
@@ -418,13 +470,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             const cardText = normalize(card.textContent);
             const alreadyApplied = /\bapplied\b/i.test(cardText);
+            const indeedApply = cardHasIndeedApply(card, cardText);
 
             jobs.push({
                 jobId,
                 title,
                 company,
-                indeedApply: true,
-                easyApply: true,
+                indeedApply,
+                easyApply: indeedApply,
                 alreadyApplied,
                 url: `${window.location.origin}/viewjob?jk=${jobId}`,
             });
@@ -447,12 +500,20 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             seen.add(jobId);
 
+            const cardRoot = link.closest(
+                'div.job_seen_beacon, div.slider_item, div[data-testid="slider_item"], li[data-testid="job-card"]',
+            );
+            const cardText = normalize(cardRoot?.textContent || link.textContent);
+            const indeedApply = cardRoot
+                ? cardHasIndeedApply(cardRoot, cardText)
+                : false;
+
             jobs.push({
                 jobId,
                 title: normalize(link.textContent) || 'Unknown role',
                 company: 'Unknown company',
-                indeedApply: true,
-                easyApply: true,
+                indeedApply,
+                easyApply: indeedApply,
                 alreadyApplied: false,
                 url: href.startsWith('http')
                     ? href.split('&')[0]
@@ -542,8 +603,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return null;
     }
 
-    function readExternalApplyMarker() {
-        const root = readJobViewRoot();
+    function readExternalApplyMarker(root = readJobViewRoot()) {
+        if (root === document) {
+            return null;
+        }
 
         for (const element of root.querySelectorAll('a, button')) {
             if (
@@ -625,6 +688,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     currentJk === String(jobId).toLowerCase());
 
             if (onTargetJob) {
+                if (readIndeedApplyButton()) {
+                    return { success: true, jobId };
+                }
+
                 if (readExternalApplyMarker()) {
                     return {
                         success: false,
@@ -632,13 +699,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
                         error: 'Job uses external apply, not Indeed Apply.',
                     };
                 }
-
-                if (readIndeedApplyButton()) {
-                    return { success: true, jobId };
-                }
             }
 
             await humanPause(600, scrollPass > 4 ? 1200 : 900);
+        }
+
+        if (readIndeedApplyButton()) {
+            return { success: true, jobId };
         }
 
         if (readExternalApplyMarker()) {
@@ -1494,6 +1561,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         prepareJobSearch,
         prepareJobView,
         collectJobCards,
+        cardHasIndeedApply,
         selectJobById,
         waitForJobDetailReady,
         readJobDescriptionText,

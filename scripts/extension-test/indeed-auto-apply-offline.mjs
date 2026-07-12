@@ -90,4 +90,28 @@ assert.equal(reviewState.open, true);
 assert.equal(reviewState.stepFingerprint, 'review-module');
 assert.ok(reviewState.hasSubmitButton, 'review step should include submit button');
 
+const searchDom = new JSDOM(
+    `<div class="job_seen_beacon" data-jk="d1484f00c2ca6382">
+        <h2 class="jobTitle"><a href="/viewjob?jk=d1484f00c2ca6382"><span>Associate Scientist</span></a></h2>
+        <span class="companyName">Atum</span>
+        <span data-testid="indeedApply">Easily apply</span>
+    </div>
+    <div class="job_seen_beacon" data-jk="2abfdcaaba5f02dd">
+        <h2 class="jobTitle"><a href="/viewjob?jk=2abfdcaaba5f02dd"><span>Senior Scientist</span></a></h2>
+        <span class="companyName">IDT</span>
+        <a href="#">Apply on company site</a>
+    </div>`,
+    {
+        url: 'https://www.indeed.com/jobs?q=Scientist&l=San+Jose+CA+USA&sc=0kf:attr(DSQF7)',
+    },
+);
+const searchApi = loadIndeedAutoApply(searchDom.window);
+const cards = searchApi.collectJobCards();
+
+assert.equal(cards.length, 2);
+assert.equal(cards[0].jobId, 'd1484f00c2ca6382');
+assert.equal(cards[0].indeedApply, true);
+assert.equal(cards[1].jobId, '2abfdcaaba5f02dd');
+assert.equal(cards[1].indeedApply, false);
+
 console.log('Indeed auto-apply offline tests passed.');
