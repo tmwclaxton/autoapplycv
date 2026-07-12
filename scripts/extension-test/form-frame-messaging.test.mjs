@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const { computeApplyDraftBatchTimeoutMs } = await import(
+const { computeApplyDraftBatchTimeoutMs, pickIndeedApplyTabId } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js')).href
 );
 
@@ -24,4 +24,30 @@ test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     );
 
     assert.equal(largeBatch, 300_000);
+});
+
+test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {
+    const hostTabId = 101;
+    const applyTabId = 202;
+
+    assert.equal(
+        pickIndeedApplyTabId(hostTabId, [
+            { id: hostTabId, url: 'https://www.indeed.com/jobs?vjk=abc' },
+            {
+                id: applyTabId,
+                url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module',
+            },
+        ]),
+        applyTabId,
+    );
+
+    assert.equal(
+        pickIndeedApplyTabId(hostTabId, [
+            {
+                id: hostTabId,
+                url: 'https://smartapply.indeed.com/beta/indeedapply/form/review-module',
+            },
+        ]),
+        hostTabId,
+    );
 });

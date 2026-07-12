@@ -42,6 +42,101 @@ export async function sendTabMessage(tabId, message, frameId = 0) {
     return chrome.tabs.sendMessage(tabId, message, { frameId });
 }
 
+function isIndeedApplyUrl(url) {
+    return /smartapply\.indeed\.com|indeedapply/i.test(String(url || ''));
+}
+
+export function pickIndeedApplyTabId(hostTabId, tabs = []) {
+    if (!Array.isArray(tabs) || tabs.length === 0) {
+        return hostTabId;
+    }
+
+    const hostTab = tabs.find((tab) => tab.id === hostTabId);
+
+    if (hostTab && isIndeedApplyUrl(hostTab.url)) {
+        return hostTabId;
+    }
+
+    const smartApplyTab = tabs.find(
+        (tab) => tab.id !== hostTabId && isIndeedApplyUrl(tab.url),
+    );
+
+    if (smartApplyTab?.id) {
+        return smartApplyTab.id;
+    }
+
+    return hostTabId;
+}
+
+export async function resolveIndeedApplyTabId(
+    hostTabId,
+    { windowId, timeoutMs = 30_000 } = {},
+) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            const hostTab = await chrome.tabs.get(hostTabId);
+            const tabs =
+                typeof windowId === 'number'
+                    ? await chrome.tabs.query({ windowId })
+                    : [hostTab];
+            const resolved = pickIndeedApplyTabId(
+                hostTabId,
+                tabs.map((tab) => ({ id: tab.id, url: tab.url })),
+            );
+
+            if (resolved !== hostTabId) {
+                return resolved;
+            }
+
+            if (isIndeedApplyUrl(hostTab.url)) {
+                return hostTabId;
+            }
+
+            const frameId = await findIndeedApplyFrameId(hostTabId);
+
+            if (frameId !== 0) {
+                const state = await sendTabMessage(
+                    hostTabId,
+                    { type: 'INDEED_APPLY_STATE' },
+                    frameId,
+                ).catch(() => null);
+
+                if (
+                    state?.open ||
+                    state?.canContinue ||
+                    state?.canSubmit ||
+                    state?.submitted
+                ) {
+                    return hostTabId;
+                }
+            }
+        } catch {
+            // Keep polling until timeout.
+        }
+
+        await new Promise((resolve) => {
+            setTimeout(resolve, 500);
+        });
+    }
+
+    try {
+        const hostTab = await chrome.tabs.get(hostTabId);
+        const tabs =
+            typeof windowId === 'number'
+                ? await chrome.tabs.query({ windowId })
+                : [{ id: hostTab.id, url: hostTab.url }];
+
+        return pickIndeedApplyTabId(
+            hostTabId,
+            tabs.map((tab) => ({ id: tab.id, url: tab.url })),
+        );
+    } catch {
+        return hostTabId;
+    }
+}
+
 export async function findIndeedApplyFrameId(tabId) {
     const frames = await chrome.webNavigation.getAllFrames({ tabId });
     /** @type {{ frameId: number, urlScore: number }[]} */

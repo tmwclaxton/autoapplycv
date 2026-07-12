@@ -56,6 +56,7 @@ import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
 import {
     invalidateTabFrameCache,
+    resolveIndeedApplyTabId,
     sendIndeedApplyFlowMessage,
     sendTabMessage,
     findBestFormFrameId,
@@ -565,7 +566,10 @@ async function waitForApplicationSubmitConfirmation(
             platform === GLASSDOOR_PLATFORM_ID ||
             platform === SIMPLYHIRED_PLATFORM_ID
         ) {
-            const useIndeedFlow = platform !== INDEED_PLATFORM_ID;
+            const useIndeedFlow =
+                platform === INDEED_PLATFORM_ID ||
+                platform === GLASSDOOR_PLATFORM_ID ||
+                platform === SIMPLYHIRED_PLATFORM_ID;
             const verify = useIndeedFlow
                 ? await sendIndeedApplyFlowMessage(tabId, {
                       type: 'INDEED_VERIFY_SUBMITTED',
@@ -3946,9 +3950,55 @@ async function processIndeedJob(
     }
 
     await waitForTabLoadComplete(tabId);
+    tabId = await resolveIndeedApplyTabId(tabId, {
+        windowId: session?.windowId ?? null,
+    });
+    await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);
+
+    const iframeDeadline = Date.now() + 30_000;
+
+    while (Date.now() < iframeDeadline) {
+        const state = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
+
+        if (
+            state?.open &&
+            (state.canContinue ||
+                state.canSubmit ||
+                state.isReviewStep ||
+                state.invalidFields?.length)
+        ) {
+            break;
+        }
+
+        if (state?.open) {
+            break;
+        }
+
+        await sleep(800);
+    }
+
+    const readyDeadline = Date.now() + 12_000;
+
+    while (Date.now() < readyDeadline) {
+        const readyState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
+
+        if (
+            readyState?.canContinue ||
+            readyState?.canSubmit ||
+            readyState?.isReviewStep
+        ) {
+            break;
+        }
+
+        await sleep(500);
+    }
 
     let submitted = false;
     let guard = 0;
@@ -3958,7 +4008,9 @@ async function processIndeedJob(
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
 
-        const applyState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+        const applyState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        });
 
         if (applyState?.submitted) {
             submitted = true;
@@ -3966,10 +4018,9 @@ async function processIndeedJob(
         }
 
         if (!applyState?.open) {
-            const closedVerify = await sendIndeedMessage(
-                tabId,
-                'INDEED_VERIFY_SUBMITTED',
-            );
+            const closedVerify = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_VERIFY_SUBMITTED',
+            });
 
             if (closedVerify?.submitted) {
                 submitted = true;
@@ -4021,10 +4072,9 @@ async function processIndeedJob(
             session,
             INDEED_PLATFORM_ID,
         );
-        const postDraftState = await sendIndeedMessage(
-            tabId,
-            'INDEED_APPLY_STATE',
-        );
+        const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        });
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -4040,10 +4090,9 @@ async function processIndeedJob(
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendIndeedMessage(
-            tabId,
-            'INDEED_FILL_AND_ADVANCE',
-        );
+        const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_FILL_AND_ADVANCE',
+        });
 
         if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
@@ -4134,10 +4183,9 @@ async function processIndeedJob(
                 !advanceResponse?.transitioned &&
                 !advanceResponse?.submitted)
         ) {
-            const postAdvanceState = await sendIndeedMessage(
-                tabId,
-                'INDEED_APPLY_STATE',
-            );
+            const postAdvanceState = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            });
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
@@ -4198,10 +4246,9 @@ async function processIndeedJob(
     }
 
     if (!submitted) {
-        const verifyResponse = await sendIndeedMessage(
-            tabId,
-            'INDEED_VERIFY_SUBMITTED',
-        );
+        const verifyResponse = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_VERIFY_SUBMITTED',
+        });
         submitted = Boolean(verifyResponse?.submitted);
     }
 

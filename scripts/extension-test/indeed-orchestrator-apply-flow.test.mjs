@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+const orchestrator = readFileSync(
+    'extension/src/shared/auto-apply-orchestrator.js',
+    'utf8',
+);
+
+const processIndeedJobBlock = orchestrator.match(
+    /async function processIndeedJob\([\s\S]*?^async function processTotalJobsJob/m,
+)?.[0];
+
+assert.ok(processIndeedJobBlock, 'processIndeedJob block should exist');
+assert.match(
+    processIndeedJobBlock,
+    /resolveIndeedApplyTabId/,
+    'Indeed apply should resolve smartapply tab after OPEN_APPLY',
+);
+assert.match(
+    processIndeedJobBlock,
+    /sendIndeedApplyFlowMessage\(tabId,\s*\{\s*type: 'INDEED_APPLY_STATE'/,
+    'Indeed apply loop should use iframe-aware messaging',
+);
+assert.doesNotMatch(
+    processIndeedJobBlock,
+    /sendIndeedMessage\(tabId, 'INDEED_APPLY_STATE'\)/,
+    'Indeed apply loop should not use top-frame-only APPLY_STATE',
+);
+
+console.log('indeed-orchestrator-apply-flow tests passed.');
