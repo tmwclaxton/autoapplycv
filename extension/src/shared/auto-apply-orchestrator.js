@@ -1307,6 +1307,39 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
     throw new Error('Glassdoor tab messaging failed.');
 }
 
+async function closeIndeedAuxiliaryTabs(session, searchTabId) {
+    let windowId = session?.windowId ?? null;
+
+    if (typeof windowId !== 'number' && typeof searchTabId === 'number') {
+        try {
+            windowId = (await chrome.tabs.get(searchTabId))?.windowId ?? null;
+        } catch {
+            windowId = null;
+        }
+    }
+
+    if (typeof windowId !== 'number') {
+        return;
+    }
+
+    const tabs = await chrome.tabs.query({ windowId });
+
+    for (const tab of tabs) {
+        if (tab.id === searchTabId || typeof tab.id !== 'number') {
+            continue;
+        }
+
+        const url = tab.url || '';
+
+        if (
+            /smartapply\.indeed\.com/i.test(url) ||
+            /indeed\.com\/viewjob/i.test(url)
+        ) {
+            await chrome.tabs.remove(tab.id).catch(() => {});
+        }
+    }
+}
+
 async function returnToIndeedSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
@@ -3855,6 +3888,30 @@ async function processIndeedJob(
     session,
     profileData = null,
 ) {
+    const searchTabId = session?.tabId ?? tabId;
+
+    try {
+        return await processIndeedJobInner(
+            tabId,
+            job,
+            runDraftAll,
+            session,
+            profileData,
+            searchTabId,
+        );
+    } finally {
+        await closeIndeedAuxiliaryTabs(session, searchTabId);
+    }
+}
+
+async function processIndeedJobInner(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+    searchTabId = session?.tabId ?? tabId,
+) {
     await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
@@ -3921,6 +3978,24 @@ async function processIndeedJob(
         light: true,
     }).catch(() => {});
 
+    const detailState = await sendIndeedMessage(
+        tabId,
+        'INDEED_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    ).catch(() => null);
+
+    if (detailState?.alreadyApplied) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'already_applied',
+            tabId: searchTabId,
+        };
+    }
+
     const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
 
     if (applyResponse?.easyApply === false) {
@@ -3958,6 +4033,18 @@ async function processIndeedJob(
     const bootstrapState = await sendIndeedApplyFlowMessage(tabId, {
         type: 'INDEED_APPLY_STATE',
     }).catch(() => null);
+
+    if (bootstrapState?.submitted) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'already_applied',
+            tabId: searchTabId,
+        };
+    }
 
     if (!bootstrapState?.open && job.jobId) {
         let windowId = session?.windowId ?? null;
@@ -5987,15 +6074,30 @@ async function ensureGlassdoorTab(session) {
     return tabId;
 }
 
-async function collectGlassdoorJobsFromTab(tabId) {
+async function collectGlassdoorJobsFromTab(tabId, session) {
     const deadline = Date.now() + 60_000;
     let lastError = 'Could not read Glassdoor job cards.';
 
     while (Date.now() < deadline) {
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
-            expectedKeyword: null,
-            expectedLocation: null,
-        }).catch(() => {});
+        const prepared = await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_PREPARE_JOB_SEARCH',
+            {
+                expectedKeyword: session?.roleDescription || null,
+                expectedLocation: session?.filters?.location || null,
+            },
+        ).catch(() => ({ searchMatched: true }));
+
+        if (prepared?.searchMatched === false) {
+            tabId = await returnToGlassdoorSearch(tabId, session);
+            await waitForGlassdoorContentScript(tabId);
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
+            lastError =
+                prepared?.error ||
+                'Glassdoor search results do not match the expected role or location.';
+
+            continue;
+        }
 
         const response = await sendGlassdoorMessage(
             tabId,
@@ -6020,7 +6122,7 @@ async function collectGlassdoorJobsFromTab(tabId) {
 }
 
 async function appendUniqueGlassdoorJobs(tabId, session) {
-    const jobs = await collectGlassdoorJobsFromTab(tabId);
+    const jobs = await collectGlassdoorJobsFromTab(tabId, session);
 
     if (jobs.length === 0) {
         return session;

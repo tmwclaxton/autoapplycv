@@ -638,6 +638,43 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return null;
     }
 
+    function readAlreadyAppliedMarker(root = readJobViewRoot()) {
+        if (root === document) {
+            return false;
+        }
+
+        const rootText = normalize(root.textContent);
+
+        if (
+            /\byou applied\b|\byou've applied\b|\balready applied\b|\bapplication sent\b/i.test(
+                rootText,
+            )
+        ) {
+            return !readIndeedApplyButton();
+        }
+
+        for (const element of root.querySelectorAll('button, a, span')) {
+            if (!(element instanceof HTMLElement)) {
+                continue;
+            }
+
+            const text = normalize(element.textContent);
+            const label = normalize(element.getAttribute('aria-label') || '');
+
+            if (
+                /^applied$/i.test(text) ||
+                /\byou applied\b/i.test(label) ||
+                /\balready applied\b/i.test(label)
+            ) {
+                if (!readIndeedApplyButton()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     async function prepareJobView({ force = false, light = false } = {}) {
         const now = Date.now();
 
@@ -696,6 +733,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     currentJk === String(jobId).toLowerCase());
 
             if (onTargetJob) {
+                if (readAlreadyAppliedMarker()) {
+                    return { success: false, alreadyApplied: true, jobId };
+                }
+
                 if (readIndeedApplyButton()) {
                     return { success: true, jobId };
                 }
@@ -710,6 +751,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
             }
 
             await humanPause(600, scrollPass > 4 ? 1200 : 900);
+        }
+
+        if (readAlreadyAppliedMarker()) {
+            return { success: false, alreadyApplied: true, jobId };
         }
 
         if (readIndeedApplyButton()) {
@@ -1570,6 +1615,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         prepareJobView,
         collectJobCards,
         readIndeedApplyFromCard,
+        readAlreadyAppliedMarker,
         selectJobById,
         waitForJobDetailReady,
         readJobDescriptionText,

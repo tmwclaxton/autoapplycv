@@ -187,13 +187,30 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         return 'https://www.glassdoor.com';
     }
 
+    function readJobSearchRoot() {
+        return (
+            document.querySelector('[data-test="job-list-panel"]') ||
+            document.querySelector('[data-test="job-results"]') ||
+            document.querySelector('[data-test="serp-job-list"]') ||
+            null
+        );
+    }
+
     function readJobCardsFromDocument() {
+        if (!isGlassdoorSearchPage()) {
+            return [];
+        }
+
+        const root = readJobSearchRoot();
+
+        if (!root) {
+            return [];
+        }
+
         const jobs = [];
         const seen = new Set();
 
-        const listings = document.querySelectorAll(
-            '[data-test="jobListing"], li[data-is-easy-apply="true"]',
-        );
+        const listings = root.querySelectorAll('[data-test="jobListing"]');
 
         for (const item of listings) {
             const link = readJobCardLink(item);
@@ -268,12 +285,30 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             searchMatched = false;
         }
 
-        const cardCount = document.querySelectorAll(
-            '[data-test="jobListing"]',
-        ).length;
+        const searchRoot = readJobSearchRoot();
+        const cardCount = searchRoot
+            ? searchRoot.querySelectorAll('[data-test="jobListing"]').length
+            : 0;
 
-        if (cardCount >= 3) {
-            return { success: true, skipped: true, searchMatched };
+        if (cardCount >= 3 && searchMatched) {
+            return { success: true, skipped: true, searchMatched: true };
+        }
+
+        if (cardCount >= 3 && !searchMatched) {
+            return {
+                success: false,
+                skipped: false,
+                searchMatched: false,
+                error: 'Glassdoor search results do not match the expected role or location.',
+            };
+        }
+
+        if (!searchMatched && (expectedKeyword || expectedLocation)) {
+            return {
+                success: false,
+                searchMatched: false,
+                error: 'Glassdoor search results do not match the expected role or location.',
+            };
         }
 
         window.scrollBy({ top: 500, behavior: 'smooth' });
@@ -425,10 +460,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
     function findJobCardById(jobId) {
         const targetId = String(jobId || '').trim();
+        const root = readJobSearchRoot() || document;
 
-        for (const item of document.querySelectorAll(
-            '[data-test="jobListing"], li[data-is-easy-apply="true"]',
-        )) {
+        for (const item of root.querySelectorAll('[data-test="jobListing"]')) {
             const link = readJobCardLink(item);
             const href = link?.getAttribute('href') || '';
             const cardJobId =
@@ -631,6 +665,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         acceptCookieConsent,
         clickGlassdoorApply,
         collectJobCards,
+        readJobSearchRoot,
         goToNextSearchPage,
         isEasyApplyHostPage,
         isGlassdoorSearchPage,
