@@ -232,15 +232,43 @@ Job sites increasingly flag instant paste fills and robotic click patterns. Auto
 
 ## Supported platforms
 
-AutoCVApply works on most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more. Autofill is verified against real and synthetic fixtures on the platforms below:
+<!-- readme-platforms:start -->
+Autofill works on most major ATS and employer career sites. **Auto Apply** runs end-to-end from the extension sidebar on supported job boards (search, fill every step, submit). More boards across the UK, Ireland, US, Canada, Australia, and New Zealand are on the way.
+
+### Autofill on ATS and career sites
+
+<table><tr><td valign="top"><img src="public/images/platforms/logos/workday.ico" width="18" height="18" alt="" /> Workday</td><td valign="top"><img src="public/images/platforms/logos/greenhouse.ico" width="18" height="18" alt="" /> Greenhouse</td><td valign="top"><img src="public/images/platforms/logos/lever.ico" width="18" height="18" alt="" /> Lever</td><td valign="top"><img src="public/images/platforms/logos/ashby.ico" width="18" height="18" alt="" /> Ashby</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/smartrecruiters.ico" width="18" height="18" alt="" /> SmartRecruiters</td><td valign="top"><img src="public/images/platforms/logos/teamtailor.png" width="18" height="18" alt="" /> Teamtailor</td><td valign="top"><img src="public/images/platforms/logos/oracle.png" width="18" height="18" alt="" /> Oracle</td><td valign="top"><img src="public/images/platforms/logos/bamboohr.ico" width="18" height="18" alt="" /> BambooHR</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/workable.png" width="18" height="18" alt="" /> Workable</td><td valign="top"><img src="public/images/platforms/logos/icims.ico" width="18" height="18" alt="" /> iCIMS</td><td valign="top"><img src="public/images/platforms/logos/trakstar.png" width="18" height="18" alt="" /> Trakstar</td><td valign="top"><img src="public/images/platforms/logos/wordpress.ico" width="18" height="18" alt="" /> WordPress</td></tr></table>
+
+<sub>Plus many more employer career sites and ATS variants.</sub>
+
+### Auto Apply - supported today
+
+<table><tr><td valign="top"><img src="public/images/platforms/logos/linkedin.ico" width="18" height="18" alt="" /> LinkedIn</td><td valign="top"><img src="public/images/platforms/logos/indeed.png" width="18" height="18" alt="" /> Indeed</td><td valign="top"><img src="public/images/platforms/logos/totaljobs.ico" width="18" height="18" alt="" /> Totaljobs</td><td valign="top"><img src="public/images/platforms/logos/glassdoor.ico" width="18" height="18" alt="" /> Glassdoor</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/simplyhired.ico" width="18" height="18" alt="" /> SimplyHired</td><td valign="top"><img src="public/images/platforms/logos/reed.ico" width="18" height="18" alt="" /> Reed</td><td valign="top"><img src="public/images/platforms/logos/cv-library.png" width="18" height="18" alt="" /> CV-Library</td><td></td></tr></table>
+
+Full end-to-end apply: search filtered jobs, open each posting, fill every step, and submit from the extension sidebar **Auto Apply** tab.
+
+### Auto Apply - coming soon
+
+<table><tr><td valign="top"><img src="public/images/platforms/logos/adzuna.ico" width="18" height="18" alt="" /> Adzuna</td><td valign="top"><img src="public/images/platforms/logos/aps-jobs.png" width="18" height="18" alt="" /> APS Jobs</td><td valign="top"><img src="public/images/platforms/logos/careerbuilder.ico" width="18" height="18" alt="" /> CareerBuilder</td><td valign="top"><img src="public/images/platforms/logos/careerone.ico" width="18" height="18" alt="" /> CareerOne</td><td valign="top"><img src="public/images/platforms/logos/civil-service-jobs.ico" width="18" height="18" alt="" /> Civil Service Jobs</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/dice.ico" width="18" height="18" alt="" /> Dice</td><td valign="top"><img src="public/images/platforms/logos/eluta.ico" width="18" height="18" alt="" /> Eluta</td><td valign="top"><img src="public/images/platforms/logos/ethicaljobs.png" width="18" height="18" alt="" /> EthicalJobs</td><td valign="top"><img src="public/images/platforms/logos/find-a-job.ico" width="18" height="18" alt="" /> Find a Job</td><td valign="top"><img src="public/images/platforms/logos/flexjobs.png" width="18" height="18" alt="" /> FlexJobs</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/government-jobs.ico" width="18" height="18" alt="" /> Government Jobs</td><td valign="top"><img src="public/images/platforms/logos/guardian-jobs.ico" width="18" height="18" alt="" /> Guardian Jobs</td><td valign="top"><img src="public/images/platforms/logos/idealist.png" width="18" height="18" alt="" /> Idealist</td><td valign="top"><img src="public/images/platforms/logos/irishjobs-ie.ico" width="18" height="18" alt="" /> IrishJobs.ie</td><td valign="top"><img src="public/images/platforms/logos/job-bank.ico" width="18" height="18" alt="" /> Job Bank</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/jobs-ac-uk.ico" width="18" height="18" alt="" /> Jobs.ac.uk</td><td valign="top"><img src="public/images/platforms/logos/jobs-go-public.ico" width="18" height="18" alt="" /> Jobs Go Public</td><td valign="top"><img src="public/images/platforms/logos/jobsearch.png" width="18" height="18" alt="" /> JobSearch</td><td valign="top"><img src="public/images/platforms/logos/jobs-ie.ico" width="18" height="18" alt="" /> Jobs.ie</td><td valign="top"><img src="public/images/platforms/logos/jobsireland.ico" width="18" height="18" alt="" /> JobsIreland</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/jobserve.ico" width="18" height="18" alt="" /> Jobserve</td><td valign="top"><img src="public/images/platforms/logos/jobsdb.png" width="18" height="18" alt="" /> JobsDB</td><td valign="top"><img src="public/images/platforms/logos/jobstreet.png" width="18" height="18" alt="" /> JobStreet</td><td valign="top"><img src="public/images/platforms/logos/jobillico.ico" width="18" height="18" alt="" /> Jobillico</td><td valign="top"><img src="public/images/platforms/logos/jora.ico" width="18" height="18" alt="" /> Jora</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/ladders.ico" width="18" height="18" alt="" /> Ladders</td><td valign="top"><img src="public/images/platforms/logos/lg-jobs.ico" width="18" height="18" alt="" /> LG Jobs</td><td valign="top"><img src="public/images/platforms/logos/linkup.png" width="18" height="18" alt="" /> LinkUp</td><td valign="top"><img src="public/images/platforms/logos/monster.ico" width="18" height="18" alt="" /> Monster</td><td valign="top"><img src="public/images/platforms/logos/nhs-jobs.png" width="18" height="18" alt="" /> NHS Jobs</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/nz-government-jobs.ico" width="18" height="18" alt="" /> NZ Government Jobs</td><td valign="top"><img src="public/images/platforms/logos/publicjobs-ie.ico" width="18" height="18" alt="" /> Publicjobs.ie</td><td valign="top"><img src="public/images/platforms/logos/seek.ico" width="18" height="18" alt="" /> SEEK</td><td valign="top"><img src="public/images/platforms/logos/snagajob.ico" width="18" height="18" alt="" /> Snagajob</td><td valign="top"><img src="public/images/platforms/logos/trade-me-jobs.png" width="18" height="18" alt="" /> Trade Me Jobs</td></tr><tr><td valign="top"><img src="public/images/platforms/logos/usajobs.ico" width="18" height="18" alt="" /> USAJobs</td><td valign="top"><img src="public/images/platforms/logos/workopolis.ico" width="18" height="18" alt="" /> Workopolis</td><td valign="top"><img src="public/images/platforms/logos/ziprecruiter.png" width="18" height="18" alt="" /> ZipRecruiter</td><td></td><td></td></tr></table>
+
+<sub>+ more boards across the Anglosphere.</sub>
+
+> **Note:** On ATS forms (Greenhouse, Ashby, Workday, etc.) autofill and Draft All fill fields for you - **you review and click Submit yourself**. Job board Auto Apply completes submissions end-to-end on supported boards above.
+
+<!-- readme-platforms:end -->
+
+Regenerate this block after changing platform lists in `resources/js/lib/site.ts`:
+
+```bash
+npm run readme:platforms
+```
+
+This rewrites the block between `<!-- readme-platforms:start -->` and `<!-- readme-platforms:end -->` in this file.
+
+### Fill verification depth (ATS)
 
 | Platform | Coverage | Notes |
 |----------|----------|-------|
-| **LinkedIn Easy Apply** | Full Auto Apply E2E | Search, open, fill, and submit via extension sidebar **Auto Apply** tab |
-| **Indeed Apply** | Full Auto Apply E2E | Indeed Apply search, contact/resume/questions/review steps, submit via **Auto Apply** tab |
-| **Totaljobs Quick Apply** | Full Auto Apply E2E | Genesis Quick Apply search and multi-step submit from the sidebar |
-| **Glassdoor Easy Apply** | Full Auto Apply E2E | Job board search plus Indeed Apply iframe steps where required |
-| **Reed Easy Apply** | Full Auto Apply E2E | Reed search, job detail, modal review, and submit |
 | **Ashby** | Curated + smoke + widget checks | Yes/no and checkbox widget scenarios |
 | **Greenhouse** | Curated + smoke | Scraped real boards in corpus |
 | **Lever** | Curated + smoke | Multi-step apply flows |
@@ -854,7 +882,8 @@ Do not paste unredacted live LinkedIn HTML into `tests/fixtures/auto-apply/linke
 | `npm run extension-bridge` | Start localhost bridge (WebSocket + HTTP for MCP) |
 | `npm run form-corpus:fill-verify:curated` | Curated JSDOM tier (CI default) |
 | `npm run form-corpus:fill-verify:smoke` | Per-platform Playwright smoke |
-| `npm run form-corpus:extension-e2e` | Extension E2E CI subset (~10 scenarios) |
+| `npm run platform-logos:download` | Refresh platform logos in `public/images/platforms/logos/` |
+| `npm run readme:platforms` | Regenerate Supported platforms block in README from `site.ts` |
 | `npm run form-corpus:visual-regression` | Screenshot baseline compare |
 | `npm run form-corpus:build-curated` | Regenerate curated + smoke manifests |
 | `npm run test:linkedin-easy-apply-corpus:run -- --captured-only` | LinkedIn offline corpus (212 live captures) |
