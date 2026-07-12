@@ -29,10 +29,15 @@ class ExtensionBuildTest extends TestCase
             'autocvapply@autocvapply.com',
             $firefoxManifest['browser_specific_settings']['gecko']['id'] ?? null,
         );
+        $this->assertSame('121.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
+        $this->assertSame(['background.js'], $firefoxManifest['background']['scripts'] ?? null);
+        $this->assertSame('background.js', $firefoxManifest['background']['service_worker'] ?? null);
 
         $chromeManifest = $this->readManifestFromZip($chromeZip);
         $this->assertArrayNotHasKey('browser_specific_settings', $chromeManifest);
         $this->assertArrayNotHasKey('default_popup', $chromeManifest['action'] ?? []);
+        $this->assertArrayNotHasKey('scripts', $chromeManifest['background'] ?? []);
+        $this->assertSame('background.js', $chromeManifest['background']['service_worker'] ?? null);
         $this->assertSame('sidepanel.html', $chromeManifest['side_panel']['default_path'] ?? null);
         $this->assertSame('icons/icon32.png', $chromeManifest['icons']['32'] ?? null);
     }
