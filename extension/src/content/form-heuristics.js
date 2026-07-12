@@ -1661,6 +1661,161 @@ const AutoCVApplyFormHeuristics = (() => {
         return Array.isArray(target) ? target.filter((button) => button?.isConnected) : [];
     }
 
+    const MONTH_INDEX = {
+        january: 0,
+        jan: 0,
+        february: 1,
+        feb: 1,
+        march: 2,
+        mar: 2,
+        april: 3,
+        apr: 3,
+        may: 4,
+        june: 5,
+        jun: 5,
+        july: 6,
+        jul: 6,
+        august: 7,
+        aug: 7,
+        september: 8,
+        sep: 8,
+        sept: 8,
+        october: 9,
+        oct: 9,
+        november: 10,
+        nov: 10,
+        december: 11,
+        dec: 11,
+    };
+
+    function monthTokenToIndex(monthToken) {
+        const key = String(monthToken || '').toLowerCase();
+
+        return Object.prototype.hasOwnProperty.call(MONTH_INDEX, key) ? MONTH_INDEX[key] : undefined;
+    }
+
+    function isYesNoChoiceOptions(options) {
+        const meaningful = (options || [])
+            .map((option) => normalizeOption(option))
+            .filter((option) => option && !['on', 'off', 'true', 'false'].includes(option));
+
+        if (meaningful.length !== 2) {
+            return false;
+        }
+
+        const sorted = [...meaningful].sort();
+
+        return sorted[0] === 'no' && sorted[1] === 'yes';
+    }
+
+    function isAvailabilityYesNoQuestion(label) {
+        const text = normalize(label);
+
+        return /\b(available to start|able to start|can you start|could you start)\b/.test(text)
+            || (/\bstart\b/.test(text) && /\b(programme|program|role|position|internship|placement)\b/.test(text));
+    }
+
+    function parseMonthYearToken(monthToken, yearToken) {
+        const month = monthTokenToIndex(monthToken);
+        const year = Number.parseInt(String(yearToken), 10);
+
+        if (month === undefined || Number.isNaN(year)) {
+            return null;
+        }
+
+        return new Date(year, month, 1);
+    }
+
+    function extractTargetStartDateFromLabel(label) {
+        const text = normalize(label);
+        const monthYearMatch = text.match(
+            /\b(?:in|from|by|on|starting)\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/,
+        );
+
+        if (monthYearMatch) {
+            return parseMonthYearToken(monthYearMatch[1], monthYearMatch[2]);
+        }
+
+        return null;
+    }
+
+    function parseDateFromAnswer(answer) {
+        const text = String(answer ?? '').trim();
+
+        if (!text) {
+            return null;
+        }
+
+        if (/^(immediately|asap|now|straight away|right away)\b/i.test(text)) {
+            return new Date(0);
+        }
+
+        const dayMonthYear = text.match(
+            /\b(\d{1,2})\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/i,
+        );
+
+        if (dayMonthYear) {
+            const day = Number.parseInt(dayMonthYear[1], 10);
+            const month = monthTokenToIndex(dayMonthYear[2]);
+            const year = Number.parseInt(dayMonthYear[3], 10);
+
+            if (month === undefined || Number.isNaN(day) || Number.isNaN(year)) {
+                return null;
+            }
+
+            return new Date(year, month, day);
+        }
+
+        const monthYearOnly = text.match(
+            /\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/i,
+        );
+
+        if (monthYearOnly) {
+            return parseMonthYearToken(monthYearOnly[1], monthYearOnly[2]);
+        }
+
+        const parsed = Date.parse(text);
+
+        if (!Number.isNaN(parsed)) {
+            return new Date(parsed);
+        }
+
+        return null;
+    }
+
+    function coerceAvailabilityDateToYesNo(label, answer, options) {
+        if (!isYesNoChoiceOptions(options) || !isAvailabilityYesNoQuestion(label)) {
+            return null;
+        }
+
+        const booleanToken = extractBooleanAnswer(answer);
+
+        if (booleanToken === 'yes' || booleanToken === 'no') {
+            return options.find((option) => normalizeOption(option) === booleanToken) || booleanToken;
+        }
+
+        const targetDate = extractTargetStartDateFromLabel(label);
+        const answerDate = parseDateFromAnswer(answer);
+
+        if (!targetDate || !answerDate) {
+            return null;
+        }
+
+        const token = answerDate.getTime() <= targetDate.getTime() ? 'yes' : 'no';
+
+        return options.find((option) => normalizeOption(option) === token) || token;
+    }
+
+    function resolveRadioGroupAnswer(element, answer, roleRadios = null) {
+        const questionLabel = getWorkableQuestionLabel(element) || getQuestionLabel(element);
+        const optionLabels = roleRadios
+            ? getRoleRadioOptions(roleRadios)
+            : getGroupInputs(element).map((input) => getOptionLabel(input)).filter(Boolean);
+        const coerced = coerceAvailabilityDateToYesNo(questionLabel, answer, optionLabels);
+
+        return coerced || answer;
+    }
+
     function extractBooleanAnswer(answer) {
         const normalized = normalizeOption(answer);
 
@@ -4419,6 +4574,8 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setRadioGroupValue(element, answer) {
+        answer = resolveRadioGroupAnswer(element, answer);
+
         if (isWorkableApplyHost(element.ownerDocument || document)) {
             const workableGroup = getWorkableChoiceGroup(element);
 
@@ -4727,6 +4884,12 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setRoleRadioGroupValue(radios, answer) {
+        const native = radios[0]?.querySelector?.('input[type="radio"]');
+
+        if (native) {
+            answer = resolveRadioGroupAnswer(native, answer, radios);
+        }
+
         for (const radio of radios) {
             const optionText = (radio.textContent || radio.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
             const optionValue = String(radio.getAttribute('data-value') || radio.getAttribute('value') || '');
@@ -8334,6 +8497,36 @@ const AutoCVApplyFormHeuristics = (() => {
         return collectDraftableFields(root, profile, settings, memo).length;
     }
 
+    function resolveAnswerForTarget(target, fieldType, answer) {
+        if (fieldType !== 'radio') {
+            return answer;
+        }
+
+        if (Array.isArray(target)) {
+            if (target[0]?.getAttribute?.('role') === 'radio') {
+                const native = target[0]?.querySelector?.('input[type="radio"]');
+
+                return native ? resolveRadioGroupAnswer(native, answer, target) : answer;
+            }
+
+            return answer;
+        }
+
+        if (target?.type === 'radio') {
+            return resolveRadioGroupAnswer(target, answer);
+        }
+
+        const native = target?.querySelector?.('input[type="radio"]');
+
+        if (!native) {
+            return answer;
+        }
+
+        const roleRadios = Array.from(target.querySelectorAll?.('[role="radio"]') || []).filter(isVisible);
+
+        return resolveRadioGroupAnswer(native, answer, roleRadios.length >= 2 ? roleRadios : null);
+    }
+
     async function applyAnswerForTarget(root, target, fieldType, answer, options = {}) {
         if (!answer || !isTargetConnected(target)) {
             heuristicsLog('warn', 'apply.ref', 'applyAnswerForTarget skipped - missing answer or detached target', {
@@ -8345,10 +8538,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        const resolvedAnswer = resolveAnswerForTarget(target, fieldType, answer);
+
         heuristicsLog('debug', 'apply.ref', 'applyAnswerForTarget', {
             fieldType,
             dataFieldPath: options.data_field_path || null,
-            answerPreview: String(answer).slice(0, 80),
+            answerPreview: String(resolvedAnswer).slice(0, 80),
             targetRole: Array.isArray(target) ? target[0]?.getAttribute?.('role') : target?.getAttribute?.('role'),
             targetTag: Array.isArray(target) ? target[0]?.tagName : target?.tagName,
         });
@@ -8363,57 +8558,57 @@ const AutoCVApplyFormHeuristics = (() => {
                     { dataFieldPath: options.data_field_path, root },
                 );
             } else if (target[0]?.getAttribute?.('role') === 'checkbox') {
-                applied = setRoleCheckboxGroupValue(target, answer);
+                applied = setRoleCheckboxGroupValue(target, resolvedAnswer);
             } else {
-                applied = setRoleRadioGroupValue(target, answer);
+                applied = setRoleRadioGroupValue(target, resolvedAnswer);
             }
         } else if (target?.getAttribute?.('role') === 'listbox') {
-            applied = setRoleListboxValue(target, answer);
+            applied = setRoleListboxValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'combobox') {
             if (isGreenhousePhoneCountryCombobox(target)) {
-                applied = await setGreenhousePhoneCountryValue(target, answer);
+                applied = await setGreenhousePhoneCountryValue(target, resolvedAnswer);
             } else if (isLinkedInGeoLocationCombobox(target)) {
-                applied = await setLinkedInGeoLocationValue(target, answer);
+                applied = await setLinkedInGeoLocationValue(target, resolvedAnswer);
             } else if (isIndeedApplyLocationCombobox(target)) {
-                applied = await setIndeedApplyLocationComboboxValue(target, answer);
+                applied = await setIndeedApplyLocationComboboxValue(target, resolvedAnswer);
             } else if (isIndeedApplyResumeCombobox(target)) {
-                applied = await setIndeedApplyResumeComboboxValue(target, answer);
+                applied = await setIndeedApplyResumeComboboxValue(target, resolvedAnswer);
             } else if (isIndeedApplyQuestionCombobox(target)) {
-                applied = await setIndeedApplyQuestionComboboxValue(target, answer);
+                applied = await setIndeedApplyQuestionComboboxValue(target, resolvedAnswer);
             } else {
-                applied = await setAshbyComboboxValue(target, answer);
+                applied = await setAshbyComboboxValue(target, resolvedAnswer);
             }
         } else if (isPhoneCountryListboxButton(target)) {
-            applied = await setPhoneCountryListboxValue(target, answer);
+            applied = await setPhoneCountryListboxValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'radiogroup') {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
         } else if (target?.getAttribute?.('role') === 'radio') {
             const group = target.closest('[role="radiogroup"]');
             const radios = group
                 ? Array.from(group.querySelectorAll('[role="radio"]')).filter(isVisible)
                 : [target];
-            applied = setRoleRadioGroupValue(radios, answer);
+            applied = setRoleRadioGroupValue(radios, resolvedAnswer);
         } else if (target.type === 'radio' || target.type === 'checkbox') {
-            applied = setGroupValue(target, answer);
+            applied = setGroupValue(target, resolvedAnswer);
         } else if ((fieldType === 'radio' || fieldType === 'checkbox') && target.querySelector?.(`input[type="${fieldType}"]`)) {
-            applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), answer);
+            applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), resolvedAnswer);
         } else if (fieldType === 'radio' && target.querySelector?.('[role="radio"]')) {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
         } else if (fieldType === 'checkbox' && target.querySelector?.('[role="checkbox"]')) {
             applied = setRoleCheckboxGroupValue(
                 Array.from(target.querySelectorAll('[role="checkbox"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
         } else if (isSmartRecruitersPhoneInput(target)) {
-            applied = await setSmartRecruitersPhoneValue(target, answer);
+            applied = await setSmartRecruitersPhoneValue(target, resolvedAnswer);
         } else {
-            applied = await setFieldValue(target, answer);
+            applied = await setFieldValue(target, resolvedAnswer);
         }
 
         if (!applied) {
@@ -8424,7 +8619,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return applied;
         }
 
-        return verifyFieldApplied(target, fieldType, answer, {
+        return verifyFieldApplied(target, fieldType, resolvedAnswer, {
             root,
             dataFieldPath: options.data_field_path || null,
         });
