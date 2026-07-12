@@ -395,11 +395,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
-    function cardHasIndeedApply(card, cardText) {
-        if (cardHasExternalApply(card, cardText)) {
-            return false;
-        }
-
+    function cardHasIndeedApplyBadge(card, cardText) {
         if (
             card.querySelector(
                 '[data-testid="indeedApply"], [data-testid="indeedApplyButton-test"], #indeedApplyButton, [data-indeed-apply]',
@@ -420,6 +416,18 @@ const AutoCVApplyIndeedAutoApply = (() => {
             /\beasily apply\b/i.test(cardText) ||
             /\bapply with indeed\b/i.test(cardText)
         );
+    }
+
+    function readIndeedApplyFromCard(card, cardText) {
+        if (cardHasExternalApply(card, cardText)) {
+            return false;
+        }
+
+        if (cardHasIndeedApplyBadge(card, cardText)) {
+            return true;
+        }
+
+        return null;
     }
 
     function readJobCardsFromDocument() {
@@ -470,14 +478,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             const cardText = normalize(card.textContent);
             const alreadyApplied = /\bapplied\b/i.test(cardText);
-            const indeedApply = cardHasIndeedApply(card, cardText);
+            const indeedApply = readIndeedApplyFromCard(card, cardText);
 
             jobs.push({
                 jobId,
                 title,
                 company,
                 indeedApply,
-                easyApply: indeedApply,
+                easyApply: indeedApply !== false,
                 alreadyApplied,
                 url: `${window.location.origin}/viewjob?jk=${jobId}`,
             });
@@ -505,15 +513,15 @@ const AutoCVApplyIndeedAutoApply = (() => {
             );
             const cardText = normalize(cardRoot?.textContent || link.textContent);
             const indeedApply = cardRoot
-                ? cardHasIndeedApply(cardRoot, cardText)
-                : false;
+                ? readIndeedApplyFromCard(cardRoot, cardText)
+                : null;
 
             jobs.push({
                 jobId,
                 title: normalize(link.textContent) || 'Unknown role',
                 company: 'Unknown company',
                 indeedApply,
-                easyApply: indeedApply,
+                easyApply: indeedApply !== false,
                 alreadyApplied: false,
                 url: href.startsWith('http')
                     ? href.split('&')[0]
@@ -1561,7 +1569,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         prepareJobSearch,
         prepareJobView,
         collectJobCards,
-        cardHasIndeedApply,
+        readIndeedApplyFromCard,
         selectJobById,
         waitForJobDetailReady,
         readJobDescriptionText,

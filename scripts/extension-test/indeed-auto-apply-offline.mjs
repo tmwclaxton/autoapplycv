@@ -114,4 +114,17 @@ assert.equal(cards[0].indeedApply, true);
 assert.equal(cards[1].jobId, '2abfdcaaba5f02dd');
 assert.equal(cards[1].indeedApply, false);
 
+const unknownDom = new JSDOM(
+    `<div class="job_seen_beacon">
+        <h2 class="jobTitle"><a href="/viewjob?jk=abc1234567890abcd"><span>Unknown badge role</span></a></h2>
+        <span class="companyName">Acme</span>
+    </div>`,
+    { url: 'https://www.indeed.com/jobs?q=Scientist&sc=0kf:attr(DSQF7)' },
+);
+const unknownApi = loadIndeedAutoApply(unknownDom.window);
+const unknownCards = unknownApi.collectJobCards();
+
+assert.equal(unknownCards.length, 1);
+assert.equal(unknownCards[0].indeedApply, null);
+
 console.log('Indeed auto-apply offline tests passed.');
