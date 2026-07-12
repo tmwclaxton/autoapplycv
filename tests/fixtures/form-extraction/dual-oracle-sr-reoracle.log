@@ -1,0 +1,31 @@
+
+> form-corpus:curated-oracle
+> node scripts/form-corpus/curated-oracle-capture.mjs --limit=2 --urls-file=tests/fixtures/form-extraction/oracle-url-queue-batch-sr-reoracle.json --batch-id=oracle-sr-reoracle
+
+Curated dual-oracle capture: limit=2, mode=url-list
+URLs file: tests/fixtures/form-extraction/oracle-url-queue-batch-sr-reoracle.json (2 urls), batch_id=oracle-sr-reoracle
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 187/664 agrees
+
+=== Capture 1/2 (https://jobs.smartrecruiters.com/oneclick-ui/company/EVERSANA1/publication/261b8f76-0315-4393-8811-bbd72792289e) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-eversana1-publication-261b8f7
+  reasons: label Jaccard 0.227 below 0.7; type agreement 0.500 below 0.6 on 6 matched pairs
+  ai_only backlog (8): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 2/2 (https://avosano.teamtailor.com/jobs/7546658-mitarbeiter-logistik-bereich-warenausgang-m-w-d-100/applications/new) ===
+AGREE -> https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg
+  detector=11 ai=6 jaccard=0.5455
+  campaign: 187/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 1,
+  "disagree": 1,
+  "error": 0,
+  "captured": 2,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 187,
+  "campaign_target": 664,
+  "triage_count": 128
+}
