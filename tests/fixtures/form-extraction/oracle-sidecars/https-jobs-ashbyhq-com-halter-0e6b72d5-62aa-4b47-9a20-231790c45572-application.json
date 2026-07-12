@@ -1,0 +1,203 @@
+{
+  "id": "https-jobs-ashbyhq-com-halter-0e6b72d5-62aa-4b47-9a20-231790c45572-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:37:40.072Z",
+  "page_url": "https://jobs.ashbyhq.com/halter/0e6b72d5-62aa-4b47-9a20-231790c45572/application",
+  "page_title": "Customer Support Specialist @ Halter",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 5,
+      "count_delta": 13,
+      "label_jaccard": 0.2778,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full legal name",
+        "ai": "Full Legal Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "to help us ensure a respectful and inclusive environment, please let us know which pronouns you use (optional)",
+        "ai": "To help us ensure a respectful and inclusive environment, please let us know which pronouns you use (optional)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "email",
+      "phone",
+      "what are your salary expectations?",
+      "where are you located?",
+      "do you have legal work authorisation to work in this country?",
+      "linkedin url",
+      "github url",
+      "portfolio url",
+      "why are you excited about this role at halter?",
+      "anything else you want to share?",
+      "what is your current age?",
+      "i identify my ethnicity as",
+      "what gender do you identify as?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so additional fields (like email, phone, or further screening questions) that might exist in the full form are missing.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Legal Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "To help us ensure a respectful and inclusive environment, please let us know which pronouns you use (optional)",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "She/Her/Hers",
+          "He/Him/His"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "to help us ensure a respectful and inclusive environment, please let us know which pronouns you use (optional)",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "where are you located?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "do you have legal work authorisation to work in this country?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "why are you excited about this role at halter?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "anything else you want to share?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

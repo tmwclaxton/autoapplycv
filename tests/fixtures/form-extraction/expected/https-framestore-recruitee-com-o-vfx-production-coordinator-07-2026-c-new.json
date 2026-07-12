@@ -1,7 +1,7 @@
 {
   "id": "https-framestore-recruitee-com-o-vfx-production-coordinator-07-2026-c-new",
-  "min_fields": 13,
-  "exact_field_count": 13,
+  "min_fields": 14,
+  "exact_field_count": 14,
   "fields": [
     {
       "question": "full name",
@@ -44,7 +44,7 @@
       }
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -259,7 +259,7 @@
       }
     },
     {
-      "question": "legal agreements",
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
@@ -271,6 +271,29 @@
         "type": "checkbox",
         "id": null,
         "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "International",
+        "Afghanistan"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": "country-select-input-candidate.phone-7",
+        "name": null,
         "data_testid": null,
         "role": null,
         "data_field_path": null,

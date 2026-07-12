@@ -1,16 +1,16 @@
 {
   "id": "https-brainsquare-recruitee-com-o-open-application-technical-roles-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T19:56:30.029Z",
+  "captured_at": "2026-07-10T22:34:52.991Z",
   "page_url": "https://brainsquare.recruitee.com/o/open-application-technical-roles/c/new",
   "page_title": "Brainsquare - Brainsquare – Open Application for Technical Roles - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 5,
+      "detector_count": 6,
       "ai_count": 5,
-      "count_delta": 0,
-      "label_jaccard": 0.6667,
+      "count_delta": 1,
+      "label_jaccard": 0.8333,
       "type_agree_rate": 1,
       "matched_count": 5
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -51,13 +51,15 @@
         "type_agree": true
       }
     ],
-    "detector_only": [],
+    "detector_only": [
+      "country calling code"
+    ],
     "ai_only": [],
     "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter field allows for file upload, but there is a UI toggle to switch to a text input (not captured in static HTML).",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter field allows for file upload, but there is a button to switch to a text input mode which may dynamically change the DOM.",
     "fields": [
       {
         "question": "Full name",
@@ -103,7 +105,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -116,6 +118,11 @@
       "question": "cover letter",
       "field_type": "file",
       "ref": "f4"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f5"
     }
   ]
 }

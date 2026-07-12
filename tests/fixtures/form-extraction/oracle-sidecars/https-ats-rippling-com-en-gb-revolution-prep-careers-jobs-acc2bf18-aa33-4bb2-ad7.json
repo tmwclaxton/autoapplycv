@@ -1,0 +1,310 @@
+{
+  "id": "https-ats-rippling-com-en-gb-revolution-prep-careers-jobs-acc2bf18-aa33-4bb2-ad7",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:53:22.920Z",
+  "page_url": "https://ats.rippling.com/en-GB/revolution-prep-careers/jobs/acc2bf18-aa33-4bb2-ad7b-d1346a9ce2d0/apply",
+  "page_title": "Apply - Full-Time Online Tutor",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 19,
+      "count_delta": 3,
+      "label_jaccard": 0.2069,
+      "type_agree_rate": 0.3333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number country code",
+        "detector_type": "text",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin link",
+        "ai": "LinkedIn Link",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "website link",
+        "ai": "Website link",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "drop or select (.doc / .docx / .pdf)",
+      "textbox",
+      "select",
+      "field-132",
+      "field-136",
+      "yes – i consent to receiving text messages",
+      "k-5th grade",
+      "ap computer science (a and principles)",
+      "ap us government",
+      "she/her/hers"
+    ],
+    "ai_only": [
+      "CV",
+      "Phone number",
+      "Location",
+      "Cover letter",
+      "Are you comfortable teaching all sections of the SAT and ACT (reading, writing, math, and science)?",
+      "Our most successful tutors provide support in Algebra 1, Geometry, and Algebra 2. Would you be comfortable having those three courses on your subject coverage?",
+      "Are you returning to full-time school or work in the fall?",
+      "What is the highest degree you have completed?",
+      "Are you willing to undergo a background check?",
+      "Are you authorized to work in the United States?",
+      "This is a remote (\"work from home\") position. In which state will you be living/working?",
+      "Please select all grades in which you have teaching or tutoring experience.",
+      "Please select any related High School STEM subjects you would feel comfortable tutoring tomorrow. If there are none, please select \"None of the Above\"."
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=16, ai=19)",
+      "label Jaccard 0.207 below 0.7",
+      "type agreement 0.333 below 0.6 on 6 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom combobox/select widgets that may require interaction to reveal options. The HTML snippet was truncated at the end.",
+    "fields": [
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number country code",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Link",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website link",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you comfortable teaching all sections of the SAT and ACT (reading, writing, math, and science)?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Our most successful tutors provide support in Algebra 1, Geometry, and Algebra 2. Would you be comfortable having those three courses on your subject coverage?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you returning to full-time school or work in the fall?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the highest degree you have completed?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you willing to undergo a background check?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This is a remote (\"work from home\") position. In which state will you be living/working?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please select all grades in which you have teaching or tutoring experience.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "K-5th Grade",
+          "6th-12th Grade",
+          "College"
+        ]
+      },
+      {
+        "question": "Please select any related High School STEM subjects you would feel comfortable tutoring tomorrow. If there are none, please select \"None of the Above\".",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "AP Computer Science (A and Principles)",
+          "AP Statistics",
+          "AP Calculus AB",
+          "AP Calculus BC",
+          "AP Chemistry",
+          "AP Biology",
+          "AP Physics 1 and 2",
+          "AP Physics C",
+          "None of the Above"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "drop or select (.doc / .docx / .pdf)",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "textbox",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin link",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "website link",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "select",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "field-132",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "field-136",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "yes – i consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "k-5th grade",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "ap computer science (a and principles)",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "ap us government",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "she/her/hers",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

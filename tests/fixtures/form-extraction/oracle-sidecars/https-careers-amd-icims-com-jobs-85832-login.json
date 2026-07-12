@@ -1,0 +1,42 @@
+{
+  "id": "https-careers-amd-icims-com-jobs-85832-login",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:25:18.100Z",
+  "page_url": "https://careers-amd.icims.com/jobs/85832/login",
+  "page_title": "Login | General Data Protection Regulation (GDPR)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 2,
+      "ai_count": 0,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "email",
+      "i accept"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a wrapper page that loads the actual application form inside an iframe (id='icims_content_iframe'). The form fields are not accessible in this static HTML excerpt.",
+    "fields": []
+  },
+  "detector_fields": [
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f0"
+    },
+    {
+      "question": "i accept",
+      "field_type": "checkbox",
+      "ref": "f1"
+    }
+  ]
+}

@@ -1,0 +1,515 @@
+{
+  "id": "https-george-f-young-breezy-hr-p-ccc2122cd498-internal-application-for-gfy-emplo",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:42:25.902Z",
+  "page_url": "https://george-f-young.breezy.hr/p/ccc2122cd498-internal-application-for-gfy-employees/apply",
+  "page_title": "Internal Application for GFY Employees",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 28,
+      "ai_count": 18,
+      "count_delta": 10,
+      "label_jaccard": 0.2941,
+      "type_agree_rate": 0.8333,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary",
+        "ai": "Desired Salary Currency",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "date",
+        "ai": "Date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "current office",
+        "ai": "Current Office",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "first/last name",
+        "ai": "First/Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "date of hire",
+        "ai": "Date of Hire",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "current position",
+        "ai": "Current Position",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current supervisor",
+        "ai": "Current Supervisor",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b",
+      "time in current position",
+      "position applying for",
+      "req. # (if applicable)",
+      "position location/department",
+      "please describe your qualifications (your background and experience) that make you a good candidate for this position.",
+      "other qualifications such as degrees, licenses, certifications:",
+      "race or ethnicity",
+      "gender",
+      "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "yes, i have a disability (or previously had a disability) race or ethnicity",
+      "recruitment privacy notice"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "SMS Consent",
+      "Desired Salary Amount",
+      "Desired Salary Frequency",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "field count delta 10 exceeds tolerance 2 (detector=28, ai=18)",
+      "label Jaccard 0.294 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS controller and dynamic questionnaire sections. Some fields like 'Time in Current Position', 'Position Applying for', 'Req. #', 'Position Location/Department', 'Qualifications', and 'Other qualifications' are part of a dynamic questionnaire list that may be truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "SMS Consent",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Currency",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Desired Salary Amount",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Frequency",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "hourly",
+          "weekly",
+          "monthly",
+          "yearly"
+        ]
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Date",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Office",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First/Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Date of Hire",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Position",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Supervisor",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "date",
+      "field_type": "date",
+      "ref": "f10"
+    },
+    {
+      "question": "current office",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "first/last name",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "date of hire",
+      "field_type": "date",
+      "ref": "f14"
+    },
+    {
+      "question": "current position",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "current supervisor",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "time in current position",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "position applying for",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "req. # (if applicable)",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "position location/department",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "please describe your qualifications (your background and experience) that make you a good candidate for this position.",
+      "field_type": "textarea",
+      "ref": "f21"
+    },
+    {
+      "question": "other qualifications such as degrees, licenses, certifications:",
+      "field_type": "textarea",
+      "ref": "f22"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "yes, i have a disability (or previously had a disability) race or ethnicity",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "recruitment privacy notice",
+      "field_type": "checkbox",
+      "ref": "f27"
+    }
+  ]
+}

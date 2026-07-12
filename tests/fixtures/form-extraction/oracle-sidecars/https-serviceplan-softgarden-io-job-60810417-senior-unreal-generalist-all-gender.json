@@ -1,0 +1,39 @@
+{
+  "id": "https-serviceplan-softgarden-io-job-60810417-senior-unreal-generalist-all-gender",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:49:49.715Z",
+  "page_url": "https://serviceplan.softgarden.io/job/60810417/Senior-Unreal-Generalist-all-genders-",
+  "page_title": "Senior Unreal Generalist (all genders)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Apply online"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML only contains a link to an external application system (softgarden.de). The actual form fields are hosted on a different domain and are not present in the provided excerpt.",
+    "fields": [
+      {
+        "question": "Apply online",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

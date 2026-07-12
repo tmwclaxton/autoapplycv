@@ -49,3 +49,17 @@ export function triggerBrowserDownload({ base64, fileName, mimeType }) {
     link.click();
     URL.revokeObjectURL(url);
 }
+
+export function openBlobInNewTab({ base64, mimeType }) {
+    const blob = base64ToBlob(base64, mimeType);
+    const url = URL.createObjectURL(blob);
+    const previewWindow = window.open(url, '_blank', 'noopener,noreferrer');
+
+    if (!previewWindow) {
+        URL.revokeObjectURL(url);
+
+        throw new Error('Popup blocked. Allow popups to preview documents.');
+    }
+
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}

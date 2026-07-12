@@ -1,0 +1,116 @@
+{
+  "id": "https-curifylabs-teamtailor-com-jobs-7849402-central-u-s-sales-representative-ap",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:19:41.398Z",
+  "page_url": "https://curifylabs.teamtailor.com/jobs/7849402-central-u-s-sales-representative/applications/new",
+  "page_title": "Central U.S. Sales Representative - CurifyLabs",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 2,
+      "count_delta": 8,
+      "label_jaccard": 0.2,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "tell us about yourself in one minutes",
+        "ai": "Tell us about yourself in one minutes",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your salary indication?",
+        "ai": "What is your salary indication?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "first name",
+      "last name",
+      "email",
+      "phone",
+      "address start typing your address",
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated before the standard personal information fields (name, email, resume, etc.) are defined. The video answer field is a complex custom component.",
+    "fields": [
+      {
+        "question": "Tell us about yourself in one minutes",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your salary indication?",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "tell us about yourself in one minutes",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "what is your salary indication?",
+      "field_type": "number",
+      "ref": "f1"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "address start typing your address",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f9"
+    }
+  ]
+}

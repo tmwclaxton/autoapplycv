@@ -1,0 +1,273 @@
+{
+  "id": "https-pfx-teamtailor-com-jobs-5428747-general-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:22:22.352Z",
+  "page_url": "https://pfx.teamtailor.com/jobs/5428747-general-application/applications/new",
+  "page_title": "General Application - PFX",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 26,
+      "ai_count": 6,
+      "count_delta": 20,
+      "label_jaccard": 0.2308,
+      "type_agree_rate": 0.6667,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel url",
+        "ai": "Showreel URL",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel psw",
+        "ai": "Showreel PSW",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "other portfolio urls",
+        "ai": "Other Portfolio URLs",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "select roles that fit the best of your skills and expertise",
+        "ai": "Select roles that fit the best of your skills and expertise",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "unique skills or other relevant experience",
+      "total years of relevant experience",
+      "when are you available to start?",
+      "country of residence",
+      "current location",
+      "what is your expected hourly, monthly, or gross per month salary rate?",
+      "which studio do you prefer to work at?",
+      "status of cooperation you are interested in?",
+      "i am eligible to work onsite in the eu because i am an eu citizen or already have an eu working permit.",
+      "why are you interested in joining pfx?",
+      "locations",
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "phone",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      "consent to the processing of personal datacandidate for cooperation",
+      "yes, i agree that pfx group a.s., pfx cz s.r.o., pfx s.r.o., barrandov postprodukce a.s., pfx sk s.r.o., human film sp. z o.o., or pfx de gmbh may contact me regarding any future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so the list of options for the 'Select roles' field is incomplete. The form uses custom dropdown components that act as selects.",
+    "fields": [
+      {
+        "question": "How did you hear about us?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Company HR / Recruiter",
+          "Conversation",
+          "Colleague referral",
+          "Job Sites",
+          "Socials",
+          "Facebook",
+          "LinkedIn",
+          "Other"
+        ]
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Showreel URL",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Showreel PSW",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other Portfolio URLs",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Select roles that fit the best of your skills and expertise",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Compositor",
+          "3D Generalist",
+          "FX Artist"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "showreel url",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "showreel psw",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "other portfolio urls",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "select roles that fit the best of your skills and expertise",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "unique skills or other relevant experience",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "total years of relevant experience",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "when are you available to start?",
+      "field_type": "date",
+      "ref": "f8"
+    },
+    {
+      "question": "country of residence",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your expected hourly, monthly, or gross per month salary rate?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "which studio do you prefer to work at?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "status of cooperation you are interested in?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "i am eligible to work onsite in the eu because i am an eu citizen or already have an eu working permit.",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "why are you interested in joining pfx?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f19"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f20"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f21"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f22"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f23"
+    },
+    {
+      "question": "consent to the processing of personal datacandidate for cooperation",
+      "field_type": "checkbox",
+      "ref": "f24"
+    },
+    {
+      "question": "yes, i agree that pfx group a.s., pfx cz s.r.o., pfx s.r.o., barrandov postprodukce a.s., pfx sk s.r.o., human film sp. z o.o., or pfx de gmbh may contact me regarding any future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f25"
+    }
+  ]
+}

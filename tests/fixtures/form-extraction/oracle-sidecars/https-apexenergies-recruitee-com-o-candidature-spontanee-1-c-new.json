@@ -1,18 +1,18 @@
 {
   "id": "https-apexenergies-recruitee-com-o-candidature-spontanee-1-c-new",
   "status": "disagree",
-  "captured_at": "2026-07-10T18:31:50.712Z",
+  "captured_at": "2026-07-10T22:20:36.686Z",
   "page_url": "https://apexenergies.recruitee.com/o/candidature-spontanee-1/c/new",
   "page_title": "APEX ENERGIES - Candidature spontanée - Candidature",
   "diff": {
     "status": "disagree",
     "metrics": {
-      "detector_count": 4,
+      "detector_count": 5,
       "ai_count": 5,
-      "count_delta": 1,
-      "label_jaccard": 0.5,
+      "count_delta": 0,
+      "label_jaccard": 0.6667,
       "type_agree_rate": 1,
-      "matched_count": 3
+      "matched_count": 4
     },
     "matched": [
       {
@@ -30,6 +30,13 @@
         "type_agree": true
       },
       {
+        "detector": "numéro de téléphone",
+        "ai": "Numéro de téléphone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
         "detector": "lettre de motivation",
         "ai": "Lettre de motivation",
         "detector_type": "file",
@@ -38,19 +45,18 @@
       }
     ],
     "detector_only": [
-      "phone"
+      "sélectionner l'indicatif du pays"
     ],
     "ai_only": [
-      "Numéro de téléphone",
       "CV"
     ],
     "reasons": [
-      "label Jaccard 0.500 below 0.7"
+      "label Jaccard 0.667 below 0.7"
     ]
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form includes an hCaptcha widget which is not explicitly listed as a field but is required for submission. The phone input uses a custom country selector component.",
+    "notes": "The form includes a CAPTCHA widget. The 'Lettre de motivation' field allows for file upload, but there is a button to switch to manual text entry which may dynamically change the DOM.",
     "fields": [
       {
         "question": "Nom complet",
@@ -96,7 +102,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "numéro de téléphone",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -104,6 +110,11 @@
       "question": "lettre de motivation",
       "field_type": "file",
       "ref": "f3"
+    },
+    {
+      "question": "sélectionner l'indicatif du pays",
+      "field_type": "select",
+      "ref": "f4"
     }
   ]
 }

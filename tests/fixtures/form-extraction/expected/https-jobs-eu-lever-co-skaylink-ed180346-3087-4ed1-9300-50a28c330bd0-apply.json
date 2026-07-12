@@ -1,0 +1,345 @@
+{
+  "id": "https-jobs-eu-lever-co-skaylink-ed180346-3087-4ed1-9300-50a28c330bd0-apply",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Köln, Nordrhein-Westfalen",
+        "Regensburg, Bayern",
+        "Stuttgart, Baden-Württemberg",
+        "Essen, Nordrhein-Westfalen",
+        "Garching bei München, Bayern",
+        "Hamburg",
+        "Leipzig, Sachsen"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "resume-upload-input",
+        "name": "resume",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "frühstmöglicher start",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "bist du berechtigt in dem land zu arbeiten, in dem du dich bewirbst?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Ja",
+        "Nein"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "was spricht dich besonders an dieser position an?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "deutschkenntnisse",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Muttersprache",
+        "Annähernd muttersprachlich (fließend und spontan in verschiedenen Kontexten ausdrücken)",
+        "Fachkundige Sprachkenntnisse (Fachpräsentationen halten, Fachterminologie angemessen zu verwenden)",
+        "Solide Sprachkenntnisse (in schriftlicher und mündlicher Form komplexe Informationen klar kommunizieren)",
+        "Fortgeschrittene Grundkenntnisse (alltägliche Gespräche führen, Verstehen von Anweisungen und Anfragen)",
+        "Grundlegende Kenntnisse (Verstehen von einfachen, kurzen Mitteilungen und alltäglichen Anweisungen)",
+        "Anfänger*in (Verstehen von sehr einfachen und kurzen Sätzen, Fähigkeit einfache Fragen zu beantworten)",
+        "Keine Kenntnisse"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field3]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "englischkenntnisse",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Muttersprache",
+        "Annähernd muttersprachlich (fließend und spontan in verschiedenen Kontexten ausdrücken)",
+        "Fachkundige Sprachkenntnisse (Fachpräsentationen halten, Fachterminologie angemessen zu verwenden)",
+        "Solide Sprachkenntnisse (in schriftlicher und mündlicher Form komplexe Informationen klar kommunizieren)",
+        "Fortgeschrittene Grundkenntnisse (alltägliche Gespräche führen, Verstehen von Anweisungen und Anfragen)",
+        "Grundlegende Kenntnisse (Verstehen von einfachen, kurzen Mitteilungen und alltäglichen Anweisungen)",
+        "Anfänger*in (Verstehen von sehr einfachen und kurzen Sätzen, Fähigkeit einfache Fragen zu beantworten)",
+        "Keine Kenntnisse"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field4]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gehaltsvorstellungen p.a.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field5]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zeugnisse",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": null,
+        "name": "cards[f41cc26d-5eba-4924-8920-9e14e35f68ac][field6]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yes, skaylink can contact me about future job opportunities for up to 6 monthsprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Skaylink can contact me about future job opportunities for up to 6 monthsPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

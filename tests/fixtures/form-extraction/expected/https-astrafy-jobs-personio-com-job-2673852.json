@@ -44,11 +44,11 @@
       }
     },
     {
-      "question": "email",
+      "question": "email ( )",
       "field_type": "email",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "email",
@@ -84,11 +84,11 @@
       }
     },
     {
-      "question": "available from  available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -124,11 +124,11 @@
       }
     },
     {
-      "question": "nationality  nationality",
+      "question": "nationality ( ) nationality",
       "field_type": "text",
       "max_chars": 5000,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -144,11 +144,11 @@
       }
     },
     {
-      "question": "linkedin  linkedin",
+      "question": "linkedin ( ) linkedin",
       "field_type": "text",
       "max_chars": 5000,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -164,11 +164,11 @@
       }
     },
     {
-      "question": "what languages do you speak fluently ?  what languages do you speak fluently ?",
+      "question": "what languages do you speak fluently ? ( ) what languages do you speak fluently ?",
       "field_type": "text",
       "max_chars": 5000,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",

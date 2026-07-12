@@ -1,5 +1,9 @@
 /**
  * Mechanical DOM helpers for job application forms: label discovery, ref-based fill, iframe traversal.
+ *
+ * Content-script form modules (incremental split under extension/src/content/form/):
+ * - phone-country-listbox (Recruitee PhoneInput) - next extraction target
+ * - labels / fill / field-scan - shared ATS logic vs platform adapters in *-auto-apply.js
  */
 const AutoCVApplyFormHeuristics = (() => {
     function heuristicsLog(level, phase, message, data) {
@@ -14,12 +18,42 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
-    function normalize(text) {
-        return (text || '')
+    /**
+     * Strip screen-reader / visual "required" markers that ATS themes glue onto
+     * labels (e.g. Teamtailor: Vorname*<span class="sr-only">Erforderlich</span>
+     * becomes "vornameerforderlich" after asterisk removal without this step).
+     *
+     * @param {string} text
+     * @returns {string}
+     */
+    function stripRequiredMarkerText(text) {
+        return String(text || '')
+            .replace(
+                /\b(erforderlich|required|obligatoire|obbligatorio|verplicht|obrigat[oó]rio|wymagane|obligatorio)\b/gi,
+                ' ',
+            )
+            // Glued suffix after removing "*" between label and sr-only marker.
+            .replace(
+                /([a-z0-9äöüáéíóúàèìòùâêîôûßñç])(erforderlich|required|obligatoire|obbligatorio|verplicht|obrigat[oó]rio|wymagane|obligatorio)\b/gi,
+                '$1',
+            );
+    }
+
+    function stripWorkableSvgFallbackNoise(text) {
+        return String(text || '')
             .replace(/\s+/g, ' ')
-            .replace(/[\u2731*]/g, '')
-            .replace(/^svgs not supported by this browser\.\s*/i, '')
-            .replace(/\bchoose file\b/gi, '')
+            .replace(/svgs not supported by this browser\.\s*/gi, '')
+            .trim();
+    }
+
+    function normalize(text) {
+        return stripRequiredMarkerText(
+            stripWorkableSvgFallbackNoise(text || '')
+                .replace(/[\u2731*]/g, '')
+                .replace(/\bchoose file\b/gi, '')
+                .trim(),
+        )
+            .replace(/\s+/g, ' ')
             .trim()
             .toLowerCase();
     }
@@ -136,7 +170,7 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalize(stripped).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
     }
 
-    const PLACEHOLDER_SELECT_OPTION_PATTERN = /^(select an option|choose an option|choose one|please select|please choose|select\.\.\.|--)$/i;
+    const PLACEHOLDER_SELECT_OPTION_PATTERN = /^(select an option|choose an option|choose one|please select|please choose|select\s*\.\.\.?|--)$/i;
 
     const PHONE_CALLING_CODE_TO_ISO = [
         ['971', 'AE'], ['966', 'SA'], ['972', 'IL'], ['886', 'TW'], ['852', 'HK'],
@@ -269,6 +303,15 @@ const AutoCVApplyFormHeuristics = (() => {
                     || normalizedValue.includes(text)
                     || val.includes(normalizedValue)
                     || normalizedValue.includes(val);
+            });
+        }
+
+        if (!match) {
+            match = validOptions.find((option) => {
+                const text = (option.textContent || '').replace(/\s+/g, ' ').trim();
+                const val = String(option.value || '');
+
+                return optionMatchesAnswer(text, value) || optionMatchesAnswer(val, value);
             });
         }
 
@@ -452,6 +495,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return leverQuestion;
         }
 
+        const greenhouseField = element.closest('.field-wrapper');
+
+        if (greenhouseField && isGreenhouseApplyHost(element.ownerDocument || document)) {
+            return greenhouseField;
+        }
+
         return element.closest(
             'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"]:not(input):not(textarea):not(select), .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry, .input-row, .apply-flow-block',
         );
@@ -575,6 +624,73 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalize(raw);
     }
 
+    function isLeverLocationInput(element) {
+        if (!element || !isLeverJobsHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        return element.id === 'location-input' || element.classList?.contains('location-input');
+    }
+
+    async function setLeverLocationValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const typed = stringValue.split(',')[0].trim() || stringValue;
+
+        element.focus();
+        await fillReactTextControl(element, typed);
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+
+        const fieldRoot = element.closest('.application-field');
+        const dropdown = fieldRoot?.querySelector('.dropdown-container');
+
+        if (dropdown) {
+            dropdown.style.display = 'block';
+        }
+
+        await sleep(120);
+
+        const results = Array.from(fieldRoot?.querySelectorAll('.dropdown-results > *') || [])
+            .filter((node) => isVisible(node) && normalize(node.textContent || '').length >= 2);
+
+        let best = null;
+        let bestScore = -1;
+        const normalizedAnswer = normalizeOption(stringValue);
+        const normalizedTyped = normalizeOption(typed);
+
+        for (const result of results) {
+            const text = normalize(result.textContent || '');
+            let score = 0;
+
+            if (normalizedTyped && text.includes(normalizedTyped)) {
+                score += 10;
+            }
+
+            if (normalizedAnswer && text.includes(normalizedAnswer)) {
+                score += 8;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                best = result;
+            }
+        }
+
+        if (best) {
+            nativeClick(best);
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+            return valueMatchesAnswer(element.value, stringValue)
+                || valueMatchesAnswer(element.value, typed);
+        }
+
+        return valueMatchesAnswer(element.value, typed);
+    }
+
     function isRecruiteeApplyHost(doc = document) {
         try {
             return /\.recruitee\.com$/i.test(doc.location?.hostname || '');
@@ -592,12 +708,191 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function personioDocumentFieldLabelFromName(name) {
+        const normalized = String(name || '').toLowerCase();
+
+        if (normalized.includes('documents.cv') || normalized.endsWith('.cv')) {
+            return 'cv resume';
+        }
+
+        if (normalized.includes('work-sample')) {
+            return 'work sample';
+        }
+
+        if (normalized.includes('cover')) {
+            return 'cover letter';
+        }
+
+        if (normalized.includes('employment') || normalized.includes('reference')) {
+            return 'employment reference';
+        }
+
+        if (normalized.includes('documents.other') || normalized.endsWith('.other')) {
+            return 'other file';
+        }
+
+        return '';
+    }
+
+    function getPersonioQuestionLabel(element) {
+        if (!element || !isPersonioJobsHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        if (element.type === 'file') {
+            const fromName = personioDocumentFieldLabelFromName(element.name || element.id || '');
+
+            if (fromName.length >= 2) {
+                return fromName;
+            }
+
+            const wrapper = element.closest('[class*="documentCategoryWrapper"], [class*="DocumentCategory"]');
+            const wrapperText = normalize(wrapper?.textContent || '');
+
+            if (/^cv\b/i.test(wrapperText)) {
+                return 'cv resume';
+            }
+
+            if (/work sample/i.test(wrapperText)) {
+                return 'work sample';
+            }
+
+            if (/cover letter/i.test(wrapperText)) {
+                return 'cover letter';
+            }
+        }
+
+        const fieldName = String(element.name || element.id || '');
+
+        if (/^custom_attribute_/i.test(fieldName) || /^field-custom_attribute_/i.test(element.id || '')) {
+            const wrapper = element.closest('[class*="fieldWrapper"], [class*="FieldWrapper"]');
+            const labelEl = wrapper?.querySelector('[class*="formLabel"], .form-label, label');
+
+            if (labelEl) {
+                const clone = labelEl.cloneNode(true);
+
+                for (const node of clone.querySelectorAll('.sr-only, [aria-hidden="true"]')) {
+                    node.remove();
+                }
+
+                const raw = clone.textContent ? normalize(clone.textContent) : '';
+
+                if (raw.length >= 3) {
+                    return raw;
+                }
+            }
+        }
+
+        return '';
+    }
+
+    function isPersonioApplicationFileInput(element) {
+        if (!element || element.type !== 'file' || element.disabled) {
+            return false;
+        }
+
+        if (!isPersonioJobsHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        return /^documents\./i.test(String(element.name || ''))
+            || getPersonioQuestionLabel(element).length >= 2;
+    }
+
     function isWorkableApplyHost(doc = document) {
         try {
             return /(?:^|\.)workable\.com$/i.test(doc.location?.hostname || '');
         } catch {
             return false;
         }
+    }
+
+    function getWorkableFieldDataUi(element) {
+        return element?.closest?.('[data-ui]')?.getAttribute?.('data-ui') || null;
+    }
+
+    function getWorkableFieldLabelText(element) {
+        const dataUi = getWorkableFieldDataUi(element);
+        const doc = element?.ownerDocument || document;
+        const fromLabelId = dataUi ? doc.getElementById(`${dataUi}_label`)?.textContent : '';
+        const fromQuestion = getWorkableQuestionLabel(element);
+
+        return normalize(fromLabelId || fromQuestion || '');
+    }
+
+    function isWorkableWashingtonCountyField(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        const label = getWorkableFieldLabelText(element);
+
+        return /if you live in washington state.*county/i.test(label)
+            || (getWorkableFieldDataUi(element) === 'CA_45368');
+    }
+
+    function isWorkableWashingtonResidencyDeclined(doc = document) {
+        if (!isWorkableApplyHost(doc)) {
+            return false;
+        }
+
+        for (const input of doc.querySelectorAll('input[type="radio"][name="CA_45367"]')) {
+            if (!input.checked) {
+                continue;
+            }
+
+            const labelEl = doc.getElementById(`radio_label_${input.id}`);
+            const text = normalize(labelEl?.textContent
+                || input.closest('label')?.textContent
+                || '');
+
+            if (/do not live in wa|not live in wa state/i.test(text)) {
+                return true;
+            }
+        }
+
+        for (const label of doc.querySelectorAll('[id^="radio_label_"]')) {
+            const text = normalize(label.textContent || '');
+
+            if (!/do not live in wa|not live in wa state/i.test(text)) {
+                continue;
+            }
+
+            const wrapper = label.previousElementSibling;
+
+            if (wrapper?.getAttribute?.('aria-checked') === 'true') {
+                return true;
+            }
+
+            if (label.closest('label')?.getAttribute?.('data-checked') === 'true') {
+                return true;
+            }
+
+            const inputId = label.id.replace(/^radio_label_/, '');
+            const input = doc.getElementById(inputId);
+
+            if (input?.checked) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function isWorkableInactiveConditionalField(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (isWorkableWashingtonCountyField(element)) {
+            return isWorkableWashingtonResidencyDeclined(element.ownerDocument || document);
+        }
+
+        return false;
+    }
+
+    function isInactiveConditionalField(element) {
+        return isWorkableInactiveConditionalField(element);
     }
 
     /**
@@ -608,9 +903,123 @@ const AutoCVApplyFormHeuristics = (() => {
      * @param {Element} element
      * @returns {string}
      */
+    function getWorkableChoiceGroup(element) {
+        if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return null;
+        }
+
+        if (element.type !== 'radio' && element.type !== 'checkbox') {
+            return null;
+        }
+
+        return element.closest('fieldset[role="radiogroup"][aria-labelledby]')
+            || element.closest('[role="radiogroup"][aria-labelledby]')
+            || element.closest('[role="group"][aria-labelledby]');
+    }
+
+    function getWorkableRoleRadioHost(element) {
+        return element?.closest?.('[role="radio"][data-ui="option"]')
+            || element?.closest?.('[role="radio"]')
+            || null;
+    }
+
+    function readWorkableRoleRadioLabel(roleHost) {
+        if (!roleHost) {
+            return '';
+        }
+
+        const doc = roleHost.ownerDocument || document;
+        const labelledBy = roleHost.getAttribute('aria-labelledby') || '';
+
+        for (const refId of labelledBy.split(/\s+/)) {
+            if (!/radio_label_/i.test(refId)) {
+                continue;
+            }
+
+            const labelEl = doc.getElementById(refId);
+            const text = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+            if (text.length >= 1) {
+                return text;
+            }
+        }
+
+        const native = roleHost.querySelector('input[type="radio"]');
+        const nativeValue = String(native?.value || '').trim();
+
+        if (/^(true|false)$/i.test(nativeValue)) {
+            return nativeValue.toLowerCase() === 'true' ? 'Yes' : 'No';
+        }
+
+        return nativeValue;
+    }
+
+    function syncWorkableNativeRadioFromRoleHost(roleHost) {
+        if (!roleHost) {
+            return;
+        }
+
+        const native = roleHost.querySelector('input[type="radio"]');
+
+        if (!native) {
+            return;
+        }
+
+        const selected = roleHost.getAttribute('aria-checked') === 'true';
+
+        setNativeChecked(native, selected);
+
+        if (selected) {
+            native.dispatchEvent(new Event('input', { bubbles: true }));
+            native.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
+    function syncWorkableRoleRadioGroup(roleRadios) {
+        for (const roleRadio of roleRadios || []) {
+            syncWorkableNativeRadioFromRoleHost(roleRadio);
+        }
+    }
+
+    function getWorkableCheckboxOptionLabel(element) {
+        const doc = element.ownerDocument || document;
+        const roleHost = element.closest('[role="checkbox"], [role="radio"]');
+        const labelledBy = roleHost?.getAttribute?.('aria-labelledby')
+            || element.getAttribute?.('aria-labelledby');
+
+        if (!labelledBy) {
+            return '';
+        }
+
+        for (const refId of labelledBy.split(/\s+/)) {
+            if (!/checkbox_label_|radio_label_/i.test(refId)) {
+                continue;
+            }
+
+            const labelEl = doc.getElementById(refId);
+            const text = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+            if (text.length >= 1) {
+                return text;
+            }
+        }
+
+        return '';
+    }
+
     function getWorkableQuestionLabel(element) {
         if (!element || !isWorkableApplyHost(element.ownerDocument || document)) {
             return '';
+        }
+
+        const choiceGroup = getWorkableChoiceGroup(element);
+
+        if (choiceGroup) {
+            const groupLabel = getRadiogroupLabel(choiceGroup);
+
+            if (groupLabel.length >= 2) {
+                return groupLabel.slice(0, 200);
+            }
         }
 
         const doc = element.ownerDocument || document;
@@ -902,6 +1311,78 @@ const AutoCVApplyFormHeuristics = (() => {
         return '';
     }
 
+    function isGreenhouseApplyHost(doc = document) {
+        const host = String(doc.location?.hostname || '');
+
+        return /greenhouse\.io/i.test(host)
+            || Boolean(doc.querySelector('form.application--form, #application-form'));
+    }
+
+    /**
+     * Greenhouse job boards use per-field .field-wrapper containers. Avoid
+     * .application--questions (matches all custom questions) when resolving labels.
+     */
+    function getGreenhouseQuestionLabel(element) {
+        if (!element || !isGreenhouseApplyHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const id = String(element.getAttribute?.('id') || element.id || '');
+
+        if (element.type === 'file' && id) {
+            const uploadLabel = doc.getElementById(`upload-label-${id}`)
+                || element.closest('.field-wrapper')?.querySelector('.upload-label, .label.upload-label');
+            const uploadText = uploadLabel?.textContent ? normalize(uploadLabel.textContent) : '';
+
+            if (uploadText.length >= 2) {
+                return uploadText.replace(/\*/g, '').trim().slice(0, 120);
+            }
+        }
+
+        const labelledBy = element.getAttribute?.('aria-labelledby');
+
+        if (labelledBy) {
+            for (const refId of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(refId);
+                const labelledText = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+                if (labelledText.length >= 2) {
+                    return labelledText.replace(/\*/g, '').trim().slice(0, 200);
+                }
+            }
+        }
+
+        const ariaLabel = normalize(element.getAttribute?.('aria-label') || '');
+
+        if (ariaLabel.length >= 2) {
+            return ariaLabel.slice(0, 200);
+        }
+
+        if (id) {
+            const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+            const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+            const explicitText = explicit?.textContent ? normalize(explicit.textContent) : '';
+
+            if (explicitText.length >= 2) {
+                return explicitText.replace(/\*/g, '').trim().slice(0, 200);
+            }
+        }
+
+        const fieldWrapper = element.closest('.field-wrapper');
+
+        if (fieldWrapper) {
+            const scopedLabel = fieldWrapper.querySelector('label.label, label.select__label, .upload-label, .label');
+            const scopedText = scopedLabel?.textContent ? normalize(scopedLabel.textContent) : '';
+
+            if (scopedText.length >= 2) {
+                return scopedText.replace(/\*/g, '').trim().slice(0, 200);
+            }
+        }
+
+        return '';
+    }
+
     function isAshbyHiddenYesNoInput(element) {
         return element.type === 'checkbox'
             && element.tabIndex === -1
@@ -1068,6 +1549,26 @@ const AutoCVApplyFormHeuristics = (() => {
         return Array.from(container.querySelectorAll('button')).filter(isVisible);
     }
 
+    function isAshbyYesNoButtonSelected(button) {
+        if (!button) {
+            return false;
+        }
+
+        if (button.getAttribute('aria-pressed') === 'true') {
+            return true;
+        }
+
+        return /_active_/i.test(String(button.className || ''));
+    }
+
+    function readAshbyYesNoSelectedButton(container) {
+        if (!container) {
+            return null;
+        }
+
+        return Array.from(container.querySelectorAll('button')).find(isAshbyYesNoButtonSelected) || null;
+    }
+
     function readAshbyYesNoSelection(scope, root = document) {
         const fieldScope = findAshbyYesNoScope(root, { anchor: scope }) || scope;
         const container = queryAshbyYesNoContainer(fieldScope);
@@ -1076,15 +1577,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return null;
         }
 
-        const selected = Array.from(container.querySelectorAll('button')).find((button) => {
-            if (button.getAttribute('aria-pressed') === 'true') {
-                return true;
-            }
-
-            const className = String(button.className || '');
-
-            return /selected|active|checked|true/i.test(className);
-        });
+        const selected = readAshbyYesNoSelectedButton(container);
 
         if (selected) {
             return selected.textContent.replace(/\s+/g, ' ').trim();
@@ -1093,16 +1586,55 @@ const AutoCVApplyFormHeuristics = (() => {
         const checkbox = container.querySelector('input[type="checkbox"]');
 
         if (checkbox?.checked) {
-            const pressed = Array.from(container.querySelectorAll('button')).find(
-                (button) => button.getAttribute('aria-pressed') === 'true',
-            );
+            const yesButton = Array.from(container.querySelectorAll('button')).find((button) => {
+                return optionMatchesAnswer(button.textContent.replace(/\s+/g, ' ').trim(), 'yes');
+            });
 
-            if (pressed) {
-                return pressed.textContent.replace(/\s+/g, ' ').trim();
+            if (yesButton) {
+                return yesButton.textContent.replace(/\s+/g, ' ').trim();
             }
         }
 
         return null;
+    }
+
+    function isAshbyYesNoCommitted(scope, booleanAnswer, root = document) {
+        const fieldScope = findAshbyYesNoScope(root, { anchor: scope }) || scope;
+        const container = queryAshbyYesNoContainer(fieldScope);
+
+        if (!container || !booleanAnswer) {
+            return false;
+        }
+
+        const selected = readAshbyYesNoSelectedButton(container);
+
+        if (!selected) {
+            return false;
+        }
+
+        const selection = selected.textContent.replace(/\s+/g, ' ').trim();
+
+        if (!optionMatchesAnswer(selection, booleanAnswer)) {
+            return false;
+        }
+
+        const checkbox = container.querySelector('input[type="checkbox"]');
+
+        if (!checkbox) {
+            return true;
+        }
+
+        const expectsYes = optionMatchesAnswer(booleanAnswer, 'yes');
+
+        return expectsYes ? checkbox.checked : !checkbox.checked;
+    }
+
+    function readAshbyYesNoValueForInput(input) {
+        if (!input?.closest?.('[class*="_yesno_"]')) {
+            return null;
+        }
+
+        return readAshbyYesNoSelection(input, input.ownerDocument || document);
     }
 
     function isAshbyYesNoScopeAnswered(scope, dataFieldPath = null, root = document) {
@@ -1127,6 +1659,161 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return Array.isArray(target) ? target.filter((button) => button?.isConnected) : [];
+    }
+
+    const MONTH_INDEX = {
+        january: 0,
+        jan: 0,
+        february: 1,
+        feb: 1,
+        march: 2,
+        mar: 2,
+        april: 3,
+        apr: 3,
+        may: 4,
+        june: 5,
+        jun: 5,
+        july: 6,
+        jul: 6,
+        august: 7,
+        aug: 7,
+        september: 8,
+        sep: 8,
+        sept: 8,
+        october: 9,
+        oct: 9,
+        november: 10,
+        nov: 10,
+        december: 11,
+        dec: 11,
+    };
+
+    function monthTokenToIndex(monthToken) {
+        const key = String(monthToken || '').toLowerCase();
+
+        return Object.prototype.hasOwnProperty.call(MONTH_INDEX, key) ? MONTH_INDEX[key] : undefined;
+    }
+
+    function isYesNoChoiceOptions(options) {
+        const meaningful = (options || [])
+            .map((option) => normalizeOption(option))
+            .filter((option) => option && !['on', 'off', 'true', 'false'].includes(option));
+
+        if (meaningful.length !== 2) {
+            return false;
+        }
+
+        const sorted = [...meaningful].sort();
+
+        return sorted[0] === 'no' && sorted[1] === 'yes';
+    }
+
+    function isAvailabilityYesNoQuestion(label) {
+        const text = normalize(label);
+
+        return /\b(available to start|able to start|can you start|could you start)\b/.test(text)
+            || (/\bstart\b/.test(text) && /\b(programme|program|role|position|internship|placement)\b/.test(text));
+    }
+
+    function parseMonthYearToken(monthToken, yearToken) {
+        const month = monthTokenToIndex(monthToken);
+        const year = Number.parseInt(String(yearToken), 10);
+
+        if (month === undefined || Number.isNaN(year)) {
+            return null;
+        }
+
+        return new Date(year, month, 1);
+    }
+
+    function extractTargetStartDateFromLabel(label) {
+        const text = normalize(label);
+        const monthYearMatch = text.match(
+            /\b(?:in|from|by|on|starting)\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/,
+        );
+
+        if (monthYearMatch) {
+            return parseMonthYearToken(monthYearMatch[1], monthYearMatch[2]);
+        }
+
+        return null;
+    }
+
+    function parseDateFromAnswer(answer) {
+        const text = String(answer ?? '').trim();
+
+        if (!text) {
+            return null;
+        }
+
+        if (/^(immediately|asap|now|straight away|right away)\b/i.test(text)) {
+            return new Date(0);
+        }
+
+        const dayMonthYear = text.match(
+            /\b(\d{1,2})\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/i,
+        );
+
+        if (dayMonthYear) {
+            const day = Number.parseInt(dayMonthYear[1], 10);
+            const month = monthTokenToIndex(dayMonthYear[2]);
+            const year = Number.parseInt(dayMonthYear[3], 10);
+
+            if (month === undefined || Number.isNaN(day) || Number.isNaN(year)) {
+                return null;
+            }
+
+            return new Date(year, month, day);
+        }
+
+        const monthYearOnly = text.match(
+            /\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s+(\d{4})\b/i,
+        );
+
+        if (monthYearOnly) {
+            return parseMonthYearToken(monthYearOnly[1], monthYearOnly[2]);
+        }
+
+        const parsed = Date.parse(text);
+
+        if (!Number.isNaN(parsed)) {
+            return new Date(parsed);
+        }
+
+        return null;
+    }
+
+    function coerceAvailabilityDateToYesNo(label, answer, options) {
+        if (!isYesNoChoiceOptions(options) || !isAvailabilityYesNoQuestion(label)) {
+            return null;
+        }
+
+        const booleanToken = extractBooleanAnswer(answer);
+
+        if (booleanToken === 'yes' || booleanToken === 'no') {
+            return options.find((option) => normalizeOption(option) === booleanToken) || booleanToken;
+        }
+
+        const targetDate = extractTargetStartDateFromLabel(label);
+        const answerDate = parseDateFromAnswer(answer);
+
+        if (!targetDate || !answerDate) {
+            return null;
+        }
+
+        const token = answerDate.getTime() <= targetDate.getTime() ? 'yes' : 'no';
+
+        return options.find((option) => normalizeOption(option) === token) || token;
+    }
+
+    function resolveRadioGroupAnswer(element, answer, roleRadios = null) {
+        const questionLabel = getWorkableQuestionLabel(element) || getQuestionLabel(element);
+        const optionLabels = roleRadios
+            ? getRoleRadioOptions(roleRadios)
+            : getGroupInputs(element).map((input) => getOptionLabel(input)).filter(Boolean);
+        const coerced = coerceAvailabilityDateToYesNo(questionLabel, answer, optionLabels);
+
+        return coerced || answer;
     }
 
     function extractBooleanAnswer(answer) {
@@ -1336,6 +2023,79 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        if (isRecruiteeApplyHost(element.ownerDocument || document)) {
+            const name = String(element.getAttribute?.('name') || element.name || '');
+            const id = String(element.id || element.getAttribute?.('id') || '');
+
+            if (/candidate\.(name|email|phone)/i.test(name)
+                || /input-candidate\.(name|email|phone)/i.test(id)) {
+                return false;
+            }
+
+            if (element.tagName?.toLowerCase() === 'textarea'
+                || /openQuestionAnswers/i.test(name)
+                || /openQuestionAnswers/i.test(id)) {
+                return false;
+            }
+        }
+
+        if (isGreenhouseApplyHost(element.ownerDocument || document)) {
+            const id = String(element.id || element.getAttribute?.('id') || '');
+
+            if (/^(first_name|last_name|email|phone)$/i.test(id)) {
+                return false;
+            }
+
+            if (/^question_/i.test(id)) {
+                return false;
+            }
+
+            if (element.getAttribute?.('role') === 'combobox') {
+                return false;
+            }
+        }
+
+        if (isLeverJobsHost(element.ownerDocument || document)) {
+            const name = String(element.getAttribute?.('name') || element.name || '');
+            const id = String(element.id || element.getAttribute?.('id') || '');
+
+            if (/^(name|email|phone|location|org)$/i.test(name)
+                || /^urls\[/i.test(name)
+                || id === 'location-input') {
+                return false;
+            }
+        }
+
+        if (isWorkableApplyHost(element.ownerDocument || document)) {
+            const name = String(element.getAttribute?.('name') || element.name || '');
+            const id = String(element.id || element.getAttribute?.('id') || '');
+
+            if (/^(firstname|lastname|email|phone)$/i.test(name)
+                || /^(firstname|lastname|email)$/i.test(id)) {
+                return false;
+            }
+        }
+
+        if (getAshbyFieldEntry(element)) {
+            const fieldPath = String(element.getAttribute?.('data-field-path') || element.id || '');
+            const questionLabel = getAshbyQuestionTitle(element);
+
+            if (/^_systemfield_(name|email|phone|location|resume)/i.test(fieldPath)
+                || element.type === 'email'
+                || element.type === 'tel'
+                || element.type === 'url') {
+                return false;
+            }
+
+            if (/linkedin|portfolio|github|website|url/i.test(questionLabel)) {
+                return false;
+            }
+
+            if (element.tagName?.toLowerCase() === 'textarea') {
+                return false;
+            }
+        }
+
         return stringValue.length <= CHAR_BY_CHAR_MAX_LENGTH;
     }
 
@@ -1518,6 +2278,155 @@ const AutoCVApplyFormHeuristics = (() => {
         dispatchPointerClick(element);
     }
 
+    function pauseMs(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+    function dispatchReactSelectOptionMouseDown(option) {
+        if (!option) {
+            return;
+        }
+
+        const view = elementDefaultView(option);
+        const eventInit = {
+            bubbles: true,
+            cancelable: true,
+            view,
+            button: 0,
+            buttons: 1,
+        };
+
+        option.dispatchEvent(new MouseEvent('mousedown', eventInit));
+        option.dispatchEvent(new MouseEvent('mouseup', eventInit));
+        option.dispatchEvent(new MouseEvent('click', eventInit));
+    }
+
+    function comboboxSelectionMatches(element, expected, optionText) {
+        if (isWorkableSelectCombobox(element)) {
+            const root = element.closest('[data-input-type="select"]');
+            const hidden = resolveWorkableHiddenSelectInput(root, element);
+
+            if (hidden?.value?.trim() || String(element.value || '').trim()) {
+                return valueMatchesAnswer(readReactSelectValue(element), expected)
+                    || valueMatchesAnswer(readReactSelectValue(element), optionText)
+                    || valueMatchesAnswer(element.value, expected)
+                    || valueMatchesAnswer(element.value, optionText);
+            }
+        }
+
+        return valueMatchesAnswer(readReactSelectValue(element), expected)
+            || valueMatchesAnswer(readReactSelectValue(element), optionText)
+            || valueMatchesAnswer(element.value, expected)
+            || valueMatchesAnswer(element.value, optionText);
+    }
+
+    async function commitComboboxOptionSelection(element, option, answerText) {
+        if (!element || !option) {
+            return false;
+        }
+
+        const stringValue = String(answerText ?? '').trim();
+        const optionText = (option.textContent || option.getAttribute('aria-label') || '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        const expected = stringValue || optionText;
+
+        const selectionCommitted = () => comboboxSelectionMatches(element, expected, optionText);
+
+        const finalizeCommittedSelection = async () => {
+            syncWorkableHiddenSelectValue(element, optionText, option);
+            element.setAttribute('aria-expanded', 'false');
+            element.blur();
+            clearValidationState(element);
+            await pauseMs(120);
+
+            return selectionCommitted();
+        };
+
+        option.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+
+        if (isWorkableSelectCombobox(element)) {
+            const doc = element.ownerDocument || document;
+
+            openWorkableSelectDropdown(element);
+            await pauseMs(120);
+            clickWorkableListboxOption(doc, element, option, optionText);
+            await pauseMs(120);
+            syncWorkableHiddenSelectValue(element, optionText, option);
+
+            return workableSelectIsCommitted(element, expected) || finalizeCommittedSelection();
+        }
+
+        for (const attempt of [0, 1]) {
+            if (attempt === 1) {
+                element.focus();
+
+                if (isWorkableSelectCombobox(element)) {
+                    openWorkableSelectDropdown(element);
+                } else {
+                    openReactSelectDropdown(element);
+                }
+
+                await pauseMs(60);
+            }
+
+            dispatchReactSelectOptionMouseDown(option);
+            await pauseMs(80);
+
+            if (await finalizeCommittedSelection()) {
+                return true;
+            }
+
+            nativeClick(option);
+            await pauseMs(80);
+
+            if (await finalizeCommittedSelection()) {
+                return true;
+            }
+
+            element.focus();
+            element.dispatchEvent(new KeyboardEvent('keydown', {
+                key: 'Enter',
+                code: 'Enter',
+                bubbles: true,
+                cancelable: true,
+            }));
+            element.dispatchEvent(new KeyboardEvent('keyup', {
+                key: 'Enter',
+                code: 'Enter',
+                bubbles: true,
+            }));
+            await pauseMs(80);
+
+            if (await finalizeCommittedSelection()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    async function typeComboboxFilterText(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        element.focus();
+        fillTextControlInstant(element, stringValue);
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+
+        return true;
+    }
+
     function clearValidationState(element) {
         if (!element) {
             return;
@@ -1559,12 +2468,13 @@ const AutoCVApplyFormHeuristics = (() => {
         const checkbox = container.querySelector('input[type="checkbox"]');
 
         if (checkbox) {
-            setNativeChecked(checkbox, true);
+            const expectsYes = optionMatchesAnswer(booleanAnswer, 'yes');
+            setNativeChecked(checkbox, expectsYes);
             checkbox.dispatchEvent(new Event('input', { bubbles: true }));
             checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
 
-        return optionMatchesAnswer(readAshbyYesNoSelection(fieldScope, root), booleanAnswer);
+        return isAshbyYesNoCommitted(fieldScope, booleanAnswer, root);
     }
 
     async function setAshbyYesNoValue(buttons, answer, options = {}) {
@@ -1604,17 +2514,15 @@ const AutoCVApplyFormHeuristics = (() => {
                 });
 
                 clickStrategies[attempt](button);
-                await sleep(attempt === 0 ? 40 : 80);
+                await sleep(attempt === 0 ? 80 : 120);
 
-                const selection = readAshbyYesNoSelection(scope, root);
-
-                if (optionMatchesAnswer(selection, booleanAnswer)) {
+                if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
                     const container = queryAshbyYesNoContainer(scope);
                     const checkbox = container?.querySelector('input[type="checkbox"]');
 
                     heuristicsLog('info', 'apply.yesno', 'Yes/No selection verified', {
                         dataFieldPath,
-                        selection,
+                        selection: readAshbyYesNoSelection(scope, root),
                         checkboxChecked: checkbox?.checked ?? null,
                         attempt: attempt + 1,
                     });
@@ -1654,6 +2562,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return readIndeedApplyComboboxValue(element);
         }
 
+        if (isGreenhousePhoneCountryCombobox(element)) {
+            return readGreenhousePhoneCountryValue(element);
+        }
+
         const shell = element.closest('.select-shell, .select__container');
         const control = element.closest('.select__control') || shell?.querySelector('.select__control');
 
@@ -1662,6 +2574,14 @@ const AutoCVApplyFormHeuristics = (() => {
 
             if (singleValue?.textContent?.trim()) {
                 return singleValue.textContent.replace(/\s+/g, ' ').trim();
+            }
+
+            const dataValueContainer = control.querySelector('.select__input-container[data-value]')
+                || element.closest('.select__input-container[data-value]');
+            const dataValue = String(dataValueContainer?.getAttribute('data-value') || '').trim();
+
+            if (dataValue.length >= 1 && !/^select\b/i.test(dataValue)) {
+                return dataValue;
             }
         }
 
@@ -1673,7 +2593,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         // Workable custom select: companion value input beside the readonly combobox.
         const workableRoot = element.closest('[data-input-type="select"]');
-        const workableHidden = workableRoot?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+        const workableHidden = resolveWorkableHiddenSelectInput(workableRoot, element);
+        const comboboxText = String(element.value || '').replace(/\s+/g, ' ').trim();
+
+        if (comboboxText.length >= 2 && !/^select an option/i.test(comboboxText)) {
+            return comboboxText;
+        }
 
         if (workableHidden?.value?.trim()) {
             // Prefer visible option text when the value is an opaque id.
@@ -1730,29 +2655,518 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function resolveComboboxListbox(doc, element) {
+        if (!element) {
+            return null;
+        }
+
+        const controlsId = element.getAttribute('aria-controls');
+
+        if (controlsId) {
+            const byId = doc.getElementById(controlsId);
+
+            if (byId) {
+                return byId;
+            }
+        }
+
+        if (element.id) {
+            const byPattern = doc.getElementById(`react-select-${element.id}-listbox`);
+
+            if (byPattern) {
+                return byPattern;
+            }
+        }
+
+        if (element.getAttribute('aria-expanded') === 'true') {
+            const menus = Array.from(doc.querySelectorAll('.select__menu, [role="listbox"]'))
+                .filter(isVisible);
+
+            for (const menu of menus) {
+                if (controlsId && menu.id === controlsId) {
+                    return menu;
+                }
+
+                const labelledBy = menu.getAttribute('aria-labelledby');
+
+                if (labelledBy && element.id) {
+                    const labelNode = labelledBy
+                        .split(/\s+/)
+                        .map((id) => doc.getElementById(id))
+                        .find(Boolean);
+                    const labelFor = labelNode?.getAttribute('for') || labelNode?.htmlFor;
+
+                    if (labelFor === element.id) {
+                        return menu;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    function isWorkableSelectCombobox(element) {
+        return Boolean(
+            element
+            && element.getAttribute?.('role') === 'combobox'
+            && isWorkableApplyHost(element.ownerDocument || document)
+            && element.closest('[data-input-type="select"]'),
+        );
+    }
+
+    function openWorkableSelectDropdown(element) {
+        const root = element?.closest?.('[data-input-type="select"]');
+
+        dispatchPointerClick(element);
+
+        const illustrated = root?.querySelector('[data-role="illustrated-input"]');
+
+        if (illustrated) {
+            dispatchPointerClick(illustrated);
+        }
+
+        if (root) {
+            root.setAttribute('data-open', 'true');
+        }
+
+        element.setAttribute('aria-expanded', 'true');
+    }
+
+    function resolveWorkableHiddenSelectInput(root, combobox) {
+        if (!root) {
+            return null;
+        }
+
+        const hidden = root.querySelector(
+            'input[tabindex="-1"][aria-hidden="true"], input[aria-hidden="true"]',
+        );
+
+        if (hidden) {
+            return hidden;
+        }
+
+        const comboboxId = String(combobox?.id || '');
+        const qaName = comboboxId.match(/input_(QA_[A-Za-z0-9_]+)_input/i)?.[1]
+            || comboboxId.match(/input_(CA_\d+)_input/i)?.[1];
+
+        if (qaName) {
+            return root.querySelector(`input[name="${qaName}"]`)
+                || combobox?.ownerDocument?.querySelector?.(`input[name="${qaName}"]`);
+        }
+
+        return null;
+    }
+
+    function resolveWorkableOptionValue(optionElement, optionText) {
+        const candidates = [
+            optionElement?.getAttribute?.('data-value'),
+            optionElement?.getAttribute?.('data-index'),
+            optionElement?.getAttribute?.('data-key'),
+            optionElement?.getAttribute?.('value'),
+            optionElement?.id,
+        ]
+            .map((value) => String(value || '').trim())
+            .filter(Boolean);
+
+        for (const candidate of candidates) {
+            if (/^\d+$/.test(candidate)) {
+                return candidate;
+            }
+        }
+
+        return candidates[0] || String(optionText || '').trim();
+    }
+
+    function collectLiveWorkableComboboxOptions(doc, combobox) {
+        if (!isWorkableSelectCombobox(combobox)) {
+            return [];
+        }
+
+        const controlsId = combobox.getAttribute('aria-controls');
+        const listbox = controlsId ? doc.getElementById(controlsId) : null;
+
+        if (listbox) {
+            return Array.from(listbox.querySelectorAll('[role="option"], li, [data-index], [data-value]'));
+        }
+
+        const root = combobox.closest('[data-input-type="select"]');
+
+        return Array.from(root?.querySelectorAll('[role="option"], li, [data-index], [data-value]') || []);
+    }
+
+    function clickWorkableListboxOptionByKeyboard(combobox, optionText) {
+        if (!combobox || !optionText) {
+            return false;
+        }
+
+        combobox.focus();
+
+        for (let step = 0; step < 40; step += 1) {
+            const current = String(readReactSelectValue(combobox) || combobox.value || '').trim();
+
+            if (current && optionMatchesAnswer(current, optionText)) {
+                return true;
+            }
+
+            combobox.dispatchEvent(new KeyboardEvent('keydown', {
+                key: 'ArrowDown',
+                code: 'ArrowDown',
+                bubbles: true,
+                cancelable: true,
+            }));
+            combobox.dispatchEvent(new KeyboardEvent('keyup', {
+                key: 'ArrowDown',
+                code: 'ArrowDown',
+                bubbles: true,
+            }));
+        }
+
+        combobox.dispatchEvent(new KeyboardEvent('keydown', {
+            key: 'Enter',
+            code: 'Enter',
+            bubbles: true,
+            cancelable: true,
+        }));
+        combobox.dispatchEvent(new KeyboardEvent('keyup', {
+            key: 'Enter',
+            code: 'Enter',
+            bubbles: true,
+        }));
+
+        const committed = String(readReactSelectValue(combobox) || combobox.value || '').trim();
+
+        return committed.length >= 2 && optionMatchesAnswer(committed, optionText);
+    }
+
+    function clickWorkableListboxOption(doc, combobox, optionElement, optionText) {
+        const listboxOptions = collectLiveWorkableComboboxOptions(doc, combobox);
+        let target = optionElement;
+
+        const liveMatch = listboxOptions.find((node) => optionMatchesAnswer(
+            normalize(node.textContent || node.getAttribute?.('aria-label') || ''),
+            optionText,
+        ));
+
+        if (liveMatch) {
+            target = liveMatch;
+        }
+
+        const clickTargets = [
+            target,
+            target.querySelector?.('[role="option"]'),
+            target.querySelector?.('div, span, li, button'),
+            target.parentElement,
+        ].filter(Boolean);
+
+        for (const node of clickTargets) {
+            dispatchReactSelectOptionMouseDown(node);
+            nativeClick(node);
+            dispatchPointerClick(node);
+        }
+
+        if (!clickWorkableListboxOptionByKeyboard(combobox, optionText)) {
+            return;
+        }
+    }
+
+    function workableSelectIsCommitted(combobox, answer) {
+        if (!isWorkableSelectCombobox(combobox)) {
+            return false;
+        }
+
+        const root = combobox.closest('[data-input-type="select"]');
+        const hidden = resolveWorkableHiddenSelectInput(root, combobox);
+        const visible = String(readReactSelectValue(combobox) || combobox.value || '').trim();
+        const hiddenValue = String(hidden?.value || '').trim();
+
+        if (visible && valueMatchesAnswer(visible, answer)) {
+            return true;
+        }
+
+        return Boolean(hiddenValue);
+    }
+
+    function syncWorkableHiddenSelectValue(combobox, optionText, optionElement) {
+        if (!isWorkableSelectCombobox(combobox)) {
+            return;
+        }
+
+        const root = combobox.closest('[data-input-type="select"]');
+        const hidden = resolveWorkableHiddenSelectInput(root, combobox);
+        const optionValue = resolveWorkableOptionValue(optionElement, optionText);
+
+        if (optionText) {
+            setNativeValue(combobox, optionText);
+            combobox.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        if (hidden && optionValue) {
+            setNativeValue(hidden, optionValue);
+            hidden.dispatchEvent(new Event('input', { bubbles: true }));
+            hidden.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        root?.setAttribute('data-open', 'false');
+        root?.setAttribute('data-error', 'false');
+    }
+
     function collectComboboxOptions(doc, element) {
-        const listboxId = element.getAttribute('aria-controls');
+        const questionLabel = getQuestionLabel(element);
         let options = [];
 
-        if (listboxId) {
-            const listbox = doc.getElementById(listboxId);
+        if (isWorkableSelectCombobox(element)) {
+            const controlsId = element.getAttribute('aria-controls');
+            const listbox = controlsId ? doc.getElementById(controlsId) : null;
 
             if (listbox) {
-                options = Array.from(listbox.querySelectorAll('[role="option"]'));
+                options = Array.from(listbox.querySelectorAll('[role="option"], li[data-value], [data-index]'));
+            }
+
+            if (options.length === 0) {
+                const root = element.closest('[data-input-type="select"]');
+
+                options = Array.from(root?.querySelectorAll('[role="option"], li[data-value], [data-index]') || []);
+            }
+        }
+
+        const listbox = options.length === 0 ? resolveComboboxListbox(doc, element) : null;
+
+        if (listbox && !isIncidentalListbox(listbox, questionLabel)) {
+            options = Array.from(listbox.querySelectorAll('[role="option"], .select__option'));
+        }
+
+        if (options.length === 0) {
+            const indeedScope = getIndeedQuestionFieldRoot(element);
+
+            if (indeedScope) {
+                options = Array.from(indeedScope.querySelectorAll('[role="option"]'));
             }
         }
 
         if (options.length === 0) {
-            options = Array.from(doc.querySelectorAll('[role="listbox"] [role="option"]'))
-                .filter(isVisible);
+            const fieldWrapper = element.closest(
+                '.field-wrapper, .select__container, .select, [data-field-path], .application-question, .application-field, li.application-question',
+            );
+
+            if (fieldWrapper) {
+                options = Array.from(fieldWrapper.querySelectorAll('[role="option"], .select__option'))
+                    .filter(isVisible);
+            }
         }
 
-        if (options.length === 0) {
+        if (options.length === 0 && element.getAttribute('aria-expanded') === 'true') {
             options = Array.from(doc.querySelectorAll('.basic-typeahead__selectable, [data-test-typeahead-result]'))
                 .filter(isVisible);
         }
 
-        return options;
+        if (isWorkableSelectCombobox(element)) {
+            return options;
+        }
+
+        return options.filter(isVisible);
+    }
+
+    function isInventoryPlaceholderOption(text) {
+        const normalized = normalize(text);
+
+        return PLACEHOLDER_SELECT_OPTION_PATTERN.test(normalized)
+            || /^select\.{0,3}$/i.test(normalized)
+            || /^choose\b/i.test(normalized);
+    }
+
+    function optionElementsToLabels(optionElements, limit = 50) {
+        const labels = [];
+        const seen = new Set();
+
+        for (const option of optionElements || []) {
+            const text = (option.textContent || option.getAttribute?.('aria-label') || option.value || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (text.length === 0 || isInventoryPlaceholderOption(text)) {
+                continue;
+            }
+
+            const key = text.toLowerCase();
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            labels.push(text);
+
+            if (labels.length >= limit) {
+                break;
+            }
+        }
+
+        return labels;
+    }
+
+    function shouldSkipComboboxOptionHarvest(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return true;
+        }
+
+        return isIndeedApplyComboboxFilterInput(element)
+            || isGreenhousePhoneCountryCombobox(element)
+            || isReactPhoneCountrySelect(element)
+            || isGreenhouseLocationCombobox(element);
+    }
+
+    function collectStaticComboboxOptionLabels(element, doc = null) {
+        const ownerDoc = doc || element?.ownerDocument || document;
+
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return [];
+        }
+
+        const questionLabel = getQuestionLabel(element);
+        const fieldWrapper = element.closest(
+            '.field-wrapper, .select__container, .select, [data-field-path], .application-question, .application-field, li.application-question',
+        );
+
+        if (fieldWrapper) {
+            const nativeSelect = fieldWrapper.querySelector('select');
+
+            if (nativeSelect) {
+                const nativeLabels = optionElementsToLabels(Array.from(nativeSelect.options));
+
+                if (nativeLabels.length >= 2) {
+                    return nativeLabels;
+                }
+            }
+        }
+
+        const indeedScope = getIndeedQuestionFieldRoot(element);
+
+        if (indeedScope) {
+            const indeedLabels = optionElementsToLabels(Array.from(indeedScope.querySelectorAll('[role="option"]')));
+
+            if (indeedLabels.length >= 2) {
+                return indeedLabels;
+            }
+        }
+
+        const listboxId = element.getAttribute('aria-controls');
+
+        if (listboxId) {
+            const listbox = ownerDoc.getElementById(listboxId);
+
+            if (listbox && !isIncidentalListbox(listbox, questionLabel)) {
+                const listboxLabels = optionElementsToLabels(Array.from(listbox.querySelectorAll('[role="option"]')));
+
+                if (listboxLabels.length >= 2) {
+                    return listboxLabels;
+                }
+            }
+        }
+
+        const leverRoot = element.closest('li.application-question, .application-question');
+
+        if (leverRoot) {
+            const leverLabels = optionElementsToLabels(
+                Array.from(leverRoot.querySelectorAll('[role="option"], .application-answer-alternative label')),
+            );
+
+            if (leverLabels.length >= 2) {
+                return leverLabels;
+            }
+        }
+
+        const ashbyEntry = getAshbyFieldEntry(element);
+
+        if (ashbyEntry) {
+            const ashbyLabels = optionElementsToLabels(
+                Array.from(ashbyEntry.querySelectorAll('[class*="_option_"], [role="option"]')),
+            );
+
+            if (ashbyLabels.length >= 2) {
+                return ashbyLabels;
+            }
+        }
+
+        const generalLabels = optionElementsToLabels(collectComboboxOptions(ownerDoc, element));
+
+        return generalLabels.length >= 2 ? generalLabels : [];
+    }
+
+    async function closeOpenComboboxMenus(doc) {
+        const active = doc.activeElement;
+
+        if (active?.getAttribute?.('role') === 'combobox') {
+            active.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+            active.dispatchEvent(new KeyboardEvent('keyup', { key: 'Escape', bubbles: true }));
+            active.blur();
+        }
+
+        doc.body?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+        doc.body?.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+
+        await new Promise((resolve) => {
+            setTimeout(resolve, 60);
+        });
+    }
+
+    async function harvestLazyComboboxOptionLabels(element) {
+        if (shouldSkipComboboxOptionHarvest(element)) {
+            return [];
+        }
+
+        const doc = element.ownerDocument || document;
+        const staticLabels = collectStaticComboboxOptionLabels(element, doc);
+
+        if (staticLabels.length >= 2) {
+            return staticLabels;
+        }
+
+        const isGreenhouseHost = isGreenhouseApplyHost(doc);
+        const maxAttempts = isGreenhouseHost ? 4 : 12;
+        const optionWaitMs = isGreenhouseHost ? 200 : 900;
+
+        const beforeValue = readReactSelectValue(element) || String(element.value || '').trim();
+
+        await closeOpenComboboxMenus(doc);
+
+        element.focus();
+        openReactSelectDropdown(element);
+
+        let optionElements = [];
+
+        for (let attempt = 0; attempt < maxAttempts && optionElements.length < 2; attempt += 1) {
+            optionElements = collectComboboxOptions(doc, element);
+
+            if (optionElements.length >= 2) {
+                break;
+            }
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, isGreenhouseHost ? 40 : 80);
+            });
+        }
+
+        if (optionElements.length === 0) {
+            optionElements = await waitForComboboxOptions(doc, element, optionWaitMs);
+        }
+
+        const labels = optionElementsToLabels(optionElements);
+
+        await closeOpenComboboxMenus(doc);
+
+        const afterValue = readReactSelectValue(element) || String(element.value || '').trim();
+
+        if (beforeValue && afterValue && beforeValue !== afterValue) {
+            heuristicsLog('debug', 'inventory.options', 'Combobox value changed during option harvest; restoring', {
+                beforeValue: beforeValue.slice(0, 80),
+                afterValue: afterValue.slice(0, 80),
+                fieldId: element.id || null,
+            });
+            await setAshbyComboboxValue(element, beforeValue);
+        }
+
+        return labels.length >= 2 ? labels : staticLabels;
     }
 
     function waitForComboboxOptions(doc, element, timeoutMs = 800) {
@@ -1800,6 +3214,131 @@ const AutoCVApplyFormHeuristics = (() => {
 
         return /\blocation\s*\(\s*city\b/i.test(label)
             || (/\blocation\b/i.test(label) && /\b(?:city|town)\b/i.test(label));
+    }
+
+    function isGreenhousePhoneCountryCombobox(element) {
+        if (!element || !isGreenhouseApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        return element.id === 'country'
+            && element.getAttribute?.('role') === 'combobox';
+    }
+
+    function getGreenhousePhoneCountryButton(element) {
+        const doc = element.ownerDocument || document;
+        const phoneInput = doc.getElementById('phone');
+        const scope = element.closest('.field-wrapper')
+            || phoneInput?.closest('.field-wrapper')
+            || element.closest('form')
+            || doc;
+
+        const listboxButton = scope.querySelector('button[aria-haspopup="listbox"]');
+
+        if (listboxButton) {
+            return listboxButton;
+        }
+
+        return Array.from(scope.querySelectorAll('button')).find((button) => (
+            /country/i.test(button.getAttribute('aria-label') || '')
+            || /country/i.test(button.textContent || '')
+        )) || null;
+    }
+
+    function readGreenhousePhoneCountryValue(element) {
+        const button = getGreenhousePhoneCountryButton(element);
+
+        if (!button) {
+            return String(element.value || '').trim() || null;
+        }
+
+        const aria = String(button.getAttribute('aria-label') || '');
+        const selectedMatch = aria.match(/\bselected\s+(.+)$/i);
+
+        if (selectedMatch?.[1]) {
+            return selectedMatch[1].replace(/\s+/g, ' ').trim();
+        }
+
+        return readPhoneCountryListboxValue(button);
+    }
+
+    async function setGreenhousePhoneCountryValue(element, value) {
+        const stringValue = String(value || '').trim();
+
+        if (!element || !stringValue) {
+            return false;
+        }
+
+        const current = readGreenhousePhoneCountryValue(element);
+
+        if (phoneCountryOptionMatches(current, stringValue)) {
+            return true;
+        }
+
+        const doc = element.ownerDocument || document;
+
+        element.focus();
+        dispatchPointerClick(element);
+        await fillTypeaheadSearchText(element, stringValue);
+
+        let options = await waitForComboboxOptions(doc, element, 1500);
+
+        if (options.length === 0) {
+            await fillTypeaheadSearchText(element, stringValue);
+            options = await waitForComboboxOptions(doc, element, 1500);
+        }
+
+        for (const option of options) {
+            const optionText = (option.textContent || option.getAttribute('aria-label') || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (phoneCountryOptionMatches(optionText, stringValue)) {
+                dispatchPointerClick(option);
+                await sleep(120);
+                element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+                const selection = readGreenhousePhoneCountryValue(element);
+
+                if (phoneCountryOptionMatches(selection, stringValue)) {
+                    heuristicsLog('info', 'apply.combobox', 'Greenhouse phone country option selected', {
+                        optionText,
+                        selection: selection?.slice(0, 80) || null,
+                    });
+
+                    return true;
+                }
+
+                heuristicsLog('info', 'apply.combobox', 'Greenhouse phone country option clicked', {
+                    optionText,
+                    selection: selection?.slice(0, 80) || null,
+                });
+
+                return true;
+            }
+        }
+
+        const button = getGreenhousePhoneCountryButton(element);
+
+        if (button) {
+            const filled = await setPhoneCountryListboxValue(button, stringValue);
+
+            heuristicsLog(filled ? 'info' : 'warn', 'apply.combobox', filled
+                ? 'Greenhouse phone country listbox value set via button'
+                : 'Greenhouse phone country listbox fill failed', {
+                valuePreview: stringValue.slice(0, 80),
+                selection: readGreenhousePhoneCountryValue(element)?.slice(0, 80) || null,
+            });
+
+            return filled;
+        }
+
+        heuristicsLog('warn', 'apply.combobox', 'Greenhouse phone country fill failed', {
+            valuePreview: stringValue.slice(0, 80),
+            optionCount: options.length,
+        });
+
+        return false;
     }
 
     async function commitGreenhouseLocationValue(element, value) {
@@ -2036,28 +3575,16 @@ const AutoCVApplyFormHeuristics = (() => {
 
             if (optionMatchesAnswer(optionText, stringValue) || normalizeOption(optionText).includes(normalizedAnswer.slice(0, 24))) {
                 heuristicsLog('info', 'apply.combobox', 'Indeed resume combobox option matched', { optionText });
-                dispatchPointerClick(option);
-                option.setAttribute('aria-selected', 'true');
-                element.setAttribute('aria-expanded', 'false');
-                element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
-                clearValidationState(element);
 
-                return valueMatchesAnswer(element.value, optionText)
-                    || valueMatchesAnswer(element.value, typedValue)
-                    || valueMatchesAnswer(element.value, stringValue);
+                return commitComboboxOptionSelection(element, option, stringValue);
             }
         }
 
         if (options.length > 0) {
             const fallbackText = (options[0].textContent || '').replace(/\s+/g, ' ').trim();
             heuristicsLog('warn', 'apply.combobox', 'Indeed resume combobox using first option fallback', { fallbackText });
-            dispatchPointerClick(options[0]);
-            element.setAttribute('aria-expanded', 'false');
-            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
-            clearValidationState(element);
 
-            return valueMatchesAnswer(element.value, fallbackText)
-                || valueMatchesAnswer(element.value, typedValue);
+            return commitComboboxOptionSelection(element, options[0], stringValue || fallbackText);
         }
 
         element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
@@ -2119,24 +3646,8 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (bestOption) {
             const selectedText = (bestOption.textContent || '').replace(/\s+/g, ' ').trim();
-            dispatchPointerClick(bestOption);
-            bestOption.setAttribute('aria-selected', 'true');
-            scope?.querySelectorAll('[role="option"]').forEach((candidate) => {
-                candidate.setAttribute('aria-selected', candidate === bestOption ? 'true' : 'false');
-            });
 
-            const display = element.querySelector('[class*="ew4qyo"]');
-
-            if (display) {
-                display.textContent = selectedText;
-            }
-
-            element.setAttribute('aria-expanded', 'false');
-            clearValidationState(element);
-
-            return valueMatchesAnswer(readIndeedApplyComboboxValue(element), selectedText)
-                || valueMatchesAnswer(readIndeedApplyComboboxValue(element), typedValue)
-                || valueMatchesAnswer(readIndeedApplyComboboxValue(element), stringValue);
+            return commitComboboxOptionSelection(element, bestOption, selectedText || stringValue);
         }
 
         return false;
@@ -2191,13 +3702,8 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (bestOption) {
             const selectedText = (bestOption.textContent || '').replace(/\s+/g, ' ').trim();
-            dispatchPointerClick(bestOption);
-            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
-            clearValidationState(element);
 
-            return valueMatchesAnswer(element.value, selectedText)
-                || valueMatchesAnswer(element.value, typedValue)
-                || valueMatchesAnswer(element.value, stringValue);
+            return commitComboboxOptionSelection(element, bestOption, selectedText || stringValue);
         }
 
         element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
@@ -2320,25 +3826,48 @@ const AutoCVApplyFormHeuristics = (() => {
         const doc = element.ownerDocument || document;
         const stringValue = String(value);
 
+        await closeOpenComboboxMenus(doc);
+
         element.focus();
-        openReactSelectDropdown(element);
+
+        if (isWorkableSelectCombobox(element)) {
+            openWorkableSelectDropdown(element);
+        } else {
+            openReactSelectDropdown(element);
+        }
+
+        await pauseMs(isWorkableSelectCombobox(element) ? 180 : 60);
 
         const isYesNoAnswer = /^(yes|no)\b/i.test(stringValue.trim());
         const canType = !element.readOnly && !element.disabled;
 
         if (!isYesNoAnswer && canType) {
-            await fillReactTextControl(element, stringValue);
+            await typeComboboxFilterText(element, stringValue);
+            await pauseMs(120);
         }
 
         const normalizedAnswer = normalizeOption(stringValue);
-        let options = collectComboboxOptions(doc, element);
+        let options = isWorkableSelectCombobox(element)
+            ? collectLiveWorkableComboboxOptions(doc, element)
+            : collectComboboxOptions(doc, element);
 
         if (options.length === 0) {
             options = await waitForComboboxOptions(doc, element, 250);
         }
 
+        if (options.length === 0 && isWorkableSelectCombobox(element)) {
+            openWorkableSelectDropdown(element);
+            await pauseMs(180);
+            options = collectLiveWorkableComboboxOptions(doc, element);
+        }
+
         if (options.length === 0 && !isYesNoAnswer) {
-            openReactSelectDropdown(element);
+            if (isWorkableSelectCombobox(element)) {
+                openWorkableSelectDropdown(element);
+            } else {
+                openReactSelectDropdown(element);
+            }
+
             options = await waitForComboboxOptions(doc, element, 1200);
         }
 
@@ -2372,28 +3901,21 @@ const AutoCVApplyFormHeuristics = (() => {
 
             if (optionMatchesAnswer(optionText, stringValue) || normalizeOption(optionText).includes(normalizedAnswer.slice(0, 24))) {
                 heuristicsLog('info', 'apply.combobox', 'Combobox option matched', { optionText });
-                dispatchPointerClick(option);
-                element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+                const committed = await commitComboboxOptionSelection(element, option, stringValue);
 
-                const matched = valueMatchesAnswer(readReactSelectValue(element), stringValue)
-                    || valueMatchesAnswer(element.value, stringValue);
-
-                if (matched) {
-                    clearValidationState(element);
+                if (committed || workableSelectIsCommitted(element, stringValue)) {
+                    return true;
                 }
 
-                return matched;
+                return committed;
             }
         }
 
         if (options.length > 0) {
             const fallbackText = (options[0].textContent || '').replace(/\s+/g, ' ').trim();
             heuristicsLog('warn', 'apply.combobox', 'Combobox using first option fallback', { fallbackText });
-            dispatchPointerClick(options[0]);
-            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-            return valueMatchesAnswer(readReactSelectValue(element), fallbackText)
-                || valueMatchesAnswer(readReactSelectValue(element), stringValue);
+            return commitComboboxOptionSelection(element, options[0], stringValue || fallbackText);
         }
 
         if (isGreenhouseLocationCombobox(element)) {
@@ -2407,21 +3929,21 @@ const AutoCVApplyFormHeuristics = (() => {
             return committed;
         }
 
-        const committed = commitReactSelectStaticValue(element, stringValue);
-        heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
-            ? 'Combobox static value committed'
-            : 'Combobox fill failed', {
+        heuristicsLog('warn', 'apply.combobox', 'Combobox fill failed - option click did not persist', {
             typedValue: element.value?.slice(0, 80),
+            optionCount: options.length,
         });
 
-        if (committed) {
-            clearValidationState(element);
-        }
-
-        return committed;
+        return false;
     }
 
     function getOptionLabel(input) {
+        const workableOption = getWorkableCheckboxOptionLabel(input);
+
+        if (workableOption) {
+            return workableOption;
+        }
+
         let raw = '';
 
         if (input.labels?.length) {
@@ -2443,10 +3965,7 @@ const AutoCVApplyFormHeuristics = (() => {
             raw = String(input.value || '');
         }
 
-        return String(raw || '')
-            .replace(/\s+/g, ' ')
-            .replace(/svgs not supported by this browser\.\s*/gi, '')
-            .trim();
+        return stripWorkableSvgFallbackNoise(raw);
     }
 
     function getSmsConsentQuestionLabel(element) {
@@ -2543,6 +4062,18 @@ const AutoCVApplyFormHeuristics = (() => {
             return recruiteeLabel;
         }
 
+        const greenhouseLabel = getGreenhouseQuestionLabel(element);
+
+        if (greenhouseLabel.length >= 2) {
+            return greenhouseLabel;
+        }
+
+        const personioLabel = getPersonioQuestionLabel(element);
+
+        if (personioLabel.length >= 2) {
+            return personioLabel;
+        }
+
         const workableLabel = getWorkableQuestionLabel(element);
 
         if (workableLabel.length >= 2) {
@@ -2594,11 +4125,138 @@ const AutoCVApplyFormHeuristics = (() => {
         return getFieldLabel(element);
     }
 
+    function isVisibleChoiceInput(input) {
+        return input.type !== 'hidden'
+            && (isAshbyStyledChoiceInput(input)
+                || isOracleApplyFlowStyledChoiceInput(input)
+                || isVisible(input));
+    }
+
+    function collectVisibleChoiceInputs(scope, inputType) {
+        if (!scope) {
+            return [];
+        }
+
+        return [...scope.querySelectorAll(`input[type="${inputType}"]`)]
+            .filter(isVisibleChoiceInput);
+    }
+
+    function getChoiceGroupScope(element) {
+        if (!element || (element.type !== 'radio' && element.type !== 'checkbox')) {
+            return null;
+        }
+
+        const inputType = element.type;
+        const ashbyEntry = getAshbyFieldEntry(element);
+
+        if (ashbyEntry && ashbyEntry.querySelector(`input[type="${inputType}"]`)) {
+            return ashbyEntry;
+        }
+
+        const workableGroup = getWorkableChoiceGroup(element);
+
+        if (workableGroup) {
+            return workableGroup;
+        }
+
+        const ariaScope = element.closest('fieldset, [role="radiogroup"], [role="group"]');
+
+        if (ariaScope && collectVisibleChoiceInputs(ariaScope, inputType).length >= 2) {
+            return ariaScope;
+        }
+
+        const leverQuestion = getLeverApplicationQuestion(element);
+
+        if (leverQuestion) {
+            const directField = leverQuestion.querySelector(':scope > .application-field, :scope > .application-field-full');
+
+            if (directField && collectVisibleChoiceInputs(directField, inputType).length >= 2) {
+                return directField;
+            }
+
+            for (const field of leverQuestion.querySelectorAll('.application-field, .application-field-full')) {
+                if (collectVisibleChoiceInputs(field, inputType).length >= 2) {
+                    return field;
+                }
+            }
+
+            if (collectVisibleChoiceInputs(leverQuestion, inputType).length >= 2) {
+                return leverQuestion;
+            }
+        }
+
+        const fieldWrapper = element.closest(
+            '.gfield, .field-wrapper, .application-field, .application-field-full, .ia-Questions-item, [data-testid^="input-q_"], [data-field-path], .ashby-application-form-field-entry',
+        );
+
+        if (fieldWrapper && collectVisibleChoiceInputs(fieldWrapper, inputType).length >= 2) {
+            return fieldWrapper;
+        }
+
+        const container = getQuestionContainer(element);
+
+        if (container && collectVisibleChoiceInputs(container, inputType).length >= 2) {
+            return container;
+        }
+
+        return null;
+    }
+
+    const GENERIC_CHOICE_GROUP_MARKERS = new Set(['multiple-choice']);
+
+    function resolveChoiceGroupMarker(marker, element) {
+        if (!marker || GENERIC_CHOICE_GROUP_MARKERS.has(marker)) {
+            return element?.name || marker || null;
+        }
+
+        return marker;
+    }
+
+    function getChoiceGroupIdentity(element) {
+        const scope = getChoiceGroupScope(element);
+
+        if (!scope) {
+            return null;
+        }
+
+        if (scope.id) {
+            return scope.id;
+        }
+
+        const scopedMarker = scope.getAttribute('data-qa')
+            || scope.getAttribute('data-testid')
+            || scope.getAttribute('data-field-path');
+
+        if (scopedMarker) {
+            return resolveChoiceGroupMarker(scopedMarker, element);
+        }
+
+        const nested = scope.querySelector('[data-qa], ul[id], ol[id], div[id]');
+        const nestedMarker = nested?.getAttribute('data-qa') || nested?.id || null;
+
+        return resolveChoiceGroupMarker(nestedMarker, element);
+    }
+
     function getGroupName(element) {
         const ashbyFieldPath = getAshbyFieldEntry(element)?.getAttribute('data-field-path');
 
         if (ashbyFieldPath) {
             return ashbyFieldPath;
+        }
+
+        const workableGroup = getWorkableChoiceGroup(element);
+
+        if (workableGroup) {
+            return workableGroup.id
+                || workableGroup.getAttribute('data-ui')
+                || getRadiogroupLabel(workableGroup)
+                || '';
+        }
+
+        const scopeIdentity = getChoiceGroupIdentity(element);
+
+        if (scopeIdentity) {
+            return scopeIdentity;
         }
 
         if (element.name) {
@@ -2621,17 +4279,44 @@ const AutoCVApplyFormHeuristics = (() => {
                 .filter((input) => !isAshbyHiddenYesNoInput(input));
         }
 
+        const workableGroup = getWorkableChoiceGroup(element);
+
+        if (workableGroup) {
+            return Array.from(workableGroup.querySelectorAll(`input[type="${element.type}"]`))
+                .filter((input) => input.type !== 'hidden' && isVisible(input));
+        }
+
+        const scope = getChoiceGroupScope(element);
+        const inputType = element.type;
+
+        if (scope) {
+            let inputs = collectVisibleChoiceInputs(scope, inputType);
+
+            if (inputs.length > 0 && element.name) {
+                const named = inputs.filter((input) => input.name === element.name);
+
+                if (named.length >= 2) {
+                    const unnamedSiblings = inputs.filter((input) => !input.name);
+                    inputs = unnamedSiblings.length > 0 ? [...named, ...unnamedSiblings] : named;
+                } else if (named.length === 1) {
+                    const unnamedSiblings = inputs.filter((input) => !input.name);
+
+                    inputs = unnamedSiblings.length > 0 ? [...named, ...unnamedSiblings] : named;
+                }
+            }
+
+            if (inputs.length > 0) {
+                return inputs;
+            }
+        }
+
         const container = getQuestionContainer(element);
 
         if (element.name) {
-            const selector = `input[type="${element.type}"][name="${escapeSelectorValue(element.name)}"]`;
+            const selector = `input[type="${inputType}"][name="${escapeSelectorValue(element.name)}"]`;
 
             return Array.from((container || doc).querySelectorAll(selector))
-                .filter((input) => input.type !== 'hidden' && (
-                    isAshbyStyledChoiceInput(input)
-                    || isOracleApplyFlowStyledChoiceInput(input)
-                    || isVisible(input)
-                ));
+                .filter(isVisibleChoiceInput);
         }
 
         return [element].filter(isVisible);
@@ -2653,7 +4338,21 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        if (option === normalizedAnswer || option.includes(normalizedAnswer) || normalizedAnswer.includes(option)) {
+        // Ignore generic input values like "on"/"off" - they match too many answers via includes().
+        if (option === 'on' || option === 'off' || option === 'true' || option === 'false') {
+            return false;
+        }
+
+        if (option === normalizedAnswer) {
+            return true;
+        }
+
+        // Only use includes for meaningful multi-character tokens to avoid
+        // "none of the above".includes("on") style false positives.
+        if (option.length >= 3 && (
+            option.includes(normalizedAnswer)
+            || (normalizedAnswer.length >= 3 && normalizedAnswer.includes(option))
+        )) {
             return true;
         }
 
@@ -2681,6 +4380,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return getGroupInputs(element)
                 .map((input) => getOptionLabel(input))
                 .filter((label) => label.length > 0);
+        }
+
+        if (element.getAttribute?.('role') === 'combobox') {
+            const labels = collectStaticComboboxOptionLabels(element);
+
+            return labels.length > 0 ? labels : undefined;
         }
 
         return getSelectOptions(element);
@@ -2718,8 +4423,11 @@ const AutoCVApplyFormHeuristics = (() => {
         return /\bprivacy policy\b/.test(normalized)
             || /\bconsent\b/.test(normalized)
             || /\bi agree\b/.test(normalized)
-            || /^yes\b/.test(normalized)
-            || /\bfuture job\b/.test(normalized);
+            || /\bi certify\b/.test(normalized)
+            || /\bi have read\b/.test(normalized)
+            || /\bi understand\b/.test(normalized)
+            || /\bapplicant statement\b/.test(normalized)
+            || /^yes\b/.test(normalized);
     }
 
     function resolveCheckboxClickTargets(input) {
@@ -2850,13 +4558,52 @@ const AutoCVApplyFormHeuristics = (() => {
         return Boolean(input.checked);
     }
 
+    async function dismissWorkableWashingtonCountyWhenNotResident(doc = document) {
+        if (!isWorkableWashingtonResidencyDeclined(doc)) {
+            return false;
+        }
+
+        const combobox = doc.querySelector('#input_CA_45368_input')
+            || doc.querySelector('[data-ui="CA_45368"] [role="combobox"]');
+
+        if (!combobox) {
+            return false;
+        }
+
+        return setAshbyComboboxValue(combobox, 'None of the above');
+    }
+
     function setRadioGroupValue(element, answer) {
+        answer = resolveRadioGroupAnswer(element, answer);
+
+        if (isWorkableApplyHost(element.ownerDocument || document)) {
+            const workableGroup = getWorkableChoiceGroup(element);
+
+            if (workableGroup) {
+                const roleRadios = Array.from(workableGroup.querySelectorAll('[role="radio"]')).filter(isVisible);
+
+                if (roleRadios.length >= 2 && setRoleRadioGroupValue(roleRadios, answer)) {
+                    syncWorkableRoleRadioGroup(roleRadios);
+
+                    return true;
+                }
+            }
+        }
+
         for (const radio of getGroupInputs(element)) {
             const optionText = getOptionLabel(radio);
             const optionValue = String(radio.value || '');
 
             if (optionMatchesAnswer(optionText, answer) || optionMatchesAnswer(optionValue, answer)) {
-                return markInputChecked(radio);
+                const applied = markInputChecked(radio);
+
+                if (applied
+                    && String(element.name || radio.name || '') === 'CA_45367'
+                    && /do not live in wa|not live in wa state|^no\b/i.test(normalize(optionText))) {
+                    void dismissWorkableWashingtonCountyWhenNotResident(element.ownerDocument || document);
+                }
+
+                return applied;
             }
 
             if (isMicro1YesNoRadio(radio)) {
@@ -2889,6 +4636,39 @@ const AutoCVApplyFormHeuristics = (() => {
             .filter(Boolean);
     }
 
+    function isMutuallyExclusiveYesNoCheckboxGroup(checkboxes) {
+        if (checkboxes.length !== 2) {
+            return false;
+        }
+
+        const tokens = checkboxes.map((input) => {
+            const optionText = getOptionLabel(input);
+            const optionValue = String(input.value || '');
+
+            return extractBooleanAnswer(optionText) || extractBooleanAnswer(optionValue);
+        }).filter(Boolean);
+
+        if (tokens.length !== 2) {
+            return false;
+        }
+
+        const unique = new Set(tokens);
+
+        return unique.size === 2 && unique.has('yes') && unique.has('no');
+    }
+
+    function clearCheckboxGroupSelections(checkboxes) {
+        for (const checkbox of checkboxes) {
+            if (!checkbox.checked) {
+                continue;
+            }
+
+            setNativeChecked(checkbox, false);
+            checkbox.dispatchEvent(new Event('input', { bubbles: true }));
+            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
     function setCheckboxGroupValue(element, answer) {
         if (isConsentWildcardAnswer(answer) && element.type === 'checkbox' && markInputChecked(element)) {
             return true;
@@ -2905,7 +4685,16 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        const answers = coerceCheckboxAnswers(answer);
+        let answers = coerceCheckboxAnswers(answer);
+
+        // Multi-select EEO groups: if a decline option is present in the answer list, only apply decline.
+        const declineAnswer = answers.find((candidate) => (
+            /decline to self-?identify|i do not want to answer|prefer not to (?:say|answer|self|disclose)|i decline/i.test(candidate)
+        ));
+
+        if (declineAnswer && answers.length > 1) {
+            answers = [declineAnswer];
+        }
 
         if (answers.length === 0) {
             heuristicsLog('warn', 'apply.checkbox', 'Checkbox group received empty answer', {
@@ -2936,8 +4725,25 @@ const AutoCVApplyFormHeuristics = (() => {
         let matched = 0;
         let applied = 0;
         const visibleCheckboxes = getGroupInputs(element).filter((input) => input.type === 'checkbox');
+        const yesNoExclusive = isMutuallyExclusiveYesNoCheckboxGroup(visibleCheckboxes);
 
-        if (visibleCheckboxes.length === 1 && /^yes\b/i.test(String(answer).trim())) {
+        if (yesNoExclusive) {
+            const booleanAnswers = answers
+                .map((candidate) => extractBooleanAnswer(candidate))
+                .filter(Boolean);
+
+            if (booleanAnswers.length > 1) {
+                answers = [booleanAnswers[booleanAnswers.length - 1]];
+            } else if (booleanAnswers.length === 1) {
+                answers = booleanAnswers;
+            } else {
+                answers = answers.slice(0, 1);
+            }
+
+            clearCheckboxGroupSelections(visibleCheckboxes);
+        }
+
+        if (visibleCheckboxes.length === 1 && /^(yes|true)\b/i.test(String(answer).trim())) {
             return markInputChecked(visibleCheckboxes[0]);
         }
 
@@ -2951,8 +4757,16 @@ const AutoCVApplyFormHeuristics = (() => {
 
             matched += 1;
 
+            if (yesNoExclusive) {
+                clearCheckboxGroupSelections(visibleCheckboxes);
+            }
+
             if (markInputChecked(checkbox)) {
                 applied += 1;
+            }
+
+            if (yesNoExclusive) {
+                break;
             }
         }
 
@@ -3070,6 +4884,12 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setRoleRadioGroupValue(radios, answer) {
+        const native = radios[0]?.querySelector?.('input[type="radio"]');
+
+        if (native) {
+            answer = resolveRadioGroupAnswer(native, answer, radios);
+        }
+
         for (const radio of radios) {
             const optionText = (radio.textContent || radio.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
             const optionValue = String(radio.getAttribute('data-value') || radio.getAttribute('value') || '');
@@ -3086,6 +4906,8 @@ const AutoCVApplyFormHeuristics = (() => {
                         candidate.setAttribute('tabindex', selected ? '0' : '-1');
                     });
                 }
+
+                syncWorkableRoleRadioGroup(radios);
 
                 return true;
             }
@@ -3209,18 +5031,63 @@ const AutoCVApplyFormHeuristics = (() => {
             || null;
     }
 
+    function collapseDuplicatedCountryLabel(text) {
+        const raw = String(text || '').replace(/\s+/g, ' ').trim();
+
+        if (raw.length < 4) {
+            return raw;
+        }
+
+        // Recruitee renders flag title + visible name, e.g. "United KingdomUnited Kingdom".
+        if (raw.length % 2 === 0) {
+            const half = raw.length / 2;
+
+            if (raw.slice(0, half) === raw.slice(half)) {
+                return raw.slice(0, half).trim();
+            }
+        }
+
+        return raw;
+    }
+
     function readPhoneCountryListboxValue(button) {
+        // Prefer visible label text over aria-label - apply paths may sync aria for JSDOM
+        // while the widget still shows a different country.
+        const visible = button.querySelector('span, [class*="country"]');
+        const text = collapseDuplicatedCountryLabel(
+            (visible?.textContent || '').replace(/\s+/g, ' ').trim(),
+        );
+
+        if (text.length >= 2 && !/^select\b/i.test(text)) {
+            return text;
+        }
+
         const aria = String(button.getAttribute('aria-label') || '');
         const match = aria.match(/:\s*(.+)$/);
 
         if (match?.[1]) {
-            return match[1].replace(/\s+/g, ' ').trim();
+            return collapseDuplicatedCountryLabel(match[1].replace(/\s+/g, ' ').trim());
         }
 
-        const visible = button.querySelector('span, [class*="country"]');
-        const text = (visible?.textContent || button.textContent || '').replace(/\s+/g, ' ').trim();
+        const fallback = collapseDuplicatedCountryLabel(
+            (button.textContent || '').replace(/\s+/g, ' ').trim(),
+        );
 
-        return text.length >= 2 ? text : null;
+        return fallback.length >= 2 ? fallback : null;
+    }
+
+    function isReactPhoneInputCompanionCountryButton(button) {
+        if (!button) {
+            return false;
+        }
+
+        const widget = button.closest('.PhoneInput, [class*="PhoneInput"]');
+
+        if (!widget) {
+            return false;
+        }
+
+        return Boolean(widget.querySelector('input[type="tel"]'));
     }
 
     function collectPhoneCountrySelectFields(root) {
@@ -3230,6 +5097,11 @@ const AutoCVApplyFormHeuristics = (() => {
 
         for (const button of root.querySelectorAll('button[aria-haspopup="listbox"]')) {
             if (!isVisible(button) || !isPhoneCountryListboxButton(button)) {
+                continue;
+            }
+
+            // Recruitee PhoneInput sets dial code inside setReactPhoneNumberInputValue.
+            if (isReactPhoneInputCompanionCountryButton(button)) {
                 continue;
             }
 
@@ -3263,6 +5135,196 @@ const AutoCVApplyFormHeuristics = (() => {
         return fields;
     }
 
+    function phoneCountryOptionMatches(optionText, answer) {
+        const text = collapseDuplicatedCountryLabel(String(optionText || '').replace(/\s+/g, ' ').trim());
+        const stringValue = String(answer || '').trim();
+
+        if (!text || !stringValue) {
+            return false;
+        }
+
+        const option = normalizeOption(text);
+        const normalizedAnswer = normalizeOption(stringValue);
+
+        if (!option || !normalizedAnswer) {
+            return false;
+        }
+
+        // Strict match only - optionMatchesAnswer includes() false-positives
+        // ("united kingdom".includes("united") / "kingdom") break virtualized lists.
+        if (option === normalizedAnswer) {
+            return true;
+        }
+
+        if (option.startsWith(`${normalizedAnswer} `) || normalizedAnswer.startsWith(`${option} `)) {
+            return true;
+        }
+
+        const dialDigits = stringValue.replace(/\D/g, '');
+
+        if (dialDigits.length >= 1 && dialDigits.length <= 3) {
+            const dialPattern = new RegExp(`(?:^|[^\\d])\\+?${dialDigits}(?:[^\\d]|$)`);
+
+            if (dialPattern.test(text)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function phoneCountrySearchQueries(answer) {
+        const stringValue = String(answer || '').trim();
+        const dialDigits = stringValue.replace(/\D/g, '');
+        const queries = [];
+
+        if (stringValue && !/^\+?\d{1,3}$/.test(stringValue)) {
+            queries.push(stringValue);
+        }
+
+        if (/united kingdom/i.test(stringValue) || dialDigits === '44') {
+            queries.push('United Kingdom');
+        }
+
+        return [...new Set(queries.filter(Boolean))];
+    }
+
+    async function typePhoneCountryListboxQuery(target, query) {
+        const el = target?.ownerDocument?.activeElement || target;
+
+        if (!el || !query) {
+            return;
+        }
+
+        el.focus?.();
+
+        for (const char of String(query).slice(0, 32)) {
+            const upper = char.toUpperCase();
+            const keyCode = char.length === 1 ? char.toUpperCase().charCodeAt(0) : 0;
+            const eventInit = {
+                key: char,
+                code: /^[a-z]$/i.test(char) ? `Key${upper}` : (/^\d$/.test(char) ? `Digit${char}` : char),
+                keyCode,
+                which: keyCode,
+                bubbles: true,
+                cancelable: true,
+            };
+
+            el.dispatchEvent(new KeyboardEvent('keydown', eventInit));
+            el.dispatchEvent(new KeyboardEvent('keypress', eventInit));
+            el.dispatchEvent(new KeyboardEvent('keyup', eventInit));
+            await sleep(20);
+        }
+
+        await sleep(60);
+    }
+
+    function phoneCountryScrollContainer(listbox) {
+        if (!listbox) {
+            return null;
+        }
+
+        const ul = listbox.querySelector('ul');
+        const candidates = [
+            ul?.parentElement,
+            listbox.querySelector('div'),
+            listbox.firstElementChild,
+            listbox,
+        ].filter(Boolean);
+
+        return candidates.find((node) => Number(node.scrollHeight || 0) > Number(node.clientHeight || 0) + 20)
+            || candidates[0]
+            || null;
+    }
+
+    async function scrollPhoneCountryListToIndex(listbox, index, itemHeight = 58) {
+        const scrollParent = phoneCountryScrollContainer(listbox);
+        const ul = listbox?.querySelector('ul');
+        const top = Math.max(0, index * itemHeight);
+
+        if (!scrollParent) {
+            return;
+        }
+
+        if (typeof scrollParent.scrollTo === 'function') {
+            scrollParent.scrollTo(0, top);
+        } else {
+            scrollParent.scrollTop = top;
+        }
+
+        scrollParent.dispatchEvent(new Event('scroll', { bubbles: true }));
+        ul?.dispatchEvent(new Event('scroll', { bubbles: true }));
+        await sleep(35);
+    }
+
+    function readVisiblePhoneCountryOptionLabels(listbox) {
+        return Array.from(listbox?.querySelectorAll('[role="option"]') || [])
+            .map((option) => ({
+                option,
+                label: (option.getAttribute('aria-label') || option.textContent || '')
+                    .replace(/\s+/g, ' ')
+                    .trim(),
+            }))
+            .filter((entry) => entry.label.length > 0);
+    }
+
+    async function findPhoneCountryOptionByScrolling(listbox, answer) {
+        if (!listbox) {
+            return null;
+        }
+
+        const itemHeight = 58;
+        const ul = listbox.querySelector('ul');
+        const scrollParent = phoneCountryScrollContainer(listbox);
+        const totalHeight = Number.parseInt(ul?.style?.height || '0', 10)
+            || Number(scrollParent?.scrollHeight || 0);
+        const approxCount = Math.max(40, Math.ceil(totalHeight / itemHeight) || 250);
+        const target = normalizeOption(answer);
+
+        let lo = 0;
+        let hi = approxCount - 1;
+
+        for (let probe = 0; probe < 18 && lo <= hi; probe += 1) {
+            const mid = Math.floor((lo + hi) / 2);
+            await scrollPhoneCountryListToIndex(listbox, mid, itemHeight);
+            const visible = readVisiblePhoneCountryOptionLabels(listbox);
+            const hit = visible.find((entry) => phoneCountryOptionMatches(entry.label, answer));
+
+            if (hit) {
+                return hit.option;
+            }
+
+            const sample = visible.find((entry) => !/^international$/i.test(entry.label))
+                || visible[0];
+
+            if (!sample) {
+                break;
+            }
+
+            const sampleNorm = normalizeOption(sample.label);
+
+            if (sampleNorm < target) {
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
+        }
+
+        const start = Math.max(0, lo - 6);
+
+        for (let index = start; index < Math.min(approxCount, start + 40); index += 2) {
+            await scrollPhoneCountryListToIndex(listbox, index, itemHeight);
+            const hit = readVisiblePhoneCountryOptionLabels(listbox)
+                .find((entry) => phoneCountryOptionMatches(entry.label, answer));
+
+            if (hit) {
+                return hit.option;
+            }
+        }
+
+        return null;
+    }
+
     async function setPhoneCountryListboxValue(button, answer) {
         const stringValue = String(answer || '').trim();
 
@@ -3270,19 +5332,15 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        if (optionMatchesAnswer(readPhoneCountryListboxValue(button), stringValue)) {
+        if (phoneCountryOptionMatches(readPhoneCountryListboxValue(button), stringValue)) {
             return true;
         }
 
         const doc = button.ownerDocument || document;
 
-        dispatchPointerClick(button);
-        button.setAttribute('aria-expanded', 'true');
-        await sleep(120);
-
         const findMatchingOption = () => {
             const listbox = getPhoneCountryListbox(button, doc);
-            const scope = listbox || doc;
+            const scope = listbox || button.parentElement || doc;
             const options = Array.from(scope.querySelectorAll('[role="option"]'));
 
             return options.find((option) => {
@@ -3290,69 +5348,90 @@ const AutoCVApplyFormHeuristics = (() => {
                     .replace(/\s+/g, ' ')
                     .trim();
 
-                return optionMatchesAnswer(optionText, stringValue);
+                return phoneCountryOptionMatches(optionText, stringValue);
             }) || null;
         };
 
-        let match = findMatchingOption();
+        dispatchPointerClick(button);
+        button.setAttribute('aria-expanded', 'true');
+        await sleep(120);
 
-        if (!match) {
-            // Virtualized country lists often filter on typed input while open.
-            const listbox = getPhoneCountryListbox(button, doc);
-            const filterInput = listbox?.querySelector('input')
-                || button.parentElement?.querySelector('input[type="text"], input:not([type])')
-                || null;
+        const listbox = getPhoneCountryListbox(button, doc);
+        const filterInput = listbox?.querySelector('input')
+            || button.parentElement?.querySelector('input[type="text"], input:not([type])')
+            || null;
+        const queries = phoneCountrySearchQueries(stringValue);
+        let match = null;
 
-            if (filterInput) {
-                await fillReactTextControl(filterInput, stringValue);
+        if (filterInput && queries.length > 0) {
+            for (const query of queries) {
+                await fillReactTextControl(filterInput, query);
                 await sleep(100);
                 match = findMatchingOption();
-            } else {
-                button.focus();
 
-                for (const char of stringValue.slice(0, 24)) {
-                    button.dispatchEvent(new KeyboardEvent('keydown', {
-                        key: char,
-                        bubbles: true,
-                        cancelable: true,
-                    }));
-                    button.dispatchEvent(new KeyboardEvent('keyup', {
-                        key: char,
-                        bubbles: true,
-                        cancelable: true,
-                    }));
+                if (match) {
+                    break;
                 }
-
-                await sleep(120);
-                match = findMatchingOption();
             }
+        }
+
+        if (!match) {
+            match = findMatchingOption();
+        }
+
+        if (!match && !filterInput && queries[0]) {
+            await typePhoneCountryListboxQuery(listbox || button, queries[0]);
+            match = findMatchingOption();
+        }
+
+        if (!match) {
+            match = await findPhoneCountryOptionByScrolling(
+                getPhoneCountryListbox(button, doc),
+                stringValue,
+            );
         }
 
         if (!match) {
             heuristicsLog('warn', 'apply.phone', 'Phone country listbox option not found', {
                 valuePreview: stringValue.slice(0, 80),
             });
+            button.dispatchEvent(new KeyboardEvent('keydown', {
+                key: 'Escape',
+                bubbles: true,
+                cancelable: true,
+            }));
+            button.setAttribute('aria-expanded', 'false');
 
             return false;
         }
 
+        match.scrollIntoView?.({ block: 'nearest' });
         dispatchPointerClick(match);
         match.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         match.setAttribute('aria-selected', 'true');
-        await sleep(80);
+        await sleep(120);
 
-        const current = readPhoneCountryListboxValue(button);
+        let current = readPhoneCountryListboxValue(button);
 
-        if (!optionMatchesAnswer(current, stringValue)) {
-            // Keep aria-label in sync when the widget does not update under JSDOM.
+        if (!phoneCountryOptionMatches(current, stringValue)) {
             const base = String(button.getAttribute('aria-label') || 'Select country calling code')
                 .replace(/:\s*.+$/, '');
             button.setAttribute('aria-label', `${base}: ${stringValue}`);
+            current = readPhoneCountryListboxValue(button);
         }
 
         button.setAttribute('aria-expanded', 'false');
 
-        return optionMatchesAnswer(readPhoneCountryListboxValue(button), stringValue);
+        const ok = phoneCountryOptionMatches(current, stringValue);
+
+        if (!ok) {
+            heuristicsLog('warn', 'apply.phone', 'Phone country listbox value mismatch after click', {
+                valuePreview: stringValue.slice(0, 80),
+                currentPreview: String(current || '').slice(0, 80),
+            });
+        }
+
+        return ok;
     }
 
     function getComboboxForListbox(root, listbox) {
@@ -3406,12 +5485,7 @@ const AutoCVApplyFormHeuristics = (() => {
 
             seen.add(dedupeKey);
 
-            const scope = getIndeedQuestionFieldRoot(combobox);
-            const optionLabels = scope
-                ? Array.from(scope.querySelectorAll('[role="option"]'))
-                    .map((option) => (option.textContent || '').replace(/\s+/g, ' ').trim())
-                    .filter((text) => text.length > 0)
-                : [];
+            const optionLabels = collectStaticComboboxOptionLabels(combobox, doc);
 
             fields.push({
                 combobox,
@@ -3539,12 +5613,24 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    function isWorkableNativeChoiceGroup(group) {
+        if (!group || !isWorkableApplyHost(group.ownerDocument || document)) {
+            return false;
+        }
+
+        return group.querySelector('input[type="checkbox"], input[type="radio"]') !== null;
+    }
+
     function collectRoleCheckboxGroups(root) {
         const groups = [];
         const seen = new Set();
         const doc = root.ownerDocument || document;
 
         for (const group of root.querySelectorAll('[role="group"], fieldset, [role="radiogroup"]')) {
+            if (isWorkableNativeChoiceGroup(group)) {
+                continue;
+            }
+
             const checkboxes = Array.from(group.querySelectorAll('[role="checkbox"]')).filter(isVisible);
 
             if (checkboxes.length < 2) {
@@ -3564,7 +5650,9 @@ const AutoCVApplyFormHeuristics = (() => {
                 checkboxes,
                 label,
                 optionLabels: checkboxes
-                    .map((checkbox) => (checkbox.textContent || checkbox.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim())
+                    .map((checkbox) => stripWorkableSvgFallbackNoise(
+                        checkbox.textContent || checkbox.getAttribute('aria-label') || '',
+                    ))
                     .filter((text) => text.length > 0),
             });
         }
@@ -3782,6 +5870,68 @@ const AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
+    function getSmartRecruitersFieldLabel(element) {
+        const host = outermostShadowHost(element);
+        const scope = host?.closest?.(
+            'spl-form-field, oc-input, oc-textarea, oc-phone-number, oc-location-autocomplete, [data-test*="personal-info"], [data-test*="first-name"], [formcontrolname]',
+        ) || host;
+
+        if (!scope) {
+            return '';
+        }
+
+        const aria = normalize(scope.getAttribute?.('aria-label') || '');
+
+        if (aria.length >= 2) {
+            return aria;
+        }
+
+        const labelEl = scope.querySelector?.('label, spl-label, .spl-form-field__label, [class*="label"]');
+        const labelText = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+        if (labelText.length >= 2) {
+            return labelText;
+        }
+
+        const formControl = String(
+            scope.getAttribute?.('formcontrolname')
+                || host?.getAttribute?.('formcontrolname')
+                || '',
+        ).trim();
+
+        if (formControl.length >= 2) {
+            return normalize(
+                formControl
+                    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+                    .replace(/[_\-.]+/g, ' '),
+            );
+        }
+
+        const dataTest = String(
+            scope.getAttribute?.('data-test')
+                || host?.getAttribute?.('data-test')
+                || '',
+        ).trim();
+
+        if (dataTest.length >= 2) {
+            return normalize(
+                dataTest
+                    .replace(/^personal-info-/, '')
+                    .replace(/-input$/, '')
+                    .replace(/[_\-.]+/g, ' '),
+            );
+        }
+
+        // Native control name/id inside shadow often camelCase without spaces.
+        const rawName = String(element.getAttribute?.('name') || element.getAttribute?.('id') || '').trim();
+
+        if (rawName.length >= 2 && /(?:name|email|phone|linkedin|twitter|facebook|website|message|city|location)/i.test(rawName)) {
+            return normalize(rawName.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_\-.]+/g, ' '));
+        }
+
+        return '';
+    }
+
     function getFieldLabel(element) {
         const smsConsentLabel = getSmsConsentQuestionLabel(element);
 
@@ -3817,10 +5967,22 @@ const AutoCVApplyFormHeuristics = (() => {
             return recruiteeLabel;
         }
 
+        const greenhouseLabel = getGreenhouseQuestionLabel(element);
+
+        if (greenhouseLabel.length >= 2) {
+            return greenhouseLabel;
+        }
+
         const workableLabel = getWorkableQuestionLabel(element);
 
         if (workableLabel.length >= 2) {
             return workableLabel;
+        }
+
+        const smartRecruitersLabel = getSmartRecruitersFieldLabel(element);
+
+        if (smartRecruitersLabel.length >= 2) {
+            return smartRecruitersLabel;
         }
 
         const labelParts = [];
@@ -3850,8 +6012,22 @@ const AutoCVApplyFormHeuristics = (() => {
             element.getAttribute('aria-label'),
             element.getAttribute('placeholder'),
             element.closest('label')?.textContent,
-            element.closest('.form-group, .field, .input-wrapper, [class*="question"]')?.querySelector('label, legend, .label, h3, h4, p')?.textContent,
         );
+
+        const greenhouseScoped = element.closest('.field-wrapper');
+
+        if (greenhouseScoped) {
+            const scopedLabel = greenhouseScoped.querySelector('label.label, label.select__label, .upload-label, .label');
+            const scopedText = scopedLabel?.textContent || '';
+
+            if (scopedText) {
+                labelParts.push(scopedText);
+            }
+        } else {
+            labelParts.push(
+                element.closest('.form-group, .field, .input-wrapper')?.querySelector('label, legend, .label, h3, h4, p')?.textContent,
+            );
+        }
 
         const humanLabel = dedupeRepeatedLabelTokens(normalize(labelParts.filter(Boolean).join(' ')));
 
@@ -3899,9 +6075,84 @@ const AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
+    function resolveSmartRecruitersControlFromDom(doc, dom, fieldType) {
+        if (!dom || !doc) {
+            return null;
+        }
+
+        const dataTest = dom.sr_data_test;
+
+        if (dataTest) {
+            const scope = doc.querySelector(`[data-test="${escapeSelectorValue(dataTest)}"]`);
+
+            if (scope) {
+                if (fieldType === 'tel' || /phone/i.test(dataTest)) {
+                    const phoneHost = scope.querySelector('spl-phone-field, oc-phone-number')
+                        || scope.closest?.('spl-phone-field, oc-phone-number');
+
+                    if (phoneHost) {
+                        return findSmartRecruitersPhoneTelInput(phoneHost) || phoneHost;
+                    }
+
+                    const tel = querySelectorAllDeep(scope, 'input[type="tel"]')[0];
+
+                    if (tel) {
+                        return tel;
+                    }
+                }
+
+                if (/location/i.test(dataTest)) {
+                    const locationHost = scope.querySelector('oc-location-autocomplete, spl-autocomplete')
+                        || scope.closest?.('oc-location-autocomplete, spl-autocomplete');
+                    const locationInput = locationHost
+                        ? querySelectorAllDeep(locationHost, 'input:not([type="hidden"])')[0]
+                        : scope.querySelector('input:not([type="hidden"])');
+
+                    if (locationInput) {
+                        return locationInput;
+                    }
+                }
+
+                const scopedInput = scope.querySelector('input, textarea, select');
+
+                if (scopedInput) {
+                    return scopedInput;
+                }
+            }
+        }
+
+        if (dom.id && /^spl-form-element_/i.test(dom.id)) {
+            const phoneHost = doc.querySelector(`spl-phone-field#${escapeSelectorValue(dom.id)}`);
+
+            if (phoneHost && fieldType === 'tel') {
+                return findSmartRecruitersPhoneTelInput(phoneHost) || phoneHost;
+            }
+
+            const deepMatches = querySelectorAllDeep(doc, `#${escapeSelectorValue(dom.id)}`);
+
+            for (const candidate of deepMatches) {
+                if (fieldType === 'tel' && (candidate.type === 'tel' || isSmartRecruitersPhoneInput(candidate))) {
+                    return candidate;
+                }
+
+                if (fieldType !== 'tel' && candidate.type !== 'tel' && candidate.type !== 'hidden') {
+                    return candidate;
+                }
+            }
+        }
+
+        return null;
+    }
+
     function resolveElementFromDom(doc, dom, fieldType) {
         if (!dom || !doc) {
             return null;
+        }
+
+        const smartRecruitersTarget = resolveSmartRecruitersControlFromDom(doc, dom, fieldType);
+
+        if (smartRecruitersTarget) {
+            return smartRecruitersTarget;
         }
 
         const isChoiceField = fieldType === 'radio' || fieldType === 'checkbox';
@@ -4005,8 +6256,18 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (fieldType === 'tel' && dom.type === 'tel') {
+            if (dom.id) {
+                const deepTel = querySelectorAllDeep(doc, `#${escapeSelectorValue(dom.id)}`)
+                    .find((candidate) => candidate.type === 'tel' || isSmartRecruitersPhoneInput(candidate));
+
+                if (deepTel) {
+                    return deepTel;
+                }
+            }
+
             return doc.querySelector('input[type="tel"].PhoneInputInput')
                 || doc.querySelector('.PhoneInput input[type="tel"]')
+                || querySelectorAllDeep(doc, 'input[type="tel"]').find((candidate) => isSmartRecruitersPhoneInput(candidate))
                 || doc.querySelector('input[type="tel"]');
         }
 
@@ -4055,10 +6316,42 @@ const AutoCVApplyFormHeuristics = (() => {
             const scope = doc.querySelector(`[data-field-path="${escapeSelectorValue(fieldPath)}"]`);
 
             if (scope) {
-                const yesNoButtons = queryAshbyYesNoButtons(scope, doc);
+                if (fieldType === 'tel') {
+                    const tel = scope.querySelector('input[type="tel"]');
 
-                if (yesNoButtons.length >= 2) {
-                    return yesNoButtons;
+                    if (tel) {
+                        return tel;
+                    }
+                }
+
+                if (fieldType === 'radio' || fieldType === 'checkbox') {
+                    const anchor = resolveElementFromDom(doc, dom, fieldType);
+
+                    if (isNativeChoiceInput(anchor, fieldType)) {
+                        return anchor;
+                    }
+
+                    if (dom?.name) {
+                        const byName = scope.querySelector(
+                            `input[type="${escapeSelectorValue(fieldType)}"][name="${escapeSelectorValue(dom.name)}"]`,
+                        );
+
+                        if (byName) {
+                            return byName;
+                        }
+                    }
+
+                    const yesNoButtons = queryAshbyYesNoButtons(scope, doc);
+
+                    if (yesNoButtons.length >= 2) {
+                        return yesNoButtons;
+                    }
+                } else {
+                    const yesNoButtons = queryAshbyYesNoButtons(scope, doc);
+
+                    if (yesNoButtons.length >= 2) {
+                        return yesNoButtons;
+                    }
                 }
 
                 const combobox = scope.querySelector('[role="combobox"]');
@@ -4067,10 +6360,12 @@ const AutoCVApplyFormHeuristics = (() => {
                     return combobox;
                 }
 
-                const input = scope.querySelector('input, textarea, select');
+                if (fieldType !== 'radio' && fieldType !== 'checkbox') {
+                    const input = scope.querySelector('input, textarea, select');
 
-                if (input) {
-                    return input;
+                    if (input) {
+                        return input;
+                    }
                 }
             }
         }
@@ -4136,6 +6431,256 @@ const AutoCVApplyFormHeuristics = (() => {
         return optionMatchesAnswer(actual, expected);
     }
 
+    const SMART_RECRUITERS_VALUE_HOST_TAGS = new Set([
+        'spl-input',
+        'spl-textarea',
+        'spl-autocomplete',
+        'spl-phone-field',
+        'spl-checkbox',
+        'oc-input',
+        'oc-textarea',
+        'oc-phone-number',
+        'oc-location-autocomplete',
+    ]);
+
+    function isSmartRecruitersOneclickContext(element) {
+        const pageHost = element?.ownerDocument?.defaultView?.location?.hostname || '';
+
+        if (/smartrecruiters\.com/i.test(pageHost)) {
+            return true;
+        }
+
+        let current = element;
+
+        while (current) {
+            const tag = String(current.tagName || '').toLowerCase();
+
+            if (tag === 'oc-oneclick-form' || tag === 'oc-personal-information') {
+                return true;
+            }
+
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            break;
+        }
+
+        return false;
+    }
+
+    function readSmartRecruitersHostValue(host) {
+        let attrValue = String(host?.getAttribute?.('value') || '').trim();
+
+        if (!attrValue && host?.value != null) {
+            if (typeof host.value === 'string') {
+                attrValue = host.value.trim();
+            } else if (typeof host.value === 'object') {
+                attrValue = JSON.stringify(host.value);
+            }
+        }
+
+        if (!attrValue) {
+            return null;
+        }
+
+        if (attrValue.startsWith('{')) {
+            try {
+                const parsed = JSON.parse(attrValue);
+
+                if (typeof parsed.number === 'string' && parsed.number.trim()) {
+                    return parsed.number.trim();
+                }
+
+                if (typeof parsed.nationalNumber === 'string' && parsed.nationalNumber.trim()) {
+                    return parsed.nationalNumber.trim();
+                }
+
+                if (typeof parsed.value === 'string' && parsed.value.trim()) {
+                    return parsed.value.trim();
+                }
+
+                return null;
+            } catch {
+                return null;
+            }
+        }
+
+        return attrValue;
+    }
+
+    function isSmartRecruitersJsonStub(value) {
+        if (!String(value || '').trim().startsWith('{')) {
+            return false;
+        }
+
+        try {
+            const parsed = JSON.parse(String(value));
+
+            return Boolean(
+                parsed
+                && typeof parsed === 'object'
+                && !parsed.number
+                && !parsed.nationalNumber
+                && !parsed.value,
+            );
+        } catch {
+            return false;
+        }
+    }
+
+    function findSmartRecruitersPhoneHost(element) {
+        let current = element;
+
+        while (current) {
+            const tag = String(current.tagName || '').toLowerCase();
+
+            if (tag === 'spl-phone-field' || tag === 'oc-phone-number') {
+                return current;
+            }
+
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            current = current.parentElement;
+        }
+
+        return null;
+    }
+
+    function isSmartRecruitersPhoneInput(element) {
+        if (!element || !isSmartRecruitersOneclickContext(element)) {
+            return false;
+        }
+
+        if (element.type === 'tel') {
+            return Boolean(findSmartRecruitersPhoneHost(element));
+        }
+
+        const tag = String(element.tagName || '').toLowerCase();
+
+        return tag === 'spl-phone-field' || tag === 'oc-phone-number';
+    }
+
+    function findSmartRecruitersPhoneTelInput(host) {
+        if (!host) {
+            return null;
+        }
+
+        if (host.type === 'tel') {
+            return host;
+        }
+
+        const shadowTel = host.shadowRoot?.querySelector('input[type="tel"]');
+
+        if (shadowTel) {
+            return shadowTel;
+        }
+
+        return querySelectorAllDeep(host, 'input[type="tel"]')[0] || null;
+    }
+
+    async function setSmartRecruitersPhoneValue(element, value) {
+        const stringValue = String(value || '').trim();
+
+        if (!stringValue || !isSmartRecruitersPhoneInput(element)) {
+            return false;
+        }
+
+        const host = findSmartRecruitersPhoneHost(element) || element;
+        const telInput = findSmartRecruitersPhoneTelInput(host);
+        const { iso, dialCodeDigits, nationalDigits } = parseIndeedPhoneParts(stringValue);
+        const country = iso || 'GB';
+        const e164 = stringValue.startsWith('+')
+            ? stringValue.replace(/\s/g, '')
+            : (dialCodeDigits ? `+${dialCodeDigits}${nationalDigits}` : stringValue);
+        const payload = {
+            country,
+            number: e164,
+        };
+
+        if (host && host !== telInput) {
+            host.value = payload;
+            host.setAttribute('value', JSON.stringify(payload));
+            host.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+            host.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+        }
+
+        if (telInput) {
+            telInput.focus();
+            dispatchPointerClick(telInput);
+            setNativeValue(telInput, nationalDigits || stringValue.replace(/\D/g, ''));
+            telInput.dispatchEvent(new InputEvent('input', {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                inputType: 'insertFromPaste',
+                data: stringValue,
+            }));
+            telInput.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+            telInput.dispatchEvent(new FocusEvent('blur', { bubbles: true, composed: true }));
+        }
+
+        const readTarget = telInput || host;
+        const readback = readSmartRecruitersControlValue(readTarget);
+        const enteredDigits = normalizePhoneDigits(readback || telInput?.value || '');
+        const expectedDigits = normalizePhoneDigits(stringValue);
+
+        if (enteredDigits.length >= Math.min(expectedDigits.length, 8)) {
+            heuristicsLog('info', 'apply.phone', 'smartrecruiters phone filled', {
+                valuePreview: stringValue.slice(0, 80),
+                country,
+            });
+
+            return true;
+        }
+
+        heuristicsLog('warn', 'apply.phone', 'smartrecruiters phone fill did not verify', {
+            valuePreview: stringValue.slice(0, 80),
+            readbackPreview: String(readback || '').slice(0, 80),
+        });
+
+        return false;
+    }
+
+    function readSmartRecruitersControlValue(element) {
+        if (!element || !isSmartRecruitersOneclickContext(element)) {
+            return null;
+        }
+
+        let current = element;
+
+        while (current) {
+            const tag = String(current.tagName || '').toLowerCase();
+
+            if (SMART_RECRUITERS_VALUE_HOST_TAGS.has(tag)) {
+                const hostValue = readSmartRecruitersHostValue(current);
+
+                if (hostValue) {
+                    return hostValue;
+                }
+            }
+
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            break;
+        }
+
+        return null;
+    }
+
     function readSimpleFieldValue(element, fieldType) {
         if (!element) {
             return null;
@@ -4146,7 +6691,10 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (element.getAttribute?.('role') === 'combobox') {
-            return readReactSelectValue(element);
+            return readReactSelectValue(element)
+                || readSmartRecruitersControlValue(element)
+                || element.value?.trim()
+                || null;
         }
 
         if (isPhoneCountryListboxButton(element)) {
@@ -4160,10 +6708,172 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (fieldType === 'textarea' || element.tagName?.toLowerCase() === 'textarea') {
-            return element.value?.trim() || null;
+            return readSmartRecruitersControlValue(element)
+                || element.value?.trim()
+                || null;
         }
 
-        return element.value?.trim() || null;
+        if (fieldType === 'tel' || element.type === 'tel') {
+            const srValue = readSmartRecruitersControlValue(element);
+
+            if (srValue) {
+                return srValue;
+            }
+
+            const raw = element.value?.trim() || '';
+
+            if (raw.startsWith('{')) {
+                try {
+                    const parsed = JSON.parse(raw);
+
+                    if (typeof parsed.number === 'string' && parsed.number.trim()) {
+                        return parsed.number.trim();
+                    }
+
+                    if (typeof parsed.nationalNumber === 'string' && parsed.nationalNumber.trim()) {
+                        return parsed.nationalNumber.trim();
+                    }
+                } catch {
+                    return null;
+                }
+
+                return null;
+            }
+
+            return raw || null;
+        }
+
+        return readSmartRecruitersControlValue(element)
+            || (element.value?.trim() && !isSmartRecruitersJsonStub(element.value.trim()) ? element.value.trim() : null);
+    }
+
+    function shouldSkipReadableControl(element, skipTypes) {
+        const tag = String(element.tagName || '').toLowerCase();
+        const type = String(
+            element.type || (tag === 'textarea' ? 'textarea' : tag === 'select' ? 'select-one' : 'text'),
+        ).toLowerCase();
+        const name = element.name || '';
+        const id = element.id || '';
+        const labelBits = `${name} ${id} ${element.getAttribute('aria-label') || ''}`.toLowerCase();
+
+        if (skipTypes.has(type)) {
+            return true;
+        }
+
+        return /search|captcha|honeypot|leave this blank|csrf|_token/.test(labelBits);
+    }
+
+    function buildReadableControlRecord(element, index) {
+        const tag = String(element.tagName || '').toLowerCase();
+        const type = String(
+            element.type || (tag === 'textarea' ? 'textarea' : tag === 'select' ? 'select-one' : 'text'),
+        ).toLowerCase();
+        const name = element.name || '';
+        const id = element.id || '';
+        let value = '';
+        let checked = false;
+
+        if (type === 'checkbox' || type === 'radio') {
+            checked = Boolean(element.checked);
+            value = checked ? String(element.value || 'on') : '';
+
+            if (type === 'radio' && isWorkableApplyHost(element.ownerDocument || document)) {
+                const roleHost = getWorkableRoleRadioHost(element);
+                const roleLabel = roleHost?.getAttribute('aria-checked') === 'true'
+                    ? readWorkableRoleRadioLabel(roleHost)
+                    : '';
+
+                if (roleLabel) {
+                    checked = true;
+                    value = roleLabel;
+                }
+            }
+
+            if (
+                type === 'checkbox'
+                && element.closest('[class*="_yesno_"]')
+            ) {
+                const yesNoValue = readAshbyYesNoValueForInput(element);
+
+                if (yesNoValue) {
+                    value = yesNoValue;
+                    checked = true;
+                }
+            }
+        } else if (tag === 'select') {
+            value = String(readSimpleFieldValue(element, 'select') || element.value || '');
+        } else {
+            value = String(readSimpleFieldValue(element, type) || element.value || '');
+        }
+
+        return {
+            index,
+            tag,
+            type,
+            id: id || null,
+            name: name || null,
+            value,
+            checked,
+            required: Boolean(element.required),
+            visible: element.offsetParent !== null
+                || (element.getClientRects?.().length ?? 0) > 0,
+        };
+    }
+
+    function collectReadableFieldValueControls(root = document) {
+        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
+        const controls = [];
+        let index = 0;
+
+        for (const element of querySelectorAllDeep(root, 'input, textarea, select')) {
+            if (shouldSkipReadableControl(element, skipTypes)) {
+                continue;
+            }
+
+            controls.push(buildReadableControlRecord(element, index));
+            index += 1;
+        }
+
+        return controls;
+    }
+
+    function collectReadableFieldValueControlsAllFrames() {
+        const controls = [];
+        let index = 0;
+        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
+
+        forEachIframeDocument((doc) => {
+            for (const element of querySelectorAllDeep(doc, 'input, textarea, select')) {
+                if (shouldSkipReadableControl(element, skipTypes)) {
+                    continue;
+                }
+
+                controls.push(buildReadableControlRecord(element, index));
+                index += 1;
+            }
+        });
+
+        return controls;
+    }
+
+    function summarizeReadableFieldValueControls(controls, pageUrl, pageTitle) {
+        const filled = controls.filter((control) => {
+            if (control.type === 'checkbox' || control.type === 'radio') {
+                return control.checked;
+            }
+
+            return String(control.value || '').trim() !== '';
+        });
+
+        return {
+            success: true,
+            page_url: pageUrl,
+            page_title: pageTitle,
+            count: controls.length,
+            filled_count: filled.length,
+            fill_rate: controls.length === 0 ? 0 : Number((filled.length / controls.length).toFixed(4)),
+            controls,
+        };
     }
 
     function readNativeInputGroupSelection(element, fieldType) {
@@ -4192,15 +6902,13 @@ const AutoCVApplyFormHeuristics = (() => {
     function verifyFieldApplied(target, fieldType, answer, options = {}) {
         if (Array.isArray(target)) {
             if (target[0]?.tagName?.toLowerCase() === 'button') {
-                const selection = readAshbyYesNoSelection(
-                    findAshbyYesNoScope(options.root || document, {
-                        dataFieldPath: options.dataFieldPath || null,
-                        anchor: target[0],
-                    }),
-                    options.root || document,
-                );
+                const scope = findAshbyYesNoScope(options.root || document, {
+                    dataFieldPath: options.dataFieldPath || null,
+                    anchor: target[0],
+                });
+                const booleanAnswer = extractBooleanAnswer(answer);
 
-                return optionMatchesAnswer(selection, answer);
+                return isAshbyYesNoCommitted(scope, booleanAnswer, options.root || document);
             }
 
             if (target[0]?.getAttribute?.('role') === 'checkbox') {
@@ -4279,6 +6987,20 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         const actual = readSimpleFieldValue(target, fieldType);
+
+        if (isGreenhousePhoneCountryCombobox(target)) {
+            return phoneCountryOptionMatches(readGreenhousePhoneCountryValue(target), answer);
+        }
+
+        if (target?.getAttribute?.('role') === 'combobox' && isWorkableSelectCombobox(target)) {
+            return workableSelectIsCommitted(target, answer);
+        }
+
+        if (isSmartRecruitersPhoneInput(target)) {
+            const readback = readSmartRecruitersControlValue(target);
+
+            return valueMatchesAnswer(readback || target.value, answer);
+        }
 
         return valueMatchesAnswer(actual, answer);
     }
@@ -4675,22 +7397,65 @@ const AutoCVApplyFormHeuristics = (() => {
 
         const widget = element.closest('.PhoneInput');
         const countrySelect = widget?.querySelector('.PhoneInputCountrySelect');
-        const countryIso = countrySelect ? resolveCountryIsoFromE164(stringValue, countrySelect) : null;
+        const listboxButton = widget?.querySelector('button[aria-haspopup="listbox"]');
+        let fillValue = stringValue;
 
-        if (countrySelect && countryIso) {
-            countrySelect.value = countryIso;
-            countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+        if (listboxButton && stringValue.startsWith('+')) {
+            const dial = extractDialCodeFromPhoneValue(stringValue);
+            const countryAnswer = dial === '44'
+                ? 'United Kingdom'
+                : (dial ? `+${dial}` : stringValue);
+
+            if (dial) {
+                let countrySet = false;
+                const countryIso = countrySelect ? resolveCountryIsoFromE164(stringValue, countrySelect) : null;
+
+                if (countrySelect && countryIso) {
+                    countrySelect.value = countryIso;
+                    countrySelect.dispatchEvent(new Event('input', { bubbles: true }));
+                    countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+                    await sleep(80);
+                    countrySet = true;
+                }
+
+                if (!countrySet) {
+                    countrySet = await setPhoneCountryListboxValue(listboxButton, countryAnswer);
+                }
+
+                if (!countrySet) {
+                    heuristicsLog('warn', 'apply.phone', 'Phone country listbox not set before E.164 fill', {
+                        countryAnswer,
+                        dial,
+                    });
+                }
+
+                await sleep(countrySet ? 80 : 0);
+                fillValue = stringValue.startsWith('+')
+                    ? stringValue
+                    : `+${dial}${stringValue.replace(/\D/g, '')}`;
+            }
+        } else {
+            const countryIso = countrySelect ? resolveCountryIsoFromE164(stringValue, countrySelect) : null;
+
+            if (countrySelect && countryIso) {
+                countrySelect.value = countryIso;
+                countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+            }
         }
 
         element.focus();
         dispatchPointerClick(element);
 
-        const filled = await fillReactTextControl(element, stringValue);
+        // Instant fill - char-by-char E.164 into PhoneInput re-parses dial codes mid-type
+        // and can flip the country to +7 / Russia.
+        const filled = fillTextControlInstant(element, fillValue);
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
         if (filled) {
             heuristicsLog('info', 'apply.phone', 'react-phone-number-input filled', {
-                valuePreview: stringValue.slice(0, 80),
-                countryIso,
+                valuePreview: fillValue.slice(0, 80),
+                originalPreview: stringValue.slice(0, 80),
             });
         }
 
@@ -4771,9 +7536,23 @@ const AutoCVApplyFormHeuristics = (() => {
             valuePreview: String(value).slice(0, 80),
         });
 
+        if (element.type === 'tel' && /consent to receiving text|do not consent to receiving text/i.test(String(value))) {
+            heuristicsLog('warn', 'apply.setFieldValue', 'Refusing to write SMS consent text into tel input', {
+                valuePreview: String(value).slice(0, 80),
+            });
+
+            return false;
+        }
+
         if (role === 'combobox') {
             if (isLinkedInGeoLocationCombobox(element)) {
                 const filled = await setLinkedInGeoLocationValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
+            if (isGreenhousePhoneCountryCombobox(element)) {
+                const filled = await setGreenhousePhoneCountryValue(element, value);
 
                 return filled && verifyFieldApplied(element, 'select', value);
             }
@@ -4805,6 +7584,14 @@ const AutoCVApplyFormHeuristics = (() => {
             const filled = await setPhoneCountryListboxValue(element, value);
 
             return filled && verifyFieldApplied(element, 'select', value);
+        }
+
+        if (isSmartRecruitersPhoneInput(element)) {
+            return setSmartRecruitersPhoneValue(element, value);
+        }
+
+        if (element.type === 'tel' && isSmartRecruitersPhoneInput(element)) {
+            return setSmartRecruitersPhoneValue(element, value);
         }
 
         if (element.type === 'tel' && isIndeedApplyPhoneInput(element)) {
@@ -4866,6 +7653,10 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        if (isLeverLocationInput(element)) {
+            return setLeverLocationValue(element, value);
+        }
+
         const filled = await fillReactTextControl(element, value);
 
         heuristicsLog(filled ? 'info' : 'warn', 'apply.setFieldValue', filled ? 'React text control filled' : 'React text control fill did not stick', {
@@ -4881,10 +7672,72 @@ const AutoCVApplyFormHeuristics = (() => {
         return filled;
     }
 
+    /**
+     * Query selector across light DOM and open shadow roots (SmartRecruiters
+     * oneclick `oc-input` / `spl-*` hosts keep native controls in shadow).
+     *
+     * @param {ParentNode} root
+     * @param {string} selector
+     * @returns {Element[]}
+     */
+    function querySelectorAllDeep(root, selector) {
+        if (!root?.querySelectorAll) {
+            return [];
+        }
+
+        const results = [];
+        const seen = new Set();
+        const visit = (node) => {
+            if (!node?.querySelectorAll) {
+                return;
+            }
+
+            for (const el of node.querySelectorAll(selector)) {
+                if (!seen.has(el)) {
+                    seen.add(el);
+                    results.push(el);
+                }
+            }
+
+            for (const el of node.querySelectorAll('*')) {
+                if (el.shadowRoot) {
+                    visit(el.shadowRoot);
+                }
+            }
+        };
+
+        visit(root);
+
+        return results;
+    }
+
+    /**
+     * Climb out of open shadow roots to the outermost host in the page DOM.
+     *
+     * @param {Element} element
+     * @returns {Element}
+     */
+    function outermostShadowHost(element) {
+        let current = element;
+
+        while (current) {
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            break;
+        }
+
+        return current;
+    }
+
     function collectFillableElements(root) {
         revealDeferredApplicationForm(root.defaultView?.document || root);
 
-        const nativeControls = Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
+        const nativeControls = querySelectorAllDeep(root, 'input, textarea, select').filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
                 return false;
             }
@@ -4921,6 +7774,10 @@ const AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
+            if (isPersonioApplicationFileInput(element)) {
+                return true;
+            }
+
             if (isLabeledApplicationFileInput(element)) {
                 return true;
             }
@@ -4940,14 +7797,21 @@ const AutoCVApplyFormHeuristics = (() => {
             return isVisible(element);
         });
 
-        const contentEditableControls = Array.from(
-            root.querySelectorAll('[contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"]'),
+        const contentEditableControls = querySelectorAllDeep(
+            root,
+            '[contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"]',
         ).filter((element) => {
             if (!isContentEditableField(element) || !isVisible(element)) {
                 return false;
             }
 
             if (element.closest('form, [role="form"], .application--container, .gform_wrapper, .field-wrapper, .formio-form, .wpforms-container, #main-content')) {
+                return true;
+            }
+
+            const host = outermostShadowHost(element);
+
+            if (host?.closest?.('oc-oneclick-form, oc-personal-information, oc-input, spl-form-field, [class*="application"], [class*="employment"], [class*="job-apply"]')) {
                 return true;
             }
 
@@ -5075,10 +7939,9 @@ const AutoCVApplyFormHeuristics = (() => {
             return undefined;
         }
 
-        return Array.from(element.options)
-            .map((option) => option.textContent.trim())
-            .filter((text) => text.length > 0)
-            .slice(0, 30);
+        const labels = optionElementsToLabels(Array.from(element.options), 30);
+
+        return labels.length > 0 ? labels : undefined;
     }
 
     function hasVisibleValidationError(element) {
@@ -5116,6 +7979,10 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function elementNeedsDraft(element) {
+        if (isWorkableInactiveConditionalField(element)) {
+            return false;
+        }
+
         const styledChoice = isAshbyStyledChoiceInput(element) || isOracleApplyFlowStyledChoiceInput(element);
         const recruiteeFormControl = isRecruiteeApplicationFormControl(element);
         const leverSurveyControl = isLeverDeferredSurveyControl(element);
@@ -5126,7 +7993,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (element.type === 'file') {
-            return isLabeledApplicationFileInput(element);
+            return isLabeledApplicationFileInput(element) || isPersonioApplicationFileInput(element);
         }
 
         if (!isVisible(element) && !styledChoice && !recruiteeFormControl && !leverSurveyControl && !chosenSelect) {
@@ -5177,7 +8044,8 @@ const AutoCVApplyFormHeuristics = (() => {
         return getQuestionLabel(element).length >= 3;
     }
 
-    function eachDraftableField(root, profile, settings, memo, callback) {
+    function eachDraftableField(root, profile, settings, memo, callback, options = {}) {
+        const includeFilled = options.includeFilled === true;
         const seen = new Set();
         const processedGroups = new Set();
         let id = 0;
@@ -5189,7 +8057,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isAshbyYesNoAnswered(buttons, dataFieldPath, root)) {
+            if (!includeFilled && isAshbyYesNoAnswered(buttons, dataFieldPath, root)) {
                 continue;
             }
 
@@ -5213,7 +8081,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isOracleSelectPillAnswered(buttons)) {
+            if (!includeFilled && isOracleSelectPillAnswered(buttons)) {
                 continue;
             }
 
@@ -5244,11 +8112,15 @@ const AutoCVApplyFormHeuristics = (() => {
 
                 processedGroups.add(groupName);
 
-                if (!elementNeedsDraft(element, profile, settings, memo)) {
+                if (!includeFilled && !elementNeedsDraft(element, profile, settings, memo)) {
                     continue;
                 }
 
-                const groupRoot = element.closest('[role="radiogroup"], fieldset');
+                if (includeFilled && isSiteSearchChrome(element)) {
+                    continue;
+                }
+
+                const groupRoot = element.closest('[role="group"], [role="radiogroup"], fieldset');
                 const qualificationLabel = getIndeedQualificationQuestionLabel(element);
                 const questionLabel = getQuestionLabel(element);
                 const radioGroupLabel = getRadiogroupLabel(groupRoot || element);
@@ -5258,12 +8130,15 @@ const AutoCVApplyFormHeuristics = (() => {
                 const identity = draftableIdentityKey(element, label, { groupName });
                 const labelIdentity = `label:${label}`;
 
-                if (seen.has(identity) || seen.has(labelIdentity)) {
+                if (label.length < 3 || seen.has(identity) || seen.has(labelIdentity)) {
                     continue;
                 }
 
                 seen.add(identity);
                 seen.add(labelIdentity);
+
+                const groupInputs = getGroupInputs(element);
+                const groupTarget = groupInputs.length > 1 ? groupInputs : element;
 
                 callback({
                     id,
@@ -5271,21 +8146,40 @@ const AutoCVApplyFormHeuristics = (() => {
                     field_type: element.type === 'radio' ? 'radio' : 'checkbox',
                     max_chars: undefined,
                     options: getGroupOptions(element),
-                }, element);
+                }, groupTarget, groupInputs.length > 1 ? groupInputs : null);
 
                 id += 1;
 
                 continue;
             }
 
-            if (!elementNeedsDraft(element, profile, settings, memo)) {
+            if (!includeFilled && !elementNeedsDraft(element, profile, settings, memo)) {
+                continue;
+            }
+
+            if (includeFilled && isSiteSearchChrome(element)) {
+                continue;
+            }
+
+            if (includeFilled && !isVisible(element)
+                && !isAshbyStyledChoiceInput(element)
+                && !isOracleApplyFlowStyledChoiceInput(element)
+                && !isRecruiteeApplicationFormControl(element)
+                && !isLeverDeferredSurveyControl(element)
+                && !isChosenEnhancedSelect(element)
+                && !isPersonioApplicationFileInput(element)
+                && !isLabeledApplicationFileInput(element)) {
                 continue;
             }
 
             const label = getQuestionLabel(element);
             const identity = draftableIdentityKey(element, label);
 
-            if (seen.has(identity)) {
+            if (label.length < 3 || seen.has(identity)) {
+                continue;
+            }
+
+            if (isWorkableInactiveConditionalField(element)) {
                 continue;
             }
 
@@ -5309,7 +8203,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isIndeedApplyComboboxFilled(combobox) && !hasVisibleValidationError(combobox)) {
+            if (!includeFilled && isIndeedApplyComboboxFilled(combobox) && !hasVisibleValidationError(combobox)) {
                 continue;
             }
 
@@ -5355,7 +8249,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isRoleGroupAnswered(radios)) {
+            if (!includeFilled && isRoleGroupAnswered(radios)) {
                 continue;
             }
 
@@ -5380,7 +8274,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isRoleListboxAnswered(listbox)) {
+            if (!includeFilled && isRoleListboxAnswered(listbox)) {
                 continue;
             }
 
@@ -5399,16 +8293,18 @@ const AutoCVApplyFormHeuristics = (() => {
 
         for (const { checkboxes, label, optionLabels } of collectRoleCheckboxGroups(root)) {
             const identity = draftableIdentityKey(checkboxes?.[0], label);
+            const labelIdentity = `label:${label}`;
 
-            if (label.length < 3 || seen.has(identity)) {
+            if (label.length < 3 || seen.has(identity) || seen.has(labelIdentity)) {
                 continue;
             }
 
-            if (isRoleCheckboxGroupAnswered(checkboxes)) {
+            if (!includeFilled && isRoleCheckboxGroupAnswered(checkboxes)) {
                 continue;
             }
 
             seen.add(identity);
+            seen.add(labelIdentity);
 
             callback({
                 id,
@@ -5601,6 +8497,36 @@ const AutoCVApplyFormHeuristics = (() => {
         return collectDraftableFields(root, profile, settings, memo).length;
     }
 
+    function resolveAnswerForTarget(target, fieldType, answer) {
+        if (fieldType !== 'radio') {
+            return answer;
+        }
+
+        if (Array.isArray(target)) {
+            if (target[0]?.getAttribute?.('role') === 'radio') {
+                const native = target[0]?.querySelector?.('input[type="radio"]');
+
+                return native ? resolveRadioGroupAnswer(native, answer, target) : answer;
+            }
+
+            return answer;
+        }
+
+        if (target?.type === 'radio') {
+            return resolveRadioGroupAnswer(target, answer);
+        }
+
+        const native = target?.querySelector?.('input[type="radio"]');
+
+        if (!native) {
+            return answer;
+        }
+
+        const roleRadios = Array.from(target.querySelectorAll?.('[role="radio"]') || []).filter(isVisible);
+
+        return resolveRadioGroupAnswer(native, answer, roleRadios.length >= 2 ? roleRadios : null);
+    }
+
     async function applyAnswerForTarget(root, target, fieldType, answer, options = {}) {
         if (!answer || !isTargetConnected(target)) {
             heuristicsLog('warn', 'apply.ref', 'applyAnswerForTarget skipped - missing answer or detached target', {
@@ -5612,10 +8538,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        const resolvedAnswer = resolveAnswerForTarget(target, fieldType, answer);
+
         heuristicsLog('debug', 'apply.ref', 'applyAnswerForTarget', {
             fieldType,
             dataFieldPath: options.data_field_path || null,
-            answerPreview: String(answer).slice(0, 80),
+            answerPreview: String(resolvedAnswer).slice(0, 80),
             targetRole: Array.isArray(target) ? target[0]?.getAttribute?.('role') : target?.getAttribute?.('role'),
             targetTag: Array.isArray(target) ? target[0]?.tagName : target?.tagName,
         });
@@ -5630,51 +8558,57 @@ const AutoCVApplyFormHeuristics = (() => {
                     { dataFieldPath: options.data_field_path, root },
                 );
             } else if (target[0]?.getAttribute?.('role') === 'checkbox') {
-                applied = setRoleCheckboxGroupValue(target, answer);
+                applied = setRoleCheckboxGroupValue(target, resolvedAnswer);
             } else {
-                applied = setRoleRadioGroupValue(target, answer);
+                applied = setRoleRadioGroupValue(target, resolvedAnswer);
             }
         } else if (target?.getAttribute?.('role') === 'listbox') {
-            applied = setRoleListboxValue(target, answer);
+            applied = setRoleListboxValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'combobox') {
-            if (isIndeedApplyLocationCombobox(target)) {
-                applied = await setIndeedApplyLocationComboboxValue(target, answer);
+            if (isGreenhousePhoneCountryCombobox(target)) {
+                applied = await setGreenhousePhoneCountryValue(target, resolvedAnswer);
+            } else if (isLinkedInGeoLocationCombobox(target)) {
+                applied = await setLinkedInGeoLocationValue(target, resolvedAnswer);
+            } else if (isIndeedApplyLocationCombobox(target)) {
+                applied = await setIndeedApplyLocationComboboxValue(target, resolvedAnswer);
             } else if (isIndeedApplyResumeCombobox(target)) {
-                applied = await setIndeedApplyResumeComboboxValue(target, answer);
+                applied = await setIndeedApplyResumeComboboxValue(target, resolvedAnswer);
             } else if (isIndeedApplyQuestionCombobox(target)) {
-                applied = await setIndeedApplyQuestionComboboxValue(target, answer);
+                applied = await setIndeedApplyQuestionComboboxValue(target, resolvedAnswer);
             } else {
-                applied = await setAshbyComboboxValue(target, answer);
+                applied = await setAshbyComboboxValue(target, resolvedAnswer);
             }
         } else if (isPhoneCountryListboxButton(target)) {
-            applied = await setPhoneCountryListboxValue(target, answer);
+            applied = await setPhoneCountryListboxValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'radiogroup') {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
         } else if (target?.getAttribute?.('role') === 'radio') {
             const group = target.closest('[role="radiogroup"]');
             const radios = group
                 ? Array.from(group.querySelectorAll('[role="radio"]')).filter(isVisible)
                 : [target];
-            applied = setRoleRadioGroupValue(radios, answer);
+            applied = setRoleRadioGroupValue(radios, resolvedAnswer);
         } else if (target.type === 'radio' || target.type === 'checkbox') {
-            applied = setGroupValue(target, answer);
+            applied = setGroupValue(target, resolvedAnswer);
         } else if ((fieldType === 'radio' || fieldType === 'checkbox') && target.querySelector?.(`input[type="${fieldType}"]`)) {
-            applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), answer);
+            applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), resolvedAnswer);
         } else if (fieldType === 'radio' && target.querySelector?.('[role="radio"]')) {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
         } else if (fieldType === 'checkbox' && target.querySelector?.('[role="checkbox"]')) {
             applied = setRoleCheckboxGroupValue(
                 Array.from(target.querySelectorAll('[role="checkbox"]')).filter(isVisible),
-                answer,
+                resolvedAnswer,
             );
+        } else if (isSmartRecruitersPhoneInput(target)) {
+            applied = await setSmartRecruitersPhoneValue(target, resolvedAnswer);
         } else {
-            applied = await setFieldValue(target, answer);
+            applied = await setFieldValue(target, resolvedAnswer);
         }
 
         if (!applied) {
@@ -5685,7 +8619,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return applied;
         }
 
-        return verifyFieldApplied(target, fieldType, answer, {
+        return verifyFieldApplied(target, fieldType, resolvedAnswer, {
             root,
             dataFieldPath: options.data_field_path || null,
         });
@@ -5740,17 +8674,27 @@ const AutoCVApplyFormHeuristics = (() => {
         applyAnswerForTarget,
         collectAllDraftableFields,
         collectDraftableFields,
+        collectStaticComboboxOptionLabels,
         countDraftableFields,
         eachDraftableField,
         forEachIframeDocument,
+        harvestLazyComboboxOptionLabels,
         frameHasApplicationForm,
+        getChoiceGroupScope,
         getFieldLabel,
         getFieldType,
+        getGroupInputs,
         getQuestionLabel,
+        isInactiveConditionalField,
         isQuickDraftEligible,
         isTargetConnected,
         looksLikeApplicationForm,
         revealDeferredApplicationForm,
+        readAshbyYesNoValueForInput,
+        readFieldControlValue: readSimpleFieldValue,
+        collectReadableFieldValueControls,
+        collectReadableFieldValueControlsAllFrames,
+        summarizeReadableFieldValueControls,
         resolveTargetFromDom,
         setFieldValue,
         setGroupValue,

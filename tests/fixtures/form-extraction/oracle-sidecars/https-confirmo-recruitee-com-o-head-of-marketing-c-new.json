@@ -1,0 +1,149 @@
+{
+  "id": "https-confirmo-recruitee-com-o-head-of-marketing-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:48:26.959Z",
+  "page_url": "https://confirmo.recruitee.com/o/head-of-marketing/c/new",
+  "page_title": "Confirmo - Head of Marketing - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 6,
+      "count_delta": 1,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred work location?",
+        "ai": "What is your preferred work location?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter field allows for file upload, but the UI suggests a toggle to switch to a text area input.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your preferred work location?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "San Francisco (San Francisco, California, United States)",
+          "US- Remote (New York, New York, United States)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "what is your preferred work location?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f6"
+    }
+  ]
+}

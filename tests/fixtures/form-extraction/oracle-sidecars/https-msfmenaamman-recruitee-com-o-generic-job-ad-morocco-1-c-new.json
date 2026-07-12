@@ -1,0 +1,316 @@
+{
+  "id": "https-msfmenaamman-recruitee-com-o-generic-job-ad-morocco-1-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:56:29.946Z",
+  "page_url": "https://msfmenaamman.recruitee.com/o/generic-job-ad-morocco-1/c/new",
+  "page_title": "MSF MENA AMMAN - Candidature Spontanée (Tunisia) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 12,
+      "count_delta": 4,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender?",
+        "ai": "What is your gender?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your date of birth?",
+        "ai": "What is your date of birth?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your nationality?",
+        "ai": "What is your nationality?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "in which country do you currently reside? (please note that we are only recruiting applicants currently residing in the following countries: algeria, morocco, tunisia, libya, jordan, palestine)",
+        "ai": "In which country do you currently reside? (Please note that we are only recruiting applicants currently residing in the following countries: Algeria, Morocco, Tunisia, Libya, Jordan, Palestine)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which msf profile or role are you applying for?",
+        "ai": "Which MSF profile or role are you applying for?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about the opportunity to work internationally with msf?",
+        "ai": "How did you hear about the opportunity to work internationally with MSF?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "from which date would you be available to start your first international assignment with msf?",
+        "ai": "From which date would you be available to start your first international assignment with MSF?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you available to work on assignments that last between 6 to 12 months?",
+      "are you comfortable with the standard msf salary package for international staff?",
+      "which languages do you speak?",
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom phone input widget and dynamic file upload components. The final date field was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your gender?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "What is your date of birth?",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your nationality?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Algerian",
+          "Jordanian",
+          "Moroccan",
+          "Palestinian",
+          "Tunisian",
+          "Libyan",
+          "Other"
+        ]
+      },
+      {
+        "question": "In which country do you currently reside? (Please note that we are only recruiting applicants currently residing in the following countries: Algeria, Morocco, Tunisia, Libya, Jordan, Palestine)",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Algeria",
+          "Jordan",
+          "Morocco",
+          "Palestine",
+          "Tunisia",
+          "Libya",
+          "Other"
+        ]
+      },
+      {
+        "question": "Which MSF profile or role are you applying for?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Human Resources (HR)",
+          "Finance",
+          "Administration",
+          "Logistics",
+          "Supply Chain Management",
+          "Procurement",
+          "Communication",
+          "Humanitarian Affairs/Advocacy",
+          "General Practitioners (MD)",
+          "Specialized Doctor (Gynecologists, Surgeons, Anesthetists, Pediatricians, Psychiatrists)",
+          "Psychologist",
+          "Pharmacist",
+          "Midwife",
+          "(Specialized) Nurse",
+          "Health Promotion",
+          "Epidemiologist",
+          "Other"
+        ]
+      },
+      {
+        "question": "How did you hear about the opportunity to work internationally with MSF?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Social Media (LinkedIn, Facebook, Instagram, etc.)",
+          "Job board",
+          "MSF Website",
+          "A friend or colleague",
+          "Other"
+        ]
+      },
+      {
+        "question": "From which date would you be available to start your first international assignment with MSF?",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "what is your gender?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your date of birth?",
+      "field_type": "date",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your nationality?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "in which country do you currently reside? (please note that we are only recruiting applicants currently residing in the following countries: algeria, morocco, tunisia, libya, jordan, palestine)",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "which msf profile or role are you applying for?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "how did you hear about the opportunity to work internationally with msf?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "from which date would you be available to start your first international assignment with msf?",
+      "field_type": "date",
+      "ref": "f11"
+    },
+    {
+      "question": "are you available to work on assignments that last between 6 to 12 months?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "are you comfortable with the standard msf salary package for international staff?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "which languages do you speak?",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f15"
+    }
+  ]
+}

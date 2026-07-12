@@ -1,0 +1,158 @@
+{
+  "id": "https-securitas-teamtailor-com-jobs-7713471-business-process-owner-sales-securit",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:04:37.256Z",
+  "page_url": "https://securitas.teamtailor.com/jobs/7713471-business-process-owner-sales-securitas-technology-europe/applications/new",
+  "page_title": "Business Process Owner Sales - Securitas Technology Europe - Securitas",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 7,
+      "count_delta": 2,
+      "label_jaccard": 0.1429,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "convince us!",
+        "ai": "Convince Us! Why should we choose you for this role? What unique perspective, skills or energy would you bring to Securitas?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your annual salary expectations? (your local currency/gross)",
+        "ai": "What are your annual salary expectations? (your local currency/gross)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period?",
+        "ai": "What is your notice period? in calendar days",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload cv"
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "label Jaccard 0.143 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload or further screening questions) that might exist in the full form are missing. The phone input uses a complex international telephone input widget.",
+    "fields": [
+      {
+        "question": "Convince Us! Why should we choose you for this role? What unique perspective, skills or energy would you bring to Securitas?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your annual salary expectations? (your local currency/gross)",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your notice period? in calendar days",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "convince us!",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "what are your annual salary expectations? (your local currency/gross)",
+      "field_type": "textarea",
+      "ref": "f1"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    }
+  ]
+}

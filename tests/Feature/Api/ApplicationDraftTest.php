@@ -71,6 +71,55 @@ class ApplicationDraftTest extends TestCase
         $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }
 
+    public function test_extension_can_map_clarifying_answer_to_dropdown_option(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer based in London.',
+            'skills' => [],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [
+                'languages' => [],
+                'certifications' => [],
+                'projects' => [],
+            ],
+            'application_answers' => [],
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [
+                    ['label' => 'Willing to relocate?', 'answer' => 'Yes'],
+                ],
+                '_usage' => [
+                    'prompt_tokens' => 500,
+                    'completion_tokens' => 5,
+                    'total_tokens' => 505,
+                    'model' => 'openai/gpt-4.1-mini',
+                ],
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/draft-field', [
+                'job' => [
+                    'title' => 'Engineer',
+                    'company' => 'Axon',
+                ],
+                'field' => [
+                    'label' => 'Willing to relocate?',
+                    'field_type' => 'select',
+                    'options' => ['Yes', 'No'],
+                ],
+                'clarifying_answer' => 'I could move to Seattle for this role',
+            ])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('answer', 'Yes');
+    }
+
     public function test_extension_can_stream_draft_all_batches(): void
     {
         config([

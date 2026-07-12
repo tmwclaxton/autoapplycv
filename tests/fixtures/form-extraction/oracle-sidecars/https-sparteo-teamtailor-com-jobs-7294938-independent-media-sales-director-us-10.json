@@ -1,0 +1,304 @@
+{
+  "id": "https-sparteo-teamtailor-com-jobs-7294938-independent-media-sales-director-us-10",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:25:19.443Z",
+  "page_url": "https://sparteo.teamtailor.com/jobs/7294938-independent-media-sales-director-us-1099-contractor/applications/new",
+  "page_title": "Independent Media Sales Director, US (1099 Contractor) - Sparteo",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 10,
+      "count_delta": 8,
+      "label_jaccard": 0.4737,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "which level of french suits you best?",
+        "ai": "Which level of French suits you best?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which level of english suits you best?",
+        "ai": "Which level of English suits you best?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how long have you worked in a company experiencing hypergrowth?",
+        "ai": "How long have you worked in a company experiencing hypergrowth?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how long have you worked in the adtech industry or with a publisher?",
+        "ai": "How long have you worked in the AdTech industry or with a publisher?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of professional experience do you have in this position responsibilities? apprenticeship is considered as a professional experience",
+        "ai": "How many years of professional experience do you have in this position responsibilities?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which mode(s) of work suits you best?",
+        "ai": "Which mode(s) of work suits you best?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently employed?",
+        "ai": "Are you currently employed?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period? when will you be able to start a new position?",
+        "ai": "What is your notice period? When will you be able to start a new position?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your salary expectations for this position? (fix + bonus + benefits)",
+        "ai": "What is your salary expectations for this position? (fix + bonus + benefits)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the country where you are currently residing?",
+        "ai": "Are you authorized to work in the country where you are currently residing?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "phone",
+      "upload cv",
+      "additional files",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that sparteo store my personal details to be able to process my job application.",
+      "yes, sparteo can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is truncated in the provided HTML; personal information fields (name, email, resume, etc.) are expected to follow but were not present in the excerpt.",
+    "fields": [
+      {
+        "question": "Which level of French suits you best?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Beginner (A1 - A2)",
+          "I can write emails, documentations (B1)",
+          "I can communicate with my colleagues both orally and in writing (B2)",
+          "I can lead business meetings (C1)",
+          "I lived for several years in a foreign country where I spoke french on a daily basis, both professionally and personally (C2)",
+          "I am native"
+        ]
+      },
+      {
+        "question": "Which level of English suits you best?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Beginner (A1 -A2)",
+          "I can write emails, documentations (B1)",
+          "I can communicate with my colleagues both orally and in writing (B2)",
+          "I can lead business meetings (C1)",
+          "I lived for several years in a foreign country where I spoke English on a daily basis, both professionally and personally (C2)",
+          "I am native"
+        ]
+      },
+      {
+        "question": "How long have you worked in a company experiencing hypergrowth?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "< 1 year",
+          "1 to 2 years",
+          "2 to 5 years",
+          "5 to 10 years",
+          ">10 years"
+        ]
+      },
+      {
+        "question": "How long have you worked in the AdTech industry or with a publisher?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "<1 year",
+          "1 to 2 years",
+          "2 to 5 years",
+          "5 to 10 years",
+          ">10 years"
+        ]
+      },
+      {
+        "question": "How many years of professional experience do you have in this position responsibilities?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "< 1 year",
+          "1 to 2 years",
+          "2 to 5 years",
+          "5 to 10 years",
+          ">10 years"
+        ]
+      },
+      {
+        "question": "Which mode(s) of work suits you best?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "On site in Paris",
+          "On site in Lille",
+          "Hybrid mode in Paris",
+          "Hybrid mode in Lille",
+          "Mainly remote"
+        ]
+      },
+      {
+        "question": "Are you currently employed?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your notice period? When will you be able to start a new position?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your salary expectations for this position? (fix + bonus + benefits)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the country where you are currently residing?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which level of french suits you best?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "which level of english suits you best?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "how long have you worked in a company experiencing hypergrowth?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "how long have you worked in the adtech industry or with a publisher?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "how many years of professional experience do you have in this position responsibilities? apprenticeship is considered as a professional experience",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "which mode(s) of work suits you best?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "are you currently employed?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your notice period? when will you be able to start a new position?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your salary expectations for this position? (fix + bonus + benefits)",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "are you authorized to work in the country where you are currently residing?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f12"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that sparteo store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "yes, sparteo can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f17"
+    }
+  ]
+}

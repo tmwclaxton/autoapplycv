@@ -1,0 +1,343 @@
+{
+  "id": "https-nlc-recruitee-com-o-gaba-1to1-english-instructor-applicants-outside-japan-",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:00:38.230Z",
+  "page_url": "https://nlc.recruitee.com/o/gaba-1to1-english-instructor-applicants-outside-japan/c/new",
+  "page_title": "NLC - Gaba 1-to-1 English Instructor - Applicants outside Japan - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 0.9333,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "nationality",
+        "ai": "Nationality",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date (mm/dd/yyyy)",
+        "ai": "Birth Date (MM/DD/YYYY)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "highest level of education",
+        "ai": "Highest Level of Education",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what was the medium of instruction for your highest level of education?",
+        "ai": "What was the medium of instruction for your highest level of education?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "tefl / esl / tesol / experience (full time only):",
+        "ai": "TEFL / ESL / TESOL / Experience (Full time only):",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about gaba corporation?",
+        "ai": "How did you hear about Gaba Corporation?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you want to teach with gaba?",
+        "ai": "Why do you want to teach with Gaba?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you think you are suitable for this position?",
+        "ai": "Why do you think you are suitable for this position?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "would you be interested in finding out about teaching positions in our sister company, nova?",
+        "ai": "Would you be interested in finding out about teaching positions in our sister company, NOVA?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "video self-introduction (optional)",
+        "ai": "Video self-introduction (optional)",
+        "detector_type": "text",
+        "ai_type": "file",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "upload a file",
+      "country calling code"
+    ],
+    "ai_only": [
+      "Do you already have confirmed flights to Japan?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The video self-introduction field uses a third-party widget (Ziggeo) which may not be fully captured by standard file input selectors. The phone number field includes a country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nationality",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth Date (MM/DD/YYYY)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Highest Level of Education",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "High School",
+          "Associate Degree",
+          "Bachelor's Degree",
+          "Master's Degree",
+          "Doctoral Degree",
+          "Other"
+        ]
+      },
+      {
+        "question": "What was the medium of instruction for your highest level of education?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Less than 80% of classes were conducted in English",
+          "Over 80% of classes were conducted in English",
+          "All classes were conducted in English (100%)"
+        ]
+      },
+      {
+        "question": "TEFL / ESL / TESOL / Experience (Full time only):",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "None",
+          "Up to 3 years",
+          "3 years or more"
+        ]
+      },
+      {
+        "question": "Do you already have confirmed flights to Japan?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No",
+          "Yes"
+        ]
+      },
+      {
+        "question": "How did you hear about Gaba Corporation?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why do you want to teach with Gaba?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why do you think you are suitable for this position?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Would you be interested in finding out about teaching positions in our sister company, NOVA?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Video self-introduction (optional)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "nationality",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "birth date (mm/dd/yyyy)",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "highest level of education",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "what was the medium of instruction for your highest level of education?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "tefl / esl / tesol / experience (full time only):",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "how did you hear about gaba corporation?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "why do you want to teach with gaba?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "why do you think you are suitable for this position?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "would you be interested in finding out about teaching positions in our sister company, nova?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "upload a file",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "video self-introduction (optional)",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f16"
+    }
+  ]
+}

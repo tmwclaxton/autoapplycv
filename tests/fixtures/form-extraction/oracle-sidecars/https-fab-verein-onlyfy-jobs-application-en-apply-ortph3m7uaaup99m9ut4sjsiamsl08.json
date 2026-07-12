@@ -1,0 +1,256 @@
+{
+  "id": "https-fab-verein-onlyfy-jobs-application-en-apply-ortph3m7uaaup99m9ut4sjsiamsl08",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:00:14.258Z",
+  "page_url": "https://fab-verein.onlyfy.jobs/application/en/apply/ortph3m7uaaup99m9ut4sjsiamsl08",
+  "page_title": "Application Process",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 13,
+      "count_delta": 2,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date",
+        "ai": "Birth date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "home city",
+        "ai": "Home city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail address",
+        "ai": "E-mail address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "motivationsschreiben",
+        "ai": "Motivationsschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you learn about this job opening?",
+        "ai": "How did you learn about this job opening?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "datei...",
+      "datei...",
+      "datei..."
+    ],
+    "ai_only": [
+      "Salutation",
+      "CV",
+      "Datei..",
+      "Datei..",
+      "Datei.."
+    ],
+    "reasons": [
+      "label Jaccard 0.667 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Radix UI comboboxes which are mapped to standard select elements. Multiple file upload fields are present with generic labels.",
+    "fields": [
+      {
+        "question": "Salutation",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Mr",
+          "Ms",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth date",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Home city",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Motivationsschreiben",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you learn about this job opening?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Company Website",
+          "Print Media",
+          "Jobbörse: boes.at",
+          "Jobbörse: arbeitplus",
+          "Jobbörse: psychologie.at",
+          "Jobbörse: boep.or.at",
+          "Jobbörse: arge-bildungsmanagement",
+          "Jobbörse: sozpaed.net",
+          "Jobbörse: karriere.at",
+          "Friends",
+          "Social Media",
+          "Search Engine",
+          "AMS",
+          "Senior Quality",
+          "FH Wien Soziale Arbeit",
+          "Bildungsserver.net",
+          "Kolleg für Sozialpädagogik.at",
+          "Bildungsserver.wien",
+          "Jobbörse: Ländlejobs"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "birth date",
+      "field_type": "date",
+      "ref": "f2"
+    },
+    {
+      "question": "home city",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "e-mail address",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "motivationsschreiben",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "how did you learn about this job opening?",
+      "field_type": "select",
+      "ref": "f10"
+    }
+  ]
+}

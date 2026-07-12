@@ -1,0 +1,122 @@
+{
+  "id": "https-habiagermany-teamtailor-com-jobs-6233014-produktionsmitarbeiter-m-w-d-appl",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:18:51.107Z",
+  "page_url": "https://habiagermany.teamtailor.com/jobs/6233014-produktionsmitarbeiter-m-w-d/applications/new",
+  "page_title": "Produktionsmitarbeiter (m/w/d) - Habia Cable Norderstedt, Germany",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 4,
+      "count_delta": 3,
+      "label_jaccard": 0.5714,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a LinkedIn integration button for auto-filling. The phone input uses an international telephone input library (intl-tel-input) which is not fully rendered in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f6"
+    }
+  ]
+}

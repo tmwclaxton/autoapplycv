@@ -1,0 +1,563 @@
+{
+  "id": "https-framestore-recruitee-com-o-unpaid-work-experience-c-new",
+  "min_fields": 24,
+  "exact_field_count": 24,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-5",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-6",
+        "name": "candidate.email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-7",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your phone number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.cv-11",
+        "name": "candidate.cv",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-17",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what specific aspects of post-production interest you the most? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Concepting/Drawing",
+        "Project Management",
+        "3D Art",
+        "2D Art",
+        "Business, IT, Finance, HR etc.",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.3914388.multiContent-18-0",
+        "name": "candidate.openQuestionAnswers.3914388.multiContent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you have selected 'other' above, please specify below:",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.3914390.content-19",
+        "name": "candidate.openQuestionAnswers.3914390.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you familiar with any software used in media production e.g. photoshop, after effects, blender etc.?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.3914391.content-20",
+        "name": "candidate.openQuestionAnswers.3914391.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a file",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what interests you about work experience at framestore and how might this experience support you in your future ambitions? upload a mp4 video that is up to 2 mins max. this video w",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.3914392.content-21",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "post-production often involves collaboration. can you provide an example of a team project you've worked on and your role within that team?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.3914393.content-23",
+        "name": "candidate.openQuestionAnswers.3914393.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how comfortable are you with giving and receiving constructive feedback on your work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Very comfortable",
+        "Somewhat Comfortable",
+        "Comfortable",
+        "Somewhat uncomfortable",
+        "Uncomfortable",
+        "Very Uncomfortable"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914394.content-24-0",
+        "name": "candidate.openQuestionAnswers.3914394.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you could bury a time capsule that represents your life, what three items would you include to tell future generations who you are?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.3914395.content-25",
+        "name": "candidate.openQuestionAnswers.3914395.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following weeks would you be able to attend? (keeping in mind that you will be allocated to only one of your selected weeks if you are a successful candidate). please select all dates that would be convenient for you to maximise your chances of being successful.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "26th - 30th Oct 2026",
+        "2027 dates to be released (check back to apply for specific dates!)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.3914396.multiContent-26-0",
+        "name": "candidate.openQuestionAnswers.3914396.multiContent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Agender",
+        "Genderfluid",
+        "Genderqueer",
+        "Gender non-conforming",
+        "Gender neutral",
+        "Intersex",
+        "Transgender",
+        "Two-Spirit",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914399.content-28-0",
+        "name": "candidate.openQuestionAnswers.3914399.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Alaska Native, Indigenous or First Nations",
+        "Asian",
+        "Black or African-American",
+        "Hispanic or Latinx",
+        "Native Hawaiian or Other Pacific Islander",
+        "Two or more races",
+        "White",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914400.content-29-0",
+        "name": "candidate.openQuestionAnswers.3914400.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you do not identify with any of the ethnicities or races above, please feel free to tell us what ethnicity or race you identify with.",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.3914401.content-30",
+        "name": "candidate.openQuestionAnswers.3914401.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "disability: disability is a physical or mental impairment that has a ‘substantial’ and ‘long-term’ negative effect on your ability to do normal daily activities. feel free to choose all the options that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I have a physical disability",
+        "I have an invisible disability",
+        "I have a mental health condition",
+        "I do not have a disability or learning difficulty",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.3914402.multiContent-31-0",
+        "name": "candidate.openQuestionAnswers.3914402.multiContent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when you were around 14 years old, do you remember your parents/carers struggling with affording necessities such as food, heating, etc?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "Sometimes",
+        "Never",
+        "I prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914404.content-32-0",
+        "name": "candidate.openQuestionAnswers.3914404.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "between the ages of 10 - 18, did you have caring responsibilities such as taking care of siblings, parents or grandparents?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "Sometimes",
+        "Never",
+        "I prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914405.content-33-0",
+        "name": "candidate.openQuestionAnswers.3914405.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which type of school did you attend for the most time between the ages of 11 and 16?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A state-run or state-funded school",
+        "Independent or fee-paying school",
+        "Independent or fee-paying school, where I received financial assistance covering 90% or more of the total cost of attending throughout my time there",
+        "I don’t know",
+        "I prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.3914406.content-34-0",
+        "name": "candidate.openQuestionAnswers.3914406.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have achieved ?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "GCSE",
+        "A levels or Higher Diploma",
+        "Bachelor's degree",
+        "Master's degree",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.4020234.content-35-0",
+        "name": "candidate.openQuestionAnswers.4020234.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "false"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "International",
+        "Afghanistan"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": "country-select-input-candidate.phone-7",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "id": "https-kindred-bravely-breezy-hr-p-2a86e09e9930-freelance-fitting-model-oceanside",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:51:11.375Z",
+  "page_url": "https://kindred-bravely.breezy.hr/p/2a86e09e9930-freelance-fitting-model-oceanside-ca/apply",
+  "page_title": "Freelance Fitting Model (Oceanside, CA)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.3077,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "c phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please complete the following google form: https://forms.gle/4bnwbnfejwchyfho8",
+        "ai": "Please complete the following Google Form: https://forms.gle/4bNwBNFeJWCHYFho8",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "race or ethnicity",
+        "ai": "Race or Ethnicity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "By providing your phone number you agree to receive informational text messages from Kindred Bravely."
+    ],
+    "reasons": [
+      "label Jaccard 0.308 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based SPA framework. It includes external 'Apply with Indeed' and 'Apply with LinkedIn' buttons which trigger external authentication flows. The Google Form link is a required external step for the application.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Kindred Bravely.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please complete the following Google Form: https://forms.gle/4bNwBNFeJWCHYFho8",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Race or Ethnicity",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "White (not Hispanic or Latino)",
+          "Black or African-American (not Hispanic or Latino)",
+          "Asian (not Hispanic or Latino)",
+          "American Indian or Alaskan Native (not Hispanic or Latino)",
+          "Native Hawaiian or other Pacific islander (not Hispanic or Latino)",
+          "Two or more races/ethnicities (not Hispanic or Latino)",
+          "Hispanic or Latino (including Black individuals whose origins are Hispanic)",
+          "I don't wish to answer"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Male",
+          "Female",
+          "I don't wish to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "please complete the following google form: https://forms.gle/4bnwbnfejwchyfho8",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f8"
+    }
+  ]
+}

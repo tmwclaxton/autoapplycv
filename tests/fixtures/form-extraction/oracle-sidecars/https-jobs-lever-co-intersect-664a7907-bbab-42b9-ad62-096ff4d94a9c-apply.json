@@ -1,0 +1,448 @@
+{
+  "id": "https-jobs-lever-co-intersect-664a7907-bbab-42b9-ad62-096ff4d94a9c-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:04:52.895Z",
+  "page_url": "https://jobs.lever.co/intersect/664a7907-bbab-42b9-ad62-096ff4d94a9c/apply",
+  "page_title": "Intersect - Insurance Risk Management Lead",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 19,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8947,
+      "matched_count": 19
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "for canadian based candidates- are you legally authorized to work in canada?",
+        "ai": "For Canadian based candidates- are you legally authorized to work in Canada?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "our approved hiring hubs are the sf bay area, austin, denver, the nyc metro area, calgary, and toronto. are you located within 60 miles of any of these areas?",
+        "ai": "Our approved hiring hubs are the SF Bay Area, Austin, Denver, the NYC Metro Area, Calgary, and Toronto. Are you located within 60 miles of any of these areas?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "while this is a remote role, our \"fully flexible\" model means we require our team members to live near one of these hubs so we can get together for occasional in-person collaboration. are you open to this setup?",
+        "ai": "While this is a remote role, our \"Fully Flexible\" model means we require our team members to live near one of these hubs so we can get together for occasional in-person collaboration. Are you open to this setup?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "have you reviewed the role requirements and compensation range for this position? please carefully review these details before submitting your application.",
+        "ai": "Have you reviewed the role requirements and compensation range for this position? Please carefully review these details before submitting your application.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "describe your insurance or insurance risk management experience in the renewable energy or energy industries.",
+        "ai": "Describe your insurance or insurance risk management experience in the renewable energy or energy industries.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "select your sex:",
+        "ai": "Select your sex:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "select the race or ancestry that best describes you (select all that apply):",
+        "ai": "Select the race or ancestry that best describes you (select all that apply):",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your military status (select all that apply):",
+        "ai": "What is your military status (select all that apply):",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you describe your ability status? (select all that apply):",
+        "ai": "How do you describe your ability status? (select all that apply):",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Demographic survey fields are included as they were present in the HTML.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I am legally authorized to work in the United States and do not require future sponsorship",
+          "Yes, I am currently legally authorized to work in the United States, but I will require sponsorship in the future (e.g., after OPT).",
+          "No"
+        ]
+      },
+      {
+        "question": "For Canadian based candidates- are you legally authorized to work in Canada?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I am legally authorized to work in Canada and do not require future sponsorship",
+          "Yes, I am currently legally authorized to work in Canada, but I will require sponsorship in the future",
+          "No"
+        ]
+      },
+      {
+        "question": "Our approved hiring hubs are the SF Bay Area, Austin, Denver, the NYC Metro Area, Calgary, and Toronto. Are you located within 60 miles of any of these areas?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, San Francisco Bay Area",
+          "Yes, Austin, TX (or anywhere in Texas)",
+          "Yes, Denver, CO",
+          "Yes, NYC Metro Area",
+          "Yes, Calgary, Canada",
+          "Yes, Toronto, Canada",
+          "No, I am not located within 60 miles of these hubs"
+        ]
+      },
+      {
+        "question": "While this is a remote role, our \"Fully Flexible\" model means we require our team members to live near one of these hubs so we can get together for occasional in-person collaboration. Are you open to this setup?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I am open to occasional in-person collaboration.",
+          "No, I am looking for a 100% remote role with no in-person requirements.",
+          "I am not in a hub but I am open to relocation and occasional in-person collaboration."
+        ]
+      },
+      {
+        "question": "Have you reviewed the role requirements and compensation range for this position? Please carefully review these details before submitting your application.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Describe your insurance or insurance risk management experience in the renewable energy or energy industries.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "20 or younger",
+          "21-29",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Select your sex:",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Not listed",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Select the race or ancestry that best describes you (select all that apply):",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Black / African American",
+          "Central Asian",
+          "East Asian",
+          "South Asian",
+          "Southeast Asian",
+          "Indigenous / First Nation",
+          "Middle Eastern",
+          "Pacific Islander",
+          "Hispanic / Latino",
+          "Multiracial / Biracial",
+          "White / Caucasian",
+          "Not listed",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "What is your military status (select all that apply):",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Active Duty",
+          "National Guard / Reserves",
+          "Veteran",
+          "Military spouse / partner",
+          "Military dependent / child",
+          "Never served"
+        ]
+      },
+      {
+        "question": "How do you describe your ability status? (select all that apply):",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I have a disability or impairment that affects me mentally",
+          "I have a disability or impairment that affects me physically",
+          "I have a disability or impairment that affects me mentally and physically",
+          "I do not identify with a disability or impairment",
+          "Prefer not to disclose"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "for canadian based candidates- are you legally authorized to work in canada?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "our approved hiring hubs are the sf bay area, austin, denver, the nyc metro area, calgary, and toronto. are you located within 60 miles of any of these areas?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "while this is a remote role, our \"fully flexible\" model means we require our team members to live near one of these hubs so we can get together for occasional in-person collaboration. are you open to this setup?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "have you reviewed the role requirements and compensation range for this position? please carefully review these details before submitting your application.",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "describe your insurance or insurance risk management experience in the renewable energy or energy industries.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "select your sex:",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "select the race or ancestry that best describes you (select all that apply):",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your military status (select all that apply):",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "how do you describe your ability status? (select all that apply):",
+      "field_type": "checkbox",
+      "ref": "f18"
+    }
+  ]
+}

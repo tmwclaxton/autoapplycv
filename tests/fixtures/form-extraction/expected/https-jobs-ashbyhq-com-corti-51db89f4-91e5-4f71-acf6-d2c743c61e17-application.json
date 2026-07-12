@@ -1,0 +1,292 @@
+{
+  "id": "https-jobs-ashbyhq-com-corti-51db89f4-91e5-4f71-acf6-d2c743c61e17-application",
+  "min_fields": 13,
+  "exact_field_count": 13,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "5fc71aa1-cade-4f4f-b854-39f8e9fc5f8e",
+        "name": "5fc71aa1-cade-4f4f-b854-39f8e9fc5f8e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5fc71aa1-cade-4f4f-b854-39f8e9fc5f8e",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0bfd36cd-6d04-41e9-bb65-33bb2139b69c",
+        "name": "0bfd36cd-6d04-41e9-bb65-33bb2139b69c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0bfd36cd-6d04-41e9-bb65-33bb2139b69c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have a linkedin profile? please attach a link here!",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5f309e48-eb97-420c-89f6-2a5566dab406",
+        "name": "5f309e48-eb97-420c-89f6-2a5566dab406",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5f309e48-eb97-420c-89f6-2a5566dab406",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have prior experience working in a start-up?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9751dae1-4976-43a3-b54b-9ac01375b493_06703f6f-d155-4745-966a-449ed5158974-labeled-radio-0",
+        "name": "9751dae1-4976-43a3-b54b-9ac01375b493_06703f6f-d155-4745-966a-449ed5158974",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience with healthcare?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9751dae1-4976-43a3-b54b-9ac01375b493_efb43567-9d75-4d03-a24e-0ec92fb3fdbe-labeled-radio-0",
+        "name": "9751dae1-4976-43a3-b54b-9ac01375b493_efb43567-9d75-4d03-a24e-0ec92fb3fdbe",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of relevant experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "861232dd-3e5f-45f6-ad86-29504f763502",
+        "name": "861232dd-3e5f-45f6-ad86-29504f763502",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "861232dd-3e5f-45f6-ad86-29504f763502",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what attracted you to apply for this role?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "70fecf6e-744f-488c-8ef4-b22824699a69",
+        "name": "70fecf6e-744f-488c-8ef4-b22824699a69",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "70fecf6e-744f-488c-8ef4-b22824699a69",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Company Website",
+        "Social Media (Facebook, Instagram, Twitter, etc.)",
+        "Job Board (Indeed, LinkedIn, Glassdoor, Welcome to the Jungle, TheHub etc.)",
+        "Friends or Family",
+        "Event or Job Fair",
+        "News Article or Blog",
+        "School/University Career Center",
+        "Podcast or YouTube",
+        "Recruitment Agency",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "9751dae1-4976-43a3-b54b-9ac01375b493_8888cc4c-e4e7-4ffd-a38a-fb62f4941882-labeled-checkbox-0",
+        "name": "Company Website",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role is based in copenhagen. do you currently live there or are you open to relocating?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Currently living in Copenhagen - not a problem!",
+        "I'm looking or open to moving.",
+        "Not interested in that - but would love to hear about remote opportunities when they open!"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9751dae1-4976-43a3-b54b-9ac01375b493_62d07b36-0aec-4a18-aaf4-181dadc1ed21-labeled-radio-0",
+        "name": "9751dae1-4976-43a3-b54b-9ac01375b493_62d07b36-0aec-4a18-aaf4-181dadc1ed21",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

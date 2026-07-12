@@ -1,0 +1,310 @@
+{
+  "id": "https-natuvion-recruitee-com-o-sales-administrative-support-1-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:58:32.648Z",
+  "page_url": "https://natuvion.recruitee.com/o/sales-administrative-support-1/c/new",
+  "page_title": "Natuvion GmbH - Sales Administrative Support - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.8125,
+      "type_agree_rate": 1,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you find out about us?",
+        "ai": "How did you find out about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "for other sources/employees/friends/family, please specify.",
+        "ai": "For other sources/employees/friends/family, please specify.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your earliest starting date or your notice period?",
+        "ai": "What is your earliest starting date or your notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you fluent in english?",
+        "ai": "Are you fluent in English?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you fluent in german?",
+        "ai": "Are you fluent in German?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a valid work permit for germany?",
+        "ai": "Do you have a valid work permit for Germany?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i agree that my application may also be considered for other vacant positions within the natuvion group. this consent can be withdrawn at any time.",
+        "ai": "I agree that my application may also be considered for other vacant positions within the Natuvion Group. This consent can be withdrawn at any time.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "I consent to receiving text messages",
+      "country calling code"
+    ],
+    "ai_only": [
+      "I consent to be contacted via text messages for this and any other job within Natuvion GmbH."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget. The cover letter field has a toggle to switch between file upload and text input, which may dynamically change the DOM.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to be contacted via text messages for this and any other job within Natuvion GmbH.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you find out about us?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Natuvion Career Site",
+          "Linkedin",
+          "Instagram",
+          "Xing",
+          "Stepstone",
+          "erp.jobs",
+          "Google",
+          "Indeed",
+          "Career fair & event",
+          "Natuvion employee, specify below",
+          "Other"
+        ]
+      },
+      {
+        "question": "For other sources/employees/friends/family, please specify.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your earliest starting date or your notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you fluent in English?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you fluent in German?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have a valid work permit for Germany?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I agree that my application may also be considered for other vacant positions within the Natuvion Group. This consent can be withdrawn at any time.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "how did you find out about us?",
+      "field_type": "checkbox",
+      "ref": "f6"
+    },
+    {
+      "question": "for other sources/employees/friends/family, please specify.",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your earliest starting date or your notice period?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "are you fluent in english?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "are you fluent in german?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have a valid work permit for germany?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "i agree that my application may also be considered for other vacant positions within the natuvion group. this consent can be withdrawn at any time.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f14"
+    }
+  ]
+}

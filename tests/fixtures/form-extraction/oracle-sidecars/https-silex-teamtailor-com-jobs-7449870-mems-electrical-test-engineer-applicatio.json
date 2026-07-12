@@ -1,0 +1,298 @@
+{
+  "id": "https-silex-teamtailor-com-jobs-7449870-mems-electrical-test-engineer-applicatio",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:11:04.287Z",
+  "page_url": "https://silex.teamtailor.com/jobs/7449870-mems-electrical-test-engineer/applications/new",
+  "page_title": "MEMS Electrical Test Engineer - Silex",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 13,
+      "count_delta": 4,
+      "label_jaccard": 0.4286,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "ai": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+        "ai": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "would you be open to relocate to stockholm if not already living here?",
+        "ai": "Would you be open to relocate to Stockholm if not already living here?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "attach a link to your linkedin-profile if you're not attaching a cv",
+        "ai": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a master’s degree in engineering, specializing in mechanical, electrical, applied physics, materials science, or a related field?",
+        "ai": "Do you have a Master’s degree in engineering, specializing in Mechanical, Electrical, Applied Physics, Materials Science, or a related field?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have at least three years of experience from industry/phd where you have worked with electrical testing as described above?",
+        "ai": "Do you have at least three years of experience from industry/PhD where you have worked with electrical testing as described above?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes - please describe the kind of electrical tests you have done, what kind of devices you have tested and which tools you have used out of the ones described in the job ad.",
+        "ai": "If yes - please describe the kind of electrical tests you have done, what kind of devices you have tested and which tools you have used out of the ones described in the job ad.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked with failure analysis and root-cause analysis in a microfabrication context? if so, please tell us a little bit more.",
+        "ai": "Have you worked with failure analysis and root-cause analysis in a microfabrication context? If so, please tell us a little bit more.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience using labview or a similar language?",
+        "ai": "Do you have experience using LabVIEW or a similar language?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload resume",
+      "additional files",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=17, ai=13)",
+      "label Jaccard 0.429 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor application framework. Some fields like resume upload were not fully visible in the provided snippet but are standard for this platform. Phone input uses an international dial-code selector.",
+    "fields": [
+      {
+        "question": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Uncertain"
+        ]
+      },
+      {
+        "question": "Would you be open to relocate to Stockholm if not already living here?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have a Master’s degree in engineering, specializing in Mechanical, Electrical, Applied Physics, Materials Science, or a related field?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have at least three years of experience from industry/PhD where you have worked with electrical testing as described above?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If yes - please describe the kind of electrical tests you have done, what kind of devices you have tested and which tools you have used out of the ones described in the job ad.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you worked with failure analysis and root-cause analysis in a microfabrication context? If so, please tell us a little bit more.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience using LabVIEW or a similar language?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "would you be open to relocate to stockholm if not already living here?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "attach a link to your linkedin-profile if you're not attaching a cv",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "do you have a master’s degree in engineering, specializing in mechanical, electrical, applied physics, materials science, or a related field?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "do you have at least three years of experience from industry/phd where you have worked with electrical testing as described above?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "if yes - please describe the kind of electrical tests you have done, what kind of devices you have tested and which tools you have used out of the ones described in the job ad.",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "have you worked with failure analysis and root-cause analysis in a microfabrication context? if so, please tell us a little bit more.",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "do you have experience using labview or a similar language?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f11"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f12"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

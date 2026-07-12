@@ -2,6 +2,13 @@ const CHOICE_FIELD_TYPES = new Set(['radio', 'checkbox', 'select']);
 const TEXT_LIKE_FIELD_TYPES = new Set(['text', 'email', 'tel', 'url', 'number', 'textarea']);
 
 import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
+import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
+import { isMarketingOrFutureConsentField, isAgreementCheckboxField } from './draft-all/consent-fields.js';
+import {
+    isEmployerScreeningTrapLabel,
+    resolvePreferenceProfileAnswer,
+    shouldRejectPhoneAnswerOnField,
+} from './pending-fields.js';
 
 const ATS_URL_PATTERNS = [
     { pattern: /jobs\.ashbyhq\.com\/([^/?#]+)/i, source: 'ashby' },
@@ -76,6 +83,12 @@ export function normalizeQuestionLabel(label) {
         .trim();
 }
 
+export function isJobSpecificMemoField(field) {
+    const label = normalizeQuestionLabel(field?.label || field?.question || '');
+
+    return /\bcover letter\b/.test(label);
+}
+
 export function matchMemoAnswer(questionMemo, fieldLabel) {
     if (!questionMemo || typeof questionMemo !== 'object') {
         return null;
@@ -106,18 +119,45 @@ export function matchMemoAnswer(questionMemo, fieldLabel) {
     return null;
 }
 
-export function partitionFieldsByQuestionMemo(fields, questionMemo) {
+export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData = null) {
     const memoAnswers = [];
     const remainingFields = [];
 
     for (const field of fields || []) {
-        const answer = matchMemoAnswer(questionMemo, field.label);
+        const label = field.label || field.question || '';
 
-        if (answer) {
+        if (isEmployerScreeningTrapLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        if (isMeaningfulAnswer(resolvePreferenceProfileAnswer(field, profileData))) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        if (isMarketingOrFutureConsentField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        if (isAgreementCheckboxField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        if (isJobSpecificMemoField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const answer = matchMemoAnswer(questionMemo, label);
+
+        if (answer && !shouldRejectPhoneAnswerOnField(field, answer)) {
             memoAnswers.push({
                 id: field.id,
                 ref: field.ref,
-                label: field.label,
+                label,
                 field_type: field.field_type,
                 dom: field.dom || null,
                 answer,
@@ -289,6 +329,7 @@ export function buildMechanicalInventoryFields(snapshot) {
             options: element.options ?? null,
             dom: element.dom ?? null,
             context: element.context ?? null,
+            job_posting_location: element.job_posting_location ?? null,
         }));
 }
 
@@ -351,9 +392,12 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
     return (answers || []).map((answer) => {
         const field = fieldsByRef?.get?.(answer.ref);
         const label = answer.label || field?.label || field?.question || '';
+        const fieldType = answer.field_type || field?.field_type || null;
+        const fieldOptions = answer.options || field?.options || null;
         const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, {
             profileYears,
-            fieldType: answer.field_type || field?.field_type || null,
+            fieldType,
+            options: fieldOptions,
         });
 
         if (!field) {
@@ -366,11 +410,65 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
         return {
             ...answer,
             answer: normalizedAnswer,
-            field_type: answer.field_type || field.field_type || 'text',
+            field_type: fieldType || 'text',
+            options: fieldOptions,
             dom: answer.dom || field.dom || null,
             data_field_path: answer.data_field_path || field.dom?.data_field_path || null,
         };
     });
+}
+
+export function parseGreenhouseBoardJobFromUrl(url) {
+    try {
+        const parsed = new URL(String(url || ''));
+        const host = parsed.hostname.toLowerCase();
+
+        if (!host.includes('greenhouse.io')) {
+            return null;
+        }
+
+        const embedBoard = parsed.searchParams.get('for');
+        const embedToken = parsed.searchParams.get('token');
+
+        if (embedBoard && embedToken) {
+            return { board: embedBoard, jobId: embedToken };
+        }
+
+        const pathMatch = parsed.pathname.match(/\/([^/]+)\/jobs\/(\d+)/i);
+
+        if (pathMatch?.[1] && pathMatch?.[2] && pathMatch[1] !== 'embed') {
+            return { board: pathMatch[1], jobId: pathMatch[2] };
+        }
+
+        return null;
+    } catch {
+        return null;
+    }
+}
+
+export async function fetchGreenhouseJobPostingLocation(url) {
+    const parsed = parseGreenhouseBoardJobFromUrl(url);
+
+    if (!parsed) {
+        return '';
+    }
+
+    try {
+        const response = await fetch(
+            `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(parsed.board)}/jobs/${encodeURIComponent(parsed.jobId)}`,
+        );
+
+        if (!response.ok) {
+            return '';
+        }
+
+        const data = await response.json();
+        const locationName = data?.location?.name;
+
+        return typeof locationName === 'string' ? locationName.trim().slice(0, 200) : '';
+    } catch {
+        return '';
+    }
 }
 
 export function tryInferJobContextFromPage(pagePayload, tabTitle = '') {

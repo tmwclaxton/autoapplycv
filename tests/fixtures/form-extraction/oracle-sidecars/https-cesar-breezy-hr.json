@@ -1,0 +1,65 @@
+{
+  "id": "https-cesar-breezy-hr",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:06:48.894Z",
+  "page_url": "https://cesar.breezy.hr/",
+  "page_title": "Oportunidades de emprego em CESAR",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 3,
+      "count_delta": 3,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Departamentos",
+      "Localizações",
+      "Remoto"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=0, ai=3)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "This page is a job board listing. The actual application forms are located on individual job pages (e.g., /p/14ec3943b823-senior-data-scientist), which are not included in this excerpt. The fields identified are filters for the job list.",
+    "fields": [
+      {
+        "question": "Departamentos",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Qualquer departamento",
+          "CESAR",
+          "CESAR School"
+        ]
+      },
+      {
+        "question": "Localizações",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Qualquer localização",
+          "Brazil",
+          "Recife, BR"
+        ]
+      },
+      {
+        "question": "Remoto",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Qualquer tipo de trabalho remoto",
+          "Fully remote, within chosen location(s)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

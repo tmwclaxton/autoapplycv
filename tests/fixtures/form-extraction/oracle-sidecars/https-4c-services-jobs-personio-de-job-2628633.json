@@ -1,7 +1,7 @@
 {
   "id": "https-4c-services-jobs-personio-de-job-2628633",
   "status": "agree",
-  "captured_at": "2026-07-10T18:31:38.367Z",
+  "captured_at": "2026-07-10T22:24:04.045Z",
   "page_url": "https://4c-services.jobs.personio.de/job/2628633/",
   "page_title": "4C Integrity Auditor (Freelancer) - Regional focus East and West Africa, Asia, or Latin America | Jobs at 4C Services GmbH",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 18,
       "ai_count": 18,
       "count_delta": 0,
-      "label_jaccard": 0.5652,
+      "label_jaccard": 0.3333,
       "type_agree_rate": 1,
       "matched_count": 18
     },
@@ -30,63 +30,63 @@
         "type_agree": true
       },
       {
-        "detector": "location (required) location",
+        "detector": "location ( ) location",
         "ai": "Location",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "email (required) yourmail@domain.com",
+        "detector": "email ( ) yourmail@domain.com",
         "ai": "Email",
         "detector_type": "email",
         "ai_type": "email",
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone ( )",
         "ai": "Phone",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "nationality (required) nationality",
+        "detector": "nationality ( ) nationality",
         "ai": "Nationality",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "english language skills (required)",
+        "detector": "english language skills ( )",
         "ai": "English language skills",
         "detector_type": "select",
         "ai_type": "select",
         "type_agree": true
       },
       {
-        "detector": "spanish language skills (required)",
+        "detector": "spanish language skills ( )",
         "ai": "Spanish language skills",
         "detector_type": "select",
         "ai_type": "select",
         "type_agree": true
       },
       {
-        "detector": "other language skills (required) other language skills",
+        "detector": "other language skills ( ) other language skills",
         "ai": "Other language skills",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "available from (required) available from",
+        "detector": "available from ( ) available from",
         "ai": "Available from",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "expected salary (required) expected salary",
+        "detector": "expected salary ( ) expected salary",
         "ai": "Expected salary",
         "detector_type": "text",
         "ai_type": "text",
@@ -148,7 +148,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses custom Personio dynamic fields. File inputs are triggered via buttons that open hidden file inputs.",
+    "notes": "The form uses a standard Personio dynamic form structure. File inputs are triggered by buttons.",
     "fields": [
       {
         "question": "First",
@@ -295,47 +295,47 @@
       "ref": "f1"
     },
     {
-      "question": "location (required) location",
+      "question": "location ( ) location",
       "field_type": "text",
       "ref": "f2"
     },
     {
-      "question": "email (required) yourmail@domain.com",
+      "question": "email ( ) yourmail@domain.com",
       "field_type": "email",
       "ref": "f3"
     },
     {
-      "question": "phone",
+      "question": "phone ( )",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "nationality (required) nationality",
+      "question": "nationality ( ) nationality",
       "field_type": "text",
       "ref": "f5"
     },
     {
-      "question": "english language skills (required)",
+      "question": "english language skills ( )",
       "field_type": "select",
       "ref": "f6"
     },
     {
-      "question": "spanish language skills (required)",
+      "question": "spanish language skills ( )",
       "field_type": "select",
       "ref": "f7"
     },
     {
-      "question": "other language skills (required) other language skills",
+      "question": "other language skills ( ) other language skills",
       "field_type": "text",
       "ref": "f8"
     },
     {
-      "question": "available from (required) available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "ref": "f9"
     },
     {
-      "question": "expected salary (required) expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "ref": "f10"
     },

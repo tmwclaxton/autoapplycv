@@ -1,0 +1,230 @@
+{
+  "id": "https-apply-workable-com-tessellation-group-j-674d82127a-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:15:57.064Z",
+  "page_url": "https://apply.workable.com/tessellation-group/j/674D82127A/apply/",
+  "page_title": "(Senior) Designer, Product Development and Merchandising - Tessellation Group - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 4,
+      "count_delta": 21,
+      "label_jaccard": 0.16,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "resume",
+      "language level - english",
+      "language level - cantonese",
+      "language level - putonghua",
+      "how did you learn about this opportunity?",
+      "what is your current salary per month (hkd)?",
+      "what is your expected salary per month (hkd)?",
+      "what is your availability?",
+      "do you require a work permit to work in hong kong?",
+      "if \"yes\", please state the visa details / status. if \"no\", please input \"na\".",
+      "have you even been convicted a crime?",
+      "if \"yes\", please state the details of the conviction(s). if \"no\", please input \"na\".",
+      "do you have any relatives currently employed by the company or its affiliates?",
+      "if \"yes\", please state the name of your relative(s). if \"no\", please input \"na\".",
+      "important notice & declaration - 1) all information provided by job applicants will be used for the consideration of employment with the tessellation group of companies. it might also be disclosed to our subsidiaries and associates for considering your suitability for employment. 2) if your application is successful, data obtained shall be retained and maintained by the company in your personnel data file for purpose connected with your employment. 3) all information of unsuccessful applicants will be destroyed within two years from the date on which the data is provided by the applicant. 4) requests for access to data, correction of data, information on kind of data held by the company should be in writing and addressed to the human resources manager. 5) the company applies equal opportunities philosophy to our hiring policies. each candidate is assessed solely according to individual’s capabilities to carry out the prospective job. there is no discrimination against any candidates on the grounds of gender, age, race, religion, nationality and disability.",
+      "how many years of hands-on experience do you have working in the textile or apparel industry, and could you share some highlights from your career in this field?",
+      "can you describe your experience with packaging and graphic design, including any specific projects or brands you've worked with?",
+      "what is your proficiency level in english?",
+      "what is your proficiency level in cantonese?",
+      "what is your proficiency level in mandarin?",
+      "are you comfortable with frequent travel to china as part of your role?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, address, or custom questions) are likely present in the full form but not visible here.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "language level - english",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "language level - cantonese",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "language level - putonghua",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "how did you learn about this opportunity?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your current salary per month (hkd)?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your expected salary per month (hkd)?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your availability?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "do you require a work permit to work in hong kong?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "if \"yes\", please state the visa details / status. if \"no\", please input \"na\".",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "have you even been convicted a crime?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "if \"yes\", please state the details of the conviction(s). if \"no\", please input \"na\".",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "do you have any relatives currently employed by the company or its affiliates?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "if \"yes\", please state the name of your relative(s). if \"no\", please input \"na\".",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "important notice & declaration - 1) all information provided by job applicants will be used for the consideration of employment with the tessellation group of companies. it might also be disclosed to our subsidiaries and associates for considering your suitability for employment. 2) if your application is successful, data obtained shall be retained and maintained by the company in your personnel data file for purpose connected with your employment. 3) all information of unsuccessful applicants will be destroyed within two years from the date on which the data is provided by the applicant. 4) requests for access to data, correction of data, information on kind of data held by the company should be in writing and addressed to the human resources manager. 5) the company applies equal opportunities philosophy to our hiring policies. each candidate is assessed solely according to individual’s capabilities to carry out the prospective job. there is no discrimination against any candidates on the grounds of gender, age, race, religion, nationality and disability.",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "how many years of hands-on experience do you have working in the textile or apparel industry, and could you share some highlights from your career in this field?",
+      "field_type": "textarea",
+      "ref": "f19"
+    },
+    {
+      "question": "can you describe your experience with packaging and graphic design, including any specific projects or brands you've worked with?",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "what is your proficiency level in english?",
+      "field_type": "select",
+      "ref": "f21"
+    },
+    {
+      "question": "what is your proficiency level in cantonese?",
+      "field_type": "select",
+      "ref": "f22"
+    },
+    {
+      "question": "what is your proficiency level in mandarin?",
+      "field_type": "select",
+      "ref": "f23"
+    },
+    {
+      "question": "are you comfortable with frequent travel to china as part of your role?",
+      "field_type": "radio",
+      "ref": "f24"
+    }
+  ]
+}

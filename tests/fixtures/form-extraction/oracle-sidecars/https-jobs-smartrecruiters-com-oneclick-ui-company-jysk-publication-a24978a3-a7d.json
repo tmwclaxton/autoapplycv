@@ -1,0 +1,151 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-jysk-publication-a24978a3-a7d",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:11:14.483Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/JYSK/publication/a24978a3-a7d7-461b-b22a-06e5ec8f45c0",
+  "page_title": "Легке подання заявки - Завідувач складу JYSK, ТЦ \"Комфі\" - JYSK",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "передати зображення профілю",
+      "apply with resume container",
+      "first name",
+      "last name",
+      "email",
+      "email confirmation",
+      "location autocomplete",
+      "phone",
+      "message"
+    ],
+    "ai_only": [
+      "Resume/CV",
+      "Profile Image",
+      "Ім'я",
+      "Прізвище",
+      "Електронна пошта",
+      "Підтвердьте свою адресу електронної пошти",
+      "Місто",
+      "Номер телефону",
+      "Повідомте про своє бажання працювати у відповідній компанії"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses SmartRecruiters' 'OneClick' application flow. LinkedIn and Indeed are provided as external authentication/pre-fill providers. The location field is an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Profile Image",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ім'я",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Прізвище",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Електронна пошта",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Підтвердьте свою адресу електронної пошти",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Місто",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Номер телефону",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Повідомте про своє бажання працювати у відповідній компанії",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "передати зображення профілю",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "email confirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

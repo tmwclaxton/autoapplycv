@@ -1,0 +1,271 @@
+{
+  "id": "https-otonomee-jobs-personio-com-job-2632318",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:10:43.525Z",
+  "page_url": "https://otonomee.jobs.personio.com/job/2632318",
+  "page_title": "Customer Success Support Specialist (Remote USA - North Carolina, Florida & Georgia) | Jobs at",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 0.1818,
+      "type_agree_rate": 1,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone ( )",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "internet provider ( ) internet provider",
+        "ai": "Internet Provider",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "speed test: download speed ( ) speed test: download speed",
+        "ai": "Speed Test: Download Speed",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "speed test: upload speed ( ) speed test: upload speed",
+        "ai": "Speed Test: Upload Speed",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "access to our systems requires two-factor authentication via an app. do you have a smartphone that supports this? ( )",
+        "ai": "Access to our systems requires two-factor authentication via an app. Do you have a smartphone that supports this?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "i am based in georgia, florida or north carolina, usa. ( )",
+        "ai": "I am based in Georgia, Florida or North Carolina, USA.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a standard Personio dynamic form structure. File inputs are triggered via buttons that open hidden file inputs.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Internet Provider",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Speed Test: Download Speed",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Speed Test: Upload Speed",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Access to our systems requires two-factor authentication via an app. Do you have a smartphone that supports this?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I am based in Georgia, Florida or North Carolina, USA.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "internet provider ( ) internet provider",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "speed test: download speed ( ) speed test: download speed",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "speed test: upload speed ( ) speed test: upload speed",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "access to our systems requires two-factor authentication via an app. do you have a smartphone that supports this? ( )",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "i am based in georgia, florida or north carolina, usa. ( )",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f12"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "id": "https-eossaunatechnikgmbh-teamtailor-com-jobs-7480617-mitarbeiter-in-technische-",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:44:09.479Z",
+  "page_url": "https://eossaunatechnikgmbh.teamtailor.com/jobs/7480617-mitarbeiter-in-technische-dokumentation-m-w-d/applications/new",
+  "page_title": "Mitarbeiter/in Technische Dokumentation (m/w/d) - EOS Saunatechnik GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 6,
+      "count_delta": 5,
+      "label_jaccard": 0.5455,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "gehaltsvorstellung",
+        "ai": "Gehaltsvorstellung",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "wenn ihnen die stelle von einem unserer mitarbeitenden empfohlen wurde, können sie den namen dieser person hier angeben.",
+        "ai": "Wenn Ihnen die Stelle von einem unserer Mitarbeitenden empfohlen wurde, können Sie den Namen dieser Person hier angeben.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "anschreiben",
+      "mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass eos saunatechnik gmbh meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "ja, eos saunatechnik gmbh kann mich direkt über bestimmte zukünftige stellenangebote informieren."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor implementation. The HTML excerpt provided is truncated, so additional fields (like file uploads or further screening questions) that typically appear in Teamtailor forms may be missing from this analysis.",
+    "fields": [
+      {
+        "question": "Gehaltsvorstellung",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wenn Ihnen die Stelle von einem unserer Mitarbeitenden empfohlen wurde, können Sie den Namen dieser Person hier angeben.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "gehaltsvorstellung",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "wenn ihnen die stelle von einem unserer mitarbeitenden empfohlen wurde, können sie den namen dieser person hier angeben.",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "anschreiben",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass eos saunatechnik gmbh meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "ja, eos saunatechnik gmbh kann mich direkt über bestimmte zukünftige stellenangebote informieren.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

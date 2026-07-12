@@ -1,16 +1,16 @@
 {
   "id": "https-blueforest-recruitee-com-o-utility-partnerships-manager-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T19:52:33.406Z",
+  "captured_at": "2026-07-10T22:28:01.585Z",
   "page_url": "https://blueforest.recruitee.com/o/utility-partnerships-manager/c/new",
-  "page_title": "Blue Forest - Utility Partnerships Manager | Blue Forest | Remote",
+  "page_title": "Blue Forest - Utility Partnerships Manager | Blue Forest | Remote - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 19,
+      "detector_count": 20,
       "ai_count": 19,
-      "count_delta": 0,
-      "label_jaccard": 0.9,
+      "count_delta": 1,
+      "label_jaccard": 0.95,
       "type_agree_rate": 1,
       "matched_count": 19
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -149,13 +149,15 @@
         "type_agree": true
       }
     ],
-    "detector_only": [],
+    "detector_only": [
+      "country calling code"
+    ],
     "ai_only": [],
     "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form includes an hCaptcha widget which is not a standard input field. The phone number field uses a custom country code selector.",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field.",
     "fields": [
       {
         "question": "Full name",
@@ -306,7 +308,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -389,6 +391,11 @@
       "question": "is there any additional context you would like to add to your application?",
       "field_type": "textarea",
       "ref": "f18"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f19"
     }
   ]
 }

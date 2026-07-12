@@ -1,0 +1,42 @@
+
+> form-corpus:curated-oracle
+> node scripts/form-corpus/curated-oracle-capture.mjs --limit=4 --urls-file=tests/fixtures/form-extraction/oracle-url-queue-batch-07-reoracle.json --batch-id=oracle-url-queue-batch-07-reoracle
+
+Curated dual-oracle capture: limit=4, mode=url-list
+URLs file: tests/fixtures/form-extraction/oracle-url-queue-batch-07-reoracle.json (4 urls), batch_id=oracle-url-queue-batch-07-reoracle
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 175/664 agrees
+
+=== Capture 1/4 (https://avosano.teamtailor.com/jobs/7546658-mitarbeiter-logistik-bereich-warenausgang-m-w-d-100/applications/new) ===
+AGREE -> https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg
+  detector=11 ai=6 jaccard=0.5455
+  campaign: 176/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg --check-validity --check-a11y --check-errors
+
+=== Capture 2/4 (https://jobs.smartrecruiters.com/oneclick-ui/company/EVERSANA1/publication/261b8f76-0315-4393-8811-bbd72792289e) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-eversana1-publication-261b8f7
+  reasons: field count delta 13 exceeds tolerance 2 (detector=1, ai=14); label Jaccard 0.071 below 0.7
+  ai_only backlog (13): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 3/4 (https://chrhautesenne.recruitee.com/o/candidature-spontanee/c/new) ===
+AGREE -> https-chrhautesenne-recruitee-com-o-candidature-spontanee-c-new
+  detector=9 ai=9 jaccard=0.8
+  campaign: 177/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-chrhautesenne-recruitee-com-o-candidature-spontanee-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 4/4 (https://anexia.onlyfy.jobs/application/en/apply/6ltsssdd4k6jl6aj33l8sylswahu34) ===
+DISAGREE -> https-anexia-onlyfy-jobs-application-en-apply-6ltsssdd4k6jl6aj33l8sylswahu34
+  reasons: label Jaccard 0.588 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Session summary ===
+{
+  "agree": 2,
+  "disagree": 2,
+  "error": 0,
+  "captured": 4,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 177,
+  "campaign_target": 664,
+  "triage_count": 96
+}

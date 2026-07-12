@@ -1,0 +1,223 @@
+{
+  "id": "https-creativeclicks-recruitee-com-o-open-application-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:30:29.753Z",
+  "page_url": "https://creativeclicks.recruitee.com/o/open-application/c/new",
+  "page_title": "Creative Clicks B.V. - Open Application - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9091,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you looking for an internship, full-time, part-time or remote position?",
+        "ai": "Are you looking for an internship, full-time, part-time or remote position?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "when would you like to start a new position?",
+        "ai": "When would you like to start a new position?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what industry do you want to work in?",
+        "ai": "What industry do you want to work in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your ideal job title?",
+        "ai": "What is your ideal job title?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many hours per week are you available?",
+        "ai": "How many hours per week are you available?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha challenge which is not represented as a standard input field. The phone number input includes a country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you looking for an internship, full-time, part-time or remote position?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Internship",
+          "Part-time",
+          "Full-time",
+          "Remote"
+        ]
+      },
+      {
+        "question": "When would you like to start a new position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What industry do you want to work in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your ideal job title?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many hours per week are you available?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "are you looking for an internship, full-time, part-time or remote position?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "when would you like to start a new position?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what industry do you want to work in?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your ideal job title?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "how many hours per week are you available?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f10"
+    }
+  ]
+}

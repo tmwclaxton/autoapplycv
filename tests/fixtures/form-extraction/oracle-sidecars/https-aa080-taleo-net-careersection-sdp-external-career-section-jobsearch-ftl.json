@@ -1,0 +1,201 @@
+{
+  "id": "https-aa080-taleo-net-careersection-sdp-external-career-section-jobsearch-ftl",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:01:56.177Z",
+  "page_url": "https://aa080.taleo.net/careersection/sdp_external_career_section/jobsearch.ftl",
+  "page_title": "Job Search",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 5,
+      "ai_count": 13,
+      "count_delta": 8,
+      "label_jaccard": 0.2,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "keyword",
+        "ai": "Keyword",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "job title",
+        "ai": "Job Title",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "search for jobs",
+      "posting_date-select"
+    ],
+    "ai_only": [
+      "Organization",
+      "Location (Advanced)",
+      "Job Field",
+      "Job Number",
+      "Urgent Jobs Only",
+      "Employee Status",
+      "Will Travel",
+      "Job Shift",
+      "Posting Date",
+      "Search Name"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=5, ai=13)",
+      "label Jaccard 0.200 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "This is a job search portal (Taleo). The fields provided are for searching and filtering job listings, not for the actual job application form itself. The application form is accessed via individual 'Apply' links.",
+    "fields": [
+      {
+        "question": "Keyword",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Job Title",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Organization",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location (Advanced)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Job Field",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Job Number",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Urgent Jobs Only",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Urgent Jobs Only"
+        ]
+      },
+      {
+        "question": "Employee Status",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Regular",
+          "Temporary"
+        ]
+      },
+      {
+        "question": "Will Travel",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "No",
+          "Yes, 5 % of the Time",
+          "Yes, 10 % of the Time",
+          "Yes, 15 % of the Time",
+          "Yes, 20 % of the Time",
+          "Yes, 25 % of the Time",
+          "Yes, 50 % of the Time",
+          "Yes, 75 % of the Time",
+          "Yes, 100 % of the Time"
+        ]
+      },
+      {
+        "question": "Job Shift",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Day Job",
+          "Evening Job",
+          "Night Job",
+          "On Call",
+          "Variable",
+          "Rotating"
+        ]
+      },
+      {
+        "question": "Posting Date",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Today",
+          "Yesterday",
+          "Last 7 Days",
+          "Last 14 Days",
+          "Last 21 Days",
+          "Last 28 Days"
+        ]
+      },
+      {
+        "question": "Search Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "keyword",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "job title",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "search for jobs",
+      "field_type": "button",
+      "ref": "f3"
+    },
+    {
+      "question": "posting_date-select",
+      "field_type": "select",
+      "ref": "f4"
+    }
+  ]
+}

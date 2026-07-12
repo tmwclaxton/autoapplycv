@@ -1,0 +1,337 @@
+{
+  "id": "https-jobs-ashbyhq-com-kinship-67487601-5ca8-434a-be61-3344f17b2b5c-application",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "are you happy to work from our southwark office 5 days a week?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e6cdad48-c9be-4e00-9178-675ff80ae882",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently eligible to work in the uk?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7f7c6225-b326-46ca-97f4-c4677fcfef4f",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "1cbd4e45-5c8e-4698-acf6-6b4b33f716d2",
+        "name": "1cbd4e45-5c8e-4698-acf6-6b4b33f716d2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1cbd4e45-5c8e-4698-acf6-6b4b33f716d2",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "8fee6d70-98e4-41a6-86c2-3580329b12cf",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8fee6d70-98e4-41a6-86c2-3580329b12cf",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "contact number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "f8db144f-dbe7-4979-ba7c-af3f7374b550",
+        "name": "f8db144f-dbe7-4979-ba7c-af3f7374b550",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f8db144f-dbe7-4979-ba7c-af3f7374b550",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "link to github/portfolio/personal website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "51c88345-7bee-4fcb-9f6a-0e3ba1b2ea6f",
+        "name": "51c88345-7bee-4fcb-9f6a-0e3ba1b2ea6f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "51c88345-7bee-4fcb-9f6a-0e3ba1b2ea6f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what should we absolutely know about you - in just one line?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "6c67b880-8bcb-4a0b-9322-411dc11e457d",
+        "name": "6c67b880-8bcb-4a0b-9322-411dc11e457d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6c67b880-8bcb-4a0b-9322-411dc11e457d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why kinship?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "53c519f8-e839-4df0-96ca-dd4cf20b7927",
+        "name": "53c519f8-e839-4df0-96ca-dd4cf20b7927",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "53c519f8-e839-4df0-96ca-dd4cf20b7927",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what makes you a great fit for this role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "02b049ec-495f-46ac-b78e-73eade5cd748",
+        "name": "02b049ec-495f-46ac-b78e-73eade5cd748",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "02b049ec-495f-46ac-b78e-73eade5cd748",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "4f71c2c7-3858-4125-8f65-73e3ebf41dfb",
+        "name": "4f71c2c7-3858-4125-8f65-73e3ebf41dfb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4f71c2c7-3858-4125-8f65-73e3ebf41dfb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your notice period?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9d71929c-c252-4d36-a676-93c65b10fc9a",
+        "name": "9d71929c-c252-4d36-a676-93c65b10fc9a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9d71929c-c252-4d36-a676-93c65b10fc9a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "af14a76e-09d7-4501-b09b-0b43264b8c57",
+        "name": "af14a76e-09d7-4501-b09b-0b43264b8c57",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "af14a76e-09d7-4501-b09b-0b43264b8c57",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anything else you'd like to share?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "15f6e601-dcac-46de-b775-cf6369ce31fe",
+        "name": "15f6e601-dcac-46de-b775-cf6369ce31fe",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "15f6e601-dcac-46de-b775-cf6369ce31fe",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

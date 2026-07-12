@@ -1,0 +1,391 @@
+{
+  "id": "https-ling-jobs-personio-com-job-2654316",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:19:06.177Z",
+  "page_url": "https://ling.jobs.personio.com/job/2654316",
+  "page_title": "Thai & Asian Languages Content Lead | Jobs at Ling",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 20,
+      "count_delta": 0,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #1 - name",
+        "ai": "Reference #1 - Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #1 - email",
+        "ai": "Reference #1 - Email",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #2 - name",
+        "ai": "Reference #2 - Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #2 - email",
+        "ai": "Reference #2 - Email",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #3 - name",
+        "ai": "Reference #3 - Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference #3 - email",
+        "ai": "Reference #3 - Email",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio link ( ) portfolio link",
+        "ai": "Portfolio Link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "introduction video - google drive link ( ) introduction video - google drive link",
+        "ai": "Introduction Video - Google Drive Link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload work sample",
+        "ai": "Work sample",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload employment reference",
+        "ai": "Employment reference",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a standard Personio application layout. File inputs are triggered via custom buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #1 - Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #1 - Email",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #2 - Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #2 - Email",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #3 - Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference #3 - Email",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio Link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Introduction Video - Google Drive Link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Work sample",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Employment reference",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "reference #1 - name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "reference #1 - email",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "reference #2 - name",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "reference #2 - email",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "reference #3 - name",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "reference #3 - email",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "portfolio link ( ) portfolio link",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "introduction video - google drive link ( ) introduction video - google drive link",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": "upload work sample",
+      "field_type": "file",
+      "ref": "f17"
+    },
+    {
+      "question": "upload employment reference",
+      "field_type": "file",
+      "ref": "f18"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f19"
+    }
+  ]
+}

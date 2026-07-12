@@ -90,7 +90,9 @@ export const AUTO_APPLY_PLATFORMS = Object.fromEntries(
  * @returns {string|null}
  */
 export function normalizeAutoApplyPlatform(platformId) {
-    const normalized = String(platformId || '').trim().toLowerCase();
+    const normalized = String(platformId || '')
+        .trim()
+        .toLowerCase();
     const platform = AUTO_APPLY_PLATFORMS[normalized];
 
     if (!platform?.enabled) {
@@ -237,6 +239,7 @@ export function buildJobSearchUrl(platformId, roleDescription, options = {}) {
         return buildSimplyHiredJobSearchUrl(roleDescription, {
             filters: options.filters,
             quickApplyOnly: options.easyApplyOnly !== false,
+            host: options.host || null,
         });
     }
 

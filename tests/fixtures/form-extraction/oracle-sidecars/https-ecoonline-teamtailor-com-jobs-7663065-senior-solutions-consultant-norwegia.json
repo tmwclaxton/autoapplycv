@@ -1,0 +1,280 @@
+{
+  "id": "https-ecoonline-teamtailor-com-jobs-7663065-senior-solutions-consultant-norwegia",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:35:30.094Z",
+  "page_url": "https://ecoonline.teamtailor.com/jobs/7663065-senior-solutions-consultant-norwegian-speaking/applications/new",
+  "page_title": "Senior Solutions Consultant - Norwegian Speaking - EcoOnline",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 12,
+      "count_delta": 4,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently have the right to work in the country where this role is located?",
+        "ai": "Do you currently have the right to work in the country where this role is located?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current notice period? when would you be available to start?",
+        "ai": "What is your current notice period? When would you be available to start?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this is a hybrid role. are you happy to work in office 2-3 days a week?",
+        "ai": "This is a hybrid role. Are you happy to work in office 2-3 days a week?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you speak fluent norwegian? please only apply if you are fluent.",
+        "ai": "Do you speak fluent Norwegian? Please ONLY apply if you are fluent.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this job?",
+        "ai": "How did you hear about this job?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "phone",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      "i hereby consent, to ecoonline storing my personal details, when applying to this job. the ecoonline privacy policy can be viewed via the following link: {privacy policy | ecoonline(opens new window)} .",
+      "yes, ecoonline can contact me about future job opportunities."
+    ],
+    "ai_only": [
+      "Who referred you?",
+      "Please give more details of how you heard about the job"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=16, ai=12)",
+      "label Jaccard 0.556 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses conditional logic for referral/source details. The HTML excerpt was truncated at the email input, so additional fields like phone or resume upload may exist in the full form.",
+    "fields": [
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you currently have the right to work in the country where this role is located?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your current notice period? When would you be available to start?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This is a hybrid role. Are you happy to work in office 2-3 days a week?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you speak fluent Norwegian? Please ONLY apply if you are fluent.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "EcoOnline website",
+          "Referral",
+          "Other"
+        ]
+      },
+      {
+        "question": "Who referred you?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please give more details of how you heard about the job",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Oslo, Norway",
+          "Tønsberg, Norway",
+          "Gothenburg, Sweden",
+          "Aarhus, Denmark",
+          "Espoo, Finland",
+          "Remote- Ireland",
+          "Remote- United Kingdom",
+          "Dublin, Ireland"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "do you currently have the right to work in the country where this role is located?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "what is your current notice period? when would you be available to start?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "this is a hybrid role. are you happy to work in office 2-3 days a week?",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "do you speak fluent norwegian? please only apply if you are fluent.",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f6"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f9"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f10"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "i hereby consent, to ecoonline storing my personal details, when applying to this job. the ecoonline privacy policy can be viewed via the following link: {privacy policy | ecoonline(opens new window)} .",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "yes, ecoonline can contact me about future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

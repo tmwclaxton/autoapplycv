@@ -1,0 +1,235 @@
+{
+  "id": "https-pentahotels-jobs-personio-com-job-2619741",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:16:33.155Z",
+  "page_url": "https://pentahotels.jobs.personio.com/job/2619741",
+  "page_title": "Chef de Partie (h/f/x) | Postes à Penta Hotels",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.3333,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "téléphone ( )",
+        "ai": "Téléphone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "disponible à partir du",
+        "ai": "Disponible à partir du",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "rémunération souhaitée ( ) rémunération souhaitée",
+        "ai": "Rémunération souhaitée",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "type de candidature",
+        "ai": "Type de candidature",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload lettre de motivation",
+        "ai": "Lettre de motivation",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload référence professionnelle",
+        "ai": "Référence professionnelle",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload autre",
+        "ai": "Autre",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "first name",
+      "last name",
+      "email",
+      "location"
+    ],
+    "ai_only": [
+      "Prénom",
+      "Nom",
+      "E-mail",
+      "Lieu"
+    ],
+    "reasons": [
+      "label Jaccard 0.333 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a standard Personio dynamic form. File inputs are triggered by buttons that open a hidden file input element.",
+    "fields": [
+      {
+        "question": "Prénom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Téléphone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lieu",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Disponible à partir du",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Rémunération souhaitée",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Type de candidature",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Candidature interne (Pour les employés postulant à des postes internes)",
+          "Candidature externe (Pour les candidats externes à l'entreprise)",
+          "Candidature spontanée (Pour les candidatures qui ne sont pas liées à une offre d'emploi spécifique)"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lettre de motivation",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Référence professionnelle",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Autre",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "téléphone ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "disponible à partir du",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "rémunération souhaitée ( ) rémunération souhaitée",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "type de candidature",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "upload lettre de motivation",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload référence professionnelle",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "upload autre",
+      "field_type": "file",
+      "ref": "f11"
+    }
+  ]
+}

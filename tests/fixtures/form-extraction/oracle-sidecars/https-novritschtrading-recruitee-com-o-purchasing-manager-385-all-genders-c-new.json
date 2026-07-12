@@ -1,0 +1,263 @@
+{
+  "id": "https-novritschtrading-recruitee-com-o-purchasing-manager-385-all-genders-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:08:43.251Z",
+  "page_url": "https://novritschtrading.recruitee.com/o/purchasing-manager-385-all-genders/c/new",
+  "page_title": "Novritsch Trading - Junior Purchasing Manager (all genders) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 12,
+      "count_delta": 1,
+      "label_jaccard": 0.9231,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have access to the austrian labor market?",
+        "ai": "Do you have access to the Austrian labor market?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how many shipments have you personally managed from asia to europe, end-to-end (supplier communication, booking, customs clearance)?",
+        "ai": "How many shipments have you personally managed from Asia to Europe, end-to-end (supplier communication, booking, customs clearance)?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what erp or inventory management systems have you worked with? what were the pros and cons.",
+        "ai": "What ERP or inventory management systems have you worked with? What were the pros and cons.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "your supplier informs you they're raising prices by 15% starting next quarter citing rising material, geopolitical cancers and labor costs. how do you approach this negotiation.",
+        "ai": "Your supplier informs you they're raising prices by 15% starting next quarter citing rising material, geopolitical cancers and labor costs. How do you approach this negotiation.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "a new product is being handed over from development to production. the factory requires high moqs, but you have no sales data yet, so demand is uncertain. ordering full moq locks up significant capital in inventory that might not move. how do you approach this, both on the supplier side and internally?",
+        "ai": "A new product is being handed over from development to production. The factory requires high MOQs, but you have no sales data yet, so demand is uncertain. Ordering full MOQ locks up significant capital in inventory that might not move. How do you approach this, both on the supplier side and internally?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your earliest possible starting date?",
+        "ai": "What is your earliest possible starting date?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "anything you would like to add",
+        "ai": "Anything you would like to add",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom phone input component with a country selector. The application form is contained within a tabbed interface.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have access to the Austrian labor market?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I have unrestricted access for full-time employment",
+          "I need a Rot-Weiss-Rot card",
+          "Other"
+        ]
+      },
+      {
+        "question": "How many shipments have you personally managed from Asia to Europe, end-to-end (supplier communication, booking, customs clearance)?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "0",
+          "1-10",
+          "10-100",
+          "100+"
+        ]
+      },
+      {
+        "question": "What ERP or inventory management systems have you worked with? What were the pros and cons.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Your supplier informs you they're raising prices by 15% starting next quarter citing rising material, geopolitical cancers and labor costs. How do you approach this negotiation.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "A new product is being handed over from development to production. The factory requires high MOQs, but you have no sales data yet, so demand is uncertain. Ordering full MOQ locks up significant capital in inventory that might not move. How do you approach this, both on the supplier side and internally?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your earliest possible starting date?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Anything you would like to add",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "do you have access to the austrian labor market?",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "how many shipments have you personally managed from asia to europe, end-to-end (supplier communication, booking, customs clearance)?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "what erp or inventory management systems have you worked with? what were the pros and cons.",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "your supplier informs you they're raising prices by 15% starting next quarter citing rising material, geopolitical cancers and labor costs. how do you approach this negotiation.",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "a new product is being handed over from development to production. the factory requires high moqs, but you have no sales data yet, so demand is uncertain. ordering full moq locks up significant capital in inventory that might not move. how do you approach this, both on the supplier side and internally?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your earliest possible starting date?",
+      "field_type": "date",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "number",
+      "ref": "f10"
+    },
+    {
+      "question": "anything you would like to add",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f12"
+    }
+  ]
+}

@@ -1,0 +1,283 @@
+{
+  "id": "https-silex-teamtailor-com-jobs-7678613-mems-design-engineer-applications-new",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:17:05.402Z",
+  "page_url": "https://silex.teamtailor.com/jobs/7678613-mems-design-engineer/applications/new",
+  "page_title": "MEMS Design Engineer - Silex",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 12,
+      "count_delta": 5,
+      "label_jaccard": 0.381,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "do you live in the stockholm area, or are about to move here?",
+        "ai": "Do you live in the Stockholm area, or are about to move here?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "ai": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+        "ai": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous experience working with cad tools?",
+        "ai": "Do you have previous experience working with CAD tools?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you hold a master’s degree in a relevant field?",
+        "ai": "Do you hold a Master’s degree in a relevant field?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes, which cad tools have you used?",
+        "ai": "If yes, which CAD tools have you used?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working with mems? if so, please describe your experience.",
+        "ai": "Do you have experience working with MEMS? If so, please describe your experience.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "if no, do you have other relevant experience in ic design or pcb design? please elaborate.",
+        "ai": "If no, do you have other relevant experience in IC design or PCB design? Please elaborate.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload resume",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=17, ai=12)",
+      "label Jaccard 0.381 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor SPA framework. The HTML excerpt provided was truncated, so file upload fields (typically present in Teamtailor forms) were not visible in the provided snippet.",
+    "fields": [
+      {
+        "question": "Do you live in the Stockholm area, or are about to move here?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Uncertain"
+        ]
+      },
+      {
+        "question": "Do you have previous experience working with CAD tools?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you hold a Master’s degree in a relevant field?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If yes, which CAD tools have you used?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have experience working with MEMS? If so, please describe your experience.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If no, do you have other relevant experience in IC design or PCB design? Please elaborate.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you live in the stockholm area, or are about to move here?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have previous experience working with cad tools?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "do you hold a master’s degree in a relevant field?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "if yes, which cad tools have you used?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "do you have experience working with mems? if so, please describe your experience.",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "if no, do you have other relevant experience in ic design or pcb design? please elaborate.",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f10"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f11"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

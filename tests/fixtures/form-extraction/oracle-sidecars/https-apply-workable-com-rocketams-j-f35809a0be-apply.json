@@ -1,0 +1,206 @@
+{
+  "id": "https-apply-workable-com-rocketams-j-f35809a0be-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:44:01.168Z",
+  "page_url": "https://apply.workable.com/rocketams/j/F35809A0BE/apply/",
+  "page_title": "Amazon PPC Specialist - Remote Full-Time (PH) - RocketAMS - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 5,
+      "count_delta": 14,
+      "label_jaccard": 0.2632,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "photo",
+      "resume",
+      "cover letter",
+      "why are you looking for a new role?",
+      "are you a filipino citizen currently residing in the philippines and able to work as an independent contractor?",
+      "this role requires working with aest timezone (7am - 4pm pht) and managing tasks independently. are you comfortable with this?",
+      "do you have reliable internet, power source and a suitable laptop or computer for remote work?",
+      "do you have at least 1 year experience managing amazon sponsored products campaigns?",
+      "do you have hands-on experience optimizing amazon ppc campaigns (bids, keywords, performance)?",
+      "have you used amazon ads and worked with performance metrics like acos or roas?",
+      "ability to manage multiple accounts and meet performance targets",
+      "do you have experience with dsp, retail media, or tiktok shop ads",
+      "do you have experience with other paid media platforms"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, LinkedIn, or custom screening questions) that typically appear below the phone field in Workable forms are missing from this output.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "why are you looking for a new role?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "are you a filipino citizen currently residing in the philippines and able to work as an independent contractor?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "this role requires working with aest timezone (7am - 4pm pht) and managing tasks independently. are you comfortable with this?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have reliable internet, power source and a suitable laptop or computer for remote work?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have at least 1 year experience managing amazon sponsored products campaigns?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have hands-on experience optimizing amazon ppc campaigns (bids, keywords, performance)?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "have you used amazon ads and worked with performance metrics like acos or roas?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "ability to manage multiple accounts and meet performance targets",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "do you have experience with dsp, retail media, or tiktok shop ads",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you have experience with other paid media platforms",
+      "field_type": "radio",
+      "ref": "f18"
+    }
+  ]
+}

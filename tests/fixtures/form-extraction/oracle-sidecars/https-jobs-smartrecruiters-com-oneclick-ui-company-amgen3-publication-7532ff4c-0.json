@@ -1,0 +1,224 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-amgen3-publication-7532ff4c-0",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:55:05.080Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/Amgen3/publication/7532ff4c-0f4c-4b1f-90a9-9a37cfc9f45b",
+  "page_title": "Easy apply - GPO National Account Sr. Mgr. - Amgen",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 13,
+      "count_delta": 1,
+      "label_jaccard": 0.1905,
+      "type_agree_rate": 0.4,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "emailconfirmation",
+      "location autocomplete",
+      "twitter",
+      "message"
+    ],
+    "ai_only": [
+      "Resume (for autocomplete)",
+      "First name",
+      "Last name",
+      "Confirm your email",
+      "City",
+      "X (fka Twitter)",
+      "Resume",
+      "Let the company know about your interest working there"
+    ],
+    "reasons": [
+      "label Jaccard 0.190 below 0.7",
+      "type agreement 0.400 below 0.6 on 5 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic Angular components. Experience and Education sections are expandable, meaning additional fields (job title, company, degree, etc.) are not present in the initial static HTML.",
+    "fields": [
+      {
+        "question": "Resume (for autocomplete)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirm your email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (fka Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Let the company know about your interest working there",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f11"
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "id": "https-dfdsspain-teamtailor-com-jobs-6130546-maritime-professionals-engine-depart",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:28:49.059Z",
+  "page_url": "https://dfdsspain.teamtailor.com/jobs/6130546-maritime-professionals-engine-department-open-application/applications/new",
+  "page_title": "Maritime Professionals, Engine department - Open Application - DFDS Spain",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 8,
+      "count_delta": 5,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "country",
+        "ai": "Country",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "city",
+        "ai": "City",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "rank applied",
+        "ai": "Rank applied",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "expected salary, eur per month",
+        "ai": "Expected salary, EUR per month",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "phone",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      "i am interested in applying for this job. i have read the privacy policy(opens new window), where i can find the purposes and legal basis of processing my personal data by dfds.",
+      "i agree to the processing by dfds of my personal data for the purpose of future recruitment processes."
+    ],
+    "ai_only": [
+      "Do you hold FRB certificate?"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=13, ai=8)",
+      "label Jaccard 0.500 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated during the email field. Additional fields (like phone, resume upload, etc.) likely exist in the full form but were not present in the provided snippet.",
+    "fields": [
+      {
+        "question": "Country",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Rank applied",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Chief Engineer",
+          "2nd Engineer",
+          "3rd Engineer",
+          "4th Engineer",
+          "Motorman",
+          "Oiler",
+          "Wiper",
+          "Engine Cadet"
+        ]
+      },
+      {
+        "question": "Do you hold FRB certificate?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Expected salary, EUR per month",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "country",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "rank applied",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "expected salary, eur per month",
+      "field_type": "number",
+      "ref": "f3"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "i am interested in applying for this job. i have read the privacy policy(opens new window), where i can find the purposes and legal basis of processing my personal data by dfds.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "i agree to the processing by dfds of my personal data for the purpose of future recruitment processes.",
+      "field_type": "checkbox",
+      "ref": "f12"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "id": "https-jobs-ashbyhq-com-mercor-6c48e08c-1ad4-4c1a-9eb3-5b72f38df2a8-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:27:45.651Z",
+  "page_url": "https://jobs.ashbyhq.com/mercor/6c48e08c-1ad4-4c1a-9eb3-5b72f38df2a8/application",
+  "page_title": "Technology Operations Specialist (L3) @ Mercor",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you require work sponsorship now and/or in the future?",
+        "ai": "Will you require work sponsorship now and/or in the future?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located in san francisco or nyc, and/or willing to relocate?",
+        "ai": "Are you located in San Francisco or NYC, and/or willing to relocate?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work on-site in our san francisco or nyc office monday-friday?",
+        "ai": "Are you willing to work on-site in our San Francisco or NYC office Monday-Friday?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located?",
+        "ai": "Where are you currently located?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you currently located?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you require work sponsorship now and/or in the future?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located in San Francisco or NYC, and/or willing to relocate?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to work on-site in our San Francisco or NYC office Monday-Friday?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you require work sponsorship now and/or in the future?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you located in san francisco or nyc, and/or willing to relocate?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you willing to work on-site in our san francisco or nyc office monday-friday?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "where are you currently located?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

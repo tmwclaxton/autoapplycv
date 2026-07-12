@@ -1,0 +1,198 @@
+{
+  "id": "https-startupblink-breezy-hr-p-6f0247245b2a-general-application-form-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:29:14.483Z",
+  "page_url": "https://startupblink.breezy.hr/p/6f0247245b2a-general-application-form/apply",
+  "page_title": "General Application Form",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 9,
+      "count_delta": 1,
+      "label_jaccard": 0.4615,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "Linkedin",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "city / country",
+        "ai": "City / Country",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are there any projects you worked on in the past that are relevant for the position you are interested in?",
+        "ai": "Are there any projects you worked on in the past that are relevant for the position you are interested in?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "why would you like to join startupblink? (please record a loom video of up to 5 minutes and add the link here)",
+        "ai": "Why would you like to join StartupBlink? (Please record a Loom video of up to 5 minutes and add the link here)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "please analyze your ecosystem performance on startupblink and share your opinion on it.",
+        "ai": "Please analyze your ecosystem performance on StartupBlink and share your opinion on it.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "would you like to tell us anything else?",
+        "ai": "Would you like to tell us anything else?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.462 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The questionnaire fields are dynamically injected via a hidden JSON input.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Linkedin",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City / Country",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are there any projects you worked on in the past that are relevant for the position you are interested in?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why would you like to join StartupBlink? (Please record a Loom video of up to 5 minutes and add the link here)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please analyze your ecosystem performance on StartupBlink and share your opinion on it.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Would you like to tell us anything else?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "city / country",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "are there any projects you worked on in the past that are relevant for the position you are interested in?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "why would you like to join startupblink? (please record a loom video of up to 5 minutes and add the link here)",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "please analyze your ecosystem performance on startupblink and share your opinion on it.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "would you like to tell us anything else?",
+      "field_type": "textarea",
+      "ref": "f9"
+    }
+  ]
+}

@@ -1,18 +1,18 @@
 {
   "id": "https-jobs-ashbyhq-com-9fin-181a7413-0257-4b3e-8cf5-6c9534d2ae11-application",
-  "status": "disagree",
-  "captured_at": "2026-07-10T18:26:50.163Z",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:19:16.650Z",
   "page_url": "https://jobs.ashbyhq.com/9fin/181a7413-0257-4b3e-8cf5-6c9534d2ae11/application",
   "page_title": "Senior Product Marketing Manager @ 9fin",
   "diff": {
-    "status": "disagree",
+    "status": "agree",
     "metrics": {
       "detector_count": 13,
       "ai_count": 9,
       "count_delta": 4,
-      "label_jaccard": 0.5714,
-      "type_agree_rate": 0.875,
-      "matched_count": 8
+      "label_jaccard": 0.6923,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
     },
     "matched": [
       {
@@ -27,6 +27,13 @@
         "ai": "Name",
         "detector_type": "text",
         "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "contact number",
+        "ai": "Contact number",
+        "detector_type": "tel",
+        "ai_type": "tel",
         "type_agree": true
       },
       {
@@ -73,23 +80,17 @@
       }
     ],
     "detector_only": [
-      "phone",
       "do you identify as transgender?",
       "how do you identify your sexual orientation? please select all that apply.",
       "which ethnicity(ies) do you identify with? please select all that apply.",
       "which of the following communities do you belong to? please select all that apply."
     ],
-    "ai_only": [
-      "Contact number"
-    ],
-    "reasons": [
-      "field count delta 4 exceeds tolerance 2 (detector=13, ai=9)",
-      "label Jaccard 0.571 below 0.7"
-    ]
+    "ai_only": [],
+    "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a custom combobox for the 'How did you hear about 9fin' field and custom radio buttons for the sponsorship and diversity survey questions. The HTML snippet for the gender identity field was truncated.",
+    "notes": "The form uses a combobox for the 'How did you hear about 9fin' field which may be populated dynamically. The diversity survey fields were truncated in the provided HTML.",
     "fields": [
       {
         "question": "Name",
@@ -118,7 +119,7 @@
       {
         "question": "How did you hear about 9fin?",
         "field_type": "combobox",
-        "required": false,
+        "required": true,
         "options": null
       },
       {
@@ -155,7 +156,8 @@
         "required": false,
         "options": [
           "Man",
-          "Woman"
+          "Woman",
+          "Non-Binary"
         ]
       }
     ]
@@ -172,7 +174,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "contact number",
       "field_type": "tel",
       "ref": "f2"
     },

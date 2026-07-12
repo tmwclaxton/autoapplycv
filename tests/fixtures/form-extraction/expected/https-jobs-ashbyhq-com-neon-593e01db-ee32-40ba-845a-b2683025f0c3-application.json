@@ -1,0 +1,226 @@
+{
+  "id": "https-jobs-ashbyhq-com-neon-593e01db-ee32-40ba-845a-b2683025f0c3-application",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5f0b618a-d22d-4e32-b6dd-cb8416f20df7",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship for employment in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1d035e82-576d-490e-9dcc-facb559a5a9f",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin or github",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7efe9899-a43f-4c35-b455-2388c450a9d0",
+        "name": "7efe9899-a43f-4c35-b455-2388c450a9d0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7efe9899-a43f-4c35-b455-2388c450a9d0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your favorite video game?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "080491a3-a26f-4f1a-881f-6901e13352f7",
+        "name": "080491a3-a26f-4f1a-881f-6901e13352f7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "080491a3-a26f-4f1a-881f-6901e13352f7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i'm willing to work from the office in sf or nyc most days.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Yes, but I need to discuss relocation or accommodation."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "fee06d5c-424b-4fc3-b076-aaa0c9d771b0_56cc2e61-af7c-4cae-8d16-f32e0381626d-labeled-radio-0",
+        "name": "fee06d5c-424b-4fc3-b076-aaa0c9d771b0_56cc2e61-af7c-4cae-8d16-f32e0381626d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which location are you applying for?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "New York City",
+        "San Francisco"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "fee06d5c-424b-4fc3-b076-aaa0c9d771b0_687241a9-5baa-4954-b298-29d533c5e4d0-labeled-radio-0",
+        "name": "fee06d5c-424b-4fc3-b076-aaa0c9d771b0_687241a9-5baa-4954-b298-29d533c5e4d0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i am aware that neon performs background checks and does not permit use of ai agents during live interviews.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "fee06d5c-424b-4fc3-b076-aaa0c9d771b0_365dc744-352a-4517-b38d-aeff2c368b8f-labeled-checkbox-0",
+        "name": "Yes",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

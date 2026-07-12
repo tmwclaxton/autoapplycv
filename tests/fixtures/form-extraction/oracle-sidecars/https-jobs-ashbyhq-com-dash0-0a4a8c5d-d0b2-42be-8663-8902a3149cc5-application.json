@@ -1,0 +1,300 @@
+{
+  "id": "https-jobs-ashbyhq-com-dash0-0a4a8c5d-d0b2-42be-8663-8902a3149cc5-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:13:58.091Z",
+  "page_url": "https://jobs.ashbyhq.com/dash0/0a4a8c5d-d0b2-42be-8663-8902a3149cc5/application",
+  "page_title": "Staff Product Engineer, Backend (Go, Java) @ Dash0",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.9333,
+      "type_agree_rate": 0.8571,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "do you require sponsorship to work in the given location?",
+        "ai": "Do you require sponsorship to work in the given location?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you fluent in english?",
+        "ai": "Are you fluent in English?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "Linkedin url",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "available start date",
+        "ai": "Available start date",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "yearly salary expectation",
+        "ai": "Yearly Salary Expectation",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "work arrangement preference",
+        "ai": "Work Arrangement Preference",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you want to work at dash0?",
+        "ai": "Why do you want to work at Dash0?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how much experience (in years) do you have with observability tools (may be just as a user)? which tools did you use?",
+        "ai": "How much experience (in years) do you have with observability tools (may be just as a user)? Which tools did you use?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with building usage-based billing systems? please explain what you did and what were the major challenges you faced.",
+        "ai": "Do you have experience with building usage-based billing systems? Please explain what you did and what were the major challenges you faced.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "how much experience (in years) do you have with golang?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom React components for inputs like date pickers and comboboxes. The HTML snippet was truncated at the end, so the final textarea field may be incomplete.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedin url",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require sponsorship to work in the given location?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Available start date",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Yearly Salary Expectation",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you fluent in English?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Work Arrangement Preference",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Onsite",
+          "Hybrid",
+          "Remote"
+        ]
+      },
+      {
+        "question": "Why do you want to work at Dash0?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How much experience (in years) do you have with observability tools (may be just as a user)? Which tools did you use?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience with building usage-based billing systems? Please explain what you did and what were the major challenges you faced.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you require sponsorship to work in the given location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you fluent in english?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "available start date",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "yearly salary expectation",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "work arrangement preference",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "why do you want to work at dash0?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "how much experience (in years) do you have with observability tools (may be just as a user)? which tools did you use?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have experience with building usage-based billing systems? please explain what you did and what were the major challenges you faced.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "how much experience (in years) do you have with golang?",
+      "field_type": "textarea",
+      "ref": "f14"
+    }
+  ]
+}

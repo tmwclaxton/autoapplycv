@@ -1,4 +1,4 @@
-import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
+import { openBlobInNewTab, readFilePayload, triggerBrowserDownload } from './file-transfer.js';
 import {
     cvAcceptAttribute,
     documentAcceptAttribute,
@@ -93,6 +93,7 @@ export function initDocumentsPanel({
                     <div class="document-item-meta"></div>
                 </div>
                 <div class="document-item-actions">
+                    ${doc.preview_url ? '<button type="button" class="postbox-btn-outline document-preview-btn">Preview</button>' : ''}
                     <button type="button" class="postbox-btn-outline document-download-btn">Download</button>
                     <button type="button" class="postbox-btn-outline document-delete-btn">Delete</button>
                 </div>
@@ -100,6 +101,14 @@ export function initDocumentsPanel({
 
             item.querySelector('.document-item-title').textContent = doc.title;
             item.querySelector('.document-item-meta').textContent = `${doc.category_label} · ${doc.file_size_label}`;
+
+            const previewButton = item.querySelector('.document-preview-btn');
+
+            if (previewButton && doc.preview_url) {
+                previewButton.addEventListener('click', () => {
+                    previewDocument(doc.id);
+                });
+            }
 
             item.querySelector('.document-download-btn').addEventListener('click', () => {
                 downloadDocument(doc.id);
@@ -133,6 +142,28 @@ export function initDocumentsPanel({
         renderDocuments();
 
         return profileData;
+    }
+
+    async function previewDocument(documentId) {
+        uploadStatus.textContent = 'Opening preview…';
+
+        try {
+            const response = await chrome.runtime.sendMessage({
+                type: 'PREVIEW_PROFILE_DOCUMENT',
+                documentId,
+            });
+
+            if (response?.error) {
+                throw new Error(response.error);
+            }
+
+            openBlobInNewTab(response);
+            uploadStatus.textContent = '';
+            showMessage('Preview opened in a new tab.', 'success');
+        } catch (error) {
+            uploadStatus.textContent = error.message;
+            showMessage(error.message, 'error');
+        }
     }
 
     async function downloadDocument(documentId) {

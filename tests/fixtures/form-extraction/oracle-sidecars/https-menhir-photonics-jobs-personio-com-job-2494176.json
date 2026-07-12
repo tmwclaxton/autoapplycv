@@ -1,0 +1,388 @@
+{
+  "id": "https-menhir-photonics-jobs-personio-com-job-2494176",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:56:18.150Z",
+  "page_url": "https://menhir-photonics.jobs.personio.com/job/2494176",
+  "page_title": "Produktionsmitarbeiter*In | Jobs at Menhir Photonics AG",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 18,
+      "count_delta": 0,
+      "label_jaccard": 0.2857,
+      "type_agree_rate": 1,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "which valid swiss work authorization do you currently hold? (do not select a permit that has not yet been issued.) ( )",
+        "ai": "Which valid Swiss work authorization do you currently hold? (Do not select a permit that has not yet been issued.)",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "when are you available to start working with us? ( ) when are you available to start working with us?",
+        "ai": "When are you available to start working with us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have? ( ) how many years of experience do you have?",
+        "ai": "How many years of experience do you have?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what city do you currently live in? ( ) what city do you currently live in?",
+        "ai": "What city do you currently live in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your level of proficiency in english? ( )",
+        "ai": "What is your level of proficiency in English?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your level of proficiency in german? ( )",
+        "ai": "What is your level of proficiency in German?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your expected yearly compensation in chf? ( ) what is your expected yearly compensation in chf?",
+        "ai": "What is your expected yearly compensation in CHF?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "consent under the swiss federal act on data protection (fadp) and, where applicable, the eu general data protection regulation (gdpr) ( )",
+        "ai": "Consent under the Swiss Federal Act on Data Protection (FADP) and, where applicable, the EU General Data Protection Regulation (GDPR)",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload employment reference",
+        "ai": "Employment reference",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload certificate",
+        "ai": "Certificate",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered dynamically via Personio's application framework. File inputs are hidden and triggered by custom buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Diverse",
+          "Undefined"
+        ]
+      },
+      {
+        "question": "Which valid Swiss work authorization do you currently hold? (Do not select a permit that has not yet been issued.)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Swiss Citizen",
+          "C Permit",
+          "B Permit",
+          "L Permit",
+          "G Permit",
+          "Ci Permit",
+          "S Permit",
+          "N Permit",
+          "F Permit",
+          "EU/EFTA citizen"
+        ]
+      },
+      {
+        "question": "When are you available to start working with us?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What city do you currently live in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your level of proficiency in English?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "None",
+          "Elementary proficiency",
+          "Limited working proficiency",
+          "Professional working proficiency",
+          "Full professional working proficiency",
+          "Native or bilingual proficiency"
+        ]
+      },
+      {
+        "question": "What is your level of proficiency in German?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "None",
+          "Elementary proficiency",
+          "Limited working proficiency",
+          "Professional working proficiency",
+          "Full professional working proficiency",
+          "Native or bilingual proficiency"
+        ]
+      },
+      {
+        "question": "What is your expected yearly compensation in CHF?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Consent under the Swiss Federal Act on Data Protection (FADP) and, where applicable, the EU General Data Protection Regulation (GDPR)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I consent to my data being stored for future opportunities at Menhir Photonics for a period of up to 24 months.",
+          "No, please delete my data within one month."
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Employment reference",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Certificate",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "which valid swiss work authorization do you currently hold? (do not select a permit that has not yet been issued.) ( )",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "when are you available to start working with us? ( ) when are you available to start working with us?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how many years of experience do you have? ( ) how many years of experience do you have?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what city do you currently live in? ( ) what city do you currently live in?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your level of proficiency in english? ( )",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your level of proficiency in german? ( )",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your expected yearly compensation in chf? ( ) what is your expected yearly compensation in chf?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "consent under the swiss federal act on data protection (fadp) and, where applicable, the eu general data protection regulation (gdpr) ( )",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "upload employment reference",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "upload certificate",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f17"
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-globallogic4-publication-516f",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:51:00.564Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/GlobalLogic4/publication/516f4f29-f078-4217-9b1d-cd6c9c5f9e24",
+  "page_title": "Easy apply - Java Developer / Tester - GlobalLogic",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 0.2727,
+      "type_agree_rate": 0.7143,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "upload profile image",
+        "ai": "Upload profile image",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "email confirmation",
+      "location autocomplete",
+      "linked in",
+      "twitter",
+      "message",
+      "no policy"
+    ],
+    "ai_only": [
+      "Confirm your email",
+      "City",
+      "LinkedIn",
+      "X (fka Twitter)",
+      "Resume",
+      "Let the company know about your interest working there",
+      "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice."
+    ],
+    "reasons": [
+      "label Jaccard 0.273 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components for Experience and Education sections which are not fully expanded in the static HTML. The location field is a combobox/autocomplete widget.",
+    "fields": [
+      {
+        "question": "Upload profile image",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirm your email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (fka Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Let the company know about your interest working there",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "upload profile image",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "email confirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "linked in",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "no policy",
+      "field_type": "checkbox",
+      "ref": "f13"
+    }
+  ]
+}

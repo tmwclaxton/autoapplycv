@@ -1,7 +1,7 @@
 {
   "id": "https-agbo-breezy-hr-p-477c5544f2b1-expression-of-interest-unreal-environment-ar",
   "status": "disagree",
-  "captured_at": "2026-07-10T18:49:21.848Z",
+  "captured_at": "2026-07-10T22:19:58.826Z",
   "page_url": "https://agbo.breezy.hr/p/477c5544f2b1-expression-of-interest-unreal-environment-artist/apply",
   "page_title": "Expression of Interest - Unreal Environment Artist",
   "diff": {
@@ -119,7 +119,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses an AngularJS-based questionnaire system. Some fields are dynamically generated from a JSON blob in the HTML. Work history and education sections are dynamic lists.",
+    "notes": "The form uses AngularJS and dynamic questionnaire loading. Some fields are conditionally required based on internal logic.",
     "fields": [
       {
         "question": "Upload Resume",

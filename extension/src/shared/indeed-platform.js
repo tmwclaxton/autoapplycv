@@ -1,6 +1,11 @@
+import {
+    resolveIndeedHost,
+    resolveJobBoardMarket,
+} from './job-board-market.js';
+
 export const INDEED_PLATFORM_ID = 'indeed';
 
-/** Indeed Apply filter attribute (DSQF7) on uk.indeed.com job search. */
+/** Indeed Apply filter attribute (DSQF7) on Indeed job search. */
 export const INDEED_APPLY_FILTER = '0kf:attr(DSQF7)';
 
 /**
@@ -9,15 +14,45 @@ export const INDEED_APPLY_FILTER = '0kf:attr(DSQF7)';
  */
 
 /**
- * @param {string} roleDescription
- * @param {{ indeedApplyOnly?: boolean, filters?: IndeedSearchFilters|null, start?: number }} [options]
+ * @param {string|null|undefined} host
  * @returns {string}
  */
-export function buildIndeedJobSearchUrl(roleDescription, {
-    indeedApplyOnly = true,
+function normalizeIndeedHost(host) {
+    return String(host || '')
+        .trim()
+        .replace(/^https?:\/\//i, '')
+        .replace(/\/+$/, '');
+}
+
+/**
+ * @param {{ host?: string|null, location?: string|null, filters?: IndeedSearchFilters|null }} [options]
+ * @returns {string}
+ */
+export function resolveIndeedHostFromOptions({
+    host = null,
+    location = null,
     filters = null,
-    start = 0,
 } = {}) {
+    const explicit = normalizeIndeedHost(host);
+
+    if (explicit) {
+        return explicit;
+    }
+
+    const locationText = String(location || filters?.location || '').trim();
+
+    return resolveIndeedHost(resolveJobBoardMarket(locationText));
+}
+
+/**
+ * @param {string} roleDescription
+ * @param {{ indeedApplyOnly?: boolean, filters?: IndeedSearchFilters|null, start?: number, host?: string|null }} [options]
+ * @returns {string}
+ */
+export function buildIndeedJobSearchUrl(
+    roleDescription,
+    { indeedApplyOnly = true, filters = null, start = 0, host = null } = {},
+) {
     const keywords = String(roleDescription || '').trim();
 
     if (!keywords) {
@@ -42,7 +77,9 @@ export function buildIndeedJobSearchUrl(roleDescription, {
         params.set('start', String(start));
     }
 
-    return `https://uk.indeed.com/jobs?${params.toString()}`;
+    const baseHost = resolveIndeedHostFromOptions({ host, filters });
+
+    return `https://${baseHost}/jobs?${params.toString()}`;
 }
 
 /**
@@ -53,8 +90,10 @@ export function isIndeedJobsSearchUrl(url) {
     try {
         const parsed = new URL(url);
 
-        return /indeed\.com$/i.test(parsed.hostname)
-            && parsed.pathname.replace(/\/+$/, '') === '/jobs';
+        return (
+            /indeed\.com$/i.test(parsed.hostname) &&
+            parsed.pathname.replace(/\/+$/, '') === '/jobs'
+        );
     } catch {
         return false;
     }
@@ -62,16 +101,28 @@ export function isIndeedJobsSearchUrl(url) {
 
 /**
  * @param {string} jobId Indeed jk hex id
+ * @param {{ host?: string|null, location?: string|null, filters?: IndeedSearchFilters|null, url?: string|null }} [options]
  * @returns {string}
  */
-export function buildIndeedJobOpenUrl(jobId) {
+export function buildIndeedJobOpenUrl(
+    jobId,
+    { host = null, location = null, filters = null, url = null } = {},
+) {
+    const explicitUrl = String(url || '').trim();
+
+    if (explicitUrl.startsWith('http')) {
+        return explicitUrl;
+    }
+
     const jk = String(jobId || '').trim();
 
     if (!/^[a-f0-9]{16}$/i.test(jk)) {
-        throw new Error(`Invalid Indeed job id: ${jk}`);
+        throw new Error(`Invalid Indeed job id: ${jobId}`);
     }
 
-    return `https://uk.indeed.com/viewjob?jk=${jk}`;
+    const baseHost = resolveIndeedHostFromOptions({ host, location, filters });
+
+    return `https://${baseHost}/viewjob?jk=${jk}`;
 }
 
 /**
@@ -89,17 +140,29 @@ export function urlsMatchIndeedSearch(currentUrl, expectedUrl, filters = null) {
             return false;
         }
 
+        if (
+            current.hostname.toLowerCase() !== expected.hostname.toLowerCase()
+        ) {
+            return false;
+        }
+
         if (current.searchParams.get('q') !== expected.searchParams.get('q')) {
             return false;
         }
 
         const location = String(filters?.location || '').trim();
 
-        if (location && current.searchParams.get('l') !== expected.searchParams.get('l')) {
+        if (
+            location &&
+            current.searchParams.get('l') !== expected.searchParams.get('l')
+        ) {
             return false;
         }
 
-        if (expected.searchParams.get('sc') && current.searchParams.get('sc') !== expected.searchParams.get('sc')) {
+        if (
+            expected.searchParams.get('sc') &&
+            current.searchParams.get('sc') !== expected.searchParams.get('sc')
+        ) {
             return false;
         }
 

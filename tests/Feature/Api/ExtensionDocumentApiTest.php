@@ -83,7 +83,12 @@ class ExtensionDocumentApiTest extends TestCase
         $this->withToken($token)
             ->get(route('api.profile.documents.download', $documentId))
             ->assertOk()
-            ->assertDownload('certificate.pdf');
+            ->assertHeader('content-disposition', 'attachment; filename="certificate.pdf"');
+
+        $this->withToken($token)
+            ->get(route('api.profile.documents.preview', $documentId))
+            ->assertOk()
+            ->assertHeader('content-disposition', 'inline; filename="certificate.pdf"');
 
         $this->withToken($token)
             ->deleteJson("/api/profile/documents/{$documentId}")

@@ -1,0 +1,335 @@
+{
+  "id": "https-jobs-ashbyhq-com-dash0-1feade1f-d751-432c-856a-8060b7d45cf6-application",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "do you now or will you in the future require visa sponsorship to work in the given location?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b3124138-1403-4124-8108-59b11a220859",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you fluent in english?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7e5a1296-d290-4f3c-b08e-af14b3e36d10",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "0d4713e2-9b03-423a-8f76-d3c907967920",
+        "name": "0d4713e2-9b03-423a-8f76-d3c907967920",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0d4713e2-9b03-423a-8f76-d3c907967920",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "15ea3e5a-c556-47cb-90e9-f1fb2bf9c412",
+        "name": "15ea3e5a-c556-47cb-90e9-f1fb2bf9c412",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "15ea3e5a-c556-47cb-90e9-f1fb2bf9c412",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "available start date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "292f827f-7e60-4d24-b729-3164a8916eae",
+        "placeholder": "Pick date...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yearly salary expectation (ote + split)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "3c443513-d0ff-45e5-8d1a-e8625814ec0a",
+        "name": "3c443513-d0ff-45e5-8d1a-e8625814ec0a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "3c443513-d0ff-45e5-8d1a-e8625814ec0a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work arrangement preference",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Onsite",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "0f0c90d9-914c-4a50-903f-d866fc727dec_e7c1f6ea-1083-495a-a42d-ac4f802da1b2-labeled-checkbox-0",
+        "name": "Onsite",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you open to relocation, if ?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "It depends",
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f0c90d9-914c-4a50-903f-d866fc727dec_efda7fba-6b5a-4201-a721-d7912aa0e5ef-labeled-radio-0",
+        "name": "0f0c90d9-914c-4a50-903f-d866fc727dec_efda7fba-6b5a-4201-a721-d7912aa0e5ef",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which region have you focused your sales efforts on?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "West Coast",
+        "East Coast",
+        "both",
+        "Outside of US"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "0f0c90d9-914c-4a50-903f-d866fc727dec_edad4aba-2205-4ec7-aec5-ffc5856d6169-labeled-checkbox-0",
+        "name": "West Coast",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what customer segment have you focused on most recently?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SMB",
+        "MM",
+        "Enterprise"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "0f0c90d9-914c-4a50-903f-d866fc727dec_bd4bcfdb-3b8f-4502-aed8-aaaa045bee3d-labeled-checkbox-0",
+        "name": "SMB",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why do you want to work for dash0?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e44d9c90-7244-42e0-b7aa-44e2e0156665",
+        "name": "e44d9c90-7244-42e0-b7aa-44e2e0156665",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e44d9c90-7244-42e0-b7aa-44e2e0156665",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-hatzfeld-care-j-f103a4de4c-apply",
-  "min_fields": 93,
-  "exact_field_count": 93,
+  "min_fields": 57,
+  "exact_field_count": 57,
   "fields": [
     {
       "question": "first name",
@@ -104,56 +104,16 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -172,7 +132,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_Ja8msxlrb5yvpMua",
+        "id": "input_files_input_EXrkn088CsdFypDM",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -412,7 +372,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_wM4yJHRCY0NNgRs1",
+        "id": "input_files_input_HDdGnslc0xHzznf4",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -424,7 +384,7 @@
       }
     },
     {
-      "question": "training courses attended or completing (evidence of attending courses is required). please include subject, location, date and details.",
+      "question": "training courses attended or completing (evidence of attending courses is ). please include subject, location, date and details.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -528,14 +488,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "LEz083z0O7rsrfi7",
+        "id": "tPir01IRrZL319nv",
         "name": "CA_40299",
         "data_testid": null,
         "role": null,
@@ -551,14 +511,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "e6Ip8RoBJHRoczkc",
+        "id": "WfwOpcztxMlmdDmT",
         "name": "CA_40434",
         "data_testid": null,
         "role": null,
@@ -574,14 +534,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "CC0tn3kAS7S2jCZ7",
+        "id": "m2X0nW8aZugSAXCH",
         "name": "CA_46443",
         "data_testid": null,
         "role": null,
@@ -617,14 +577,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "AXRWAQ2elPiywDMG",
+        "id": "FmlBdyVjX0xNjgSO",
         "name": "CA_46445",
         "data_testid": null,
         "role": null,
@@ -640,14 +600,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "DfEBVapNnfJzL5TI",
+        "id": "extdKK7Uk0vnDgS5",
         "name": "CA_46446",
         "data_testid": null,
         "role": null,
@@ -667,7 +627,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_Y97GfWOLqTwLHCbB",
+        "id": "input_files_input_ctrwxGDILsgkQX9N",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -683,14 +643,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "hZkUWAiKxTFIY7Zl",
+        "id": "czQppKbxWG5bht3B",
         "name": "CA_46449",
         "data_testid": null,
         "role": null,
@@ -710,7 +670,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_Dc82hcHxbVA81p5S",
+        "id": "input_files_input_BR6zI7LZUBDVANjI",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -726,14 +686,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "o07YjDONvFu5K6WL",
+        "id": "ZFQdIaJp4nddawQZ",
         "name": "CA_46451",
         "data_testid": null,
         "role": null,
@@ -749,454 +709,34 @@
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AM"
+        "monday am",
+        "monday pm",
+        "monday evening",
+        "tuesday am",
+        "tuesday pm",
+        "tuesday evening",
+        "wednesday am",
+        "wednesday pm",
+        "wednesday evening",
+        "thursday am",
+        "thursday pm",
+        "thursday evening",
+        "friday am",
+        "friday pm",
+        "friday evening",
+        "saturday am",
+        "saturday pm",
+        "saturday evening",
+        "sunday am",
+        "sunday pm",
+        "sunday evening"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
+        "id": "input_ZSDtCfFZCk1AwspX",
         "name": "475864",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475865",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "476999",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475866",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475867",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477000",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475868",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475869",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477001",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475870",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475871",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477002",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475872",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475873",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477003",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475874",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475875",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477004",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475876",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "475877",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": "477005",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -1211,14 +751,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "AqJO1Iu6I1WF8Vlw",
+        "id": "iENvDE5tFBhBvlky",
         "name": "CA_46453",
         "data_testid": null,
         "role": null,
@@ -1274,14 +814,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "vOuFlAGfXuUEAsXO",
+        "id": "Xs7FiPcNXZk7w0Fn",
         "name": "CA_46460",
         "data_testid": null,
         "role": null,
@@ -1297,14 +837,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "eodrggxxg10AsAJL",
+        "id": "jVfD03rML59BJPFV",
         "name": "CA_46461",
         "data_testid": null,
         "role": null,
@@ -1316,18 +856,18 @@
       }
     },
     {
-      "question": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
+      "question": "please note this section is by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "ROnUzjxoM4nebJXT",
+        "id": "LBi8SDjqUeW6wp4W",
         "name": "CA_46462",
         "data_testid": null,
         "role": null,
@@ -1343,14 +883,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "Tszp6yXq6JxHENgb",
+        "id": "r1I3nXQ4WdU3U17C",
         "name": "CA_46463",
         "data_testid": null,
         "role": null,
@@ -1586,14 +1126,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "BkleNafHlpptM3Ts",
+        "id": "OhYRDkxf0X20hGPx",
         "name": "CA_46537",
         "data_testid": null,
         "role": null,
@@ -1609,14 +1149,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "mHnp8O6wPRpUT1N1",
+        "id": "RklIPRPCp281s6fh",
         "name": "QA_11980777",
         "data_testid": null,
         "role": null,
@@ -1628,11 +1168,11 @@
       }
     },
     {
-      "question": "svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
+      "question": "i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read, understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application."
+        "i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application."
       ],
       "required": false,
       "dom": {
@@ -1650,362 +1190,18 @@
       }
     },
     {
-      "question": "do you have a driver's license?",
-      "field_type": "radio",
+      "question": "phone",
+      "field_type": "select",
       "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_LEz083z0O7rsrfi7",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have current right to work in the uk?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_e6Ip8RoBJHRoczkc",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have your own transport ?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
+      "options": null,
       "required": false,
       "dom": {
         "tag": "div",
         "type": null,
-        "id": "wrapper_CC0tn3kAS7S2jCZ7",
+        "id": null,
         "name": null,
         "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have any endorsements?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_AXRWAQ2elPiywDMG",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have proof of right to work in the uk as a uk citizen?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_DfEBVapNnfJzL5TI",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you an overseas applicant or a uk citizen who has lived outside of the uk for a period of 6 months or more than 5 years ?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_hZkUWAiKxTFIY7Zl",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "i understand that this role may include shift work, unsociable hours, lone working involved.",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_o07YjDONvFu5K6WL",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you related to any of our current members of staff or service users?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_AqJO1Iu6I1WF8Vlw",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_vOuFlAGfXuUEAsXO",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_eodrggxxg10AsAJL",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_ROnUzjxoM4nebJXT",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you able to evidence your vaccination or exemption status using the nhs covid pass?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_Tszp6yXq6JxHENgb",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please confirm. the information in this application form is true and complete. i agree that any deliberate omission, falsification, or misrepresentation in the application form will be grounds for rejecting this application or subsequent dismissal if employed. where applicable, i consent that can seek clarification regarding professional registration details.",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_BkleNafHlpptM3Ts",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "will you require sponsorship within the next 12 months?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_mHnp8O6wPRpUT1N1",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "please select your availability below",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "input_WcoAjP9hzmxXrzmV",
-        "name": null,
-        "data_testid": null,
-        "role": "group",
+        "role": "combobox",
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -2015,7 +1211,5 @@
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

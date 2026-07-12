@@ -1,0 +1,359 @@
+{
+  "id": "https-framestore-recruitee-com-o-lighting-td-expression-of-interest-2-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:53:11.710Z",
+  "page_url": "https://framestore.recruitee.com/o/lighting-td-expression-of-interest-2/c/new",
+  "page_title": "Framestore - Lighting TD - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 17,
+      "count_delta": 1,
+      "label_jaccard": 0.9444,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "availability date/ notice period",
+        "ai": "Availability Date/ Notice Period",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "current location (country, city/town)",
+        "ai": "Current location (Country, City/Town)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel/portfolio link",
+        "ai": "Showreel/portfolio link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel/portfolio password",
+        "ai": "Showreel/portfolio password",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "salary expectations (£ per annum)",
+        "ai": "Salary expectations (£ per annum)",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "citizenship",
+        "ai": "Citizenship",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require a visa to work in the uk?",
+        "ai": "Do you require a Visa to work in the UK?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you obtained 'settled' or 'pre-settled' status to work in the uk after january 1st 2021?",
+        "ai": "Have you obtained 'Settled' or 'Pre-settled' Status to work in the UK after January 1st 2021?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "willing to work in a hybrid work environment at our central london, studio",
+        "ai": "Willing to work in a hybrid work environment at our Central London, studio",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns?",
+        "ai": "What are your pronouns?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+        "ai": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget. The cover letter field allows for file upload, but the UI suggests a toggle to switch to a text input (not fully rendered in static HTML).",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Availability Date/ Notice Period",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location (Country, City/Town)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Showreel/portfolio link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Showreel/portfolio password",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Salary expectations (£ per annum)",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Citizenship",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require a Visa to work in the UK?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you obtained 'Settled' or 'Pre-settled' Status to work in the UK after January 1st 2021?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Willing to work in a hybrid work environment at our Central London, studio",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your pronouns?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "She/Her",
+          "He/Him",
+          "They/Them",
+          "Ze/Zee",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "availability date/ notice period",
+      "field_type": "date",
+      "ref": "f6"
+    },
+    {
+      "question": "current location (country, city/town)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "showreel/portfolio link",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "showreel/portfolio password",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "salary expectations (£ per annum)",
+      "field_type": "number",
+      "ref": "f10"
+    },
+    {
+      "question": "citizenship",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "do you require a visa to work in the uk?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "have you obtained 'settled' or 'pre-settled' status to work in the uk after january 1st 2021?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "willing to work in a hybrid work environment at our central london, studio",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f17"
+    }
+  ]
+}

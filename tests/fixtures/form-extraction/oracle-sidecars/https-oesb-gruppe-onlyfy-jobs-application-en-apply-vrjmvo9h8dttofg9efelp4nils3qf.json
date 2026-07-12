@@ -1,0 +1,365 @@
+{
+  "id": "https-oesb-gruppe-onlyfy-jobs-application-en-apply-vrjmvo9h8dttofg9efelp4nils3qf",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:24:45.280Z",
+  "page_url": "https://oesb-gruppe.onlyfy.jobs/application/en/apply/vrjmvo9h8dttofg9efelp4nils3qf9",
+  "page_title": "Application Process",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 19,
+      "count_delta": 2,
+      "label_jaccard": 0.7647,
+      "type_agree_rate": 1,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date",
+        "ai": "Birth date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "street and house number",
+        "ai": "Street and house number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zip code",
+        "ai": "ZIP Code",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "home city",
+        "ai": "Home city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail address",
+        "ai": "E-mail address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "anschreiben/motivationsschreiben",
+        "ai": "Anschreiben/Motivationsschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "sind sie damit einverstanden, dass ihre daten zum zweck der weiteren berücksichtigung und kontaktaufnahme bei zukünftig passenden stellenangeboten der ösb gruppe, bis zum ende der angegebenen datenspeicherungsfrist, verwendet werden dürfen?",
+        "ai": "Sind Sie damit einverstanden, dass Ihre Daten zum Zweck der weiteren Berücksichtigung und Kontaktaufnahme bei zukünftig passenden Stellenangeboten der ÖSB Gruppe, bis zum Ende der angegebenen Datenspeicherungsfrist, verwendet werden dürfen?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "verfügen sie über eine id-austria (zur digitalen signatur)?",
+        "ai": "Verfügen Sie über eine ID-Austria (zur digitalen Signatur)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby agree that my data will be stored up to and including 11.07.2027 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+        "ai": "I hereby agree that my data will be stored up to and including 11.07.2027 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you learn about this job opening?",
+        "ai": "How did you learn about this job opening?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "datei...",
+      "datei...",
+      "datei...",
+      "datei..."
+    ],
+    "ai_only": [
+      "Salutation",
+      "CV",
+      "Datei..",
+      "Datei..",
+      "Datei..",
+      "Datei.."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Radix UI components for selects and checkboxes, which are rendered as hidden native elements. The HTML snippet was truncated at the end, so the final checkbox input might be missing its closing tag.",
+    "fields": [
+      {
+        "question": "Salutation",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Mr",
+          "Ms",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth date",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Street and house number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "ZIP Code",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Home city",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datei..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anschreiben/Motivationsschreiben",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Sind Sie damit einverstanden, dass Ihre Daten zum Zweck der weiteren Berücksichtigung und Kontaktaufnahme bei zukünftig passenden Stellenangeboten der ÖSB Gruppe, bis zum Ende der angegebenen Datenspeicherungsfrist, verwendet werden dürfen?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja, ich möchte bei passenden Stellenangeboten berücksichtigt werden.",
+          "Nein, meine Daten sollen nur für diese Bewerbung verwendet werden."
+        ]
+      },
+      {
+        "question": "Verfügen Sie über eine ID-Austria (zur digitalen Signatur)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "How did you learn about this job opening?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "eJobroom des AMS",
+          "Social Media (LinkedIn/Facebook, etc.)",
+          "karriere.at",
+          "wiener-/ oberö-/ steirer-/ tiroler-/ kärntner-/ salzburger- / vorarlbergerjobs",
+          "StepStone",
+          "DerStandard",
+          "Willhaben",
+          "sozpaed.net",
+          "Salzburger Nachrichten",
+          "OÖ Nachrichten",
+          "OÖ Sozialplattform",
+          "Ländlejob",
+          "Tiroler Tageszeitung",
+          "ArbeitPlus Wien",
+          "ÖH Schwarzesbrett",
+          "FH Jobplattformen",
+          "Whatchado",
+          "Direkt über die ÖSB Gruppe-Karriereseite",
+          "Durch eine persönliche Empfehlung",
+          "Über eine Mailaussendung der ÖSB Gruppe",
+          "Sonstiges"
+        ]
+      },
+      {
+        "question": "I hereby agree that my data will be stored up to and including 11.07.2027 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "birth date",
+      "field_type": "date",
+      "ref": "f2"
+    },
+    {
+      "question": "street and house number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "zip code",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "home city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "e-mail address",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "datei...",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "anschreiben/motivationsschreiben",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "sind sie damit einverstanden, dass ihre daten zum zweck der weiteren berücksichtigung und kontaktaufnahme bei zukünftig passenden stellenangeboten der ösb gruppe, bis zum ende der angegebenen datenspeicherungsfrist, verwendet werden dürfen?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "verfügen sie über eine id-austria (zur digitalen signatur)?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "i hereby agree that my data will be stored up to and including 11.07.2027 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "how did you learn about this job opening?",
+      "field_type": "select",
+      "ref": "f16"
+    }
+  ]
+}

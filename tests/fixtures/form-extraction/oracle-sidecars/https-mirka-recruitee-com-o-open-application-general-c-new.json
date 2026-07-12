@@ -1,0 +1,376 @@
+{
+  "id": "https-mirka-recruitee-com-o-open-application-general-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:54:23.131Z",
+  "page_url": "https://mirka.recruitee.com/o/open-application-general/c/new",
+  "page_title": "Oy Mirka Ab - Open Application (General) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 17,
+      "count_delta": 2,
+      "label_jaccard": 0.8947,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "date of birth (dd.mm.year)",
+        "ai": "Date of Birth (dd.mm.year)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "home address (street/road name, number and town/city)",
+        "ai": "Home address (street/road name, number and town/city)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available as of (dd.mm.year)",
+        "ai": "Available as of (dd.mm.year)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "describe your it-skills",
+        "ai": "Describe your IT-skills",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe your language skills (on a scale from 1-5)",
+        "ai": "Describe your language skills (on a scale from 1-5)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "references",
+        "ai": "References",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous work experience from mirka?",
+        "ai": "Do you have previous work experience from Mirka?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred working site",
+        "ai": "Preferred working site",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred type of contract",
+        "ai": "Preferred type of contract",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "jobs that i'm interested in",
+        "ai": "Jobs that I'm interested in",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "mirka privacy policy",
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Recruitee's dynamic SPA structure. The cover letter field has a 'Write it here instead' toggle not fully captured in the static HTML. Legal agreement checkbox is truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Date of Birth (dd.mm.year)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Home address (street/road name, number and town/city)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available as of (dd.mm.year)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe your IT-skills",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe your language skills (on a scale from 1-5)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "References",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have previous work experience from Mirka?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Preferred working site",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Jepua",
+          "Oravainen",
+          "Pietarsaari",
+          "Karjaa"
+        ]
+      },
+      {
+        "question": "Preferred type of contract",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Temporary",
+          "Permanent"
+        ]
+      },
+      {
+        "question": "Jobs that I'm interested in",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Admin",
+          "Electricity and automation",
+          "Engineering and design",
+          "HR",
+          "IT",
+          "Logistics",
+          "Maintenance",
+          "Marketing and communication",
+          "Product development",
+          "Sales",
+          "Programming",
+          "Production supervisor",
+          "Customer service",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "date of birth (dd.mm.year)",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "home address (street/road name, number and town/city)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "available as of (dd.mm.year)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "describe your it-skills",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "describe your language skills (on a scale from 1-5)",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "references",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have previous work experience from mirka?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "preferred working site",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "preferred type of contract",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "jobs that i'm interested in",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "mirka privacy policy",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f18"
+    }
+  ]
+}

@@ -1,0 +1,479 @@
+{
+  "id": "https-jobs-lever-co-palantir-b88cd6e1-22b7-49d6-b215-1ca262a05728-apply",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "resume-upload-input",
+        "name": "resume",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "language skill(s) (check all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)",
+        "Gujarati (GUJ)",
+        "Lithuanian (LIT)",
+        "Korean (KOR)",
+        "American Sign Language (ASL)",
+        "British Sign Language (BSL)",
+        "Choose not to disclose",
+        "Polish",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name | what would you like us to call you?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name pronunciation | how do you pronounce your name?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please tell us how you heard about this opportunity.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Agency or Non-Palantir Recruiter",
+        "America's Job Exchange",
+        "BuiltIn",
+        "Campus Ambassador",
+        "Friend or Family",
+        "Glassdoor",
+        "Hackajob",
+        "Hallo",
+        "Handshake",
+        "Job Board (Indeed, Monster, etc.)",
+        "LinkedIn",
+        "Palantir Event",
+        "Palantir Medium Blog",
+        "Palantir Recruiter",
+        "Palantir Website",
+        "Rewriting the Code",
+        "Tapia",
+        "University Job Board",
+        "University or University Organization",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[a6197d84-549e-4a91-8bb0-6af972510013][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you interested in the american tech fellowship?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[74649bbf-1e7c-4e93-a5e9-a435f1f44556][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how does your technical background and skillset align with this opportunity?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[74649bbf-1e7c-4e93-a5e9-a435f1f44556][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "walk us through a particular project that you initiated, scoped, designed, implemented, and saw through to completion. this can be big or small, technical or non-technical. give us a view into how you approach identifying and solving a problem.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[74649bbf-1e7c-4e93-a5e9-a435f1f44556][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what does success look like for you after this fellowship?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[74649bbf-1e7c-4e93-a5e9-a435f1f44556][field3]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "upon successful completion of the fellowship, would you be interested in a full-time role with palantir or one of our partners/customers?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[3445d906-15c8-4a11-bd95-234cb475e7c2][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently located in, or willing to move to, one of palantir’s hubs (palo alto, dc, nyc, denver)? check all that may apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Palo Alto, CA",
+        "Washington D.C.",
+        "New York, NY",
+        "Denver, CO",
+        "Not interested in relocating to a Palantir hub"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[3445d906-15c8-4a11-bd95-234cb475e7c2][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "as part of our interview process, we may use ai notetakers to transcribe conversations for accuracy and efficiency. please see our candidate privacy policy for more information on how we process your data. your decision to opt in or out of this tooling will not impact your candidacy.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I consent",
+        "No, I do not consent"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

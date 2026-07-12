@@ -1,0 +1,368 @@
+{
+  "id": "https-jobs-lever-co-rangeenergy-41c7b08a-2d4a-4148-a9db-ddbfedc7076e-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:40:00.146Z",
+  "page_url": "https://jobs.lever.co/rangeenergy/41c7b08a-2d4a-4148-a9db-ddbfedc7076e/apply",
+  "page_title": "Range Energy - Sr. Technical Program Manager",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 17,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7647,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "if hired, how soon would you be able to start?",
+        "ai": "If hired, how soon would you be able to start?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to come to hq (mountain view, ca) as needed?",
+        "ai": "Are you able to come to HQ (Mountain View, CA) as needed?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, i am proficient in mandarin and english.",
+        "ai": "Yes, I am proficient in Mandarin and English.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "for the sole purpose of determining export licensing requirements, please list any countries of which you are a citizen or legal permanent resident, and when you obtained this status.",
+        "ai": "For the sole purpose of determining export licensing requirements, please list any countries of which you are a citizen or legal permanent resident, and when you obtained this status.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require sponsorship, or will you require sponsorship in the future for employment authorization in the united states?",
+        "ai": "Do you require sponsorship, or will you require sponsorship in the future for employment authorization in the United States?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes, please select what type of sponsorship. h-1b, o-1, tn, etc.)?",
+        "ai": "If yes, please select what type of sponsorship. H-1B, O-1, TN, etc.)?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Pronouns and sponsorship types are handled via checkbox groups. The location field uses an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If hired, how soon would you be able to start?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able to come to HQ (Mountain View, CA) as needed?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "NO",
+          "YES"
+        ]
+      },
+      {
+        "question": "Yes, I am proficient in Mandarin and English.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "For the sole purpose of determining export licensing requirements, please list any countries of which you are a citizen or legal permanent resident, and when you obtained this status.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you require sponsorship, or will you require sponsorship in the future for employment authorization in the United States?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If yes, please select what type of sponsorship. H-1B, O-1, TN, etc.)?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Not Applicable",
+          "H1-B",
+          "O-1",
+          "TN",
+          "OPT",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "if hired, how soon would you be able to start?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "are you able to come to hq (mountain view, ca) as needed?",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "yes, i am proficient in mandarin and english.",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "for the sole purpose of determining export licensing requirements, please list any countries of which you are a citizen or legal permanent resident, and when you obtained this status.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "do you require sponsorship, or will you require sponsorship in the future for employment authorization in the united states?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "if yes, please select what type of sponsorship. h-1b, o-1, tn, etc.)?",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "id": "https-brandlovrs-breezy-hr-p-272c8d689f83-client-solutions-manager-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:51:20.717Z",
+  "page_url": "https://brandlovrs.breezy.hr/p/272c8d689f83-client-solutions-manager/apply",
+  "page_title": "Client Solutions Manager",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 6,
+      "ai_count": 7,
+      "count_delta": 1,
+      "label_jaccard": 0.3,
+      "type_agree_rate": 0.5,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "nome completo",
+        "ai": "Nome completo",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "endereço de e-mail",
+        "ai": "Endereço de e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefone",
+        "ai": "Telefone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "pretensão salarial",
+        "ai": "Pretensão salarial (Moeda)",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Pretensão salarial (Valor)",
+      "Pretensão salarial (Frequência)"
+    ],
+    "reasons": [
+      "label Jaccard 0.300 below 0.7",
+      "type agreement 0.500 below 0.6 on 4 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses AngularJS and includes external integrations for Indeed and LinkedIn. A honeypot field (hp_7f2b) is present.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pretensão salarial (Moeda)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Pretensão salarial (Valor)",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pretensão salarial (Frequência)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "nome completo",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "endereço de e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "pretensão salarial",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    }
+  ]
+}

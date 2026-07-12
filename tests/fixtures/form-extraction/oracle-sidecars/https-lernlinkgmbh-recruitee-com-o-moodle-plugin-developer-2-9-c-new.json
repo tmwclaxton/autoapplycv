@@ -1,0 +1,197 @@
+{
+  "id": "https-lernlinkgmbh-recruitee-com-o-moodle-plugin-developer-2-9-c-new",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:46:38.517Z",
+  "page_url": "https://lernlinkgmbh.recruitee.com/o/moodle-plugin-developer-2-9/c/new",
+  "page_title": "lern.link GmbH - 🚀 Moodle Plugin Developer - Bewerbung",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 10,
+      "count_delta": 2,
+      "label_jaccard": 0.6364,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "vor- und nachname",
+        "ai": "Vor- und Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail-adresse",
+        "ai": "E-Mail-Adresse",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefonnummer",
+        "ai": "Telefonnummer",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "anschreiben",
+        "ai": "Anschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "add here the link to the official moodle coding guide - we will not answer if this field is empty",
+        "ai": "Add here the link to the official Moodle coding guide - WE WILL NOT ANSWER IF THIS FIELD IS EMPTY",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "provide your moodle protfolio: links to github repos, moodle.org/plugin examples e.g. -we will not answer if this field is empty",
+        "ai": "Provide your Moodle protfolio: links to GITHUB repos, Moodle.org/plugin examples e.g. -WE WILL NOT ANSWER IF THIS FIELD IS EMPTY",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "ländervorwahl auswählen"
+    ],
+    "ai_only": [
+      "I understand, that I need experience with MOODLE development",
+      "Are you experienced in passing validation checks on GitHub and publishing plugins on moodle.org/plugins?",
+      "Are you familiar with and able to follow the Moodle Coding Style?"
+    ],
+    "reasons": [
+      "label Jaccard 0.636 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard field. The 'Anschreiben' field allows for file upload or text input (via a toggle button not fully captured in static HTML).",
+    "fields": [
+      {
+        "question": "Vor- und Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefonnummer",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Anschreiben",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I understand, that I need experience with MOODLE development",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Are you experienced in passing validation checks on GitHub and publishing plugins on moodle.org/plugins?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Add here the link to the official Moodle coding guide - WE WILL NOT ANSWER IF THIS FIELD IS EMPTY",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you familiar with and able to follow the Moodle Coding Style?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Provide your Moodle protfolio: links to GITHUB repos, Moodle.org/plugin examples e.g. -WE WILL NOT ANSWER IF THIS FIELD IS EMPTY",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vor- und nachname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "e-mail-adresse",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "lebenslauf",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "anschreiben",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "add here the link to the official moodle coding guide - we will not answer if this field is empty",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "provide your moodle protfolio: links to github repos, moodle.org/plugin examples e.g. -we will not answer if this field is empty",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ländervorwahl auswählen",
+      "field_type": "select",
+      "ref": "f7"
+    }
+  ]
+}

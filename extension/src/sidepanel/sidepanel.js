@@ -201,6 +201,30 @@ function validateJobDescription(description) {
     }
 }
 
+async function refreshDocumentsPanel() {
+    if (!documentsPanel) {
+        return;
+    }
+
+    try {
+        await documentsPanel.refreshDocuments({ force: true });
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
+}
+
+function coverLetterSavedMessage(response) {
+    if (response?.document_saved || response?.saved) {
+        return 'Cover letter saved to Documents.';
+    }
+
+    if (response?.document_duplicate || response?.duplicate) {
+        return 'Cover letter already saved for this job.';
+    }
+
+    return 'Cover letter ready.';
+}
+
 async function refreshUsage() {
     try {
         const data = await loadProfile();
@@ -262,7 +286,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card postbox-panel">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Use Assist to chat with AI, draft answers, and update your profile. Auto Apply runs batches on LinkedIn, Indeed, Totaljobs, and Glassdoor. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
+            <p>Use Assist to chat with AI, draft answers, and update your profile. Auto Apply runs batches on LinkedIn, Indeed, Totaljobs, and Glassdoor. ATS and Cover tabs handle scoring and cover letters. Saved files appear on Documents.</p>
             <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
         </div>
     `;
@@ -429,8 +453,9 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
 
         outputEl.value = response.cover_letter;
         setAiOutputVisible('cover-output', 'cover-actions', true);
-        statusEl.textContent = 'Cover letter ready.';
-        showMessage('Cover letter ready.', 'success');
+        statusEl.textContent = coverLetterSavedMessage(response);
+        showMessage(coverLetterSavedMessage(response), 'success');
+        await refreshDocumentsPanel();
     } catch (error) {
         statusEl.textContent = error.message;
         showMessage(error.message, 'error');
@@ -462,7 +487,21 @@ document.getElementById('cover-pdf-btn').addEventListener('click', async () => {
             profile,
             job,
         });
-        showMessage('PDF download started.', 'success');
+
+        const saveResponse = await chrome.runtime.sendMessage({
+            type: 'SAVE_COVER_LETTER_DOCUMENT',
+            job,
+            text: output.value,
+        });
+
+        if (saveResponse?.error) {
+            showMessage(saveResponse.error, 'error');
+
+            return;
+        }
+
+        showMessage(coverLetterSavedMessage(saveResponse), 'success');
+        await refreshDocumentsPanel();
     } catch (error) {
         showMessage(error.message, 'error');
     }

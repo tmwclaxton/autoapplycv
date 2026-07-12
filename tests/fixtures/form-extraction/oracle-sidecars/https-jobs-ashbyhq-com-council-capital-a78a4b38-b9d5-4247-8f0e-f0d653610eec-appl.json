@@ -1,0 +1,181 @@
+{
+  "id": "https-jobs-ashbyhq-com-council-capital-a78a4b38-b9d5-4247-8f0e-f0d653610eec-appl",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:03:27.515Z",
+  "page_url": "https://jobs.ashbyhq.com/council-capital/a78a4b38-b9d5-4247-8f0e-f0d653610eec/application",
+  "page_title": "Associate Chief of Staff @ Council Capital",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "willing to relocate to nashville?",
+        "ai": "Willing to relocate to Nashville?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is a combobox/autocomplete widget. The relocation question uses custom button-based radio inputs.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes - I consent to receiving text messages",
+          "No - I do not consent to receiving text messages"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Willing to relocate to Nashville?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "willing to relocate to nashville?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    }
+  ]
+}

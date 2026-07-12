@@ -35,15 +35,23 @@ function loadIndeedAutoApply(domWindow) {
 
 assert.match(
     buildIndeedJobSearchUrl('software engineer', { filters: { location: 'London' } }),
-    /indeed\.com\/jobs\?.*q=software\+engineer/,
+    /uk\.indeed\.com\/jobs\?.*q=software\+engineer/,
 );
 assert.match(
     buildIndeedJobSearchUrl('software engineer', { filters: { location: 'London' } }),
     /sc=0kf%3Aattr%28DSQF7%29/,
 );
+assert.match(
+    buildIndeedJobSearchUrl('Scientist', { filters: { location: 'San Jose CA USA' } }),
+    /www\.indeed\.com\/jobs\?/,
+);
 assert.equal(
-    buildIndeedJobOpenUrl('5abb1309c5e30555'),
+    buildIndeedJobOpenUrl('5abb1309c5e30555', { filters: { location: 'London' } }),
     'https://uk.indeed.com/viewjob?jk=5abb1309c5e30555',
+);
+assert.equal(
+    buildIndeedJobOpenUrl('5abb1309c5e30555', { filters: { location: 'San Jose CA USA' } }),
+    'https://www.indeed.com/viewjob?jk=5abb1309c5e30555',
 );
 assert.ok(isIndeedJobsSearchUrl('https://uk.indeed.com/jobs?q=devops&l=London'));
 assert.ok(urlsMatchIndeedSearch(
@@ -51,6 +59,14 @@ assert.ok(urlsMatchIndeedSearch(
     buildIndeedJobSearchUrl('devops', { filters: { location: 'London' } }),
     { location: 'London' },
 ));
+assert.equal(
+    urlsMatchIndeedSearch(
+        'https://uk.indeed.com/jobs?q=Scientist&l=San+Jose+CA+USA',
+        buildIndeedJobSearchUrl('Scientist', { filters: { location: 'San Jose CA USA' } }),
+        { location: 'San Jose CA USA' },
+    ),
+    false,
+);
 
 const questionsDom = new JSDOM(
     readFileSync('tests/fixtures/form-extraction/html/web-indeed-job-008-questions-module-questions-1.html', 'utf8'),

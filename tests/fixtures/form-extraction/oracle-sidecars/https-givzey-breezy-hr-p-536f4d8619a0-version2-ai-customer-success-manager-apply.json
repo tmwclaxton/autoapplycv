@@ -1,0 +1,203 @@
+{
+  "id": "https-givzey-breezy-hr-p-536f4d8619a0-version2-ai-customer-success-manager-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:53:35.016Z",
+  "page_url": "https://givzey.breezy.hr/p/536f4d8619a0-version2-ai-customer-success-manager/apply",
+  "page_title": "Version2.ai Customer Success Manager",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 11,
+      "count_delta": 1,
+      "label_jaccard": 0.3125,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "i have at least 3 years experience in nonprofit fundraising!",
+        "ai": "I have at least 3 years experience in nonprofit fundraising!",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i have least 1-3 years experience working directly with nonprofit fundraising customers!",
+        "ai": "I have least 1-3 years experience working directly with nonprofit fundraising customers!",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Givzey.",
+      "Work History",
+      "Education",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.313 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based SPA framework. Work history and education are dynamic lists added via buttons. There are also buttons for 'Indeed' and 'LinkedIn' integration which trigger external popups.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Givzey.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Work History",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Education",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I have at least 3 years experience in nonprofit fundraising!",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I have least 1-3 years experience working directly with nonprofit fundraising customers!",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No, but hear me out.."
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "i have at least 3 years experience in nonprofit fundraising!",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "i have least 1-3 years experience working directly with nonprofit fundraising customers!",
+      "field_type": "radio",
+      "ref": "f9"
+    }
+  ]
+}

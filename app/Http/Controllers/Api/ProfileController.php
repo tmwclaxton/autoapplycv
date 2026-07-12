@@ -175,7 +175,7 @@ class ProfileController extends Controller
                 ->map(fn ($document) => $document->toFrontendArray('api.profile.documents.download'))
                 ->values()
                 ->all(),
-            'document_categories' => ProfileDocumentCategory::options(),
+            'document_categories' => ProfileDocumentCategory::uploadOptions(),
             'application_settings' => $applicationSettings,
             'computed_earliest_start' => ApplicationSettings::computeEarliestStart($applicationSettings['notice_period']),
             'subscription' => $this->aiTokens->summary($user),

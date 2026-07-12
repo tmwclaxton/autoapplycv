@@ -1,0 +1,211 @@
+{
+  "id": "https-cocunat-jobs-personio-de-job-2210442",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:17:03.290Z",
+  "page_url": "https://cocunat.jobs.personio.de/job/2210442",
+  "page_title": "Video Editor (Ads) | Jobs bei COCUNAT",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 10,
+      "count_delta": 0,
+      "label_jaccard": 0.3333,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail ( ) yourmail@domain.com",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon ( )",
+        "ai": "Telefon",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "verfügbar ab ( ) verfügbar ab",
+        "ai": "Verfügbar ab",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung ( ) gehaltsvorstellung",
+        "ai": "Gehaltsvorstellung",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "ort ( ) ort",
+        "ai": "Ort",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload arbeitsprobe",
+        "ai": "Arbeitsprobe",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload andere",
+        "ai": "Andere",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom file upload buttons that trigger hidden file inputs. The 'Verfügbar ab' field is a text input rather than a date picker.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Verfügbar ab",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gehaltsvorstellung",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Ort",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Arbeitsprobe",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Andere",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefon ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "verfügbar ab ( ) verfügbar ab",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "gehaltsvorstellung ( ) gehaltsvorstellung",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "ort ( ) ort",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "upload lebenslauf",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "upload arbeitsprobe",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "upload andere",
+      "field_type": "file",
+      "ref": "f9"
+    }
+  ]
+}

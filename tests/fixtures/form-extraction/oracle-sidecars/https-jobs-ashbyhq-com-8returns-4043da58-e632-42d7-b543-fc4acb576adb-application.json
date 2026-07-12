@@ -1,0 +1,163 @@
+{
+  "id": "https-jobs-ashbyhq-com-8returns-4043da58-e632-42d7-b543-fc4acb576adb-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:55:51.257Z",
+  "page_url": "https://jobs.ashbyhq.com/8returns/4043da58-e632-42d7-b543-fc4acb576adb/application",
+  "page_title": "Marketing Working Student (German-speaking) @ 8returns GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "work authorization",
+        "ai": "Work Authorization",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you speak and write german at a native level",
+        "ai": "Do you speak and write German at a native level",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin / github / portfolio",
+        "ai": "LinkedIn / GitHub / Portfolio",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for 'Work Authorization' and 'German language proficiency'. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Work Authorization",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you speak and write German at a native level",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "LinkedIn / GitHub / Portfolio",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "work authorization",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you speak and write german at a native level",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin / github / portfolio",
+      "field_type": "text",
+      "ref": "f6"
+    }
+  ]
+}

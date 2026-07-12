@@ -1,0 +1,362 @@
+{
+  "id": "https-funex-recruitee-com-o-part-time-laser-tag-leader-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:02:54.548Z",
+  "page_url": "https://funex.recruitee.com/o/part-time-laser-tag-leader/c/new",
+  "page_title": "FunEx Head Office - Part Time Laser Tag Leader - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 17,
+      "count_delta": 1,
+      "label_jaccard": 0.9444,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "please tell us about your skills that would be useful to this position",
+        "ai": "Please tell us about your skills that would be useful to this position",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "would you prefer to work at the north or south location?",
+        "ai": "Would you prefer to work at the North or South location?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about your availability and when you would like to work:",
+        "ai": "Tell us about your availability and when you would like to work:",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "availability",
+        "ai": "Availability",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "best case scenario, how long will you be working for us?",
+        "ai": "Best case scenario, how long will you be working for us?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "any extra information you want to add?",
+        "ai": "Any extra information you want to add?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a criminal record for which no pardon has been granted?",
+        "ai": "Do you have a criminal record for which no pardon has been granted?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you hear about this job?",
+        "ai": "Where did you hear about this job?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you 18 or older? you must be over 18 to apply",
+        "ai": "Are you 18 or older? You must be over 18 to apply",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you get to work? drive or transit? do you own the car or share it with family members? (note: transit at our north location is quite limited)",
+        "ai": "How do you get to work? Drive or transit? Do you own the car or share it with family members? (note: transit at our north location is quite limited)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "our work environment has fog and haze machines, along with flashing and strobing lights. are you okay to work in a work environment like this?",
+        "ai": "Our work environment has fog and haze machines, along with flashing and strobing lights. Are you okay to work in a work environment like this?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if we would like to contact you for a phone interview, when is the best time to reach you?",
+        "ai": "If we would like to contact you for a phone interview, when is the best time to reach you?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Recruitee-based application system. Includes an hCaptcha challenge which is not represented as a standard form field.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please tell us about your skills that would be useful to this position",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Would you prefer to work at the North or South location?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us about your availability and when you would like to work:",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Availability",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Thursday",
+          "Wednesday",
+          "Tuesday",
+          "Monday",
+          "Sunday Evening",
+          "Sunday Daytime",
+          "Saturday Evening",
+          "Saturday Daytime",
+          "Friday Evening",
+          "Friday Daytime"
+        ]
+      },
+      {
+        "question": "Best case scenario, how long will you be working for us?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Any extra information you want to add?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have a criminal record for which no pardon has been granted?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where did you hear about this job?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Other",
+          "Friend",
+          "Facebook",
+          "Other Job Board",
+          "Indeed",
+          "Kijiji"
+        ]
+      },
+      {
+        "question": "Are you 18 or older? You must be over 18 to apply",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How do you get to work? Drive or transit? Do you own the car or share it with family members? (note: transit at our north location is quite limited)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Our work environment has fog and haze machines, along with flashing and strobing lights. Are you okay to work in a work environment like this?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If we would like to contact you for a phone interview, when is the best time to reach you?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "please tell us about your skills that would be useful to this position",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "would you prefer to work at the north or south location?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "tell us about your availability and when you would like to work:",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "availability",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "best case scenario, how long will you be working for us?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "any extra information you want to add?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "do you have a criminal record for which no pardon has been granted?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "where did you hear about this job?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "are you 18 or older? you must be over 18 to apply",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how do you get to work? drive or transit? do you own the car or share it with family members? (note: transit at our north location is quite limited)",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "our work environment has fog and haze machines, along with flashing and strobing lights. are you okay to work in a work environment like this?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "if we would like to contact you for a phone interview, when is the best time to reach you?",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f17"
+    }
+  ]
+}

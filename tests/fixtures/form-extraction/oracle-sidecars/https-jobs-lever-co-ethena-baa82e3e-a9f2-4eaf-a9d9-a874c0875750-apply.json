@@ -1,0 +1,411 @@
+{
+  "id": "https-jobs-lever-co-ethena-baa82e3e-a9f2-4eaf-a9d9-a874c0875750-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:36:18.764Z",
+  "page_url": "https://jobs.lever.co/ethena/baa82e3e-a9f2-4eaf-a9d9-a874c0875750/apply",
+  "page_title": "Ethena - Customer Success Engineer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 20,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "please list your name pronunciation so our team can address you correctly.",
+        "ai": "Please list your name pronunciation so our team can address you correctly.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you first hear about ethena? if an ethena team member brought you here, we'd love to know who so we can thank them, so please do give them a shoutout.",
+        "ai": "How did you first hear about Ethena? If an Ethena team member brought you here, we'd love to know who so we can thank them, so please do give them a shoutout.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you interested in joining ethena?",
+        "ai": "Why are you interested in joining Ethena?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this role will require a background check. this will take place once the offer has been extended. if you have any concerns, please let us know or note n/a.",
+        "ai": "This role will require a background check. This will take place once the offer has been extended. If you have any concerns, please let us know or note N/A.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you now, or will you in the future require visa sponsorship to work in the united states?",
+        "ai": "Do you now, or will you in the future require VISA sponsorship to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "ethena is a remote-first organization and is currently hiring for candidates based in approved locations noted in the job description. if you are selected for this role, you must be able to work and reside in one of these approved locations for the duration of your employment. please confirm whether you’ll be able to work and reside from one of ethena’s approved locations for the duration of your employment with ethena.",
+        "ai": "Ethena is a remote-first organization and is currently hiring for candidates based in approved locations noted in the job description. If you are selected for this role, you must be able to work and reside in one of these approved locations for the duration of your employment. Please confirm whether you’ll be able to work and reside from one of Ethena’s approved locations for the duration of your employment with Ethena.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please indicate where you would be located for this role",
+        "ai": "Please indicate where you would be located for this role",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "ethena does not allow the use of ai tools during interviews, including note takers, transcription tools, or recordings. candidates must disclose any ai use during the interview process. failure to comply may result in removal from the recruitment process.",
+        "ai": "Ethena does not allow the use of AI tools during interviews, including note takers, transcription tools, or recordings. Candidates must disclose any AI use during the interview process. Failure to comply may result in removal from the recruitment process.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. The 'Current location' field includes a hidden input for location validation. Pronouns and AI policy fields are implemented as custom cards.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please list your name pronunciation so our team can address you correctly.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you first hear about Ethena? If an Ethena team member brought you here, we'd love to know who so we can thank them, so please do give them a shoutout.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Why are you interested in joining Ethena?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role will require a background check. This will take place once the offer has been extended. If you have any concerns, please let us know or note N/A.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you now, or will you in the future require VISA sponsorship to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Ethena is a remote-first organization and is currently hiring for candidates based in approved locations noted in the job description. If you are selected for this role, you must be able to work and reside in one of these approved locations for the duration of your employment. Please confirm whether you’ll be able to work and reside from one of Ethena’s approved locations for the duration of your employment with Ethena.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes (located in the U.S. and not located in Montana)",
+          "No (located outside the U.S. or located in Montana)"
+        ]
+      },
+      {
+        "question": "Please indicate where you would be located for this role",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ethena does not allow the use of AI tools during interviews, including note takers, transcription tools, or recordings. Candidates must disclose any AI use during the interview process. Failure to comply may result in removal from the recruitment process.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I acknowledge that I have read and understand Ethena’s AI policy for interviews."
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "please list your name pronunciation so our team can address you correctly.",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you first hear about ethena? if an ethena team member brought you here, we'd love to know who so we can thank them, so please do give them a shoutout.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "why are you interested in joining ethena?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "this role will require a background check. this will take place once the offer has been extended. if you have any concerns, please let us know or note n/a.",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "do you now, or will you in the future require visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "ethena is a remote-first organization and is currently hiring for candidates based in approved locations noted in the job description. if you are selected for this role, you must be able to work and reside in one of these approved locations for the duration of your employment. please confirm whether you’ll be able to work and reside from one of ethena’s approved locations for the duration of your employment with ethena.",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "please indicate where you would be located for this role",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "ethena does not allow the use of ai tools during interviews, including note takers, transcription tools, or recordings. candidates must disclose any ai use during the interview process. failure to comply may result in removal from the recruitment process.",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}

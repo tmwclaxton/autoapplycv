@@ -1,0 +1,218 @@
+{
+  "id": "https-liveeo-gmbh-jobs-personio-de-job-2568230",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:20:08.350Z",
+  "page_url": "https://liveeo-gmbh.jobs.personio.de/job/2568230",
+  "page_title": "Senior Full Stack Engineer (f/m/x) - Government Solutions | Jobs bei LiveEO GmbH",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "github",
+        "ai": "GitHub",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "verfügbar ab ( ) verfügbar ab",
+        "ai": "Verfügbar ab",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung ( ) gehaltsvorstellung",
+        "ai": "Gehaltsvorstellung",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you already live in berlin or would you move to berlin? ( ) do you already live in berlin or would you move to berlin?",
+        "ai": "Do you already live in Berlin or would you move to Berlin?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "this role requires german/european citizenship due to legal/regulatory requirements. do you meet this requirement? ( ) this role requires german/european citizenship due to legal/regulatory requirements. do you meet this requirement?",
+        "ai": "This role requires German/European citizenship due to legal/regulatory requirements. Do you meet this requirement?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload andere",
+        "ai": "Andere",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "first name",
+      "last name",
+      "email"
+    ],
+    "ai_only": [
+      "Vorname",
+      "Nachname",
+      "E-Mail"
+    ],
+    "reasons": [
+      "label Jaccard 0.222 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom text inputs for screening questions that might be better suited for radio or select inputs. File uploads are handled via hidden inputs triggered by custom buttons.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "GitHub",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Verfügbar ab",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gehaltsvorstellung",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you already live in Berlin or would you move to Berlin?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role requires German/European citizenship due to legal/regulatory requirements. Do you meet this requirement?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Andere",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "github",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "telefon",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "verfügbar ab ( ) verfügbar ab",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "gehaltsvorstellung ( ) gehaltsvorstellung",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "do you already live in berlin or would you move to berlin? ( ) do you already live in berlin or would you move to berlin?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "this role requires german/european citizenship due to legal/regulatory requirements. do you meet this requirement? ( ) this role requires german/european citizenship due to legal/regulatory requirements. do you meet this requirement?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "upload lebenslauf",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload andere",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

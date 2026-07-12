@@ -1,0 +1,42 @@
+{
+  "id": "https-www-123formbuilder-com-pt-templates-de-formularios-gratis-formulario-de-ca",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:08:15.756Z",
+  "page_url": "https://www.123formbuilder.com/pt/templates-de-formularios-gratis/formulario-de-candidatura-de-emprego-1619680/",
+  "page_title": "Formulario de Candidatura de Emprego | 123FormBuilder",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 2,
+      "ai_count": 0,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "search templates...",
+      "visitorfile file-input"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains a landing page for a form template service. The actual form is embedded within an iframe (https://myfor.ms/my-contact-form-1619680.html) which is not accessible for parsing. No form fields were found in the provided HTML snippet.",
+    "fields": []
+  },
+  "detector_fields": [
+    {
+      "question": "search templates...",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "visitorfile file-input",
+      "field_type": "file",
+      "ref": "f1"
+    }
+  ]
+}

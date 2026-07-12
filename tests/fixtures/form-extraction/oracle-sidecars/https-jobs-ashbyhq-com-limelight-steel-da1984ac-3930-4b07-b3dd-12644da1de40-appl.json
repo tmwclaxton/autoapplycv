@@ -1,0 +1,201 @@
+{
+  "id": "https-jobs-ashbyhq-com-limelight-steel-da1984ac-3930-4b07-b3dd-12644da1de40-appl",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:08:22.580Z",
+  "page_url": "https://jobs.ashbyhq.com/limelight-steel/da1984ac-3930-4b07-b3dd-12644da1de40/application",
+  "page_title": "Future Teammate — General Application @ Limelight Steel, Inc.",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current Company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you think your talents would be particularly useful at limelight steel?",
+        "ai": "Why do you think your talents would be particularly useful at Limelight Steel?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill from resume"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom file upload component for resumes and cover letters. The 'Autofill from resume' field is a drag-and-drop/file input that triggers an automated parsing process.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current Company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Why do you think your talents would be particularly useful at Limelight Steel?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "why do you think your talents would be particularly useful at limelight steel?",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

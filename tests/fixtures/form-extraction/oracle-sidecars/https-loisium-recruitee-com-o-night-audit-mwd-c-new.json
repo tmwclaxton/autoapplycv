@@ -1,0 +1,146 @@
+{
+  "id": "https-loisium-recruitee-com-o-night-audit-mwd-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:54:36.927Z",
+  "page_url": "https://loisium.recruitee.com/o/night-audit-mwd/c/new",
+  "page_title": "LOISIUM - Night Audit (m/w/d) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 6,
+      "count_delta": 1,
+      "label_jaccard": 0.625,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "please read the information on data protection carefully and confirm this by calling up the online application form. by submitting your application you declare that you agree that",
+        "ai": "Please read the information on data protection carefully and confirm this by calling up the online application form. By submitting your application you declare that you agree that the data voluntarily transmitted in the course of the online application and/or the data contained in the documents sent by you will be stored by us in an applicant database and processed as part of the application process. The data will be treated as strictly confidential and will not be passed on to third parties. You have the option of revoking your consent at any time and, on request, to obtain information about the personal data you have provided and is stored in the applicant database.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter section allows for file upload, but also provides a button to switch to a text input (not visible in static HTML).",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please read the information on data protection carefully and confirm this by calling up the online application form. By submitting your application you declare that you agree that the data voluntarily transmitted in the course of the online application and/or the data contained in the documents sent by you will be stored by us in an applicant database and processed as part of the application process. The data will be treated as strictly confidential and will not be passed on to third parties. You have the option of revoking your consent at any time and, on request, to obtain information about the personal data you have provided and is stored in the applicant database.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "please read the information on data protection carefully and confirm this by calling up the online application form. by submitting your application you declare that you agree that",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f6"
+    }
+  ]
+}

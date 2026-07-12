@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApplicationAssistantController;
 use App\Http\Controllers\Api\CreditUsageController;
 use App\Http\Controllers\Api\ExtensionAutoApplyController;
+use App\Http\Controllers\Api\ExtensionCoverLetterDocumentController;
 use App\Http\Controllers\Api\ExtensionCvUploadController;
 use App\Http\Controllers\Api\ExtensionPageCaptureController;
 use App\Http\Controllers\Api\ExtensionProfileDocumentController;
@@ -16,7 +17,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/cv/upload', [ExtensionCvUploadController::class, 'store'])->name('api.cv.upload');
     Route::post('/profile/documents', [ExtensionProfileDocumentController::class, 'store'])->name('api.profile.documents.store');
     Route::delete('/profile/documents/{profileDocument}', [ExtensionProfileDocumentController::class, 'destroy'])->name('api.profile.documents.destroy');
+    Route::get('/profile/documents/{profileDocument}/preview', [ExtensionProfileDocumentController::class, 'preview'])->name('api.profile.documents.preview');
     Route::get('/profile/documents/{profileDocument}/download', [ExtensionProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
+    Route::post('/profile/cover-letters', [ExtensionCoverLetterDocumentController::class, 'store'])->name('api.profile.cover-letters.store');
     Route::post('/credits', [CreditUsageController::class, 'store'])->name('api.credits');
     Route::post('/extension/page-captures', [ExtensionPageCaptureController::class, 'store'])->name('api.extension.page-captures.store');
     Route::post('/extension/auto-apply/sessions', [ExtensionAutoApplyController::class, 'storeSession'])->name('api.extension.auto-apply.sessions.store');

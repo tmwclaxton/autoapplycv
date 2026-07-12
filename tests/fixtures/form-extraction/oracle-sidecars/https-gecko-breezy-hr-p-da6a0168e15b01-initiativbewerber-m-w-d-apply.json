@@ -1,0 +1,247 @@
+{
+  "id": "https-gecko-breezy-hr-p-da6a0168e15b01-initiativbewerber-m-w-d-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:40:30.606Z",
+  "page_url": "https://gecko.breezy.hr/p/da6a0168e15b01-initiativbewerber-m-w-d/apply",
+  "page_title": "Initiativbewerber (m/w/d)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.6,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "anschreiben (cover letter)",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "textarea",
+        "type_agree": false
+      },
+      {
+        "detector": "zeugnisse und zertifikate (certifications)",
+        "ai": "Zeugnisse und Zertifikate (Certifications)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung (salary requirements)",
+        "ai": "Gehaltsvorstellung (Salary requirements)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "weitergabe der bewerbung (forwarding the application)",
+        "ai": "Weitergabe der Bewerbung (Forwarding the application)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "einwilligung zum datenschutz (privacy consent)",
+        "ai": "Einwilligung zum Datenschutz (Privacy consent)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "Anschreiben (Cover Letter)",
+      "Wie bist Du auf uns aufmerksam geworden? (How did you become aware of us?)"
+    ],
+    "reasons": [
+      "label Jaccard 0.600 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. Some fields are dynamically injected via a questionnaire JSON object. The honeypot field 'hp_7f2b' was ignored.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anschreiben (Cover Letter)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Zeugnisse und Zertifikate (Certifications)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Wie bist Du auf uns aufmerksam geworden? (How did you become aware of us?)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "LinkedIn oder (or) Xing",
+          "Indeed oder (or) Stepstone",
+          "Youtube",
+          "Google oder (or) Bing",
+          "Empfehlung (Recommendation)",
+          "Stellenaushänge in Hochschulen (Job ads in Universities)",
+          "Instagram Rostock Griffins",
+          "Anderes (Others)"
+        ]
+      },
+      {
+        "question": "Gehaltsvorstellung (Salary requirements)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Weitergabe der Bewerbung (Forwarding the application)",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Bist Du damit einverstanden, dass wir Deine Bewerbung innerhalb unserer WIIT Unternehmensgruppe weiterreichen und verwenden? (Do you agree that we pass on and use your application within the WIIT Group?)"
+        ]
+      },
+      {
+        "question": "Einwilligung zum Datenschutz (Privacy consent)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "anschreiben (cover letter)",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "zeugnisse und zertifikate (certifications)",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "gehaltsvorstellung (salary requirements)",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "weitergabe der bewerbung (forwarding the application)",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "einwilligung zum datenschutz (privacy consent)",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

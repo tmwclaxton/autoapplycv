@@ -1,0 +1,217 @@
+{
+  "id": "https-flatpay-jobs-personio-com-job-2450034",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:17:55.236Z",
+  "page_url": "https://flatpay.jobs.personio.com/job/2450034",
+  "page_title": "Commercial.e Terrain - Candidature Spontanée | Jobs at Flatpay",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 10,
+      "count_delta": 0,
+      "label_jaccard": 0.8182,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "aurez-vous besoin d’un parrainage employeur ou d’une démarche d’autorisation de travail maintenant ou à l’avenir pour travailler en france ?",
+        "ai": "Aurez-vous besoin d’un parrainage employeur ou d’une démarche d’autorisation de travail maintenant ou à l’avenir pour travailler en France ?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "avez-vous une voiture ?",
+        "ai": "Avez-vous une voiture ?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "avez-vous le permis de conduire ?",
+        "ai": "Avez-vous le permis de conduire ?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered dynamically via JavaScript. The file upload field is triggered by a button click.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Aurez-vous besoin d’un parrainage employeur ou d’une démarche d’autorisation de travail maintenant ou à l’avenir pour travailler en France ?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Oui",
+          "Non"
+        ]
+      },
+      {
+        "question": "Avez-vous une voiture ?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Avez-vous le permis de conduire ?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "available from",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "aurez-vous besoin d’un parrainage employeur ou d’une démarche d’autorisation de travail maintenant ou à l’avenir pour travailler en france ?",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "avez-vous une voiture ?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "avez-vous le permis de conduire ?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f9"
+    }
+  ]
+}

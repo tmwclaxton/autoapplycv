@@ -1,0 +1,453 @@
+{
+  "id": "https-jobs-lever-co-goswift-06a73dca-bc19-4389-90f6-73958c45e906-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:55:42.485Z",
+  "page_url": "https://jobs.lever.co/goswift/06a73dca-bc19-4389-90f6-73958c45e906/apply",
+  "page_title": "Swiftly, Inc. - Customer Training & Adoption Specialist(SaaS)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 21,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7143,
+      "matched_count": 21
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the united states, british columbia or ontario, canada for swiftly?",
+        "ai": "Are you legally authorized to work in the United States, British Columbia or Ontario, Canada for Swiftly?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you now, or will you in the future, require sponsorship for employment visa status (e.g., h-1b visa status, etc.) to work legally for our company in the united states or canada?",
+        "ai": "Do you now, or will you in the future, require sponsorship for employment visa status (e.g., H-1B visa status, etc.) to work legally for our company in the United States or Canada?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you passionate about mobility?",
+        "ai": "Why are you passionate about mobility?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what interests you about swiftly?",
+        "ai": "What interests you about Swiftly?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your racial, ethnic and origin identities?",
+        "ai": "What are your racial, ethnic and origin identities?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you identify as?",
+        "ai": "What gender do you identify as?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns?",
+        "ai": "What are your pronouns?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as a member of the lgbtqia+ community?",
+        "ai": "Do you identify as a member of the LGBTQIA+ community?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with custom fields injected via hidden JSON templates. Demographic survey fields are optional.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "United States",
+          "British Columbia",
+          "Ontario"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States, British Columbia or Ontario, Canada for Swiftly?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "yes",
+          "no"
+        ]
+      },
+      {
+        "question": "Do you now, or will you in the future, require sponsorship for employment visa status (e.g., H-1B visa status, etc.) to work legally for our company in the United States or Canada?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "yes",
+          "no"
+        ]
+      },
+      {
+        "question": "Why are you passionate about mobility?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What interests you about Swiftly?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "17 or younger",
+          "18-20",
+          "21-29",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "Prefer not to answer"
+        ]
+      },
+      {
+        "question": "What are your racial, ethnic and origin identities?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White / Caucasian",
+          "Hispanic or Latinx",
+          "Black or African American",
+          "Asian",
+          "Native Hawaiian or other Pacific Islander",
+          "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+          "Middle Eastern or North African",
+          "A race, ethnicity, or origin not shown",
+          "Prefer not to answer"
+        ]
+      },
+      {
+        "question": "What gender do you identify as?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Prefer not to answer"
+        ]
+      },
+      {
+        "question": "What are your pronouns?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "she/her",
+          "he/him",
+          "they/them",
+          "Other",
+          "Prefer not to answer"
+        ]
+      },
+      {
+        "question": "Do you identify as a member of the LGBTQIA+ community?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer not to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "are you legally authorized to work in the united states, british columbia or ontario, canada for swiftly?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "do you now, or will you in the future, require sponsorship for employment visa status (e.g., h-1b visa status, etc.) to work legally for our company in the united states or canada?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "why are you passionate about mobility?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what interests you about swiftly?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "what are your racial, ethnic and origin identities?",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "do you identify as a member of the lgbtqia+ community?",
+      "field_type": "radio",
+      "ref": "f20"
+    }
+  ]
+}

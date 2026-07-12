@@ -104,46 +104,6 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
       "question": "school",
       "field_type": "select",
       "max_chars": null,
@@ -244,7 +204,7 @@
       }
     },
     {
-      "question": "how did you hear about us? linkedin profile",
+      "question": "how did you hear about us?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -264,7 +224,7 @@
       }
     },
     {
-      "question": "what is your strongest coding language? linkedin profile",
+      "question": "what is your strongest coding language?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -284,7 +244,7 @@
       }
     },
     {
-      "question": "gpa (undergraduate) linkedin profile",
+      "question": "gpa (undergraduate)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -304,7 +264,7 @@
       }
     },
     {
-      "question": "gpa (graduate) linkedin profile",
+      "question": "gpa (graduate)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -324,7 +284,7 @@
       }
     },
     {
-      "question": "gpa (doctorate) linkedin profile",
+      "question": "gpa (doctorate)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -344,7 +304,7 @@
       }
     },
     {
-      "question": "are you open to working onsite 5 days a week? linkedin profile",
+      "question": "are you open to working onsite 5 days a week?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -364,7 +324,7 @@
       }
     },
     {
-      "question": "are you currently based in the los angeles area or willing to relocate to the los angeles area? linkedin profile",
+      "question": "are you currently based in the los angeles area or willing to relocate to the los angeles area?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -384,7 +344,7 @@
       }
     },
     {
-      "question": "citizenship status linkedin profile",
+      "question": "citizenship status",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -464,6 +424,26 @@
       }
     },
     {
+      "question": "please identify your race",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "race",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
       "question": "veteran status",
       "field_type": "select",
       "max_chars": null,
@@ -502,10 +482,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

@@ -1,3 +1,8 @@
+import {
+    resolveJobBoardMarket,
+    resolveSimplyHiredHost,
+} from './job-board-market.js';
+
 export const SIMPLYHIRED_PLATFORM_ID = 'simplyhired';
 
 /**
@@ -10,7 +15,32 @@ export const SIMPLYHIRED_PLATFORM_ID = 'simplyhired';
  * @returns {boolean}
  */
 export function isSimplyHiredHostname(hostname) {
-    return /(^|\.)simplyhired\.(co\.uk|com)$/i.test(String(hostname || '').trim());
+    return /(^|\.)simplyhired\.(co\.uk|com)$/i.test(
+        String(hostname || '').trim(),
+    );
+}
+
+/**
+ * @param {{ host?: string|null, location?: string|null, filters?: SimplyHiredSearchFilters|null }} [options]
+ * @returns {string}
+ */
+export function resolveSimplyHiredHostFromOptions({
+    host = null,
+    location = null,
+    filters = null,
+} = {}) {
+    const explicit = String(host || '')
+        .trim()
+        .replace(/^https?:\/\//i, '')
+        .replace(/\/+$/, '');
+
+    if (explicit) {
+        return explicit;
+    }
+
+    const locationText = String(location || filters?.location || '').trim();
+
+    return resolveSimplyHiredHost(resolveJobBoardMarket(locationText));
 }
 
 /**
@@ -30,12 +60,10 @@ export function slugifySimplyHiredSegment(text) {
  * @param {{ filters?: SimplyHiredSearchFilters|null, page?: number, quickApplyOnly?: boolean, host?: string|null }} [options]
  * @returns {string}
  */
-export function buildSimplyHiredJobSearchUrl(roleDescription, {
-    filters = null,
-    page = 1,
-    quickApplyOnly = true,
-    host = null,
-} = {}) {
+export function buildSimplyHiredJobSearchUrl(
+    roleDescription,
+    { filters = null, page = 1, quickApplyOnly = true, host = null } = {},
+) {
     const keyword = String(roleDescription || '').trim();
 
     if (!keyword) {
@@ -58,9 +86,9 @@ export function buildSimplyHiredJobSearchUrl(roleDescription, {
 
     void quickApplyOnly;
 
-    const baseHost = String(host || '').trim() || 'www.simplyhired.co.uk';
+    const baseHost = resolveSimplyHiredHostFromOptions({ host, filters });
 
-    return `https://${baseHost.replace(/^https?:\/\//i, '')}/search?${params.toString()}`;
+    return `https://${baseHost}/search?${params.toString()}`;
 }
 
 /**
@@ -71,8 +99,10 @@ export function isSimplyHiredJobsSearchUrl(url) {
     try {
         const parsed = new URL(url);
 
-        return isSimplyHiredHostname(parsed.hostname)
-            && /^\/search$/i.test(parsed.pathname);
+        return (
+            isSimplyHiredHostname(parsed.hostname) &&
+            /^\/search$/i.test(parsed.pathname)
+        );
     } catch {
         return false;
     }
@@ -94,7 +124,16 @@ export function readSimplyHiredJobIdFromHref(href) {
  * @param {{ path?: string|null, url?: string|null, host?: string|null }} [options]
  * @returns {string}
  */
-export function buildSimplyHiredJobOpenUrl(jobId, { path = null, url = null, host = null } = {}) {
+export function buildSimplyHiredJobOpenUrl(
+    jobId,
+    {
+        path = null,
+        url = null,
+        host = null,
+        location = null,
+        filters = null,
+    } = {},
+) {
     const explicitUrl = String(url || '').trim();
 
     if (explicitUrl.startsWith('http')) {
@@ -107,8 +146,12 @@ export function buildSimplyHiredJobOpenUrl(jobId, { path = null, url = null, hos
         return explicitPath;
     }
 
-    const baseHost = String(host || '').trim() || 'www.simplyhired.co.uk';
-    const origin = `https://${baseHost.replace(/^https?:\/\//i, '')}`;
+    const baseHost = resolveSimplyHiredHostFromOptions({
+        host,
+        location,
+        filters,
+    });
+    const origin = `https://${baseHost}`;
     const normalizedId = String(jobId || '').trim();
 
     if (!normalizedId) {
@@ -128,27 +171,48 @@ export function buildSimplyHiredJobOpenUrl(jobId, { path = null, url = null, hos
  * @param {SimplyHiredSearchFilters|null|undefined} filters
  * @returns {boolean}
  */
-export function urlsMatchSimplyHiredSearch(currentUrl, expectedUrl, filters = null) {
+export function urlsMatchSimplyHiredSearch(
+    currentUrl,
+    expectedUrl,
+    filters = null,
+) {
     try {
         const current = new URL(currentUrl);
         const expected = new URL(expectedUrl);
 
-        if (!isSimplyHiredJobsSearchUrl(currentUrl) || !isSimplyHiredJobsSearchUrl(expectedUrl)) {
+        if (
+            !isSimplyHiredJobsSearchUrl(currentUrl) ||
+            !isSimplyHiredJobsSearchUrl(expectedUrl)
+        ) {
             return false;
         }
 
         const currentKeyword = current.searchParams.get('q') || '';
         const expectedKeyword = expected.searchParams.get('q') || '';
 
-        if (slugifySimplyHiredSegment(currentKeyword) !== slugifySimplyHiredSegment(expectedKeyword)) {
+        if (
+            slugifySimplyHiredSegment(currentKeyword) !==
+            slugifySimplyHiredSegment(expectedKeyword)
+        ) {
             return false;
         }
 
         const currentLocation = current.searchParams.get('l') || '';
-        const expectedLocation = expected.searchParams.get('l')
-            || String(filters?.location || '').trim();
+        const expectedLocation =
+            expected.searchParams.get('l') ||
+            String(filters?.location || '').trim();
 
-        if (expectedLocation && slugifySimplyHiredSegment(currentLocation) !== slugifySimplyHiredSegment(expectedLocation)) {
+        if (
+            expectedLocation &&
+            slugifySimplyHiredSegment(currentLocation) !==
+                slugifySimplyHiredSegment(expectedLocation)
+        ) {
+            return false;
+        }
+
+        if (
+            current.hostname.toLowerCase() !== expected.hostname.toLowerCase()
+        ) {
             return false;
         }
 

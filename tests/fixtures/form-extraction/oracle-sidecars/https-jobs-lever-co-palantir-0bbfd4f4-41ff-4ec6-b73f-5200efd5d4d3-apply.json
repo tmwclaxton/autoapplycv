@@ -1,0 +1,471 @@
+{
+  "id": "https-jobs-lever-co-palantir-0bbfd4f4-41ff-4ec6-b73f-5200efd5d4d3-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:31:06.832Z",
+  "page_url": "https://jobs.lever.co/palantir/0bbfd4f4-41ff-4ec6-b73f-5200efd5d4d3/apply",
+  "page_title": "Palantir Technologies - Administrative Business Partner - Security",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 15,
+      "count_delta": 6,
+      "label_jaccard": 0.7143,
+      "type_agree_rate": 0.8,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "language skill(s) (check all that apply)",
+        "ai": "Language Skill(s) (Check all that apply)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name | what would you like us to call you?",
+        "ai": "Preferred Name | What would you like us to call you?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "name pronunciation | how do you pronounce your name?",
+        "ai": "Name Pronunciation | How do you pronounce your name?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the country for which you are applying?",
+        "ai": "Are you legally authorized to work in the country for which you are applying?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status (e.g., h-1b, etc.)?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B, etc.)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which university are you currently attending or did you last attend? please select \"other (school not listed)\" if your school is not listed.",
+        "ai": "Which university are you currently attending or did you last attend? Please select \"Other (School Not Listed)\" if your school is not listed.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "please tell us how you heard about this opportunity.",
+      "what has been your favorite project or proudest accomplishment? why?",
+      "why do you want to work at palantir?",
+      "as part of our interview process, we may use ai notetakers to transcribe conversations for accuracy and efficiency. please see our candidate privacy policy for more information on how we process your data. your decision to opt in or out of this tooling will not impact your candidacy.",
+      "veteran status",
+      "disability status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The university dropdown list was truncated in the provided HTML excerpt. The location field uses a custom JS-based search widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Language Skill(s) (Check all that apply)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "English (ENG)",
+          "Spanish (SPA)",
+          "French (FRA)",
+          "German (DEU)",
+          "Japanese (JPN)",
+          "Cantonese (CANT)",
+          "Mandarin (MAN)",
+          "Dutch (NLD)",
+          "Hindi (HIN)",
+          "Arabic (ARA)",
+          "Danish (DAN)",
+          "Turkish (TUR)",
+          "Portuguese (POR)",
+          "Hebrew (HEB)",
+          "Swedish (SWE)",
+          "Norwegian (NOR)",
+          "Italian (ITA)",
+          "Vietnamese (VIE)",
+          "Tagalog (TGL)",
+          "Khmer (KHM)",
+          "Hmong (HMN)",
+          "Telugu (TEL)",
+          "Bengali (BNE)",
+          "Marathi (MAR)",
+          "Urdu (URD)",
+          "Gujarati (GUJ)",
+          "Lithuanian (LIT)",
+          "Korean (KOR)",
+          "American Sign Language (ASL)",
+          "British Sign Language (BSL)",
+          "Choose not to disclose",
+          "Polish",
+          "Other"
+        ]
+      },
+      {
+        "question": "Preferred Name | What would you like us to call you?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name Pronunciation | How do you pronounce your name?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the country for which you are applying?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B, etc.)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which university are you currently attending or did you last attend? Please select \"Other (School Not Listed)\" if your school is not listed.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Aalborg University",
+          "Aalto University",
+          "Aarhus University",
+          "Abdullah Gul University",
+          "Abertay University",
+          "Aberystwyth University",
+          "Abilene Christian University",
+          "Abo Akademi University",
+          "Abubakar Tafawa Balewa University",
+          "Academy of Art University",
+          "Academy of Economic Studies of Moldova",
+          "Academy of Fine Arts in Warsaw",
+          "Academy of Information Technology",
+          "Academy of Technology - AOT",
+          "Acharya Nagarjuna University",
+          "Adam Mickiewicz University in Poznan",
+          "Adams State College",
+          "Adana Science and Technology University",
+          "Addis Ababa Institute of Technology",
+          "Addis Ababa University",
+          "Adelphi University",
+          "Adi Shankara Institute of Engineering and Technology",
+          "Adina Institute of Science and Technology - AIST",
+          "Adiyaman University",
+          "Adnan Menderes University",
+          "Adolfo Ibanez University",
+          "African Leadership College, Mauritius",
+          "African Leadership University, Rwanda",
+          "African University of Science and Technology",
+          "Afyon Kocatepe University",
+          "AGH University of Science and Technology",
+          "Agro ParisTech",
+          "Ahmadu Bello University",
+          "Ahmedabad University",
+          "Ahmet Yesevi University",
+          "Aiken Technical College",
+          "Ain Shams University",
+          "Air Force Institute of Technology",
+          "Air University",
+          "Aix-Marseille University",
+          "Ajay Kumar Garg Engineering College",
+          "Akdeniz University",
+          "Aksaray University",
+          "Al Akhawayn University",
+          "Al Falah University",
+          "Al-Balqa Applied University",
+          "Ala-Too International University",
+          "Alabama A&M University",
+          "Alabama State University",
+          "Alagappa Chettiar College of Engineering and Technology",
+          "Albany College of Pharmacy & Health Sciences",
+          "Albany State University",
+          "Albion College",
+          "Albright College",
+          "Alcorn State University",
+          "Alderson Broaddus University",
+          "Aleppo University",
+          "Alexandria University",
+          "Alexandru Ioan Cuza University",
+          "Alfaisal University",
+          "Algoma University",
+          "Algonquin College",
+          "Allama Iqbal Open University",
+          "Allegheny College",
+          "Allen University",
+          "Alliance College of Engineering and Design",
+          "Alliant International University",
+          "Alma College",
+          "Alvernia University",
+          "AMA International University",
+          "AMA University",
+          "Amasya University",
+          "Amberton University",
+          "American College of Education",
+          "American InterContinental University",
+          "American International University Bangladesh - AIUB",
+          "American Military University",
+          "American Public University",
+          "American River College",
+          "American University",
+          "American University in Bulgaria",
+          "American University of Armenia",
+          "American University of Beirut",
+          "American University of Central Asia",
+          "American University of Nigeria",
+          "American University of Paris",
+          "American University of Sharjah",
+          "Amherst College",
+          "Amirkabir University of Technology",
+          "Amity University",
+          "Amrita Vishwa Vidyapeetham",
+          "Amsterdam University of Applied Sciences"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "language skill(s) (check all that apply)",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "preferred name | what would you like us to call you?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "name pronunciation | how do you pronounce your name?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "are you legally authorized to work in the country for which you are applying?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status (e.g., h-1b, etc.)?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "which university are you currently attending or did you last attend? please select \"other (school not listed)\" if your school is not listed.",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "please tell us how you heard about this opportunity.",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "what has been your favorite project or proudest accomplishment? why?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "why do you want to work at palantir?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "as part of our interview process, we may use ai notetakers to transcribe conversations for accuracy and efficiency. please see our candidate privacy policy for more information on how we process your data. your decision to opt in or out of this tooling will not impact your candidacy.",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f20"
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "id": "https-insightful-breezy-hr-p-a52cde25413a-outbound-sales-development-representat",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:14:04.024Z",
+  "page_url": "https://insightful.breezy.hr/p/a52cde25413a-outbound-sales-development-representative/apply",
+  "page_title": "Outbound Sales Development Representative",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you first hear about this open position?",
+        "ai": "How did you first hear about this open position?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please share a link to your linkedin profile if you have one.",
+        "ai": "Please share a link to your LinkedIn profile if you have one.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "because many of our roles are hybrid, please share the city, state/province, and country where you are currently located.",
+        "ai": "Because many of our roles are hybrid, please share the city, state/province, and country where you are currently located.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "recruitment privacy notice",
+        "ai": "Recruitment Privacy Notice",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Insightful.",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.500 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based SPA structure. Some fields are dynamically injected via a questionnaire JSON object. There are also hidden buttons for Indeed and LinkedIn integration.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Insightful.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you first hear about this open position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please share a link to your LinkedIn profile if you have one.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Because many of our roles are hybrid, please share the city, state/province, and country where you are currently located.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Recruitment Privacy Notice",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how did you first hear about this open position?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "please share a link to your linkedin profile if you have one.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "because many of our roles are hybrid, please share the city, state/province, and country where you are currently located.",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "recruitment privacy notice",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

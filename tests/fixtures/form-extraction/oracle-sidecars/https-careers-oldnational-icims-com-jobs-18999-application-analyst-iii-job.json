@@ -1,0 +1,54 @@
+{
+  "id": "https-careers-oldnational-icims-com-jobs-18999-application-analyst-iii-job",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:00:58.761Z",
+  "page_url": "https://careers-oldnational.icims.com/jobs/18999/application-analyst-iii/job",
+  "page_title": "Old National Bank Careers | Application Analyst III",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 3,
+      "count_delta": 3,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "User ID",
+      "Password",
+      "Remember Me"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=0, ai=3)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains a login form for existing users, but the actual job application form is loaded via an iCIMS iframe (https://careers-oldnational.icims.com/jobs/18999/application-analyst-iii/job?in_iframe=1). The fields inside the iframe are not accessible in the provided static HTML excerpt.",
+    "fields": [
+      {
+        "question": "User ID",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Password",
+        "field_type": "password",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Remember Me",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

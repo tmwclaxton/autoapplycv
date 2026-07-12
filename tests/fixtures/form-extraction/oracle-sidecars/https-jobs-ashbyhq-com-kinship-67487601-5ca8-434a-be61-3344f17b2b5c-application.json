@@ -1,0 +1,340 @@
+{
+  "id": "https-jobs-ashbyhq-com-kinship-67487601-5ca8-434a-be61-3344f17b2b5c-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:04:38.619Z",
+  "page_url": "https://jobs.ashbyhq.com/kinship/67487601-5ca8-434a-be61-3344f17b2b5c/application",
+  "page_title": "Product Engineer, Backend @ Kinship",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 18,
+      "count_delta": 2,
+      "label_jaccard": 0.8889,
+      "type_agree_rate": 0.9375,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "are you happy to work from our southwark office 5 days a week?",
+        "ai": "Are you happy to work from our Southwark office 5 days a week?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently eligible to work in the uk?",
+        "ai": "Are you currently eligible to work in the UK?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "contact number",
+        "ai": "Contact Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "link to github/portfolio/personal website",
+        "ai": "Link to GitHub/Portfolio/Personal Website",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what should we absolutely know about you - in just one line?",
+        "ai": "What should we absolutely know about you - in just one line?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why kinship?",
+        "ai": "Why Kinship?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what makes you a great fit for this role?",
+        "ai": "What makes you a great fit for this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "what's your notice period?",
+        "ai": "What's your notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "anything else you'd like to share?",
+        "ai": "Anything else you'd like to share?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Upload your resume here to autofill key application fields.",
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for 'Yes/No' questions which are backed by hidden checkboxes. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Upload your resume here to autofill key application fields.",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Contact Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Link to GitHub/Portfolio/Personal Website",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What should we absolutely know about you - in just one line?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Why Kinship?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What makes you a great fit for this role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you happy to work from our Southwark office 5 days a week?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently eligible to work in the UK?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What's your notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anything else you'd like to share?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you happy to work from our southwark office 5 days a week?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you currently eligible to work in the uk?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "contact number",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "link to github/portfolio/personal website",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what should we absolutely know about you - in just one line?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "why kinship?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "what makes you a great fit for this role?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "number",
+      "ref": "f12"
+    },
+    {
+      "question": "what's your notice period?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "anything else you'd like to share?",
+      "field_type": "textarea",
+      "ref": "f15"
+    }
+  ]
+}

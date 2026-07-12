@@ -1,0 +1,255 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-digitalforgecyberassurancegro",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:39:03.208Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/DigitalForgeCyberAssuranceGroup/publication/689fd5c7-62a5-47b8-81b5-799750b48295",
+  "page_title": "Easy apply - Senior Front End Application Developer - Javascript / React / Angular - Digital Forge Cyber Assurance Group",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 15,
+      "count_delta": 1,
+      "label_jaccard": 0.2083,
+      "type_agree_rate": 0.5,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "upload profile image",
+        "ai": "Profile image",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "website",
+        "ai": "Website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "emailconfirmation",
+      "location autocomplete",
+      "twitter",
+      "message",
+      "nopolicy"
+    ],
+    "ai_only": [
+      "Resume/CV",
+      "First name",
+      "Last name",
+      "Confirm your email",
+      "City",
+      "X (fka Twitter)",
+      "Resume",
+      "Let the company know about your interest working there",
+      "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice."
+    ],
+    "reasons": [
+      "label Jaccard 0.208 below 0.7",
+      "type agreement 0.500 below 0.6 on 6 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components (SmartRecruiters 'oneclick' framework). Experience and Education sections are expandable, meaning additional fields may appear upon user interaction.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Profile image",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirm your email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (fka Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Let the company know about your interest working there",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "upload profile image",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "nopolicy",
+      "field_type": "checkbox",
+      "ref": "f13"
+    }
+  ]
+}

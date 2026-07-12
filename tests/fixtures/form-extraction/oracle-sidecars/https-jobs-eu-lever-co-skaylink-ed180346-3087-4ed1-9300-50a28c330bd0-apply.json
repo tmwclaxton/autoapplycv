@@ -1,0 +1,330 @@
+{
+  "id": "https-jobs-eu-lever-co-skaylink-ed180346-3087-4ed1-9300-50a28c330bd0-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:12:08.445Z",
+  "page_url": "https://jobs.eu.lever.co/skaylink/ed180346-3087-4ed1-9300-50a28c330bd0/apply",
+  "page_title": "Skaylink - Account Manager – M365 & Security (m/w/d)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 0.875,
+      "type_agree_rate": 0.9333,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "frühstmöglicher start",
+        "ai": "Frühstmöglicher Start",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "bist du berechtigt in dem land zu arbeiten, in dem du dich bewirbst?",
+        "ai": "Bist du berechtigt in dem Land zu arbeiten, in dem du dich bewirbst?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "was spricht dich besonders an dieser position an?",
+        "ai": "Was spricht dich besonders an dieser Position an?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "deutschkenntnisse",
+        "ai": "Deutschkenntnisse",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "englischkenntnisse",
+        "ai": "Englischkenntnisse",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellungen p.a.",
+        "ai": "Gehaltsvorstellungen p.a.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zeugnisse",
+        "ai": "Zeugnisse",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, skaylink can contact me about future job opportunities for up to 6 monthsprivacy policy",
+        "ai": "Yes, Skaylink can contact me about future job opportunities for up to 6 months",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a standard Lever application structure. Location input includes a hidden field for selection validation.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Köln, Nordrhein-Westfalen",
+          "Regensburg, Bayern",
+          "Stuttgart, Baden-Württemberg",
+          "Essen, Nordrhein-Westfalen",
+          "Garching bei München, Bayern",
+          "Hamburg",
+          "Leipzig, Sachsen"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Frühstmöglicher Start",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Bist du berechtigt in dem Land zu arbeiten, in dem du dich bewirbst?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Was spricht dich besonders an dieser Position an?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Deutschkenntnisse",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Muttersprache",
+          "Annähernd muttersprachlich (fließend und spontan in verschiedenen Kontexten ausdrücken)",
+          "Fachkundige Sprachkenntnisse (Fachpräsentationen halten, Fachterminologie angemessen zu verwenden)",
+          "Solide Sprachkenntnisse (in schriftlicher und mündlicher Form komplexe Informationen klar kommunizieren)",
+          "Fortgeschrittene Grundkenntnisse (alltägliche Gespräche führen, Verstehen von Anweisungen und Anfragen)",
+          "Grundlegende Kenntnisse (Verstehen von einfachen, kurzen Mitteilungen und alltäglichen Anweisungen)",
+          "Anfänger*in (Verstehen von sehr einfachen und kurzen Sätzen, Fähigkeit einfache Fragen zu beantworten)",
+          "Keine Kenntnisse"
+        ]
+      },
+      {
+        "question": "Englischkenntnisse",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Muttersprache",
+          "Annähernd muttersprachlich (fließend und spontan in verschiedenen Kontexten ausdrücken)",
+          "Fachkundige Sprachkenntnisse (Fachpräsentationen halten, Fachterminologie angemessen zu verwenden)",
+          "Solide Sprachkenntnisse (in schriftlicher und mündlicher Form komplexe Informationen klar kommunizieren)",
+          "Fortgeschrittene Grundkenntnisse (alltägliche Gespräche führen, Verstehen von Anweisungen und Anfragen)",
+          "Grundlegende Kenntnisse (Verstehen von einfachen, kurzen Mitteilungen und alltäglichen Anweisungen)",
+          "Anfänger*in (Verstehen von sehr einfachen und kurzen Sätzen, Fähigkeit einfache Fragen zu beantworten)",
+          "Keine Kenntnisse"
+        ]
+      },
+      {
+        "question": "Gehaltsvorstellungen p.a.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Zeugnisse",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Yes, Skaylink can contact me about future job opportunities for up to 6 months",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "frühstmöglicher start",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "bist du berechtigt in dem land zu arbeiten, in dem du dich bewirbst?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "was spricht dich besonders an dieser position an?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "deutschkenntnisse",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "englischkenntnisse",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "gehaltsvorstellungen p.a.",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "zeugnisse",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "yes, skaylink can contact me about future job opportunities for up to 6 monthsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

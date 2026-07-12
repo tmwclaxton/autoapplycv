@@ -31,7 +31,6 @@ export function createSimplyHiredOrchestrator(deps) {
         requestAutoApplyAtsScore,
         resolveAutoApplyFitDecision,
         summarizeAtsFitReason,
-        captureJobPage,
         recordAnalyticsEvent,
         sendIndeedApplyFlowMessage,
         runDraftAllForStep,
@@ -286,7 +285,12 @@ export function createSimplyHiredOrchestrator(deps) {
         let selectResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SELECT_JOB', { jobId: job.jobId });
 
         if (!selectResponse?.success) {
-            const jobUrl = buildSimplyHiredJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+            const jobUrl = buildSimplyHiredJobOpenUrl(job.jobId, {
+                path: job.path,
+                url: job.url,
+                filters: session.filters,
+                location: session.filters?.location,
+            });
 
             await logSession('info', `Opening ${job.title} directly on SimplyHired.`);
 
@@ -342,7 +346,12 @@ export function createSimplyHiredOrchestrator(deps) {
         }
 
         if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-            const jobUrl = buildSimplyHiredJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+            const jobUrl = buildSimplyHiredJobOpenUrl(job.jobId, {
+                path: job.path,
+                url: job.url,
+                filters: session.filters,
+                location: session.filters?.location,
+            });
 
             tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
             await waitForTabLoadComplete(tabId);
@@ -462,8 +471,6 @@ export function createSimplyHiredOrchestrator(deps) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
-        await captureJobPage(tabId);
-
         const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
 
         if (health && health.ok === false) {
@@ -555,8 +562,6 @@ export function createSimplyHiredOrchestrator(deps) {
 
             await sleep(500);
         }
-
-        await captureJobPage(tabId, { force: true });
 
         let submitted = false;
         let guard = 0;

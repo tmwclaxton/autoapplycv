@@ -1,0 +1,173 @@
+{
+  "id": "https-noma-holding-teamtailor-com-jobs-7486264-unsolicited-job-application-noma-",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:13:19.965Z",
+  "page_url": "https://noma-holding.teamtailor.com/jobs/7486264-unsolicited-job-application-noma/applications/new",
+  "page_title": "Unsolicited Job Application - Noma - Noma Holding Aps",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 6,
+      "count_delta": 6,
+      "label_jaccard": 0.2,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "which department are you applying for?",
+        "ai": "Which department are you applying for?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you hold an eu nationality?",
+        "ai": "Do you hold an EU nationality?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that noma holding aps store my personal details to be able to process my job application.",
+      "yes, noma holding aps can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 6 exceeds tolerance 2 (detector=12, ai=6)",
+      "label Jaccard 0.200 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom phone input component with a country dropdown. The HTML excerpt was truncated, so additional fields (like resume upload or cover letter) that typically appear later in Teamtailor forms may be missing.",
+    "fields": [
+      {
+        "question": "Which department are you applying for?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "FOH",
+          "BOH",
+          "Facility/Dishwasher",
+          "Office"
+        ]
+      },
+      {
+        "question": "Do you hold an EU nationality?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which department are you applying for?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you hold an eu nationality?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that noma holding aps store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "yes, noma holding aps can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

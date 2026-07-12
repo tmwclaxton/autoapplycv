@@ -1,0 +1,343 @@
+{
+  "id": "https-jobs-eu-lever-co-pnlfin-b0edd63f-40b7-415a-bb7f-e2edaf9f8ed0-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:00:34.797Z",
+  "page_url": "https://jobs.eu.lever.co/pnlfin/b0edd63f-40b7-415a-bb7f-e2edaf9f8ed0/apply",
+  "page_title": "Finom - Senior AI Engineer (Remote)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 16,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.875,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "how soon are you available to start a new role?",
+        "ai": "How soon are you available to start a new role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current work authorization status for the country where you plan to be primarily based? please specify the type of document/visa and its validity",
+        "ai": "What is your current work authorization status for the country where you plan to be primarily based? Please specify the type of document/visa and its validity",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "please select the level that most accurately describes your professional english communication skills (written and verbal)",
+        "ai": "Please select the level that most accurately describes your professional English communication skills (written and verbal)",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have commercial experience working with llms?",
+        "ai": "Do you have commercial experience working with LLMs?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "which specific frameworks or tools have you used?",
+        "ai": "Which specific frameworks or tools have you used?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have hands-on experience with deploying models into production?",
+        "ai": "Do you have hands-on experience with deploying models into production?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you available to consistently work during cet/cest (european time zone) business hours?",
+        "ai": "Are you available to consistently work during CET/CEST (European time zone) business hours?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations per annum (eur gross)?",
+        "ai": "What are your salary expectations per annum (EUR Gross)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "which location do you plan to work from?",
+        "ai": "Which location do you plan to work from?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Location field includes a dynamic search/dropdown component. hCaptcha is present.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How soon are you available to start a new role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your current work authorization status for the country where you plan to be primarily based? Please specify the type of document/visa and its validity",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please select the level that most accurately describes your professional English communication skills (written and verbal)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "C2 / Native or Bilingual (Total fluency, can lead complex strategic discussions with ease)",
+          "C1 / Advanced (Professional fluency, can handle ambiguity and technical jargon)",
+          "B2 / Upper Intermediate (Effective operational proficiency, can lead squad-level tasks)",
+          "B1 / Intermediate (Basic professional communication)",
+          "A1 - A2 / Beginner or Elementary (Basic greetings/short phrases)"
+        ]
+      },
+      {
+        "question": "Do you have commercial experience working with LLMs?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which specific frameworks or tools have you used?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have hands-on experience with deploying models into production?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you available to consistently work during CET/CEST (European time zone) business hours?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are your salary expectations per annum (EUR Gross)?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which location do you plan to work from?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "European Union (EU) / EEA",
+          "Eastern Europe (Non-EU/EEA Countries)",
+          "North America",
+          "Latin America",
+          "Middle East & West Asia",
+          "Central Asia",
+          "South Asia",
+          "East Asia"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how soon are you available to start a new role?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your current work authorization status for the country where you plan to be primarily based? please specify the type of document/visa and its validity",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "please select the level that most accurately describes your professional english communication skills (written and verbal)",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "do you have commercial experience working with llms?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "which specific frameworks or tools have you used?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have hands-on experience with deploying models into production?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "are you available to consistently work during cet/cest (european time zone) business hours?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "what are your salary expectations per annum (eur gross)?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "which location do you plan to work from?",
+      "field_type": "select",
+      "ref": "f15"
+    }
+  ]
+}

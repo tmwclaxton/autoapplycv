@@ -1,0 +1,39 @@
+{
+  "id": "https-boeing-wd1-myworkdayjobs-com-en-us-external-subsidiary-job-roll-form-opera",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:45:41.833Z",
+  "page_url": "https://boeing.wd1.myworkdayjobs.com/en-US/external_subsidiary/job/Roll-Form-Operator-B---N0104_JR2026514600-2/apply",
+  "page_title": "Careers",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Search for Jobs"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt represents an error page ('The page you are looking for doesn't exist') rather than a functional job application form. No input fields were found.",
+    "fields": [
+      {
+        "question": "Search for Jobs",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

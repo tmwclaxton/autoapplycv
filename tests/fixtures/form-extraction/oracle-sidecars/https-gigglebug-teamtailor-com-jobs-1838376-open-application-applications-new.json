@@ -1,0 +1,327 @@
+{
+  "id": "https-gigglebug-teamtailor-com-jobs-1838376-open-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:16:08.737Z",
+  "page_url": "https://gigglebug.teamtailor.com/jobs/1838376-open-application/applications/new",
+  "page_title": "Open application! - Gigglebug",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 14,
+      "count_delta": 3,
+      "label_jaccard": 0.7222,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "portfolio",
+        "ai": "Portfolio",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reference details",
+        "ai": "Reference details",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "when is your earliest start date?",
+        "ai": "When is your earliest start date?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you already in finland?",
+        "ai": "Are you already in Finland?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to relocate to finland? if answer is \"hybrid\" - please provide a preferred hybrid plan",
+        "ai": "Are you willing to relocate to Finland?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you already in the canaries?",
+        "ai": "Are you already in the Canaries?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to relocate in gran canarias?",
+        "ai": "Are you willing to relocate in Gran Canarias?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what type of employment are you most interested in?",
+        "ai": "What type of employment are you most interested in?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a dynamic phone input component (intl-tel-input) and includes hidden fields for LinkedIn/social integration. Some fields are dynamically generated via JavaScript.",
+    "fields": [
+      {
+        "question": "Portfolio",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Reference details",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "When is your earliest start date?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you already in Finland?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to relocate to Finland?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Hybrid"
+        ]
+      },
+      {
+        "question": "Are you already in the Canaries?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to relocate in Gran Canarias?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes, I am!",
+          "Unfortunately it is not possible for me now."
+        ]
+      },
+      {
+        "question": "What type of employment are you most interested in?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Full time",
+          "Freelance/Part time",
+          "Either"
+        ]
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Through network",
+          "I know someone from Gigglebug (Name the person in your cover letter)",
+          "SoMe",
+          "Other (I'll explain on my cover letter)"
+        ]
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Helsinki",
+          "Las Palmas"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "portfolio",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "reference details",
+      "field_type": "textarea",
+      "ref": "f1"
+    },
+    {
+      "question": "when is your earliest start date?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "are you already in finland?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "are you willing to relocate to finland? if answer is \"hybrid\" - please provide a preferred hybrid plan",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "are you already in the canaries?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "are you willing to relocate in gran canarias?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what type of employment are you most interested in?",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f12"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f16"
+    }
+  ]
+}

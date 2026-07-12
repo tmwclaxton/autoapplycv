@@ -1,0 +1,200 @@
+{
+  "id": "https-apply-workable-com-virtuhire-j-c80891aa3e-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:23:09.013Z",
+  "page_url": "https://apply.workable.com/virtuhire/j/C80891AA3E/apply/",
+  "page_title": "Customer Support / Client Experience Specialist - VirtuHire - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 5,
+      "count_delta": 13,
+      "label_jaccard": 0.2778,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "photo",
+      "what city and country are you currently based in? (answer as: city, country)",
+      "how many years of experience do you have in the role you are applying to?",
+      "have you previously worked for a uk/us company?",
+      "summary",
+      "resume",
+      "do you have a degree/diploma?",
+      "cover letter",
+      "what is your desired salary? (in zar)",
+      "what is your current notice period?",
+      "are you currently based in south africa?",
+      "are you willing to work tuesday-saturday?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, cover letter, or custom screening questions) that typically appear further down in Workable forms are missing from this output.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "what city and country are you currently based in? (answer as: city, country)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "how many years of experience do you have in the role you are applying to?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "have you previously worked for a uk/us company?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have a degree/diploma?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your desired salary? (in zar)",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your current notice period?",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "are you currently based in south africa?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "are you willing to work tuesday-saturday?",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

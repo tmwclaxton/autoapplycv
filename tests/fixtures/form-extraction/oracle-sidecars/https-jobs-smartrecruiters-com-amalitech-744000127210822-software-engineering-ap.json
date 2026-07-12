@@ -1,0 +1,39 @@
+{
+  "id": "https-jobs-smartrecruiters-com-amalitech-744000127210822-software-engineering-ap",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:47:31.035Z",
+  "page_url": "https://jobs.smartrecruiters.com/AmaliTech/744000127210822-software-engineering-apprenticeship-advanced-mid-senior-track-",
+  "page_title": "AmaliTech Software Engineering Apprenticeship (Advanced / Mid-Senior Track) | SmartRecruiters",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "I'm interested"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job advertisement page. The actual application form is hosted on a separate SmartRecruiters 'oneclick' URL (https://jobs.smartrecruiters.com/oneclick-ui/company/AmaliTech/publication/008d0e22-4f75-4f3b-8fe7-83d976904315?dcr_ci=AmaliTech). The fields within that form are not present in this static HTML excerpt.",
+    "fields": [
+      {
+        "question": "I'm interested",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

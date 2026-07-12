@@ -1,0 +1,39 @@
+{
+  "id": "https-hsag-softgarden-io-job-65109723-key-account-manager-w-m-d-energiewirtschaf",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:58:27.289Z",
+  "page_url": "https://hsag.softgarden.io/job/65109723/Key-Account-Manager-w-m-d-Energiewirtschaft-BPO-Softwarel%C3%B6sungen-%E2%80%93-Remote-Homeoffice",
+  "page_title": "Key Account Manager (w/m/d) Energiewirtschaft / BPO- & Softwarelösungen – Remote / Homeoffice bei hsag Heidelberger Services AG | softgarden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Online bewerben"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML only contains a link to an external application portal (softgarden.de). The actual form fields are hosted on a separate domain and are not present in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Online bewerben",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

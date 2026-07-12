@@ -1,0 +1,175 @@
+{
+  "id": "https-beltramesupermercados-pandape-catho-com-br-candidatehelp",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:08:25.926Z",
+  "page_url": "https://beltramesupermercados.pandape.catho.com.br/CandidateHelp",
+  "page_title": "Intelligent Solutions for Recruitment and Selection | Pandapé",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.75,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "surname",
+        "ai": "Surname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "telephone",
+        "ai": "Telephone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "cpf",
+        "ai": "CPF",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "message",
+        "ai": "Message",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "file",
+        "ai": "File",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "i have read and accepted the privacy policy and the legal notice by pandapé",
+        "ai": "I have read and accepted the Privacy Policy and the Legal Notice by Pandapé",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom file upload widget (Dropzone.js) which is represented by the 'File' field. The submit button is initially disabled until the privacy policy checkbox is checked.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Surname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telephone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CPF",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Message",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "File",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I have read and accepted the Privacy Policy and the Legal Notice by Pandapé",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "surname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "telephone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "cpf",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "file",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "i have read and accepted the privacy policy and the legal notice by pandapé",
+      "field_type": "checkbox",
+      "ref": "f7"
+    }
+  ]
+}

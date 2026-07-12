@@ -1,0 +1,104 @@
+2026-07-10T21:57:51Z START batch-07 baseline_agrees=164
+2026-07-10T22:11:04Z END batch-07 exit=0 agrees_batch=13 disagree=17 failed=20 cumulative=175 new=11 tabs_note=reuse-one
+2026-07-10T22:13:19Z START batch-07-reoracle baseline=175
+2026-07-10T22:14:13Z END batch-07-reoracle agrees=2 disagree=2 failed=0 cumulative=177 new=2 heuristics=teamtailor-required-marker
+2026-07-10T22:15:43Z START overnight-chain batches 08-22
+2026-07-10T22:15:43.717Z START oracle-url-queue-batch-08 cumulative=177 new=13
+2026-07-10T22:27:22.354Z END oracle-url-queue-batch-08 exit=0 agrees_batch=21 disagree=16 error=13 cumulative=183 new=19 tabs_closed=reuse-one
+2026-07-10T22:27:22.468Z START oracle-url-queue-batch-09 cumulative=183 new=19
+2026-07-10T22:38:42.618Z END oracle-url-queue-batch-09 exit=0 agrees_batch=22 disagree=15 error=13 cumulative=187 new=23 tabs_closed=reuse-one
+2026-07-10T22:38:42.697Z START oracle-url-queue-batch-10 cumulative=187 new=23
+2026-07-10T22:41:20Z RESUME overnight-chain batches 10-22 after shadow-pierce reload
+2026-07-10T22:41:20.582Z START oracle-url-queue-batch-10 cumulative=187 new=23
+2026-07-10T22:44:00Z WATCHDOG waiting for chain 10-22
+2026-07-10T22:44:00Z HEARTBEAT agrees=188 new=24 2026-07-10T22:38:42.618Z END oracle-url-queue-batch-09 exit=0 agrees_batch=22 disagree=15 error=13 cumulative=187 new=23 tabs_closed=reuse-one
+2026-07-10T22:53:38.737Z END oracle-url-queue-batch-10 exit=0 agrees_batch=20 disagree=15 error=15 cumulative=200 new=36 tabs_closed=reuse-one
+2026-07-10T22:53:38.817Z START oracle-url-queue-batch-11 cumulative=200 new=36
+2026-07-10T22:54:00Z HEARTBEAT agrees=202 new=38 2026-07-10T22:53:38.737Z END oracle-url-queue-batch-10 exit=0 agrees_batch=20 disagree=15 error=15 cumulative=200 new=36 tabs_closed=reuse-one
+2026-07-10T23:04:00Z HEARTBEAT agrees=225 new=61 2026-07-10T22:54:00Z HEARTBEAT agrees=202 new=38 2026-07-10T22:53:38.737Z END oracle-url-queue-batch-10 exit=0 agrees_batch=20 disagree=15 error=15 cumulative=200 new=36 tabs_closed=reuse-one
+2026-07-10T23:04:27.456Z END oracle-url-queue-batch-11 exit=0 agrees_batch=27 disagree=12 error=11 cumulative=225 new=61 tabs_closed=reuse-one
+2026-07-10T23:04:27.542Z START oracle-url-queue-batch-12 cumulative=225 new=61
+2026-07-10T23:06:22Z WATCHDOG2 waiting for chain 10-22 then 23-40
+2026-07-10T23:06:23Z HEARTBEAT agrees=230 new=66 2026-07-10T23:04:27.456Z END oracle-url-queue-batch-11 exit=0 agrees_batch=27 disagree=12 error=11 cumulative=225 new=61 tabs_closed=reuse-one
+2026-07-10T23:16:05.154Z END oracle-url-queue-batch-12 exit=0 agrees_batch=26 disagree=6 error=18 cumulative=251 new=87 tabs_closed=reuse-one
+2026-07-10T23:16:05.243Z START oracle-url-queue-batch-13 cumulative=251 new=87
+2026-07-10T23:16:23Z HEARTBEAT agrees=251 new=87 2026-07-10T23:16:05.154Z END oracle-url-queue-batch-12 exit=0 agrees_batch=26 disagree=6 error=18 cumulative=251 new=87 tabs_closed=reuse-one
+2026-07-10T23:26:24Z HEARTBEAT agrees=278 new=114 2026-07-10T23:16:23Z HEARTBEAT agrees=251 new=87 2026-07-10T23:16:05.154Z END oracle-url-queue-batch-12 exit=0 agrees_batch=26 disagree=6 error=18 cumulative=251 new=87 tabs_closed=reuse-one
+2026-07-10T23:26:50.945Z END oracle-url-queue-batch-13 exit=0 agrees_batch=30 disagree=7 error=13 cumulative=278 new=114 tabs_closed=reuse-one
+2026-07-10T23:26:51.024Z START oracle-url-queue-batch-14 cumulative=278 new=114
+2026-07-10T23:36:24Z HEARTBEAT agrees=296 new=132 2026-07-10T23:26:50.945Z END oracle-url-queue-batch-13 exit=0 agrees_batch=30 disagree=7 error=13 cumulative=278 new=114 tabs_closed=reuse-one
+2026-07-10T23:38:30.117Z END oracle-url-queue-batch-14 exit=0 agrees_batch=25 disagree=9 error=16 cumulative=302 new=138 tabs_closed=reuse-one
+2026-07-10T23:38:30.199Z START oracle-url-queue-batch-15 cumulative=302 new=138
+2026-07-10T23:46:24Z HEARTBEAT agrees=321 new=157 2026-07-10T23:38:30.117Z END oracle-url-queue-batch-14 exit=0 agrees_batch=25 disagree=9 error=16 cumulative=302 new=138 tabs_closed=reuse-one
+2026-07-10T23:49:13.979Z END oracle-url-queue-batch-15 exit=0 agrees_batch=27 disagree=11 error=12 cumulative=326 new=162 tabs_closed=reuse-one
+2026-07-10T23:49:14.060Z START oracle-url-queue-batch-16 cumulative=326 new=162
+2026-07-10T23:56:24Z HEARTBEAT agrees=341 new=177 2026-07-10T23:49:13.979Z END oracle-url-queue-batch-15 exit=0 agrees_batch=27 disagree=11 error=12 cumulative=326 new=162 tabs_closed=reuse-one
+2026-07-11T00:01:00.976Z END oracle-url-queue-batch-16 exit=0 agrees_batch=21 disagree=11 error=18 cumulative=346 new=182 tabs_closed=reuse-one
+2026-07-11T00:01:01.063Z START oracle-url-queue-batch-17 cumulative=346 new=182
+2026-07-11T00:06:25Z HEARTBEAT agrees=352 new=188 2026-07-11T00:01:00.976Z END oracle-url-queue-batch-16 exit=0 agrees_batch=21 disagree=11 error=18 cumulative=346 new=182 tabs_closed=reuse-one
+2026-07-11T00:14:29.020Z END oracle-url-queue-batch-17 exit=0 agrees_batch=17 disagree=8 error=25 cumulative=362 new=198 tabs_closed=reuse-one
+2026-07-11T00:14:29.113Z START oracle-url-queue-batch-18 cumulative=362 new=198
+2026-07-11T00:16:25Z HEARTBEAT agrees=365 new=201 2026-07-11T00:14:29.020Z END oracle-url-queue-batch-17 exit=0 agrees_batch=17 disagree=8 error=25 cumulative=362 new=198 tabs_closed=reuse-one
+2026-07-11T00:26:25Z HEARTBEAT agrees=382 new=218 2026-07-11T00:16:25Z HEARTBEAT agrees=365 new=201 2026-07-11T00:14:29.020Z END oracle-url-queue-batch-17 exit=0 agrees_batch=17 disagree=8 error=25 cumulative=362 new=198 tabs_closed=reuse-one
+2026-07-11T00:26:47.356Z END oracle-url-queue-batch-18 exit=0 agrees_batch=22 disagree=10 error=18 cumulative=383 new=219 tabs_closed=reuse-one
+2026-07-11T00:26:47.436Z START oracle-url-queue-batch-19 cumulative=383 new=219
+2026-07-11T00:36:25Z HEARTBEAT agrees=410 new=246 2026-07-11T00:26:47.356Z END oracle-url-queue-batch-18 exit=0 agrees_batch=22 disagree=10 error=18 cumulative=383 new=219 tabs_closed=reuse-one
+2026-07-11T00:37:29.578Z END oracle-url-queue-batch-19 exit=0 agrees_batch=30 disagree=7 error=13 cumulative=412 new=248 tabs_closed=reuse-one
+2026-07-11T00:37:29.659Z START oracle-url-queue-batch-20 cumulative=412 new=248
+2026-07-11T00:46:26Z HEARTBEAT agrees=431 new=267 2026-07-11T00:37:29.578Z END oracle-url-queue-batch-19 exit=0 agrees_batch=30 disagree=7 error=13 cumulative=412 new=248 tabs_closed=reuse-one
+2026-07-11T00:48:44.056Z END oracle-url-queue-batch-20 exit=0 agrees_batch=25 disagree=8 error=17 cumulative=437 new=273 tabs_closed=reuse-one
+2026-07-11T00:48:44.151Z START oracle-url-queue-batch-21 cumulative=437 new=273
+2026-07-11T00:56:26Z HEARTBEAT agrees=456 new=292 2026-07-11T00:48:44.056Z END oracle-url-queue-batch-20 exit=0 agrees_batch=25 disagree=8 error=17 cumulative=437 new=273 tabs_closed=reuse-one
+2026-07-11T00:59:34.693Z END oracle-url-queue-batch-21 exit=0 agrees_batch=29 disagree=5 error=16 cumulative=466 new=302 tabs_closed=reuse-one
+2026-07-11T00:59:34.768Z START oracle-url-queue-batch-22 cumulative=466 new=302
+2026-07-11T01:06:26Z HEARTBEAT agrees=485 new=321 2026-07-11T00:59:34.693Z END oracle-url-queue-batch-21 exit=0 agrees_batch=29 disagree=5 error=16 cumulative=466 new=302 tabs_closed=reuse-one
+2026-07-11T01:09:05.551Z END oracle-url-queue-batch-22 exit=0 agrees_batch=27 disagree=6 error=17 cumulative=491 new=327 tabs_closed=reuse-one
+2026-07-11T01:09:05.555Z DONE overnight chain agrees=491 new=327 target=664
+2026-07-11T01:11:22Z CHAIN_10_22_DONE agrees=491 new=327 (manual resume)
+
+> extension:build-reload
+> npm run build:extension && npm run extension:reload
+
+
+> build:extension
+> node scripts/build-extension.mjs
+
+Building AutoCVApply extension...
+  Generating extension icons from /Users/toby.claxton/Projects/autocvapply/public/favicon.svg...
+- [32mI|resvg-js[39m: /Users/toby.claxton/Projects/autocvapply/extension/icons/icon16.png
+- [32mI|resvg-js[39m: /Users/toby.claxton/Projects/autocvapply/extension/icons/icon32.png
+- [32mI|resvg-js[39m: /Users/toby.claxton/Projects/autocvapply/extension/icons/icon48.png
+- [32mI|resvg-js[39m: /Users/toby.claxton/Projects/autocvapply/extension/icons/icon128.png
+Extension built to /Users/toby.claxton/Projects/autocvapply/extension/dist/
+  Chrome zip:  /Users/toby.claxton/Projects/autocvapply/public/extension/autoapplycv-chrome.zip
+  Firefox zip: /Users/toby.claxton/Projects/autocvapply/public/extension/autoapplycv-firefox.zip
+
+> extension:reload
+> node scripts/extension-bridge/reload-extension.mjs
+
+Connected extension v2.25.23. Requesting reload to pick up dist v2.25.23…
+Extension reload scheduled.
+[wait] Extension disconnected (reloading)…
+[wait] Extension reconnected v2.25.23
+Extension reloaded successfully (v2.25.23).
+2026-07-11T01:13:09Z START overnight-chain batches 23-40
+2026-07-11T01:13:09.280Z START oracle-url-queue-batch-23 cumulative=491 new=327
+2026-07-11T01:23:35.689Z END oracle-url-queue-batch-23 exit=0 agrees_batch=22 disagree=6 error=22 cumulative=513 new=349 tabs_closed=reuse-one
+2026-07-11T01:23:35.776Z START oracle-url-queue-batch-24 cumulative=513 new=349
+2026-07-11T01:32:54.880Z END oracle-url-queue-batch-24 exit=0 agrees_batch=26 disagree=4 error=20 cumulative=539 new=375 tabs_closed=reuse-one
+2026-07-11T01:32:54.962Z START oracle-url-queue-batch-25 cumulative=539 new=375
+2026-07-11T01:42:42.420Z END oracle-url-queue-batch-25 exit=0 agrees_batch=37 disagree=1 error=12 cumulative=575 new=411 tabs_closed=reuse-one
+2026-07-11T01:42:42.519Z START oracle-url-queue-batch-26 cumulative=575 new=411
+2026-07-11T01:45:33.609Z END oracle-url-queue-batch-26 exit=0 agrees_batch=8 disagree=0 error=3 cumulative=582 new=418 tabs_closed=reuse-one
+2026-07-11T01:45:33.687Z START oracle-url-queue-batch-27 cumulative=582 new=418
+2026-07-11T01:56:30.161Z END oracle-url-queue-batch-27 exit=0 agrees_batch=22 disagree=14 error=14 cumulative=604 new=440 tabs_closed=reuse-one
+2026-07-11T01:56:30.250Z START oracle-url-queue-batch-28 cumulative=604 new=440
+2026-07-11T02:07:49.088Z END oracle-url-queue-batch-28 exit=0 agrees_batch=19 disagree=12 error=19 cumulative=623 new=459 tabs_closed=reuse-one
+2026-07-11T02:07:49.185Z START oracle-url-queue-batch-29 cumulative=623 new=459
+2026-07-11T02:19:12.739Z END oracle-url-queue-batch-29 exit=0 agrees_batch=19 disagree=16 error=15 cumulative=642 new=478 tabs_closed=reuse-one
+2026-07-11T02:19:12.844Z START oracle-url-queue-batch-30 cumulative=642 new=478
+2026-07-11T02:30:49.024Z END oracle-url-queue-batch-30 exit=0 agrees_batch=20 disagree=13 error=17 cumulative=662 new=498 tabs_closed=reuse-one
+2026-07-11T02:30:49.212Z START oracle-url-queue-batch-31 cumulative=662 new=498
+2026-07-11T02:31:52.454Z END oracle-url-queue-batch-31 exit=0 agrees_batch=2 disagree=2 error=1 cumulative=664 new=500 tabs_closed=reuse-one
+2026-07-11T02:31:52.458Z STOP target reached agrees=664 new=500
+2026-07-11T02:31:52.465Z DONE overnight chain agrees=664 new=500 target=664

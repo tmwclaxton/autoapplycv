@@ -44,11 +44,11 @@
       }
     },
     {
-      "question": "email",
+      "question": "email ( )",
       "field_type": "email",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "email",
@@ -64,11 +64,11 @@
       }
     },
     {
-      "question": "location  location",
+      "question": "location ( ) location",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -84,11 +84,11 @@
       }
     },
     {
-      "question": "phone",
+      "question": "phone ( )",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -104,11 +104,11 @@
       }
     },
     {
-      "question": "available from  available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -124,11 +124,11 @@
       }
     },
     {
-      "question": "expected salary  expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -144,7 +144,7 @@
       }
     },
     {
-      "question": "gender",
+      "question": "gender ( )",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -154,7 +154,7 @@
         "Diverse",
         "Undefined"
       ],
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "select",
         "type": "select-one",
@@ -190,7 +190,7 @@
       }
     },
     {
-      "question": "how are your german language skills?",
+      "question": "how are your german language skills? ( )",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -200,7 +200,7 @@
         "I speak German at B1 level (advanced)",
         "I speak German at A1/A2 level (beginner)"
       ],
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "select",
         "type": "select-one",
@@ -216,7 +216,7 @@
       }
     },
     {
-      "question": "are you already living in germany or are you in the process of moving to germany within the next 3 months?",
+      "question": "are you already living in germany or are you in the process of moving to germany within the next 3 months? ( )",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -226,7 +226,7 @@
         "No, I don't live in Germany yet and would need relocation support.",
         "No, I don't live in Germany and would like to work remotely from my current place of residence."
       ],
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "select",
         "type": "select-one",

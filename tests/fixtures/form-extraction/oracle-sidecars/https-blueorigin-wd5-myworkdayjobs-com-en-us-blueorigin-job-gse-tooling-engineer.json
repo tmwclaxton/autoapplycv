@@ -1,0 +1,39 @@
+{
+  "id": "https-blueorigin-wd5-myworkdayjobs-com-en-us-blueorigin-job-gse-tooling-engineer",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:35:41.089Z",
+  "page_url": "https://blueorigin.wd5.myworkdayjobs.com/en-US/BlueOrigin/job/GSE---Tooling-Engineer-Large-Mechanisms--Level-III_R58111",
+  "page_title": "Mechanical Engineer-Large Mechanisms, Level III",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Apply"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The 'Apply' button is a link that triggers the actual application flow, which is a separate Workday SPA (Single Page Application) not contained in this static HTML excerpt.",
+    "fields": [
+      {
+        "question": "Apply",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

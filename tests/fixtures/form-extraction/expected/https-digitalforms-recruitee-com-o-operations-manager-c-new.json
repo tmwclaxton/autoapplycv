@@ -1,0 +1,621 @@
+{
+  "id": "https-digitalforms-recruitee-com-o-operations-manager-c-new",
+  "min_fields": 26,
+  "exact_field_count": 26,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-2",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-3",
+        "name": "candidate.email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-4",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your phone number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.cv-8",
+        "name": "candidate.cv",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-14",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience on this position you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "up to 1 year",
+        "up to 3 years",
+        "up to 5 years",
+        "up to 8 years",
+        "above 8 years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528244.content-15-0",
+        "name": "candidate.openQuestionAnswers.6528244.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your seniority level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Junior",
+        "Mid",
+        "Senior",
+        "Lead"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528245.content-16-0",
+        "name": "candidate.openQuestionAnswers.6528245.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your english language proficiency level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A1 (Beginner): Basic phrases, very limited communication.",
+        "A2 (Elementary): Simple tasks, basic professional interactions.",
+        "B1 (Intermediate): Understands main points, handles routine IT discussions.",
+        "B2 (Upper Intermediate): Good operational command, fluent in most IT contexts.",
+        "C1 (Advanced): Highly proficient, effective communication in complex IT scenarios.",
+        "C2 (Proficient): Near-native fluency, comprehensive understanding for any IT role."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528246.content-17-0",
+        "name": "candidate.openQuestionAnswers.6528246.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a polish business entity that can invoice b2b, or are you willing to set one up before starting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528247.flag-18-0",
+        "name": "candidate.openQuestionAnswers.6528247.flag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which country and city are you primarily based in?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.6528248.content-19",
+        "name": "candidate.openQuestionAnswers.6528248.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your preferred b2b net hourly rate [pln]? please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. it's easier to divide your expected salary by 168 hours.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "<30 PLN",
+        "30-50 PLN",
+        "60-70 PLN",
+        "80-90 PLN",
+        "90-100 PLN",
+        "110-120 PLN",
+        ">120 PLN"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528249.content-20-0",
+        "name": "candidate.openQuestionAnswers.6528249.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you open to rate negotiation?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568616.flag-21-0",
+        "name": "candidate.openQuestionAnswers.6568616.flag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "can you work on your computer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6528250.flag-22-0",
+        "name": "candidate.openQuestionAnswers.6528250.flag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when would you be available to start a new role?",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "input-candidate.openQuestionAnswers.6528251.content-23",
+        "name": "candidate.openQuestionAnswers.6528251.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Part time",
+        "Full time",
+        "Both"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.6528252.multiContent-25-0",
+        "name": "candidate.openQuestionAnswers.6528252.multiContent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently employed anywhere?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568396.flag-26-0",
+        "name": "candidate.openQuestionAnswers.6568396.flag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you’re currently employed, we’d appreciate if you could tell us what motivates you to explore new career opportunities.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6568399.content-27",
+        "name": "candidate.openQuestionAnswers.6568399.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience in coordinating in an it company?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568400.flag-28-0",
+        "name": "candidate.openQuestionAnswers.6568400.flag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have in operations/admin/office management/people ops with finance/admin responsibilities?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "0 (no commercial experience)",
+        "< 1 year",
+        "1–2 years",
+        "3–5 years",
+        "5+ years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568415.content-29-0",
+        "name": "candidate.openQuestionAnswers.6568415.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your invoicing experience (issuing invoices, corrections, chasing missing documents)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No hands-on invoicing experience",
+        "Issued invoices only with detailed instructions (basic)",
+        "Issued invoices independently + tracked statuses / missing invoices",
+        "Handled corrections/credit notes + consistent monthly handover to accounting",
+        "Owned/improved the invoicing workflow (registers, controls, SOPs, reporting)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568438.content-30-0",
+        "name": "candidate.openQuestionAnswers.6568438.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience with scheduling company payments in online banking (transfers, payment calendar, approvals)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No experience",
+        "Prepared transfers but someone else executed/approved",
+        "Executed transfers independently within a defined budget/approval flow",
+        "Ran recurring payment process (calendar, due dates, vendor follow-ups, confirmations)",
+        "Improved payment process (controls, 2-step approvals, payment registers, error reduction)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568459.content-31-0",
+        "name": "candidate.openQuestionAnswers.6568459.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what was your responsibility level in cooperation with an external accounting firm?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Never worked with an accounting office",
+        "Sent documents occasionally when asked",
+        "Regular monthly coordination (documents, clarifications, deadlines)",
+        "Main point of contact (document flow, follow-ups, quality control)",
+        "Built/optimized the monthly handover process (checklists, timelines, fewer errors)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568479.content-32-0",
+        "name": "candidate.openQuestionAnswers.6568479.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience managing contracts and company documents (templates, signature flow, registers, renewals)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No experience",
+        "Only filing/archiving documents",
+        "Prepared contracts from templates + tracked signatures",
+        "Managed end-to-end workflow (versions, e-sign tools, register, renewals/reminders)",
+        "Improved contract governance (SOPs, naming conventions, access/permissions, audits)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568572.content-33-0",
+        "name": "candidate.openQuestionAnswers.6568572.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience with internal comms and maintaining a knowledge base (posting decisions, sops, keeping order in documentation)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No experience",
+        "Contributed occasionally (notes/edits)",
+        "Maintained a section regularly (SOPs, updates, structure)",
+        "Owned company-wide knowledge base + internal announcements cadence",
+        "Designed governance (templates/taxonomy/permissions) and trained others"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568574.content-34-0",
+        "name": "candidate.openQuestionAnswers.6568574.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your experience improving processes and making people follow them (e.g., invoice policy, document standards)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I mainly follow existing processes",
+        "I suggest improvements but rarely implement",
+        "I implement improvements within my area (SOPs/checklists)",
+        "I lead cross-team rollouts (announce, train, follow-up, measure)",
+        "I build lightweight controls/metrics and keep processes “alive”"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6568590.content-35-0",
+        "name": "candidate.openQuestionAnswers.6568590.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "International",
+        "Afghanistan"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": "country-select-input-candidate.phone-4",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

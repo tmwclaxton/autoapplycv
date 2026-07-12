@@ -1,7 +1,7 @@
 {
   "id": "https-jobs-eu-lever-co-infinitygroup-538fb533-09bd-41e1-a718-a8b596332e29-apply",
   "status": "agree",
-  "captured_at": "2026-07-10T19:24:17.919Z",
+  "captured_at": "2026-07-10T22:21:12.820Z",
   "page_url": "https://jobs.eu.lever.co/infinitygroup/538fb533-09bd-41e1-a718-a8b596332e29/apply",
   "page_title": "INFINITY GROUP - Sales Business Partner",
   "diff": {
@@ -127,7 +127,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a Lever-specific application structure. Demographic survey fields are dynamically generated from a JSON blob in the HTML. An hCaptcha widget is present.",
+    "notes": "The form uses a Lever-specific application structure. Demographic survey fields are dynamically loaded and may be optional. An hCaptcha challenge is present.",
     "fields": [
       {
         "question": "Resume/CV",

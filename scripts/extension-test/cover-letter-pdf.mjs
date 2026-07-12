@@ -85,6 +85,21 @@ const cases = [
         },
     },
     {
+        name: 'encodes pound sign and accented characters for win-ansi',
+        fn: () => {
+            const pdf = new TextDecoder('latin1').decode(buildCoverLetterPdfBytes(
+                'Candidatura à vaga\n\nSalary expectation: £85k.\nÉquipe Form Health.',
+                { profile: sampleProfile },
+            ));
+
+            assert.match(pdf, /Candidatura à vaga/);
+            assert.match(pdf, /Salary expectation: £85k\./);
+            assert.match(pdf, /Équipe Form Health\./);
+            assert.doesNotMatch(pdf, /Candidatura Ã/);
+            assert.doesNotMatch(pdf, /Â£/);
+        },
+    },
+    {
         name: 'rejects empty cover letter text',
         fn: () => {
             assert.throws(

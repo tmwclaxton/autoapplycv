@@ -666,4 +666,37 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertCount(1, $result['answers']);
         $this->assertNull($result['answers'][0]['answer']);
     }
+
+    public function test_answer_questions_coerces_age_statement_to_yes_no_select_with_placeholder(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create();
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [[
+                    'label' => 'are you over the age of 18?',
+                    'ref' => 'f9',
+                    'answer' => 'I am 23',
+                ]],
+            ]);
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'Account Manager', 'company' => 'SunSource'],
+            [[
+                'label' => 'are you over the age of 18?',
+                'ref' => 'f9',
+                'field_type' => 'select',
+                'options' => ['Select...', 'Yes', 'No'],
+            ]],
+        );
+
+        $this->assertNotNull($result);
+        $this->assertCount(1, $result['answers']);
+        $this->assertSame('yes', $result['answers'][0]['answer']);
+    }
 }

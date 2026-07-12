@@ -1,0 +1,415 @@
+{
+  "id": "https-jobs-ashbyhq-com-helion-27648fb4-e835-47db-b697-06b994b1ca91-application",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "phone",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "cover_letter",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cover_letter",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "submitting organization name:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027462005",
+        "name": "question_8027462005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027462005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "organization type",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "University",
+        "National Laboratory",
+        "Private Company"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "fa68dc49-e3c8-4a18-bff4-1f360c347707_question_8027463005-labeled-radio-0",
+        "name": "fa68dc49-e3c8-4a18-bff4-1f360c347707_question_8027463005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name of the primary investigator (pi)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027464005",
+        "name": "question_8027464005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027464005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "title/role of the pi",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027465005",
+        "name": "question_8027465005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027465005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address for the primary correspondent for this proposal",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027466005",
+        "name": "question_8027466005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027466005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mailing address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027467005",
+        "name": "question_8027467005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027467005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please enter the name, title, and email address for an individual qualified to sign an nda on behalf of your organization.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027468005",
+        "name": "question_8027468005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027468005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please specify which topic you are responding to from our call for proposals. if this proposal is not related to one of the posted topics, please enter \"0\".",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "db9845c7-97b0-4f9e-985b-63bd49ca71f3",
+        "name": "db9845c7-97b0-4f9e-985b-63bd49ca71f3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "db9845c7-97b0-4f9e-985b-63bd49ca71f3",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "proposal title",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027469005",
+        "name": "question_8027469005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027469005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "one-sentence proposal summary",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027470005",
+        "name": "question_8027470005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027470005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "total funding requested",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027471005",
+        "name": "question_8027471005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027471005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "proposal duration (months)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027472005",
+        "name": "question_8027472005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027472005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please enter the name of your helion point of contact (if any) or intended pi counterpart (if known)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027473005",
+        "name": "question_8027473005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027473005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "attach your completed proposal (pdf, max four pages) here. accepted file types: pdf, doc, docx, txt, rtf.",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "question_8027507005",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027507005",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "by typing your legal name below, you (applicant) acknowledge and agree that your submissions in any response to this inquiry should not include any proprietary information and that helion is not requesting such detail in connection with submissions; however, you acknowledge and agree that to the extent your submission includes any proprietary information or other intellectual property: (1) you have all necessary rights to submit any such submission; (2) you hereby grant helion a perpetual, worldwide, nonexclusive, royalty-free, non-sublicensable and non-transferrable license to helion, without any return promise of compensation, consideration or obligation to you, to the submission materials only; (3) that helion may receive similar submissions or presently own similar technology that helion is authorized to use, disclose, reproduce, distribute, or exploit for any purpose in its sole discretion without restriction or obligation; (4) helion has no obligation to review, acknowledge, or respond to your submission; and (5) your submission will not be treated as confidential or proprietary. by submitting materials to helion, you accept these terms in their entirety.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8027474005",
+        "name": "question_8027474005",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_8027474005",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "id": "https-flower-teamtailor-com-jobs-7843452-asset-developer-germany-applications-ne",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:05:02.508Z",
+  "page_url": "https://flower.teamtailor.com/jobs/7843452-asset-developer-germany/applications/new",
+  "page_title": "Asset Developer Germany - Flower",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 5,
+      "count_delta": 4,
+      "label_jaccard": 0.4,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address start typing your address",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that flower store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "On a scale of 1–5, how fluent are you in German? (1 = not at all, 5 = native/fully fluent)"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=9, ai=5)",
+      "label Jaccard 0.400 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom range slider component for the German fluency question. The phone input uses an international telephone input library (intl-tel-input). The form includes hidden fields for LinkedIn integration and tracking.",
+    "fields": [
+      {
+        "question": "On a scale of 1–5, how fluent are you in German? (1 = not at all, 5 = native/fully fluent)",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "address start typing your address",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that flower store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

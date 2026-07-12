@@ -2,10 +2,13 @@
  * Indeed Apply DOM helpers for Auto Apply (content script global).
  */
 const AutoCVApplyIndeedAutoApply = (() => {
-    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const sleep = (ms) =>
+        new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
-        return String(text || '').replace(/\s+/g, ' ').trim();
+        return String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim();
     }
 
     function humanDelayMs(minMs, maxMs) {
@@ -24,11 +27,15 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function isIndeedSearchPage() {
-        return isIndeedHostname() && /^\/jobs\/?$/i.test(window.location.pathname);
+        return (
+            isIndeedHostname() && /^\/jobs\/?$/i.test(window.location.pathname)
+        );
     }
 
     function isIndeedViewJobPage() {
-        return isIndeedHostname() && /\/viewjob/i.test(window.location.pathname);
+        return (
+            isIndeedHostname() && /\/viewjob/i.test(window.location.pathname)
+        );
     }
 
     function isIndeedApplyFlowPage() {
@@ -42,8 +49,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return false;
         }
 
-        return /indeedapply/i.test(window.location.pathname)
-            || /indeedapply/i.test(window.location.href);
+        return (
+            /indeedapply/i.test(window.location.pathname) ||
+            /indeedapply/i.test(window.location.href)
+        );
     }
 
     function readJobIdFromUrl() {
@@ -70,9 +79,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         const style = window.getComputedStyle(element);
 
-        return style.display !== 'none'
-            && style.visibility !== 'hidden'
-            && element.getClientRects().length > 0;
+        return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            element.getClientRects().length > 0
+        );
     }
 
     function isElementMostlyVisible(element, { fraction = 0.55 } = {}) {
@@ -86,8 +97,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return false;
         }
 
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-        const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+        const viewportHeight =
+            window.innerHeight || document.documentElement.clientHeight || 0;
+        const visibleHeight =
+            Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
 
         return visibleHeight >= rect.height * fraction;
     }
@@ -107,11 +120,21 @@ const AutoCVApplyIndeedAutoApply = (() => {
             '#jobsearch-ViewjobPaneWrapper, .jobsearch-LeftPane, [class*="jobsearch-ViewJob"]',
         );
 
-        if (scrollParent instanceof HTMLElement && scrollParent !== document.documentElement) {
+        if (
+            scrollParent instanceof HTMLElement &&
+            scrollParent !== document.documentElement
+        ) {
             const parentRect = scrollParent.getBoundingClientRect();
             const elementRect = element.getBoundingClientRect();
-            const offset = elementRect.top - parentRect.top - parentRect.height * 0.3;
-            const target = Math.max(0, Math.min(scrollParent.scrollTop + offset, scrollParent.scrollHeight));
+            const offset =
+                elementRect.top - parentRect.top - parentRect.height * 0.3;
+            const target = Math.max(
+                0,
+                Math.min(
+                    scrollParent.scrollTop + offset,
+                    scrollParent.scrollHeight,
+                ),
+            );
             const start = scrollParent.scrollTop;
             const total = target - start;
 
@@ -124,7 +147,8 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const steps = 2 + Math.floor(Math.random() * 2);
 
             for (let step = 1; step <= steps; step += 1) {
-                scrollParent.scrollTop = start + Math.floor(total * (step / steps));
+                scrollParent.scrollTop =
+                    start + Math.floor(total * (step / steps));
                 await humanPause(90, 180);
             }
 
@@ -142,9 +166,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readJobViewRoot() {
-        return document.querySelector(
-            '#jobsearch-ViewjobPaneWrapper, .jobsearch-ViewJobLayout--embedded, .jobsearch-JobComponent, [class*="jobsearch-ViewJob"]',
-        ) || document;
+        return (
+            document.querySelector(
+                '#jobsearch-ViewjobPaneWrapper, .jobsearch-ViewJobLayout--embedded, .jobsearch-JobComponent, [class*="jobsearch-ViewJob"]',
+            ) || document
+        );
     }
 
     async function scrollContainerByHumanStep(container) {
@@ -153,8 +179,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
         }
 
         const fraction = 0.16 + Math.random() * 0.12;
-        const delta = Math.max(72, Math.floor(container.clientHeight * fraction));
-        const target = Math.min(container.scrollTop + delta, container.scrollHeight);
+        const delta = Math.max(
+            72,
+            Math.floor(container.clientHeight * fraction),
+        );
+        const target = Math.min(
+            container.scrollTop + delta,
+            container.scrollHeight,
+        );
         const start = container.scrollTop;
         const total = target - start;
         const steps = 2 + Math.floor(Math.random() * 2);
@@ -180,7 +212,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
         };
     }
 
-    async function clickElement(element, { quick = false, skipScroll = false } = {}) {
+    async function clickElement(
+        element,
+        { quick = false, skipScroll = false } = {},
+    ) {
         if (!(element instanceof HTMLElement)) {
             return false;
         }
@@ -206,7 +241,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
         };
 
         element.dispatchEvent(new MouseEvent('mouseover', mouseInit));
-        element.dispatchEvent(new MouseEvent('mouseenter', { ...mouseInit, bubbles: false }));
+        element.dispatchEvent(
+            new MouseEvent('mouseenter', { ...mouseInit, bubbles: false }),
+        );
         await humanPause(quick ? 70 : 150, quick ? 160 : 380);
 
         element.focus({ preventScroll: true });
@@ -248,9 +285,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
     function findJobCardById(jobId) {
         const target = String(jobId).toLowerCase();
 
-        const classCard = document.querySelector(`div[class*="job_${target}"], .job_${target}`)?.closest(
-            'div.cardOutline, div.job_seen_beacon, div.slider_item, li[data-testid="job-card"], td.resultContent',
-        );
+        const classCard = document
+            .querySelector(`div[class*="job_${target}"], .job_${target}`)
+            ?.closest(
+                'div.cardOutline, div.job_seen_beacon, div.slider_item, li[data-testid="job-card"], td.resultContent',
+            );
 
         if (classCard) {
             return classCard;
@@ -259,16 +298,24 @@ const AutoCVApplyIndeedAutoApply = (() => {
         for (const card of document.querySelectorAll(
             'div.job_seen_beacon, div.slider_item, div[data-testid="slider_item"], li[data-testid="job-card"], div.cardOutline.tapItem',
         )) {
-            const link = card.querySelector(`a[href*="jk=${target}"], a[data-jk="${target}"], a[jk="${target}"]`);
+            const link = card.querySelector(
+                `a[href*="jk=${target}"], a[data-jk="${target}"], a[jk="${target}"]`,
+            );
 
             if (link) {
                 return card;
             }
         }
 
-        return document.querySelector(`a[href*="jk=${target}"], a[data-jk="${target}"], a[jk="${target}"]`)?.closest(
-            'div.job_seen_beacon, div.slider_item, li[data-testid="job-card"], td.resultContent',
-        ) || null;
+        return (
+            document
+                .querySelector(
+                    `a[href*="jk=${target}"], a[data-jk="${target}"], a[jk="${target}"]`,
+                )
+                ?.closest(
+                    'div.job_seen_beacon, div.slider_item, li[data-testid="job-card"], td.resultContent',
+                ) || null
+        );
     }
 
     function findJobListScrollContainer() {
@@ -306,7 +353,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             await scrollContainerByHumanStep(listRoot);
 
-            if (listRoot.scrollTop + listRoot.clientHeight >= listRoot.scrollHeight - 4) {
+            if (
+                listRoot.scrollTop + listRoot.clientHeight >=
+                listRoot.scrollHeight - 4
+            ) {
                 break;
             }
         }
@@ -332,10 +382,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
         ];
 
         for (const card of cardRoots) {
-            const link = card.querySelector('a[href*="viewjob"], a[jk], a[data-jk]');
+            const link = card.querySelector(
+                'a[href*="viewjob"], a[jk], a[data-jk]',
+            );
             const href = link?.getAttribute('href') || '';
-            const jkMatch = href.match(/jk=([a-f0-9]{16})/i)
-                || String(link?.getAttribute('data-jk') || link?.getAttribute('jk') || '').match(/^([a-f0-9]{16})$/i);
+            const jkMatch =
+                href.match(/jk=([a-f0-9]{16})/i) ||
+                String(
+                    link?.getAttribute('data-jk') ||
+                        link?.getAttribute('jk') ||
+                        '',
+                ).match(/^([a-f0-9]{16})$/i);
             const jobId = jkMatch?.[1]?.toLowerCase();
 
             if (!jobId || seen.has(jobId)) {
@@ -344,14 +401,20 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             seen.add(jobId);
 
-            const title = normalize(
-                card.querySelector('h2.jobTitle span[title], h2.jobTitle a, [data-testid="job-title"] a, a[data-jk] span')?.textContent
-                || card.querySelector('.jobTitle')?.textContent,
-            ) || 'Unknown role';
+            const title =
+                normalize(
+                    card.querySelector(
+                        'h2.jobTitle span[title], h2.jobTitle a, [data-testid="job-title"] a, a[data-jk] span',
+                    )?.textContent ||
+                        card.querySelector('.jobTitle')?.textContent,
+                ) || 'Unknown role';
 
-            const company = normalize(
-                card.querySelector('[data-testid="company-name"], [data-testid="attribute_snippet_testid"], .companyName')?.textContent,
-            ) || 'Unknown company';
+            const company =
+                normalize(
+                    card.querySelector(
+                        '[data-testid="company-name"], [data-testid="attribute_snippet_testid"], .companyName',
+                    )?.textContent,
+                ) || 'Unknown company';
 
             const cardText = normalize(card.textContent);
             const alreadyApplied = /\bapplied\b/i.test(cardText);
@@ -363,7 +426,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 indeedApply: true,
                 easyApply: true,
                 alreadyApplied,
-                url: `https://uk.indeed.com/viewjob?jk=${jobId}`,
+                url: `${window.location.origin}/viewjob?jk=${jobId}`,
             });
         }
 
@@ -371,7 +434,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return jobs;
         }
 
-        for (const link of document.querySelectorAll('a[href*="viewjob?jk="]')) {
+        for (const link of document.querySelectorAll(
+            'a[href*="viewjob?jk="]',
+        )) {
             const href = link.getAttribute('href') || '';
             const match = href.match(/jk=([a-f0-9]{16})/i);
             const jobId = match?.[1]?.toLowerCase();
@@ -389,7 +454,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 indeedApply: true,
                 easyApply: true,
                 alreadyApplied: false,
-                url: `https://uk.indeed.com/viewjob?jk=${jobId}`,
+                url: href.startsWith('http')
+                    ? href.split('&')[0]
+                    : `${window.location.origin}/viewjob?jk=${jobId}`,
             });
         }
 
@@ -444,19 +511,30 @@ const AutoCVApplyIndeedAutoApply = (() => {
             }
         }
 
-        for (const element of root.querySelectorAll('button, a[role="button"], a')) {
-            if (!(element instanceof HTMLElement) || !isElementVisible(element)) {
+        for (const element of root.querySelectorAll(
+            'button, a[role="button"], a',
+        )) {
+            if (
+                !(element instanceof HTMLElement) ||
+                !isElementVisible(element)
+            ) {
                 continue;
             }
 
             const text = normalize(element.textContent);
             const label = normalize(element.getAttribute('aria-label') || '');
 
-            if (/^apply with indeed$/i.test(text) || /apply with indeed/i.test(label)) {
+            if (
+                /^apply with indeed$/i.test(text) ||
+                /apply with indeed/i.test(label)
+            ) {
                 return element;
             }
 
-            if (/^apply now$/i.test(text) && element.closest('[class*="jobsearch"], [class*="mosaic"], main')) {
+            if (
+                /^apply now$/i.test(text) &&
+                element.closest('[class*="jobsearch"], [class*="mosaic"], main')
+            ) {
                 return element;
             }
         }
@@ -468,15 +546,20 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const root = readJobViewRoot();
 
         for (const element of root.querySelectorAll('a, button')) {
-            if (!(element instanceof HTMLElement) || !isElementVisible(element)) {
+            if (
+                !(element instanceof HTMLElement) ||
+                !isElementVisible(element)
+            ) {
                 continue;
             }
 
             const text = normalize(element.textContent);
 
-            if (/^apply on company site$/i.test(text)
-                || /^apply externally$/i.test(text)
-                || /apply on employer site/i.test(text)) {
+            if (
+                /^apply on company site$/i.test(text) ||
+                /^apply externally$/i.test(text) ||
+                /apply on employer site/i.test(text)
+            ) {
                 return element;
             }
         }
@@ -506,7 +589,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return { success: true };
         }
 
-        const description = document.querySelector('#jobDescriptionText, .jobsearch-JobComponent-description');
+        const description = document.querySelector(
+            '#jobDescriptionText, .jobsearch-JobComponent-description',
+        );
 
         if (description instanceof HTMLElement) {
             await scrollIntoViewHuman(description);
@@ -533,9 +618,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
             scrollPass += 1;
 
             const currentJk = readJobIdFromUrl();
-            const onTargetJob = currentJk === String(jobId).toLowerCase()
-                || isIndeedViewJobPage()
-                || (isIndeedSearchPage() && currentJk === String(jobId).toLowerCase());
+            const onTargetJob =
+                currentJk === String(jobId).toLowerCase() ||
+                isIndeedViewJobPage() ||
+                (isIndeedSearchPage() &&
+                    currentJk === String(jobId).toLowerCase());
 
             if (onTargetJob) {
                 if (readExternalApplyMarker()) {
@@ -584,9 +671,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         await humanPause(420, 900);
 
-        const clickable = card.querySelector(
-            'h2.jobTitle a, a[data-jk], a[href*="viewjob"], .jcs-JobTitle, [data-testid="job-title"] a',
-        ) || card;
+        const clickable =
+            card.querySelector(
+                'h2.jobTitle a, a[data-jk], a[href*="viewjob"], .jcs-JobTitle, [data-testid="job-title"] a',
+            ) || card;
 
         await clickElement(clickable);
         await humanPause(550, 900);
@@ -619,7 +707,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
         let best = '';
 
         for (const selector of selectors) {
-            const text = normalize(document.querySelector(selector)?.textContent);
+            const text = normalize(
+                document.querySelector(selector)?.textContent,
+            );
 
             if (text.length > best.length) {
                 best = text;
@@ -635,7 +725,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return { success: true, length: readJobDescriptionText().length };
     }
 
-    async function waitForJobDescriptionReady(minLength = 200, timeoutMs = 20_000) {
+    async function waitForJobDescriptionReady(
+        minLength = 200,
+        timeoutMs = 20_000,
+    ) {
         const deadline = Date.now() + timeoutMs;
         let prepared = false;
 
@@ -666,7 +759,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const applyButton = readIndeedApplyButton();
 
             if (applyButton) {
-                await clickElement(applyButton, { skipScroll: isElementMostlyVisible(applyButton) });
+                await clickElement(applyButton, {
+                    skipScroll: isElementMostlyVisible(applyButton),
+                });
                 await humanPause(700, 1100);
 
                 return { success: true, easyApply: true };
@@ -683,17 +778,24 @@ const AutoCVApplyIndeedAutoApply = (() => {
             await humanPause(550, 900);
         }
 
-        return { success: false, error: 'Indeed Apply button not found on job page.' };
+        return {
+            success: false,
+            error: 'Indeed Apply button not found on job page.',
+        };
     }
 
     function readApplyModuleScope() {
-        return document.querySelector('[id*="mosaic-provider-module-apply"]')
-            || document.querySelector('[class*="mosaic-provider-module-apply"]')
-            || document;
+        return (
+            document.querySelector('[id*="mosaic-provider-module-apply"]') ||
+            document.querySelector('[class*="mosaic-provider-module-apply"]') ||
+            document
+        );
     }
 
     function readIndeedReviewRoot() {
-        return document.querySelector('#mosaic-provider-module-apply-preview, [id*="mosaic-provider-module-apply-preview"]');
+        return document.querySelector(
+            '#mosaic-provider-module-apply-preview, [id*="mosaic-provider-module-apply-preview"]',
+        );
     }
 
     function isIndeedReviewStep() {
@@ -707,21 +809,34 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readIndeedCaptchaPresent() {
-        for (const selector of ['[data-testid="captcha"]', '#captcha-wrapper']) {
+        for (const selector of [
+            '[data-testid="captcha"]',
+            '#captcha-wrapper',
+        ]) {
             const element = document.querySelector(selector);
 
-            if (element instanceof HTMLElement && isElementMostlyVisible(element)) {
+            if (
+                element instanceof HTMLElement &&
+                isElementMostlyVisible(element)
+            ) {
                 return true;
             }
         }
 
-        for (const iframe of document.querySelectorAll('iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"]')) {
-            if (iframe instanceof HTMLElement && isElementMostlyVisible(iframe)) {
+        for (const iframe of document.querySelectorAll(
+            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"]',
+        )) {
+            if (
+                iframe instanceof HTMLElement &&
+                isElementMostlyVisible(iframe)
+            ) {
                 return true;
             }
         }
 
-        const responseField = document.querySelector('textarea.g-recaptcha-response');
+        const responseField = document.querySelector(
+            'textarea.g-recaptcha-response',
+        );
 
         return Boolean(responseField?.value?.trim());
     }
@@ -736,7 +851,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 'apply-button-continue',
                 'application-module-continue-button',
             ]) {
-                const byTestId = scope.querySelector(`[data-testid="${testId}"]`);
+                const byTestId = scope.querySelector(
+                    `[data-testid="${testId}"]`,
+                );
 
                 if (byTestId instanceof HTMLElement && !byTestId.disabled) {
                     return byTestId;
@@ -755,15 +872,23 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     continue;
                 }
 
-                const label = normalize(candidate.getAttribute('aria-label') || candidate.getAttribute('value') || candidate.textContent);
+                const label = normalize(
+                    candidate.getAttribute('aria-label') ||
+                        candidate.getAttribute('value') ||
+                        candidate.textContent,
+                );
 
-                if (/^(continue|save and continue|next|review)$/i.test(label)
-                    || /\b(continue|next)\b/i.test(label)) {
+                if (
+                    /^(continue|save and continue|next|review)$/i.test(label) ||
+                    /\b(continue|next)\b/i.test(label)
+                ) {
                     return candidate;
                 }
             }
 
-            for (const button of scope.querySelectorAll('button, [role="button"], input[type="button"]')) {
+            for (const button of scope.querySelectorAll(
+                'button, [role="button"], input[type="button"]',
+            )) {
                 if (!(button instanceof HTMLElement) || button.disabled) {
                     continue;
                 }
@@ -772,15 +897,23 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     continue;
                 }
 
-                if (button.matches('[data-testid="submit-application-button"], [name="submit-application"]')) {
+                if (
+                    button.matches(
+                        '[data-testid="submit-application-button"], [name="submit-application"]',
+                    )
+                ) {
                     continue;
                 }
 
-                const label = normalize(button.getAttribute('aria-label') || button.getAttribute('value') || button.textContent);
+                const label = normalize(
+                    button.getAttribute('aria-label') ||
+                        button.getAttribute('value') ||
+                        button.textContent,
+                );
 
                 if (
-                    /^(continue|save and continue|next)$/i.test(label)
-                    || /\bcontinue\b/i.test(label)
+                    /^(continue|save and continue|next)$/i.test(label) ||
+                    /\bcontinue\b/i.test(label)
                 ) {
                     return button;
                 }
@@ -790,22 +923,34 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return null;
     }
 
-    function findSubmitButton({ includeDisabled = false, reviewOnly = true } = {}) {
+    function findSubmitButton({
+        includeDisabled = false,
+        reviewOnly = true,
+    } = {}) {
         const reviewRoot = readIndeedReviewRoot();
-        const scope = reviewOnly ? reviewRoot : (reviewRoot || readApplyModuleScope());
+        const scope = reviewOnly
+            ? reviewRoot
+            : reviewRoot || readApplyModuleScope();
 
         if (reviewOnly && !scope) {
             return null;
         }
 
         const searchRoot = scope || document;
-        const submit = searchRoot.querySelector('[data-testid="submit-application-button"], [name="submit-application"]');
+        const submit = searchRoot.querySelector(
+            '[data-testid="submit-application-button"], [name="submit-application"]',
+        );
 
-        if (submit instanceof HTMLElement && (includeDisabled || !submit.disabled)) {
+        if (
+            submit instanceof HTMLElement &&
+            (includeDisabled || !submit.disabled)
+        ) {
             return submit;
         }
 
-        for (const button of searchRoot.querySelectorAll('button, [role="button"]')) {
+        for (const button of searchRoot.querySelectorAll(
+            'button, [role="button"]',
+        )) {
             if (!(button instanceof HTMLElement)) {
                 continue;
             }
@@ -814,9 +959,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(button.getAttribute('aria-label') || button.textContent);
+            const label = normalize(
+                button.getAttribute('aria-label') || button.textContent,
+            );
 
-            if (/\b(submit application|submit your application)\b/i.test(label)) {
+            if (
+                /\b(submit application|submit your application)\b/i.test(label)
+            ) {
                 return button;
             }
         }
@@ -827,7 +976,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
     function readValidationErrors() {
         const errors = [];
 
-        for (const node of document.querySelectorAll('[id*="error-text"], [class*="error"], [aria-invalid="true"]')) {
+        for (const node of document.querySelectorAll(
+            '[id*="error-text"], [class*="error"], [aria-invalid="true"]',
+        )) {
             if (!(node instanceof HTMLElement)) {
                 continue;
             }
@@ -849,7 +1000,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             const message = normalize(node.textContent);
 
-            if (message.length >= 3 && message.length < 240 && /required|invalid|enter|select/i.test(message)) {
+            if (
+                message.length >= 3 &&
+                message.length < 240 &&
+                /required|invalid|enter|select/i.test(message)
+            ) {
                 errors.push(message);
             }
         }
@@ -860,10 +1015,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
     function readInvalidFields() {
         const invalidFields = [];
 
-        for (const input of document.querySelectorAll('input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"]')) {
-            const label = typeof AutoCVApplyFormHeuristics !== 'undefined'
-                ? AutoCVApplyFormHeuristics.getQuestionLabel(input)
-                : normalize(input.getAttribute('aria-label') || input.name);
+        for (const input of document.querySelectorAll(
+            'input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"]',
+        )) {
+            const label =
+                typeof AutoCVApplyFormHeuristics !== 'undefined'
+                    ? AutoCVApplyFormHeuristics.getQuestionLabel(input)
+                    : normalize(input.getAttribute('aria-label') || input.name);
 
             invalidFields.push({
                 label,
@@ -886,7 +1044,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
             '[data-testid$="-heading"], h1[class*="mosaic-provider-module-apply"], h1',
         );
 
-        return normalize(heading?.textContent) || slug.replace(/\//g, ' - ') || 'Indeed Apply';
+        return (
+            normalize(heading?.textContent) ||
+            slug.replace(/\//g, ' - ') ||
+            'Indeed Apply'
+        );
     }
 
     function verifySubmitted() {
@@ -900,10 +1062,15 @@ const AutoCVApplyIndeedAutoApply = (() => {
         }
 
         const bodyText = normalize(document.body?.textContent);
-        const submitted = /application submitted|application has been submitted|thanks for applying|you applied|application was sent/i.test(bodyText)
-            || Boolean(document.querySelector(
-                '[data-testid="application-submitted"], [data-testid="post-apply"], #mosaic-provider-module-post-apply',
-            ));
+        const submitted =
+            /application submitted|application has been submitted|thanks for applying|you applied|application was sent/i.test(
+                bodyText,
+            ) ||
+            Boolean(
+                document.querySelector(
+                    '[data-testid="application-submitted"], [data-testid="post-apply"], #mosaic-provider-module-post-apply',
+                ),
+            );
 
         return {
             submitted,
@@ -946,7 +1113,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const stepSlug = readApplyStepSlug() || '';
         const stepLabel = readStepLabel();
 
-        if (/post-apply|postapply/i.test(stepSlug) || /application has been submitted/i.test(stepLabel)) {
+        if (
+            /post-apply|postapply/i.test(stepSlug) ||
+            /application has been submitted/i.test(stepLabel)
+        ) {
             return {
                 open: true,
                 submitted: true,
@@ -962,7 +1132,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         const onReviewStep = isIndeedReviewStep();
         const continueButton = readContinueButton();
-        const submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
+        const submitButton = findSubmitButton({
+            includeDisabled: true,
+            reviewOnly: true,
+        });
         const validationErrors = readValidationErrors();
         const invalidFields = readInvalidFields();
         const captchaPresent = readIndeedCaptchaPresent();
@@ -980,9 +1153,12 @@ const AutoCVApplyIndeedAutoApply = (() => {
             stepFingerprint: readStepFingerprint(),
             validationErrors,
             invalidFields,
-            actionLabel: onReviewStep && submitButton
-                ? normalize(submitButton.textContent)
-                : (continueButton ? normalize(continueButton.textContent) : null),
+            actionLabel:
+                onReviewStep && submitButton
+                    ? normalize(submitButton.textContent)
+                    : continueButton
+                      ? normalize(continueButton.textContent)
+                      : null,
         };
     }
 
@@ -993,7 +1169,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return { selected: false };
         }
 
-        const cardButton = document.querySelector('[data-testid="resume-selection-file-resume-radio-card-button"]');
+        const cardButton = document.querySelector(
+            '[data-testid="resume-selection-file-resume-radio-card-button"]',
+        );
 
         if (cardButton instanceof HTMLElement) {
             await clickElement(cardButton);
@@ -1028,12 +1206,22 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const onReviewStep = isIndeedReviewStep();
 
         if (onReviewStep) {
-            let submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
+            let submitButton = findSubmitButton({
+                includeDisabled: true,
+                reviewOnly: true,
+            });
 
             for (let attempt = 0; attempt < 10; attempt += 1) {
-                submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
+                submitButton = findSubmitButton({
+                    includeDisabled: true,
+                    reviewOnly: true,
+                });
 
-                if (submitButton && !submitButton.disabled && submitButton.getAttribute('aria-disabled') !== 'true') {
+                if (
+                    submitButton &&
+                    !submitButton.disabled &&
+                    submitButton.getAttribute('aria-disabled') !== 'true'
+                ) {
                     break;
                 }
 
@@ -1042,8 +1230,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 }
             }
 
-            if (submitButton && !submitButton.disabled && submitButton.getAttribute('aria-disabled') !== 'true') {
-                await clickElement(submitButton, { skipScroll: isElementMostlyVisible(submitButton) });
+            if (
+                submitButton &&
+                !submitButton.disabled &&
+                submitButton.getAttribute('aria-disabled') !== 'true'
+            ) {
+                await clickElement(submitButton, {
+                    skipScroll: isElementMostlyVisible(submitButton),
+                });
                 const verify = await waitForSubmissionConfirmation();
 
                 return {
@@ -1058,7 +1252,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
             }
 
             if (submitButton) {
-                await clickElement(submitButton, { skipScroll: true, force: true });
+                await clickElement(submitButton, {
+                    skipScroll: true,
+                    force: true,
+                });
                 const forcedVerify = await waitForSubmissionConfirmation();
 
                 if (forcedVerify.submitted) {
@@ -1086,7 +1283,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
-            if (submitButton?.disabled || submitButton?.getAttribute('aria-disabled') === 'true') {
+            if (
+                submitButton?.disabled ||
+                submitButton?.getAttribute('aria-disabled') === 'true'
+            ) {
                 return {
                     success: false,
                     action: 'blocked',
@@ -1120,7 +1320,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
                         continue;
                     }
 
-                    await clickElement(retryButton, { skipScroll: isElementMostlyVisible(retryButton) });
+                    await clickElement(retryButton, {
+                        skipScroll: isElementMostlyVisible(retryButton),
+                    });
 
                     const deadline = Date.now() + 14_000;
 
@@ -1159,12 +1361,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
                     return {
                         success: validationErrors.length === 0,
-                        action: validationErrors.length > 0 ? 'blocked' : 'continue',
+                        action:
+                            validationErrors.length > 0
+                                ? 'blocked'
+                                : 'continue',
                         submitted: false,
                         transitioned: false,
                         stepFingerprint: readStepFingerprint(),
                         validationErrors,
-                        error: validationErrors[0] || 'Indeed Apply did not advance after Continue.',
+                        error:
+                            validationErrors[0] ||
+                            'Indeed Apply did not advance after Continue.',
                     };
                 }
             }
@@ -1187,7 +1394,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             };
         }
 
-        await clickElement(continueButton, { skipScroll: isElementMostlyVisible(continueButton) });
+        await clickElement(continueButton, {
+            skipScroll: isElementMostlyVisible(continueButton),
+        });
 
         const deadline = Date.now() + 14_000;
 
@@ -1231,12 +1440,16 @@ const AutoCVApplyIndeedAutoApply = (() => {
             transitioned: false,
             stepFingerprint: readStepFingerprint(),
             validationErrors,
-            error: validationErrors[0] || 'Indeed Apply did not advance after Continue.',
+            error:
+                validationErrors[0] ||
+                'Indeed Apply did not advance after Continue.',
         };
     }
 
     async function goToNextSearchPage() {
-        const nextLink = document.querySelector('a[aria-label="Next Page"], a[data-testid="pagination-page-next"]');
+        const nextLink = document.querySelector(
+            'a[aria-label="Next Page"], a[data-testid="pagination-page-next"]',
+        );
 
         if (!(nextLink instanceof HTMLElement)) {
             return { success: false, error: 'No next search page link found.' };
@@ -1254,9 +1467,22 @@ const AutoCVApplyIndeedAutoApply = (() => {
         if (document.querySelector('#authportal-main-container, #login-form')) {
             return {
                 ok: false,
-                issues: [{ code: 'login_required', message: 'Indeed sign-in required.' }],
-                blocking: [{ code: 'login_required', message: 'Indeed sign-in required.' }],
-                primary: { code: 'login_required', message: 'Indeed sign-in required.' },
+                issues: [
+                    {
+                        code: 'login_required',
+                        message: 'Indeed sign-in required.',
+                    },
+                ],
+                blocking: [
+                    {
+                        code: 'login_required',
+                        message: 'Indeed sign-in required.',
+                    },
+                ],
+                primary: {
+                    code: 'login_required',
+                    message: 'Indeed sign-in required.',
+                },
             };
         }
 

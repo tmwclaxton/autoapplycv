@@ -1,0 +1,156 @@
+{
+  "id": "https-jobs-ashbyhq-com-8returns-5337edce-8a03-4848-8d6d-12ed61b391c2-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:58:28.650Z",
+  "page_url": "https://jobs.ashbyhq.com/8returns/5337edce-8a03-4848-8d6d-12ed61b391c2/application",
+  "page_title": "Werkstudent Customer Support (m/w/d) @ 8returns GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 6,
+      "ai_count": 7,
+      "count_delta": 1,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 0.8333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "bist du an einer deutschen universität aktuell eingeschrieben?",
+        "ai": "Bist Du an einer deutschen Universität aktuell eingeschrieben?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "wohnort",
+        "ai": "Wohnort",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin / github / portfolio",
+        "ai": "LinkedIn / GitHub / Portfolio",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "wie sind deine deutschkenntnisse?",
+        "ai": "Wie sind deine Deutschkenntnisse?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components for radio buttons and comboboxes. The 'Wohnort' field is a combobox that likely fetches location data dynamically.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wohnort",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn / GitHub / Portfolio",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Bist Du an einer deutschen Universität aktuell eingeschrieben?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Wie sind deine Deutschkenntnisse?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Keine",
+          "Grundkenntnisse",
+          "Fließend",
+          "Verhandlungssicher",
+          "Muttersprache oder Zweisprachig"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "bist du an einer deutschen universität aktuell eingeschrieben?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "wohnort",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin / github / portfolio",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "wie sind deine deutschkenntnisse?",
+      "field_type": "radio",
+      "ref": "f5"
+    }
+  ]
+}

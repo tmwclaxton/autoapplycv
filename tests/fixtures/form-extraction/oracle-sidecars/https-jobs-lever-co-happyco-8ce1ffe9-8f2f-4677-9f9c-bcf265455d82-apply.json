@@ -1,0 +1,330 @@
+{
+  "id": "https-jobs-lever-co-happyco-8ce1ffe9-8f2f-4677-9f9c-bcf265455d82-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:55:46.683Z",
+  "page_url": "https://jobs.lever.co/happyco/8ce1ffe9-8f2f-4677-9f9c-bcf265455d82/apply",
+  "page_title": "HappyCo - Mid-Market Account Executive",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8667,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you possess experience selling a b2b saas product?",
+        "ai": "Do you possess experience selling a B2B SaaS product?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please select the additional experience you possess:",
+        "ai": "Please select the additional experience you possess:",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "please share your compensation expectations.",
+        "ai": "Please share your compensation expectations.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally eligible to work in the united states indefinitely on a full time basis without need for support from the company?",
+        "ai": "Are you legally eligible to work in the United States indefinitely on a full time basis without need for support from the Company?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, happyco can contact me about future job opportunities for up to 2 years",
+        "ai": "Yes, HappyCo can contact me about future job opportunities for up to 2 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-specific structure where custom questions are bundled into a hidden JSON field. The location field is an interactive widget that may require specific input handling.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you possess experience selling a B2B SaaS product?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please select the additional experience you possess:",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Multifamily or property management industry experience",
+          "Experience selling a complex platform solution and/or a suite of products",
+          "Experience selling to C-Suite/ Executive-level customers",
+          "Experience closing deals greater than $100K",
+          "Experience selling a property management system"
+        ]
+      },
+      {
+        "question": "Please share your compensation expectations.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work in the United States indefinitely on a full time basis without need for support from the Company?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Yes, HappyCo can contact me about future job opportunities for up to 2 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "do you possess experience selling a b2b saas product?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "please select the additional experience you possess:",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "please share your compensation expectations.",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "are you legally eligible to work in the united states indefinitely on a full time basis without need for support from the company?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "yes, happyco can contact me about future job opportunities for up to 2 years",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

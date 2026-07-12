@@ -1,0 +1,103 @@
+{
+  "id": "https-jobs-ashbyhq-com-infinity-constellation-2a1e7a73-339b-4d6b-a61e-f8d5ade944",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:48:43.890Z",
+  "page_url": "https://jobs.ashbyhq.com/infinity-constellation/2a1e7a73-339b-4d6b-a61e-f8d5ade944ba/application",
+  "page_title": "Founder (General Application) @ Infinity",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "want to discuss a specific idea of ours or have one of your own? let us know.",
+        "ai": "Want to discuss a specific idea of ours or have one of your own? Let us know.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an autofill feature for resumes. The resume field accepts various document and media formats.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Want to discuss a specific idea of ours or have one of your own? Let us know.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "want to discuss a specific idea of ours or have one of your own? let us know.",
+      "field_type": "textarea",
+      "ref": "f3"
+    }
+  ]
+}

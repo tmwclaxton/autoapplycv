@@ -1,0 +1,296 @@
+{
+  "id": "https-awardspring-breezy-hr-p-ee1a9cf6f279-product-manager-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:30:40.329Z",
+  "page_url": "https://awardspring.breezy.hr/p/ee1a9cf6f279-product-manager/apply",
+  "page_title": "Product Manager",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 9,
+      "count_delta": 1,
+      "label_jaccard": 0.4167,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary",
+        "ai": "Desired Salary Currency",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from AwardSpring.",
+      "Desired Salary",
+      "Desired Salary Period"
+    ],
+    "reasons": [
+      "label Jaccard 0.417 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses AngularJS. Salary fields are optional based on the configuration. There are external links for Indeed and LinkedIn application integrations.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from AwardSpring.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Currency",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Desired Salary",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Period",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f7"
+    }
+  ]
+}

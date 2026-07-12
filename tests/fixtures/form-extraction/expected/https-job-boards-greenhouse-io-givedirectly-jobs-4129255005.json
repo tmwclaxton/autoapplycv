@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-greenhouse-io-givedirectly-jobs-4129255005",
-  "min_fields": 21,
-  "exact_field_count": 21,
+  "min_fields": 22,
+  "exact_field_count": 22,
   "fields": [
     {
       "question": "first name",
@@ -104,26 +104,6 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
       "question": "where are you located? (city, state [if applicable], country)",
       "field_type": "text",
       "max_chars": 255,
@@ -164,7 +144,7 @@
       }
     },
     {
-      "question": "how many years of professional experience do you have? where are you located? (city, state [if applicable], country)",
+      "question": "how many years of professional experience do you have?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -184,7 +164,7 @@
       }
     },
     {
-      "question": "are you open to short-term/contractor work? where are you located? (city, state [if applicable], country)",
+      "question": "are you open to short-term/contractor work?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -204,7 +184,7 @@
       }
     },
     {
-      "question": "for which function are you the most interested in being considered? where are you located? (city, state [if applicable], country)",
+      "question": "for which function are you the most interested in being considered?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -224,7 +204,7 @@
       }
     },
     {
-      "question": "in which function do you have the most experience? where are you located? (city, state [if applicable], country)",
+      "question": "in which function do you have the most experience?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -244,7 +224,7 @@
       }
     },
     {
-      "question": "in which country are you most interested in working? where are you located? (city, state [if applicable], country)",
+      "question": "in which country are you most interested in working?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -264,7 +244,7 @@
       }
     },
     {
-      "question": "do you have work authorization in the country you selected above? where are you located? (city, state [if applicable], country)",
+      "question": "do you have work authorization in the country you selected above?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -384,6 +364,26 @@
       }
     },
     {
+      "question": "please identify your race",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "race",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
       "question": "veteran status",
       "field_type": "select",
       "max_chars": null,
@@ -422,10 +422,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

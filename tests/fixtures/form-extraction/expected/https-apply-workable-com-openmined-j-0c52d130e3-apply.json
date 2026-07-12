@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-openmined-j-0c52d130e3-apply",
-  "min_fields": 22,
-  "exact_field_count": 22,
+  "min_fields": 17,
+  "exact_field_count": 17,
   "fields": [
     {
       "question": "first name",
@@ -84,16 +84,16 @@
       }
     },
     {
-      "question": "city city",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -104,47 +104,7 @@
       }
     },
     {
-      "question": "postcode postcode",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "country country",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "summary (optional)",
+      "question": "summary",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -164,15 +124,15 @@
       }
     },
     {
-      "question": "input_files_input_njwjhoyqn49eckmf",
+      "question": "resume",
       "field_type": "file",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_NJwjhOyqN49eckmF",
+        "id": "input_files_input_trl0QNI6BKAphWeJ",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -184,7 +144,7 @@
       }
     },
     {
-      "question": "cover letter (optional)",
+      "question": "cover letter",
       "field_type": "textarea",
       "max_chars": 200000,
       "options": null,
@@ -248,17 +208,17 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.0-2",
-        "SVGs not supported by this browser.2-5",
-        "SVGs not supported by this browser.5-8",
-        "SVGs not supported by this browser.8-10",
-        "SVGs not supported by this browser.10+"
+        "0-2",
+        "2-5",
+        "5-8",
+        "8-10",
+        "10+"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "iAW48kFkk4Y0jntZ",
+        "id": "RYvZwqFGL7lgA5cL",
         "name": "QA_11697941",
         "data_testid": null,
         "role": null,
@@ -294,16 +254,16 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Daily",
-        "SVGs not supported by this browser.Weekly",
-        "SVGs not supported by this browser.Monthly",
-        "SVGs not supported by this browser.Rarely"
+        "daily",
+        "weekly",
+        "monthly",
+        "rarely"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "IRfbPzrnCnkyiHwT",
+        "id": "sktvq9yITTKvbzM1",
         "name": "QA_11697943",
         "data_testid": null,
         "role": null,
@@ -319,17 +279,17 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Beginner — Tutorials or personal projects",
-        "SVGs not supported by this browser.Intermediate — Side projects or under 1 year professional use",
-        "SVGs not supported by this browser.Proficient — 1–3 years professional use",
-        "SVGs not supported by this browser.Advanced — 3+ years professional use",
-        "SVGs not supported by this browser.Expert — 5+ years professional use"
+        "beginner — tutorials or personal projects",
+        "intermediate — side projects or under 1 year professional use",
+        "proficient — 1–3 years professional use",
+        "advanced — 3+ years professional use",
+        "expert — 5+ years professional use"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "zXXIyDgtD3EMNMzQ",
+        "id": "Z0m7BeHAqiOEV2Xk",
         "name": "QA_11697944",
         "data_testid": null,
         "role": null,
@@ -365,14 +325,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "yes",
+        "no"
       ],
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "IoZRuQUNDwUZaQnX",
+        "id": "UQsQ3OBAwXahwvXT",
         "name": "QA_11697946",
         "data_testid": null,
         "role": null,
@@ -384,98 +344,18 @@
       }
     },
     {
-      "question": "how many years of professional software engineering experience do you have?",
-      "field_type": "radio",
+      "question": "phone",
+      "field_type": "select",
       "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
+      "options": null,
+      "required": false,
       "dom": {
         "tag": "div",
         "type": null,
-        "id": "wrapper_iAW48kFkk4Y0jntZ",
+        "id": null,
         "name": null,
         "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "how often do you write code?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_IRfbPzrnCnkyiHwT",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "rate your python proficiency (in a professional production context)",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_zXXIyDgtD3EMNMzQ",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you comfortable committing to a remote role with substantial async communication, overlapping with asia-pacific and european time zones?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_IoZRuQUNDwUZaQnX",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
+        "role": "combobox",
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -485,7 +365,5 @@
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

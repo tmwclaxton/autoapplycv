@@ -1,0 +1,220 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-030ce0cc-8242-49da-8a19-fd2f8ded3437-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:40:53.349Z",
+  "page_url": "https://jobs.ashbyhq.com/eliseai/030ce0cc-8242-49da-8a19-fd2f8ded3437/application",
+  "page_title": "Sales Development Representative | Housing @ EliseAI",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 7,
+      "count_delta": 9,
+      "label_jaccard": 0.4375,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "are you interested in working from our boston or nyc office?",
+        "ai": "Are you interested in working from our Boston or NYC office?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about eliseai?",
+        "ai": "How did you hear about EliseAI?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you legally authorized to work in the united states?",
+      "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "eliseai is an in-office company. are you comfortable working from our office 5 days per week?",
+      "please provide a range of your compensation expectations.",
+      "what was your gpa?",
+      "please include a copy of your college or university transcript. an unofficial transcript is fine.",
+      "rate your comfort level by making 80+ cold calls per day on a scale of 1-10. why did you choose that rating?",
+      "what’s the most ambitious goal you’ve set for yourself, academically or professionally? how did you achieve it?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered via a React-based SPA. The 'How did you hear about EliseAI' field was truncated in the provided HTML snippet, but the options were extracted from the visible radio labels.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you interested in working from our Boston or NYC office?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about EliseAI?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Job Board (e.g., Indeed, Built In, Wellfound)",
+          "Company Website",
+          "Referred by a current or former employee",
+          "Recruiter reached out to me",
+          "EliseAI Event",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "are you interested in working from our boston or nyc office?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how did you hear about eliseai?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "eliseai is an in-office company. are you comfortable working from our office 5 days per week?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please provide a range of your compensation expectations.",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what was your gpa?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "please include a copy of your college or university transcript. an unofficial transcript is fine.",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "rate your comfort level by making 80+ cold calls per day on a scale of 1-10. why did you choose that rating?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what’s the most ambitious goal you’ve set for yourself, academically or professionally? how did you achieve it?",
+      "field_type": "textarea",
+      "ref": "f15"
+    }
+  ]
+}

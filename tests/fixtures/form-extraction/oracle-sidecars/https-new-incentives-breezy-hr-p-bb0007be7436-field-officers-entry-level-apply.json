@@ -1,0 +1,104 @@
+{
+  "id": "https-new-incentives-breezy-hr-p-bb0007be7436-field-officers-entry-level-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:11:22.771Z",
+  "page_url": "https://new-incentives.breezy.hr/p/bb0007be7436-field-officers-entry-level/apply",
+  "page_title": "Field Officers (entry-level)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 0.1429,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Have you filled out the 'Google Form'? Without this, your application will not be considered.*"
+    ],
+    "reasons": [
+      "label Jaccard 0.143 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Breezy HR SPA framework. The 'Google Form' requirement is a mandatory dropdown selection. Indeed and LinkedIn OAuth buttons are present for alternative application methods.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you filled out the 'Google Form'? Without this, your application will not be considered.*",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes, I clicked on the 'Google Form' and filled it out"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f3"
+    }
+  ]
+}

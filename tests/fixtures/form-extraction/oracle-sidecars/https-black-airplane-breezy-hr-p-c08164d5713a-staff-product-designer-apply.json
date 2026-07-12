@@ -1,0 +1,288 @@
+{
+  "id": "https-black-airplane-breezy-hr-p-c08164d5713a-staff-product-designer-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:44:10.451Z",
+  "page_url": "https://black-airplane.breezy.hr/p/c08164d5713a-staff-product-designer/apply",
+  "page_title": "Staff Product Designer",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.5263,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "your linkedin profile url",
+        "ai": "Your LinkedIn Profile URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "your portfolio url",
+        "ai": "Your Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio password (if applicable)",
+        "ai": "Portfolio Password (if applicable)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of experience do you have as a product designer in an agency or digital product setting?",
+        "ai": "How many years of experience do you have as a product designer in an agency or digital product setting?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the us?",
+        "ai": "Are you legally authorized to work in the US?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for work authorization?",
+        "ai": "Will you now or in the future require sponsorship for work authorization?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to perform this role from a location within the united states that is not ak, ca, hi, ma, ny, or, or wa?",
+        "ai": "Are you able to perform this role from a location within the United States that is not AK, CA, HI, MA, NY, OR, or WA?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Black Airplane.",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.526 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based application (Breezy HR). Work history and education sections are dynamic and can be added via buttons, which are not captured as static fields.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Black Airplane.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Your LinkedIn Profile URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Your Portfolio URL",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio Password (if applicable)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have as a product designer in an agency or digital product setting?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "None",
+          "1-3 Years",
+          "3-5 Years",
+          "6-9 Years",
+          "10+ Years"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the US?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for work authorization?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to perform this role from a location within the United States that is not AK, CA, HI, MA, NY, OR, or WA?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "your linkedin profile url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "your portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "portfolio password (if applicable)",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how many years of experience do you have as a product designer in an agency or digital product setting?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "are you legally authorized to work in the us?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for work authorization?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "are you able to perform this role from a location within the united states that is not ak, ca, hi, ma, ny, or, or wa?",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

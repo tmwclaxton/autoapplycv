@@ -1,0 +1,172 @@
+{
+  "id": "https-maxusacorp-na-teamtailor-com-jobs-176811-regional-sales-associate-new-engl",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:56:29.611Z",
+  "page_url": "https://maxusacorp.na.teamtailor.com/jobs/176811-regional-sales-associate-new-england/applications/new",
+  "page_title": "Regional Sales Associate - New England - Max USA Corp",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 7,
+      "count_delta": 2,
+      "label_jaccard": 0.3333,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "background check are you willing to undergo a background check, in accordance with local law/regulations?",
+        "ai": "Background Check",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "degree have you completed the following level of education: bachelor's degree?",
+      "drug test are you willing to take a drug test, in accordance with local law/regulations?",
+      "upload resume",
+      "additional files"
+    ],
+    "ai_only": [
+      "Degree",
+      "Drug Test"
+    ],
+    "reasons": [
+      "label Jaccard 0.333 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a complex international phone input widget. The resume/CV upload field was not visible in the provided HTML snippet but is standard for Teamtailor forms.",
+    "fields": [
+      {
+        "question": "Degree",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Background Check",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Drug Test",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "degree have you completed the following level of education: bachelor's degree?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "background check are you willing to undergo a background check, in accordance with local law/regulations?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "drug test are you willing to take a drug test, in accordance with local law/regulations?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f8"
+    }
+  ]
+}

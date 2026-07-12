@@ -1,0 +1,163 @@
+{
+  "id": "https-cariina-breezy-hr-p-89d9af42e6fe-business-development-representative-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:04:07.918Z",
+  "page_url": "https://cariina.breezy.hr/p/89d9af42e6fe-business-development-representative/apply",
+  "page_title": "Business Development Representative",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 7,
+      "count_delta": 1,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "are you able to work out of our boston office full time or relocate to do so?",
+        "ai": "Are you able to work out of our Boston office full time or relocate to do so?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the united states?",
+        "ai": "Are you authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Cariina. Cariina will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+    ],
+    "reasons": [
+      "label Jaccard 0.500 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The resume upload is a custom file input. The SMS consent checkbox is associated with the phone number field.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Cariina. Cariina will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able to work out of our Boston office full time or relocate to do so?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "are you able to work out of our boston office full time or relocate to do so?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f7"
+    }
+  ]
+}

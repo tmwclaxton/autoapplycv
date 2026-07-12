@@ -1,0 +1,449 @@
+{
+  "id": "https-jobs-lever-co-prosper-952adfd4-d3b4-4aa5-b6a5-6edd251c1c32-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:38:08.967Z",
+  "page_url": "https://jobs.lever.co/prosper/952adfd4-d3b4-4aa5-b6a5-6edd251c1c32/apply",
+  "page_title": "Prosper - Sr. Product Manager, Core Experience",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 20,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have the right to work in the us indefinitely without any sponsorship or other legal support from your employer?",
+        "ai": "Do you have the right to work in the US indefinitely without any sponsorship or other legal support from your employer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if no, please explain the support you would need from your employer. if this does not apply please state \"n/a.\"",
+        "ai": "If no, please explain the support you would need from your employer. If this does not apply please state \"N/A.\"",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you live in the san francisco bay area?",
+        "ai": "Do you live in the San Francisco Bay Area?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this job?",
+        "ai": "How did you hear about this job?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "would you like to receive updates about the interview process via text/sms? if you change your mind, you can reply stop to opt-out.",
+        "ai": "Would you like to receive updates about the interview process via Text/SMS? If you change your mind, you can reply STOP to opt-out.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "at prosper, we support the use of approved ai tools to enhance efficiency and productivity in day-to-day work. while ai can assist with your resume or cover letter preparation, your application should accurately reflect your qualifications. during the interview process, please refrain from using ai tools. this allows us to genuinely assess your personal interest in prosper and evaluate your natural communication skills without ai assistance. please confirm your understanding and agreement by indicating 'yes' below.",
+        "ai": "At Prosper, we support the use of approved AI tools to enhance efficiency and productivity in day-to-day work. While AI can assist with your resume or cover letter preparation, your application should accurately reflect your qualifications. During the interview process, please refrain from using AI tools. This allows us to genuinely assess your personal interest in Prosper and evaluate your natural communication skills without AI assistance. Please confirm your understanding and agreement by indicating 'Yes' below.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your highest completed level of education?",
+        "ai": "What is your highest completed level of education?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Includes an hCaptcha challenge and EEO survey fields.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have the right to work in the US indefinitely without any sponsorship or other legal support from your employer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If no, please explain the support you would need from your employer. If this does not apply please state \"N/A.\"",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you live in the San Francisco Bay Area?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Blind",
+          "College/University posting",
+          "Glassdoor",
+          "Indeed",
+          "LinkedIn",
+          "NSBE email or site",
+          "Otta",
+          "Prosper Site",
+          "Referral",
+          "Wellfound",
+          "Other"
+        ]
+      },
+      {
+        "question": "Would you like to receive updates about the interview process via Text/SMS? If you change your mind, you can reply STOP to opt-out.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "At Prosper, we support the use of approved AI tools to enhance efficiency and productivity in day-to-day work. While AI can assist with your resume or cover letter preparation, your application should accurately reflect your qualifications. During the interview process, please refrain from using AI tools. This allows us to genuinely assess your personal interest in Prosper and evaluate your natural communication skills without AI assistance. Please confirm your understanding and agreement by indicating 'Yes' below.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      },
+      {
+        "question": "What is your highest completed level of education?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "PhD",
+          "JD",
+          "Master's",
+          "Bachelor's",
+          "No degree"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "do you have the right to work in the us indefinitely without any sponsorship or other legal support from your employer?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "if no, please explain the support you would need from your employer. if this does not apply please state \"n/a.\"",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "do you live in the san francisco bay area?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "would you like to receive updates about the interview process via text/sms? if you change your mind, you can reply stop to opt-out.",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "at prosper, we support the use of approved ai tools to enhance efficiency and productivity in day-to-day work. while ai can assist with your resume or cover letter preparation, your application should accurately reflect your qualifications. during the interview process, please refrain from using ai tools. this allows us to genuinely assess your personal interest in prosper and evaluate your natural communication skills without ai assistance. please confirm your understanding and agreement by indicating 'yes' below.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your highest completed level of education?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f19"
+    }
+  ]
+}

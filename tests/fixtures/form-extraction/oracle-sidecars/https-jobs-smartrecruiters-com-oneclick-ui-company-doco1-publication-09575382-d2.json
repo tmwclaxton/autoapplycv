@@ -1,0 +1,220 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-doco1-publication-09575382-d2",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:40:46.527Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/DOCO1/publication/09575382-d28d-4e0f-abe4-3dcea8fe6793",
+  "page_title": "Postulación fácil - Preparador/a Montador/a Tren de lavado (Dishwash) - DO & CO",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 0.1304,
+      "type_agree_rate": 0.3333,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "subir imagen de perfil",
+        "ai": "Subir imagen de perfil",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "email",
+      "emailconfirmation",
+      "location autocomplete",
+      "phone",
+      "twitter",
+      "website",
+      "message"
+    ],
+    "ai_only": [
+      "Nombre",
+      "Apellidos",
+      "Correo electrónico",
+      "Confirma tu correo electrónico",
+      "Ciudad",
+      "Número de teléfono",
+      "X (antes Twitter)",
+      "Sitio web",
+      "Currículum",
+      "Hágale saber a la empresa sobre su interés de trabajar allí"
+    ],
+    "reasons": [
+      "label Jaccard 0.130 below 0.7",
+      "type agreement 0.333 below 0.6 on 3 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components for experience and education sections which are not fully rendered in the static HTML. LinkedIn and Indeed external providers are present as buttons.",
+    "fields": [
+      {
+        "question": "Subir imagen de perfil",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nombre",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Apellidos",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Correo electrónico",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirma tu correo electrónico",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Ciudad",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Número de teléfono",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (antes Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Sitio web",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Currículum",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Hágale saber a la empresa sobre su interés de trabajar allí",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "subir imagen de perfil",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f12"
+    }
+  ]
+}

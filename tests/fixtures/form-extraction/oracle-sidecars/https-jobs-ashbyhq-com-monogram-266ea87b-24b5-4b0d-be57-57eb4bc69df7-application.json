@@ -1,0 +1,163 @@
+{
+  "id": "https-jobs-ashbyhq-com-monogram-266ea87b-24b5-4b0d-be57-57eb4bc69df7-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:35:41.862Z",
+  "page_url": "https://jobs.ashbyhq.com/monogram/266ea87b-24b5-4b0d-be57-57eb4bc69df7/application",
+  "page_title": "Monogram Fellow @ Monogram",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work in the united states?",
+        "ai": "Are you authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship to work in the united states?",
+        "ai": "Will you now or in the future require sponsorship to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what specifically about monogram caught your attention?",
+        "ai": "What specifically about Monogram caught your attention?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what's a project you've worked on that you're proud of?",
+        "ai": "What's a project you've worked on that you're proud of?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for the Yes/No questions. The resume upload field appears twice in the DOM (one for autofill, one for the formal application).",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What specifically about Monogram caught your attention?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What's a project you've worked on that you're proud of?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "what specifically about monogram caught your attention?",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "what's a project you've worked on that you're proud of?",
+      "field_type": "textarea",
+      "ref": "f6"
+    }
+  ]
+}

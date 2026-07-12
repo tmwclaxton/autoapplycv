@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-crewbloom-j-5612fd042a-apply",
-  "min_fields": 45,
-  "exact_field_count": 45,
+  "min_fields": 35,
+  "exact_field_count": 35,
   "fields": [
     {
       "question": "first name",
@@ -204,56 +204,16 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -272,7 +232,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_LJfzpxRH23bDfnHY",
+        "id": "input_files_input_VCeWDA5KMQOcpMQa",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -292,7 +252,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_GiKWn5YoDDy2Vn7Y",
+        "id": "input_files_input_vFjPv8endDnzKfvz",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -348,16 +308,16 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.ASAP",
-        "SVGs not supported by this browser.Within 1-2 weeks",
-        "SVGs not supported by this browser.Within 3-4 weeks",
-        "SVGs not supported by this browser.30 days or later"
+        "ASAP",
+        "Within 1-2 weeks",
+        "Within 3-4 weeks",
+        "30 days or later"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "ZUPa0HA8gc80PKAR",
+        "id": "q9txH27NFybbYcbR",
         "name": "CA_22484",
         "data_testid": null,
         "role": null,
@@ -373,14 +333,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "Gl75WgrN7czGHx8S",
+        "id": "YnkCnbOyIdMyVfX6",
         "name": "CA_22485",
         "data_testid": null,
         "role": null,
@@ -436,14 +396,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "mDzbkmULfPW2YuwR",
+        "id": "BGVbRbsf3CbJtOX9",
         "name": "CA_22475",
         "data_testid": null,
         "role": null,
@@ -459,14 +419,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "EAs3xEjLkZKPgyjF",
+        "id": "TZqv8sRqXzpx9xEF",
         "name": "CA_22476",
         "data_testid": null,
         "role": null,
@@ -486,7 +446,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_XcNCb8XEpSpYaGZk",
+        "id": "input_files_input_SRHOHrrOjnrykRus",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -506,7 +466,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_q6xcHBylpHDi7D2B",
+        "id": "input_files_input_MXLp9uKVyyRzA7uN",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -526,7 +486,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_XOBzNAZ9j7J0H9XK",
+        "id": "input_files_input_ZbWD64Yhh4K7wSwo",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -546,7 +506,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_XbJa3BzxfhHTyjdP",
+        "id": "input_files_input_XwPfAnfff62RHcJ4",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -562,14 +522,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "jbdAJXAIAsb2i9Lc",
+        "id": "CWSyyBTOra8lUWkd",
         "name": "CA_42065",
         "data_testid": null,
         "role": null,
@@ -585,14 +545,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "gME51NbwasuXLQMn",
+        "id": "tMpxJfN0oZn1efPI",
         "name": "CA_42066",
         "data_testid": null,
         "role": null,
@@ -628,26 +588,26 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.CrewBloom CareerSite",
-        "SVGs not supported by this browser.LinkedIn",
-        "SVGs not supported by this browser.Facebook",
-        "SVGs not supported by this browser.Google",
-        "SVGs not supported by this browser.Indeed",
-        "SVGs not supported by this browser.OnlineJobsPH",
-        "SVGs not supported by this browser.YouTube",
-        "SVGs not supported by this browser.GlassDoor",
-        "SVGs not supported by this browser.JobStreet",
-        "SVGs not supported by this browser.TikTok",
-        "SVGs not supported by this browser.Referral",
-        "SVGs not supported by this browser.Threads",
-        "SVGs not supported by this browser.Instagram",
-        "SVGs not supported by this browser.Others"
+        "CrewBloom CareerSite",
+        "LinkedIn",
+        "Facebook",
+        "Google",
+        "Indeed",
+        "OnlineJobsPH",
+        "YouTube",
+        "GlassDoor",
+        "JobStreet",
+        "TikTok",
+        "Referral",
+        "Threads",
+        "Instagram",
+        "Others"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "Qd8iT0zfDxUOJ3GX",
+        "id": "uveYYSJGVDfiEpuk",
         "name": "CA_42068",
         "data_testid": null,
         "role": null,
@@ -683,14 +643,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "Yes",
+        "No"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "iEHC3KZTzmONjoFY",
+        "id": "s3fuzLIBZIAwJWib",
         "name": "CA_42070",
         "data_testid": null,
         "role": null,
@@ -774,204 +734,6 @@
         "name": "QA_10282348",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "how soon can you start?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_ZUPa0HA8gc80PKAR",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you have prior commitments that would require you to take a leave in the next 6 months?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_Gl75WgrN7czGHx8S",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you amenable to work during us hours?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_mDzbkmULfPW2YuwR",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you willing to use a time-tracking tool?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_EAs3xEjLkZKPgyjF",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "as an independent contractor, your agreed-upon compensation is without deductions for government-mandated benefits, all while experiencing the dynamic of a no-work, no-pay arrangement. is this something you can work with?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_jbdAJXAIAsb2i9Lc",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you a previous contractor of crewbloom?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_gME51NbwasuXLQMn",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "how did you find out about the opening?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_Qd8iT0zfDxUOJ3GX",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you willing to have a time-tracking tool which will take screenshots, monitor your mouse and keyboard activity?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_iEHC3KZTzmONjoFY",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,

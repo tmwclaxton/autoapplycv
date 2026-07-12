@@ -1,0 +1,187 @@
+{
+  "id": "https-novritschtrading-recruitee-com-o-short-form-video-creator-20-385h-on-site-",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:10:53.501Z",
+  "page_url": "https://novritschtrading.recruitee.com/o/short-form-video-creator-20-385h-on-site-or-remote/c/new",
+  "page_title": "Novritsch Trading - Short-Form Video Creator (20-38,5h, on-site or remote) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.8889,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how often could you come to our vienna office?",
+        "ai": "How often could you come to our Vienna office?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your 5 best short form videos that you ever created? (paste links only)",
+        "ai": "What are your 5 best short form videos that you ever created? (Paste links only)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about your experience with airsoft of firearms",
+        "ai": "Tell us about your experience with airsoft of firearms",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget. The cover letter field allows for file upload, but also has a button to switch to a text input (not fully rendered in static HTML).",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How often could you come to our Vienna office?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Almost every workday",
+          "Once or twice per week",
+          "Once per month",
+          "Never"
+        ]
+      },
+      {
+        "question": "What are your 5 best short form videos that you ever created? (Paste links only)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us about your experience with airsoft of firearms",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "how often could you come to our vienna office?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "what are your 5 best short form videos that you ever created? (paste links only)",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "tell us about your experience with airsoft of firearms",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f8"
+    }
+  ]
+}

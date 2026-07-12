@@ -1,0 +1,652 @@
+{
+  "id": "https-jobs-lever-co-leverdemo-8-037ba90f-543e-49dd-abe5-74442f86409b-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:07:28.669Z",
+  "page_url": "https://jobs.lever.co/leverdemo-8/037ba90f-543e-49dd-abe5-74442f86409b/apply",
+  "page_title": "Lever Implementation Training Environment - Apple Picker",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 18,
+      "count_delta": 3,
+      "label_jaccard": 0.6957,
+      "type_agree_rate": 0.6875,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "disability status",
+        "ai": "Disability status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your location?",
+        "ai": "What is your location?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what is your age range?",
+      "i identify my ethnicity as",
+      "what gender do you identify as?",
+      "what is your highest level of education?",
+      "yes, lever implementation training environment can contact me about future job opportunities for up to 1 yearprivacy policy"
+    ],
+    "ai_only": [
+      "Name (Disability Signature)",
+      "Date (Disability Signature)"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=21, ai=18)",
+      "label Jaccard 0.696 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a hidden JSON-encoded demographic survey in the HTML that contains additional fields (age range, ethnicity) which are not rendered as standard form inputs in the static HTML.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a Protected Veteran",
+          "I am not a Protected Veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Disability status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes, I have a disability, or have had one in the past",
+          "No, I do not have a disability and have not had one in the past",
+          "I do not want to answer"
+        ]
+      },
+      {
+        "question": "Name (Disability Signature)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Date (Disability Signature)",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your location?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Afghanistan",
+          "Albania",
+          "Algeria",
+          "American Samoa",
+          "Andorra",
+          "Angola",
+          "Anguilla",
+          "Antarctica",
+          "Antigua and Barbuda",
+          "Argentina",
+          "Armenia",
+          "Aruba",
+          "Australia",
+          "Austria",
+          "Azerbaijan",
+          "Bahamas",
+          "Bahrain",
+          "Bangladesh",
+          "Barbados",
+          "Belarus",
+          "Belgium",
+          "Belize",
+          "Benin",
+          "Bermuda",
+          "Bhutan",
+          "Bolivia",
+          "Bonaire, Sint Eustatius and Saba",
+          "Bosnia and Herzegovina",
+          "Botswana",
+          "Bouvet Island",
+          "Brazil",
+          "British Indian Ocean Territory",
+          "Brunei",
+          "Bulgaria",
+          "Burkina Faso",
+          "Burundi",
+          "Cambodia",
+          "Cameroon",
+          "Canada",
+          "Cape Verde",
+          "Cayman Islands",
+          "Central African Republic",
+          "Chad",
+          "Chile",
+          "China",
+          "Christmas Island",
+          "Cocos (Keeling) Islands",
+          "Colombia",
+          "Comoros",
+          "Congo",
+          "Congo, the Democratic Republic of the",
+          "Cook Islands",
+          "Costa Rica",
+          "Croatia",
+          "Cuba",
+          "Curaçao",
+          "Cyprus",
+          "Czech Republic",
+          "Denmark",
+          "Djibouti",
+          "Dominica",
+          "Dominican Republic",
+          "Ecuador",
+          "Egypt",
+          "El Salvador",
+          "Equatorial Guinea",
+          "Eritrea",
+          "Estonia",
+          "Eswatini",
+          "Ethiopia",
+          "Falkland Islands",
+          "Faroe Islands",
+          "Fiji",
+          "Finland",
+          "France",
+          "French Guiana",
+          "French Polynesia",
+          "French Southern Territories",
+          "Gabon",
+          "Gambia",
+          "Georgia",
+          "Germany",
+          "Ghana",
+          "Gibraltar",
+          "Greece",
+          "Greenland",
+          "Grenada",
+          "Guadeloupe",
+          "Guam",
+          "Guatemala",
+          "Guernsey",
+          "Guinea",
+          "Guinea-Bissau",
+          "Guyana",
+          "Haiti",
+          "Heard Island and McDonald Islands",
+          "Holy See (Vatican City State)",
+          "Honduras",
+          "Hong Kong",
+          "Hungary",
+          "Iceland",
+          "India",
+          "Indonesia",
+          "Iran",
+          "Iraq",
+          "Ireland",
+          "Isle of Man",
+          "Israel",
+          "Italy",
+          "Ivory Coast",
+          "Jamaica",
+          "Japan",
+          "Jersey",
+          "Jordan",
+          "Kazakhstan",
+          "Kenya",
+          "Kiribati",
+          "Kosovo",
+          "Kuwait",
+          "Kyrgyzstan",
+          "Laos",
+          "Latvia",
+          "Lebanon",
+          "Lesotho",
+          "Liberia",
+          "Libya",
+          "Liechtenstein",
+          "Lithuania",
+          "Luxembourg",
+          "Macao",
+          "Macedonia, the Former Yugoslav Republic of",
+          "Madagascar",
+          "Malawi",
+          "Malaysia",
+          "Maldives",
+          "Mali",
+          "Malta",
+          "Marshall Islands",
+          "Martinique",
+          "Mauritania",
+          "Mauritius",
+          "Mayotte",
+          "Mexico",
+          "Micronesia, Federated States of",
+          "Moldova",
+          "Monaco",
+          "Mongolia",
+          "Montenegro",
+          "Montserrat",
+          "Morocco",
+          "Mozambique",
+          "Myanmar",
+          "Namibia",
+          "Nauru",
+          "Nepal",
+          "Netherlands",
+          "New Caledonia",
+          "New Zealand",
+          "Nicaragua",
+          "Niger",
+          "Nigeria",
+          "Niue",
+          "Norfolk Island",
+          "North Korea",
+          "Northern Mariana Islands",
+          "Norway",
+          "Oman",
+          "Pakistan",
+          "Palau",
+          "Palestine, State of",
+          "Panama",
+          "Papua New Guinea",
+          "Paraguay",
+          "Peru",
+          "Philippines",
+          "Pitcairn",
+          "Poland",
+          "Portugal",
+          "Puerto Rico",
+          "Qatar",
+          "Romania",
+          "Russia",
+          "Rwanda",
+          "Réunion",
+          "Saint Barthélemy",
+          "Saint Helena, Ascension and Tristan da Cunha",
+          "Saint Kitts and Nevis",
+          "Saint Lucia",
+          "Saint Martin (French part)",
+          "Saint Pierre and Miquelon",
+          "Saint Vincent and the Grenadines",
+          "Samoa",
+          "San Marino",
+          "Sao Tome and Principe",
+          "Saudi Arabia",
+          "Senegal",
+          "Serbia",
+          "Seychelles",
+          "Sierra Leone",
+          "Singapore",
+          "Sint Maarten (Dutch part)",
+          "Slovakia",
+          "Slovenia",
+          "Solomon Islands",
+          "Somalia",
+          "South Africa",
+          "South Georgia and the South Sandwich Islands",
+          "South Korea",
+          "South Sudan",
+          "Spain",
+          "Sri Lanka",
+          "Sudan",
+          "Suriname",
+          "Svalbard and Jan Mayen",
+          "Sweden",
+          "Switzerland",
+          "Syria",
+          "Taiwan",
+          "Tajikistan",
+          "Tanzania",
+          "Thailand",
+          "Timor-Leste",
+          "Togo",
+          "Tokelau",
+          "Tonga",
+          "Trinidad and Tobago",
+          "Tunisia",
+          "Turkey",
+          "Turkmenistan",
+          "Turks and Caicos Islands",
+          "Tuvalu",
+          "Uganda",
+          "Ukraine",
+          "United Arab Emirates",
+          "United Kingdom",
+          "United States",
+          "United States Minor Outlying Islands",
+          "Uruguay",
+          "Uzbekistan",
+          "Vanuatu",
+          "Venezuela",
+          "Vietnam",
+          "Virgin Islands, British",
+          "Virgin Islands, U.S.",
+          "Wallis and Futuna",
+          "Western Sahara",
+          "Yemen",
+          "Zambia",
+          "Zimbabwe",
+          "Åland Islands"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your location?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "what is your highest level of education?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "yes, lever implementation training environment can contact me about future job opportunities for up to 1 yearprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f20"
+    }
+  ]
+}

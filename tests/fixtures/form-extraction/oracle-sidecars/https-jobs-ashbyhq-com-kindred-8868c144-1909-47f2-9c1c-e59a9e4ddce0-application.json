@@ -1,18 +1,18 @@
 {
   "id": "https-jobs-ashbyhq-com-kindred-8868c144-1909-47f2-9c1c-e59a9e4ddce0-application",
   "status": "agree",
-  "captured_at": "2026-07-10T15:22:22.761Z",
+  "captured_at": "2026-07-11T01:02:15.680Z",
   "page_url": "https://jobs.ashbyhq.com/kindred/8868c144-1909-47f2-9c1c-e59a9e4ddce0/application",
   "page_title": "Staff Product Manager @ Kindred",
   "diff": {
     "status": "agree",
     "metrics": {
       "detector_count": 20,
-      "ai_count": 15,
-      "count_delta": 5,
-      "label_jaccard": 0.75,
-      "type_agree_rate": 0.6,
-      "matched_count": 15
+      "ai_count": 10,
+      "count_delta": 10,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
     },
     "matched": [
       {
@@ -75,53 +75,23 @@
         "detector": "linkedin url",
         "ai": "LinkedIn URL",
         "detector_type": "text",
-        "ai_type": "url",
-        "type_agree": false
+        "ai_type": "text",
+        "type_agree": true
       },
       {
         "detector": "twitter url",
         "ai": "Twitter URL",
         "detector_type": "text",
-        "ai_type": "url",
-        "type_agree": false
-      },
-      {
-        "detector": "github url",
-        "ai": "GitHub URL",
-        "detector_type": "text",
-        "ai_type": "url",
-        "type_agree": false
-      },
-      {
-        "detector": "portfolio url",
-        "ai": "Portfolio URL",
-        "detector_type": "text",
-        "ai_type": "url",
-        "type_agree": false
-      },
-      {
-        "detector": "other website",
-        "ai": "Other Website",
-        "detector_type": "text",
-        "ai_type": "url",
-        "type_agree": false
-      },
-      {
-        "detector": "what attracts you to this opportunity at kindred?",
-        "ai": "What attracts you to this opportunity at Kindred?",
-        "detector_type": "textarea",
-        "ai_type": "textarea",
-        "type_agree": true
-      },
-      {
-        "detector": "what is your current age?",
-        "ai": "What is your current age?",
-        "detector_type": "radio",
-        "ai_type": "radio",
+        "ai_type": "text",
         "type_agree": true
       }
     ],
     "detector_only": [
+      "github url",
+      "portfolio url",
+      "other website",
+      "what attracts you to this opportunity at kindred?",
+      "what is your current age?",
       "what is your gender identity?",
       "do you identify as transgender?",
       "how do you identify your sexual orientation? please select all that apply.",
@@ -133,7 +103,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a custom combobox for location and a file-upload component that supports drag-and-drop. The diversity survey is optional.",
+    "notes": "The form is rendered via a React-based SPA. The 'Current Location' field is a combobox that likely fetches suggestions dynamically. The 'Yes/No' immigration question uses custom buttons that toggle a hidden checkbox.",
     "fields": [
       {
         "question": "Full Name (Legal)",
@@ -196,51 +166,15 @@
       },
       {
         "question": "LinkedIn URL",
-        "field_type": "url",
+        "field_type": "text",
         "required": true,
         "options": null
       },
       {
         "question": "Twitter URL",
-        "field_type": "url",
+        "field_type": "text",
         "required": false,
         "options": null
-      },
-      {
-        "question": "GitHub URL",
-        "field_type": "url",
-        "required": false,
-        "options": null
-      },
-      {
-        "question": "Portfolio URL",
-        "field_type": "url",
-        "required": false,
-        "options": null
-      },
-      {
-        "question": "Other Website",
-        "field_type": "url",
-        "required": false,
-        "options": null
-      },
-      {
-        "question": "What attracts you to this opportunity at Kindred?",
-        "field_type": "textarea",
-        "required": true,
-        "options": null
-      },
-      {
-        "question": "What is your current age?",
-        "field_type": "radio",
-        "required": false,
-        "options": [
-          "Under 30",
-          "30-39",
-          "40-49",
-          "50-59",
-          "60 or older"
-        ]
       }
     ]
   },

@@ -1,0 +1,358 @@
+{
+  "id": "https-framestore-recruitee-com-o-creature-fx-td-film-episodic-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:27:57.780Z",
+  "page_url": "https://framestore.recruitee.com/o/creature-fx-td-film-episodic/c/new",
+  "page_title": "Framestore - Creature FX TD - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 18,
+      "count_delta": 0,
+      "label_jaccard": 0.8947,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio link",
+        "ai": "Portfolio link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio password",
+        "ai": "Portfolio password",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "availability date",
+        "ai": "Availability date",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "citizenship",
+        "ai": "Citizenship",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require sponsorship to work in the uk?",
+        "ai": "Do you require sponsorship to work in the UK?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you live outside of the uk, are you wiling to relocate for work?",
+        "ai": "If you live outside of the UK, are you wiling to relocate for work?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary/rate",
+        "ai": "Desired salary/rate",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred pronoun",
+        "ai": "What is your preferred pronoun",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years have you worked with maya?",
+        "ai": "How many years have you worked with Maya?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+        "ai": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [
+      "Have you obtained 'Settled' or 'Pre-settled' status to work in the UK after January 1st 2021?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not a standard input field. The cover letter section has a toggle to switch from file upload to a text area, which is not represented as a static field in the HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio password",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Availability date",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Citizenship",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require sponsorship to work in the UK?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you obtained 'Settled' or 'Pre-settled' status to work in the UK after January 1st 2021?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No",
+          "Yes"
+        ]
+      },
+      {
+        "question": "If you live outside of the UK, are you wiling to relocate for work?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired salary/rate",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your preferred pronoun",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years have you worked with Maya?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "portfolio link",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "portfolio password",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "availability date",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "citizenship",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "do you require sponsorship to work in the uk?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "if you live outside of the uk, are you wiling to relocate for work?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "desired salary/rate",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your preferred pronoun",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "how many years have you worked with maya?",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f17"
+    }
+  ]
+}

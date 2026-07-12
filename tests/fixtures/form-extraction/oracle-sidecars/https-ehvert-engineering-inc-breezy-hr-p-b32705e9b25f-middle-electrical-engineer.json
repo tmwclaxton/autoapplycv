@@ -1,0 +1,320 @@
+{
+  "id": "https-ehvert-engineering-inc-breezy-hr-p-b32705e9b25f-middle-electrical-engineer",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:35:54.627Z",
+  "page_url": "https://ehvert-engineering-inc.breezy.hr/p/b32705e9b25f-middle-electrical-engineer-usa/apply",
+  "page_title": "Middle Electrical Engineer (USA)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 12,
+      "count_delta": 3,
+      "label_jaccard": 0.1667,
+      "type_agree_rate": 0.5,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "desired salary",
+        "ai": "Desired Salary Currency",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "SMS Consent",
+      "Desired Salary Amount",
+      "Desired Salary Frequency",
+      "Work History",
+      "Education",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=9, ai=12)",
+      "label Jaccard 0.167 below 0.7",
+      "type agreement 0.500 below 0.6 on 4 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "Work History and Education are dynamic sections that allow adding multiple entries. The form includes Indeed and LinkedIn integration buttons.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "SMS Consent",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Currency",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Desired Salary Amount",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Frequency",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      },
+      {
+        "question": "Work History",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Education",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

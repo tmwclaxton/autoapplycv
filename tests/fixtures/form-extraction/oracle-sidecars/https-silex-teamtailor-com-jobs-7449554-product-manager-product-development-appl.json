@@ -1,0 +1,289 @@
+{
+  "id": "https-silex-teamtailor-com-jobs-7449554-product-manager-product-development-appl",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:08:55.278Z",
+  "page_url": "https://silex.teamtailor.com/jobs/7449554-product-manager-product-development/applications/new",
+  "page_title": "Product Manager - Product Development - Silex",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 13,
+      "count_delta": 3,
+      "label_jaccard": 0.45,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "ai": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "would you be open to relocate to stockholm if not already living here?",
+        "ai": "Would you be open to relocate to Stockholm if not already living here?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+        "ai": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "attach a link to your linkedin-profile if you're not attaching a cv",
+        "ai": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have a master’s degree or phd with coursework in microfabrication/nanotechnology?",
+        "ai": "Do you have a Master’s degree or PhD with coursework in microfabrication/nanotechnology?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes – please tell us about which courses you took in microfabrication/nanotechnology.",
+        "ai": "If Yes – please tell us about which courses you took in microfabrication/nanotechnology.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with microfabrication from either industry or academic research? if so, which fabrication processes have you primarily worked with?",
+        "ai": "Do you have experience with microfabrication from either industry or academic research? If so, which fabrication processes have you primarily worked with?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have at least four years of industry experience leading technical projects?",
+        "ai": "Do you have at least four years of industry experience leading technical projects?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please describe briefly what type of projects you have led during your years in the industry.",
+        "ai": "Please describe briefly what type of projects you have led during your years in the industry.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload resume",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=16, ai=13)",
+      "label Jaccard 0.450 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor application framework. Some fields like resume upload are implied by the context of the application but were not explicitly visible in the provided HTML snippet. The phone input uses an international telephone input library (intl-tel-input).",
+    "fields": [
+      {
+        "question": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Would you be open to relocate to Stockholm if not already living here?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Uncertain"
+        ]
+      },
+      {
+        "question": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have a Master’s degree or PhD with coursework in microfabrication/nanotechnology?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If Yes – please tell us about which courses you took in microfabrication/nanotechnology.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have experience with microfabrication from either industry or academic research? If so, which fabrication processes have you primarily worked with?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have at least four years of industry experience leading technical projects?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please describe briefly what type of projects you have led during your years in the industry.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "would you be open to relocate to stockholm if not already living here?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "attach a link to your linkedin-profile if you're not attaching a cv",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "do you have a master’s degree or phd with coursework in microfabrication/nanotechnology?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "if yes – please tell us about which courses you took in microfabrication/nanotechnology.",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "do you have experience with microfabrication from either industry or academic research? if so, which fabrication processes have you primarily worked with?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "do you have at least four years of industry experience leading technical projects?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "please describe briefly what type of projects you have led during your years in the industry.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f11"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f12"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

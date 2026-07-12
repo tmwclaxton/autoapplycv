@@ -1,0 +1,279 @@
+{
+  "id": "https-jobs-ashbyhq-com-mollie-a484a3b8-2d39-4eb0-bf31-8b5648fb73e5-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:34:42.512Z",
+  "page_url": "https://jobs.ashbyhq.com/Mollie/a484a3b8-2d39-4eb0-bf31-8b5648fb73e5/application",
+  "page_title": "Senior Application Engineer @ Mollie",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 13,
+      "count_delta": 1,
+      "label_jaccard": 0.9231,
+      "type_agree_rate": 0.9167,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "do you require a visa to legally work in the country where you are applying?",
+        "ai": "Do you require a visa to legally work in the country where you are applying?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number?",
+        "ai": "Phone number?",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "add a cover letter or anything else you would like to share",
+        "ai": "Add a cover letter or anything else you would like to share",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require visa sponsorship or a visa transfer?",
+        "ai": "Do you require visa sponsorship or a visa transfer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations? (yearly gross)",
+        "ai": "What are your salary expectations? (Yearly gross)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you most closely identify as?",
+        "ai": "What gender do you most closely identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Do you agree to allow Mollie to contact you about job opportunities for up to 1 year?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components for radio buttons and comboboxes. The 'Location' field is a combobox that likely fetches data dynamically. The visa question appears twice with slightly different structures.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number?",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Add a cover letter or anything else you would like to share",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you require a visa to legally work in the country where you are applying?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you require visa sponsorship or a visa transfer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Visa Sponsorship",
+          "Visa Transfer",
+          "Not Applicable"
+        ]
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Friends/Family/Colleagues",
+          "LinkedIn",
+          "Glassdoor",
+          "Events (Conferences, Meetups)",
+          "Mollie's Career Site",
+          "Other Job Boards (Indeed etc.)",
+          "Social Media",
+          "Other"
+        ]
+      },
+      {
+        "question": "What are your salary expectations? (Yearly gross)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What gender do you most closely identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Do you agree to allow Mollie to contact you about job opportunities for up to 1 year?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you require a visa to legally work in the country where you are applying?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number?",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "add a cover letter or anything else you would like to share",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "do you require visa sponsorship or a visa transfer?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations? (yearly gross)",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "what gender do you most closely identify as?",
+      "field_type": "radio",
+      "ref": "f11"
+    }
+  ]
+}

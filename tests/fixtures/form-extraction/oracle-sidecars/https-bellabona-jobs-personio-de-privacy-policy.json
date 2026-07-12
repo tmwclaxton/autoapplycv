@@ -1,0 +1,89 @@
+{
+  "id": "https-bellabona-jobs-personio-de-privacy-policy",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:09:33.342Z",
+  "page_url": "https://bellabona.jobs.personio.de/privacy-policy",
+  "page_title": "Career Site",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 8,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "First and last names",
+      "E-mail address",
+      "Phone number",
+      "LinkedIn profile",
+      "Channel through which you found us",
+      "Cover letter",
+      "CV",
+      "Reference letters"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=0, ai=8)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a privacy policy page, not the actual application form. The fields listed are derived from the text description of data collected during the application process as stated in the policy.",
+    "fields": [
+      {
+        "question": "First and last names",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Channel through which you found us",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Reference letters",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

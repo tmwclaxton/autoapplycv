@@ -94,3 +94,100 @@ test('contenteditable fields are inventoried as textarea controls', () => {
 
     assert.ok(labels.includes('cover letter'));
 });
+
+function loadFieldHighlighter(dom, heuristics) {
+    const highlighterPath = join(ROOT, 'extension/src/content/field-highlighter.js');
+    const script = readFileSync(highlighterPath, 'utf8')
+        .replace('const AutoCVApplyFieldHighlighter =', 'globalThis.AutoCVApplyFieldHighlighter =');
+    const context = dom.window;
+    const sandbox = {
+        window: context,
+        document: context.document,
+        Element: context.Element,
+        AutoCVApplyFormHeuristics: heuristics,
+        console,
+        globalThis: context,
+    };
+
+    context.globalThis = context;
+    context.AutoCVApplyFormHeuristics = heuristics;
+    vm.createContext(sandbox);
+    vm.runInContext(script, sandbox);
+
+    return context.AutoCVApplyFieldHighlighter;
+}
+
+test('Greenhouse react-select highlights outline select__container, not the 2px combobox input', () => {
+    const html = `
+<div class="field-wrapper">
+  <div class="select">
+    <div class="select__container">
+      <label class="select__label" id="q-label" for="q">How did you hear about Remote?</label>
+      <div class="select-shell">
+        <div class="select__control">
+          <div class="select__value-container">
+            <div class="select__placeholder">Select...</div>
+            <div class="select__input-container" data-value="">
+              <input id="q" class="select__input" role="combobox" aria-labelledby="q-label"
+                aria-expanded="false" aria-haspopup="true" type="text" value=""
+                style="min-width:2px;width:100%;outline:0;border:0;padding:0;margin:0" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+    const dom = new JSDOM(`<!doctype html><html><body>${html}</body></html>`, {
+        url: 'https://job-boards.greenhouse.io/formhealth/jobs/5248852008',
+    });
+    const heuristics = loadHeuristics(dom);
+    const highlighter = loadFieldHighlighter(dom, heuristics);
+    const combobox = dom.window.document.getElementById('q');
+    const container = combobox.closest('.select__container');
+    const wrapper = combobox.closest('.field-wrapper');
+    const control = combobox.closest('.select__control');
+
+    highlighter.applyHighlights(dom.window.document, {}, {}, {});
+
+    assert.equal(container.classList.contains('autocvapply-field-detected'), true);
+    assert.equal(wrapper.classList.contains('autocvapply-field-detected'), false);
+    assert.equal(control.classList.contains('autocvapply-field-detected'), false);
+    assert.equal(combobox.classList.contains('autocvapply-field-detected'), false);
+});
+
+test('collectStaticComboboxOptionLabels reads react-select menu options', () => {
+    const html = `
+<div class="field-wrapper">
+  <div class="select">
+    <div class="select__container">
+      <label class="select__label" id="q-label" for="q">Are you legally authorized to work in the US?</label>
+      <div class="select-shell">
+        <div class="select__control">
+          <div class="select__value-container">
+            <div class="select__placeholder">Select...</div>
+            <div class="select__input-container" data-value="">
+              <input id="q" class="select__input" role="combobox" aria-labelledby="q-label"
+                aria-controls="q-listbox" aria-expanded="true" aria-haspopup="true" type="text" value="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="q-listbox" class="select__menu" role="listbox">
+  <div class="select__option" role="option">Yes</div>
+  <div class="select__option" role="option">No</div>
+</div>`;
+    const dom = new JSDOM(`<!doctype html><html><body>${html}</body></html>`, {
+        url: 'https://job-boards.greenhouse.io/axon/jobs/6576640003',
+    });
+    const heuristics = loadHeuristics(dom);
+    const combobox = dom.window.document.getElementById('q');
+    const labels = heuristics.collectStaticComboboxOptionLabels(combobox);
+
+    assert.equal(labels.length, 2);
+    assert.ok(labels.includes('Yes'));
+    assert.ok(labels.includes('No'));
+});

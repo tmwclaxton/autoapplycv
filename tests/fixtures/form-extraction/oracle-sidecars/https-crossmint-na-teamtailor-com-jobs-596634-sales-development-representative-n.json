@@ -1,0 +1,230 @@
+{
+  "id": "https-crossmint-na-teamtailor-com-jobs-596634-sales-development-representative-n",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:15:32.195Z",
+  "page_url": "https://crossmint.na.teamtailor.com/jobs/596634-sales-development-representative-nyc-mia/applications/new",
+  "page_title": "Sales Development Representative (NYC / MIA) - Crossmint",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 10,
+      "count_delta": 2,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "please add your linkedin profile",
+        "ai": "Please add your LinkedIn profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "would you need a sponsorship, or is your current work permit tied to your current employer?",
+        "ai": "Would you need a sponsorship, or is your current work permit tied to your current employer?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you based in new york or miami?",
+        "ai": "Are you based in New York or Miami?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working with cryptoasset businesses or blockchain based products?",
+        "ai": "Do you have experience working with cryptoasset businesses or blockchain based products?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "upload resume",
+        "ai": "Upload resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "additional files",
+        "ai": "Additional files",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that crossmint store my personal details to be able to process my job application.",
+      "yes, crossmint can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Teamtailor's dynamic form builder. Some fields are handled via JavaScript-based file upload widgets (Dropzone).",
+    "fields": [
+      {
+        "question": "Please add your LinkedIn profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Would you need a sponsorship, or is your current work permit tied to your current employer?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you based in New York or Miami?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience working with cryptoasset businesses or blockchain based products?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "New York City",
+          "Miami"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Upload resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Additional files",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "please add your linkedin profile",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "would you need a sponsorship, or is your current work permit tied to your current employer?",
+      "field_type": "textarea",
+      "ref": "f1"
+    },
+    {
+      "question": "are you based in new york or miami?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have experience working with cryptoasset businesses or blockchain based products?",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f7"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that crossmint store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "yes, crossmint can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

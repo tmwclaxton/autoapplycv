@@ -1,0 +1,247 @@
+{
+  "id": "https-helloprint-recruitee-com-o-open-application-3-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:14:22.227Z",
+  "page_url": "https://helloprint.recruitee.com/o/open-application-3/c/new",
+  "page_title": "Helloprint - Open Application - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 11,
+      "count_delta": 1,
+      "label_jaccard": 0.9167,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what specifically about helloprint made you apply here rather than somewhere else?",
+        "ai": "What specifically about HelloPrint made you apply here rather than somewhere else?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what area are you applying for, and what does great look like in that role to you?",
+        "ai": "What area are you applying for, and what does great look like in that role to you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe a specific task or workflow you've automated or improved using ai in the last 6 months. what tool, what result?",
+        "ai": "Describe a specific task or workflow you've automated or improved using AI in the last 6 months. What tool, what result?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "we work from our rotterdam or valencia office five days a week. this is a deliberate part of how we operate, does this work for you?",
+        "ai": "We work from our Rotterdam or Valencia office five days a week. This is a deliberate part of how we operate, does this work for you?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require sponsorship to work in the netherlands or spain?",
+        "ai": "Do you require sponsorship to work in The Netherlands or Spain?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred work location?",
+        "ai": "What is your preferred work location?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The phone number field uses a custom country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What specifically about HelloPrint made you apply here rather than somewhere else?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What area are you applying for, and what does great look like in that role to you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe a specific task or workflow you've automated or improved using AI in the last 6 months. What tool, what result?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "We work from our Rotterdam or Valencia office five days a week. This is a deliberate part of how we operate, does this work for you?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I'm already based there (or nearby)",
+          "Yes, I'm open to relocating",
+          "No, I'm looking for a remote or hybrid role"
+        ]
+      },
+      {
+        "question": "Do you require sponsorship to work in The Netherlands or Spain?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No, I am a EU citizen",
+          "Yes, I require VISA Sponsorship",
+          "It's complicated"
+        ]
+      },
+      {
+        "question": "What is your preferred work location?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "HelloPrint - Rotterdam (Schiedamse Vest, Rotterdam, Zuid-Holland, Netherlands)",
+          "HelloPrint Valencia (Valencia, Comunidad Valenciana, Spain)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "what specifically about helloprint made you apply here rather than somewhere else?",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "what area are you applying for, and what does great look like in that role to you?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "describe a specific task or workflow you've automated or improved using ai in the last 6 months. what tool, what result?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "we work from our rotterdam or valencia office five days a week. this is a deliberate part of how we operate, does this work for you?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "do you require sponsorship to work in the netherlands or spain?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your preferred work location?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f11"
+    }
+  ]
+}

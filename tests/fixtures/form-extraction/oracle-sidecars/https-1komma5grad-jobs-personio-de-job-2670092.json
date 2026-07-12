@@ -1,7 +1,7 @@
 {
   "id": "https-1komma5grad-jobs-personio-de-job-2670092",
   "status": "agree",
-  "captured_at": "2026-07-10T18:27:50.908Z",
+  "captured_at": "2026-07-10T22:17:04.207Z",
   "page_url": "https://1komma5grad.jobs.personio.de/job/2670092",
   "page_title": "CTO Office - Associate (m/f/d) | Jobs at 1KOMMA5°",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 15,
       "ai_count": 15,
       "count_delta": 0,
-      "label_jaccard": 0.6667,
+      "label_jaccard": 0.3043,
       "type_agree_rate": 1,
       "matched_count": 15
     },
@@ -30,42 +30,42 @@
         "type_agree": true
       },
       {
-        "detector": "email (required) yourmail@domain.com",
+        "detector": "email ( ) yourmail@domain.com",
         "ai": "Email",
         "detector_type": "email",
         "ai_type": "email",
         "type_agree": true
       },
       {
-        "detector": "location (required) location",
+        "detector": "location ( ) location",
         "ai": "Location",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone ( )",
         "ai": "Phone",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "available from (required) available from",
+        "detector": "available from ( ) available from",
         "ai": "Available from",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "expected salary (required) expected salary",
+        "detector": "expected salary ( ) expected salary",
         "ai": "Expected salary",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "gender (required)",
+        "detector": "gender ( )",
         "ai": "Gender",
         "detector_type": "select",
         "ai_type": "select",
@@ -79,14 +79,14 @@
         "type_agree": true
       },
       {
-        "detector": "how are your german language skills? (required)",
+        "detector": "how are your german language skills? ( )",
         "ai": "How are your German language skills?",
         "detector_type": "select",
         "ai_type": "select",
         "type_agree": true
       },
       {
-        "detector": "are you already living in germany or are you in the process of moving to germany within the next 3 months? (required)",
+        "detector": "are you already living in germany or are you in the process of moving to germany within the next 3 months? ( )",
         "ai": "Are you already living in Germany or are you in the process of moving to Germany within the next 3 months?",
         "detector_type": "select",
         "ai_type": "select",
@@ -127,7 +127,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form is rendered via a dynamic JavaScript framework (Personio). All fields were extracted from the static HTML structure.",
+    "notes": "The form uses a standard Personio dynamic form structure. File inputs are handled via custom buttons triggering hidden file inputs.",
     "fields": [
       {
         "question": "First",
@@ -248,32 +248,32 @@
       "ref": "f1"
     },
     {
-      "question": "email (required) yourmail@domain.com",
+      "question": "email ( ) yourmail@domain.com",
       "field_type": "email",
       "ref": "f2"
     },
     {
-      "question": "location (required) location",
+      "question": "location ( ) location",
       "field_type": "text",
       "ref": "f3"
     },
     {
-      "question": "phone",
+      "question": "phone ( )",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "available from (required) available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "ref": "f5"
     },
     {
-      "question": "expected salary (required) expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "ref": "f6"
     },
     {
-      "question": "gender (required)",
+      "question": "gender ( )",
       "field_type": "select",
       "ref": "f7"
     },
@@ -283,12 +283,12 @@
       "ref": "f8"
     },
     {
-      "question": "how are your german language skills? (required)",
+      "question": "how are your german language skills? ( )",
       "field_type": "select",
       "ref": "f9"
     },
     {
-      "question": "are you already living in germany or are you in the process of moving to germany within the next 3 months? (required)",
+      "question": "are you already living in germany or are you in the process of moving to germany within the next 3 months? ( )",
       "field_type": "select",
       "ref": "f10"
     },

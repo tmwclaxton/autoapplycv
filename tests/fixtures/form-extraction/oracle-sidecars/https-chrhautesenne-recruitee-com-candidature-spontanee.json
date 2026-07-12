@@ -1,0 +1,105 @@
+{
+  "id": "https-chrhautesenne-recruitee-com-candidature-spontanee",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:04:47.300Z",
+  "page_url": "https://chrhautesenne.recruitee.com/candidature-spontanee",
+  "page_title": "Candidature spontanée au CHR Haute Senne",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 8,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Prénom",
+      "Nom",
+      "Email",
+      "Téléphone",
+      "CV",
+      "Lettre de motivation",
+      "Département",
+      "Message"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=0, ai=8)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "This is a spontaneous application form. The form is rendered via a React component (Recruitee ATS). The fields listed are standard for this platform's spontaneous application template.",
+    "fields": [
+      {
+        "question": "Prénom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Téléphone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lettre de motivation",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Département",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Informatique",
+          "Logistique & Infrastructures",
+          "Financier",
+          "Laboratoire",
+          "Demande de Stage / Étudiant / Volontariat",
+          "Pharmacie",
+          "Imagerie Médicale",
+          "Paramédical",
+          "Infirmier",
+          "Ressources Humaines & Communication",
+          "Administratif",
+          "Médical",
+          "Soins Intégrés",
+          "Candidature spontanée",
+          "Direction"
+        ]
+      },
+      {
+        "question": "Message",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

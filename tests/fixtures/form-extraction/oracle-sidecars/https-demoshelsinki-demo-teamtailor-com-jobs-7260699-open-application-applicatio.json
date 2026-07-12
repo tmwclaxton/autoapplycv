@@ -1,0 +1,243 @@
+{
+  "id": "https-demoshelsinki-demo-teamtailor-com-jobs-7260699-open-application-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:26:11.872Z",
+  "page_url": "https://demoshelsinki-demo.teamtailor.com/jobs/7260699-open-application/applications/new",
+  "page_title": "Open Application - Demos Helsinki",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 11,
+      "count_delta": 2,
+      "label_jaccard": 0.7143,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "current city of residence",
+        "ai": "Current city of residence",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "study background",
+        "ai": "Study background",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "introduction",
+        "ai": "Introduction",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "experience",
+        "ai": "Experience",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "core competence",
+        "ai": "Core competence",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "motivation towards demos helsinki",
+        "ai": "Motivation towards Demos Helsinki",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "employment form of employment you're looking for",
+      "upload cv",
+      "additional files"
+    ],
+    "ai_only": [
+      "Employment"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor platform. The phone input includes a country code selector (combobox). Some fields are dynamically rendered via Turbo-frames.",
+    "fields": [
+      {
+        "question": "Current city of residence",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Study background",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Employment",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Permanent",
+          "Temporary",
+          "Freelance",
+          "Other"
+        ]
+      },
+      {
+        "question": "Introduction",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Core competence",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Motivation towards Demos Helsinki",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "current city of residence",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "study background",
+      "field_type": "textarea",
+      "ref": "f1"
+    },
+    {
+      "question": "employment form of employment you're looking for",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "introduction",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "experience",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "core competence",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "motivation towards demos helsinki",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f9"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f10"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f12"
+    }
+  ]
+}

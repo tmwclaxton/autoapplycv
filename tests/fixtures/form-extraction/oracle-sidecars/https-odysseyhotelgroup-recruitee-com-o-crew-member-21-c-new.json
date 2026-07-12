@@ -1,0 +1,229 @@
+{
+  "id": "https-odysseyhotelgroup-recruitee-com-o-crew-member-21-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:10:41.438Z",
+  "page_url": "https://odysseyhotelgroup.recruitee.com/o/crew-member-21/c/new",
+  "page_title": "Odyssey Hotel Group - Crew Member - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9091,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what type of work schedule do you prefer? (you can choose one or more)",
+        "ai": "What type of work schedule do you prefer? (You can choose one or more)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you eligible to work in the country in which this position is located?",
+        "ai": "Are you eligible to work in the country in which this position is located?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to relocate?",
+        "ai": "Are you willing to relocate?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "can you give us your salary indication to see if our expectations match?",
+        "ai": "Can you give us your salary indication to see if our expectations match?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what languages are you speaking?",
+        "ai": "What languages are you speaking?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The phone number field includes a country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What type of work schedule do you prefer? (You can choose one or more)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Fulltime, strictly office hours",
+          "Fulltime, flexible hours",
+          "Part-time, fixed work days",
+          "Part-time, flexible work days"
+        ]
+      },
+      {
+        "question": "Are you eligible to work in the country in which this position is located?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you willing to relocate?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Can you give us your salary indication to see if our expectations match?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What languages are you speaking?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "what type of work schedule do you prefer? (you can choose one or more)",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "are you eligible to work in the country in which this position is located?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "are you willing to relocate?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "can you give us your salary indication to see if our expectations match?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what languages are you speaking?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f10"
+    }
+  ]
+}

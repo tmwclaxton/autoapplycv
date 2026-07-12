@@ -1,0 +1,245 @@
+{
+  "id": "https-impower-jobs-personio-com-job-2625961",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:56:10.731Z",
+  "page_url": "https://impower.jobs.personio.com/job/2625961",
+  "page_title": "Technical Support Specialist – 100% Remote (DE) (m/f/d) | Jobs at Impower GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.375,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your language proficiency in german? ( )",
+        "ai": "What is your language proficiency in German?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your language proficiency in english?",
+        "ai": "What is your language proficiency in English?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located? ( )",
+        "ai": "Where are you currently located?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom file upload buttons that trigger hidden file inputs. The 'Available from' and 'Expected salary' fields are standard text inputs.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your language proficiency in German?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "A1 - A2 Beginner",
+          "B1 - Advanced",
+          "B2 - Intermediate",
+          "C1 Near Native",
+          "C2 Native"
+        ]
+      },
+      {
+        "question": "What is your language proficiency in English?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Basic",
+          "Intermediate",
+          "Fluent"
+        ]
+      },
+      {
+        "question": "Where are you currently located?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Munich",
+          "Cluj",
+          "Germany",
+          "Europa",
+          "Outside Europe"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your language proficiency in german? ( )",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your language proficiency in english?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "where are you currently located? ( )",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

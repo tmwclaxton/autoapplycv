@@ -33,6 +33,12 @@ class ProfileDocumentController extends Controller
             ], 422);
         }
 
+        if ($category === ProfileDocumentCategory::CoverLetter) {
+            return response()->json([
+                'message' => 'Cover letters are saved automatically when you generate them in Assist or Draft All.',
+            ], 422);
+        }
+
         $originalFilename = $file->getClientOriginalName();
         $title = $request->filled('title')
             ? $request->string('title')->toString()
@@ -82,7 +88,17 @@ class ProfileDocumentController extends Controller
         ]);
     }
 
+    public function preview(Request $request, ProfileDocument $profileDocument): StreamedResponse
+    {
+        return $this->streamDocument($request, $profileDocument, inline: true);
+    }
+
     public function download(Request $request, ProfileDocument $profileDocument): StreamedResponse
+    {
+        return $this->streamDocument($request, $profileDocument, inline: false);
+    }
+
+    private function streamDocument(Request $request, ProfileDocument $profileDocument, bool $inline): StreamedResponse
     {
         $this->ensureOwner($request, $profileDocument);
 
@@ -90,9 +106,28 @@ class ProfileDocumentController extends Controller
             abort(404, 'File not found.');
         }
 
-        return Storage::disk('local')->download(
-            $profileDocument->stored_path,
-            $profileDocument->original_filename,
+        $filename = str_replace(['"', '\\'], '', $profileDocument->original_filename);
+        $disposition = $inline ? 'inline' : 'attachment';
+
+        return response()->stream(
+            function () use ($profileDocument): void {
+                $stream = Storage::disk('local')->readStream($profileDocument->stored_path);
+
+                if ($stream === false) {
+                    return;
+                }
+
+                fpassthru($stream);
+
+                if (is_resource($stream)) {
+                    fclose($stream);
+                }
+            },
+            200,
+            [
+                'Content-Type' => $profileDocument->mime_type ?: 'application/octet-stream',
+                'Content-Disposition' => "{$disposition}; filename=\"{$filename}\"",
+            ],
         );
     }
 

@@ -1,18 +1,18 @@
 {
   "id": "https-framestore-recruitee-com-o-vfx-production-coordinator-07-2026-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T15:27:43.543Z",
+  "captured_at": "2026-07-11T01:01:57.180Z",
   "page_url": "https://framestore.recruitee.com/o/vfx-production-coordinator-07-2026/c/new",
   "page_title": "Framestore - VFX Production Coordinator - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 13,
+      "detector_count": 14,
       "ai_count": 13,
-      "count_delta": 0,
-      "label_jaccard": 0.7333,
+      "count_delta": 1,
+      "label_jaccard": 0.9286,
       "type_agree_rate": 1,
-      "matched_count": 12
+      "matched_count": 13
     },
     "matched": [
       {
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -98,19 +98,24 @@
         "detector_type": "radio",
         "ai_type": "radio",
         "type_agree": true
+      },
+      {
+        "detector": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+        "ai": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
       }
     ],
     "detector_only": [
-      "legal agreements"
+      "country calling code"
     ],
-    "ai_only": [
-      "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application."
-    ],
+    "ai_only": [],
     "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form includes an hCaptcha widget which is not a standard input field. The cover letter section has a toggle button to switch from file upload to a text area, which is not captured in the static HTML.",
+    "notes": "The form includes a CAPTCHA widget and a dynamic 'Write it here instead' button for the cover letter which would replace the file input with a textarea.",
     "fields": [
       {
         "question": "Full name",
@@ -219,7 +224,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -269,9 +274,14 @@
       "ref": "f11"
     },
     {
-      "question": "legal agreements",
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
       "field_type": "checkbox",
       "ref": "f12"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f13"
     }
   ]
 }

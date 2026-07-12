@@ -1,0 +1,540 @@
+{
+  "id": "https-equans-onlyfy-jobs-application-en-apply-fj9ysru88lnds6ul2rbag0pyg7qlc5",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:58:16.381Z",
+  "page_url": "https://equans.onlyfy.jobs/application/en/apply/fj9ysru88lnds6ul2rbag0pyg7qlc5",
+  "page_title": "Application Process",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 15,
+      "count_delta": 1,
+      "label_jaccard": 0.5625,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date",
+        "ai": "Birth date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "street and house number",
+        "ai": "Street and house number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zip code",
+        "ai": "ZIP Code",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "home city",
+        "ai": "Home city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail address",
+        "ai": "E-mail address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "präsenzdienst",
+        "ai": "Präsenzdienst",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "...",
+      "...",
+      "...",
+      "...",
+      "...",
+      "i hereby agree that my data will be stored up to and including 11.07.2029 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+      "how did you learn about this job opening?"
+    ],
+    "ai_only": [
+      "Salutation",
+      "Country of residence",
+      "CV",
+      "Choose file..",
+      "Choose file..",
+      "Choose file.."
+    ],
+    "reasons": [
+      "label Jaccard 0.563 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Radix UI components for selects and radio groups, which are mapped to hidden native inputs. The HTML snippet was truncated at the end.",
+    "fields": [
+      {
+        "question": "Salutation",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Mr",
+          "Ms",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth date",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Street and house number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "ZIP Code",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Home city",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Country of residence",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Germany",
+          "Austria",
+          "Switzerland",
+          "Afghanistan",
+          "Albania",
+          "Algeria",
+          "American Samoa",
+          "Andorra",
+          "Angola",
+          "Anguilla",
+          "Antarctica",
+          "Antigua & Barbuda",
+          "Argentina",
+          "Armenia",
+          "Aruba",
+          "Australia",
+          "Azerbaijan",
+          "Bahamas",
+          "Bahrain",
+          "Bangladesh",
+          "Barbados",
+          "Belarus",
+          "Belgium",
+          "Belize",
+          "Benin",
+          "Bermuda",
+          "Bhutan",
+          "Bolivia",
+          "Bosnia & Herzegovina",
+          "Botswana",
+          "Bouvet Island",
+          "Brazil",
+          "British Indian Ocean Territory",
+          "British Virgin Islands",
+          "Brunei",
+          "Bulgaria",
+          "Burkina Faso",
+          "Burundi",
+          "Cambodia",
+          "Cameroon",
+          "Canada",
+          "Cape Verde",
+          "Caribbean Netherlands",
+          "Cayman Islands",
+          "Central African Republic",
+          "Chad",
+          "Chile",
+          "China",
+          "Christmas Island",
+          "Cocos (Keeling) Islands",
+          "Colombia",
+          "Comoros",
+          "Congo - Brazzaville",
+          "Congo - Kinshasa",
+          "Cook Islands",
+          "Costa Rica",
+          "Croatia",
+          "Cuba",
+          "Curaçao",
+          "Cyprus",
+          "Czechia",
+          "Côte d’Ivoire",
+          "Denmark",
+          "Djibouti",
+          "Dominica",
+          "Dominican Republic",
+          "Ecuador",
+          "Egypt",
+          "El Salvador",
+          "Equatorial Guinea",
+          "Eritrea",
+          "Estonia",
+          "Eswatini",
+          "Ethiopia",
+          "Falkland Islands",
+          "Faroe Islands",
+          "Fiji",
+          "Finland",
+          "France",
+          "French Guiana",
+          "French Polynesia",
+          "French Southern Territories",
+          "Gabon",
+          "Gambia",
+          "Georgia",
+          "Ghana",
+          "Gibraltar",
+          "Greece",
+          "Greenland",
+          "Grenada",
+          "Guadeloupe",
+          "Guam",
+          "Guatemala",
+          "Guernsey",
+          "Guinea",
+          "Guinea-Bissau",
+          "Guyana",
+          "Haiti",
+          "Heard & McDonald Islands",
+          "Honduras",
+          "Hong Kong SAR China",
+          "Hungary",
+          "Iceland",
+          "India",
+          "Indonesia",
+          "Iran",
+          "Iraq",
+          "Ireland",
+          "Isle of Man",
+          "Israel",
+          "Italy",
+          "Jamaica",
+          "Japan",
+          "Jersey",
+          "Jordan",
+          "Kazakhstan",
+          "Kenya",
+          "Kiribati",
+          "Kosovo (Republic of)",
+          "Kuwait",
+          "Kyrgyzstan",
+          "Laos",
+          "Latvia",
+          "Lebanon",
+          "Lesotho",
+          "Liberia",
+          "Libya",
+          "Liechtenstein",
+          "Lithuania",
+          "Luxembourg",
+          "Macao SAR China",
+          "Madagascar",
+          "Malawi",
+          "Malaysia",
+          "Maldives",
+          "Mali",
+          "Malta",
+          "Marshall Islands",
+          "Martinique",
+          "Mauritania",
+          "Mauritius",
+          "Mayotte",
+          "Mexico",
+          "Micronesia",
+          "Moldova",
+          "Monaco",
+          "Mongolia",
+          "Montenegro",
+          "Montserrat",
+          "Morocco",
+          "Mozambique",
+          "Myanmar (Burma)",
+          "Namibia",
+          "Nauru",
+          "Nepal",
+          "Netherlands",
+          "New Caledonia",
+          "New Zealand",
+          "Nicaragua",
+          "Niger",
+          "Nigeria",
+          "Niue",
+          "Norfolk Island",
+          "North Korea",
+          "North Macedonia",
+          "Northern Mariana Islands",
+          "Norway",
+          "Oman",
+          "Pakistan",
+          "Palau",
+          "Palestinian Territories",
+          "Panama",
+          "Papua New Guinea",
+          "Paraguay",
+          "Peru",
+          "Philippines",
+          "Pitcairn Islands",
+          "Poland",
+          "Portugal",
+          "Puerto Rico",
+          "Qatar",
+          "Romania",
+          "Russia",
+          "Rwanda",
+          "Réunion",
+          "Samoa",
+          "San Marino",
+          "Saudi Arabia",
+          "Senegal",
+          "Serbia",
+          "Seychelles",
+          "Sierra Leone",
+          "Singapore",
+          "Sint Maarten",
+          "Slovakia",
+          "Slovenia",
+          "Solomon Islands",
+          "Somalia",
+          "South Africa",
+          "South Georgia & South Sandwich Islands",
+          "South Korea",
+          "South Sudan",
+          "Spain",
+          "Sri Lanka",
+          "St. Barthélemy",
+          "St. Helena",
+          "St. Kitts & Nevis",
+          "St. Lucia",
+          "St. Martin",
+          "St. Pierre & Miquelon",
+          "St. Vincent & Grenadines",
+          "Sudan",
+          "Suriname",
+          "Svalbard & Jan Mayen",
+          "Sweden",
+          "Syria",
+          "São Tomé & Príncipe",
+          "Taiwan",
+          "Tajikistan",
+          "Tanzania",
+          "Thailand",
+          "Timor-Leste",
+          "Togo",
+          "Tokelau",
+          "Tonga",
+          "Trinidad & Tobago",
+          "Tunisia",
+          "Turkmenistan",
+          "Turks & Caicos Islands",
+          "Tuvalu",
+          "Türkiye",
+          "U.S. Outlying Islands",
+          "U.S. Virgin Islands",
+          "Uganda",
+          "Ukraine",
+          "United Arab Emirates",
+          "United Kingdom",
+          "United States",
+          "Uruguay",
+          "Uzbekistan",
+          "Vanuatu",
+          "Vatican City",
+          "Venezuela",
+          "Vietnam",
+          "Wallis & Futuna",
+          "Western Sahara",
+          "Yemen",
+          "Zambia",
+          "Zimbabwe",
+          "Åland Islands"
+        ]
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Präsenzdienst",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Abgeschlossen",
+          "Offen",
+          "Befreit"
+        ]
+      },
+      {
+        "question": "Choose file..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Choose file..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Choose file..",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "birth date",
+      "field_type": "date",
+      "ref": "f2"
+    },
+    {
+      "question": "street and house number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "zip code",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "home city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "e-mail address",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "präsenzdienst",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "...",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "...",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "...",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "...",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "...",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "i hereby agree that my data will be stored up to and including 11.07.2029 for the purpose of further consideration and communication in case of suitable job offers in the future.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "how did you learn about this job opening?",
+      "field_type": "select",
+      "ref": "f15"
+    }
+  ]
+}

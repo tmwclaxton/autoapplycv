@@ -27,6 +27,99 @@ const AutoCVApplyFieldHighlighter = (() => {
         );
     }
 
+    function isWorkableApplyHost(doc = document) {
+        try {
+            return /(?:^|\.)workable\.com$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    function isMeaningfulHighlightContainer(scope, rep) {
+        return scope instanceof Element
+            && scope !== rep
+            && Boolean(scope.matches?.(
+                'fieldset, [role="radiogroup"], [role="group"], [data-input-type="select"], [data-role="illustrated-input"], [data-role="dropzone"], .styles--3IYUq',
+            ));
+    }
+
+    function resolveWorkableHighlightScope(element) {
+        if (!(element instanceof Element) || !isWorkableApplyHost(element.ownerDocument || document)) {
+            return null;
+        }
+
+        if (element.getAttribute?.('role') === 'combobox') {
+            return element.closest('[data-input-type="select"]')
+                || element.closest('[data-role="illustrated-input"]')
+                || element;
+        }
+
+        if (element.type === 'radio' || element.type === 'checkbox') {
+            return element.closest('fieldset[role="radiogroup"]')
+                || element.closest('[role="radiogroup"]')
+                || element.closest('[role="group"][aria-labelledby]')
+                || element.closest('.styles--3IYUq')
+                || element;
+        }
+
+        if (element.type === 'file') {
+            return element.closest('[data-role="dropzone"]')
+                || element.closest('.styles--3IYUq')
+                || element;
+        }
+
+        const tag = element.tagName?.toLowerCase();
+
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') {
+            return element.closest('[data-role="illustrated-input"]')
+                || element.closest('.styles--3IYUq')
+                || element;
+        }
+
+        return null;
+    }
+
+    function resolveChoiceHighlightScope(target, roleRadios) {
+        const rep = Array.isArray(target) ? target[0] : (roleRadios?.[0] || target);
+
+        if (typeof AutoCVApplyFormHeuristics?.getChoiceGroupScope === 'function' && rep) {
+            const scope = AutoCVApplyFormHeuristics.getChoiceGroupScope(rep);
+
+            if (scope instanceof Element) {
+                return scope;
+            }
+        }
+
+        return null;
+    }
+
+    function resolveChoiceOptionHighlightElement(input) {
+        if (!(input instanceof Element)) {
+            return null;
+        }
+
+        return input.closest('label')
+            || input.closest('[class*="_option_"]')
+            || input.closest('li.column, li[class*="option"], [role="option"]')
+            || input;
+    }
+
+    function resolveChoiceGroupHighlightElements(target, roleRadios) {
+        const inputs = Array.isArray(target) && target.length > 1
+            ? target
+            : (roleRadios?.length > 1 ? roleRadios : null);
+
+        if (!inputs?.length) {
+            return [];
+        }
+
+        const optionElements = inputs
+            .map((input) => resolveChoiceOptionHighlightElement(input))
+            .filter((element) => element instanceof Element);
+
+        return optionElements.length >= 2 ? optionElements : [];
+    }
+
     function resolveHighlightElement(target, roleRadios) {
         let rep = roleRadios?.[0] || target;
         let scope = rep;
@@ -38,8 +131,11 @@ const AutoCVApplyFieldHighlighter = (() => {
             rep = target[0];
         } else if (roleRadios?.length) {
             const repRole = roleRadios[0]?.getAttribute?.('role');
+            const workableGroup = resolveWorkableHighlightScope(roleRadios[0]);
 
-            if (repRole === 'radio') {
+            if (isMeaningfulHighlightContainer(workableGroup, roleRadios[0])) {
+                scope = workableGroup;
+            } else if (repRole === 'radio') {
                 scope = rep.closest('[role="radiogroup"]') || rep;
             } else if (repRole === 'checkbox') {
                 scope = rep.closest('[role="group"], fieldset, [role="radiogroup"]') || rep;
@@ -47,16 +143,54 @@ const AutoCVApplyFieldHighlighter = (() => {
         } else if (target?.getAttribute?.('role') === 'listbox') {
             scope = target;
         } else if (target?.getAttribute?.('role') === 'combobox') {
-            scope = target.closest('[data-field-path], .ashby-application-form-field-entry') || target;
-        } else if (target?.type === 'radio' || target?.type === 'checkbox') {
-            scope = target.closest(
-                'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry',
-            ) || target;
+            // Greenhouse / react-select and Workable custom selects: outline the
+            // visible control shell, not the 2px-wide combobox input.
+            scope = target.closest('[data-input-type="select"]')
+                || target.closest('.select__container')
+                || target.closest('.select__control, .select-shell')
+                || target.closest('[data-field-path], .ashby-application-form-field-entry')
+                || target;
         } else if (Array.isArray(target)) {
-            scope = target[0];
+            scope = resolveChoiceHighlightScope(target, roleRadios)
+                || target[0]?.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || target[0];
+        } else if (target?.type === 'radio' || target?.type === 'checkbox') {
+            scope = resolveWorkableHighlightScope(target)
+                || resolveChoiceHighlightScope(target, roleRadios)
+                || target.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || target;
+        } else if (target instanceof Element) {
+            const workableScope = resolveWorkableHighlightScope(target);
+
+            if (isMeaningfulHighlightContainer(workableScope, target)) {
+                scope = workableScope;
+            }
         }
 
         return scope instanceof Element ? scope : null;
+    }
+
+    function resolveHighlightElements(target, roleRadios) {
+        const rep = roleRadios?.[0] || (Array.isArray(target) ? target[0] : target);
+        const workableScope = rep instanceof Element ? resolveWorkableHighlightScope(rep) : null;
+
+        if (isMeaningfulHighlightContainer(workableScope, rep)) {
+            return [workableScope];
+        }
+
+        const choiceOptions = resolveChoiceGroupHighlightElements(target, roleRadios);
+
+        if (choiceOptions.length >= 2) {
+            return choiceOptions;
+        }
+
+        const element = resolveHighlightElement(target, roleRadios);
+
+        return element instanceof Element ? [element] : [];
     }
 
     function clearHighlights() {
@@ -72,14 +206,14 @@ const AutoCVApplyFieldHighlighter = (() => {
         clearHighlights();
 
         AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (_field, target, roleRadios) => {
-            const element = resolveHighlightElement(target, roleRadios);
+            for (const element of resolveHighlightElements(target, roleRadios)) {
+                if (!element || isExtensionUiElement(element)) {
+                    continue;
+                }
 
-            if (!element || isExtensionUiElement(element)) {
-                return;
+                element.classList.add(HIGHLIGHT_CLASS);
+                highlightedElements.add(element);
             }
-
-            element.classList.add(HIGHLIGHT_CLASS);
-            highlightedElements.add(element);
         });
     }
 

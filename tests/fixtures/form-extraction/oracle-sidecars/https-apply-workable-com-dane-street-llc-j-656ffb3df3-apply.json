@@ -1,16 +1,16 @@
 {
   "id": "https-apply-workable-com-dane-street-llc-j-656ffb3df3-apply",
   "status": "agree",
-  "captured_at": "2026-07-10T20:01:05.313Z",
+  "captured_at": "2026-07-10T22:31:31.370Z",
   "page_url": "https://apply.workable.com/dane-street-llc/j/656FFB3DF3/apply/",
   "page_title": "Group Health QA Specialist - Dane Street, LLC - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 18,
+      "detector_count": 15,
       "ai_count": 4,
-      "count_delta": 14,
-      "label_jaccard": 0.2857,
+      "count_delta": 11,
+      "label_jaccard": 0.2667,
       "type_agree_rate": 1,
       "matched_count": 4
     },
@@ -45,6 +45,7 @@
       }
     ],
     "detector_only": [
+      "address",
       "photo",
       "summary",
       "resume",
@@ -54,15 +55,14 @@
       "desired salary",
       "please select the schedule(s) you are comfortable with: - monday to friday: 8:00 am – 4:30 pm est or 9:00 am – 5:30 pm est - monday to friday: 10:00 am – 6:30 pm est or 11:00 am – 7:30 pm est - wednes",
       "if you are related to anyone that currently works at dane street, please provide their name.",
-      "if you were referred by a current dane street employee, please list their full name below.",
-      "are you authorized to work in the united states?"
+      "if you were referred by a current dane street employee, please list their full name below."
     ],
     "ai_only": [],
     "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt provided is truncated, so only the initial fields (First name, Last name, Email, Phone) are captured. The phone input uses a country code selector (combobox) which is part of the Workable standard form.",
+    "notes": "The HTML excerpt provided is truncated and does not contain the full application form (e.g., resume upload, additional questions, or submit button). The phone input uses a third-party library (intl-tel-input) which is represented as a single tel field.",
     "fields": [
       {
         "question": "First name",
@@ -112,74 +112,59 @@
       "ref": "f3"
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "first name",
-      "field_type": "text",
-      "ref": "f5"
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "ref": "f6"
-    },
-    {
       "question": "photo",
       "field_type": "file",
-      "ref": "f7"
+      "ref": "f5"
     },
     {
       "question": "summary",
       "field_type": "textarea",
-      "ref": "f8"
+      "ref": "f6"
     },
     {
       "question": "resume",
       "field_type": "file",
-      "ref": "f9"
+      "ref": "f7"
     },
     {
       "question": "cover letter",
       "field_type": "textarea",
-      "ref": "f10"
+      "ref": "f8"
     },
     {
       "question": "salary range",
       "field_type": "text",
-      "ref": "f11"
+      "ref": "f9"
     },
     {
       "question": "are you authorized to work in the united states?",
       "field_type": "radio",
-      "ref": "f12"
+      "ref": "f10"
     },
     {
       "question": "desired salary",
       "field_type": "text",
-      "ref": "f13"
+      "ref": "f11"
     },
     {
       "question": "please select the schedule(s) you are comfortable with: - monday to friday: 8:00 am – 4:30 pm est or 9:00 am – 5:30 pm est - monday to friday: 10:00 am – 6:30 pm est or 11:00 am – 7:30 pm est - wednes",
       "field_type": "textarea",
-      "ref": "f14"
+      "ref": "f12"
     },
     {
       "question": "if you are related to anyone that currently works at dane street, please provide their name.",
       "field_type": "text",
-      "ref": "f15"
+      "ref": "f13"
     },
     {
       "question": "if you were referred by a current dane street employee, please list their full name below.",
       "field_type": "textarea",
-      "ref": "f16"
-    },
-    {
-      "question": "are you authorized to work in the united states?",
-      "field_type": "radio",
-      "ref": "f17"
+      "ref": "f14"
     }
   ]
 }

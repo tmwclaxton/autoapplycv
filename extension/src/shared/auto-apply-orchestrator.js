@@ -19,7 +19,18 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, CV_LIBRARY_PLATFORM_ID, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, SIMPLYHIRED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID, normalizeAutoApplyPlatform, urlBelongsToPlatform } from './auto-apply-platforms.js';
+import {
+    buildJobSearchUrl,
+    CV_LIBRARY_PLATFORM_ID,
+    GLASSDOOR_PLATFORM_ID,
+    INDEED_PLATFORM_ID,
+    LINKEDIN_PLATFORM_ID,
+    REED_PLATFORM_ID,
+    SIMPLYHIRED_PLATFORM_ID,
+    TOTALJOBS_PLATFORM_ID,
+    normalizeAutoApplyPlatform,
+    urlBelongsToPlatform,
+} from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
     buildStoppedSessionState,
@@ -43,16 +54,25 @@ import {
 import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
 import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
-import { invalidateTabFrameCache, sendIndeedApplyFlowMessage, sendTabMessage, findBestFormFrameId, scanFormValidationOnTab } from './form-frame-messaging.js';
+import {
+    invalidateTabFrameCache,
+    sendIndeedApplyFlowMessage,
+    sendTabMessage,
+    findBestFormFrameId,
+    scanFormValidationOnTab,
+} from './form-frame-messaging.js';
 import { runGlassdoorAutoApplyLoop } from './glassdoor-auto-apply-runner.js';
 import {
     buildGlassdoorJobOpenUrl,
     isGlassdoorJobsSearchUrl,
     urlsMatchGlassdoorSearch,
 } from './glassdoor-platform.js';
-import { buildIndeedJobOpenUrl, isIndeedJobsSearchUrl, urlsMatchIndeedSearch } from './indeed-platform.js';
+import {
+    buildIndeedJobOpenUrl,
+    isIndeedJobsSearchUrl,
+    urlsMatchIndeedSearch,
+} from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
-import { capturePageFromTab, fetchPageHtmlFromTab, normalizePageCapturePayload } from './page-capture.js';
 import {
     mergePendingFields,
     pendingFieldsStorageKey,
@@ -77,6 +97,21 @@ import {
     isTotalJobsJobsSearchUrl,
     urlsMatchTotalJobsSearch,
 } from './totaljobs-platform.js';
+
+/**
+ * @param {string} searchUrl
+ * @returns {string}
+ */
+function withGlassdoorSearchCacheBust(searchUrl) {
+    try {
+        const parsed = new URL(searchUrl);
+        parsed.searchParams.set('_aa', String(Date.now()));
+
+        return parsed.toString();
+    } catch {
+        return searchUrl;
+    }
+}
 
 const AUTO_APPLY_DELAY_MS = {
     betweenJobs: 2600,
@@ -139,7 +174,9 @@ function urlsMatchLinkedInSearch(session, currentUrl, expectedUrl) {
         }
 
         for (const key of linkedInSearchParamKeys(session.filters)) {
-            if (current.searchParams.get(key) !== expected.searchParams.get(key)) {
+            if (
+                current.searchParams.get(key) !== expected.searchParams.get(key)
+            ) {
                 return false;
             }
         }
@@ -157,8 +194,12 @@ async function fetchJobMetaFromTab(tabId) {
 }
 
 function resolveJobDescriptionFromMetaResponse(response) {
-    const fromJob = String(response?.job?.job_description || '').replace(/\s+/g, ' ').trim();
-    const fromPage = String(response?.page?.page_text || '').replace(/\s+/g, ' ').trim();
+    const fromJob = String(response?.job?.job_description || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const fromPage = String(response?.page?.page_text || '')
+        .replace(/\s+/g, ' ')
+        .trim();
 
     if (fromPage.length > fromJob.length) {
         return fromPage.slice(0, 20000);
@@ -181,14 +222,19 @@ async function ensureLinkedInJobViewForFit(tabId, job) {
         // Recreate tab below.
     }
 
-    await logSession('info', `Opening full job page for fit check: ${job.title}`);
+    await logSession(
+        'info',
+        `Opening full job page for fit check: ${job.title}`,
+    );
 
     tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
     await waitForTabContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', {
+        jobId: job.jobId,
+    }).catch(() => {});
 
     return tabId;
 }
@@ -197,7 +243,9 @@ async function readJobDescriptionFromTab(tabId) {
     await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DESCRIPTION', {
         minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     }).catch(() => {});
-    await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_DESCRIPTION').catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_DESCRIPTION').catch(
+        () => {},
+    );
 
     const metaResponse = await fetchJobMetaFromTab(tabId);
     const description = resolveJobDescriptionFromMetaResponse(metaResponse);
@@ -221,9 +269,14 @@ async function fetchJobDescriptionForFit(tabId, job = null) {
     }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-        const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { preferJobView: true });
+        const jobUrl = buildLinkedInJobOpenUrl(job.jobId, {
+            preferJobView: true,
+        });
 
-        await logSession('info', `Opening full job page to read description for ${job.title}.`);
+        await logSession(
+            'info',
+            `Opening full job page to read description for ${job.title}.`,
+        );
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForTabContentScript(tabId);
@@ -247,21 +300,26 @@ async function fetchJobDescriptionForFit(tabId, job = null) {
 
 function formatIndeedSkipLogMessage(job, reason, detail = '') {
     const label = `${job.title} at ${job.company}`;
-    const reasonText = {
-        no_indeed_apply: 'external apply only (not Indeed Apply)',
-        no_totaljobs_apply: 'external apply only (not Totaljobs Quick Apply)',
-        no_glassdoor_apply: 'external apply only (not Glassdoor Easy Apply)',
-        no_simplyhired_apply: 'external apply only (not SimplyHired Quick Apply)',
-        no_reed_apply: 'external apply only (not Reed Easy Apply)',
-        no_cvlibrary_apply: 'external apply only (not CV-Library Easy Apply)',
-        job_unavailable: 'job page did not load',
-        job_open_failed: 'could not open job listing',
-        unknown_job_metadata: 'missing job details',
-        short_job_description: 'description too short to score fit',
-        fit_score_failed: 'could not score fit',
-        apply_step_unavailable: 'apply form could not advance',
-        apply_submit_failed: 'application could not be submitted',
-    }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
+    const reasonText =
+        {
+            no_indeed_apply: 'external apply only (not Indeed Apply)',
+            no_totaljobs_apply:
+                'external apply only (not Totaljobs Quick Apply)',
+            no_glassdoor_apply:
+                'external apply only (not Glassdoor Easy Apply)',
+            no_simplyhired_apply:
+                'external apply only (not SimplyHired Quick Apply)',
+            no_reed_apply: 'external apply only (not Reed Easy Apply)',
+            no_cvlibrary_apply:
+                'external apply only (not CV-Library Easy Apply)',
+            job_unavailable: 'job page did not load',
+            job_open_failed: 'could not open job listing',
+            unknown_job_metadata: 'missing job details',
+            short_job_description: 'description too short to score fit',
+            fit_score_failed: 'could not score fit',
+            apply_step_unavailable: 'apply form could not advance',
+            apply_submit_failed: 'application could not be submitted',
+        }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
 
     return `Skipped ${label} - ${reasonText}${suffix}`;
@@ -272,13 +330,20 @@ function formatJobOutcomeLogMessage(job, result) {
         return `Applied to ${job.title} at ${job.company}.`;
     }
 
-    if (result.reason === 'low_fit_score' && typeof result.atsScore === 'number') {
+    if (
+        result.reason === 'low_fit_score' &&
+        typeof result.atsScore === 'number'
+    ) {
         const fitDetail = result.fitReason ? ` - ${result.fitReason}` : '';
 
         return `Skipped ${job.title} at ${job.company} - fit ${result.atsScore}/100 below threshold${fitDetail}`;
     }
 
-    return formatIndeedSkipLogMessage(job, result.reason || 'skipped', result.detail || '');
+    return formatIndeedSkipLogMessage(
+        job,
+        result.reason || 'skipped',
+        result.detail || '',
+    );
 }
 
 async function evaluateJobFit(tabId, job, session) {
@@ -286,28 +351,45 @@ async function evaluateJobFit(tabId, job, session) {
         return { proceed: true, score: null };
     }
 
-    const { description, jobMeta } = await fetchJobDescriptionForFit(tabId, job);
+    const { description, jobMeta } = await fetchJobDescriptionForFit(
+        tabId,
+        job,
+    );
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
             `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'short_job_description' },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: { reason: 'short_job_description' },
+            },
+            tabId,
+        );
 
         return { proceed: false, reason: 'short_job_description', score: null };
     }
 
-    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+    const scoreResult = await requestAutoApplyAtsScore(
+        description,
+        session.roleDescription,
+    );
 
     if (!scoreResult.ok) {
         if (scoreResult.insufficientCredits) {
-            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+            throw new Error(
+                `${scoreResult.error} Auto Apply paused - top up credits and start a new run.`,
+            );
         }
 
-        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+        await logSession(
+            'warn',
+            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+        );
 
         return { proceed: false, reason: 'fit_score_failed', score: null };
     }
@@ -331,18 +413,46 @@ async function evaluateJobFit(tabId, job, session) {
 
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+            formatAutoApplyFitLogMessage(
+                job.title,
+                job.company,
+                scoreResult.score,
+                session.minFitScore,
+                false,
+                fitReason,
+            ),
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'low_fit_score',
+                    score: scoreResult.score,
+                    min_fit_score: session.minFitScore,
+                },
+            },
+            tabId,
+        );
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+        return {
+            proceed: false,
+            reason: 'low_fit_score',
+            score: scoreResult.score,
+            fitReason,
+        };
     }
 
     await logSession(
         'info',
-        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+        formatAutoApplyFitLogMessage(
+            job.title,
+            job.company,
+            scoreResult.score,
+            session.minFitScore,
+            true,
+        ),
     );
 
     return { proceed: true, score: scoreResult.score, jobMeta };
@@ -365,9 +475,15 @@ function withLinkedInTabLock(fn) {
 }
 
 async function stabilizeLinkedInTab(tabId) {
-    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY').catch(() => {});
-    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_SAVE_DIALOG').catch(() => {});
-    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_BLOCKING_MODAL').catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY').catch(
+        () => {},
+    );
+    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_SAVE_DIALOG').catch(
+        () => {},
+    );
+    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_BLOCKING_MODAL').catch(
+        () => {},
+    );
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
     await sleep(randomDelay(500, 400));
 }
@@ -411,122 +527,226 @@ function randomDelay(baseMs, spreadMs = null) {
  * @param {string} platform
  * @param {import('./auto-apply-session.js').AutoApplySession|null} [session]
  */
-async function waitForApplicationSubmitConfirmation(tabId, platform, session = null) {
+async function waitForApplicationSubmitConfirmation(
+    tabId,
+    platform,
+    session = null,
+) {
     const deadline = Date.now() + SUBMIT_CONFIRMATION_TIMEOUT_MS;
 
     while (Date.now() < deadline) {
-        if (session && await shouldStop(session)) {
+        if (session && (await shouldStop(session))) {
             return { submitted: false, stopped: true };
         }
 
         if (platform === LINKEDIN_PLATFORM_ID) {
-            const verify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+            const verify = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_VERIFY_SUBMITTED',
+            );
 
             if (verify?.submitted) {
-                return { submitted: true, confirmation: verify.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: verify.confirmation || null,
+                };
             }
 
             const state = await readLinkedInModalState(tabId, { retries: 1 });
 
             if (state?.submitted) {
-                return { submitted: true, confirmation: state.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: state.confirmation || null,
+                };
             }
-        } else if (platform === INDEED_PLATFORM_ID || platform === GLASSDOOR_PLATFORM_ID || platform === SIMPLYHIRED_PLATFORM_ID) {
+        } else if (
+            platform === INDEED_PLATFORM_ID ||
+            platform === GLASSDOOR_PLATFORM_ID ||
+            platform === SIMPLYHIRED_PLATFORM_ID
+        ) {
             const useIndeedFlow = platform !== INDEED_PLATFORM_ID;
             const verify = useIndeedFlow
-                ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' })
+                ? await sendIndeedApplyFlowMessage(tabId, {
+                      type: 'INDEED_VERIFY_SUBMITTED',
+                  })
                 : await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
 
             if (verify?.submitted) {
-                return { submitted: true, confirmation: verify.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: verify.confirmation || null,
+                };
             }
 
             const state = useIndeedFlow
-                ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' })
+                ? await sendIndeedApplyFlowMessage(tabId, {
+                      type: 'INDEED_APPLY_STATE',
+                  })
                 : await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
 
             if (state?.submitted) {
-                return { submitted: true, confirmation: state.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: state.confirmation || null,
+                };
             }
         } else if (platform === TOTALJOBS_PLATFORM_ID) {
-            const verify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+            const verify = await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_VERIFY_SUBMITTED',
+            );
 
             if (verify?.submitted) {
-                return { submitted: true, confirmation: verify.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: verify.confirmation || null,
+                };
             }
 
-            const state = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
+            const state = await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_APPLY_STATE',
+            );
 
             if (state?.submitted) {
-                return { submitted: true, confirmation: state.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: state.confirmation || null,
+                };
             }
         } else if (platform === REED_PLATFORM_ID) {
-            const verify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+            const verify = await sendReedMessage(
+                tabId,
+                'REED_VERIFY_SUBMITTED',
+            ).catch(() => null);
 
             if (verify?.submitted) {
-                return { submitted: true, confirmation: verify.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: verify.confirmation || null,
+                };
             }
 
-            const state = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+            const state = await sendReedMessage(
+                tabId,
+                'REED_APPLY_STATE',
+            ).catch(() => null);
 
             if (state?.submitted) {
-                return { submitted: true, confirmation: state.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: state.confirmation || null,
+                };
             }
         } else if (platform === CV_LIBRARY_PLATFORM_ID) {
-            const verify = await sendTabMessage(tabId, { type: 'CV_LIBRARY_VERIFY_SUBMITTED' }, 0).catch(() => null);
+            const verify = await sendTabMessage(
+                tabId,
+                { type: 'CV_LIBRARY_VERIFY_SUBMITTED' },
+                0,
+            ).catch(() => null);
 
             if (verify?.submitted) {
-                return { submitted: true, confirmation: verify.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: verify.confirmation || null,
+                };
             }
 
-            const state = await sendTabMessage(tabId, { type: 'CV_LIBRARY_APPLY_STATE' }, 0).catch(() => null);
+            const state = await sendTabMessage(
+                tabId,
+                { type: 'CV_LIBRARY_APPLY_STATE' },
+                0,
+            ).catch(() => null);
 
             if (state?.submitted) {
-                return { submitted: true, confirmation: state.confirmation || null };
+                return {
+                    submitted: true,
+                    confirmation: state.confirmation || null,
+                };
             }
         }
 
-        await sleep(randomDelay(SUBMIT_CONFIRMATION_POLL_MS.base, SUBMIT_CONFIRMATION_POLL_MS.spread));
+        await sleep(
+            randomDelay(
+                SUBMIT_CONFIRMATION_POLL_MS.base,
+                SUBMIT_CONFIRMATION_POLL_MS.spread,
+            ),
+        );
     }
 
     if (platform === LINKEDIN_PLATFORM_ID) {
-        const verify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+        const verify = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_VERIFY_SUBMITTED',
+        );
 
-        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+        return {
+            submitted: Boolean(verify?.submitted),
+            confirmation: verify?.confirmation || null,
+        };
     }
 
-    if (platform === INDEED_PLATFORM_ID || platform === GLASSDOOR_PLATFORM_ID || platform === SIMPLYHIRED_PLATFORM_ID) {
+    if (
+        platform === INDEED_PLATFORM_ID ||
+        platform === GLASSDOOR_PLATFORM_ID ||
+        platform === SIMPLYHIRED_PLATFORM_ID
+    ) {
         const useIndeedFlow = platform !== INDEED_PLATFORM_ID;
         const verify = useIndeedFlow
-            ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' })
+            ? await sendIndeedApplyFlowMessage(tabId, {
+                  type: 'INDEED_VERIFY_SUBMITTED',
+              })
             : await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
 
-        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+        return {
+            submitted: Boolean(verify?.submitted),
+            confirmation: verify?.confirmation || null,
+        };
     }
 
     if (platform === TOTALJOBS_PLATFORM_ID) {
-        const verify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+        const verify = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_VERIFY_SUBMITTED',
+        );
 
-        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+        return {
+            submitted: Boolean(verify?.submitted),
+            confirmation: verify?.confirmation || null,
+        };
     }
 
     if (platform === REED_PLATFORM_ID) {
-        const verify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+        const verify = await sendReedMessage(
+            tabId,
+            'REED_VERIFY_SUBMITTED',
+        ).catch(() => null);
 
-        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+        return {
+            submitted: Boolean(verify?.submitted),
+            confirmation: verify?.confirmation || null,
+        };
     }
 
     if (platform === CV_LIBRARY_PLATFORM_ID) {
-        const verify = await sendTabMessage(tabId, { type: 'CV_LIBRARY_VERIFY_SUBMITTED' }, 0).catch(() => null);
+        const verify = await sendTabMessage(
+            tabId,
+            { type: 'CV_LIBRARY_VERIFY_SUBMITTED' },
+            0,
+        ).catch(() => null);
 
-        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+        return {
+            submitted: Boolean(verify?.submitted),
+            confirmation: verify?.confirmation || null,
+        };
     }
 
     return { submitted: false, confirmation: null };
 }
 
 async function resolveAutoApplyWindowId(session = null) {
-    const current = session || await loadAutoApplySession();
+    const current = session || (await loadAutoApplySession());
 
     if (await isAutoApplyWindowOpen(current?.windowId)) {
         return current.windowId;
@@ -535,7 +755,11 @@ async function resolveAutoApplyWindowId(session = null) {
     return null;
 }
 
-async function rememberAutoApplyWindow(windowId, tabId = null, { usesDedicatedWindow = null } = {}) {
+async function rememberAutoApplyWindow(
+    windowId,
+    tabId = null,
+    { usesDedicatedWindow = null } = {},
+) {
     await updateSession((current) => ({
         ...current,
         windowId,
@@ -577,7 +801,9 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         if (hostTab) {
             tabId = hostTab.tabId;
             windowId = hostTab.windowId;
-            await rememberAutoApplyWindow(windowId, tabId, { usesDedicatedWindow: false });
+            await rememberAutoApplyWindow(windowId, tabId, {
+                usesDedicatedWindow: false,
+            });
         }
     }
 
@@ -587,7 +813,9 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 
             if (tab?.windowId) {
                 windowId = tab.windowId;
-                await rememberAutoApplyWindow(windowId, tabId, { usesDedicatedWindow: false });
+                await rememberAutoApplyWindow(windowId, tabId, {
+                    usesDedicatedWindow: false,
+                });
             }
         } catch {
             tabId = null;
@@ -595,17 +823,23 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
     }
 
     if (!windowId && !tabId) {
-        const sidePanelOpen = resolveSidePanelOpen(await chrome.storage.session.get([
-            'sidePanelOpen',
-            'sidePanelLastHeartbeatAt',
-        ]));
+        const sidePanelOpen = resolveSidePanelOpen(
+            await chrome.storage.session.get([
+                'sidePanelOpen',
+                'sidePanelLastHeartbeatAt',
+            ]),
+        );
 
         if (sidePanelOpen) {
-            throw new Error('Open a job board tab in the browser window where AutoCVApply is open, then press Start again.');
+            throw new Error(
+                'Open a job board tab in the browser window where AutoCVApply is open, then press Start again.',
+            );
         }
 
         const created = await createAutoApplyWindow(url);
-        await rememberAutoApplyWindow(created.windowId, created.tabId, { usesDedicatedWindow: true });
+        await rememberAutoApplyWindow(created.windowId, created.tabId, {
+            usesDedicatedWindow: true,
+        });
 
         if (created.tabId) {
             return created.tabId;
@@ -616,7 +850,9 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 
     if (!windowId) {
         const created = await createAutoApplyWindow('about:blank');
-        await rememberAutoApplyWindow(created.windowId, created.tabId, { usesDedicatedWindow: true });
+        await rememberAutoApplyWindow(created.windowId, created.tabId, {
+            usesDedicatedWindow: true,
+        });
         windowId = created.windowId;
     }
 
@@ -629,7 +865,9 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
                     await chrome.tabs.move(tabId, { windowId, index: -1 });
                 }
 
-                await navigateAutoApplyTab(tabId, url, { active: preferVisibleTab });
+                await navigateAutoApplyTab(tabId, url, {
+                    active: preferVisibleTab,
+                });
 
                 return tabId;
             }
@@ -645,11 +883,13 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 }
 
 function broadcastAutoApplyStatus(session) {
-    chrome.runtime.sendMessage({
-        type: 'AUTO_APPLY_STATUS',
-        session: sanitizeSessionForBroadcast(session),
-        running: isAutoApplyRunning(),
-    }).catch(() => {});
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_STATUS',
+            session: sanitizeSessionForBroadcast(session),
+            running: isAutoApplyRunning(),
+        })
+        .catch(() => {});
 
     const tabId = session?.tabId;
 
@@ -657,12 +897,16 @@ function broadcastAutoApplyStatus(session) {
         return;
     }
 
-    const active = Boolean(session?.status && !isTerminalAutoApplyStatus(session.status));
+    const active = Boolean(
+        session?.status && !isTerminalAutoApplyStatus(session.status),
+    );
 
-    chrome.tabs.sendMessage(tabId, {
-        type: 'AUTO_APPLY_ACTIVE',
-        active,
-    }).catch(() => {});
+    chrome.tabs
+        .sendMessage(tabId, {
+            type: 'AUTO_APPLY_ACTIVE',
+            active,
+        })
+        .catch(() => {});
 }
 
 function sanitizeSessionForBroadcast(session) {
@@ -688,17 +932,17 @@ function sanitizeSessionForBroadcast(session) {
         fieldsFilledCount: session.fieldsFilledCount,
         pauseContext: session.pauseContext
             ? {
-                job: session.pauseContext.job,
-                stepFingerprint: session.pauseContext.stepFingerprint,
-                tabId: session.pauseContext.tabId,
-                blockerField: session.pauseContext.blockerField,
-                clarifyingQuestion: session.pauseContext.clarifyingQuestion,
-                questionText: session.pauseContext.questionText,
-                resumeAt: session.pauseContext.resumeAt,
-                validationAttempt: session.pauseContext.validationAttempt,
-                lastAttempt: session.pauseContext.lastAttempt,
-                validationError: session.pauseContext.validationError,
-            }
+                  job: session.pauseContext.job,
+                  stepFingerprint: session.pauseContext.stepFingerprint,
+                  tabId: session.pauseContext.tabId,
+                  blockerField: session.pauseContext.blockerField,
+                  clarifyingQuestion: session.pauseContext.clarifyingQuestion,
+                  questionText: session.pauseContext.questionText,
+                  resumeAt: session.pauseContext.resumeAt,
+                  validationAttempt: session.pauseContext.validationAttempt,
+                  lastAttempt: session.pauseContext.lastAttempt,
+                  validationError: session.pauseContext.validationError,
+              }
             : null,
     };
 }
@@ -710,7 +954,10 @@ async function updateSession(mutator) {
         return null;
     }
 
-    const next = typeof mutator === 'function' ? mutator(current) : { ...current, ...mutator };
+    const next =
+        typeof mutator === 'function'
+            ? mutator(current)
+            : { ...current, ...mutator };
 
     await saveAutoApplySession(next);
     broadcastAutoApplyStatus(next);
@@ -720,7 +967,9 @@ async function updateSession(mutator) {
 }
 
 async function logSession(level, message) {
-    return updateSession((session) => appendAutoApplyLog(session, level, message));
+    return updateSession((session) =>
+        appendAutoApplyLog(session, level, message),
+    );
 }
 
 async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
@@ -732,11 +981,18 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
             try {
                 return await sendTabMessage(tabId, { type, ...payload }, 0);
             } catch (error) {
-                const message = error instanceof Error ? error.message : String(error);
+                const message =
+                    error instanceof Error ? error.message : String(error);
 
-                if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                if (
+                    attempt < maxAttempts &&
+                    isExtensionMessagingError(message)
+                ) {
                     invalidateTabFrameCache(tabId);
-                    await logSession('warn', `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                    await logSession(
+                        'warn',
+                        `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                    );
                     await waitForTabContentScript(tabId).catch(() => {});
                     await sleep(randomDelay(850, 550));
 
@@ -761,7 +1017,9 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
             sendOnce(),
             new Promise((_, reject) => {
                 timeoutId = setTimeout(() => {
-                    reject(new Error(`LinkedIn tab message timed out: ${type}`));
+                    reject(
+                        new Error(`LinkedIn tab message timed out: ${type}`),
+                    );
                 }, timeoutMs);
             }),
         ]);
@@ -772,11 +1030,19 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
     }
 }
 
-async function advanceLinkedInEasyApplyStep(tabId, { skipPrefill = false } = {}) {
-    const advanceType = skipPrefill ? 'LINKEDIN_ADVANCE_EASY_APPLY' : 'LINKEDIN_FILL_AND_ADVANCE';
+async function advanceLinkedInEasyApplyStep(
+    tabId,
+    { skipPrefill = false } = {},
+) {
+    const advanceType = skipPrefill
+        ? 'LINKEDIN_ADVANCE_EASY_APPLY'
+        : 'LINKEDIN_FILL_AND_ADVANCE';
     let advanceResponse = await sendLinkedInMessage(tabId, advanceType);
 
-    if (advanceResponse?.success || !/modal is not open/i.test(advanceResponse?.error || '')) {
+    if (
+        advanceResponse?.success ||
+        !/modal is not open/i.test(advanceResponse?.error || '')
+    ) {
         return advanceResponse;
     }
 
@@ -788,7 +1054,10 @@ async function advanceLinkedInEasyApplyStep(tabId, { skipPrefill = false } = {})
         return sendLinkedInMessage(tabId, advanceType);
     }
 
-    const reopenResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY');
+    const reopenResponse = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_OPEN_EASY_APPLY',
+    );
 
     if (reopenResponse?.success && !reopenResponse?.alreadyApplied) {
         await sleep(randomDelay(900, 500));
@@ -805,9 +1074,11 @@ function isLinkedInReviewStep(modalState) {
 
     const label = String(modalState.stepLabel || modalState.actionLabel || '');
 
-    return modalState.canSubmit === true
-        || modalState.action === 'submit'
-        || /review your application/i.test(label);
+    return (
+        modalState.canSubmit === true ||
+        modalState.action === 'submit' ||
+        /review your application/i.test(label)
+    );
 }
 
 function isLinkedInResumeStep(modalState) {
@@ -828,7 +1099,10 @@ async function readLinkedInModalState(tabId, { retries = 3 } = {}) {
     let lastState = null;
 
     for (let attempt = 1; attempt <= retries; attempt += 1) {
-        lastState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+        lastState = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_EASY_APPLY_STATE',
+        );
 
         if (lastState?.open || lastState?.submitted) {
             return lastState;
@@ -849,18 +1123,28 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
         try {
             return await sendTabMessage(tabId, { type, ...payload }, 0);
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+            const message =
+                error instanceof Error ? error.message : String(error);
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
-                await logSession('warn', `[indeed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                await logSession(
+                    'warn',
+                    `[indeed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                );
 
                 try {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForIndeedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                    await sendTabMessage(tabId, { type: 'INDEED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
+                    );
+                    await sendTabMessage(
+                        tabId,
+                        { type: 'INDEED_ACCEPT_COOKIE_CONSENT' },
+                        0,
+                    ).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
                 }
@@ -882,18 +1166,28 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
         try {
             return await sendTabMessage(tabId, { type, ...payload }, 0);
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+            const message =
+                error instanceof Error ? error.message : String(error);
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
-                await logSession('warn', `[totaljobs_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                await logSession(
+                    'warn',
+                    `[totaljobs_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                );
 
                 try {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForTotalJobsContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                    await sendTabMessage(tabId, { type: 'TOTALJOBS_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
+                    );
+                    await sendTabMessage(
+                        tabId,
+                        { type: 'TOTALJOBS_ACCEPT_COOKIE_CONSENT' },
+                        0,
+                    ).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
                 }
@@ -915,18 +1209,28 @@ async function sendReedMessage(tabId, type, payload = {}, options = {}) {
         try {
             return await sendTabMessage(tabId, { type, ...payload }, 0);
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+            const message =
+                error instanceof Error ? error.message : String(error);
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
-                await logSession('warn', `[reed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                await logSession(
+                    'warn',
+                    `[reed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                );
 
                 try {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForReedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                    await sendTabMessage(tabId, { type: 'REED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
+                    );
+                    await sendTabMessage(
+                        tabId,
+                        { type: 'REED_ACCEPT_COOKIE_CONSENT' },
+                        0,
+                    ).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
                 }
@@ -948,23 +1252,42 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
         try {
             return await sendTabMessage(tabId, { type, ...payload }, 0);
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+            const message =
+                error instanceof Error ? error.message : String(error);
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
-                await logSession('warn', `[glassdoor_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                await logSession(
+                    'warn',
+                    `[glassdoor_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                );
 
                 try {
                     await waitForGlassdoorContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                    await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
+                    );
+                    await sendTabMessage(
+                        tabId,
+                        { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' },
+                        0,
+                    ).catch(() => {});
                 } catch {
                     try {
                         await chrome.tabs.reload(tabId);
                         await waitForTabLoadComplete(tabId);
                         await waitForGlassdoorContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                        await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                        await sleep(
+                            randomDelay(
+                                AUTO_APPLY_DELAY_MS.afterNavigation,
+                                700,
+                            ),
+                        );
+                        await sendTabMessage(
+                            tabId,
+                            { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' },
+                            0,
+                        ).catch(() => {});
                     } catch {
                         // Fall through to retry send on next loop iteration.
                     }
@@ -984,10 +1307,19 @@ async function returnToIndeedSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
         const currentUrl = tab.url || '';
-        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        const searchUrl = buildJobSearchUrl(
+            session.platform,
+            session.roleDescription,
+            buildSessionSearchOptions(session),
+        );
 
-        if (isIndeedJobsSearchUrl(currentUrl) && urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
-            await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+        if (
+            isIndeedJobsSearchUrl(currentUrl) &&
+            urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)
+        ) {
+            await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
+                () => {},
+            );
 
             return tabId;
         }
@@ -996,13 +1328,21 @@ async function returnToIndeedSearch(tabId, session) {
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-        await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
-        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
+            () => {},
+        );
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
 
         return tabId;
     } catch {
         tabId = await openUrlInAutoApplyWindow(
-            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+            buildJobSearchUrl(
+                session.platform,
+                session.roleDescription,
+                buildSessionSearchOptions(session),
+            ),
         );
 
         await waitForTabLoadComplete(tabId);
@@ -1017,10 +1357,20 @@ async function returnToTotalJobsSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
         const currentUrl = tab.url || '';
-        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        const searchUrl = buildJobSearchUrl(
+            session.platform,
+            session.roleDescription,
+            buildSessionSearchOptions(session),
+        );
 
-        if (isTotalJobsJobsSearchUrl(currentUrl) && urlsMatchTotalJobsSearch(currentUrl, searchUrl, session.filters)) {
-            await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(() => {});
+        if (
+            isTotalJobsJobsSearchUrl(currentUrl) &&
+            urlsMatchTotalJobsSearch(currentUrl, searchUrl, session.filters)
+        ) {
+            await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_PREPARE_JOB_SEARCH',
+            ).catch(() => {});
 
             return tabId;
         }
@@ -1029,13 +1379,22 @@ async function returnToTotalJobsSearch(tabId, session) {
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-        await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
-        await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_ACCEPT_COOKIE_CONSENT',
+        ).catch(() => {});
+        await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
 
         return tabId;
     } catch {
         tabId = await openUrlInAutoApplyWindow(
-            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+            buildJobSearchUrl(
+                session.platform,
+                session.roleDescription,
+                buildSessionSearchOptions(session),
+            ),
         );
 
         await waitForTabLoadComplete(tabId);
@@ -1050,10 +1409,19 @@ async function returnToReedSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
         const currentUrl = tab.url || '';
-        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        const searchUrl = buildJobSearchUrl(
+            session.platform,
+            session.roleDescription,
+            buildSessionSearchOptions(session),
+        );
 
-        if (isReedJobsSearchUrl(currentUrl) && urlsMatchReedSearch(currentUrl, searchUrl, session.filters)) {
-            await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
+        if (
+            isReedJobsSearchUrl(currentUrl) &&
+            urlsMatchReedSearch(currentUrl, searchUrl, session.filters)
+        ) {
+            await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(
+                () => {},
+            );
 
             return tabId;
         }
@@ -1062,13 +1430,19 @@ async function returnToReedSearch(tabId, session) {
         await waitForTabLoadComplete(tabId);
         await waitForReedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-        await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+        await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(
+            () => {},
+        );
         await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
 
         return tabId;
     } catch {
         tabId = await openUrlInAutoApplyWindow(
-            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+            buildJobSearchUrl(
+                session.platform,
+                session.roleDescription,
+                buildSessionSearchOptions(session),
+            ),
         );
 
         await waitForTabLoadComplete(tabId);
@@ -1083,25 +1457,54 @@ async function returnToGlassdoorSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
         const currentUrl = tab.url || '';
-        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        const searchUrl = buildJobSearchUrl(
+            session.platform,
+            session.roleDescription,
+            buildSessionSearchOptions(session),
+        );
 
-        if (isGlassdoorJobsSearchUrl(currentUrl) && urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)) {
-            await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+        if (
+            isGlassdoorJobsSearchUrl(currentUrl) &&
+            urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)
+        ) {
+            const prepared = await sendGlassdoorMessage(
+                tabId,
+                'GLASSDOOR_PREPARE_JOB_SEARCH',
+                {
+                    expectedKeyword: session.roleDescription,
+                    expectedLocation: session.filters?.location || null,
+                },
+            ).catch(() => ({ searchMatched: true }));
 
-            return tabId;
+            if (prepared?.searchMatched !== false) {
+                return tabId;
+            }
         }
 
-        await openUrlInAutoApplyWindow(searchUrl, tabId);
+        const freshSearchUrl = withGlassdoorSearchCacheBust(searchUrl);
+        await openUrlInAutoApplyWindow(freshSearchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForGlassdoorContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_ACCEPT_COOKIE_CONSENT',
+        ).catch(() => {});
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
+            expectedKeyword: session.roleDescription,
+            expectedLocation: session.filters?.location || null,
+        }).catch(() => {});
 
         return tabId;
     } catch {
         tabId = await openUrlInAutoApplyWindow(
-            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+            withGlassdoorSearchCacheBust(
+                buildJobSearchUrl(
+                    session.platform,
+                    session.roleDescription,
+                    buildSessionSearchOptions(session),
+                ),
+            ),
         );
 
         await waitForTabLoadComplete(tabId);
@@ -1113,7 +1516,10 @@ async function returnToGlassdoorSearch(tabId, session) {
 }
 
 async function acceptLinkedInCookieConsent(tabId) {
-    const result = await sendLinkedInMessage(tabId, 'LINKEDIN_ACCEPT_COOKIE_CONSENT').catch(() => ({ accepted: false }));
+    const result = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_ACCEPT_COOKIE_CONSENT',
+    ).catch(() => ({ accepted: false }));
 
     if (result?.accepted) {
         await logSession('info', 'Accepted LinkedIn cookie consent');
@@ -1123,7 +1529,10 @@ async function acceptLinkedInCookieConsent(tabId) {
 }
 
 async function dismissSaveApplicationPrompt(tabId) {
-    const result = await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_SAVE_DIALOG').catch(() => ({ dismissed: false }));
+    const result = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_DISMISS_SAVE_DIALOG',
+    ).catch(() => ({ dismissed: false }));
 
     if (result?.dismissed) {
         await logSession('info', 'Dismissed save-application prompt');
@@ -1178,7 +1587,11 @@ function isWatchdogStuck(session) {
 }
 
 async function scanLinkedInTabHealth(tabId, options = {}) {
-    const health = await sendLinkedInMessage(tabId, 'LINKEDIN_SCAN_PAGE_HEALTH', { options });
+    const health = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_SCAN_PAGE_HEALTH',
+        { options },
+    );
 
     if (!health || typeof health.ok !== 'boolean') {
         return {
@@ -1213,7 +1626,9 @@ async function recoverLinkedInTab(tabId, session, reason) {
     }
 
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
-        throw new Error(`LinkedIn navigation stuck (${reason}). Recovery limit reached.`);
+        throw new Error(
+            `LinkedIn navigation stuck (${reason}). Recovery limit reached.`,
+        );
     }
 
     watchdogState.recoveryCount += 1;
@@ -1224,9 +1639,14 @@ async function recoverLinkedInTab(tabId, session, reason) {
     );
 
     if (/rate_limit|slow down/i.test(reason)) {
-        await logSession('warn', `[rate_limit] Backing off ${Math.round(AUTO_APPLY_DELAY_MS.rateLimitBackoff / 1000)}s before retry.`);
+        await logSession(
+            'warn',
+            `[rate_limit] Backing off ${Math.round(AUTO_APPLY_DELAY_MS.rateLimitBackoff / 1000)}s before retry.`,
+        );
 
-        const slept = await interruptibleSleep(AUTO_APPLY_DELAY_MS.rateLimitBackoff);
+        const slept = await interruptibleSleep(
+            AUTO_APPLY_DELAY_MS.rateLimitBackoff,
+        );
 
         if (!slept) {
             return tabId;
@@ -1243,7 +1663,11 @@ async function recoverLinkedInTab(tabId, session, reason) {
         // Tab may have been closed; recreate below.
     }
 
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     tabId = await openUrlInAutoApplyWindow(searchUrl, tabId);
 
@@ -1262,7 +1686,9 @@ async function recoverIndeedTab(tabId, session, reason) {
     }
 
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
-        throw new Error(`Indeed navigation stuck (${reason}). Recovery limit reached.`);
+        throw new Error(
+            `Indeed navigation stuck (${reason}). Recovery limit reached.`,
+        );
     }
 
     watchdogState.recoveryCount += 1;
@@ -1292,7 +1718,9 @@ async function recoverTotalJobsTab(tabId, session, reason) {
     }
 
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
-        throw new Error(`Totaljobs navigation stuck (${reason}). Recovery limit reached.`);
+        throw new Error(
+            `Totaljobs navigation stuck (${reason}). Recovery limit reached.`,
+        );
     }
 
     watchdogState.recoveryCount += 1;
@@ -1322,7 +1750,9 @@ async function recoverReedTab(tabId, session, reason) {
     }
 
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
-        throw new Error(`Reed navigation stuck (${reason}). Recovery limit reached.`);
+        throw new Error(
+            `Reed navigation stuck (${reason}). Recovery limit reached.`,
+        );
     }
 
     watchdogState.recoveryCount += 1;
@@ -1352,7 +1782,9 @@ async function recoverGlassdoorTab(tabId, session, reason) {
     }
 
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
-        throw new Error(`Glassdoor navigation stuck (${reason}). Recovery limit reached.`);
+        throw new Error(
+            `Glassdoor navigation stuck (${reason}). Recovery limit reached.`,
+        );
     }
 
     watchdogState.recoveryCount += 1;
@@ -1408,11 +1840,19 @@ async function waitForTabContentScript(tabId, timeoutMs = 45_000) {
 
     while (Date.now() < deadline) {
         try {
-            await sendTabMessage(tabId, { type: 'LINKEDIN_SCAN_PAGE_HEALTH' }, 0);
+            await sendTabMessage(
+                tabId,
+                { type: 'LINKEDIN_SCAN_PAGE_HEALTH' },
+                0,
+            );
 
             return;
         } catch (error) {
-            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+            if (
+                !isExtensionMessagingError(
+                    error instanceof Error ? error.message : String(error),
+                )
+            ) {
                 throw error;
             }
 
@@ -1425,10 +1865,16 @@ async function waitForTabContentScript(tabId, timeoutMs = 45_000) {
 
 async function ensureLinkedInTab(session) {
     if (session.platform !== LINKEDIN_PLATFORM_ID) {
-        throw new Error(`Auto Apply expected LinkedIn but session platform is ${session.platform}.`);
+        throw new Error(
+            `Auto Apply expected LinkedIn but session platform is ${session.platform}.`,
+        );
     }
 
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     if (session.tabId) {
         try {
@@ -1437,13 +1883,20 @@ async function ensureLinkedInTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!urlBelongsToPlatform(currentUrl, LINKEDIN_PLATFORM_ID)
-                    || !currentUrl.includes('/jobs/search')
-                    || !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)) {
-                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                if (
+                    !urlBelongsToPlatform(currentUrl, LINKEDIN_PLATFORM_ID) ||
+                    !currentUrl.includes('/jobs/search') ||
+                    !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)
+                ) {
+                    const tabId = await openUrlInAutoApplyWindow(
+                        searchUrl,
+                        tab.id,
+                    );
                     await waitForTabLoadComplete(tabId);
                     await waitForTabContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
+                    );
                     await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
                     return tabId;
@@ -1459,7 +1912,10 @@ async function ensureLinkedInTab(session) {
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
     if (!hadWindow && session.usesDedicatedWindow !== false) {
-        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
+        await logSession(
+            'info',
+            'Running Auto Apply in a background window so you can keep browsing.',
+        );
     }
 
     await logSession('info', `LinkedIn search: ${searchUrl}`);
@@ -1478,9 +1934,14 @@ async function collectJobsFromTab(tabId) {
     let lastError = 'Could not read LinkedIn job cards.';
 
     while (Date.now() < deadline) {
-        await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
 
-        const response = await sendLinkedInMessage(tabId, 'LINKEDIN_COLLECT_JOB_CARDS');
+        const response = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_COLLECT_JOB_CARDS',
+        );
 
         if (!response?.success) {
             lastError = response?.error || lastError;
@@ -1507,74 +1968,55 @@ async function appendUniqueJobs(tabId, session) {
     }
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
-    const freshJobs = jobs.filter((job) => (
-        !existingIds.has(job.jobId)
-        && job.easyApply
-        && !job.alreadyApplied
-        && job.title !== 'Unknown role'
-    ));
+    const freshJobs = jobs.filter(
+        (job) =>
+            !existingIds.has(job.jobId) &&
+            job.easyApply &&
+            !job.alreadyApplied &&
+            job.title !== 'Unknown role',
+    );
 
     if (freshJobs.length === 0) {
         return session;
     }
 
-    return updateSession((current) => ({
-        ...current,
-        queue: [...current.queue, ...freshJobs],
-        stats: {
-            ...current.stats,
-            found: current.stats.found + freshJobs.length,
-        },
-    })) || session;
+    return (
+        updateSession((current) => ({
+            ...current,
+            queue: [...current.queue, ...freshJobs],
+            stats: {
+                ...current.stats,
+                found: current.stats.found + freshJobs.length,
+            },
+        })) || session
+    );
 }
 
-async function buildFailureCapturePayload(tabId) {
-    try {
-        const tab = await chrome.tabs.get(tabId);
-        const contentResponse = await fetchPageHtmlFromTab(tabId);
-        const payload = normalizePageCapturePayload(contentResponse, tab);
-
-        if (!payload) {
-            return {};
-        }
-
-        return {
-            failure_html: payload.html,
-            page_url: payload.url,
-            page_title: payload.page_title,
-        };
-    } catch (error) {
-        logWarn('background', 'auto-apply.capture', 'Failed to build failure page capture payload', {
-            tabId,
-            error: error instanceof Error ? error.message : error,
-        }, tabId);
-
-        return {};
-    }
-}
-
-async function recordAnalyticsEvent(session, eventType, job = null, extra = {}, tabId = null) {
+async function recordAnalyticsEvent(
+    session,
+    eventType,
+    job = null,
+    extra = {},
+    _tabId = null,
+) {
     if (!session?.analyticsSessionId) {
         return;
-    }
-
-    let captureFields = {};
-
-    if (eventType === 'error' && tabId) {
-        captureFields = await buildFailureCapturePayload(tabId);
     }
 
     await recordAutoApplyAnalyticsEvent(session.analyticsSessionId, {
         event_type: eventType,
         ...buildJobAnalyticsPayload(job, extra),
-        ...captureFields,
     });
 }
 
 async function openLinkedInJob(tabId, job) {
     await stabilizeLinkedInTab(tabId);
 
-    let selectResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_SELECT_JOB', { jobId: job.jobId });
+    let selectResponse = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_SELECT_JOB',
+        { jobId: job.jobId },
+    );
 
     if (selectResponse?.success) {
         return selectResponse;
@@ -1584,7 +2026,10 @@ async function openLinkedInJob(tabId, job) {
         throw new Error(selectResponse?.error || 'Could not open job listing.');
     }
 
-    await logSession('info', `Opening ${job.title} directly (job card not visible in search list).`);
+    await logSession(
+        'info',
+        `Opening ${job.title} directly (job card not visible in search list).`,
+    );
 
     let currentUrl = null;
 
@@ -1595,7 +2040,10 @@ async function openLinkedInJob(tabId, job) {
         // Tab may have been closed; ensureLinkedInTab will recreate it upstream.
     }
 
-    const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { currentUrl, preferJobView: true });
+    const jobUrl = buildLinkedInJobOpenUrl(job.jobId, {
+        currentUrl,
+        preferJobView: true,
+    });
 
     tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
@@ -1604,25 +2052,21 @@ async function openLinkedInJob(tabId, job) {
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
-    const readyResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const readyResponse = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!readyResponse?.success) {
-        throw new Error(readyResponse?.error || selectResponse?.error || 'Could not open job listing.');
+        throw new Error(
+            readyResponse?.error ||
+                selectResponse?.error ||
+                'Could not open job listing.',
+        );
     }
 
     return { success: true, jobId: job.jobId, tabId, navigated: true };
-}
-
-async function captureJobPage(tabId, { force = false } = {}) {
-    try {
-        const tab = await chrome.tabs.get(tabId);
-        void capturePageFromTab(tabId, tab, { force });
-    } catch (error) {
-        logWarn('background', 'auto-apply.capture', 'Failed to capture job page', {
-            tabId,
-            error: error instanceof Error ? error.message : error,
-        }, tabId);
-    }
 }
 
 function snapshotElementToDraftField(element) {
@@ -1648,11 +2092,13 @@ async function savePendingFieldsForTab(tabId, fields) {
     const key = pendingFieldsStorageKey(tabId);
     await chrome.storage.session.set({ [key]: fields });
 
-    chrome.runtime.sendMessage({
-        type: 'PENDING_FIELDS_UPDATED',
-        tabId,
-        fields,
-    }).catch(() => {});
+    chrome.runtime
+        .sendMessage({
+            type: 'PENDING_FIELDS_UPDATED',
+            tabId,
+            fields,
+        })
+        .catch(() => {});
 }
 
 async function enrichDraftResultWithGaps(tabId, draftResult) {
@@ -1665,8 +2111,14 @@ async function enrichDraftResultWithGaps(tabId, draftResult) {
     if (unfilledRequiredFields.length === 0) {
         try {
             const formFrameId = await findBestFormFrameId(tabId);
-            const snapshotResponse = await sendTabMessage(tabId, { type: 'BUILD_FIELD_SNAPSHOT' }, formFrameId);
-            unfilledRequiredFields = (snapshotResponse?.snapshot?.elements || [])
+            const snapshotResponse = await sendTabMessage(
+                tabId,
+                { type: 'BUILD_FIELD_SNAPSHOT' },
+                formFrameId,
+            );
+            unfilledRequiredFields = (
+                snapshotResponse?.snapshot?.elements || []
+            )
                 .filter((element) => element.required)
                 .map(snapshotElementToDraftField);
         } catch {
@@ -1693,7 +2145,9 @@ async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
         const session = await loadAutoApplySession();
 
         if (!session) {
-            throw new Error('Auto Apply session ended while waiting for your answer.');
+            throw new Error(
+                'Auto Apply session ended while waiting for your answer.',
+            );
         }
 
         if (session.stopRequested) {
@@ -1727,7 +2181,9 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
         return blockerField;
     }
 
-    const label = String(blockerField?.label || blockerField?.question || '').trim();
+    const label = String(
+        blockerField?.label || blockerField?.question || '',
+    ).trim();
 
     if (!label) {
         return blockerField;
@@ -1735,12 +2191,20 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const snapshotResponse = await sendTabMessage(tabId, { type: 'BUILD_FIELD_SNAPSHOT' }, formFrameId);
-        const match = (snapshotResponse?.snapshot?.elements || []).find((element) => {
-            const candidateLabel = String(element.question || element.label || '').trim();
+        const snapshotResponse = await sendTabMessage(
+            tabId,
+            { type: 'BUILD_FIELD_SNAPSHOT' },
+            formFrameId,
+        );
+        const match = (snapshotResponse?.snapshot?.elements || []).find(
+            (element) => {
+                const candidateLabel = String(
+                    element.question || element.label || '',
+                ).trim();
 
-            return candidateLabel.toLowerCase() === label.toLowerCase();
-        });
+                return candidateLabel.toLowerCase() === label.toLowerCase();
+            },
+        );
 
         if (!match?.ref) {
             return blockerField;
@@ -1758,8 +2222,19 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
     }
 }
 
-async function pauseForUserInput(session, tabId, job, modalState, blocker, profileData, retryContext = null) {
-    const blockerField = await resolveBlockerFieldRef(tabId, normalizeBlockerField(blocker.field));
+async function pauseForUserInput(
+    session,
+    tabId,
+    job,
+    modalState,
+    blocker,
+    profileData,
+    retryContext = null,
+) {
+    const blockerField = await resolveBlockerFieldRef(
+        tabId,
+        normalizeBlockerField(blocker.field),
+    );
     const clarifyingQuestion = buildAutoApplyPauseQuestion(blockerField, {
         profileData,
         validationError: retryContext?.validationError || null,
@@ -1790,32 +2265,44 @@ async function pauseForUserInput(session, tabId, job, modalState, blocker, profi
         field_type: blockerField?.type || 'text',
         options: blockerField?.options ?? null,
         dom: blockerField?.dom ?? null,
-        reason: blocker.reason === 'no_mapping' ? 'missing_profile_data' : 'missing_answer',
+        reason:
+            blocker.reason === 'no_mapping'
+                ? 'missing_profile_data'
+                : 'missing_answer',
     };
 
     if (pendingEntry.ref) {
-        const pendingFields = mergePendingFields(await loadPendingFieldsForTab(tabId), [pendingEntry]);
+        const pendingFields = mergePendingFields(
+            await loadPendingFieldsForTab(tabId),
+            [pendingEntry],
+        );
         await savePendingFieldsForTab(tabId, pendingFields);
     }
 
-    const pausedSession = await updateSession((current) => pauseAutoApplyForInput(
-        appendAutoApplyLog(
-            current,
-            'warn',
-            retryContext?.validationError
-                ? `[validation_retry ${retryContext.validationAttempt}/${AUTO_APPLY_VALIDATION_RETRY_LIMIT}] `
-                    + `${blockerField?.label || 'Field'}: ${retryContext.validationError}`
-                : `[paused] ${blockerField?.label || 'Field'} needs your answer in Assist.`,
+    const pausedSession = await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                retryContext?.validationError
+                    ? `[validation_retry ${retryContext.validationAttempt}/${AUTO_APPLY_VALIDATION_RETRY_LIMIT}] ` +
+                          `${blockerField?.label || 'Field'}: ${retryContext.validationError}`
+                    : `[paused] ${blockerField?.label || 'Field'} needs your answer in Assist.`,
+            ),
+            pauseContext,
         ),
-        pauseContext,
-    ));
+    );
 
-    chrome.runtime.sendMessage({
-        type: 'AUTO_APPLY_PAUSED',
-        pauseContext,
-        reason: retryContext?.validationError ? 'validation' : blocker.reason,
-        validationRetry: Boolean(retryContext?.validationError),
-    }).catch(() => {});
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: retryContext?.validationError
+                ? 'validation'
+                : blocker.reason,
+            validationRetry: Boolean(retryContext?.validationError),
+        })
+        .catch(() => {});
 
     return pausedSession;
 }
@@ -1830,8 +2317,10 @@ async function pauseForCaptchaReview(session, tabId, job, modalState) {
         stepFingerprint: modalState?.stepFingerprint || 'review-module',
         tabId,
         blockerField: null,
-        clarifyingQuestion: 'Solve the captcha on the review step, then resume Auto Apply.',
-        questionText: 'Solve the captcha on the review step, then resume Auto Apply.',
+        clarifyingQuestion:
+            'Solve the captcha on the review step, then resume Auto Apply.',
+        questionText:
+            'Solve the captcha on the review step, then resume Auto Apply.',
         resumeAt: 'fill_and_advance',
         validationAttempt: 0,
         lastAttempt: null,
@@ -1839,14 +2328,16 @@ async function pauseForCaptchaReview(session, tabId, job, modalState) {
         captcha: true,
     };
 
-    return updateSession((current) => pauseAutoApplyForInput(
-        appendAutoApplyLog(
-            current,
-            'warn',
-            `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`,
+    return updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`,
+            ),
+            pauseContext,
         ),
-        pauseContext,
-    ));
+    );
 }
 
 /**
@@ -1883,7 +2374,14 @@ export async function rePauseAutoApplyForValidationRetry({
     );
 }
 
-async function handleAdvanceValidationRetry(session, tabId, job, modalState, profileData, lastAttempt = null) {
+async function handleAdvanceValidationRetry(
+    session,
+    tabId,
+    job,
+    modalState,
+    profileData,
+    lastAttempt = null,
+) {
     const blocker = detectUnfilledBlockers(modalState, {}, { profileData });
 
     if (!blocker.blocked || blocker.reason !== 'validation') {
@@ -1896,12 +2394,13 @@ async function handleAdvanceValidationRetry(session, tabId, job, modalState, pro
         return { retried: false, session };
     }
 
-    const validationAttempt = (session.pauseContext?.validationAttempt || 0) + 1;
+    const validationAttempt =
+        (session.pauseContext?.validationAttempt || 0) + 1;
 
     if (validationAttempt > AUTO_APPLY_VALIDATION_RETRY_LIMIT) {
         throw new Error(
-            `Validation failed after ${AUTO_APPLY_VALIDATION_RETRY_LIMIT} attempts for `
-            + `"${blocker.field?.label || 'field'}": ${validationError}`,
+            `Validation failed after ${AUTO_APPLY_VALIDATION_RETRY_LIMIT} attempts for ` +
+                `"${blocker.field?.label || 'field'}": ${validationError}`,
         );
     }
 
@@ -1940,33 +2439,49 @@ async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
     }
 
     const question = String(field.question || field.label || '').toLowerCase();
-    const fieldType = String(field.type || field.field_type || '').toLowerCase();
+    const fieldType = String(
+        field.type || field.field_type || '',
+    ).toLowerCase();
     let answer = null;
 
     if (
-        fieldType.includes('int')
-        || fieldType === 'number'
-        || /how many|years? of|months? of|experience do you/.test(question)
+        fieldType.includes('int') ||
+        fieldType === 'number' ||
+        /how many|years? of|months? of|experience do you/.test(question)
     ) {
         const years = profileData?.application_settings?.years_of_experience;
-        answer = years != null && Number.isFinite(Number(years)) ? String(years) : '5';
+        answer =
+            years != null && Number.isFinite(Number(years))
+                ? String(years)
+                : '5';
     } else if (/salary|compensation|pay rate|hourly|annual/.test(question)) {
         answer = '55000';
-    } else if (/travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(question)) {
+    } else if (
+        /travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(
+            question,
+        )
+    ) {
         const options = Array.isArray(field.options) ? field.options : [];
 
         if (options.length > 0) {
-            answer = options.find((option) => /^yes\b/i.test(String(option)))
-                || options.find((option) => /25%|0%|none/i.test(String(option)))
-                || options[0];
+            answer =
+                options.find((option) => /^yes\b/i.test(String(option))) ||
+                options.find((option) => /25%|0%|none/i.test(String(option))) ||
+                options[0];
         } else {
             answer = 'Yes';
         }
-    } else if ((fieldType === 'radio' || fieldType === 'select') && /education|degree|qualification/.test(question)) {
+    } else if (
+        (fieldType === 'radio' || fieldType === 'select') &&
+        /education|degree|qualification/.test(question)
+    ) {
         const options = Array.isArray(field.options) ? field.options : [];
-        answer = options.find((option) => /bachelor|undergraduate|degree/i.test(String(option)))
-            || options[options.length - 1]
-            || null;
+        answer =
+            options.find((option) =>
+                /bachelor|undergraduate|degree/i.test(String(option)),
+            ) ||
+            options[options.length - 1] ||
+            null;
     }
 
     if (!answer) {
@@ -1975,12 +2490,16 @@ async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const result = await sendTabMessage(tabId, {
-            type: 'APPLY_DRAFT_ANSWER',
-            ref: field.ref,
-            label: field.label || field.question,
-            answer: String(answer),
-        }, formFrameId);
+        const result = await sendTabMessage(
+            tabId,
+            {
+                type: 'APPLY_DRAFT_ANSWER',
+                ref: field.ref,
+                label: field.label || field.question,
+                answer: String(answer),
+            },
+            formFrameId,
+        );
 
         return Boolean(result?.success);
     } catch {
@@ -1988,14 +2507,31 @@ async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
     }
 }
 
-async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, session, profileData) {
-    const enrichedDraftResult = await enrichDraftResultWithGaps(tabId, draftResult);
+async function ensureStepFilledOrPaused(
+    tabId,
+    job,
+    modalState,
+    draftResult,
+    session,
+    profileData,
+) {
+    const enrichedDraftResult = await enrichDraftResultWithGaps(
+        tabId,
+        draftResult,
+    );
     let effectiveModalState = modalState || {};
 
-    if (!effectiveModalState.validationErrors?.length && !effectiveModalState?.open) {
+    if (
+        !effectiveModalState.validationErrors?.length &&
+        !effectiveModalState?.open
+    ) {
         try {
             const formFrameId = await findBestFormFrameId(tabId);
-            const validationScan = await scanFormValidationOnTab(tabId, formFrameId, { triggerValidation: false });
+            const validationScan = await scanFormValidationOnTab(
+                tabId,
+                formFrameId,
+                { triggerValidation: false },
+            );
 
             if (validationScan.hasErrors) {
                 effectiveModalState = {
@@ -2016,14 +2552,22 @@ async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, ses
         }
     }
 
-    const blocker = detectUnfilledBlockers(effectiveModalState, enrichedDraftResult, { profileData });
+    const blocker = detectUnfilledBlockers(
+        effectiveModalState,
+        enrichedDraftResult,
+        { profileData },
+    );
 
     if (!blocker.blocked) {
         return { paused: false, session };
     }
 
     if (blocker.field) {
-        const autoFilled = await tryAutoAnswerScreenerField(tabId, blocker.field, profileData);
+        const autoFilled = await tryAutoAnswerScreenerField(
+            tabId,
+            blocker.field,
+            profileData,
+        );
 
         if (autoFilled) {
             await logSession(
@@ -2035,7 +2579,14 @@ async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, ses
         }
     }
 
-    await pauseForUserInput(session, tabId, job, effectiveModalState, blocker, profileData);
+    await pauseForUserInput(
+        session,
+        tabId,
+        job,
+        effectiveModalState,
+        blocker,
+        profileData,
+    );
     const resumedSession = await waitForAutoApplyResume();
 
     if (resumedSession.stopRequested) {
@@ -2045,18 +2596,31 @@ async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, ses
     return { paused: true, session: resumedSession };
 }
 
-async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session, platform = LINKEDIN_PLATFORM_ID) {
+async function runDraftAllForStep(
+    tabId,
+    job,
+    stepLabel,
+    runDraftAll,
+    session,
+    platform = LINKEDIN_PLATFORM_ID,
+) {
     invalidateTabFrameCache(tabId);
-    await sendTabMessage(tabId, { type: 'RELOAD_CONTENT_PROFILE' }, 0).catch(() => {});
+    await sendTabMessage(tabId, { type: 'RELOAD_CONTENT_PROFILE' }, 0).catch(
+        () => {},
+    );
 
     if (platform === LINKEDIN_PLATFORM_ID) {
-        const contactPrefill = await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_CONTACT').catch(() => null);
+        const contactPrefill = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_PREFILL_CONTACT',
+        ).catch(() => null);
         const contactFilled = Number(contactPrefill?.filled || 0);
 
         if (contactFilled > 0) {
             await updateSession((current) => ({
                 ...current,
-                fieldsFilledCount: (current.fieldsFilledCount || 0) + contactFilled,
+                fieldsFilledCount:
+                    (current.fieldsFilledCount || 0) + contactFilled,
             }));
         }
     }
@@ -2108,19 +2672,34 @@ async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session, p
     });
 
     if (draftResult?.error) {
-        await logSession('warn', `[draft] ${job.title}${stepLabel ? ` (${stepLabel})` : ''}: ${draftResult.error}`);
+        await logSession(
+            'warn',
+            `[draft] ${job.title}${stepLabel ? ` (${stepLabel})` : ''}: ${draftResult.error}`,
+        );
 
-        logWarn('background', 'auto-apply.draft', 'Draft All on Easy Apply step failed', {
-            error: draftResult.error,
-            jobId: job.jobId,
-            stepLabel,
-        }, tabId);
+        logWarn(
+            'background',
+            'auto-apply.draft',
+            'Draft All on Easy Apply step failed',
+            {
+                error: draftResult.error,
+                jobId: job.jobId,
+                stepLabel,
+            },
+            tabId,
+        );
     }
 
     return draftResult;
 }
 
-async function processLinkedInJob(tabId, job, runDraftAll, session, profileData = null) {
+async function processLinkedInJob(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
@@ -2147,13 +2726,18 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     }
 
-    const detailReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const detailReady = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!detailReady?.success) {
-        await logSession('warn', `Job detail slow to load for ${job.title} - continuing fit check.`);
+        await logSession(
+            'warn',
+            `Job detail slow to load for ${job.title} - continuing fit check.`,
+        );
     }
-
-    await captureJobPage(tabId);
 
     const fitSession = await loadAutoApplySession();
 
@@ -2164,13 +2748,22 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     const fitResult = await evaluateJobFit(tabId, job, fitSession || session);
 
     if (!fitResult.proceed) {
-        return { outcome: 'skipped', reason: fitResult.reason || 'low_fit_score', tabId, atsScore: fitResult.score };
+        return {
+            outcome: 'skipped',
+            reason: fitResult.reason || 'low_fit_score',
+            tabId,
+            atsScore: fitResult.score,
+        };
     }
 
     const preApplyHealth = await scanLinkedInTabHealth(tabId);
 
     if (!preApplyHealth.ok) {
-        throw new Error(formatLinkedInIssue(preApplyHealth.primary || preApplyHealth.blocking[0]));
+        throw new Error(
+            formatLinkedInIssue(
+                preApplyHealth.primary || preApplyHealth.blocking[0],
+            ),
+        );
     }
 
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
@@ -2180,7 +2773,10 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
     await wakeAutoApplyTab(tabId).catch(() => {});
 
-    const applyResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY');
+    const applyResponse = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_OPEN_EASY_APPLY',
+    );
 
     if (applyResponse?.alreadyApplied) {
         await acceptLinkedInCookieConsent(tabId).catch(() => {});
@@ -2220,15 +2816,27 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
     await wakeAutoApplyTab(tabId).catch(() => {});
 
-    let postOpenReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 25_000 }).catch(() => null);
+    let postOpenReady = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_WAIT_FOR_STEP_READY',
+        { timeoutMs: 25_000 },
+    ).catch(() => null);
 
     if (!postOpenReady?.ready) {
-        await logSession('warn', `[linkedin_load] ${job.title}: Easy Apply form slow to load - reloading job page.`);
+        await logSession(
+            'warn',
+            `[linkedin_load] ${job.title}: Easy Apply form slow to load - reloading job page.`,
+        );
 
-        await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY', { force: true }, {
-            maxAttempts: 1,
-            timeoutMs: 12_000,
-        }).catch(() => null);
+        await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_CLOSE_EASY_APPLY',
+            { force: true },
+            {
+                maxAttempts: 1,
+                timeoutMs: 12_000,
+            },
+        ).catch(() => null);
 
         try {
             await chrome.tabs.reload(tabId);
@@ -2240,9 +2848,16 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         }
 
         await wakeAutoApplyTab(tabId).catch(() => {});
-        await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => null);
+        await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', {
+            jobId: job.jobId,
+        }).catch(() => null);
 
-        const reopen = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY', {}, { timeoutMs: 25_000 }).catch(() => null);
+        const reopen = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_OPEN_EASY_APPLY',
+            {},
+            { timeoutMs: 25_000 },
+        ).catch(() => null);
 
         if (!reopen?.success) {
             await recordAnalyticsEvent(session, 'skipped', job, {
@@ -2252,12 +2867,19 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             return {
                 outcome: 'skipped',
                 reason: 'apply_step_unavailable',
-                detail: reopen?.error || postOpenReady?.error || 'Easy Apply form never loaded.',
+                detail:
+                    reopen?.error ||
+                    postOpenReady?.error ||
+                    'Easy Apply form never loaded.',
                 tabId,
             };
         }
 
-        postOpenReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 25_000 }).catch(() => null);
+        postOpenReady = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_WAIT_FOR_STEP_READY',
+            { timeoutMs: 25_000 },
+        ).catch(() => null);
 
         if (!postOpenReady?.ready) {
             await recordAnalyticsEvent(session, 'skipped', job, {
@@ -2267,7 +2889,9 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             return {
                 outcome: 'skipped',
                 reason: 'apply_step_unavailable',
-                detail: postOpenReady?.error || 'Easy Apply form never loaded after reload.',
+                detail:
+                    postOpenReady?.error ||
+                    'Easy Apply form never loaded after reload.',
                 tabId,
             };
         }
@@ -2290,12 +2914,17 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         }
 
         if (!modalState?.open) {
-            const closedVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+            const closedVerify = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_VERIFY_SUBMITTED',
+            );
 
             if (closedVerify?.submitted) {
                 submitted = true;
             } else {
-                const recheck = await readLinkedInModalState(tabId, { retries: 3 });
+                const recheck = await readLinkedInModalState(tabId, {
+                    retries: 3,
+                });
 
                 if (recheck?.submitted) {
                     submitted = true;
@@ -2315,7 +2944,11 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
         await wakeAutoApplyTab(tabId).catch(() => {});
 
-        const stepReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 8_000 }).catch(() => null);
+        const stepReady = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_WAIT_FOR_STEP_READY',
+            { timeoutMs: 8_000 },
+        ).catch(() => null);
 
         if (stepReady && stepReady.ready === false) {
             stepLoadAttempts += 1;
@@ -2326,12 +2959,20 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             );
 
             if (stepLoadAttempts >= 1) {
-                await logSession('warn', `[linkedin_load] ${job.title}: resetting stuck Easy Apply modal.`);
+                await logSession(
+                    'warn',
+                    `[linkedin_load] ${job.title}: resetting stuck Easy Apply modal.`,
+                );
 
-                await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY', { force: true }, {
-                    maxAttempts: 1,
-                    timeoutMs: 12_000,
-                }).catch(() => null);
+                await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_CLOSE_EASY_APPLY',
+                    { force: true },
+                    {
+                        maxAttempts: 1,
+                        timeoutMs: 12_000,
+                    },
+                ).catch(() => null);
                 await sleep(randomDelay(600, 900));
                 await wakeAutoApplyTab(tabId).catch(() => {});
 
@@ -2339,17 +2980,28 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForTabContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550),
+                    );
                 } catch {
                     // Continue to reopen attempt below.
                 }
 
                 await wakeAutoApplyTab(tabId).catch(() => {});
-                await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => null);
+                await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_WAIT_FOR_JOB_DETAIL',
+                    { jobId: job.jobId },
+                ).catch(() => null);
 
-                const reopen = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY', {}, {
-                    timeoutMs: 25_000,
-                }).catch(() => null);
+                const reopen = await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_OPEN_EASY_APPLY',
+                    {},
+                    {
+                        timeoutMs: 25_000,
+                    },
+                ).catch(() => null);
 
                 if (!reopen?.success) {
                     await recordAnalyticsEvent(session, 'skipped', job, {
@@ -2359,14 +3011,19 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                     return {
                         outcome: 'skipped',
                         reason: 'apply_step_unavailable',
-                        detail: reopen?.error || stepReady.error || 'Easy Apply form never loaded.',
+                        detail:
+                            reopen?.error ||
+                            stepReady.error ||
+                            'Easy Apply form never loaded.',
                         tabId,
                     };
                 }
 
                 stepLoadAttempts = 0;
                 lastStepFingerprint = null;
-                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
+                await sleep(
+                    randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
+                );
 
                 continue;
             }
@@ -2387,26 +3044,41 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}`
-            + (isReviewStep ? ' (review)' : ''),
+            `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}` +
+                (isReviewStep ? ' (review)' : ''),
         );
 
         if (isReviewStep) {
-            await logSession('info', `[review] ${job.title}: reached review step.`);
+            await logSession(
+                'info',
+                `[review] ${job.title}: reached review step.`,
+            );
         }
 
         let draftResult = { fieldsFilled: 0, pendingFields: [] };
 
         if (isReviewStep || isResumeStep) {
-            await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_EASY_APPLY').catch(() => null);
+            await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_PREFILL_EASY_APPLY',
+            ).catch(() => null);
             await sleep(randomDelay(500, 400));
         } else {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
-            draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session, LINKEDIN_PLATFORM_ID);
+            draftResult = await runDraftAllForStep(
+                tabId,
+                job,
+                modalState.stepLabel,
+                runDraftAll,
+                session,
+                LINKEDIN_PLATFORM_ID,
+            );
         }
 
-        const postDraftModalState = await readLinkedInModalState(tabId, { retries: 3 });
+        const postDraftModalState = await readLinkedInModalState(tabId, {
+            retries: 3,
+        });
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -2436,15 +3108,24 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         if (advanceResponse?.action === 'submit' || isReviewStep) {
             await logSession(
                 'info',
-                `[submit] ${job.title}: clicked ${advanceResponse?.actionLabel || advanceResponse?.action || 'Submit'}`
-                + `${advanceResponse?.submitted ? ' - confirmed' : ' - waiting for confirmation'}.`,
+                `[submit] ${job.title}: clicked ${advanceResponse?.actionLabel || advanceResponse?.action || 'Submit'}` +
+                    `${advanceResponse?.submitted ? ' - confirmed' : ' - waiting for confirmation'}.`,
             );
 
             if (!advanceResponse?.submitted) {
-                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, LINKEDIN_PLATFORM_ID, session);
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        LINKEDIN_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -2464,7 +3145,10 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         }
 
         if (advanceResponse?.confirmation) {
-            const postAdvanceVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+            const postAdvanceVerify = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_VERIFY_SUBMITTED',
+            );
 
             if (postAdvanceVerify?.submitted) {
                 submitted = true;
@@ -2473,12 +3157,16 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             }
         }
 
-        if (advanceResponse?.action === 'blocked' || (
-            (advanceResponse?.validationErrors?.length || 0) > 0
-            && !advanceResponse?.transitioned
-            && !advanceResponse?.submitted
-        )) {
-            const postAdvanceModalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+        if (
+            advanceResponse?.action === 'blocked' ||
+            ((advanceResponse?.validationErrors?.length || 0) > 0 &&
+                !advanceResponse?.transitioned &&
+                !advanceResponse?.submitted)
+        ) {
+            const postAdvanceModalState = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_EASY_APPLY_STATE',
+            );
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
@@ -2498,20 +3186,30 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                 continue;
             }
 
-            throw new Error(advanceResponse.error || 'Easy Apply action blocked by validation.');
+            throw new Error(
+                advanceResponse.error ||
+                    'Easy Apply action blocked by validation.',
+            );
         }
 
         if (!advanceResponse?.success) {
-            throw new Error(advanceResponse?.error || 'Could not advance Easy Apply modal.');
+            throw new Error(
+                advanceResponse?.error || 'Could not advance Easy Apply modal.',
+            );
         }
 
-        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+        if (
+            advanceResponse?.transitioned &&
+            advanceResponse?.stepFingerprint &&
+            advanceResponse.stepFingerprint !== lastStepFingerprint
+        ) {
             sameStepCount = 0;
             lastStepFingerprint = advanceResponse.stepFingerprint;
 
             await recordAnalyticsEvent(session, 'step_advanced', job, {
                 metadata: {
-                    step_label: modalState.stepLabel || modalState.actionLabel || null,
+                    step_label:
+                        modalState.stepLabel || modalState.actionLabel || null,
                 },
             });
 
@@ -2528,11 +3226,16 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                 `[advance] ${job.title}: clicked ${advanceResponse?.action || 'next'} without step transition.`,
             );
 
-            const postAdvanceFingerprint = advanceResponse?.stepFingerprint
-                || (await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE'))?.stepFingerprint
-                || lastStepFingerprint;
+            const postAdvanceFingerprint =
+                advanceResponse?.stepFingerprint ||
+                (await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE'))
+                    ?.stepFingerprint ||
+                lastStepFingerprint;
 
-            if (postAdvanceFingerprint && postAdvanceFingerprint === lastStepFingerprint) {
+            if (
+                postAdvanceFingerprint &&
+                postAdvanceFingerprint === lastStepFingerprint
+            ) {
                 sameStepCount += 1;
             } else {
                 sameStepCount = 0;
@@ -2540,26 +3243,37 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             }
 
             if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
-                const debugExport = await sendLinkedInMessage(tabId, 'LINKEDIN_EXPORT_EASY_APPLY_MODAL').catch(() => null);
-                const debugFingerprint = debugExport?.diagnostics?.stepFingerprint || postAdvanceFingerprint || 'unknown';
+                const debugExport = await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_EXPORT_EASY_APPLY_MODAL',
+                ).catch(() => null);
+                const debugFingerprint =
+                    debugExport?.diagnostics?.stepFingerprint ||
+                    postAdvanceFingerprint ||
+                    'unknown';
                 const debugHtmlLength = debugExport?.html?.length || 0;
 
                 await logSession(
                     'warn',
-                    `[stuck_debug] ${job.title} fingerprint=${debugFingerprint} html_bytes=${debugHtmlLength} `
-                    + `errors=${(debugExport?.diagnostics?.errors || advanceResponse?.validationErrors || []).slice(0, 2).join('; ') || 'none'}`,
+                    `[stuck_debug] ${job.title} fingerprint=${debugFingerprint} html_bytes=${debugHtmlLength} ` +
+                        `errors=${(debugExport?.diagnostics?.errors || advanceResponse?.validationErrors || []).slice(0, 2).join('; ') || 'none'}`,
                 );
 
                 throw new Error(
-                    `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" `
-                    + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                    + (advanceResponse?.validationErrors?.[0] || modalState.actionLabel || 'No progress after repeated attempts.'),
+                    `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" ` +
+                        `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
+                        (advanceResponse?.validationErrors?.[0] ||
+                            modalState.actionLabel ||
+                            'No progress after repeated attempts.'),
                 );
             }
         }
 
         if (advanceResponse?.closed) {
-            const closedVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+            const closedVerify = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_VERIFY_SUBMITTED',
+            );
             submitted = Boolean(closedVerify?.submitted);
             break;
         }
@@ -2568,7 +3282,10 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     }
 
     if (!submitted) {
-        const verifyResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+        const verifyResponse = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_VERIFY_SUBMITTED',
+        );
         submitted = Boolean(verifyResponse?.submitted);
     }
 
@@ -2595,7 +3312,11 @@ async function waitForIndeedContentScript(tabId, timeoutMs = 45_000) {
 
             return;
         } catch (error) {
-            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+            if (
+                !isExtensionMessagingError(
+                    error instanceof Error ? error.message : String(error),
+                )
+            ) {
                 throw error;
             }
 
@@ -2611,11 +3332,19 @@ async function waitForTotalJobsContentScript(tabId, timeoutMs = 45_000) {
 
     while (Date.now() < deadline) {
         try {
-            await sendTabMessage(tabId, { type: 'TOTALJOBS_SCAN_PAGE_HEALTH' }, 0);
+            await sendTabMessage(
+                tabId,
+                { type: 'TOTALJOBS_SCAN_PAGE_HEALTH' },
+                0,
+            );
 
             return;
         } catch (error) {
-            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+            if (
+                !isExtensionMessagingError(
+                    error instanceof Error ? error.message : String(error),
+                )
+            ) {
                 throw error;
             }
 
@@ -2630,7 +3359,9 @@ async function waitForReedApplyFlowOpen(tabId, timeoutMs = 30_000) {
     const deadline = Date.now() + timeoutMs;
 
     while (Date.now() < deadline) {
-        const state = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+        const state = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(
+            () => null,
+        );
 
         if (state?.open) {
             return true;
@@ -2655,7 +3386,11 @@ async function waitForReedContentScript(tabId, timeoutMs = 45_000) {
 
             return;
         } catch (error) {
-            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+            if (
+                !isExtensionMessagingError(
+                    error instanceof Error ? error.message : String(error),
+                )
+            ) {
                 throw error;
             }
 
@@ -2671,11 +3406,19 @@ async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
 
     while (Date.now() < deadline) {
         try {
-            await sendTabMessage(tabId, { type: 'GLASSDOOR_SCAN_PAGE_HEALTH' }, 0);
+            await sendTabMessage(
+                tabId,
+                { type: 'GLASSDOOR_SCAN_PAGE_HEALTH' },
+                0,
+            );
 
             return;
         } catch (error) {
-            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+            if (
+                !isExtensionMessagingError(
+                    error instanceof Error ? error.message : String(error),
+                )
+            ) {
                 throw error;
             }
 
@@ -2688,10 +3431,16 @@ async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
 
 async function ensureIndeedTab(session) {
     if (session.platform !== INDEED_PLATFORM_ID) {
-        throw new Error(`Auto Apply expected Indeed but session platform is ${session.platform}.`);
+        throw new Error(
+            `Auto Apply expected Indeed but session platform is ${session.platform}.`,
+        );
     }
 
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     if (session.tabId) {
         try {
@@ -2700,14 +3449,28 @@ async function ensureIndeedTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!urlBelongsToPlatform(currentUrl, INDEED_PLATFORM_ID)
-                    || !isIndeedJobsSearchUrl(currentUrl)
-                    || !urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
-                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                if (
+                    !urlBelongsToPlatform(currentUrl, INDEED_PLATFORM_ID) ||
+                    !isIndeedJobsSearchUrl(currentUrl) ||
+                    !urlsMatchIndeedSearch(
+                        currentUrl,
+                        searchUrl,
+                        session.filters,
+                    )
+                ) {
+                    const tabId = await openUrlInAutoApplyWindow(
+                        searchUrl,
+                        tab.id,
+                    );
                     await waitForTabLoadComplete(tabId);
                     await waitForIndeedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
+                    );
+                    await sendIndeedMessage(
+                        tabId,
+                        'INDEED_ACCEPT_COOKIE_CONSENT',
+                    ).catch(() => {});
 
                     return tabId;
                 }
@@ -2722,7 +3485,10 @@ async function ensureIndeedTab(session) {
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
     if (!hadWindow && session.usesDedicatedWindow !== false) {
-        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
+        await logSession(
+            'info',
+            'Running Auto Apply in a background window so you can keep browsing.',
+        );
     }
 
     await logSession('info', `Indeed search: ${searchUrl}`);
@@ -2731,7 +3497,9 @@ async function ensureIndeedTab(session) {
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
     return tabId;
 }
@@ -2741,9 +3509,14 @@ async function collectIndeedJobsFromTab(tabId) {
     let lastError = 'Could not read Indeed job cards.';
 
     while (Date.now() < deadline) {
-        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
 
-        const response = await sendIndeedMessage(tabId, 'INDEED_COLLECT_JOB_CARDS');
+        const response = await sendIndeedMessage(
+            tabId,
+            'INDEED_COLLECT_JOB_CARDS',
+        );
 
         if (!response?.success) {
             lastError = response?.error || lastError;
@@ -2771,27 +3544,30 @@ async function appendUniqueIndeedJobs(tabId, session) {
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
-    const freshJobs = jobs.filter((job) => (
-        !existingIds.has(job.jobId)
-        && !batchSeen.has(job.jobId)
-        && job.indeedApply !== false
-        && !job.alreadyApplied
-        && job.title !== 'Unknown role'
-        && (batchSeen.add(job.jobId), true)
-    ));
+    const freshJobs = jobs.filter(
+        (job) =>
+            !existingIds.has(job.jobId) &&
+            !batchSeen.has(job.jobId) &&
+            job.indeedApply !== false &&
+            !job.alreadyApplied &&
+            job.title !== 'Unknown role' &&
+            (batchSeen.add(job.jobId), true),
+    );
 
     if (freshJobs.length === 0) {
         return session;
     }
 
-    return updateSession((current) => ({
-        ...current,
-        queue: [...current.queue, ...freshJobs],
-        stats: {
-            ...current.stats,
-            found: current.stats.found + freshJobs.length,
-        },
-    })) || session;
+    return (
+        updateSession((current) => ({
+            ...current,
+            queue: [...current.queue, ...freshJobs],
+            stats: {
+                ...current.stats,
+                found: current.stats.found + freshJobs.length,
+            },
+        })) || session
+    );
 }
 
 async function openIndeedJob(tabId, job, session) {
@@ -2807,7 +3583,9 @@ async function openIndeedJobInner(tabId, job, session) {
     let selectResponse = null;
 
     for (let attempt = 0; attempt < 2; attempt += 1) {
-        selectResponse = await sendIndeedMessage(tabId, 'INDEED_SELECT_JOB', { jobId: job.jobId });
+        selectResponse = await sendIndeedMessage(tabId, 'INDEED_SELECT_JOB', {
+            jobId: job.jobId,
+        });
 
         if (selectResponse?.success) {
             return { success: true, jobId: job.jobId, tabId };
@@ -2826,7 +3604,9 @@ async function openIndeedJobInner(tabId, job, session) {
             break;
         }
 
-        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
         await sleep(randomDelay(750, 500));
     }
 
@@ -2847,24 +3627,43 @@ async function openIndeedJobInner(tabId, job, session) {
         return {
             success: false,
             tabId,
-            skipReason: selectResponse?.jobUnavailable ? 'job_unavailable' : 'job_open_failed',
-            error: selectResponse?.error || 'Could not open Indeed job listing.',
+            skipReason: selectResponse?.jobUnavailable
+                ? 'job_unavailable'
+                : 'job_open_failed',
+            error:
+                selectResponse?.error || 'Could not open Indeed job listing.',
         };
     }
 
-    await logSession('info', `Opening ${job.title} directly (job card not visible in search list).`);
+    await logSession(
+        'info',
+        `Opening ${job.title} directly (job card not visible in search list).`,
+    );
 
-    const jobUrl = buildIndeedJobOpenUrl(job.jobId);
+    const jobUrl =
+        job.url ||
+        buildIndeedJobOpenUrl(job.jobId, {
+            filters: session.filters,
+            location: session.filters?.location,
+        });
 
     tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
-    await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
-    const readyResponse = await sendIndeedMessage(tabId, 'INDEED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const readyResponse = await sendIndeedMessage(
+        tabId,
+        'INDEED_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!readyResponse?.success) {
         return {
@@ -2873,7 +3672,10 @@ async function openIndeedJobInner(tabId, job, session) {
             skipReason: readyResponse?.noIndeedApply
                 ? 'no_indeed_apply'
                 : 'job_unavailable',
-            error: readyResponse?.error || selectResponse?.error || 'Could not open Indeed job listing.',
+            error:
+                readyResponse?.error ||
+                selectResponse?.error ||
+                'Could not open Indeed job listing.',
         };
     }
 
@@ -2900,9 +3702,17 @@ async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
     }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-        const jobUrl = buildIndeedJobOpenUrl(job.jobId);
+        const jobUrl =
+            job.url ||
+            buildIndeedJobOpenUrl(job.jobId, {
+                filters: session.filters,
+                location: session.filters?.location,
+            });
 
-        await logSession('info', `Opening full Indeed job page to read description for ${job.title}.`);
+        await logSession(
+            'info',
+            `Opening full Indeed job page to read description for ${job.title}.`,
+        );
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
@@ -2937,21 +3747,35 @@ async function evaluateIndeedJobFit(tabId, job, session) {
             'warn',
             `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'short_job_description' },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: { reason: 'short_job_description' },
+            },
+            tabId,
+        );
 
         return { proceed: false, reason: 'short_job_description', score: null };
     }
 
-    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+    const scoreResult = await requestAutoApplyAtsScore(
+        description,
+        session.roleDescription,
+    );
 
     if (!scoreResult.ok) {
         if (scoreResult.insufficientCredits) {
-            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+            throw new Error(
+                `${scoreResult.error} Auto Apply paused - top up credits and start a new run.`,
+            );
         }
 
-        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+        await logSession(
+            'warn',
+            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+        );
 
         return { proceed: false, reason: 'fit_score_failed', score: null };
     }
@@ -2975,110 +3799,156 @@ async function evaluateIndeedJobFit(tabId, job, session) {
 
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+            formatAutoApplyFitLogMessage(
+                job.title,
+                job.company,
+                scoreResult.score,
+                session.minFitScore,
+                false,
+                fitReason,
+            ),
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'low_fit_score',
+                    score: scoreResult.score,
+                    min_fit_score: session.minFitScore,
+                },
+            },
+            tabId,
+        );
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+        return {
+            proceed: false,
+            reason: 'low_fit_score',
+            score: scoreResult.score,
+            fitReason,
+        };
     }
 
     await logSession(
         'info',
-        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+        formatAutoApplyFitLogMessage(
+            job.title,
+            job.company,
+            scoreResult.score,
+            session.minFitScore,
+            true,
+        ),
     );
 
     return { proceed: true, score: scoreResult.score };
 }
 
-async function processIndeedJob(tabId, job, runDraftAll, session, profileData = null) {
-    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+async function processIndeedJob(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
-        if (job.title === 'Unknown role' || job.company === 'Unknown company') {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'unknown_job_metadata' },
-            });
+    if (job.title === 'Unknown role' || job.company === 'Unknown company') {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'unknown_job_metadata' },
+        });
 
-            return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
-        }
+        return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
+    }
 
-        await logSession('info', `Opening ${job.title} at ${job.company}`);
-        await recordAnalyticsEvent(session, 'job_opened', job);
+    await logSession('info', `Opening ${job.title} at ${job.company}`);
+    await recordAnalyticsEvent(session, 'job_opened', job);
 
-        const openResult = await openIndeedJob(tabId, job, session);
-        tabId = openResult.tabId || tabId;
+    const openResult = await openIndeedJob(tabId, job, session);
+    tabId = openResult.tabId || tabId;
 
-        if (!openResult.success) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: openResult.skipReason || 'job_unavailable' },
-            });
+    if (!openResult.success) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: openResult.skipReason || 'job_unavailable' },
+        });
 
-            return {
-                outcome: 'skipped',
-                reason: openResult.skipReason || 'job_unavailable',
-                detail: openResult.error || '',
-                tabId,
-            };
-        }
+        return {
+            outcome: 'skipped',
+            reason: openResult.skipReason || 'job_unavailable',
+            detail: openResult.error || '',
+            tabId,
+        };
+    }
 
-        if (!openResult.navigated) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
-        }
+    if (!openResult.navigated) {
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
+    }
 
-        await captureJobPage(tabId);
+    const fitSession = await loadAutoApplySession();
+    const fitResult = await evaluateIndeedJobFit(
+        tabId,
+        job,
+        fitSession || session,
+    );
 
-        const fitSession = await loadAutoApplySession();
-        const fitResult = await evaluateIndeedJobFit(tabId, job, fitSession || session);
+    if (!fitResult.proceed) {
+        return {
+            outcome: 'skipped',
+            reason: fitResult.reason || 'low_fit_score',
+            tabId,
+            atsScore: fitResult.score,
+            fitReason: fitResult.fitReason || '',
+        };
+    }
 
-        if (!fitResult.proceed) {
-            return {
-                outcome: 'skipped',
-                reason: fitResult.reason || 'low_fit_score',
-                tabId,
-                atsScore: fitResult.score,
-                fitReason: fitResult.fitReason || '',
-            };
-        }
+    const health = await sendIndeedMessage(tabId, 'INDEED_SCAN_PAGE_HEALTH');
 
-        const health = await sendIndeedMessage(tabId, 'INDEED_SCAN_PAGE_HEALTH');
+    if (health && health.ok === false) {
+        throw new Error(
+            health.primary?.message ||
+                health.blocking?.[0]?.message ||
+                'Indeed page blocked.',
+        );
+    }
 
-        if (health && health.ok === false) {
-            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Indeed page blocked.');
-        }
+    await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
 
-        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
 
-        const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
+    if (applyResponse?.easyApply === false) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_indeed_apply' },
+        });
 
-        if (applyResponse?.easyApply === false) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'no_indeed_apply' },
-            });
+        return { outcome: 'skipped', reason: 'no_indeed_apply', tabId };
+    }
 
-            return { outcome: 'skipped', reason: 'no_indeed_apply', tabId };
-        }
+    if (!applyResponse?.success) {
+        const skipReason =
+            applyResponse?.easyApply === false
+                ? 'no_indeed_apply'
+                : 'no_indeed_apply';
 
-        if (!applyResponse?.success) {
-            const skipReason = applyResponse?.easyApply === false ? 'no_indeed_apply' : 'no_indeed_apply';
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: skipReason },
+        });
 
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: skipReason },
-            });
+        return {
+            outcome: 'skipped',
+            reason: skipReason,
+            detail: applyResponse?.error || '',
+            tabId,
+        };
+    }
 
-            return {
-                outcome: 'skipped',
-                reason: skipReason,
-                detail: applyResponse?.error || '',
-                tabId,
-            };
-        }
-
-        await waitForTabLoadComplete(tabId);
-        await waitForIndeedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-        invalidateTabFrameCache(tabId);
-        await captureJobPage(tabId, { force: true });
+    await waitForTabLoadComplete(tabId);
+    await waitForIndeedContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
+    invalidateTabFrameCache(tabId);
 
     let submitted = false;
     let guard = 0;
@@ -3096,7 +3966,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
         }
 
         if (!applyState?.open) {
-            const closedVerify = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+            const closedVerify = await sendIndeedMessage(
+                tabId,
+                'INDEED_VERIFY_SUBMITTED',
+            );
 
             if (closedVerify?.submitted) {
                 submitted = true;
@@ -3105,7 +3978,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             break;
         }
 
-        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+        if (
+            applyState.stepFingerprint &&
+            applyState.stepFingerprint === lastStepFingerprint
+        ) {
             sameStepCount += 1;
         } else {
             sameStepCount = 0;
@@ -3114,20 +3990,25 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
 
         if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
             throw new Error(
-                `Stuck on Indeed Apply step "${applyState.stepLabel || 'unknown'}" `
-                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+                `Stuck on Indeed Apply step "${applyState.stepLabel || 'unknown'}" ` +
+                    `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
+                    (applyState.validationErrors?.[0] ||
+                        applyState.actionLabel ||
+                        'No progress after repeated attempts.'),
             );
         }
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Indeed Apply'}`
-            + (applyState.isReviewStep ? ' (review)' : ''),
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Indeed Apply'}` +
+                (applyState.isReviewStep ? ' (review)' : ''),
         );
 
         if (applyState.isReviewStep) {
-            await logSession('info', `[review] ${job.title}: reached review step.`);
+            await logSession(
+                'info',
+                `[review] ${job.title}: reached review step.`,
+            );
         }
 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
@@ -3140,7 +4021,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             session,
             INDEED_PLATFORM_ID,
         );
-        const postDraftState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+        const postDraftState = await sendIndeedMessage(
+            tabId,
+            'INDEED_APPLY_STATE',
+        );
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -3156,7 +4040,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendIndeedMessage(tabId, 'INDEED_FILL_AND_ADVANCE');
+        const advanceResponse = await sendIndeedMessage(
+            tabId,
+            'INDEED_FILL_AND_ADVANCE',
+        );
 
         if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
@@ -3165,10 +4052,19 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             );
 
             if (!advanceResponse?.submitted) {
-                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, INDEED_PLATFORM_ID, session);
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        INDEED_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -3177,7 +4073,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
                 }
             }
         } else if (advanceResponse?.action === 'continue') {
-            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+            await logSession(
+                'info',
+                `[advance] ${job.title}: continued to next step.`,
+            );
         }
 
         if (advanceResponse?.validationErrors?.length) {
@@ -3197,18 +4096,31 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
                 'warn',
                 `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
             );
-            await pauseForCaptchaReview(session, tabId, job, postAdvanceState || applyState);
-            const captchaResume = await waitForAutoApplyResumeWithTimeout(120_000);
+            await pauseForCaptchaReview(
+                session,
+                tabId,
+                job,
+                postAdvanceState || applyState,
+            );
+            const captchaResume =
+                await waitForAutoApplyResumeWithTimeout(120_000);
 
             if (captchaResume.stopRequested) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
 
             if (captchaResume.status === 'paused_for_input') {
-                await logSession('warn', `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`);
+                await logSession(
+                    'warn',
+                    `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                );
                 await resumeAutoApplyFromPauseSilently();
 
-                return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                return {
+                    outcome: 'skipped',
+                    reason: 'captcha_required',
+                    tabId,
+                };
             }
 
             session = captchaResume;
@@ -3216,12 +4128,16 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             continue;
         }
 
-        if (advanceResponse?.action === 'blocked' || (
-            (advanceResponse?.validationErrors?.length || 0) > 0
-            && !advanceResponse?.transitioned
-            && !advanceResponse?.submitted
-        )) {
-            const postAdvanceState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+        if (
+            advanceResponse?.action === 'blocked' ||
+            ((advanceResponse?.validationErrors?.length || 0) > 0 &&
+                !advanceResponse?.transitioned &&
+                !advanceResponse?.submitted)
+        ) {
+            const postAdvanceState = await sendIndeedMessage(
+                tabId,
+                'INDEED_APPLY_STATE',
+            );
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
@@ -3241,20 +4157,31 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
                 continue;
             }
 
-            throw new Error(advanceResponse.error || 'Indeed Apply action blocked by validation.');
+            throw new Error(
+                advanceResponse.error ||
+                    'Indeed Apply action blocked by validation.',
+            );
         }
 
         if (!advanceResponse?.success) {
-            throw new Error(advanceResponse?.error || 'Could not advance Indeed Apply step.');
+            throw new Error(
+                advanceResponse?.error ||
+                    'Could not advance Indeed Apply step.',
+            );
         }
 
-        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+        if (
+            advanceResponse?.transitioned &&
+            advanceResponse?.stepFingerprint &&
+            advanceResponse.stepFingerprint !== lastStepFingerprint
+        ) {
             sameStepCount = 0;
             lastStepFingerprint = advanceResponse.stepFingerprint;
 
             await recordAnalyticsEvent(session, 'step_advanced', job, {
                 metadata: {
-                    step_label: applyState.stepLabel || applyState.actionLabel || null,
+                    step_label:
+                        applyState.stepLabel || applyState.actionLabel || null,
                 },
             });
 
@@ -3271,7 +4198,10 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
     }
 
     if (!submitted) {
-        const verifyResponse = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+        const verifyResponse = await sendIndeedMessage(
+            tabId,
+            'INDEED_VERIFY_SUBMITTED',
+        );
         submitted = Boolean(verifyResponse?.submitted);
     }
 
@@ -3286,7 +4216,11 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
 }
 
 async function ensureTotalJobsTab(session) {
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     if (session.tabId) {
         try {
@@ -3295,12 +4229,27 @@ async function ensureTotalJobsTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!isTotalJobsJobsSearchUrl(currentUrl) || !urlsMatchTotalJobsSearch(currentUrl, searchUrl, session.filters)) {
-                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                if (
+                    !isTotalJobsJobsSearchUrl(currentUrl) ||
+                    !urlsMatchTotalJobsSearch(
+                        currentUrl,
+                        searchUrl,
+                        session.filters,
+                    )
+                ) {
+                    const tabId = await openUrlInAutoApplyWindow(
+                        searchUrl,
+                        tab.id,
+                    );
                     await waitForTabLoadComplete(tabId);
                     await waitForTotalJobsContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
+                    );
+                    await sendTotalJobsMessage(
+                        tabId,
+                        'TOTALJOBS_ACCEPT_COOKIE_CONSENT',
+                    ).catch(() => {});
 
                     return tabId;
                 }
@@ -3315,7 +4264,10 @@ async function ensureTotalJobsTab(session) {
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
     if (!hadWindow && session.usesDedicatedWindow !== false) {
-        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
+        await logSession(
+            'info',
+            'Running Auto Apply in a background window so you can keep browsing.',
+        );
     }
 
     await logSession('info', `Totaljobs search: ${searchUrl}`);
@@ -3324,7 +4276,9 @@ async function ensureTotalJobsTab(session) {
     await waitForTabLoadComplete(tabId);
     await waitForTotalJobsContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
     return tabId;
 }
@@ -3334,9 +4288,14 @@ async function collectTotalJobsJobsFromTab(tabId) {
     let lastError = 'Could not read Totaljobs job cards.';
 
     while (Date.now() < deadline) {
-        await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(
+            () => {},
+        );
 
-        const response = await sendTotalJobsMessage(tabId, 'TOTALJOBS_COLLECT_JOB_CARDS');
+        const response = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_COLLECT_JOB_CARDS',
+        );
 
         if (!response?.success) {
             lastError = response?.error || lastError;
@@ -3364,41 +4323,54 @@ async function appendUniqueTotalJobsJobs(tabId, session) {
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
-    const freshJobs = jobs.filter((job) => (
-        !existingIds.has(job.jobId)
-        && !batchSeen.has(job.jobId)
-        && job.totaljobsApply !== false
-        && !job.alreadyApplied
-        && job.title !== 'Unknown role'
-        && (batchSeen.add(job.jobId), true)
-    ));
+    const freshJobs = jobs.filter(
+        (job) =>
+            !existingIds.has(job.jobId) &&
+            !batchSeen.has(job.jobId) &&
+            job.totaljobsApply !== false &&
+            !job.alreadyApplied &&
+            job.title !== 'Unknown role' &&
+            (batchSeen.add(job.jobId), true),
+    );
 
     if (freshJobs.length === 0) {
         return session;
     }
 
-    return updateSession((current) => ({
-        ...current,
-        queue: [...current.queue, ...freshJobs],
-        stats: {
-            ...current.stats,
-            found: current.stats.found + freshJobs.length,
-        },
-    })) || session;
+    return (
+        updateSession((current) => ({
+            ...current,
+            queue: [...current.queue, ...freshJobs],
+            stats: {
+                ...current.stats,
+                found: current.stats.found + freshJobs.length,
+            },
+        })) || session
+    );
 }
 
 async function openTotalJobsJobInner(tabId, job, _session) {
-    const jobUrl = buildTotalJobsJobOpenUrl(job.jobId, { path: job.path || job.url });
+    const jobUrl = buildTotalJobsJobOpenUrl(job.jobId, {
+        path: job.path || job.url,
+    });
 
     tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
     await waitForTotalJobsContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
-    await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
+    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
-    const readyResponse = await sendTotalJobsMessage(tabId, 'TOTALJOBS_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const readyResponse = await sendTotalJobsMessage(
+        tabId,
+        'TOTALJOBS_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!readyResponse?.success) {
         return {
@@ -3407,7 +4379,8 @@ async function openTotalJobsJobInner(tabId, job, _session) {
             skipReason: readyResponse?.noTotalJobsApply
                 ? 'no_totaljobs_apply'
                 : 'job_unavailable',
-            error: readyResponse?.error || 'Could not open Totaljobs job listing.',
+            error:
+                readyResponse?.error || 'Could not open Totaljobs job listing.',
         };
     }
 
@@ -3419,9 +4392,13 @@ async function fetchTotalJobsJobDescriptionForFit(tabId, job = null) {
     let description = '';
 
     while (Date.now() < deadline) {
-        await sendTotalJobsMessage(tabId, 'TOTALJOBS_WAIT_FOR_JOB_DESCRIPTION', {
-            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
-        }).catch(() => {});
+        await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_WAIT_FOR_JOB_DESCRIPTION',
+            {
+                minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+            },
+        ).catch(() => {});
 
         const metaResponse = await fetchJobMetaFromTab(tabId);
         description = resolveJobDescriptionFromMetaResponse(metaResponse);
@@ -3434,9 +4411,14 @@ async function fetchTotalJobsJobDescriptionForFit(tabId, job = null) {
     }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-        const jobUrl = buildTotalJobsJobOpenUrl(job.jobId, { path: job.path || job.url });
+        const jobUrl = buildTotalJobsJobOpenUrl(job.jobId, {
+            path: job.path || job.url,
+        });
 
-        await logSession('info', `Opening full Totaljobs job page to read description for ${job.title}.`);
+        await logSession(
+            'info',
+            `Opening full Totaljobs job page to read description for ${job.title}.`,
+        );
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
@@ -3464,28 +4446,45 @@ async function evaluateTotalJobsJobFit(tabId, job, session) {
         return { proceed: true, score: null };
     }
 
-    const { description } = await fetchTotalJobsJobDescriptionForFit(tabId, job);
+    const { description } = await fetchTotalJobsJobDescriptionForFit(
+        tabId,
+        job,
+    );
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
             `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'short_job_description' },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: { reason: 'short_job_description' },
+            },
+            tabId,
+        );
 
         return { proceed: false, reason: 'short_job_description', score: null };
     }
 
-    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+    const scoreResult = await requestAutoApplyAtsScore(
+        description,
+        session.roleDescription,
+    );
 
     if (!scoreResult.ok) {
         if (scoreResult.insufficientCredits) {
-            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+            throw new Error(
+                `${scoreResult.error} Auto Apply paused - top up credits and start a new run.`,
+            );
         }
 
-        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+        await logSession(
+            'warn',
+            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+        );
 
         return { proceed: false, reason: 'fit_score_failed', score: null };
     }
@@ -3509,25 +4508,61 @@ async function evaluateTotalJobsJobFit(tabId, job, session) {
 
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+            formatAutoApplyFitLogMessage(
+                job.title,
+                job.company,
+                scoreResult.score,
+                session.minFitScore,
+                false,
+                fitReason,
+            ),
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'low_fit_score',
+                    score: scoreResult.score,
+                    min_fit_score: session.minFitScore,
+                },
+            },
+            tabId,
+        );
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+        return {
+            proceed: false,
+            reason: 'low_fit_score',
+            score: scoreResult.score,
+            fitReason,
+        };
     }
 
     await logSession(
         'info',
-        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+        formatAutoApplyFitLogMessage(
+            job.title,
+            job.company,
+            scoreResult.score,
+            session.minFitScore,
+            true,
+        ),
     );
 
     return { proceed: true, score: scoreResult.score };
 }
 
-async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData = null) {
-    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
+async function processTotalJobsJob(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
+    await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
         await recordAnalyticsEvent(session, 'skipped', job, {
@@ -3560,10 +4595,12 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
-    await captureJobPage(tabId);
-
     const fitSession = await loadAutoApplySession();
-    const fitResult = await evaluateTotalJobsJobFit(tabId, job, fitSession || session);
+    const fitResult = await evaluateTotalJobsJobFit(
+        tabId,
+        job,
+        fitSession || session,
+    );
 
     if (!fitResult.proceed) {
         return {
@@ -3575,15 +4612,27 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
         };
     }
 
-    const health = await sendTotalJobsMessage(tabId, 'TOTALJOBS_SCAN_PAGE_HEALTH');
+    const health = await sendTotalJobsMessage(
+        tabId,
+        'TOTALJOBS_SCAN_PAGE_HEALTH',
+    );
 
     if (health && health.ok === false) {
-        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Totaljobs page blocked.');
+        throw new Error(
+            health.primary?.message ||
+                health.blocking?.[0]?.message ||
+                'Totaljobs page blocked.',
+        );
     }
 
-    await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
 
-    const applyResponse = await sendTotalJobsMessage(tabId, 'TOTALJOBS_OPEN_APPLY').catch(async (error) => {
+    const applyResponse = await sendTotalJobsMessage(
+        tabId,
+        'TOTALJOBS_OPEN_APPLY',
+    ).catch(async (error) => {
         const message = error instanceof Error ? error.message : String(error);
 
         if (!isExtensionMessagingError(message)) {
@@ -3593,7 +4642,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
 
-        const fallbackState = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE').catch(() => null);
+        const fallbackState = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_APPLY_STATE',
+        ).catch(() => null);
 
         if (fallbackState?.open) {
             return { success: true, totaljobsApply: true, navigating: true };
@@ -3627,12 +4679,17 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     await waitForTotalJobsContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);
-    await captureJobPage(tabId, { force: true });
 
-    const postOpenVerify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+    const postOpenVerify = await sendTotalJobsMessage(
+        tabId,
+        'TOTALJOBS_VERIFY_SUBMITTED',
+    );
 
     if (postOpenVerify?.submitted) {
-        await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+        await logSession(
+            'success',
+            `[submitted] ${job.title} at ${job.company}.`,
+        );
         await recordAnalyticsEvent(session, 'submitted', job);
 
         return { outcome: 'applied', tabId };
@@ -3646,7 +4703,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
 
-        const applyState = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
+        const applyState = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_APPLY_STATE',
+        );
 
         if (applyState?.submitted) {
             submitted = true;
@@ -3654,7 +4714,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
         }
 
         if (!applyState?.open) {
-            const closedVerify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+            const closedVerify = await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_VERIFY_SUBMITTED',
+            );
 
             if (closedVerify?.submitted) {
                 submitted = true;
@@ -3663,7 +4726,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             break;
         }
 
-        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+        if (
+            applyState.stepFingerprint &&
+            applyState.stepFingerprint === lastStepFingerprint
+        ) {
             sameStepCount += 1;
         } else {
             sameStepCount = 0;
@@ -3672,20 +4738,25 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
 
         if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
             throw new Error(
-                `Stuck on Totaljobs Apply step "${applyState.stepLabel || 'unknown'}" `
-                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+                `Stuck on Totaljobs Apply step "${applyState.stepLabel || 'unknown'}" ` +
+                    `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
+                    (applyState.validationErrors?.[0] ||
+                        applyState.actionLabel ||
+                        'No progress after repeated attempts.'),
             );
         }
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Totaljobs Apply'}`
-            + (applyState.isReviewStep ? ' (review)' : ''),
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Totaljobs Apply'}` +
+                (applyState.isReviewStep ? ' (review)' : ''),
         );
 
         if (applyState.isReviewStep) {
-            await logSession('info', `[review] ${job.title}: reached review step.`);
+            await logSession(
+                'info',
+                `[review] ${job.title}: reached review step.`,
+            );
         }
 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
@@ -3698,7 +4769,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             session,
             TOTALJOBS_PLATFORM_ID,
         );
-        const postDraftState = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
+        const postDraftState = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_APPLY_STATE',
+        );
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -3714,7 +4788,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendTotalJobsMessage(tabId, 'TOTALJOBS_FILL_AND_ADVANCE');
+        const advanceResponse = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_FILL_AND_ADVANCE',
+        );
 
         if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
@@ -3723,10 +4800,19 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             );
 
             if (!advanceResponse.submitted) {
-                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, TOTALJOBS_PLATFORM_ID, session);
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        TOTALJOBS_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -3735,7 +4821,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
                 }
             }
         } else if (advanceResponse?.action === 'continue') {
-            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+            await logSession(
+                'info',
+                `[advance] ${job.title}: continued to next step.`,
+            );
         }
 
         if (advanceResponse?.validationErrors?.length) {
@@ -3750,12 +4839,16 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             break;
         }
 
-        if (advanceResponse?.action === 'blocked' || (
-            (advanceResponse?.validationErrors?.length || 0) > 0
-            && !advanceResponse?.transitioned
-            && !advanceResponse?.submitted
-        )) {
-            const postAdvanceState = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
+        if (
+            advanceResponse?.action === 'blocked' ||
+            ((advanceResponse?.validationErrors?.length || 0) > 0 &&
+                !advanceResponse?.transitioned &&
+                !advanceResponse?.submitted)
+        ) {
+            const postAdvanceState = await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_APPLY_STATE',
+            );
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
@@ -3775,20 +4868,31 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
                 continue;
             }
 
-            throw new Error(advanceResponse.error || 'Totaljobs Apply action blocked by validation.');
+            throw new Error(
+                advanceResponse.error ||
+                    'Totaljobs Apply action blocked by validation.',
+            );
         }
 
         if (!advanceResponse?.success) {
-            throw new Error(advanceResponse?.error || 'Could not advance Totaljobs Apply step.');
+            throw new Error(
+                advanceResponse?.error ||
+                    'Could not advance Totaljobs Apply step.',
+            );
         }
 
-        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+        if (
+            advanceResponse?.transitioned &&
+            advanceResponse?.stepFingerprint &&
+            advanceResponse.stepFingerprint !== lastStepFingerprint
+        ) {
             sameStepCount = 0;
             lastStepFingerprint = advanceResponse.stepFingerprint;
 
             await recordAnalyticsEvent(session, 'step_advanced', job, {
                 metadata: {
-                    step_label: applyState.stepLabel || applyState.actionLabel || null,
+                    step_label:
+                        applyState.stepLabel || applyState.actionLabel || null,
                 },
             });
 
@@ -3805,7 +4909,10 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!submitted) {
-        const verifyResponse = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+        const verifyResponse = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_VERIFY_SUBMITTED',
+        );
         submitted = Boolean(verifyResponse?.submitted);
     }
 
@@ -3820,7 +4927,11 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
 }
 
 async function ensureReedTab(session) {
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     if (session.tabId) {
         try {
@@ -3829,12 +4940,23 @@ async function ensureReedTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!isReedJobsSearchUrl(currentUrl) || !urlsMatchReedSearch(currentUrl, searchUrl, session.filters)) {
-                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                if (
+                    !isReedJobsSearchUrl(currentUrl) ||
+                    !urlsMatchReedSearch(currentUrl, searchUrl, session.filters)
+                ) {
+                    const tabId = await openUrlInAutoApplyWindow(
+                        searchUrl,
+                        tab.id,
+                    );
                     await waitForTabLoadComplete(tabId);
                     await waitForReedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
+                    );
+                    await sendReedMessage(
+                        tabId,
+                        'REED_ACCEPT_COOKIE_CONSENT',
+                    ).catch(() => {});
 
                     return tabId;
                 }
@@ -3849,7 +4971,10 @@ async function ensureReedTab(session) {
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
     if (!hadWindow && session.usesDedicatedWindow !== false) {
-        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
+        await logSession(
+            'info',
+            'Running Auto Apply in a background window so you can keep browsing.',
+        );
     }
 
     await logSession('info', `Reed search: ${searchUrl}`);
@@ -3881,17 +5006,23 @@ async function collectReedJobsFromTab(tabId, session = null) {
         }
 
         const jobs = response.jobs || [];
-        const freshJobs = jobs.filter((job) => job.reedApply !== false && !job.alreadyApplied);
+        const freshJobs = jobs.filter(
+            (job) => job.reedApply !== false && !job.alreadyApplied,
+        );
 
         if (freshJobs.length > 0) {
             return freshJobs;
         }
 
         if (jobs.length === 0) {
-            const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH').catch(() => null);
+            const health = await sendReedMessage(
+                tabId,
+                'REED_SCAN_PAGE_HEALTH',
+            ).catch(() => null);
 
             if (health?.ok === false) {
-                const blockingMessage = health.primary?.message || health.blocking?.[0]?.message;
+                const blockingMessage =
+                    health.primary?.message || health.blocking?.[0]?.message;
 
                 if (blockingMessage) {
                     throw new Error(blockingMessage);
@@ -3913,7 +5044,10 @@ async function collectReedJobsFromTab(tabId, session = null) {
         }
 
         if (pageTurns < 6) {
-            const nextPage = await sendReedMessage(tabId, 'REED_NEXT_SEARCH_PAGE');
+            const nextPage = await sendReedMessage(
+                tabId,
+                'REED_NEXT_SEARCH_PAGE',
+            );
 
             if (nextPage?.success) {
                 pageTurns += 1;
@@ -3925,10 +5059,14 @@ async function collectReedJobsFromTab(tabId, session = null) {
         }
 
         if (session && pageTurns === 0) {
-            const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, {
-                ...buildSessionSearchOptions(session),
-                page: 1,
-            });
+            const searchUrl = buildJobSearchUrl(
+                session.platform,
+                session.roleDescription,
+                {
+                    ...buildSessionSearchOptions(session),
+                    page: 1,
+                },
+            );
 
             await chrome.tabs.update(tabId, { url: searchUrl });
             await waitForTabLoadComplete(tabId);
@@ -3940,7 +5078,8 @@ async function collectReedJobsFromTab(tabId, session = null) {
         }
 
         if (jobs.length > 0) {
-            lastError = 'No unapplied Reed Easy Apply jobs found on the current search pages.';
+            lastError =
+                'No unapplied Reed Easy Apply jobs found on the current search pages.';
         }
 
         await sleep(1500);
@@ -3958,27 +5097,30 @@ async function appendUniqueReedJobs(tabId, session) {
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
-    const freshJobs = jobs.filter((job) => (
-        !existingIds.has(job.jobId)
-        && !batchSeen.has(job.jobId)
-        && job.reedApply !== false
-        && !job.alreadyApplied
-        && job.title !== 'Unknown role'
-        && (batchSeen.add(job.jobId), true)
-    ));
+    const freshJobs = jobs.filter(
+        (job) =>
+            !existingIds.has(job.jobId) &&
+            !batchSeen.has(job.jobId) &&
+            job.reedApply !== false &&
+            !job.alreadyApplied &&
+            job.title !== 'Unknown role' &&
+            (batchSeen.add(job.jobId), true),
+    );
 
     if (freshJobs.length === 0) {
         return session;
     }
 
-    return updateSession((current) => ({
-        ...current,
-        queue: [...current.queue, ...freshJobs],
-        stats: {
-            ...current.stats,
-            found: current.stats.found + freshJobs.length,
-        },
-    })) || session;
+    return (
+        updateSession((current) => ({
+            ...current,
+            queue: [...current.queue, ...freshJobs],
+            stats: {
+                ...current.stats,
+                found: current.stats.found + freshJobs.length,
+            },
+        })) || session
+    );
 }
 
 async function openReedJobInner(tabId, job, session) {
@@ -3987,7 +5129,11 @@ async function openReedJobInner(tabId, job, session) {
     if (job.path || job.url) {
         jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
     } else if (session?.roleDescription) {
-        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        const searchUrl = buildJobSearchUrl(
+            session.platform,
+            session.roleDescription,
+            buildSessionSearchOptions(session),
+        );
         jobUrl = `${searchUrl}${searchUrl.includes('?') ? '&' : '?'}jobId=${job.jobId}`;
     } else {
         jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
@@ -3998,10 +5144,16 @@ async function openReedJobInner(tabId, job, session) {
     await waitForTabLoadComplete(tabId);
     await waitForReedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
-    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
     await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
-    const readyResponse = await sendReedMessage(tabId, 'REED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const readyResponse = await sendReedMessage(
+        tabId,
+        'REED_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!readyResponse?.success) {
         return {
@@ -4018,14 +5170,20 @@ async function openReedJobInner(tabId, job, session) {
 }
 
 async function verifyReedApplicationSubmitted(tabId, job) {
-    const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID);
+    const confirmResult = await waitForApplicationSubmitConfirmation(
+        tabId,
+        REED_PLATFORM_ID,
+    );
 
     if (confirmResult.submitted) {
         return { submitted: true, tabId };
     }
 
     const readSubmitted = async (targetTabId) => {
-        const verifyResponse = await sendReedMessage(targetTabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+        const verifyResponse = await sendReedMessage(
+            targetTabId,
+            'REED_VERIFY_SUBMITTED',
+        ).catch(() => null);
 
         return Boolean(verifyResponse?.submitted);
     };
@@ -4034,13 +5192,17 @@ async function verifyReedApplicationSubmitted(tabId, job) {
         return { submitted: true, tabId };
     }
 
-    const jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+    const jobUrl = buildReedJobOpenUrl(job.jobId, {
+        path: job.path || job.url,
+    });
     let verifyTabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(verifyTabId);
     await waitForReedContentScript(verifyTabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-    await sendReedMessage(verifyTabId, 'REED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
+    await sendReedMessage(verifyTabId, 'REED_WAIT_FOR_JOB_DETAIL', {
+        jobId: job.jobId,
+    }).catch(() => {});
 
     return {
         submitted: await readSubmitted(verifyTabId),
@@ -4068,9 +5230,14 @@ async function fetchReedJobDescriptionForFit(tabId, job = null) {
     }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-        const jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+        const jobUrl = buildReedJobOpenUrl(job.jobId, {
+            path: job.path || job.url,
+        });
 
-        await logSession('info', `Opening full Reed job page to read description for ${job.title}.`);
+        await logSession(
+            'info',
+            `Opening full Reed job page to read description for ${job.title}.`,
+        );
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForReedContentScript(tabId);
@@ -4105,21 +5272,35 @@ async function evaluateReedJobFit(tabId, job, session) {
             'warn',
             `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'short_job_description' },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: { reason: 'short_job_description' },
+            },
+            tabId,
+        );
 
         return { proceed: false, reason: 'short_job_description', score: null };
     }
 
-    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+    const scoreResult = await requestAutoApplyAtsScore(
+        description,
+        session.roleDescription,
+    );
 
     if (!scoreResult.ok) {
         if (scoreResult.insufficientCredits) {
-            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+            throw new Error(
+                `${scoreResult.error} Auto Apply paused - top up credits and start a new run.`,
+            );
         }
 
-        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+        await logSession(
+            'warn',
+            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+        );
 
         return { proceed: false, reason: 'fit_score_failed', score: null };
     }
@@ -4143,24 +5324,58 @@ async function evaluateReedJobFit(tabId, job, session) {
 
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+            formatAutoApplyFitLogMessage(
+                job.title,
+                job.company,
+                scoreResult.score,
+                session.minFitScore,
+                false,
+                fitReason,
+            ),
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'low_fit_score',
+                    score: scoreResult.score,
+                    min_fit_score: session.minFitScore,
+                },
+            },
+            tabId,
+        );
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+        return {
+            proceed: false,
+            reason: 'low_fit_score',
+            score: scoreResult.score,
+            fitReason,
+        };
     }
 
     await logSession(
         'info',
-        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+        formatAutoApplyFitLogMessage(
+            job.title,
+            job.company,
+            scoreResult.score,
+            session.minFitScore,
+            true,
+        ),
     );
 
     return { proceed: true, score: scoreResult.score };
 }
 
-async function processReedJob(tabId, job, runDraftAll, session, profileData = null) {
+async function processReedJob(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
     await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
@@ -4194,10 +5409,12 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
-    await captureJobPage(tabId);
-
     const fitSession = await loadAutoApplySession();
-    const fitResult = await evaluateReedJobFit(tabId, job, fitSession || session);
+    const fitResult = await evaluateReedJobFit(
+        tabId,
+        job,
+        fitSession || session,
+    );
 
     if (!fitResult.proceed) {
         return {
@@ -4212,29 +5429,41 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
     const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH');
 
     if (health && health.ok === false) {
-        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Reed page blocked.');
+        throw new Error(
+            health.primary?.message ||
+                health.blocking?.[0]?.message ||
+                'Reed page blocked.',
+        );
     }
 
-    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
 
-    const applyResponse = await sendReedMessage(tabId, 'REED_OPEN_APPLY').catch(async (error) => {
-        const message = error instanceof Error ? error.message : String(error);
+    const applyResponse = await sendReedMessage(tabId, 'REED_OPEN_APPLY').catch(
+        async (error) => {
+            const message =
+                error instanceof Error ? error.message : String(error);
 
-        if (!isExtensionMessagingError(message)) {
-            throw error;
-        }
+            if (!isExtensionMessagingError(message)) {
+                throw error;
+            }
 
-        await waitForTabLoadComplete(tabId);
-        await waitForReedContentScript(tabId);
+            await waitForTabLoadComplete(tabId);
+            await waitForReedContentScript(tabId);
 
-        const fallbackState = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+            const fallbackState = await sendReedMessage(
+                tabId,
+                'REED_APPLY_STATE',
+            ).catch(() => null);
 
-        if (fallbackState?.open) {
-            return { success: true, reedApply: true, navigating: true };
-        }
+            if (fallbackState?.open) {
+                return { success: true, reedApply: true, navigating: true };
+            }
 
-        return null;
-    });
+            return null;
+        },
+    );
 
     if (applyResponse?.reedApply === false) {
         await recordAnalyticsEvent(session, 'skipped', job, {
@@ -4261,7 +5490,6 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
     await waitForReedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);
-    await captureJobPage(tabId, { force: true });
 
     const applyFlowReady = await waitForReedApplyFlowOpen(tabId);
 
@@ -4269,10 +5497,16 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
         throw new Error('Reed Easy Apply form did not open after navigation.');
     }
 
-    const postOpenVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED');
+    const postOpenVerify = await sendReedMessage(
+        tabId,
+        'REED_VERIFY_SUBMITTED',
+    );
 
     if (postOpenVerify?.submitted) {
-        await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+        await logSession(
+            'success',
+            `[submitted] ${job.title} at ${job.company}.`,
+        );
         await recordAnalyticsEvent(session, 'submitted', job);
 
         return { outcome: 'applied', tabId };
@@ -4298,7 +5532,10 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
         }
 
         if (!applyState?.open) {
-            const closedVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED');
+            const closedVerify = await sendReedMessage(
+                tabId,
+                'REED_VERIFY_SUBMITTED',
+            );
 
             if (closedVerify?.submitted) {
                 submitted = true;
@@ -4307,7 +5544,10 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             break;
         }
 
-        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+        if (
+            applyState.stepFingerprint &&
+            applyState.stepFingerprint === lastStepFingerprint
+        ) {
             sameStepCount += 1;
         } else {
             sameStepCount = 0;
@@ -4316,39 +5556,46 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 
         if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
             throw new Error(
-                `Stuck on Reed Apply step "${applyState.stepLabel || 'unknown'}" `
-                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+                `Stuck on Reed Apply step "${applyState.stepLabel || 'unknown'}" ` +
+                    `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
+                    (applyState.validationErrors?.[0] ||
+                        applyState.actionLabel ||
+                        'No progress after repeated attempts.'),
             );
         }
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Reed Apply'}`
-            + (applyState.isReviewStep ? ' (review)' : ''),
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Reed Apply'}` +
+                (applyState.isReviewStep ? ' (review)' : ''),
         );
 
         if (applyState.isReviewStep) {
-            await logSession('info', `[review] ${job.title}: reached review step.`);
+            await logSession(
+                'info',
+                `[review] ${job.title}: reached review step.`,
+            );
         }
 
-        await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+        await interruptibleSleep(
+            randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400),
+        );
 
         const draftResult = applyState.isReviewStep
             ? {
-                pendingFields: [],
-                filledFields: [],
-                skippedFields: [],
-                failedFields: [],
-            }
+                  pendingFields: [],
+                  filledFields: [],
+                  skippedFields: [],
+                  failedFields: [],
+              }
             : await runDraftAllForStep(
-                tabId,
-                job,
-                applyState.stepLabel,
-                runDraftAll,
-                session,
-                REED_PLATFORM_ID,
-            );
+                  tabId,
+                  job,
+                  applyState.stepLabel,
+                  runDraftAll,
+                  session,
+                  REED_PLATFORM_ID,
+              );
 
         if (draftResult?.stopped) {
             return { outcome: 'stopped', reason: 'user_stop', tabId };
@@ -4373,9 +5620,13 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
         let advanceResponse;
 
         try {
-            advanceResponse = await sendReedMessage(tabId, 'REED_FILL_AND_ADVANCE');
+            advanceResponse = await sendReedMessage(
+                tabId,
+                'REED_FILL_AND_ADVANCE',
+            );
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+            const message =
+                error instanceof Error ? error.message : String(error);
 
             if (!isExtensionMessagingError(message)) {
                 throw error;
@@ -4383,7 +5634,11 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 
             await waitForTabLoadComplete(tabId);
             await waitForReedContentScript(tabId);
-            const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID, session);
+            const confirmResult = await waitForApplicationSubmitConfirmation(
+                tabId,
+                REED_PLATFORM_ID,
+                session,
+            );
 
             if (confirmResult.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
@@ -4411,10 +5666,19 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             if (!advanceResponse.submitted) {
                 await waitForTabLoadComplete(tabId).catch(() => {});
                 await waitForReedContentScript(tabId).catch(() => {});
-                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID, session);
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        REED_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -4426,7 +5690,10 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
                 break;
             }
         } else if (advanceResponse?.action === 'continue') {
-            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+            await logSession(
+                'info',
+                `[advance] ${job.title}: continued to next step.`,
+            );
         }
 
         if (advanceResponse?.validationErrors?.length) {
@@ -4441,12 +5708,16 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             break;
         }
 
-        if (advanceResponse?.action === 'blocked' || (
-            (advanceResponse?.validationErrors?.length || 0) > 0
-            && !advanceResponse?.transitioned
-            && !advanceResponse?.submitted
-        )) {
-            const postAdvanceState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
+        if (
+            advanceResponse?.action === 'blocked' ||
+            ((advanceResponse?.validationErrors?.length || 0) > 0 &&
+                !advanceResponse?.transitioned &&
+                !advanceResponse?.submitted)
+        ) {
+            const postAdvanceState = await sendReedMessage(
+                tabId,
+                'REED_APPLY_STATE',
+            );
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
@@ -4466,20 +5737,30 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
                 continue;
             }
 
-            throw new Error(advanceResponse.error || 'Reed Apply action blocked by validation.');
+            throw new Error(
+                advanceResponse.error ||
+                    'Reed Apply action blocked by validation.',
+            );
         }
 
         if (!advanceResponse?.success) {
-            throw new Error(advanceResponse?.error || 'Could not advance Reed Apply step.');
+            throw new Error(
+                advanceResponse?.error || 'Could not advance Reed Apply step.',
+            );
         }
 
-        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+        if (
+            advanceResponse?.transitioned &&
+            advanceResponse?.stepFingerprint &&
+            advanceResponse.stepFingerprint !== lastStepFingerprint
+        ) {
             sameStepCount = 0;
             lastStepFingerprint = advanceResponse.stepFingerprint;
 
             await recordAnalyticsEvent(session, 'step_advanced', job, {
                 metadata: {
-                    step_label: applyState.stepLabel || applyState.actionLabel || null,
+                    step_label:
+                        applyState.stepLabel || applyState.actionLabel || null,
                 },
             });
 
@@ -4512,7 +5793,11 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 }
 
 async function ensureGlassdoorTab(session) {
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+    const searchUrl = buildJobSearchUrl(
+        session.platform,
+        session.roleDescription,
+        buildSessionSearchOptions(session),
+    );
 
     if (session.tabId) {
         try {
@@ -4520,13 +5805,49 @@ async function ensureGlassdoorTab(session) {
 
             if (tab?.id) {
                 const currentUrl = tab.url || '';
+                let needsNavigation =
+                    !isGlassdoorJobsSearchUrl(currentUrl) ||
+                    !urlsMatchGlassdoorSearch(
+                        currentUrl,
+                        searchUrl,
+                        session.filters,
+                    );
 
-                if (!isGlassdoorJobsSearchUrl(currentUrl) || !urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)) {
-                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                if (!needsNavigation) {
+                    const prepared = await sendGlassdoorMessage(
+                        tab.id,
+                        'GLASSDOOR_PREPARE_JOB_SEARCH',
+                        {
+                            expectedKeyword: session.roleDescription,
+                            expectedLocation: session.filters?.location || null,
+                        },
+                    ).catch(() => ({ searchMatched: true }));
+
+                    needsNavigation = prepared?.searchMatched === false;
+                }
+
+                if (needsNavigation) {
+                    const tabId = await openUrlInAutoApplyWindow(
+                        withGlassdoorSearchCacheBust(searchUrl),
+                        tab.id,
+                    );
                     await waitForTabLoadComplete(tabId);
                     await waitForGlassdoorContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                    await sleep(
+                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
+                    );
+                    await sendGlassdoorMessage(
+                        tabId,
+                        'GLASSDOOR_ACCEPT_COOKIE_CONSENT',
+                    ).catch(() => {});
+                    await sendGlassdoorMessage(
+                        tabId,
+                        'GLASSDOOR_PREPARE_JOB_SEARCH',
+                        {
+                            expectedKeyword: session.roleDescription,
+                            expectedLocation: session.filters?.location || null,
+                        },
+                    ).catch(() => {});
 
                     return tabId;
                 }
@@ -4541,7 +5862,10 @@ async function ensureGlassdoorTab(session) {
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
     if (!hadWindow && session.usesDedicatedWindow !== false) {
-        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
+        await logSession(
+            'info',
+            'Running Auto Apply in a background window so you can keep browsing.',
+        );
     }
 
     await logSession('info', `Glassdoor search: ${searchUrl}`);
@@ -4550,7 +5874,13 @@ async function ensureGlassdoorTab(session) {
     await waitForTabLoadComplete(tabId);
     await waitForGlassdoorContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
+        expectedKeyword: session.roleDescription,
+        expectedLocation: session.filters?.location || null,
+    }).catch(() => {});
 
     return tabId;
 }
@@ -4560,9 +5890,15 @@ async function collectGlassdoorJobsFromTab(tabId) {
     let lastError = 'Could not read Glassdoor job cards.';
 
     while (Date.now() < deadline) {
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
+            expectedKeyword: null,
+            expectedLocation: null,
+        }).catch(() => {});
 
-        const response = await sendGlassdoorMessage(tabId, 'GLASSDOOR_COLLECT_JOB_CARDS');
+        const response = await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_COLLECT_JOB_CARDS',
+        );
 
         if (!response?.success) {
             lastError = response?.error || lastError;
@@ -4590,40 +5926,55 @@ async function appendUniqueGlassdoorJobs(tabId, session) {
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
-    const freshJobs = jobs.filter((job) => (
-        !existingIds.has(job.jobId)
-        && !batchSeen.has(job.jobId)
-        && job.glassdoorApply !== false
-        && job.easyApply !== false
-        && !job.alreadyApplied
-        && job.title !== 'Unknown role'
-        && (batchSeen.add(job.jobId), true)
-    ));
+    const freshJobs = jobs.filter(
+        (job) =>
+            !existingIds.has(job.jobId) &&
+            !batchSeen.has(job.jobId) &&
+            job.glassdoorApply !== false &&
+            job.easyApply !== false &&
+            !job.alreadyApplied &&
+            job.title !== 'Unknown role' &&
+            (batchSeen.add(job.jobId), true),
+    );
 
     if (freshJobs.length === 0) {
         return session;
     }
 
-    return updateSession((current) => ({
-        ...current,
-        queue: [...current.queue, ...freshJobs],
-        stats: {
-            ...current.stats,
-            found: current.stats.found + freshJobs.length,
-        },
-    })) || session;
+    return (
+        updateSession((current) => ({
+            ...current,
+            queue: [...current.queue, ...freshJobs],
+            stats: {
+                ...current.stats,
+                found: current.stats.found + freshJobs.length,
+            },
+        })) || session
+    );
 }
 
 async function openGlassdoorJobInner(tabId, job, session) {
     tabId = await returnToGlassdoorSearch(tabId, session);
     await waitForGlassdoorContentScript(tabId);
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
+        expectedKeyword: session.roleDescription,
+        expectedLocation: session.filters?.location || null,
+    }).catch(() => {});
     await sleep(randomDelay(850, 550));
 
-    let selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SELECT_JOB', { jobId: job.jobId });
+    let selectResponse = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_SELECT_JOB',
+        { jobId: job.jobId },
+    );
 
     if (!selectResponse?.success) {
-        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, {
+            path: job.path,
+            url: job.url,
+            filters: session.filters,
+            location: session.filters?.location,
+        });
 
         await logSession('info', `Opening ${job.title} directly on Glassdoor.`);
 
@@ -4631,9 +5982,18 @@ async function openGlassdoorJobInner(tabId, job, session) {
         await waitForTabLoadComplete(tabId);
         await waitForGlassdoorContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
-        selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', {
+            light: true,
+        }).catch(() => {});
+        await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_ACCEPT_COOKIE_CONSENT',
+        ).catch(() => {});
+        selectResponse = await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_WAIT_FOR_JOB_DETAIL',
+            { jobId: job.jobId },
+        );
     }
 
     if (!selectResponse?.success) {
@@ -4641,18 +6001,25 @@ async function openGlassdoorJobInner(tabId, job, session) {
             success: false,
             tabId,
             skipReason: 'job_unavailable',
-            error: selectResponse?.error || 'Could not open Glassdoor job listing.',
+            error:
+                selectResponse?.error ||
+                'Could not open Glassdoor job listing.',
         };
     }
 
-    const detailResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    const detailResponse = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_WAIT_FOR_JOB_DETAIL',
+        { jobId: job.jobId },
+    );
 
     if (!detailResponse?.success) {
         return {
             success: false,
             tabId,
             skipReason: 'job_unavailable',
-            error: detailResponse?.error || 'Glassdoor job detail did not load.',
+            error:
+                detailResponse?.error || 'Glassdoor job detail did not load.',
         };
     }
 
@@ -4664,9 +6031,13 @@ async function fetchGlassdoorJobDescriptionForFit(tabId, job = null) {
     let description = '';
 
     while (Date.now() < deadline) {
-        await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DESCRIPTION', {
-            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
-        }).catch(() => {});
+        await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_WAIT_FOR_JOB_DESCRIPTION',
+            {
+                minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+            },
+        ).catch(() => {});
 
         const metaResponse = await fetchJobMetaFromTab(tabId);
         description = resolveJobDescriptionFromMetaResponse(metaResponse);
@@ -4679,7 +6050,12 @@ async function fetchGlassdoorJobDescriptionForFit(tabId, job = null) {
     }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
-        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, {
+            path: job.path,
+            url: job.url,
+            filters: session.filters,
+            location: session.filters?.location,
+        });
 
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
@@ -4708,28 +6084,45 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
         return { proceed: true, score: null };
     }
 
-    const { description } = await fetchGlassdoorJobDescriptionForFit(tabId, job);
+    const { description } = await fetchGlassdoorJobDescriptionForFit(
+        tabId,
+        job,
+    );
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
             `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'short_job_description' },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: { reason: 'short_job_description' },
+            },
+            tabId,
+        );
 
         return { proceed: false, reason: 'short_job_description', score: null };
     }
 
-    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+    const scoreResult = await requestAutoApplyAtsScore(
+        description,
+        session.roleDescription,
+    );
 
     if (!scoreResult.ok) {
         if (scoreResult.insufficientCredits) {
-            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+            throw new Error(
+                `${scoreResult.error} Auto Apply paused - top up credits and start a new run.`,
+            );
         }
 
-        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+        await logSession(
+            'warn',
+            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+        );
 
         return { proceed: false, reason: 'fit_score_failed', score: null };
     }
@@ -4748,25 +6141,61 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
 
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+            formatAutoApplyFitLogMessage(
+                job.title,
+                job.company,
+                scoreResult.score,
+                session.minFitScore,
+                false,
+                fitReason,
+            ),
         );
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
-        }, tabId);
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'low_fit_score',
+                    score: scoreResult.score,
+                    min_fit_score: session.minFitScore,
+                },
+            },
+            tabId,
+        );
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+        return {
+            proceed: false,
+            reason: 'low_fit_score',
+            score: scoreResult.score,
+            fitReason,
+        };
     }
 
     await logSession(
         'info',
-        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+        formatAutoApplyFitLogMessage(
+            job.title,
+            job.company,
+            scoreResult.score,
+            session.minFitScore,
+            true,
+        ),
     );
 
     return { proceed: true, score: scoreResult.score };
 }
 
-async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData = null) {
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+async function processGlassdoorJob(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
         await recordAnalyticsEvent(session, 'skipped', job, {
@@ -4799,19 +6228,32 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
-    await captureJobPage(tabId);
-
-    const health = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SCAN_PAGE_HEALTH');
+    const health = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_SCAN_PAGE_HEALTH',
+    );
 
     if (health && health.ok === false) {
-        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Glassdoor page blocked.');
+        throw new Error(
+            health.primary?.message ||
+                health.blocking?.[0]?.message ||
+                'Glassdoor page blocked.',
+        );
     }
 
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', {
+        light: true,
+    }).catch(() => {});
 
-    const applyAvailability = await sendGlassdoorMessage(tabId, 'GLASSDOOR_CHECK_APPLY_AVAILABILITY');
+    const applyAvailability = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_CHECK_APPLY_AVAILABILITY',
+    );
 
-    if (applyAvailability?.easyApply === false || !applyAvailability?.hasApplyButton) {
+    if (
+        applyAvailability?.easyApply === false ||
+        !applyAvailability?.hasApplyButton
+    ) {
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'no_glassdoor_apply' },
         });
@@ -4827,7 +6269,11 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     }
 
     const fitSession = await loadAutoApplySession();
-    const fitResult = await evaluateGlassdoorJobFit(tabId, job, fitSession || session);
+    const fitResult = await evaluateGlassdoorJobFit(
+        tabId,
+        job,
+        fitSession || session,
+    );
 
     if (!fitResult.proceed) {
         return {
@@ -4839,7 +6285,10 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         };
     }
 
-    const applyResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_OPEN_APPLY');
+    const applyResponse = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_OPEN_APPLY',
+    );
 
     if (applyResponse?.easyApply === false) {
         await recordAnalyticsEvent(session, 'skipped', job, {
@@ -4868,9 +6317,17 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     const iframeDeadline = Date.now() + 30_000;
 
     while (Date.now() < iframeDeadline) {
-        const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+        const state = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
 
-        if (state?.open && (state.canContinue || state.canSubmit || state.isReviewStep || state.invalidFields?.length)) {
+        if (
+            state?.open &&
+            (state.canContinue ||
+                state.canSubmit ||
+                state.isReviewStep ||
+                state.invalidFields?.length)
+        ) {
             break;
         }
 
@@ -4884,16 +6341,20 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     const readyDeadline = Date.now() + 12_000;
 
     while (Date.now() < readyDeadline) {
-        const readyState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+        const readyState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
 
-        if (readyState?.canContinue || readyState?.canSubmit || readyState?.isReviewStep) {
+        if (
+            readyState?.canContinue ||
+            readyState?.canSubmit ||
+            readyState?.isReviewStep
+        ) {
             break;
         }
 
         await sleep(500);
     }
-
-    await captureJobPage(tabId, { force: true });
 
     let submitted = false;
     let guard = 0;
@@ -4903,7 +6364,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
 
-        const applyState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+        const applyState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        });
 
         if (applyState?.submitted) {
             submitted = true;
@@ -4911,7 +6374,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         }
 
         if (!applyState?.open) {
-            const closedVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+            const closedVerify = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_VERIFY_SUBMITTED',
+            });
 
             if (closedVerify?.submitted) {
                 submitted = true;
@@ -4920,7 +6385,10 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             break;
         }
 
-        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+        if (
+            applyState.stepFingerprint &&
+            applyState.stepFingerprint === lastStepFingerprint
+        ) {
             sameStepCount += 1;
         } else {
             sameStepCount = 0;
@@ -4945,13 +6413,18 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Easy Apply'}`
-            + (applyState.isReviewStep ? ' (review)' : ''),
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Easy Apply'}` +
+                (applyState.isReviewStep ? ' (review)' : ''),
         );
 
         if (applyState.isReviewStep) {
-            await logSession('info', `[review] ${job.title}: attempting submit.`);
-            const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
+            await logSession(
+                'info',
+                `[review] ${job.title}: attempting submit.`,
+            );
+            const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_FILL_AND_ADVANCE',
+            });
 
             if (advanceResponse?.action === 'submit') {
                 await logSession(
@@ -4960,15 +6433,23 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
                 );
             }
 
-            if (!advanceResponse?.submitted && advanceResponse?.action === 'submit') {
-                const confirmResult = await waitForApplicationSubmitConfirmation(
-                    tabId,
-                    GLASSDOOR_PLATFORM_ID,
-                    session,
-                );
+            if (
+                !advanceResponse?.submitted &&
+                advanceResponse?.action === 'submit'
+            ) {
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        GLASSDOOR_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -4979,15 +6460,27 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             }
 
             if (!submitted) {
-                const reviewState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+                const reviewState = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_APPLY_STATE',
+                });
 
-                if (advanceResponse?.error?.includes('captcha') || reviewState?.captchaPresent) {
-                    await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
+                if (
+                    advanceResponse?.error?.includes('captcha') ||
+                    reviewState?.captchaPresent
+                ) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: captcha on review step - skipping job.`,
+                    );
                     await recordAnalyticsEvent(session, 'skipped', job, {
                         metadata: { reason: 'captcha_required' },
                     });
 
-                    return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
+                        tabId,
+                    };
                 }
 
                 await recordAnalyticsEvent(session, 'skipped', job, {
@@ -4997,7 +6490,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
                 return {
                     outcome: 'skipped',
                     reason: 'apply_submit_failed',
-                    detail: advanceResponse?.error || 'Could not submit on review step.',
+                    detail:
+                        advanceResponse?.error ||
+                        'Could not submit on review step.',
                     tabId,
                 };
             }
@@ -5015,7 +6510,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             session,
             GLASSDOOR_PLATFORM_ID,
         );
-        const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+        const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        });
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -5031,7 +6528,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
+        const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_FILL_AND_ADVANCE',
+        });
 
         if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
@@ -5040,14 +6539,19 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             );
 
             if (!advanceResponse?.submitted) {
-                const confirmResult = await waitForApplicationSubmitConfirmation(
-                    tabId,
-                    GLASSDOOR_PLATFORM_ID,
-                    session,
-                );
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        GLASSDOOR_PLATFORM_ID,
+                        session,
+                    );
 
                 if (confirmResult.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (confirmResult.submitted) {
@@ -5056,7 +6560,10 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
                 }
             }
         } else if (advanceResponse?.action === 'continue') {
-            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+            await logSession(
+                'info',
+                `[advance] ${job.title}: continued to next step.`,
+            );
         }
 
         if (advanceResponse?.submitted) {
@@ -5065,7 +6572,10 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         }
 
         if (advanceResponse?.error?.includes('captcha')) {
-            await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
+            await logSession(
+                'warn',
+                `[captcha] ${job.title}: captcha on review step - skipping job.`,
+            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: 'captcha_required' },
             });
@@ -5075,18 +6585,27 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
 
         if (!advanceResponse?.success) {
             await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'apply_step_unavailable', message: advanceResponse?.error || '' },
+                metadata: {
+                    reason: 'apply_step_unavailable',
+                    message: advanceResponse?.error || '',
+                },
             });
 
             return {
                 outcome: 'skipped',
                 reason: 'apply_step_unavailable',
-                detail: advanceResponse?.error || 'Could not advance Easy Apply step.',
+                detail:
+                    advanceResponse?.error ||
+                    'Could not advance Easy Apply step.',
                 tabId,
             };
         }
 
-        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+        if (
+            advanceResponse?.transitioned &&
+            advanceResponse?.stepFingerprint &&
+            advanceResponse.stepFingerprint !== lastStepFingerprint
+        ) {
             sameStepCount = 0;
             lastStepFingerprint = advanceResponse.stepFingerprint;
         }
@@ -5095,7 +6614,9 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!submitted) {
-        const verifyResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+        const verifyResponse = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_VERIFY_SUBMITTED',
+        });
         submitted = Boolean(verifyResponse?.submitted);
     }
 
@@ -5226,7 +6747,9 @@ export async function startAutoApply({
         const normalizedPlatform = normalizeAutoApplyPlatform(platform);
 
         if (!normalizedPlatform) {
-            throw new Error('Choose a supported job board before starting Auto Apply.');
+            throw new Error(
+                'Choose a supported job board before starting Auto Apply.',
+            );
         }
 
         platform = normalizedPlatform;
@@ -5234,7 +6757,9 @@ export async function startAutoApply({
         const trimmedRole = String(roleDescription || '').trim();
 
         if (!trimmedRole) {
-            throw new Error('Enter a role description before starting Auto Apply.');
+            throw new Error(
+                'Enter a role description before starting Auto Apply.',
+            );
         }
 
         let session = createInitialSession({
@@ -5276,16 +6801,24 @@ export async function startAutoApply({
                 `Starting Auto Apply on ${platform} using the browser tab where AutoCVApply is open.`,
             );
         } else {
-            const sidePanelOpen = resolveSidePanelOpen(await chrome.storage.session.get([
-                'sidePanelOpen',
-                'sidePanelLastHeartbeatAt',
-            ]));
+            const sidePanelOpen = resolveSidePanelOpen(
+                await chrome.storage.session.get([
+                    'sidePanelOpen',
+                    'sidePanelLastHeartbeatAt',
+                ]),
+            );
 
             if (sidePanelOpen) {
-                throw new Error('Open a job board tab in the browser window where AutoCVApply is open, then press Start again.');
+                throw new Error(
+                    'Open a job board tab in the browser window where AutoCVApply is open, then press Start again.',
+                );
             }
 
-            session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
+            session = appendAutoApplyLog(
+                session,
+                'info',
+                `Starting Auto Apply on ${platform}.`,
+            );
         }
 
         const analyticsSessionId = await startAutoApplyAnalyticsSession({
@@ -5311,13 +6844,19 @@ export async function startAutoApply({
                         return buildStoppedSessionState(current);
                     }
 
-                    const withLog = appendAutoApplyLog(current, 'error', error.message || 'Auto Apply failed.');
+                    const withLog = appendAutoApplyLog(
+                        current,
+                        'error',
+                        error.message || 'Auto Apply failed.',
+                    );
 
                     return {
                         ...withLog,
                         status: 'error',
                         finishedAt: new Date().toISOString(),
-                        lastError: isExtensionMessagingError(error.message) ? null : (error.message || 'Auto Apply failed.'),
+                        lastError: isExtensionMessagingError(error.message)
+                            ? null
+                            : error.message || 'Auto Apply failed.',
                     };
                 });
 
@@ -5325,9 +6864,14 @@ export async function startAutoApply({
                     await finalizeAutoApplyAnalyticsSession(failedSession);
                 }
 
-                logError('background', 'auto-apply.run', 'Auto Apply run failed', {
-                    error: error.message,
-                });
+                logError(
+                    'background',
+                    'auto-apply.run',
+                    'Auto Apply run failed',
+                    {
+                        error: error.message,
+                    },
+                );
             })
             .finally(() => {
                 if (activeRunPromise === runPromise) {
@@ -5353,7 +6897,9 @@ async function shouldStop(_session) {
 }
 
 async function finalizeStoppedSession() {
-    const session = await updateSession((current) => buildStoppedSessionState(current));
+    const session = await updateSession((current) =>
+        buildStoppedSessionState(current),
+    );
 
     if (session) {
         await finalizeAutoApplyAnalyticsSession(session);
@@ -5363,13 +6909,17 @@ async function finalizeStoppedSession() {
     return session;
 }
 
-async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData = null) {
+async function runIndeedAutoApplyLoop(
+    initialSession,
+    runDraftAll,
+    profileData = null,
+) {
     resetWatchdog();
 
     let session = initialSession;
     let tabId = await ensureIndeedTab(session);
 
-    session = await updateSession({ tabId }) || session;
+    session = (await updateSession({ tabId })) || session;
     markWatchdogProgress(session);
     await logSession('info', 'Collecting Indeed job listings…');
 
@@ -5377,12 +6927,19 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
     markWatchdogProgress(session);
 
     if (!session.queue.length) {
-        throw new Error('No Indeed Apply job listings found on the search page.');
+        throw new Error(
+            'No Indeed Apply job listings found on the search page.',
+        );
     }
 
-    await logSession('info', `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`);
+    await logSession(
+        'info',
+        `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`,
+    );
 
-    while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
+    while (
+        (await loadAutoApplySession())?.stats.applied < session.maxApplications
+    ) {
         session = await loadAutoApplySession();
 
         if (!session) {
@@ -5396,7 +6953,10 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
         }
 
         if (session.currentIndex >= session.queue.length) {
-            const nextPage = await sendIndeedMessage(tabId, 'INDEED_NEXT_SEARCH_PAGE');
+            const nextPage = await sendIndeedMessage(
+                tabId,
+                'INDEED_NEXT_SEARCH_PAGE',
+            );
 
             if (!nextPage?.success) {
                 break;
@@ -5418,8 +6978,12 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
                 return;
             }
 
-            tabId = await recoverIndeedTab(tabId, session, 'No Indeed Auto Apply progress detected');
-            session = await updateSession({ tabId }) || session;
+            tabId = await recoverIndeedTab(
+                tabId,
+                session,
+                'No Indeed Auto Apply progress detected',
+            );
+            session = (await updateSession({ tabId })) || session;
             markWatchdogProgress(session);
 
             continue;
@@ -5428,11 +6992,17 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
         const job = session.queue[session.currentIndex];
 
         try {
-            const result = await processIndeedJob(tabId, job, runDraftAll, session, profileData);
+            const result = await processIndeedJob(
+                tabId,
+                job,
+                runDraftAll,
+                session,
+                profileData,
+            );
 
             if (result.tabId && result.tabId !== tabId) {
                 tabId = result.tabId;
-                session = await updateSession({ tabId }) || session;
+                session = (await updateSession({ tabId })) || session;
             }
 
             if (result.outcome === 'stopped') {
@@ -5441,56 +7011,78 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
                 return;
             }
 
-            session = await updateSession((current) => {
-                const stats = { ...current.stats };
+            session =
+                (await updateSession((current) => {
+                    const stats = { ...current.stats };
 
-                if (result.outcome === 'applied') {
-                    stats.applied += 1;
-                } else {
-                    stats.skipped += 1;
+                    if (result.outcome === 'applied') {
+                        stats.applied += 1;
+                    } else {
+                        stats.skipped += 1;
 
-                    if (result.reason === 'low_fit_score' || result.reason === 'short_job_description') {
-                        stats.fitSkipped += 1;
+                        if (
+                            result.reason === 'low_fit_score' ||
+                            result.reason === 'short_job_description'
+                        ) {
+                            stats.fitSkipped += 1;
+                        }
                     }
-                }
 
-                const withLog = appendAutoApplyLog(
-                    current,
-                    result.outcome === 'applied' ? 'success' : 'info',
-                    formatJobOutcomeLogMessage(job, result),
-                );
+                    const withLog = appendAutoApplyLog(
+                        current,
+                        result.outcome === 'applied' ? 'success' : 'info',
+                        formatJobOutcomeLogMessage(job, result),
+                    );
 
-                return {
-                    ...withLog,
-                    stats,
-                    currentIndex: current.currentIndex + 1,
-                };
-            }) || session;
+                    return {
+                        ...withLog,
+                        stats,
+                        currentIndex: current.currentIndex + 1,
+                    };
+                })) || session;
 
             markWatchdogProgress(session);
         } catch (error) {
-            await recordAnalyticsEvent(session, 'error', job, {
-                metadata: { message: error.message || 'Auto Apply job failed.' },
-            }, tabId);
+            await recordAnalyticsEvent(
+                session,
+                'error',
+                job,
+                {
+                    metadata: {
+                        message: error.message || 'Auto Apply job failed.',
+                    },
+                },
+                tabId,
+            );
 
-            session = await updateSession((current) => {
-                const stats = { ...current.stats, errors: current.stats.errors + 1 };
-                const withLog = appendAutoApplyLog(current, 'error', `${job.title}: ${error.message}`);
+            session =
+                (await updateSession((current) => {
+                    const stats = {
+                        ...current.stats,
+                        errors: current.stats.errors + 1,
+                    };
+                    const withLog = appendAutoApplyLog(
+                        current,
+                        'error',
+                        `${job.title}: ${error.message}`,
+                    );
 
-                return {
-                    ...withLog,
-                    stats,
-                    currentIndex: current.currentIndex + 1,
-                    lastError: isExtensionMessagingError(error.message) ? current.lastError : error.message,
-                };
-            }) || session;
+                    return {
+                        ...withLog,
+                        stats,
+                        currentIndex: current.currentIndex + 1,
+                        lastError: isExtensionMessagingError(error.message)
+                            ? current.lastError
+                            : error.message,
+                    };
+                })) || session;
 
             markWatchdogProgress(session);
         }
 
         try {
             tabId = await returnToIndeedSearch(tabId, session);
-            session = await updateSession({ tabId }) || session;
+            session = (await updateSession({ tabId })) || session;
         } catch {
             // Best-effort return to search between jobs.
         }
@@ -5501,7 +7093,9 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
             return;
         }
 
-        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(
+            randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs),
+        );
 
         if (!slept) {
             await finalizeStoppedSession();
@@ -5512,11 +7106,12 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
 
     session = await loadAutoApplySession();
 
-    session = await updateSession((current) => ({
-        ...current,
-        status: current.stopRequested ? 'stopped' : 'completed',
-        finishedAt: new Date().toISOString(),
-    })) || session;
+    session =
+        (await updateSession((current) => ({
+            ...current,
+            status: current.stopRequested ? 'stopped' : 'completed',
+            finishedAt: new Date().toISOString(),
+        }))) || session;
 
     await logSession(
         'success',
@@ -5528,29 +7123,58 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
     }
 }
 
-async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null) {
+async function runAutoApplyLoop(
+    initialSession,
+    runDraftAll,
+    profileData = null,
+) {
     if (initialSession.platform === INDEED_PLATFORM_ID) {
         return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData);
     }
 
     if (initialSession.platform === TOTALJOBS_PLATFORM_ID) {
-        return runTotalJobsAutoApplyLoop(buildTotalJobsRunnerContext(), initialSession, runDraftAll, profileData);
+        return runTotalJobsAutoApplyLoop(
+            buildTotalJobsRunnerContext(),
+            initialSession,
+            runDraftAll,
+            profileData,
+        );
     }
 
     if (initialSession.platform === GLASSDOOR_PLATFORM_ID) {
-        return runGlassdoorAutoApplyLoop(buildGlassdoorRunnerContext(), initialSession, runDraftAll, profileData);
+        return runGlassdoorAutoApplyLoop(
+            buildGlassdoorRunnerContext(),
+            initialSession,
+            runDraftAll,
+            profileData,
+        );
     }
 
     if (initialSession.platform === SIMPLYHIRED_PLATFORM_ID) {
-        return runSimplyHiredAutoApplyLoop(buildSimplyHiredRunnerContext(), initialSession, runDraftAll, profileData);
+        return runSimplyHiredAutoApplyLoop(
+            buildSimplyHiredRunnerContext(),
+            initialSession,
+            runDraftAll,
+            profileData,
+        );
     }
 
     if (initialSession.platform === REED_PLATFORM_ID) {
-        return runReedAutoApplyLoop(buildReedRunnerContext(), initialSession, runDraftAll, profileData);
+        return runReedAutoApplyLoop(
+            buildReedRunnerContext(),
+            initialSession,
+            runDraftAll,
+            profileData,
+        );
     }
 
     if (initialSession.platform === CV_LIBRARY_PLATFORM_ID) {
-        return runCvLibraryAutoApplyLoop(buildCvLibraryRunnerContext(), initialSession, runDraftAll, profileData);
+        return runCvLibraryAutoApplyLoop(
+            buildCvLibraryRunnerContext(),
+            initialSession,
+            runDraftAll,
+            profileData,
+        );
     }
 
     resetWatchdog();
@@ -5558,7 +7182,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
     let session = initialSession;
     let tabId = await ensureLinkedInTab(session);
 
-    session = await updateSession({ tabId }) || session;
+    session = (await updateSession({ tabId })) || session;
     markWatchdogProgress(session);
     await logSession('info', 'Collecting LinkedIn job listings…');
 
@@ -5571,9 +7195,14 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         throw new Error('No LinkedIn job listings found on the search page.');
     }
 
-    await logSession('info', `Found ${session.queue.length} jobs (Easy Apply filter enabled).`);
+    await logSession(
+        'info',
+        `Found ${session.queue.length} jobs (Easy Apply filter enabled).`,
+    );
 
-    while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
+    while (
+        (await loadAutoApplySession())?.stats.applied < session.maxApplications
+    ) {
         session = await loadAutoApplySession();
 
         if (!session) {
@@ -5587,7 +7216,10 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         }
 
         if (session.currentIndex >= session.queue.length) {
-            const nextPage = await sendLinkedInMessage(tabId, 'LINKEDIN_NEXT_SEARCH_PAGE');
+            const nextPage = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_NEXT_SEARCH_PAGE',
+            );
 
             if (!nextPage?.success) {
                 break;
@@ -5609,13 +7241,15 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
                 return;
             }
 
-            const health = await scanLinkedInTabHealth(tabId, { loadingStuck: true });
+            const health = await scanLinkedInTabHealth(tabId, {
+                loadingStuck: true,
+            });
             const reason = health.primary
                 ? formatLinkedInIssue(health.primary)
                 : 'No Auto Apply progress detected';
 
             tabId = await recoverLinkedInTab(tabId, session, reason);
-            session = await updateSession({ tabId }) || session;
+            session = (await updateSession({ tabId })) || session;
             session = await appendUniqueJobs(tabId, session);
             markWatchdogProgress(session);
 
@@ -5625,17 +7259,19 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         const job = session.queue[session.currentIndex];
 
         try {
-            const result = await withLinkedInTabLock(() => processLinkedInJob(
-                tabId,
-                job,
-                runDraftAll,
-                session,
-                profileData,
-            ));
+            const result = await withLinkedInTabLock(() =>
+                processLinkedInJob(
+                    tabId,
+                    job,
+                    runDraftAll,
+                    session,
+                    profileData,
+                ),
+            );
 
             if (result.tabId && result.tabId !== tabId) {
                 tabId = result.tabId;
-                session = await updateSession({ tabId }) || session;
+                session = (await updateSession({ tabId })) || session;
             }
 
             if (result.outcome === 'stopped') {
@@ -5644,63 +7280,89 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
                 return;
             }
 
-            session = await updateSession((current) => {
-                const stats = { ...current.stats };
+            session =
+                (await updateSession((current) => {
+                    const stats = { ...current.stats };
 
-                if (result.outcome === 'applied') {
-                    stats.applied += 1;
-                } else {
-                    stats.skipped += 1;
+                    if (result.outcome === 'applied') {
+                        stats.applied += 1;
+                    } else {
+                        stats.skipped += 1;
 
-                    if (result.reason === 'low_fit_score' || result.reason === 'short_job_description') {
-                        stats.fitSkipped += 1;
+                        if (
+                            result.reason === 'low_fit_score' ||
+                            result.reason === 'short_job_description'
+                        ) {
+                            stats.fitSkipped += 1;
+                        }
                     }
-                }
 
-                const withLog = appendAutoApplyLog(
-                    current,
-                    result.outcome === 'applied' ? 'success' : 'info',
-                    formatJobOutcomeLogMessage(job, result),
-                );
+                    const withLog = appendAutoApplyLog(
+                        current,
+                        result.outcome === 'applied' ? 'success' : 'info',
+                        formatJobOutcomeLogMessage(job, result),
+                    );
 
-                return {
-                    ...withLog,
-                    stats,
-                    currentIndex: current.currentIndex + 1,
-                };
-            }) || session;
+                    return {
+                        ...withLog,
+                        stats,
+                        currentIndex: current.currentIndex + 1,
+                    };
+                })) || session;
 
             markWatchdogProgress(session);
         } catch (error) {
             await stabilizeLinkedInTab(tabId).catch(() => {});
 
-            await recordAnalyticsEvent(session, 'error', job, {
-                metadata: { message: error.message || 'Auto Apply job failed.' },
-            }, tabId);
+            await recordAnalyticsEvent(
+                session,
+                'error',
+                job,
+                {
+                    metadata: {
+                        message: error.message || 'Auto Apply job failed.',
+                    },
+                },
+                tabId,
+            );
 
-            session = await updateSession((current) => {
-                const stats = { ...current.stats, errors: current.stats.errors + 1 };
-                const withLog = appendAutoApplyLog(current, 'error', `${job.title}: ${error.message}`);
+            session =
+                (await updateSession((current) => {
+                    const stats = {
+                        ...current.stats,
+                        errors: current.stats.errors + 1,
+                    };
+                    const withLog = appendAutoApplyLog(
+                        current,
+                        'error',
+                        `${job.title}: ${error.message}`,
+                    );
 
-                return {
-                    ...withLog,
-                    stats,
-                    currentIndex: current.currentIndex + 1,
-                    lastError: isExtensionMessagingError(error.message) ? current.lastError : error.message,
-                };
-            }) || session;
+                    return {
+                        ...withLog,
+                        stats,
+                        currentIndex: current.currentIndex + 1,
+                        lastError: isExtensionMessagingError(error.message)
+                            ? current.lastError
+                            : error.message,
+                    };
+                })) || session;
 
             markWatchdogProgress(session);
 
-            const errorHealth = await scanLinkedInTabHealth(tabId).catch(() => null);
+            const errorHealth = await scanLinkedInTabHealth(tabId).catch(
+                () => null,
+            );
 
             if (errorHealth?.blocking?.length) {
                 tabId = await recoverLinkedInTab(
                     tabId,
                     session,
-                    formatLinkedInIssue(errorHealth.primary || errorHealth.blocking[0]),
+                    formatLinkedInIssue(
+                        errorHealth.primary || errorHealth.blocking[0],
+                    ),
                 ).catch(() => tabId);
-                session = await updateSession({ tabId }) || session;
+                session = (await updateSession({ tabId })) || session;
             }
         }
 
@@ -5710,7 +7372,9 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
             return;
         }
 
-        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(
+            randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs),
+        );
 
         if (!slept) {
             await finalizeStoppedSession();
@@ -5721,11 +7385,12 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
 
     session = await loadAutoApplySession();
 
-    session = await updateSession((current) => ({
-        ...current,
-        status: current.stopRequested ? 'stopped' : 'completed',
-        finishedAt: new Date().toISOString(),
-    })) || session;
+    session =
+        (await updateSession((current) => ({
+            ...current,
+            status: current.stopRequested ? 'stopped' : 'completed',
+            finishedAt: new Date().toISOString(),
+        }))) || session;
 
     await logSession(
         'success',
@@ -5736,11 +7401,17 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         await finalizeAutoApplyAnalyticsSession(session);
     }
 
-    logInfo('background', 'auto-apply.complete', 'Auto Apply run finished', {
-        applied: session?.stats.applied || 0,
-        skipped: session?.stats.skipped || 0,
-        errors: session?.stats.errors || 0,
-    }, tabId);
+    logInfo(
+        'background',
+        'auto-apply.complete',
+        'Auto Apply run finished',
+        {
+            applied: session?.stats.applied || 0,
+            skipped: session?.stats.skipped || 0,
+            errors: session?.stats.errors || 0,
+        },
+        tabId,
+    );
 }
 
 /** @type {(() => Promise<object|null>)|null} */
@@ -5769,9 +7440,15 @@ export async function resumeAutoApplyFromPause() {
         return session;
     }
 
-    const resumed = await updateSession((current) => resumeAutoApplyFromInput(
-        appendAutoApplyLog(current, 'info', 'Resuming Auto Apply after your answer.'),
-    ));
+    const resumed = await updateSession((current) =>
+        resumeAutoApplyFromInput(
+            appendAutoApplyLog(
+                current,
+                'info',
+                'Resuming Auto Apply after your answer.',
+            ),
+        ),
+    );
 
     chrome.runtime.sendMessage({ type: 'AUTO_APPLY_RESUMED' }).catch(() => {});
 
@@ -5804,7 +7481,8 @@ export async function stopAutoApply() {
     const updated = await updateSession({
         stopRequested: true,
         pauseContext: null,
-        status: session.status === 'paused_for_input' ? 'running' : session.status,
+        status:
+            session.status === 'paused_for_input' ? 'running' : session.status,
     });
 
     if (updated) {
@@ -5825,14 +7503,16 @@ export async function reconcileOrphanedAutoApplySession() {
         return session;
     }
 
-    const stopped = await updateSession((current) => buildStoppedSessionState(
-        appendAutoApplyLog(
-            current,
-            'warn',
-            'Auto Apply stopped because the extension restarted. Start again from the sidebar if you want to continue.',
+    const stopped = await updateSession((current) =>
+        buildStoppedSessionState(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                'Auto Apply stopped because the extension restarted. Start again from the sidebar if you want to continue.',
+            ),
+            { clearLog: false },
         ),
-        { clearLog: false },
-    ));
+    );
 
     if (stopped) {
         await finalizeAutoApplyAnalyticsSession(stopped);
@@ -5877,7 +7557,14 @@ export async function resetAutoApplySession() {
         roleDescription: '',
         tabId: null,
         maxApplications: 0,
-        stats: { found: 0, applied: 0, skipped: 0, errors: 0, draftAllRuns: 0, stepsAdvanced: 0 },
+        stats: {
+            found: 0,
+            applied: 0,
+            skipped: 0,
+            errors: 0,
+            draftAllRuns: 0,
+            stepsAdvanced: 0,
+        },
         currentIndex: 0,
         queueLength: 0,
         log: [],
@@ -5935,7 +7622,10 @@ export async function forceResetAutoApply() {
         const updated = await updateSession({
             stopRequested: true,
             pauseContext: null,
-            status: session.status === 'paused_for_input' ? 'running' : session.status,
+            status:
+                session.status === 'paused_for_input'
+                    ? 'running'
+                    : session.status,
         });
 
         if (updated) {
@@ -5976,19 +7666,19 @@ function isExtensionMessagingError(message) {
 
     const text = String(message);
 
-    return text.includes('message channel closed')
-        || text.includes('back/forward cache')
-        || text.includes('Extension context invalidated')
-        || text.includes('Receiving end does not exist');
+    return (
+        text.includes('message channel closed') ||
+        text.includes('back/forward cache') ||
+        text.includes('Extension context invalidated') ||
+        text.includes('Receiving end does not exist')
+    );
 }
 
 export function isAutoApplyRunning() {
     return activeRunPromise !== null;
 }
 
-const {
-    buildCvLibraryRunnerContext,
-} = createCvLibraryOrchestrator({
+const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     sendTabMessage,
     invalidateTabFrameCache,
     isExtensionMessagingError,
@@ -6011,7 +7701,6 @@ const {
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
-    captureJobPage,
     recordAnalyticsEvent,
     runDraftAllForStep,
     ensureStepFilledOrPaused,
@@ -6032,9 +7721,7 @@ const {
     waitForApplicationSubmitConfirmation,
 });
 
-const {
-    buildSimplyHiredRunnerContext,
-} = createSimplyHiredOrchestrator({
+const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     sendTabMessage,
     invalidateTabFrameCache,
     isExtensionMessagingError,
@@ -6057,7 +7744,6 @@ const {
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
-    captureJobPage,
     recordAnalyticsEvent,
     sendIndeedApplyFlowMessage,
     runDraftAllForStep,

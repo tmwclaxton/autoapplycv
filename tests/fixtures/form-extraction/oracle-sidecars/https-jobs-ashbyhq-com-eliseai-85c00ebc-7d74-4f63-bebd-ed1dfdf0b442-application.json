@@ -1,0 +1,281 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-85c00ebc-7d74-4f63-bebd-ed1dfdf0b442-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:29:25.697Z",
+  "page_url": "https://jobs.ashbyhq.com/eliseai/85c00ebc-7d74-4f63-bebd-ed1dfdf0b442/application",
+  "page_title": "Mid-Market Account Executive | Housing @ EliseAI",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 13,
+      "count_delta": 2,
+      "label_jaccard": 0.8667,
+      "type_agree_rate": 0.9231,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about eliseai?",
+        "ai": "How did you hear about EliseAI?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+        "ai": "If you were contacted by a recruiter or a current/former employee, please specify who.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+        "ai": "Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B, TN visa status)?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "eliseai is an in-office company. are you comfortable working from our office around 4-5 days per week?",
+        "ai": "EliseAI is an in-office company. Are you comfortable working from our office around 4-5 days per week?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please share both your base salary and variable compensation expectations for this role (fill in both numbers separately, not combined)",
+        "ai": "Please share both your base salary and variable compensation expectations for this role (fill in both numbers separately, not combined)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what was your annualized quota in dollars in your current or last sales role? (eg. $600k, 800k, $1.2m, etc.)",
+        "ai": "What was your annualized quota in dollars in your current or last sales role? (Eg. $600k, 800k, $1.2M, etc.)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "for the above quota, what was your annualized quota attainment as a %? (eg. 80%, 100%, 120%, etc.)",
+      "please write a hypothetical cold prospecting email to a target account. this account is a property manager with over 25 buildings under their ownership. they currently use a competitive ai product for leasing communications. the contact is the vp of marketing. the email should be max 175 words."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for the work authorization question. The combobox for 'How did you hear about us' is likely populated dynamically via JavaScript.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about EliseAI?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you were contacted by a recruiter or a current/former employee, please specify who.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B, TN visa status)?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "EliseAI is an in-office company. Are you comfortable working from our office around 4-5 days per week?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please share both your base salary and variable compensation expectations for this role (fill in both numbers separately, not combined)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What was your annualized quota in dollars in your current or last sales role? (Eg. $600k, 800k, $1.2M, etc.)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how did you hear about eliseai?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "eliseai is an in-office company. are you comfortable working from our office around 4-5 days per week?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please share both your base salary and variable compensation expectations for this role (fill in both numbers separately, not combined)",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what was your annualized quota in dollars in your current or last sales role? (eg. $600k, 800k, $1.2m, etc.)",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "for the above quota, what was your annualized quota attainment as a %? (eg. 80%, 100%, 120%, etc.)",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "please write a hypothetical cold prospecting email to a target account. this account is a property manager with over 25 buildings under their ownership. they currently use a competitive ai product for leasing communications. the contact is the vp of marketing. the email should be max 175 words.",
+      "field_type": "textarea",
+      "ref": "f14"
+    }
+  ]
+}

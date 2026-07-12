@@ -1,0 +1,54 @@
+{
+  "id": "https-aritmaas-teamtailor-com-jobs-5888050-open-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:19:28.434Z",
+  "page_url": "https://aritmaas.teamtailor.com/jobs/5888050-open-application",
+  "page_title": "Open application - Aritma",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 2,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "email address without domain",
+        "ai": "Email address without domain",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains an 'Auto Join' form for existing employees, not a standard job application form. The actual job application form for the 'Open application' page is likely rendered dynamically via JavaScript (SPA) and is not present in the static HTML excerpt.",
+    "fields": [
+      {
+        "question": "Email address without domain",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "email address without domain",
+      "field_type": "email",
+      "ref": "f0"
+    },
+    {
+      "question": "email address without domain",
+      "field_type": "textarea",
+      "ref": "f1"
+    }
+  ]
+}

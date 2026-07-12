@@ -1,0 +1,236 @@
+{
+  "id": "https-apply-workable-com-murmuration-j-d428411676-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:21:43.109Z",
+  "page_url": "https://apply.workable.com/murmuration/j/D428411676/apply/",
+  "page_title": "Senior Manager of Content and Communications Strategy - Murmuration - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 24,
+      "ai_count": 5,
+      "count_delta": 19,
+      "label_jaccard": 0.2083,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "preferred pronouns",
+      "does the listed compensation align with your expectations?",
+      "summary",
+      "resume",
+      "7–10+ years of experience in content/digital strategy, creative leadership, or campaign management at an agency, political campaign, nonprofit, or mission-driven organization;",
+      "demonstrated experience leading high-impact media campaigns with measurable results;",
+      "proven ability to manage creative talent and external vendors effectively;",
+      "strong portfolio of work showcasing digital storytelling, creative strategy, and performance-driven campaigns;",
+      "deep understanding of paid media, digital platforms, content strategy, and analytics;",
+      "excellent writing and messaging skills, with experience crafting scripts, digital content, and campaign narratives;",
+      "strong project management skills and ability to manage multiple priorities in a fast-moving environment; and",
+      "experience translating complex data and performance metrics into clear insights for partners and stakeholders.",
+      "experience working in political, advocacy, or social impact environments;",
+      "familiarity with modern digital organizing and persuasion tools; and/or",
+      "experience with polling, audience research, or message testing.",
+      "linkedin profile",
+      "will you now or in the future require employment sponsorship (please also note if opt applies)?",
+      "how did you hear about us?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so the form fields list is likely incomplete. The phone input uses a country code selector (combobox).",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "preferred pronouns",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "does the listed compensation align with your expectations?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "7–10+ years of experience in content/digital strategy, creative leadership, or campaign management at an agency, political campaign, nonprofit, or mission-driven organization;",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "demonstrated experience leading high-impact media campaigns with measurable results;",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "proven ability to manage creative talent and external vendors effectively;",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "strong portfolio of work showcasing digital storytelling, creative strategy, and performance-driven campaigns;",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "deep understanding of paid media, digital platforms, content strategy, and analytics;",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "excellent writing and messaging skills, with experience crafting scripts, digital content, and campaign narratives;",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "strong project management skills and ability to manage multiple priorities in a fast-moving environment; and",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "experience translating complex data and performance metrics into clear insights for partners and stakeholders.",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "experience working in political, advocacy, or social impact environments;",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "familiarity with modern digital organizing and persuasion tools; and/or",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "experience with polling, audience research, or message testing.",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f21"
+    },
+    {
+      "question": "will you now or in the future require employment sponsorship (please also note if opt applies)?",
+      "field_type": "textarea",
+      "ref": "f22"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f23"
+    }
+  ]
+}

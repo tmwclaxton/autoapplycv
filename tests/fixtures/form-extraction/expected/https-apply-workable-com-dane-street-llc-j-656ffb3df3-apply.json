@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-dane-street-llc-j-656ffb3df3-apply",
-  "min_fields": 18,
-  "exact_field_count": 18,
+  "min_fields": 15,
+  "exact_field_count": 15,
   "fields": [
     {
       "question": "first name",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -92,48 +92,8 @@
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -152,7 +112,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_kKMIOYd1I3EFzAi9",
+        "id": "input_files_input_Vzp5lqUlycHoFDRG",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -192,7 +152,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_w9sGFFks4kPklM9M",
+        "id": "input_files_input_j3vSWQ22fame8FHS",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -248,14 +208,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "ca9rqjZwAIJTshg6",
+        "id": "P2RjvVDoz67rP3Fg",
         "name": "QA_11696364",
         "data_testid": null,
         "role": null,
@@ -339,29 +299,6 @@
         "name": "QA_11696367",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you authorized to work in the united states?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_ca9rqjZwAIJTshg6",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,

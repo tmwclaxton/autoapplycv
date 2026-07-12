@@ -1,0 +1,186 @@
+{
+  "id": "https-magellan-ai-breezy-hr-p-e0471a1d8b60-quality-assurance-analyst-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:59:19.781Z",
+  "page_url": "https://magellan-ai.breezy.hr/p/e0471a1d8b60-quality-assurance-analyst/apply",
+  "page_title": "Quality Assurance Analyst",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.4167,
+      "type_agree_rate": 0.8571,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "what's your linkedin profile url?",
+        "ai": "What's your LinkedIn profile URL?",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "where are you based?",
+        "ai": "Where are you based?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this role?",
+        "ai": "How did you hear about this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b visa status)?",
+        "ai": "Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B visa status)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume"
+    ],
+    "reasons": [
+      "label Jaccard 0.417 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The resume upload is optional per the hidden input field, though the UI shows a required asterisk in some states. The LinkedIn URL and location questions are part of a dynamic questionnaire section.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What's your LinkedIn profile URL?",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you based?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this role?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B visa status)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "what's your linkedin profile url?",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "where are you based?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "how did you hear about this role?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b visa status)?",
+      "field_type": "radio",
+      "ref": "f8"
+    }
+  ]
+}

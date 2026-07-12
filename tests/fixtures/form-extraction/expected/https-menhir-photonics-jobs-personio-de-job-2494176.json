@@ -1,0 +1,409 @@
+{
+  "id": "https-menhir-photonics-jobs-personio-de-job-2494176",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-first_name",
+        "name": "first_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "First",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-last_name",
+        "name": "last_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Last",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "field-email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "yourmail@domain.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+49 176 123 4455",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Male",
+        "Female",
+        "Diverse",
+        "Undefined"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-gender",
+        "name": "gender",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which valid swiss work authorization do you currently hold? (do not select a permit that has not yet been issued.) ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Swiss Citizen",
+        "C Permit",
+        "B Permit",
+        "L Permit",
+        "G Permit",
+        "Ci Permit",
+        "S Permit",
+        "N Permit",
+        "F Permit",
+        "EU/EFTA citizen"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_4885909",
+        "name": "custom_attribute_4885909",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when are you available to start working with us? ( ) when are you available to start working with us?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3960075",
+        "name": "custom_attribute_3960075",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "When are you available to start working with us?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have? ( ) how many years of experience do you have?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3960139",
+        "name": "custom_attribute_3960139",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "How many years of experience do you have?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what city do you currently live in? ( ) what city do you currently live in?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3960074",
+        "name": "custom_attribute_3960074",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "What city do you currently live in?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your level of proficiency in english? ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "None",
+        "Elementary proficiency",
+        "Limited working proficiency",
+        "Professional working proficiency",
+        "Full professional working proficiency",
+        "Native or bilingual proficiency"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3960065",
+        "name": "custom_attribute_3960065",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your level of proficiency in german? ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "None",
+        "Elementary proficiency",
+        "Limited working proficiency",
+        "Professional working proficiency",
+        "Full professional working proficiency",
+        "Native or bilingual proficiency"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3960066",
+        "name": "custom_attribute_3960066",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your expected yearly compensation in chf? ( ) what is your expected yearly compensation in chf?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3891994",
+        "name": "custom_attribute_3891994",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "What is your expected yearly compensation in CHF?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "consent under the swiss federal act on data protection (fadp) and, where applicable, the eu general data protection regulation (gdpr) ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Yes, I consent to my data being stored for future opportunities at Menhir Photonics for a period of up to 24 months.",
+        "No, please delete my data within one month."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_4295533",
+        "name": "custom_attribute_4295533",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cv",
+        "name": "documents.cv",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cover-letter",
+        "name": "documents.cover-letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "employment reference",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-employment-reference",
+        "name": "documents.employment-reference",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "certificate",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-certificate",
+        "name": "documents.certificate",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-other",
+        "name": "documents.other",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

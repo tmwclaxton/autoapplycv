@@ -87,7 +87,7 @@ function selectBrowser(browser: BrowserChoice): void {
                     :class="
                         selectedBrowser === option.id
                             ? 'border-postbox-red bg-postbox-red/5 shadow-sm'
-                            : 'border-postbox-navy/15 bg-white hover:border-postbox-navy/30 hover:bg-postbox-grey/30'
+                            : 'border-postbox-navy/15 bg-postbox-surface hover:border-postbox-navy/30 hover:bg-postbox-grey/30'
                     "
                     @click="selectBrowser(option.id)"
                 >

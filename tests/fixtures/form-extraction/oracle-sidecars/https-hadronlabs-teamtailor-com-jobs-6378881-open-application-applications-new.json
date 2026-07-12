@@ -1,0 +1,248 @@
+{
+  "id": "https-hadronlabs-teamtailor-com-jobs-6378881-open-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:21:03.950Z",
+  "page_url": "https://hadronlabs.teamtailor.com/jobs/6378881-open-application/applications/new",
+  "page_title": "Open Application - Hadron Labs",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 10,
+      "count_delta": 5,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "what is your current location?",
+        "ai": "What is your current location?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations in monthly/usd?",
+        "ai": "What are your salary expectations in monthly/USD?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period?",
+        "ai": "What is your notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "share your x account.",
+        "ai": "Share your X account.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "share your linkedin account.",
+        "ai": "Share your LinkedIn account.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter",
+      "by submitting this application, i agree that i have read the privacy policy, and confirm that hadron labs can store my personal details to be able to process my job application.",
+      "yes, hadron labs can contact me directly about specific future job opportunities"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a LinkedIn integration button for auto-filling. The phone input uses an international telephone input library (intl-tel-input) which is not fully captured in the static HTML.",
+    "fields": [
+      {
+        "question": "What is your current location?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations in monthly/USD?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your notice period?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Share your X account.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Share your LinkedIn account.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "London",
+          "Berlin",
+          "California",
+          "Dubai",
+          "Seoul"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what is your current location?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "what are your salary expectations in monthly/usd?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "share your x account.",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "share your linkedin account.",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "by submitting this application, i agree that i have read the privacy policy, and confirm that hadron labs can store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "yes, hadron labs can contact me directly about specific future job opportunities",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

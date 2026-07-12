@@ -1,0 +1,188 @@
+{
+  "id": "https-jobs-ashbyhq-com-nerdwallet-24ef270b-7e65-457f-b08a-0134ea3e037b-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:39:48.086Z",
+  "page_url": "https://jobs.ashbyhq.com/nerdwallet/24ef270b-7e65-457f-b08a-0134ea3e037b/application",
+  "page_title": "Performance Marketing Manager, Affiliate Program Management @ NerdWallet",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 24,
+      "ai_count": 1,
+      "count_delta": 23,
+      "label_jaccard": 0,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "resume",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "have you ever worked at nerdwallet?",
+      "do you currently reside in the country this role is listed in?",
+      "are you subject to a non-competition agreement or any other agreement which would preclude or restrict your employment at nerdwallet or any other nerdwallet subsidiary?",
+      "are you authorized to work in the country this role is listed in?",
+      "do you need, or will you need in the future, any immigration related support or sponsorship from nerdwallet in order to begin or continue employment with nerdwallet?",
+      "name",
+      "preferred first name",
+      "email",
+      "phone number",
+      "cover letter",
+      "what is your current or most recent company?",
+      "linkedin url",
+      "other website",
+      "why do you want to work at nerdwallet?",
+      "how did you hear about this job?",
+      "if other, please specify:",
+      "if yes, please specify the jurisdiction (state, province, or country) and provide details about your agreements:",
+      "i identify my gender as: (select one)",
+      "i identify as transgender: (select one)",
+      "i identify my sexual orientation as: (select one)",
+      "i identify my ethnicity as (mark all that apply):",
+      "veteran status: (select one)",
+      "i have a physical disability: (select one)"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt is truncated and ends abruptly at the start of the application form section. Only the resume upload field, which is visible in the autofill component, is captured. Other standard fields (name, email, etc.) are likely present in the full form but were not included in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "have you ever worked at nerdwallet?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you currently reside in the country this role is listed in?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you subject to a non-competition agreement or any other agreement which would preclude or restrict your employment at nerdwallet or any other nerdwallet subsidiary?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you authorized to work in the country this role is listed in?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "do you need, or will you need in the future, any immigration related support or sponsorship from nerdwallet in order to begin or continue employment with nerdwallet?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f7"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f8"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your current or most recent company?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "why do you want to work at nerdwallet?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "if other, please specify:",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "if yes, please specify the jurisdiction (state, province, or country) and provide details about your agreements:",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "i identify my gender as: (select one)",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "i identify as transgender: (select one)",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "i identify my sexual orientation as: (select one)",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "i identify my ethnicity as (mark all that apply):",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "veteran status: (select one)",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "i have a physical disability: (select one)",
+      "field_type": "radio",
+      "ref": "f23"
+    }
+  ]
+}

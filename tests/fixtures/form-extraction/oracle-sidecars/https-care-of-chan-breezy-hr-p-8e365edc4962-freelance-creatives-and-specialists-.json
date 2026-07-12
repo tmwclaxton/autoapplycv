@@ -1,0 +1,179 @@
+{
+  "id": "https-care-of-chan-breezy-hr-p-8e365edc4962-freelance-creatives-and-specialists-",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:01:59.088Z",
+  "page_url": "https://care-of-chan.breezy.hr/p/8e365edc4962-freelance-creatives-and-specialists/apply",
+  "page_title": "Freelance Creatives and Specialists",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.2667,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Care of Chan. Care of Chan will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time.",
+      "Work History",
+      "Education",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.267 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic Angular components for Work History and Education, which may require interaction to reveal sub-fields. The 'Add Position' and 'Add Education' buttons trigger these dynamic sections.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Care of Chan. Care of Chan will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Work History",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Education",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

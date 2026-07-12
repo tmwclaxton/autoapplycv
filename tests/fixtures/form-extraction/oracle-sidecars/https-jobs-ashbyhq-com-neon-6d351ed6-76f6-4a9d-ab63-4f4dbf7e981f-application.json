@@ -1,0 +1,205 @@
+{
+  "id": "https-jobs-ashbyhq-com-neon-6d351ed6-76f6-4a9d-ab63-4f4dbf7e981f-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:37:55.245Z",
+  "page_url": "https://jobs.ashbyhq.com/neon/6d351ed6-76f6-4a9d-ab63-4f4dbf7e981f/application",
+  "page_title": "Senior Software Engineer @ Neon",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7778,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "other",
+        "type_agree": false
+      },
+      {
+        "detector": "will you now or in the future require visa sponsorship for employment in the united states?",
+        "ai": "Will you now or in the future require visa sponsorship for employment in the United States?",
+        "detector_type": "radio",
+        "ai_type": "other",
+        "type_agree": false
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin or github",
+        "ai": "LinkedIn or Github",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what's your favorite video game?",
+        "ai": "What's your favorite video game?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i'm willing to work from the office in sf or nyc most days.",
+        "ai": "I'm willing to work from the office in SF or NYC most days.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i am aware that neon performs background checks and does not permit use of ai agents during live interviews.",
+        "ai": "I am aware that Neon performs background checks and does not permit use of AI agents during live interviews.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The 'Are you legally authorized to work' and 'visa sponsorship' fields use custom button-based UI elements that act as radio/checkbox inputs. The resume upload field supports drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn or Github",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What's your favorite video game?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I'm willing to work from the office in SF or NYC most days.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Yes, but I need to discuss relocation or accommodation."
+        ]
+      },
+      {
+        "question": "I am aware that Neon performs background checks and does not permit use of AI agents during live interviews.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "other",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship for employment in the United States?",
+        "field_type": "other",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship for employment in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin or github",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what's your favorite video game?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "i'm willing to work from the office in sf or nyc most days.",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "i am aware that neon performs background checks and does not permit use of ai agents during live interviews.",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

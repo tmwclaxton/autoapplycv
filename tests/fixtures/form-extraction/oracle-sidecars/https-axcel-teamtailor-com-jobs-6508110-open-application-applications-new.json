@@ -1,0 +1,168 @@
+{
+  "id": "https-axcel-teamtailor-com-jobs-6508110-open-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:37:13.684Z",
+  "page_url": "https://axcel.teamtailor.com/jobs/6508110-open-application/applications/new",
+  "page_title": "Open application - Axcel",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 6,
+      "count_delta": 3,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "which function are you applying to?",
+        "ai": "Which function are you applying to?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a LinkedIn integration button which may dynamically populate fields. The phone input uses an international telephone input library (iti) which is not fully represented in the static HTML.",
+    "fields": [
+      {
+        "question": "Which function are you applying to?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Investment Team",
+          "Operations",
+          "Office Support",
+          "Portfolio Company",
+          "Internship"
+        ]
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Copenhagen",
+          "Frankfurt",
+          "Stockholm"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which function are you applying to?",
+      "field_type": "checkbox",
+      "ref": "f0"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f1"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

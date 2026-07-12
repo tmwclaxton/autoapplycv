@@ -1,0 +1,314 @@
+{
+  "id": "https-framestore-recruitee-com-o-freelance-flame-chicago-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:36:59.882Z",
+  "page_url": "https://framestore.recruitee.com/o/freelance-flame-chicago/c/new",
+  "page_title": "Framestore - Freelance: Flame - Chicago - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 0.875,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio link",
+        "ai": "Portfolio link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio password",
+        "ai": "Portfolio password",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "availability date",
+        "ai": "Availability date",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "citizenship",
+        "ai": "Citizenship",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary/rate",
+        "ai": "Desired salary/rate",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns?",
+        "ai": "What are your pronouns?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you hear about this role?",
+        "ai": "Where did you hear about this role?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+        "ai": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [
+      "Will you require visa sponsorship to work in the US?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter field allows file upload, but the UI suggests a switch to a text area which is not visible in the static HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio password",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Availability date",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Citizenship",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you require visa sponsorship to work in the US?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "No",
+          "Yes"
+        ]
+      },
+      {
+        "question": "Desired salary/rate",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your pronouns?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "She/Her",
+          "He/Him",
+          "They/Them",
+          "Ze/Zee",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "Where did you hear about this role?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Framestore Career Website",
+          "LinkedIn",
+          "Framestore social media (ie Twitter, Facebook, Instagram)",
+          "The Muse",
+          "Indeed",
+          "Other"
+        ]
+      },
+      {
+        "question": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "portfolio link",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "portfolio password",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "availability date",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "citizenship",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "desired salary/rate",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "where did you hear about this role?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f14"
+    }
+  ]
+}

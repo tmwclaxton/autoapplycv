@@ -1,16 +1,16 @@
 {
   "id": "https-brighterly-recruitee-com-o-online-ela-tutor-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T19:58:27.667Z",
+  "captured_at": "2026-07-10T22:38:24.350Z",
   "page_url": "https://brighterly.recruitee.com/o/online-ela-tutor/c/new",
   "page_title": "Brighterly - Online ELA Tutor - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 19,
+      "detector_count": 20,
       "ai_count": 18,
-      "count_delta": 1,
-      "label_jaccard": 0.6087,
+      "count_delta": 2,
+      "label_jaccard": 0.6522,
       "type_agree_rate": 1,
       "matched_count": 18
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -136,21 +136,22 @@
       },
       {
         "detector": "i confirm i am not a resident of the following territories: russia, crimea, cuba, lebanon, venezuela, iran, north korea, syria, myanmar, yemen, pakistan and i can provide documenta",
-        "ai": "I confirm I am not a resident",
+        "ai": "I confirm I am not a resident of the following territories: Russia, Crimea, Cuba, Lebanon, Venezuela, Iran, North Korea, Syria, Myanmar, Yemen, Pakistan and I can provide documentary proof.",
         "detector_type": "checkbox",
         "ai_type": "checkbox",
         "type_agree": true
       }
     ],
     "detector_only": [
-      "each party will only disclose personal data to the other party to process strictly for the permitted purpose, namely the hiring process. applicant confirms that it is entitled to p"
+      "each party will only disclose personal data to the other party to process strictly for the permitted purpose, namely the hiring process. applicant confirms that it is entitled to p",
+      "country calling code"
     ],
     "ai_only": [],
     "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses Recruitee's standard dynamic field structure. The final checkbox text was truncated in the provided HTML.",
+    "notes": "The form uses Recruitee's standard dynamic field structure. The phone input includes a custom country selector widget.",
     "fields": [
       {
         "question": "Full name",
@@ -193,8 +194,8 @@
         "field_type": "radio",
         "required": true,
         "options": [
-          "true",
-          "false"
+          "Yes",
+          "No"
         ]
       },
       {
@@ -238,8 +239,8 @@
         "field_type": "radio",
         "required": true,
         "options": [
-          "true",
-          "false"
+          "Yes",
+          "No"
         ]
       },
       {
@@ -258,8 +259,8 @@
         "field_type": "radio",
         "required": true,
         "options": [
-          "true",
-          "false"
+          "Yes",
+          "No"
         ]
       },
       {
@@ -285,7 +286,7 @@
         "options": null
       },
       {
-        "question": "I confirm I am not a resident",
+        "question": "I confirm I am not a resident of the following territories: Russia, Crimea, Cuba, Lebanon, Venezuela, Iran, North Korea, Syria, Myanmar, Yemen, Pakistan and I can provide documentary proof.",
         "field_type": "checkbox",
         "required": true,
         "options": null
@@ -304,7 +305,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -387,6 +388,11 @@
       "question": "each party will only disclose personal data to the other party to process strictly for the permitted purpose, namely the hiring process. applicant confirms that it is entitled to p",
       "field_type": "checkbox",
       "ref": "f18"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f19"
     }
   ]
 }

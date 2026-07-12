@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-joey-restaurants-1-j-4b12828e14-apply",
-  "min_fields": 58,
-  "exact_field_count": 58,
+  "min_fields": 52,
+  "exact_field_count": 52,
   "fields": [
     {
       "question": "first name",
@@ -104,7 +104,7 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -112,48 +112,8 @@
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -172,7 +132,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_tORPcL62qVfGJGNB",
+        "id": "input_files_input_vHUEp1E1SB0EWpi2",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -192,7 +152,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_Anbguuyyr6532xF0",
+        "id": "input_files_input_XtQnzI0QMDZfmxLk",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -228,14 +188,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "bMCghqR6UCaQiIcC",
+        "id": "DbFs9AbWXR2BSXUs",
         "name": "CA_20647",
         "data_testid": null,
         "role": null,
@@ -251,14 +211,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "THTXpCzGKwZW5mSq",
+        "id": "xnjNXLWNsf26NVrW",
         "name": "CA_36043",
         "data_testid": null,
         "role": null,
@@ -274,14 +234,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes, I have been convicted of a criminal offense that is related to the job description.",
-        "SVGs not supported by this browser.No, I have not been convicted of a criminal offense that is related to the job description."
+        "Yes, I have been convicted of a criminal offense that is related to the job description.",
+        "No, I have not been convicted of a criminal offense that is related to the job description."
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "xz0CQAe0twiWZE3G",
+        "id": "VSuznKUZ5b3PumAn",
         "name": "CA_49144",
         "data_testid": null,
         "role": null,
@@ -317,14 +277,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "bYZQ5MJskDBK7kXT",
+        "id": "xO9H4Eq2UwOeiFV8",
         "name": "QA_7440996",
         "data_testid": null,
         "role": null,
@@ -356,17 +316,17 @@
       }
     },
     {
-      "question": "how are you applying?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.applied in store svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.applied in store",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Applied in store"
+        "Applied in store"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_pVPrZsBjdQSlbCgR",
+        "id": "input_HBaYyCBOUj7NwZsZ",
         "name": "2656618",
         "data_testid": null,
         "role": null,
@@ -378,17 +338,17 @@
       }
     },
     {
-      "question": "how are you applying?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.referred by a joey employee svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.referred by a joey employee",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Referred by a JOEY employee"
+        "Referred by a JOEY employee"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_pVPrZsBjdQSlbCgR",
+        "id": "input_HBaYyCBOUj7NwZsZ",
         "name": "2656619",
         "data_testid": null,
         "role": null,
@@ -400,17 +360,17 @@
       }
     },
     {
-      "question": "how are you applying?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.invited online to apply in person svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.invited online to apply in person",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Invited online to apply in person"
+        "Invited online to apply in person"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_pVPrZsBjdQSlbCgR",
+        "id": "input_HBaYyCBOUj7NwZsZ",
         "name": "2656620",
         "data_testid": null,
         "role": null,
@@ -422,17 +382,17 @@
       }
     },
     {
-      "question": "how are you applying?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.other svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.other",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Other"
+        "Other"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_pVPrZsBjdQSlbCgR",
+        "id": "input_HBaYyCBOUj7NwZsZ",
         "name": "2656621",
         "data_testid": null,
         "role": null,
@@ -444,17 +404,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.guest services team svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.guest services team",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Guest Services Team"
+        "Guest Services Team"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656622",
         "data_testid": null,
         "role": null,
@@ -466,17 +426,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.server liaison svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.server liaison",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Server Liaison"
+        "Server Liaison"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656623",
         "data_testid": null,
         "role": null,
@@ -488,17 +448,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.server svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.server",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Server"
+        "Server"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656624",
         "data_testid": null,
         "role": null,
@@ -510,17 +470,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.bartender svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.bartender",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Bartender"
+        "Bartender"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656625",
         "data_testid": null,
         "role": null,
@@ -532,17 +492,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.shift manager svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.shift manager",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Shift Manager"
+        "Shift Manager"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656626",
         "data_testid": null,
         "role": null,
@@ -554,17 +514,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.restaurant manager svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.restaurant manager",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Restaurant Manager"
+        "Restaurant Manager"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656627",
         "data_testid": null,
         "role": null,
@@ -576,17 +536,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.accelerated leadership program (front of house) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.accelerated leadership program (front of house)",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Accelerated Leadership Program (Front of House)"
+        "Accelerated Leadership Program (Front of House)"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656628",
         "data_testid": null,
         "role": null,
@@ -598,17 +558,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.dishwasher svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.dishwasher",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Dishwasher"
+        "Dishwasher"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656629",
         "data_testid": null,
         "role": null,
@@ -620,17 +580,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.line cook svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.line cook",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Line Cook"
+        "Line Cook"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656630",
         "data_testid": null,
         "role": null,
@@ -642,17 +602,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.prep cook svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.prep cook",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Prep Cook"
+        "Prep Cook"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656631",
         "data_testid": null,
         "role": null,
@@ -664,17 +624,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.grill cook svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.grill cook",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Grill Cook"
+        "Grill Cook"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656632",
         "data_testid": null,
         "role": null,
@@ -686,17 +646,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.sushi chef svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sushi chef",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sushi Chef"
+        "Sushi Chef"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656633",
         "data_testid": null,
         "role": null,
@@ -708,17 +668,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.sous chef svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sous chef",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sous Chef"
+        "Sous Chef"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656634",
         "data_testid": null,
         "role": null,
@@ -730,17 +690,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.jr. sous chef svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.jr. sous chef",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Jr. Sous Chef"
+        "Jr. Sous Chef"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656635",
         "data_testid": null,
         "role": null,
@@ -752,17 +712,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.kitchen leader svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.kitchen leader",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Kitchen Leader"
+        "Kitchen Leader"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656636",
         "data_testid": null,
         "role": null,
@@ -774,17 +734,17 @@
       }
     },
     {
-      "question": "what role/s are you applying for?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.accelerated leadership program (back of house) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.accelerated leadership program (back of house)",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Accelerated Leadership Program (Back of House)"
+        "Accelerated Leadership Program (Back of House)"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": "2656637",
         "data_testid": null,
         "role": null,
@@ -796,17 +756,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.monday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AM"
+        "Monday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656638",
         "data_testid": null,
         "role": null,
@@ -818,17 +778,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.monday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PM"
+        "Monday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656639",
         "data_testid": null,
         "role": null,
@@ -840,17 +800,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.tuesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM"
+        "Tuesday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656640",
         "data_testid": null,
         "role": null,
@@ -862,17 +822,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.tuesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM"
+        "Tuesday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656641",
         "data_testid": null,
         "role": null,
@@ -884,17 +844,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.wednesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM"
+        "Wednesday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656642",
         "data_testid": null,
         "role": null,
@@ -906,17 +866,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.wednesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM"
+        "Wednesday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656643",
         "data_testid": null,
         "role": null,
@@ -928,17 +888,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.thursday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM"
+        "Thursday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656644",
         "data_testid": null,
         "role": null,
@@ -950,17 +910,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.thursday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM"
+        "Thursday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656645",
         "data_testid": null,
         "role": null,
@@ -972,17 +932,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.friday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM"
+        "Friday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656646",
         "data_testid": null,
         "role": null,
@@ -994,17 +954,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.friday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM"
+        "Friday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656647",
         "data_testid": null,
         "role": null,
@@ -1016,17 +976,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.saturday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM"
+        "Saturday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656648",
         "data_testid": null,
         "role": null,
@@ -1038,17 +998,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.saturday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM"
+        "Saturday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656649",
         "data_testid": null,
         "role": null,
@@ -1060,17 +1020,17 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.sunday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM"
+        "Sunday AM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656650",
         "data_testid": null,
         "role": null,
@@ -1082,112 +1042,20 @@
       }
     },
     {
-      "question": "what is your availability?",
+      "question": "svgs not supported by this browser.svgs not supported by this browser.sunday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM"
+        "Sunday PM"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": "2656651",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "have you interviewed with the joey restaurant group within the last 6 months?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_bMCghqR6UCaQiIcC",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_THTXpCzGKwZW5mSq",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. in connection with this, we ask that you indicate \"yes\" if you have been convicted of a criminal offense that is related to the job requirements, and \"no\" if you have not. please be aware that a criminal record will not automatically prevent you from being considered for the position, and joey will meet its obligations, if any, under applicable human rights legislation.",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_xz0CQAe0twiWZE3G",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you legally eligible to work in canada?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_bYZQ5MJskDBK7kXT",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -1209,7 +1077,7 @@
       "dom": {
         "tag": "div",
         "type": null,
-        "id": "input_pVPrZsBjdQSlbCgR",
+        "id": "input_HBaYyCBOUj7NwZsZ",
         "name": null,
         "data_testid": null,
         "role": "group",
@@ -1246,7 +1114,7 @@
       "dom": {
         "tag": "div",
         "type": null,
-        "id": "input_SZdLFt4UqYovt5QW",
+        "id": "input_idKmTBz6b4M8zo3f",
         "name": null,
         "data_testid": null,
         "role": "group",
@@ -1281,7 +1149,7 @@
       "dom": {
         "tag": "div",
         "type": null,
-        "id": "input_Ap1Nltuer0LEhLW7",
+        "id": "input_KnXawG6SLXtIDEQu",
         "name": null,
         "data_testid": null,
         "role": "group",

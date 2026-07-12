@@ -1,0 +1,285 @@
+{
+  "id": "https-jobs-lever-co-decilegroup-4804b6c2-0ba8-4a1b-8024-84c8ab95fb2f-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:15:00.652Z",
+  "page_url": "https://jobs.lever.co/decilegroup/4804b6c2-0ba8-4a1b-8024-84c8ab95fb2f/apply",
+  "page_title": "Decile Group - Senior Ruby on Rails Engineer (Remote)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.5714,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "vc lab",
+        "ai": "VC Lab",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your experience in venture capital?",
+        "ai": "What is your experience in Venture Capital?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "write a few sentences about why are you uniquely qualified for this role?",
+        "ai": "Write a few sentences about why are you uniquely qualified for this role?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe your experience with llm prompt engineering and supply an example",
+        "ai": "Describe your experience with LLM prompt engineering and supply an example",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": [
+      "type agreement 0.571 below 0.6 on 14 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. The location field is a text input that likely triggers an asynchronous lookup/dropdown. The form includes an hCaptcha challenge.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "VC Lab",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your experience in Venture Capital?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Write a few sentences about why are you uniquely qualified for this role?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe your experience with LLM prompt engineering and supply an example",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "vc lab",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your experience in venture capital?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "write a few sentences about why are you uniquely qualified for this role?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "describe your experience with llm prompt engineering and supply an example",
+      "field_type": "textarea",
+      "ref": "f13"
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "id": "https-framestore-recruitee-com-o-animator-2032-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:18:04.969Z",
+  "page_url": "https://framestore.recruitee.com/o/animator-2032/c/new",
+  "page_title": "Framestore - Animator, Film & Episodic - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 18,
+      "count_delta": 1,
+      "label_jaccard": 0.9474,
+      "type_agree_rate": 1,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel/portfolio link",
+        "ai": "Showreel/Portfolio Link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "showreel/portfolio password",
+        "ai": "Showreel/Portfolio password",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "availability date",
+        "ai": "Availability date",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "citizenship",
+        "ai": "Citizenship",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you require visa to work in australia?",
+        "ai": "Do you require visa to work in Australia?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you open to relocating to melbourne, au?",
+        "ai": "Are you open to relocating to Melbourne, AU?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "desired annual salary ($aud)",
+        "ai": "Desired annual salary ($AUD)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how much experience do you have in vfx/photoreal animation?",
+        "ai": "How much experience do you have in VFX/Photoreal Animation?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what level are you applying for?",
+        "ai": "What level are you applying for?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred pronoun",
+        "ai": "What is your preferred pronoun",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you applying for a remote opportunity? please note you must be within a similar timezone to melbourne.",
+        "ai": "Are you applying for a remote opportunity? Please note you must be within a similar timezone to Melbourne.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+        "ai": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The phone number field uses a custom country selector component.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Showreel/Portfolio Link",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Showreel/Portfolio password",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Availability date",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Citizenship",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require visa to work in Australia?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you open to relocating to Melbourne, AU?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Desired annual salary ($AUD)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How much experience do you have in VFX/Photoreal Animation?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What level are you applying for?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Junior",
+          "Mid",
+          "Senior"
+        ]
+      },
+      {
+        "question": "What is your preferred pronoun",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you applying for a remote opportunity? Please note you must be within a similar timezone to Melbourne.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I hereby confirm that I have read and understood Framestore's Privacy Policy and accept the use of my data for the purposes of this job application.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "showreel/portfolio link",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "showreel/portfolio password",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "availability date",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "citizenship",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "do you require visa to work in australia?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you open to relocating to melbourne, au?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "desired annual salary ($aud)",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "how much experience do you have in vfx/photoreal animation?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "what level are you applying for?",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your preferred pronoun",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "are you applying for a remote opportunity? please note you must be within a similar timezone to melbourne.",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "i hereby confirm that i have read and understood framestore's privacy policy and accept the use of my data for the purposes of this job application.",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f18"
+    }
+  ]
+}

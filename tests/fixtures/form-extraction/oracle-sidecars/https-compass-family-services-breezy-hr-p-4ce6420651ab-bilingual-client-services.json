@@ -1,0 +1,490 @@
+{
+  "id": "https-compass-family-services-breezy-hr-p-4ce6420651ab-bilingual-client-services",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:18:04.794Z",
+  "page_url": "https://compass-family-services.breezy.hr/p/4ce6420651ab-bilingual-client-services-roles-general-application/apply",
+  "page_title": "*Bilingual Client Services roles* - GENERAL APPLICATION",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 26,
+      "ai_count": 21,
+      "count_delta": 5,
+      "label_jaccard": 0.6786,
+      "type_agree_rate": 0.9474,
+      "matched_count": 19
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your preferred first name, if different from above?",
+        "ai": "What is your preferred first name, if different from above?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your personal pronouns?",
+        "ai": "What are your personal pronouns?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you either a us citizen or have a us work authorization that does not require employer sponsorship?",
+        "ai": "Are you either a US citizen OR have a US work authorization that does not require employer sponsorship?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you find out about this job opening? (check any that apply)",
+        "ai": "How did you find out about this job opening? (check any that apply)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred by a current compass employee, please provide their name below.",
+        "ai": "If you were referred by a current Compass employee, please provide their name below.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how would you describe your level of spanish proficiency?",
+        "ai": "How would you describe your level of Spanish proficiency?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which of these work schedules are you open to?",
+        "ai": "Which of these work schedules are you open to?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which of these san francisco neighborhoods are you open to working in?",
+        "ai": "Which of these San Francisco neighborhoods are you open to working in?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you interested in roles that are fully on-site (no remote days)?",
+        "ai": "Are you interested in roles that are fully on-site (no remote days)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which salary ranges are you open to?",
+        "ai": "Which salary ranges are you open to?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "some of our roles require the ability to drive around the bay area, using cars rented through our zipcar membership. do you have a valid ca driver's license and ability to be approved as a zipcar driver?",
+        "ai": "Some of our roles require the ability to drive around the Bay Area, using cars rented through our Zipcar membership. Do you have a valid CA driver's license and ability to be approved as a Zipcar driver?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you more interested in working with adults, kids, or both?",
+        "ai": "Are you more interested in working with adults, kids, or both?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you interested in working in client services at compass family services?",
+        "ai": "Why are you interested in working in client services at Compass Family Services?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how and where have you developed the skills that you'll need to excel in this role?",
+        "ai": "How and where have you developed the skills that you'll need to excel in this role?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are there specific teams or focus areas that you're especially interested in? or any teams that don't interest you at all?",
+        "ai": "Are there specific teams or focus areas that you're especially interested in? Or any teams that don't interest you at all?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if there is any additional information that you would like to share, please do so here.",
+        "ai": "If there is any additional information that you would like to share, please do so here.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b",
+      "race or ethnicity",
+      "gender",
+      "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "yes, i have a disability (or previously had a disability) race or ethnicity"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "SMS Consent"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=26, ai=21)",
+      "label Jaccard 0.679 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The questionnaire section is dynamically rendered from a JSON object embedded in the HTML. Some fields are radio buttons or checkboxes that are not standard HTML <select> elements.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "SMS Consent",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your preferred first name, if different from above?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your personal pronouns?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "She/her",
+          "He/his",
+          "They/Them",
+          "Other",
+          "Prefer not to share at this time"
+        ]
+      },
+      {
+        "question": "Are you either a US citizen OR have a US work authorization that does not require employer sponsorship?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I am a citizen or have US work authorization.",
+          "No, I do not have US work authorization.",
+          "I'm not sure."
+        ]
+      },
+      {
+        "question": "How did you find out about this job opening? (check any that apply)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Indeed",
+          "LinkedIn",
+          "Handshake",
+          "Referred by a Compass staff member, volunteer, donor or client",
+          "School or alumni network",
+          "Workforce development organization (JVS, Goodwill, Upwardly Global, etc.)",
+          "Social Media",
+          "Compass website",
+          "Other job board (besides LinkedIn, Indeed or Handshake)",
+          "I am a current or former Compass employee or volunteer",
+          "I am a current or former Compass client",
+          "Other, not listed above"
+        ]
+      },
+      {
+        "question": "If you were referred by a current Compass employee, please provide their name below.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How would you describe your level of Spanish proficiency?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Native Speaker or Fluent",
+          "Professional proficiency (able to have extended conversations and email exchanges on complex topics)",
+          "Conversational (able to have conversations about straightforward topics)",
+          "None or less than conversational"
+        ]
+      },
+      {
+        "question": "Which of these work schedules are you open to?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Monday - Friday",
+          "Sunday - Thursday (Fri/Sat off)",
+          "Tuesday - Saturday (Sun/Mon off)",
+          "Day shift (9am-5pm or 10am-6pm)",
+          "Afternoon swing shift (1pm - 9pm)",
+          "Night swing shift (4pm - midnight)"
+        ]
+      },
+      {
+        "question": "Which of these San Francisco neighborhoods are you open to working in?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Civic Center area",
+          "Tenderloin",
+          "Hayes Valley"
+        ]
+      },
+      {
+        "question": "Are you interested in roles that are fully on-site (no remote days)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I am open to working on-site every day.",
+          "No, I need one remote day per week.",
+          "No, I need at least two remote days per week."
+        ]
+      },
+      {
+        "question": "Which salary ranges are you open to?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "$27 - $29 per hour",
+          "$29 - $31 per hour",
+          "$31 -$33 per hour",
+          "$33 per hour or higher"
+        ]
+      },
+      {
+        "question": "Some of our roles require the ability to drive around the Bay Area, using cars rented through our Zipcar membership. Do you have a valid CA driver's license and ability to be approved as a Zipcar driver?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "I'm not sure"
+        ]
+      },
+      {
+        "question": "Are you more interested in working with adults, kids, or both?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I'm interested in roles where most of my time will be spent planning and leading activities for children.",
+          "I'm interested in roles where I'll be primarily working with the adult members of the family.",
+          "I'm not sure / It depends on the position."
+        ]
+      },
+      {
+        "question": "Why are you interested in working in client services at Compass Family Services?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How and where have you developed the skills that you'll need to excel in this role?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are there specific teams or focus areas that you're especially interested in? Or any teams that don't interest you at all?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If there is any additional information that you would like to share, please do so here.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your preferred first name, if different from above?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your personal pronouns?",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "are you either a us citizen or have a us work authorization that does not require employer sponsorship?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you find out about this job opening? (check any that apply)",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "if you were referred by a current compass employee, please provide their name below.",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how would you describe your level of spanish proficiency?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "which of these work schedules are you open to?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "which of these san francisco neighborhoods are you open to working in?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "are you interested in roles that are fully on-site (no remote days)?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "which salary ranges are you open to?",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "some of our roles require the ability to drive around the bay area, using cars rented through our zipcar membership. do you have a valid ca driver's license and ability to be approved as a zipcar driver?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "are you more interested in working with adults, kids, or both?",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "why are you interested in working in client services at compass family services?",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "how and where have you developed the skills that you'll need to excel in this role?",
+      "field_type": "textarea",
+      "ref": "f19"
+    },
+    {
+      "question": "are there specific teams or focus areas that you're especially interested in? or any teams that don't interest you at all?",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "if there is any additional information that you would like to share, please do so here.",
+      "field_type": "textarea",
+      "ref": "f21"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "yes, i have a disability (or previously had a disability) race or ethnicity",
+      "field_type": "radio",
+      "ref": "f25"
+    }
+  ]
+}

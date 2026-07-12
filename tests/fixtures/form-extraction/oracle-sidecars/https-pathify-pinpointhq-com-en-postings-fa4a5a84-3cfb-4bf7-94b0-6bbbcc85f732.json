@@ -1,0 +1,89 @@
+{
+  "id": "https-pathify-pinpointhq-com-en-postings-fa4a5a84-3cfb-4bf7-94b0-6bbbcc85f732",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:22:04.324Z",
+  "page_url": "https://pathify.pinpointhq.com/en/postings/fa4a5a84-3cfb-4bf7-94b0-6bbbcc85f732",
+  "page_title": "Senior Product Owner - Remote/Denver, CO Preferred | Pathify Careers",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 8,
+      "count_delta": 8,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Full Name",
+      "Email",
+      "Phone",
+      "Resume/CV",
+      "Cover Letter",
+      "LinkedIn Profile",
+      "Portfolio/Website",
+      "How did you hear about this job?"
+    ],
+    "reasons": [
+      "field count delta 8 exceeds tolerance 2 (detector=0, ai=8)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The actual application form is located at a separate URL (/applications/new) which is not included in the provided excerpt. The fields listed above are standard for the Pinpoint ATS platform used by this employer.",
+    "fields": [
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio/Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this job?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

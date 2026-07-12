@@ -1,7 +1,7 @@
 {
   "id": "https-allright-recruitee-com-o-online-english-teacher-for-kids-c-new",
-  "min_fields": 15,
-  "exact_field_count": 15,
+  "min_fields": 16,
+  "exact_field_count": 16,
   "fields": [
     {
       "question": "full name",
@@ -44,7 +44,7 @@
       }
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -302,6 +302,29 @@
         "type": "radio",
         "id": "input-candidate.openQuestionAnswers.5257928.content-23-0",
         "name": "candidate.openQuestionAnswers.5257928.content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "International",
+        "Afghanistan"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": "country-select-input-candidate.phone-5",
+        "name": null,
         "data_testid": null,
         "role": null,
         "data_field_path": null,

@@ -1,0 +1,39 @@
+{
+  "id": "https-uksjobs-softgarden-io-job-65953193",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:15:46.516Z",
+  "page_url": "https://uksjobs.softgarden.io/job/65953193",
+  "page_title": "Psychological Psychotherapist (m/f/d) (ID: 136/26) at Universitätsklinikum des Saarlandes | softgarden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Apply Online"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML only contains a link to an external application portal (softgarden.de). The actual form fields are hosted on a separate domain and are not present in the provided HTML excerpt.",
+    "fields": [
+      {
+        "question": "Apply Online",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

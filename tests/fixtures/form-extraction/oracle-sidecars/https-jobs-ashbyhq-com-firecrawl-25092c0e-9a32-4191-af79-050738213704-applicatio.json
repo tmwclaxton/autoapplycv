@@ -1,0 +1,139 @@
+{
+  "id": "https-jobs-ashbyhq-com-firecrawl-25092c0e-9a32-4191-af79-050738213704-applicatio",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:03:36.852Z",
+  "page_url": "https://jobs.ashbyhq.com/firecrawl/25092c0e-9a32-4191-af79-050738213704/application",
+  "page_title": "Research Engineer – Evals @ Firecrawl",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 6,
+      "ai_count": 6,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedln",
+        "ai": "Linkedln",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "github",
+        "ai": "GitHub",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what interests you about working at firecrawl? what should we know about you?",
+        "ai": "What interests you about working at Firecrawl? What should we know about you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an Ashby-specific SPA framework. The resume upload field is handled by a custom component that supports drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedln",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What interests you about working at Firecrawl? What should we know about you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedln",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "github",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "what interests you about working at firecrawl? what should we know about you?",
+      "field_type": "textarea",
+      "ref": "f5"
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+{
+  "id": "https-atlas-technica-breezy-hr-p-3715b0c39ede-sr-systems-engineer-east-coast-app",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:10:47.338Z",
+  "page_url": "https://atlas-technica.breezy.hr/p/3715b0c39ede-sr-systems-engineer-east-coast/apply",
+  "page_title": "Sr. Systems Engineer (East Coast)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 24,
+      "ai_count": 23,
+      "count_delta": 1,
+      "label_jaccard": 0.7407,
+      "type_agree_rate": 0.8,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide your full legal name as it appears on your id.",
+        "ai": "Please provide your full legal name as it appears on your ID.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide your preferred name that you would like to be called within the company.",
+        "ai": "Please provide your preferred name that you would like to be called within the company.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "would you prefer to be onsite dedicated to a large client or to work on our general support desk supporting a multitude of clients?",
+        "ai": "Would you prefer to be onsite dedicated to a large client or to work on our general support desk supporting a multitude of clients?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide your full home address (including postal code).",
+        "ai": "Please provide your full home address (including postal code).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary requirements in united states dollars (usd) yearly? please provide a number to move forward.",
+        "ai": "What are your salary requirements in United States Dollars (USD) yearly? Please provide a number to move forward.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "did someone refer you to us? please write their name below.",
+        "ai": "Did someone refer you to us? Please write their name below.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you considering changing positions?",
+        "ai": "Why are you considering changing positions?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what interests you in this position?",
+        "ai": "What interests you in this position?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "why should we hire you and what would you bring to the company?",
+        "ai": "Why should we hire you and what would you bring to the company?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what did you like most about your most recent position?",
+        "ai": "What did you like most about your most recent position?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what were your day to day functions and duties in your most recent position, please be specific?",
+        "ai": "What were your day to day functions and duties in your most recent position, please be specific?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what were working hours in your most recent position?",
+        "ai": "What were working hours in your most recent position?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is the url for your linkedin profile?",
+        "ai": "What is the url for your linkedin profile?",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "how many years have you worked, cumulatively, at managed services provider(s) (msp)?",
+        "ai": "How many years have you worked, cumulatively, at managed services provider(s) (MSP)?",
+        "detector_type": "radio",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "what are the names of the msps that you have worked at?",
+        "ai": "What are the names of the MSPs that you have worked at?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you now, or will you at any time in the future require sponsorship for this role?",
+        "ai": "Do you now, or will you at any time in the future require sponsorship for this role?",
+        "detector_type": "radio",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Atlas Technica.",
+      "Cover Letter"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based questionnaire system. Some fields are dynamically rendered.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Atlas Technica.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please provide your full legal name as it appears on your ID.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please provide your preferred name that you would like to be called within the company.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Would you prefer to be onsite dedicated to a large client or to work on our general support desk supporting a multitude of clients?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Client Onsite",
+          "General Support",
+          "Both"
+        ]
+      },
+      {
+        "question": "Please provide your full home address (including postal code).",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary requirements in United States Dollars (USD) yearly? Please provide a number to move forward.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Did someone refer you to us? Please write their name below.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Why are you considering changing positions?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What interests you in this position?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why should we hire you and what would you bring to the company?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What did you like most about your most recent position?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What were your day to day functions and duties in your most recent position, please be specific?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What were working hours in your most recent position?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is the url for your linkedin profile?",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years have you worked, cumulatively, at managed services provider(s) (MSP)?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "no MSP experience",
+          "< 1 year",
+          "1 year",
+          "2 years",
+          "3 years",
+          "4 years",
+          "5+ years"
+        ]
+      },
+      {
+        "question": "What are the names of the MSPs that you have worked at?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you now, or will you at any time in the future require sponsorship for this role?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "please provide your full legal name as it appears on your id.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "please provide your preferred name that you would like to be called within the company.",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "would you prefer to be onsite dedicated to a large client or to work on our general support desk supporting a multitude of clients?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "please provide your full home address (including postal code).",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what are your salary requirements in united states dollars (usd) yearly? please provide a number to move forward.",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "did someone refer you to us? please write their name below.",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "why are you considering changing positions?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "what interests you in this position?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "why should we hire you and what would you bring to the company?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "what did you like most about your most recent position?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "what were your day to day functions and duties in your most recent position, please be specific?",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "what were working hours in your most recent position?",
+      "field_type": "textarea",
+      "ref": "f19"
+    },
+    {
+      "question": "what is the url for your linkedin profile?",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "how many years have you worked, cumulatively, at managed services provider(s) (msp)?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "what are the names of the msps that you have worked at?",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "do you now, or will you at any time in the future require sponsorship for this role?",
+      "field_type": "radio",
+      "ref": "f23"
+    }
+  ]
+}

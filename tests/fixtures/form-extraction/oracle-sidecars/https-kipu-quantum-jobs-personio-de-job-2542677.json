@@ -1,0 +1,239 @@
+{
+  "id": "https-kipu-quantum-jobs-personio-de-job-2542677",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:06:33.324Z",
+  "page_url": "https://kipu-quantum.jobs.personio.de/job/2542677",
+  "page_title": "Unsolicited Application | Jobs at Kipu Quantum GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.4667,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you find out about this job? ( )",
+        "ai": "How did you find out about this job?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload certificate",
+        "ai": "Certificate",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a standard Personio application form. File inputs are triggered via buttons that open a file dialog.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you find out about this job?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Stepstone",
+          "Kipu Quantum Website",
+          "Join",
+          "Indeed",
+          "Friends / Family",
+          "News / Press",
+          "Events / Network",
+          "Other"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Certificate",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "how did you find out about this job? ( )",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "upload certificate",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

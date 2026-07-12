@@ -1,0 +1,194 @@
+{
+  "id": "https-apply-workable-com-radicalio-j-b36047949f-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:35:18.219Z",
+  "page_url": "https://apply.workable.com/radicalio/j/B36047949F/apply/",
+  "page_title": "General Interest Application Form - SimpliCity Digital Inc (\"SimpliCity CMS\") - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 19,
+      "ai_count": 4,
+      "count_delta": 15,
+      "label_jaccard": 0.2105,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "summary",
+      "resume",
+      "what sort of position(s) would you like to be considered for in future?",
+      "how would you rate your experience level in that position/those positions?",
+      "svgs not supported by this browser.svgs not supported by this browser.contract (full-time hourly) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.contract (full-time hourly)",
+      "svgs not supported by this browser.svgs not supported by this browser.contract (project-based) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.contract (project-based)",
+      "svgs not supported by this browser.svgs not supported by this browser.permanent svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.permanent",
+      "svgs not supported by this browser.svgs not supported by this browser.intern svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.intern",
+      "svgs not supported by this browser.svgs not supported by this browser.co-op svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.co-op",
+      "are you comfortable working in a client/services/agency work environment? (tip: highlight any past experience doing so in your summary or cover letter)",
+      "please feel free to include your typical hourly and/or yearly salary requirements here (optional - can write n/a or other comment):",
+      "is there anything else you'd like to share with us? (optional - can write n/a or other comment):",
+      "are you authorized to work in canada?",
+      "what type of role are you interested in? (check any/all that apply)"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated and incomplete. It contains the initial personal information fields but cuts off during the country code list for the phone input. The resume upload button is present but the actual file input field is not visible in the provided snippet.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "what sort of position(s) would you like to be considered for in future?",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "how would you rate your experience level in that position/those positions?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.contract (full-time hourly) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.contract (full-time hourly)",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.contract (project-based) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.contract (project-based)",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.permanent svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.permanent",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.intern svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.intern",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.co-op svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.co-op",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "are you comfortable working in a client/services/agency work environment? (tip: highlight any past experience doing so in your summary or cover letter)",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "please feel free to include your typical hourly and/or yearly salary requirements here (optional - can write n/a or other comment):",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "is there anything else you'd like to share with us? (optional - can write n/a or other comment):",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "are you authorized to work in canada?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "what type of role are you interested in? (check any/all that apply)",
+      "field_type": "checkbox",
+      "ref": "f18"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "id": "https-enspired-recruitee-com-o-asset-optimization-community-lead-mfx-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:07:10.152Z",
+  "page_url": "https://enspired.recruitee.com/o/asset-optimization-community-lead-mfx/c/new",
+  "page_title": "enspired GmbH - Asset Optimization Community Lead (m/f/x) - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9091,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently based? please note that we can only hire you if you are based in one of the countries mentioned in the job advertisement.",
+        "ai": "Where are you currently based? Please note that we can only hire you if you are based in one of the countries mentioned in the job advertisement.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "we collect this information to help support diversity, equity, and inclusion in our hiring process. sharing your gender helps us understand the diversity of applicants, while sharing your pronouns allows us to communicate with you respectfully. both questions are optional, confidential, and will not impact your application. we’d like to start by asking about your gender. please choose the option that best describes you.",
+        "ai": "We collect this information to help support diversity, equity, and inclusion in our hiring process. Sharing your gender helps us understand the diversity of applicants, while sharing your pronouns allows us to communicate with you respectfully. Both questions are optional, confidential, and will not impact your application. We’d like to start by asking about your gender. Please choose the option that best describes you.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "we’d now like to ask about your preferred pronouns. please choose the option that best describes you.",
+        "ai": "We’d now like to ask about your preferred pronouns. Please choose the option that best describes you.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear from us?",
+        "ai": "How did you hear from us?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i have read and understood the application privacy notice and agree to the data processing",
+        "ai": "I have read and understood the Application Privacy Notice and agree to the data processing",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not a standard input field. The cover letter section allows for a file upload or a text input (via a toggle button not fully rendered in static HTML).",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Where are you currently based? Please note that we can only hire you if you are based in one of the countries mentioned in the job advertisement.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "We collect this information to help support diversity, equity, and inclusion in our hiring process. Sharing your gender helps us understand the diversity of applicants, while sharing your pronouns allows us to communicate with you respectfully. Both questions are optional, confidential, and will not impact your application. We’d like to start by asking about your gender. Please choose the option that best describes you.",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Woman",
+          "Man",
+          "Non-binary",
+          "Not listed here",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "We’d now like to ask about your preferred pronouns. Please choose the option that best describes you.",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "She/her",
+          "He/him",
+          "They/them",
+          "Not listed here",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "How did you hear from us?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "enspired Website",
+          "Job Board (Karriere, Kununu, etc.)",
+          "Clean/Green Tech Job Board/Media",
+          "Women Techmakers Vienna (WTM Vienna)",
+          "Global Women’s Network for the Energy Transition (GWNET)",
+          "Employee Recommendation",
+          "Other"
+        ]
+      },
+      {
+        "question": "I have read and understood the Application Privacy Notice and agree to the data processing",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "where are you currently based? please note that we can only hire you if you are based in one of the countries mentioned in the job advertisement.",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "we collect this information to help support diversity, equity, and inclusion in our hiring process. sharing your gender helps us understand the diversity of applicants, while sharing your pronouns allows us to communicate with you respectfully. both questions are optional, confidential, and will not impact your application. we’d like to start by asking about your gender. please choose the option that best describes you.",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "we’d now like to ask about your preferred pronouns. please choose the option that best describes you.",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "how did you hear from us?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "i have read and understood the application privacy notice and agree to the data processing",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f10"
+    }
+  ]
+}

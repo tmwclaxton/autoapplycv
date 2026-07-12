@@ -1,0 +1,1924 @@
+2026-07-11T01:13:09.280Z START oracle-url-queue-batch-23 cumulative=491 new=327
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-23.json (50 urls), batch_id=oracle-url-queue-batch-23
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 491/664 agrees
+
+=== Capture 1/50 (https://noma-holding.teamtailor.com/jobs/7486264-unsolicited-job-application-noma/applications/new) ===
+DISAGREE -> https-noma-holding-teamtailor-com-jobs-7486264-unsolicited-job-application-noma-
+  reasons: field count delta 6 exceeds tolerance 2 (detector=12, ai=6); label Jaccard 0.200 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 2/50 (https://jobs.ashbyhq.com/linear/069c4628-88d7-4e4d-b393-c996fc7f3076/application) ===
+AGREE -> https-jobs-ashbyhq-com-linear-069c4628-88d7-4e4d-b393-c996fc7f3076-application
+  detector=13 ai=13 jaccard=1
+  campaign: 492/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-linear-069c4628-88d7-4e4d-b393-c996fc7f3076-application --check-validity --check-a11y --check-errors
+
+=== Capture 3/50 (https://jobs.lever.co/magnetforensics/0c7c5eb2-f0fc-4327-a038-f56de3fcc218/apply?ref=levels.fyi&src=levels.fyi&utm_source=levels.fyi&lever-origin=applied&lever-source%5B%5D=levels.fyi) ===
+AGREE -> https-jobs-lever-co-magnetforensics-0c7c5eb2-f0fc-4327-a038-f56de3fcc218-apply
+  detector=29 ai=28 jaccard=0.9655
+  campaign: 493/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-magnetforensics-0c7c5eb2-f0fc-4327-a038-f56de3fcc218-apply --check-validity --check-a11y --check-errors
+
+=== Capture 4/50 (https://boards.eu.greenhouse.io/jjus/jobs/4751877101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/jjus/jobs/4751877101)
+
+=== Capture 5/50 (https://knime.jobs.personio.de/job/2610058) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 6/50 (https://helloprint.recruitee.com/o/open-application-3) ===
+AGREE -> https-helloprint-recruitee-com-o-open-application-3-c-new
+  detector=12 ai=11 jaccard=0.9167
+  campaign: 494/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-helloprint-recruitee-com-o-open-application-3-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 7/50 (https://nordicknotsab.teamtailor.com/jobs/7720339-head-of-marketing-us/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 8/50 (https://jobs.ashbyhq.com/linear/12f8f208-0b9c-4569-bb3d-41c8a197029e/application) ===
+AGREE -> https-jobs-ashbyhq-com-linear-12f8f208-0b9c-4569-bb3d-41c8a197029e-application
+  detector=10 ai=10 jaccard=1
+  campaign: 495/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-linear-12f8f208-0b9c-4569-bb3d-41c8a197029e-application --check-validity --check-a11y --check-errors
+
+=== Capture 9/50 (https://jobs.lever.co/mainspringenergy/5e1f4a29-83b8-48ce-8f1f-c6b82545abfd/apply) ===
+AGREE -> https-jobs-lever-co-mainspringenergy-5e1f4a29-83b8-48ce-8f1f-c6b82545abfd-apply
+  detector=18 ai=18 jaccard=1
+  campaign: 496/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-mainspringenergy-5e1f4a29-83b8-48ce-8f1f-c6b82545abfd-apply --check-validity --check-a11y --check-errors
+
+=== Capture 10/50 (https://boards.eu.greenhouse.io/lhvuk/jobs/4846737101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/lhvuk)
+
+=== Capture 11/50 (https://koro-handels-gmbh.jobs.personio.de/job/2670211?apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 12/50 (https://hudsonmanpower.recruitee.com/o/android-developer-hybrid-role-in-houston-tx-only-us-citizens-and-gc-candidates-apply) ===
+AGREE -> https-hudsonmanpower-recruitee-com-o-android-developer-hybrid-role-in-houston-tx
+  detector=7 ai=6 jaccard=0.8571
+  campaign: 497/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-hudsonmanpower-recruitee-com-o-android-developer-hybrid-role-in-houston-tx --check-validity --check-a11y --check-errors
+
+=== Capture 13/50 (https://ourcommonhome.teamtailor.com/jobs/7521425-junior-accounting-and-administration-officer/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 14/50 (https://jobs.ashbyhq.com/linear/cd5ae036-0223-427a-b038-ba16ef9dcb32/application) ===
+AGREE -> https-jobs-ashbyhq-com-linear-cd5ae036-0223-427a-b038-ba16ef9dcb32-application
+  detector=10 ai=10 jaccard=1
+  campaign: 498/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-linear-cd5ae036-0223-427a-b038-ba16ef9dcb32-application --check-validity --check-a11y --check-errors
+
+=== Capture 15/50 (https://jobs.lever.co/mamamoney/16cbfde7-0853-446b-b81b-d6ece5d9dd54/apply) ===
+AGREE -> https-jobs-lever-co-mamamoney-16cbfde7-0853-446b-b81b-d6ece5d9dd54-apply
+  detector=14 ai=14 jaccard=1
+  campaign: 499/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-mamamoney-16cbfde7-0853-446b-b81b-d6ece5d9dd54-apply --check-validity --check-a11y --check-errors
+
+=== Capture 16/50 (https://boards.eu.greenhouse.io/michelscorporation/jobs/4822161101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/michelscorporation)
+
+=== Capture 17/50 (https://koro-handels-gmbh.jobs.personio.de/job/2670217?apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 18/50 (https://hypergenllc.recruitee.com/o/gtm-engineer) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 19/50 (https://palta.teamtailor.com/jobs/7827407-senior-user-acquisition-manager/applications/new) ===
+Capture failed: Tab drifted from palta.teamtailor.com to jobs.simple.life (https://jobs.simple.life/jobs/7827407-senior-user-acquisition-manager/applications/new)
+
+=== Capture 20/50 (https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff/application) ===
+AGREE -> https-jobs-ashbyhq-com-linear-d3bc1ced-3ce4-4086-a050-555055dbb1ff-application
+  detector=13 ai=13 jaccard=1
+  campaign: 500/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-linear-d3bc1ced-3ce4-4086-a050-555055dbb1ff-application --check-validity --check-a11y --check-errors
+
+=== Capture 21/50 (https://jobs.lever.co/matchgroup/83ecb51f-033d-4c9b-8fcb-81a7052ff4dd/apply) ===
+AGREE -> https-jobs-lever-co-matchgroup-83ecb51f-033d-4c9b-8fcb-81a7052ff4dd-apply
+  detector=21 ai=21 jaccard=1
+  campaign: 501/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-matchgroup-83ecb51f-033d-4c9b-8fcb-81a7052ff4dd-apply --check-validity --check-a11y --check-errors
+
+=== Capture 22/50 (https://boards.eu.greenhouse.io/nice/jobs/4767279101?gh_jid=4767279101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to nice.com (https://www.nice.com/careers/apply)
+
+=== Capture 23/50 (https://leibniz-hki.jobs.personio.de/job/2561844?display=en&apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 24/50 (https://idealocareer.recruitee.com/o/staff-engineer-mwd) ===
+Capture failed: Tab drifted from idealocareer.recruitee.com to jobs.idealo.com (https://jobs.idealo.com/o/staff-engineer-mwd-crm-tech)
+
+=== Capture 25/50 (https://passivelogic.teamtailor.com/jobs/2323537-general-application/applications/new) ===
+DISAGREE -> https-passivelogic-teamtailor-com-jobs-2323537-general-application-applications-
+  reasons: field count delta 3 exceeds tolerance 2 (detector=11, ai=8); label Jaccard 0.188 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 26/50 (https://jobs.ashbyhq.com/litmus/9608b815-8da1-4b34-91c8-ca1b0eca6cec/application?utm_source=revopsroles&utm_medium=job_board&utm_campaign=job_listing&utm_content=apply_button) ===
+AGREE -> https-jobs-ashbyhq-com-litmus-9608b815-8da1-4b34-91c8-ca1b0eca6cec-application
+  detector=6 ai=6 jaccard=1
+  campaign: 502/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-litmus-9608b815-8da1-4b34-91c8-ca1b0eca6cec-application --check-validity --check-a11y --check-errors
+
+=== Capture 27/50 (https://jobs.lever.co/matchgroup/d209b937-de44-4e0b-a678-ea0815751448/apply) ===
+AGREE -> https-jobs-lever-co-matchgroup-d209b937-de44-4e0b-a678-ea0815751448-apply
+  detector=23 ai=19 jaccard=0.8261
+  campaign: 503/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-matchgroup-d209b937-de44-4e0b-a678-ea0815751448-apply --check-validity --check-a11y --check-errors
+
+=== Capture 28/50 (https://boards.eu.greenhouse.io/nice/jobs/4774835101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4774835101)
+
+=== Capture 29/50 (https://ling.jobs.personio.com/job/2654316?language=en) ===
+AGREE -> https-ling-jobs-personio-com-job-2654316
+  detector=20 ai=20 jaccard=0.6667
+  campaign: 504/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-ling-jobs-personio-com-job-2654316 --check-validity --check-a11y --check-errors
+
+=== Capture 30/50 (https://innovamarketinsights.recruitee.com/o/account-executive-deutschland) ===
+AGREE -> https-innovamarketinsights-recruitee-com-o-account-executive-deutschland-c-new
+  detector=8 ai=8 jaccard=0.7778
+  campaign: 505/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-innovamarketinsights-recruitee-com-o-account-executive-deutschland-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 31/50 (https://passivelogic.teamtailor.com/jobs/6589862-building-controls-application-engineer/applications/new) ===
+DISAGREE -> https-passivelogic-teamtailor-com-jobs-6589862-building-controls-application-eng
+  reasons: field count delta 3 exceeds tolerance 2 (detector=11, ai=8); label Jaccard 0.267 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 32/50 (https://jobs.ashbyhq.com/maigrate/8bfd51bb-0cef-4fc3-9b9d-5d30bce8d813/application) ===
+AGREE -> https-jobs-ashbyhq-com-maigrate-8bfd51bb-0cef-4fc3-9b9d-5d30bce8d813-application
+  detector=10 ai=11 jaccard=0.9091
+  campaign: 506/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-maigrate-8bfd51bb-0cef-4fc3-9b9d-5d30bce8d813-application --check-validity --check-a11y --check-errors
+
+=== Capture 33/50 (https://jobs.lever.co/matchgroup/fb436862-c9d3-4eb0-ad89-b70cad8a7480/apply) ===
+AGREE -> https-jobs-lever-co-matchgroup-fb436862-c9d3-4eb0-ad89-b70cad8a7480-apply
+  detector=24 ai=22 jaccard=0.9167
+  campaign: 507/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-matchgroup-fb436862-c9d3-4eb0-ad89-b70cad8a7480-apply --check-validity --check-a11y --check-errors
+
+=== Capture 34/50 (https://boards.eu.greenhouse.io/nice/jobs/4793534101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4793534101)
+
+=== Capture 35/50 (https://liveeo-gmbh.jobs.personio.de/job/2568230?apply) ===
+DISAGREE -> https-liveeo-gmbh-jobs-personio-de-job-2568230
+  reasons: label Jaccard 0.222 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 36/50 (https://insait.recruitee.com/o/insait-summer-undergraduate-research-fellowship-program-2026) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 37/50 (https://paysend.teamtailor.com/jobs/7522850-application-security-lead/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 38/50 (https://jobs.ashbyhq.com/mapbox/029bda44-667c-4aed-8a11-7499df34a4a0/application) ===
+AGREE -> https-jobs-ashbyhq-com-mapbox-029bda44-667c-4aed-8a11-7499df34a4a0-application
+  detector=18 ai=10 jaccard=0.4737
+  campaign: 508/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mapbox-029bda44-667c-4aed-8a11-7499df34a4a0-application --check-validity --check-a11y --check-errors
+
+=== Capture 39/50 (https://jobs.lever.co/merlinlabs/9f296fe4-183f-484b-b7bf-8b74d94ea202/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 40/50 (https://boards.eu.greenhouse.io/nice/jobs/4818659101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to nice.com (https://www.nice.com/careers/apply)
+
+=== Capture 41/50 (https://liveeo-gmbh.jobs.personio.de/job/2661017?display=en&language=en&apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 42/50 (https://institutminestelecom.recruitee.com/o/candidature-spontanee-1) ===
+DISAGREE -> https-institutminestelecom-recruitee-com-o-candidature-spontanee-1-c-new
+  reasons: label Jaccard 0.600 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 43/50 (https://pfx.teamtailor.com/jobs/5428747-general-application/applications/new) ===
+AGREE -> https-pfx-teamtailor-com-jobs-5428747-general-application-applications-new
+  detector=26 ai=6 jaccard=0.2308
+  campaign: 509/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-pfx-teamtailor-com-jobs-5428747-general-application-applications-new --check-validity --check-a11y --check-errors
+
+=== Capture 44/50 (https://jobs.ashbyhq.com/mapbox/6876699d-7604-47e1-a089-469a29b60f36/application) ===
+AGREE -> https-jobs-ashbyhq-com-mapbox-6876699d-7604-47e1-a089-469a29b60f36-application
+  detector=17 ai=14 jaccard=0.8235
+  campaign: 510/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mapbox-6876699d-7604-47e1-a089-469a29b60f36-application --check-validity --check-a11y --check-errors
+
+=== Capture 45/50 (https://jobs.lever.co/metr/1c044574-181d-4b3d-98de-27f12eb76c6f/apply) ===
+AGREE -> https-jobs-lever-co-metr-1c044574-181d-4b3d-98de-27f12eb76c6f-apply
+  detector=17 ai=17 jaccard=1
+  campaign: 511/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-metr-1c044574-181d-4b3d-98de-27f12eb76c6f-apply --check-validity --check-a11y --check-errors
+
+=== Capture 46/50 (https://boards.eu.greenhouse.io/nice/jobs/4821187101?gh_jid=4821187101&t=1782655770759) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4821187101)
+
+=== Capture 47/50 (https://lumoview.jobs.personio.com/job/2108000?language=en) ===
+AGREE -> https-lumoview-jobs-personio-com-job-2108000
+  detector=11 ai=11 jaccard=0.375
+  campaign: 512/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-lumoview-jobs-personio-com-job-2108000 --check-validity --check-a11y --check-errors
+
+=== Capture 48/50 (https://irimed.recruitee.com/o/candidature-spontanee-hf) ===
+DISAGREE -> https-irimed-recruitee-com-o-candidature-spontanee-hf-c-new
+  reasons: label Jaccard 0.636 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 49/50 (https://policyreporter.na.teamtailor.com/jobs/610200-senior-director-of-business-development/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 50/50 (https://jobs.ashbyhq.com/mapbox/749a0171-e6ab-48c2-a5c8-6b3d92dc6611/application) ===
+AGREE -> https-jobs-ashbyhq-com-mapbox-749a0171-e6ab-48c2-a5c8-6b3d92dc6611-application
+  detector=20 ai=10 jaccard=0.4286
+  campaign: 513/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mapbox-749a0171-e6ab-48c2-a5c8-6b3d92dc6611-application --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 22,
+  "disagree": 6,
+  "error": 22,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 513,
+  "campaign_target": 664,
+  "triage_count": 249
+}
+2026-07-11T01:23:35.689Z END oracle-url-queue-batch-23 exit=0 agrees_batch=22 disagree=6 error=22 cumulative=513 new=349 tabs_closed=reuse-one
+2026-07-11T01:23:35.776Z START oracle-url-queue-batch-24 cumulative=513 new=349
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-24.json (50 urls), batch_id=oracle-url-queue-batch-24
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 513/664 agrees
+
+=== Capture 1/50 (https://jobs.lever.co/metr/f3a6db11-7fd1-48e4-af42-20aad1ded72d/apply) ===
+AGREE -> https-jobs-lever-co-metr-f3a6db11-7fd1-48e4-af42-20aad1ded72d-apply
+  detector=17 ai=17 jaccard=1
+  campaign: 514/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-metr-f3a6db11-7fd1-48e4-af42-20aad1ded72d-apply --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://boards.eu.greenhouse.io/nice/jobs/4838617101?gh_jid=4838617101&t=1781134330873) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4838617101)
+
+=== Capture 3/50 (https://maltego.jobs.personio.com/job/2610010?language=en) ===
+AGREE -> https-maltego-jobs-personio-com-job-2610010
+  detector=12 ai=12 jaccard=0.2632
+  campaign: 515/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-maltego-jobs-personio-com-job-2610010 --check-validity --check-a11y --check-errors
+
+=== Capture 4/50 (https://lansweeper.recruitee.com/o/senior-software-engineer-4) ===
+Capture failed: Tab drifted from lansweeper.recruitee.com to careers.lansweeper.com (https://careers.lansweeper.com/o/senior-software-engineer-ai-native-platform-redjack-integration)
+
+=== Capture 5/50 (https://qevlar-1721317262.teamtailor.com/jobs/4865977-spontaneous-application/applications/new) ===
+DISAGREE -> https-qevlar-1721317262-teamtailor-com-jobs-4865977-spontaneous-application-appl
+  reasons: field count delta 5 exceeds tolerance 2 (detector=13, ai=8); label Jaccard 0.313 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 6/50 (https://jobs.ashbyhq.com/mapbox/cdc7cf98-5ec0-4a0b-a78f-bb3eb0e8b40f/application) ===
+AGREE -> https-jobs-ashbyhq-com-mapbox-cdc7cf98-5ec0-4a0b-a78f-bb3eb0e8b40f-application
+  detector=17 ai=10 jaccard=0.5882
+  campaign: 516/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mapbox-cdc7cf98-5ec0-4a0b-a78f-bb3eb0e8b40f-application --check-validity --check-a11y --check-errors
+
+=== Capture 7/50 (https://jobs.lever.co/MissionWired/7d17b684-5c84-4a47-8338-b7e89864fb43/apply) ===
+AGREE -> https-jobs-lever-co-missionwired-7d17b684-5c84-4a47-8338-b7e89864fb43-apply
+  detector=27 ai=9 jaccard=0.3333
+  campaign: 517/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-missionwired-7d17b684-5c84-4a47-8338-b7e89864fb43-apply --check-validity --check-a11y --check-errors
+
+=== Capture 8/50 (https://boards.eu.greenhouse.io/nice/jobs/4840978101?gh_jid=4840978101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to nice.com (https://www.nice.com/careers/apply)
+
+=== Capture 9/50 (https://maltego.jobs.personio.de/job/2610010?display=en&language=en&pid=d6206d8d-39f8-40df-87f1-b9e3eea81ba5&it=Jt9xqeGQg_3PWM42OG7mqg&_ghcid=49727217-4697-432a-9e82-9a9264ed987d) ===
+AGREE -> https-maltego-jobs-personio-de-job-2610010
+  detector=12 ai=12 jaccard=0.2632
+  campaign: 518/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-maltego-jobs-personio-de-job-2610010 --check-validity --check-a11y --check-errors
+
+=== Capture 10/50 (https://lecedre1.recruitee.com/o/candidature-spontanee-fh) ===
+DISAGREE -> https-lecedre1-recruitee-com-o-candidature-spontanee-fh-c-new
+  reasons: label Jaccard 0.556 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 11/50 (https://reachforchange.teamtailor.com/jobs/7929660-finance-manager-sweden/applications/new) ===
+DISAGREE -> https-reachforchange-teamtailor-com-jobs-7929660-finance-manager-sweden-applicat
+  reasons: field count delta 5 exceeds tolerance 2 (detector=12, ai=7); label Jaccard 0.267 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 12/50 (https://jobs.ashbyhq.com/materialsecurity/51c88f05-4620-4ea2-9347-dd3a25807147/application) ===
+AGREE -> https-jobs-ashbyhq-com-materialsecurity-51c88f05-4620-4ea2-9347-dd3a25807147-app
+  detector=12 ai=12 jaccard=1
+  campaign: 519/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-materialsecurity-51c88f05-4620-4ea2-9347-dd3a25807147-app --check-validity --check-a11y --check-errors
+
+=== Capture 13/50 (https://jobs.lever.co/miteksystems-2/6cef5aac-0bd6-453b-bbed-0fd79599e49e/apply) ===
+AGREE -> https-jobs-lever-co-miteksystems-2-6cef5aac-0bd6-453b-bbed-0fd79599e49e-apply
+  detector=18 ai=18 jaccard=0.8947
+  campaign: 520/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-miteksystems-2-6cef5aac-0bd6-453b-bbed-0fd79599e49e-apply --check-validity --check-a11y --check-errors
+
+=== Capture 14/50 (https://boards.eu.greenhouse.io/nice/jobs/4842462101?gh_jid=4842462101&t=1781000097006) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to nice.com (https://www.nice.com/careers/apply)
+
+=== Capture 15/50 (https://jobs.ashbyhq.com/mercor/4d817fa9-8860-4063-9da7-f484569ed1dc/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-4d817fa9-8860-4063-9da7-f484569ed1dc-application
+  detector=6 ai=6 jaccard=1
+  campaign: 521/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-4d817fa9-8860-4063-9da7-f484569ed1dc-application --check-validity --check-a11y --check-errors
+
+=== Capture 16/50 (https://jobs.lever.co/myob-2/022bb913-8861-4cc1-8b41-0f3f0e545e05/apply) ===
+AGREE -> https-jobs-lever-co-myob-2-022bb913-8861-4cc1-8b41-0f3f0e545e05-apply
+  detector=31 ai=24 jaccard=0.7742
+  campaign: 522/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-myob-2-022bb913-8861-4cc1-8b41-0f3f0e545e05-apply --check-validity --check-a11y --check-errors
+
+=== Capture 17/50 (https://boards.eu.greenhouse.io/nice/jobs/4848226101?gh_jid=4848226101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4848226101)
+
+=== Capture 18/50 (https://jobs.ashbyhq.com/mercor/564a9ef6-ae47-4604-8b91-a0f1e21bd4d2/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 19/50 (https://jobs.lever.co/myob-2/5b93262e-0703-487a-8d79-684de12f8217/apply) ===
+AGREE -> https-jobs-lever-co-myob-2-5b93262e-0703-487a-8d79-684de12f8217-apply
+  detector=32 ai=24 jaccard=0.75
+  campaign: 523/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-myob-2-5b93262e-0703-487a-8d79-684de12f8217-apply --check-validity --check-a11y --check-errors
+
+=== Capture 20/50 (https://boards.eu.greenhouse.io/nice/jobs/4851654101?gh_jid=4851654101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4851654101)
+
+=== Capture 21/50 (https://jobs.ashbyhq.com/mercor/6c48e08c-1ad4-4c1a-9eb3-5b72f38df2a8/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-6c48e08c-1ad4-4c1a-9eb3-5b72f38df2a8-application
+  detector=9 ai=9 jaccard=1
+  campaign: 524/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-6c48e08c-1ad4-4c1a-9eb3-5b72f38df2a8-application --check-validity --check-a11y --check-errors
+
+=== Capture 22/50 (https://jobs.lever.co/myob-2/86533798-93b8-4f44-9269-391f952db48f/apply) ===
+AGREE -> https-jobs-lever-co-myob-2-86533798-93b8-4f44-9269-391f952db48f-apply
+  detector=31 ai=30 jaccard=0.9677
+  campaign: 525/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-myob-2-86533798-93b8-4f44-9269-391f952db48f-apply --check-validity --check-a11y --check-errors
+
+=== Capture 23/50 (https://boards.eu.greenhouse.io/nice/jobs/4853382101?gh_jid=4853382101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4853382101)
+
+=== Capture 24/50 (https://jobs.ashbyhq.com/mercor/81674390-a5b3-4c37-b828-e4459ce250d5/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-81674390-a5b3-4c37-b828-e4459ce250d5-application
+  detector=9 ai=9 jaccard=1
+  campaign: 526/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-81674390-a5b3-4c37-b828-e4459ce250d5-application --check-validity --check-a11y --check-errors
+
+=== Capture 25/50 (https://jobs.lever.co/netflix/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 26/50 (https://boards.eu.greenhouse.io/nice/jobs/4857693101?gh_jid=4857693101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4857693101)
+
+=== Capture 27/50 (https://jobs.ashbyhq.com/mercor/88e8c31f-8197-4948-8d8c-ff3ceee367ce/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-88e8c31f-8197-4948-8d8c-ff3ceee367ce-application
+  detector=9 ai=9 jaccard=1
+  campaign: 527/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-88e8c31f-8197-4948-8d8c-ff3ceee367ce-application --check-validity --check-a11y --check-errors
+
+=== Capture 28/50 (https://jobs.lever.co/notion/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 29/50 (https://boards.eu.greenhouse.io/nice/jobs/4863121101?gh_jid=4863121101&t=1780991579906) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4863121101)
+
+=== Capture 30/50 (https://jobs.ashbyhq.com/mercor/b560990b-6743-4db3-8953-98d5f55e4af1/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-b560990b-6743-4db3-8953-98d5f55e4af1-application
+  detector=9 ai=9 jaccard=1
+  campaign: 528/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-b560990b-6743-4db3-8953-98d5f55e4af1-application --check-validity --check-a11y --check-errors
+
+=== Capture 31/50 (https://jobs.lever.co/onceuponafarm/05a3f35e-97a2-4274-93e9-c589d9251851/apply) ===
+AGREE -> https-jobs-lever-co-onceuponafarm-05a3f35e-97a2-4274-93e9-c589d9251851-apply
+  detector=22 ai=22 jaccard=1
+  campaign: 529/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-onceuponafarm-05a3f35e-97a2-4274-93e9-c589d9251851-apply --check-validity --check-a11y --check-errors
+
+=== Capture 32/50 (https://boards.eu.greenhouse.io/nice/jobs/4864019101?gh_jid=4864019101&t=1781018881282) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4864019101)
+
+=== Capture 33/50 (https://jobs.ashbyhq.com/mercor/cf6fcf5a-6348-4d60-beb3-43333a2c2bb9/application) ===
+AGREE -> https-jobs-ashbyhq-com-mercor-cf6fcf5a-6348-4d60-beb3-43333a2c2bb9-application
+  detector=9 ai=9 jaccard=1
+  campaign: 530/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mercor-cf6fcf5a-6348-4d60-beb3-43333a2c2bb9-application --check-validity --check-a11y --check-errors
+
+=== Capture 34/50 (https://jobs.lever.co/onceuponafarm/fffa653b-b513-4ad1-b3dd-9f50879d6c2b/apply) ===
+DISAGREE -> https-jobs-lever-co-onceuponafarm-fffa653b-b513-4ad1-b3dd-9f50879d6c2b-apply
+  reasons: field count delta 4 exceeds tolerance 2 (detector=27, ai=23)
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 35/50 (https://boards.eu.greenhouse.io/nice/jobs/4865434101?gh_jid=4865434101&t=1779683201902) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4865434101)
+
+=== Capture 36/50 (https://jobs.ashbyhq.com/minerva/03c28201-0212-4e33-87b4-3b343ee924ec/application) ===
+AGREE -> https-jobs-ashbyhq-com-minerva-03c28201-0212-4e33-87b4-3b343ee924ec-application
+  detector=6 ai=6 jaccard=1
+  campaign: 531/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-minerva-03c28201-0212-4e33-87b4-3b343ee924ec-application --check-validity --check-a11y --check-errors
+
+=== Capture 37/50 (https://jobs.lever.co/outreach/9396026b-7781-4d74-bf3a-fc21d48e1dd3/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 38/50 (https://boards.eu.greenhouse.io/nice/jobs/4867301101?gh_jid=4867301101&t=1779701731959) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4867301101)
+
+=== Capture 39/50 (https://jobs.ashbyhq.com/miro/04795998-7f24-465c-b413-8b4cb0c0d864/application) ===
+AGREE -> https-jobs-ashbyhq-com-miro-04795998-7f24-465c-b413-8b4cb0c0d864-application
+  detector=11 ai=11 jaccard=1
+  campaign: 532/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-miro-04795998-7f24-465c-b413-8b4cb0c0d864-application --check-validity --check-a11y --check-errors
+
+=== Capture 40/50 (https://jobs.lever.co/palantir/0bbfd4f4-41ff-4ec6-b73f-5200efd5d4d3/apply) ===
+AGREE -> https-jobs-lever-co-palantir-0bbfd4f4-41ff-4ec6-b73f-5200efd5d4d3-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 533/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-0bbfd4f4-41ff-4ec6-b73f-5200efd5d4d3-apply --check-validity --check-a11y --check-errors
+
+=== Capture 41/50 (https://boards.eu.greenhouse.io/nice/jobs/4867316101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4867316101)
+
+=== Capture 42/50 (https://jobs.ashbyhq.com/miro/0ec97e5e-b85f-479c-9d7b-00f5fa70007c/application) ===
+AGREE -> https-jobs-ashbyhq-com-miro-0ec97e5e-b85f-479c-9d7b-00f5fa70007c-application
+  detector=10 ai=10 jaccard=1
+  campaign: 534/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-miro-0ec97e5e-b85f-479c-9d7b-00f5fa70007c-application --check-validity --check-a11y --check-errors
+
+=== Capture 43/50 (https://jobs.lever.co/palantir/a237973c-cb29-41fe-9c80-416e6f42e087/apply) ===
+AGREE -> https-jobs-lever-co-palantir-a237973c-cb29-41fe-9c80-416e6f42e087-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 535/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-a237973c-cb29-41fe-9c80-416e6f42e087-apply --check-validity --check-a11y --check-errors
+
+=== Capture 44/50 (https://boards.eu.greenhouse.io/nice/jobs/4869377101?gh_jid=4869377101&t=1779697615506) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to nice.com (https://www.nice.com/careers/apply)
+
+=== Capture 45/50 (https://jobs.ashbyhq.com/miro/6547fc7c-d688-4c16-ab28-5373eebc0911/application) ===
+AGREE -> https-jobs-ashbyhq-com-miro-6547fc7c-d688-4c16-ab28-5373eebc0911-application
+  detector=12 ai=12 jaccard=1
+  campaign: 536/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-miro-6547fc7c-d688-4c16-ab28-5373eebc0911-application --check-validity --check-a11y --check-errors
+
+=== Capture 46/50 (https://jobs.lever.co/palantir/a5f93bb6-4f13-4451-80a4-f63090830269/apply) ===
+AGREE -> https-jobs-lever-co-palantir-a5f93bb6-4f13-4451-80a4-f63090830269-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 537/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-a5f93bb6-4f13-4451-80a4-f63090830269-apply --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://boards.eu.greenhouse.io/nice/jobs/4880667101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4880667101)
+
+=== Capture 48/50 (https://jobs.ashbyhq.com/miro/909d6967-15bc-48e0-8b9c-965e40bc421a/application) ===
+AGREE -> https-jobs-ashbyhq-com-miro-909d6967-15bc-48e0-8b9c-965e40bc421a-application
+  detector=10 ai=10 jaccard=1
+  campaign: 538/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-miro-909d6967-15bc-48e0-8b9c-965e40bc421a-application --check-validity --check-a11y --check-errors
+
+=== Capture 49/50 (https://jobs.lever.co/palantir/b88cd6e1-22b7-49d6-b215-1ca262a05728/apply) ===
+AGREE -> https-jobs-lever-co-palantir-b88cd6e1-22b7-49d6-b215-1ca262a05728-apply
+  detector=20 ai=20 jaccard=1
+  campaign: 539/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-b88cd6e1-22b7-49d6-b215-1ca262a05728-apply --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://boards.eu.greenhouse.io/nice/jobs/4885190101?gh_jid=4885190101&t=1783402632991) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4885190101)
+
+=== Session summary ===
+{
+  "agree": 26,
+  "disagree": 4,
+  "error": 20,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 539,
+  "campaign_target": 664,
+  "triage_count": 253
+}
+2026-07-11T01:32:54.880Z END oracle-url-queue-batch-24 exit=0 agrees_batch=26 disagree=4 error=20 cumulative=539 new=375 tabs_closed=reuse-one
+2026-07-11T01:32:54.962Z START oracle-url-queue-batch-25 cumulative=539 new=375
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-25.json (50 urls), batch_id=oracle-url-queue-batch-25
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 539/664 agrees
+
+=== Capture 1/50 (https://jobs.ashbyhq.com/miro/c3bd059a-b2c0-415b-a41c-55160fe94d3e/application) ===
+AGREE -> https-jobs-ashbyhq-com-miro-c3bd059a-b2c0-415b-a41c-55160fe94d3e-application
+  detector=10 ai=10 jaccard=1
+  campaign: 540/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-miro-c3bd059a-b2c0-415b-a41c-55160fe94d3e-application --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://jobs.lever.co/palantir/ec006383-f48c-452c-a124-88657b5e3277/apply) ===
+AGREE -> https-jobs-lever-co-palantir-ec006383-f48c-452c-a124-88657b5e3277-apply
+  detector=29 ai=17 jaccard=0.5862
+  campaign: 541/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-ec006383-f48c-452c-a124-88657b5e3277-apply --check-validity --check-a11y --check-errors
+
+=== Capture 3/50 (https://boards.eu.greenhouse.io/nice/jobs/4889374101?gh_jid=4889374101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4889374101)
+
+=== Capture 4/50 (https://jobs.ashbyhq.com/mollie/0cda09b4-dfd1-48be-b710-b62d6c161962/application) ===
+AGREE -> https-jobs-ashbyhq-com-mollie-0cda09b4-dfd1-48be-b710-b62d6c161962-application
+  detector=11 ai=12 jaccard=0.9167
+  campaign: 542/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mollie-0cda09b4-dfd1-48be-b710-b62d6c161962-application --check-validity --check-a11y --check-errors
+
+=== Capture 5/50 (https://jobs.lever.co/palantir/fe2a8c69-49b7-405f-816c-a6c6f894399a/apply) ===
+AGREE -> https-jobs-lever-co-palantir-fe2a8c69-49b7-405f-816c-a6c6f894399a-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 543/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-fe2a8c69-49b7-405f-816c-a6c6f894399a-apply --check-validity --check-a11y --check-errors
+
+=== Capture 6/50 (https://boards.eu.greenhouse.io/nice/jobs/4895808101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4895808101)
+
+=== Capture 7/50 (https://jobs.ashbyhq.com/mollie/222e098a-60a3-4af8-85b7-a992a65212dc/application) ===
+AGREE -> https-jobs-ashbyhq-com-mollie-222e098a-60a3-4af8-85b7-a992a65212dc-application
+  detector=9 ai=10 jaccard=0.9
+  campaign: 544/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mollie-222e098a-60a3-4af8-85b7-a992a65212dc-application --check-validity --check-a11y --check-errors
+
+=== Capture 8/50 (https://jobs.lever.co/pointclickcare/3a806e9e-34e2-480f-9670-8cf3cd7f49df/apply) ===
+AGREE -> https-jobs-lever-co-pointclickcare-3a806e9e-34e2-480f-9670-8cf3cd7f49df-apply
+  detector=18 ai=18 jaccard=1
+  campaign: 545/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-3a806e9e-34e2-480f-9670-8cf3cd7f49df-apply --check-validity --check-a11y --check-errors
+
+=== Capture 9/50 (https://boards.eu.greenhouse.io/nice/jobs/4896049101?gh_jid=4896049101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4896049101)
+
+=== Capture 10/50 (https://jobs.ashbyhq.com/Mollie/a484a3b8-2d39-4eb0-bf31-8b5648fb73e5/application) ===
+AGREE -> https-jobs-ashbyhq-com-mollie-a484a3b8-2d39-4eb0-bf31-8b5648fb73e5-application
+  detector=12 ai=13 jaccard=0.9231
+  campaign: 546/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mollie-a484a3b8-2d39-4eb0-bf31-8b5648fb73e5-application --check-validity --check-a11y --check-errors
+
+=== Capture 11/50 (https://jobs.lever.co/pointclickcare/aa350ca4-59d6-4ffd-aa7f-00dceb82c3a6/apply) ===
+AGREE -> https-jobs-lever-co-pointclickcare-aa350ca4-59d6-4ffd-aa7f-00dceb82c3a6-apply
+  detector=18 ai=18 jaccard=1
+  campaign: 547/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-aa350ca4-59d6-4ffd-aa7f-00dceb82c3a6-apply --check-validity --check-a11y --check-errors
+
+=== Capture 12/50 (https://boards.eu.greenhouse.io/nice/jobs/4900553101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4900553101)
+
+=== Capture 13/50 (https://jobs.ashbyhq.com/mollie/d056f390-1d70-408e-8f85-2360d41eaa84/application) ===
+AGREE -> https-jobs-ashbyhq-com-mollie-d056f390-1d70-408e-8f85-2360d41eaa84-application
+  detector=9 ai=10 jaccard=0.9
+  campaign: 548/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-mollie-d056f390-1d70-408e-8f85-2360d41eaa84-application --check-validity --check-a11y --check-errors
+
+=== Capture 14/50 (https://jobs.lever.co/pointclickcare/b924d7a9-41d0-44bd-b7fc-da5841a5ed68/apply) ===
+AGREE -> https-jobs-lever-co-pointclickcare-b924d7a9-41d0-44bd-b7fc-da5841a5ed68-apply
+  detector=25 ai=22 jaccard=0.88
+  campaign: 549/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-b924d7a9-41d0-44bd-b7fc-da5841a5ed68-apply --check-validity --check-a11y --check-errors
+
+=== Capture 15/50 (https://boards.eu.greenhouse.io/nice/jobs/4900863101?gh_jid=4900863101&t=1781884799730) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4900863101)
+
+=== Capture 16/50 (https://jobs.ashbyhq.com/monogram/266ea87b-24b5-4b0d-be57-57eb4bc69df7/application) ===
+AGREE -> https-jobs-ashbyhq-com-monogram-266ea87b-24b5-4b0d-be57-57eb4bc69df7-application
+  detector=7 ai=7 jaccard=1
+  campaign: 550/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-monogram-266ea87b-24b5-4b0d-be57-57eb4bc69df7-application --check-validity --check-a11y --check-errors
+
+=== Capture 17/50 (https://jobs.lever.co/pointclickcare/b924d7a9-41d0-44bd-b7fc-da5841a5ed68/apply?lever-origin=applied&lever-source%5B%5D=BuiltInNationwide) ===
+AGREE -> https-jobs-lever-co-pointclickcare-b924d7a9-41d0-44bd-b7fc-da5841a5ed68-apply
+  detector=25 ai=22 jaccard=0.88
+  campaign: 550/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-b924d7a9-41d0-44bd-b7fc-da5841a5ed68-apply --check-validity --check-a11y --check-errors
+
+=== Capture 18/50 (https://boards.eu.greenhouse.io/nice/jobs/4901885101) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4901885101)
+
+=== Capture 19/50 (https://jobs.ashbyhq.com/multitude%20insights/e228598e-351a-4f37-b80d-afe04c141616/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 20/50 (https://jobs.lever.co/pointclickcare/cfed3dc6-f9b2-4a37-b2f1-fbf4718a5183/apply) ===
+AGREE -> https-jobs-lever-co-pointclickcare-cfed3dc6-f9b2-4a37-b2f1-fbf4718a5183-apply
+  detector=18 ai=18 jaccard=1
+  campaign: 551/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-cfed3dc6-f9b2-4a37-b2f1-fbf4718a5183-apply --check-validity --check-a11y --check-errors
+
+=== Capture 21/50 (https://boards.eu.greenhouse.io/nice/jobs/4901885101?gh_jid=4901885101&gh_src=Blind) ===
+Capture failed: Tab drifted from boards.eu.greenhouse.io to job-boards.eu.greenhouse.io (https://job-boards.eu.greenhouse.io/nice/jobs/4901885101)
+
+=== Capture 22/50 (https://jobs.ashbyhq.com/n8n/0a5380eb-dab4-4324-8869-8d81e19e5784/application) ===
+DISAGREE -> https-jobs-ashbyhq-com-n8n-0a5380eb-dab4-4324-8869-8d81e19e5784-application
+  reasons: field count delta 12 exceeds tolerance 2 (detector=25, ai=13); label Jaccard 0.462 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 23/50 (https://jobs.lever.co/pointclickcare/ffa8caf0-bd7c-463c-8702-99e64908955f/apply) ===
+AGREE -> https-jobs-lever-co-pointclickcare-ffa8caf0-bd7c-463c-8702-99e64908955f-apply
+  detector=18 ai=18 jaccard=1
+  campaign: 552/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-pointclickcare-ffa8caf0-bd7c-463c-8702-99e64908955f-apply --check-validity --check-a11y --check-errors
+
+=== Capture 24/50 (https://jobs.ashbyhq.com/neon/104a1a8e-fb12-442d-8146-759b75d1e128/application) ===
+AGREE -> https-jobs-ashbyhq-com-neon-104a1a8e-fb12-442d-8146-759b75d1e128-application
+  detector=9 ai=9 jaccard=1
+  campaign: 553/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neon-104a1a8e-fb12-442d-8146-759b75d1e128-application --check-validity --check-a11y --check-errors
+
+=== Capture 25/50 (https://jobs.lever.co/princeton10/23c71330-6fb9-4e65-b0b5-0e92dc1a01e0/apply?lever-origin=applied&lever-source%5B%5D=BuiltInNationwide) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 26/50 (https://jobs.ashbyhq.com/neon/593e01db-ee32-40ba-845a-b2683025f0c3/application) ===
+AGREE -> https-jobs-ashbyhq-com-neon-593e01db-ee32-40ba-845a-b2683025f0c3-application
+  detector=10 ai=10 jaccard=1
+  campaign: 554/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neon-593e01db-ee32-40ba-845a-b2683025f0c3-application --check-validity --check-a11y --check-errors
+
+=== Capture 27/50 (https://jobs.lever.co/promenade/a94cdbe0-d138-4420-bd2a-257d7ab01f18/apply) ===
+AGREE -> https-jobs-lever-co-promenade-a94cdbe0-d138-4420-bd2a-257d7ab01f18-apply
+  detector=9 ai=9 jaccard=1
+  campaign: 555/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-a94cdbe0-d138-4420-bd2a-257d7ab01f18-apply --check-validity --check-a11y --check-errors
+
+=== Capture 28/50 (https://jobs.ashbyhq.com/neon/6d351ed6-76f6-4a9d-ab63-4f4dbf7e981f/application) ===
+AGREE -> https-jobs-ashbyhq-com-neon-6d351ed6-76f6-4a9d-ab63-4f4dbf7e981f-application
+  detector=9 ai=9 jaccard=1
+  campaign: 556/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neon-6d351ed6-76f6-4a9d-ab63-4f4dbf7e981f-application --check-validity --check-a11y --check-errors
+
+=== Capture 29/50 (https://jobs.lever.co/prosper/952adfd4-d3b4-4aa5-b6a5-6edd251c1c32/apply) ===
+AGREE -> https-jobs-lever-co-prosper-952adfd4-d3b4-4aa5-b6a5-6edd251c1c32-apply
+  detector=20 ai=20 jaccard=1
+  campaign: 557/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-prosper-952adfd4-d3b4-4aa5-b6a5-6edd251c1c32-apply --check-validity --check-a11y --check-errors
+
+=== Capture 30/50 (https://jobs.ashbyhq.com/neon/a8a0b16d-d880-49c8-8910-e23c741e2a9d/application) ===
+AGREE -> https-jobs-ashbyhq-com-neon-a8a0b16d-d880-49c8-8910-e23c741e2a9d-application
+  detector=5 ai=5 jaccard=1
+  campaign: 558/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neon-a8a0b16d-d880-49c8-8910-e23c741e2a9d-application --check-validity --check-a11y --check-errors
+
+=== Capture 31/50 (https://jobs.lever.co/prosper/b1355d47-17ab-4aad-92aa-cc32243be90b/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 32/50 (https://jobs.ashbyhq.com/neon/dc5bf47b-d705-49e3-a82b-f0cac2a98d6f/application) ===
+AGREE -> https-jobs-ashbyhq-com-neon-dc5bf47b-d705-49e3-a82b-f0cac2a98d6f-application
+  detector=10 ai=11 jaccard=0.9091
+  campaign: 559/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neon-dc5bf47b-d705-49e3-a82b-f0cac2a98d6f-application --check-validity --check-a11y --check-errors
+
+=== Capture 33/50 (https://jobs.lever.co/prosper/be2de9d8-63db-445b-962d-79ee01b64548/apply) ===
+AGREE -> https-jobs-lever-co-prosper-be2de9d8-63db-445b-962d-79ee01b64548-apply
+  detector=20 ai=20 jaccard=1
+  campaign: 560/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-prosper-be2de9d8-63db-445b-962d-79ee01b64548-apply --check-validity --check-a11y --check-errors
+
+=== Capture 34/50 (https://jobs.ashbyhq.com/neotaste/2ad2c499-3cb2-4a9b-b5cf-2bde05704bf4/application) ===
+AGREE -> https-jobs-ashbyhq-com-neotaste-2ad2c499-3cb2-4a9b-b5cf-2bde05704bf4-application
+  detector=9 ai=11 jaccard=0.8182
+  campaign: 561/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-neotaste-2ad2c499-3cb2-4a9b-b5cf-2bde05704bf4-application --check-validity --check-a11y --check-errors
+
+=== Capture 35/50 (https://jobs.lever.co/protective/7e9797ce-ac9a-4102-99a5-023014e4bb9e/apply) ===
+AGREE -> https-jobs-lever-co-protective-7e9797ce-ac9a-4102-99a5-023014e4bb9e-apply
+  detector=20 ai=20 jaccard=0.9048
+  campaign: 562/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-protective-7e9797ce-ac9a-4102-99a5-023014e4bb9e-apply --check-validity --check-a11y --check-errors
+
+=== Capture 36/50 (https://jobs.ashbyhq.com/nerdwallet/148d0d7a-798f-4e4b-b131-8dd5b5374e42/application) ===
+AGREE -> https-jobs-ashbyhq-com-nerdwallet-148d0d7a-798f-4e4b-b131-8dd5b5374e42-applicati
+  detector=26 ai=7 jaccard=0.2692
+  campaign: 563/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-nerdwallet-148d0d7a-798f-4e4b-b131-8dd5b5374e42-applicati --check-validity --check-a11y --check-errors
+
+=== Capture 37/50 (https://jobs.lever.co/qwello.eu/356bb92f-1c2e-473c-98b9-92522a705d18/apply) ===
+AGREE -> https-jobs-lever-co-qwello-eu-356bb92f-1c2e-473c-98b9-92522a705d18-apply
+  detector=11 ai=11 jaccard=1
+  campaign: 564/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-qwello-eu-356bb92f-1c2e-473c-98b9-92522a705d18-apply --check-validity --check-a11y --check-errors
+
+=== Capture 38/50 (https://jobs.ashbyhq.com/nerdwallet/24ef270b-7e65-457f-b08a-0134ea3e037b/application) ===
+AGREE -> https-jobs-ashbyhq-com-nerdwallet-24ef270b-7e65-457f-b08a-0134ea3e037b-applicati
+  detector=24 ai=1 jaccard=0
+  campaign: 565/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-nerdwallet-24ef270b-7e65-457f-b08a-0134ea3e037b-applicati --check-validity --check-a11y --check-errors
+
+=== Capture 39/50 (https://jobs.lever.co/rangeenergy/41c7b08a-2d4a-4148-a9db-ddbfedc7076e/apply) ===
+AGREE -> https-jobs-lever-co-rangeenergy-41c7b08a-2d4a-4148-a9db-ddbfedc7076e-apply
+  detector=17 ai=17 jaccard=1
+  campaign: 566/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-rangeenergy-41c7b08a-2d4a-4148-a9db-ddbfedc7076e-apply --check-validity --check-a11y --check-errors
+
+=== Capture 40/50 (https://jobs.ashbyhq.com/nerdwallet/304a64f0-f6f8-4935-94e8-fc1a7b1f8f25/application) ===
+AGREE -> https-jobs-ashbyhq-com-nerdwallet-304a64f0-f6f8-4935-94e8-fc1a7b1f8f25-applicati
+  detector=27 ai=8 jaccard=0.2963
+  campaign: 567/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-nerdwallet-304a64f0-f6f8-4935-94e8-fc1a7b1f8f25-applicati --check-validity --check-a11y --check-errors
+
+=== Capture 41/50 (https://jobs.lever.co/shieldai/10936087-44a4-47db-bddf-105436e872aa/apply) ===
+AGREE -> https-jobs-lever-co-shieldai-10936087-44a4-47db-bddf-105436e872aa-apply
+  detector=37 ai=23 jaccard=0.6216
+  campaign: 568/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-shieldai-10936087-44a4-47db-bddf-105436e872aa-apply --check-validity --check-a11y --check-errors
+
+=== Capture 42/50 (https://jobs.ashbyhq.com/nerdwallet/53fdfbb4-b3fe-416d-aa04-7406f3b134c4/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 43/50 (https://jobs.lever.co/shieldai/b35f5f09-84ca-494b-aa64-9689325638cc/apply) ===
+AGREE -> https-jobs-lever-co-shieldai-b35f5f09-84ca-494b-aa64-9689325638cc-apply
+  detector=36 ai=24 jaccard=0.6667
+  campaign: 569/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-shieldai-b35f5f09-84ca-494b-aa64-9689325638cc-apply --check-validity --check-a11y --check-errors
+
+=== Capture 44/50 (https://jobs.ashbyhq.com/notion/05e14247-17c4-4e98-9a13-53828a4e2f13/application) ===
+AGREE -> https-jobs-ashbyhq-com-notion-05e14247-17c4-4e98-9a13-53828a4e2f13-application
+  detector=13 ai=7 jaccard=0.5385
+  campaign: 570/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-notion-05e14247-17c4-4e98-9a13-53828a4e2f13-application --check-validity --check-a11y --check-errors
+
+=== Capture 45/50 (https://jobs.lever.co/snaplogic/01dafb95-82d4-4201-8419-65025306ca0f/apply?lever-origin=applied&lever-source%5B%5D=BuiltInNationwide) ===
+AGREE -> https-jobs-lever-co-snaplogic-01dafb95-82d4-4201-8419-65025306ca0f-apply
+  detector=16 ai=16 jaccard=0.8824
+  campaign: 571/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-snaplogic-01dafb95-82d4-4201-8419-65025306ca0f-apply --check-validity --check-a11y --check-errors
+
+=== Capture 46/50 (https://jobs.ashbyhq.com/notion/6ad34426-b980-436b-80c4-3634c00094ad/application) ===
+AGREE -> https-jobs-ashbyhq-com-notion-6ad34426-b980-436b-80c4-3634c00094ad-application
+  detector=10 ai=8 jaccard=0.6364
+  campaign: 572/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-notion-6ad34426-b980-436b-80c4-3634c00094ad-application --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://jobs.lever.co/spotify/08d82da1-0c72-44d1-91eb-7fa22dee3d39/apply) ===
+AGREE -> https-jobs-lever-co-spotify-08d82da1-0c72-44d1-91eb-7fa22dee3d39-apply
+  detector=20 ai=17 jaccard=0.7619
+  campaign: 573/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-08d82da1-0c72-44d1-91eb-7fa22dee3d39-apply --check-validity --check-a11y --check-errors
+
+=== Capture 48/50 (https://jobs.ashbyhq.com/notion/8c4e0b0a-0b0b-4b0b-8b0b-0b0b0b0b0b0b/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 49/50 (https://jobs.lever.co/spotify/2193db3f-77c5-43b8-b030-8f92c9882bf1/apply) ===
+AGREE -> https-jobs-lever-co-spotify-2193db3f-77c5-43b8-b030-8f92c9882bf1-apply
+  detector=21 ai=18 jaccard=0.7727
+  campaign: 574/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-2193db3f-77c5-43b8-b030-8f92c9882bf1-apply --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://jobs.ashbyhq.com/notion/92601e94-66c8-46ef-b949-da1547a5caa8/application) ===
+AGREE -> https-jobs-ashbyhq-com-notion-92601e94-66c8-46ef-b949-da1547a5caa8-application
+  detector=10 ai=5 jaccard=0.5
+  campaign: 575/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-notion-92601e94-66c8-46ef-b949-da1547a5caa8-application --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 37,
+  "disagree": 1,
+  "error": 12,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 575,
+  "campaign_target": 664,
+  "triage_count": 254
+}
+2026-07-11T01:42:42.420Z END oracle-url-queue-batch-25 exit=0 agrees_batch=37 disagree=1 error=12 cumulative=575 new=411 tabs_closed=reuse-one
+2026-07-11T01:42:42.519Z START oracle-url-queue-batch-26 cumulative=575 new=411
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-26.json (11 urls), batch_id=oracle-url-queue-batch-26
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 575/664 agrees
+
+=== Capture 1/50 (https://jobs.lever.co/spotify/66acb66f-de37-4d95-a353-874db92838ef/apply) ===
+AGREE -> https-jobs-lever-co-spotify-66acb66f-de37-4d95-a353-874db92838ef-apply
+  detector=19 ai=16 jaccard=0.8421
+  campaign: 576/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-66acb66f-de37-4d95-a353-874db92838ef-apply --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://jobs.ashbyhq.com/notion/b21fef72-4864-4a3e-a627-91557a0f8a36/application) ===
+AGREE -> https-jobs-ashbyhq-com-notion-b21fef72-4864-4a3e-a627-91557a0f8a36-application
+  detector=13 ai=8 jaccard=0.5
+  campaign: 577/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-notion-b21fef72-4864-4a3e-a627-91557a0f8a36-application --check-validity --check-a11y --check-errors
+
+=== Capture 3/50 (https://jobs.lever.co/spotify/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 4/50 (https://jobs.ashbyhq.com/novig/8333cd4c-f999-473f-9983-b1d3a4848894/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 5/50 (https://jobs.lever.co/spotify/b4ad9572-e20f-4185-a284-99d9740d04f0/apply) ===
+AGREE -> https-jobs-lever-co-spotify-b4ad9572-e20f-4185-a284-99d9740d04f0-apply
+  detector=20 ai=17 jaccard=0.85
+  campaign: 578/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-b4ad9572-e20f-4185-a284-99d9740d04f0-apply --check-validity --check-a11y --check-errors
+
+=== Capture 6/50 (https://jobs.ashbyhq.com/novig/bd216331-c180-4534-b203-336d34c63ab9/application) ===
+AGREE -> https-jobs-ashbyhq-com-novig-bd216331-c180-4534-b203-336d34c63ab9-application
+  detector=9 ai=9 jaccard=1
+  campaign: 579/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-novig-bd216331-c180-4534-b203-336d34c63ab9-application --check-validity --check-a11y --check-errors
+
+=== Capture 7/50 (https://jobs.lever.co/spotify/cc5ccf57-b851-4c25-8840-ed4cd0535c12/apply) ===
+AGREE -> https-jobs-lever-co-spotify-cc5ccf57-b851-4c25-8840-ed4cd0535c12-apply
+  detector=19 ai=16 jaccard=0.8421
+  campaign: 580/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-cc5ccf57-b851-4c25-8840-ed4cd0535c12-apply --check-validity --check-a11y --check-errors
+
+=== Capture 8/50 (https://jobs.ashbyhq.com/novig/fa3a2236-20c0-435d-861e-dba60fa6d1c9/application) ===
+AGREE -> https-jobs-ashbyhq-com-novig-fa3a2236-20c0-435d-861e-dba60fa6d1c9-application
+  detector=8 ai=8 jaccard=1
+  campaign: 581/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-novig-fa3a2236-20c0-435d-861e-dba60fa6d1c9-application --check-validity --check-a11y --check-errors
+
+=== Capture 9/50 (https://jobs.lever.co/square/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 10/50 (https://jobs.ashbyhq.com/novig/fa3a2236-20c0-435d-861e-dba60fa6d1c9/application?embed=js) ===
+AGREE -> https-jobs-ashbyhq-com-novig-fa3a2236-20c0-435d-861e-dba60fa6d1c9-application
+  detector=8 ai=8 jaccard=1
+  campaign: 581/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-novig-fa3a2236-20c0-435d-861e-dba60fa6d1c9-application --check-validity --check-a11y --check-errors
+
+=== Capture 11/50 (https://jobs.lever.co/sunsrce/8ad35251-2b38-4548-8a6a-81224ab98ce4/apply) ===
+AGREE -> https-jobs-lever-co-sunsrce-8ad35251-2b38-4548-8a6a-81224ab98ce4-apply
+  detector=21 ai=22 jaccard=0.7917
+  campaign: 582/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-sunsrce-8ad35251-2b38-4548-8a6a-81224ab98ce4-apply --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 8,
+  "disagree": 0,
+  "error": 3,
+  "captured": 11,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 582,
+  "campaign_target": 664,
+  "triage_count": 254
+}
+2026-07-11T01:45:33.609Z END oracle-url-queue-batch-26 exit=0 agrees_batch=8 disagree=0 error=3 cumulative=582 new=418 tabs_closed=reuse-one
+2026-07-11T01:45:33.687Z START oracle-url-queue-batch-27 cumulative=582 new=418
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-27.json (50 urls), batch_id=oracle-url-queue-batch-27
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 582/664 agrees
+
+=== Capture 1/50 (https://jobs.ashbyhq.com/camunda/374ab2cf-206a-4587-9415-700d52f60690/application) ===
+AGREE -> https-jobs-ashbyhq-com-camunda-374ab2cf-206a-4587-9415-700d52f60690-application
+  detector=15 ai=3 jaccard=0.2
+  campaign: 583/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-camunda-374ab2cf-206a-4587-9415-700d52f60690-application --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://jobs.lever.co/brilliant/abe6c8d6-d0f5-47d6-9d6e-f7b762b64ba2/apply) ===
+AGREE -> https-jobs-lever-co-brilliant-abe6c8d6-d0f5-47d6-9d6e-f7b762b64ba2-apply
+  detector=13 ai=13 jaccard=1
+  campaign: 584/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-brilliant-abe6c8d6-d0f5-47d6-9d6e-f7b762b64ba2-apply --check-validity --check-a11y --check-errors
+
+=== Capture 3/50 (https://boards.greenhouse.io/cloudflare/jobs/7657028/apply?gh_jid=7657028) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 4/50 (https://maltego.jobs.personio.de/job/2688765?apply) ===
+AGREE -> https-maltego-jobs-personio-de-job-2688765
+  detector=13 ai=13 jaccard=0.2381
+  campaign: 585/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-maltego-jobs-personio-de-job-2688765 --check-validity --check-a11y --check-errors
+
+=== Capture 5/50 (https://lernlinkgmbh.recruitee.com/o/moodle-plugin-developer-2-9) ===
+DISAGREE -> https-lernlinkgmbh-recruitee-com-o-moodle-plugin-developer-2-9-c-new
+  reasons: label Jaccard 0.636 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 6/50 (https://rebtel.teamtailor.com/jobs/7805704-ai-ml-engineer/applications/new?promotion=2068069-arbetsformedlingen) ===
+DISAGREE -> https-rebtel-teamtailor-com-jobs-7805704-ai-ml-engineer-applications-new
+  reasons: field count delta 5 exceeds tolerance 2 (detector=10, ai=5); label Jaccard 0.154 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 7/50 (https://jobs.smartrecruiters.com/FortuneBrands/744000122339649-ios-mobile-application-developer?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 8/50 (https://jmi-reports.breezy.hr/p/a4dc5a4db0bc-field-rep-ga/apply) ===
+DISAGREE -> https-jmi-reports-breezy-hr-p-a4dc5a4db0bc-field-rep-ga-apply
+  reasons: label Jaccard 0.621 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 9/50 (https://resetproduction.softgarden.io/job/63909494/Marketing-und-PR-Experte-in-?jobDbPVId=274739083&l=de) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 10/50 (https://jobs.ashbyhq.com/camunda/448fb5e4-ed11-49a1-b389-4feb98cf26f7/application) ===
+AGREE -> https-jobs-ashbyhq-com-camunda-448fb5e4-ed11-49a1-b389-4feb98cf26f7-application
+  detector=11 ai=3 jaccard=0.2727
+  campaign: 586/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-camunda-448fb5e4-ed11-49a1-b389-4feb98cf26f7-application --check-validity --check-a11y --check-errors
+
+=== Capture 11/50 (https://jobs.lever.co/brilliant/b0b97281-179b-4b47-b5d6-a0cfaad3f425/apply) ===
+AGREE -> https-jobs-lever-co-brilliant-b0b97281-179b-4b47-b5d6-a0cfaad3f425-apply
+  detector=15 ai=15 jaccard=0.6471
+  campaign: 587/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-brilliant-b0b97281-179b-4b47-b5d6-a0cfaad3f425-apply --check-validity --check-a11y --check-errors
+
+=== Capture 12/50 (https://boards.greenhouse.io/cloudflare/jobs/7883803/apply?gh_jid=7883803) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 13/50 (https://mamahealth.jobs.personio.com/job/2698628?apply) ===
+AGREE -> https-mamahealth-jobs-personio-com-job-2698628
+  detector=12 ai=12 jaccard=0.5
+  campaign: 588/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-mamahealth-jobs-personio-com-job-2698628 --check-validity --check-a11y --check-errors
+
+=== Capture 14/50 (https://litit.recruitee.com/o/general-open-application) ===
+AGREE -> https-litit-recruitee-com-o-general-open-application-c-new
+  detector=13 ai=12 jaccard=0.9231
+  campaign: 589/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-litit-recruitee-com-o-general-open-application-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 15/50 (https://roomersbadenbadenhotelbetriebsgmbh.teamtailor.com/jobs/7798084-beikoch-m-w-d/applications/new?promotion=2018503-hotelcareer) ===
+DISAGREE -> https-roomersbadenbadenhotelbetriebsgmbh-teamtailor-com-jobs-7798084-beikoch-m-w
+  reasons: field count delta 5 exceeds tolerance 2 (detector=9, ai=4); label Jaccard 0.083 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 16/50 (https://jobs.smartrecruiters.com/FortuneBrands/744000126381369-ios-mobile-application-developer) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 17/50 (https://kickstart-accounting-inc.breezy.hr/p/0284627faa3f-multi-client-bookkeeper-remote/apply) ===
+DISAGREE -> https-kickstart-accounting-inc-breezy-hr
+  reasons: field count delta 4 exceeds tolerance 2 (detector=0, ai=4); label Jaccard 0.000 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 18/50 (https://serviceplan.softgarden.io/job/60810417/Senior-Unreal-Generalist-all-genders-) ===
+DISAGREE -> https-serviceplan-softgarden-io-job-60810417-senior-unreal-generalist-all-gender
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 19/50 (https://jobs.ashbyhq.com/capimoney/30f182a0-dd37-4864-81ea-0d3c3e41f966/application) ===
+AGREE -> https-jobs-ashbyhq-com-capimoney-30f182a0-dd37-4864-81ea-0d3c3e41f966-applicatio
+  detector=8 ai=8 jaccard=1
+  campaign: 590/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-capimoney-30f182a0-dd37-4864-81ea-0d3c3e41f966-applicatio --check-validity --check-a11y --check-errors
+
+=== Capture 20/50 (https://jobs.lever.co/brilliant/ba676c91-8923-43b3-9a1e-91c2c9dbee51/apply) ===
+AGREE -> https-jobs-lever-co-brilliant-ba676c91-8923-43b3-9a1e-91c2c9dbee51-apply
+  detector=16 ai=16 jaccard=0.6667
+  campaign: 591/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-brilliant-ba676c91-8923-43b3-9a1e-91c2c9dbee51-apply --check-validity --check-a11y --check-errors
+
+=== Capture 21/50 (https://boards.greenhouse.io/cloudflare/jobs/8031945/apply?gh_jid=8031945) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 22/50 (https://matrix42.jobs.personio.com/job/2677956?language=en) ===
+AGREE -> https-matrix42-jobs-personio-com-job-2677956
+  detector=12 ai=12 jaccard=0.3333
+  campaign: 592/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-matrix42-jobs-personio-com-job-2677956 --check-validity --check-a11y --check-errors
+
+=== Capture 23/50 (https://marcusevanscareers.recruitee.com/o/finance-accounting-specialist) ===
+Capture failed: Tab drifted from marcusevanscareers.recruitee.com to recruitee.marcusevanscareers.com (https://recruitee.marcusevanscareers.com/o/finance-accounting-specialist)
+
+=== Capture 24/50 (https://rootedtalentsolutions.na.teamtailor.com/jobs/217658-copy-2-of-medical-biller-coder/applications/new) ===
+DISAGREE -> https-rootedtalentsolutions-na-teamtailor-com-jobs-217658-copy-2-of-medical-bill
+  reasons: field count delta 5 exceeds tolerance 2 (detector=10, ai=5); label Jaccard 0.154 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 25/50 (https://jobs.smartrecruiters.com/GlobalLogic4/743999665556190-java-developer-tester?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-globallogic4-publication-516f
+  reasons: label Jaccard 0.273 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 26/50 (https://kindred-bravely.breezy.hr/p/2a86e09e9930-freelance-fitting-model-oceanside-ca/apply) ===
+DISAGREE -> https-kindred-bravely-breezy-hr-p-2a86e09e9930-freelance-fitting-model-oceanside
+  reasons: label Jaccard 0.308 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 27/50 (https://serviceplan.softgarden.io/job/61479827/Lighting-and-Shading-Artist-Unreal-all-genders-) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 28/50 (https://jobs.ashbyhq.com/capimoney/33363795-2617-4eff-b799-1db09a7c57bd/application) ===
+AGREE -> https-jobs-ashbyhq-com-capimoney-33363795-2617-4eff-b799-1db09a7c57bd-applicatio
+  detector=8 ai=7 jaccard=0.875
+  campaign: 593/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-capimoney-33363795-2617-4eff-b799-1db09a7c57bd-applicatio --check-validity --check-a11y --check-errors
+
+=== Capture 29/50 (https://jobs.lever.co/happyco/0b8d7031-bb42-4bdc-9266-fda91d1ae018/apply) ===
+AGREE -> https-jobs-lever-co-happyco-0b8d7031-bb42-4bdc-9266-fda91d1ae018-apply
+  detector=16 ai=16 jaccard=1
+  campaign: 594/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-0b8d7031-bb42-4bdc-9266-fda91d1ae018-apply --check-validity --check-a11y --check-errors
+
+=== Capture 30/50 (https://boards.greenhouse.io/figma/jobs/5428656004/apply?gh_jid=5428656004) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 31/50 (https://mediaire.jobs.personio.com/job/2683830?apply) ===
+DISAGREE -> https-mediaire-jobs-personio-com-job-2683830
+  reasons: label Jaccard 0.111 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 32/50 (https://medactafrance.recruitee.com/o/candidature-spontannee) ===
+AGREE -> https-medactafrance-recruitee-com-o-candidature-spontannee-c-new
+  detector=7 ai=7 jaccard=0.75
+  campaign: 595/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-medactafrance-recruitee-com-o-candidature-spontannee-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 33/50 (https://rqipartners-demo.na.teamtailor.com/jobs/549804-impact-manager-customer-success/applications/new) ===
+Capture failed: Tab drifted from rqipartners-demo.na.teamtailor.com to careers.rqipartners.com (https://careers.rqipartners.com/jobs/549804-impact-manager-customer-success/applications/new)
+
+=== Capture 34/50 (https://jobs.smartrecruiters.com/HMGroup/744000126812959--sales-advisor-pt20-5w-?oga=true) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-hmgroup-publication-c4728c4c-
+  reasons: label Jaccard 0.042 below 0.7; type agreement 0.000 below 0.6 on 1 matched pairs
+  ai_only backlog (12): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 35/50 (https://lastro.breezy.hr/p/8ce7d3551a3d-account-manager-i/apply) ===
+DISAGREE -> https-lastro-breezy-hr-p-8ce7d3551a3d-account-manager-i-apply
+  reasons: label Jaccard 0.235 below 0.7
+  ai_only backlog (6): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 36/50 (https://serviceplan.softgarden.io/job/61984734/Unreal-Animation-Artist-all-genders-) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 37/50 (https://jobs.ashbyhq.com/capimoney/3654bc55-c2ab-4b6a-b30d-9f48a6b04b57/application) ===
+AGREE -> https-jobs-ashbyhq-com-capimoney-3654bc55-c2ab-4b6a-b30d-9f48a6b04b57-applicatio
+  detector=8 ai=8 jaccard=1
+  campaign: 596/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-capimoney-3654bc55-c2ab-4b6a-b30d-9f48a6b04b57-applicatio --check-validity --check-a11y --check-errors
+
+=== Capture 38/50 (https://jobs.lever.co/happyco/76fcfd71-56e8-44ee-961a-e02081cd9c3a/apply) ===
+AGREE -> https-jobs-lever-co-happyco-76fcfd71-56e8-44ee-961a-e02081cd9c3a-apply
+  detector=16 ai=16 jaccard=1
+  campaign: 597/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-76fcfd71-56e8-44ee-961a-e02081cd9c3a-apply --check-validity --check-a11y --check-errors
+
+=== Capture 39/50 (https://boards.greenhouse.io/figma/jobs/5753209004/apply?gh_jid=5753209004) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 40/50 (https://meiragtx.jobs.personio.de/job/2649255?apply) ===
+AGREE -> https-meiragtx-jobs-personio-de-job-2649255
+  detector=9 ai=9 jaccard=0.2
+  campaign: 598/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-meiragtx-jobs-personio-de-job-2649255 --check-validity --check-a11y --check-errors
+
+=== Capture 41/50 (https://mirka.recruitee.com/o/open-application-general?lang=en) ===
+AGREE -> https-mirka-recruitee-com-o-open-application-general-c-new
+  detector=19 ai=17 jaccard=0.8947
+  campaign: 599/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-mirka-recruitee-com-o-open-application-general-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 42/50 (https://rubycentral.teamtailor.com/jobs/7247950-scholars-application/applications/new) ===
+AGREE -> https-rubycentral-teamtailor-com-jobs-7247950-scholars-application-applications-
+  detector=22 ai=14 jaccard=0.5
+  campaign: 600/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-rubycentral-teamtailor-com-jobs-7247950-scholars-application-applications- --check-validity --check-a11y --check-errors
+
+=== Capture 43/50 (https://jobs.smartrecruiters.com/HMGroup/744000127654136--sky-mall-?oga=true) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-hmgroup-publication-a1cee890-
+  reasons: label Jaccard 0.043 below 0.7; type agreement 0.000 below 0.6 on 1 matched pairs
+  ai_only backlog (12): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 44/50 (https://leap-digital-marketing.breezy.hr/p/b5ccbd9ce07c-ux-ui-designer-project-based-freelancer-m-f-d/apply) ===
+DISAGREE -> https-leap-digital-marketing-breezy-hr-p-b5ccbd9ce07c-ux-ui-designer-project-bas
+  reasons: label Jaccard 0.071 below 0.7
+  ai_only backlog (5): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 45/50 (https://serviceplan.softgarden.io/job/65676436) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 46/50 (https://jobs.ashbyhq.com/corti/a81160c5-0147-492e-b6da-5f098e05a593/application) ===
+AGREE -> https-jobs-ashbyhq-com-corti-a81160c5-0147-492e-b6da-5f098e05a593-application
+  detector=15 ai=16 jaccard=0.9375
+  campaign: 601/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-corti-a81160c5-0147-492e-b6da-5f098e05a593-application --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://jobs.lever.co/happyco/8ce1ffe9-8f2f-4677-9f9c-bcf265455d82/apply) ===
+AGREE -> https-jobs-lever-co-happyco-8ce1ffe9-8f2f-4677-9f9c-bcf265455d82-apply
+  detector=15 ai=15 jaccard=1
+  campaign: 602/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-8ce1ffe9-8f2f-4677-9f9c-bcf265455d82-apply --check-validity --check-a11y --check-errors
+
+=== Capture 48/50 (https://boards.greenhouse.io/figma/jobs/5803515004/apply?gh_jid=5803515004) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 49/50 (https://menhir-photonics.jobs.personio.com/job/2494176?language=en) ===
+AGREE -> https-menhir-photonics-jobs-personio-com-job-2494176
+  detector=18 ai=18 jaccard=0.2857
+  campaign: 603/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-menhir-photonics-jobs-personio-com-job-2494176 --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://msfmenaamman.recruitee.com/o/generic-job-ad-morocco-1) ===
+AGREE -> https-msfmenaamman-recruitee-com-o-generic-job-ad-morocco-1-c-new
+  detector=16 ai=12 jaccard=0.75
+  campaign: 604/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-msfmenaamman-recruitee-com-o-generic-job-ad-morocco-1-c-new --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 22,
+  "disagree": 14,
+  "error": 14,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 604,
+  "campaign_target": 664,
+  "triage_count": 268
+}
+2026-07-11T01:56:30.161Z END oracle-url-queue-batch-27 exit=0 agrees_batch=22 disagree=14 error=14 cumulative=604 new=440 tabs_closed=reuse-one
+2026-07-11T01:56:30.250Z START oracle-url-queue-batch-28 cumulative=604 new=440
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-28.json (50 urls), batch_id=oracle-url-queue-batch-28
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 604/664 agrees
+
+=== Capture 1/50 (https://rubycentral.teamtailor.com/jobs/7248113-guide-application/applications/new) ===
+AGREE -> https-rubycentral-teamtailor-com-jobs-7248113-guide-application-applications-new
+  detector=16 ai=15 jaccard=0.8235
+  campaign: 605/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-rubycentral-teamtailor-com-jobs-7248113-guide-application-applications-new --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://jobs.smartrecruiters.com/INFICON2/744000133704269-mobile-application-developer?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-inficon2-publication-e55401d1
+  reasons: label Jaccard 0.263 below 0.7
+  ai_only backlog (6): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 3/50 (https://magellan-ai.breezy.hr/p/e0471a1d8b60-quality-assurance-analyst/apply) ===
+DISAGREE -> https-magellan-ai-breezy-hr-p-e0471a1d8b60-quality-assurance-analyst-apply
+  reasons: label Jaccard 0.417 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 4/50 (https://smartes.onlyfy.jobs/job/amcsn3269di24d9o55y1mstd3ky9rf5) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 5/50 (https://jobs.ashbyhq.com/corti/c569450f-c9f5-4b32-84fe-f87a1516f198/application) ===
+AGREE -> https-jobs-ashbyhq-com-corti-c569450f-c9f5-4b32-84fe-f87a1516f198-application
+  detector=14 ai=15 jaccard=0.9333
+  campaign: 606/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-corti-c569450f-c9f5-4b32-84fe-f87a1516f198-application --check-validity --check-a11y --check-errors
+
+=== Capture 6/50 (https://jobs.lever.co/happyco/8fc93b78-f344-4f4c-b4d0-a0d446570a21/apply) ===
+AGREE -> https-jobs-lever-co-happyco-8fc93b78-f344-4f4c-b4d0-a0d446570a21-apply
+  detector=22 ai=22 jaccard=1
+  campaign: 607/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-8fc93b78-f344-4f4c-b4d0-a0d446570a21-apply --check-validity --check-a11y --check-errors
+
+=== Capture 7/50 (https://boards.greenhouse.io/robinhood/jobs/7875387/apply?t=gh_src=&gh_jid=7875387) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 8/50 (https://menhir-photonics.jobs.personio.de/job/2494176?language=en) ===
+AGREE -> https-menhir-photonics-jobs-personio-de-job-2494176
+  detector=18 ai=18 jaccard=0.2857
+  campaign: 608/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-menhir-photonics-jobs-personio-de-job-2494176 --check-validity --check-a11y --check-errors
+
+=== Capture 9/50 (https://natuvion.recruitee.com/o/sales-administrative-support-1) ===
+AGREE -> https-natuvion-recruitee-com-o-sales-administrative-support-1-c-new
+  detector=15 ai=14 jaccard=0.8125
+  campaign: 609/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-natuvion-recruitee-com-o-sales-administrative-support-1-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 10/50 (https://rurhotelbetriebsgmbh.teamtailor.com/jobs/7299190-barkeeper-m-w-d-als-minijob/applications/new?promotion=1951867-hotelcareer) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 11/50 (https://jobs.smartrecruiters.com/InformaGroupPlc/744000118538763-account-manager-portfolio) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 12/50 (https://magellan-ai.breezy.hr/p/e0471a1d8b60-quality-assurance-analyst/apply?source=BuiltInNationwide) ===
+DISAGREE -> https-magellan-ai-breezy-hr-p-e0471a1d8b60-quality-assurance-analyst-apply
+  reasons: label Jaccard 0.417 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 13/50 (https://solvistas-gmbh.onlyfy.jobs/job/2c1l4oi2) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 14/50 (https://jobs.ashbyhq.com/corti/e603b4c0-b530-4278-853f-b4cab08da504/application) ===
+AGREE -> https-jobs-ashbyhq-com-corti-e603b4c0-b530-4278-853f-b4cab08da504-application
+  detector=12 ai=12 jaccard=0.8462
+  campaign: 610/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-corti-e603b4c0-b530-4278-853f-b4cab08da504-application --check-validity --check-a11y --check-errors
+
+=== Capture 15/50 (https://jobs.lever.co/happyco/bfb4c12e-f4a7-46d4-bd5c-d772bd133d49/apply) ===
+AGREE -> https-jobs-lever-co-happyco-bfb4c12e-f4a7-46d4-bd5c-d772bd133d49-apply
+  detector=15 ai=15 jaccard=1
+  campaign: 611/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-bfb4c12e-f4a7-46d4-bd5c-d772bd133d49-apply --check-validity --check-a11y --check-errors
+
+=== Capture 16/50 (https://boards.greenhouse.io/robinhood/jobs/7976543/apply?t=gh_src=&gh_jid=7976543) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 17/50 (https://moore-tk.jobs.personio.com/job/2411687) ===
+AGREE -> https-moore-tk-jobs-personio-com-job-2411687
+  detector=9 ai=9 jaccard=0.2857
+  campaign: 612/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-moore-tk-jobs-personio-com-job-2411687 --check-validity --check-a11y --check-errors
+
+=== Capture 18/50 (https://nlc.recruitee.com/o/gaba-1to1-english-instructor-applicants-outside-japan) ===
+AGREE -> https-nlc-recruitee-com-o-gaba-1to1-english-instructor-applicants-outside-japan-
+  detector=17 ai=16 jaccard=0.8333
+  campaign: 613/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-nlc-recruitee-com-o-gaba-1to1-english-instructor-applicants-outside-japan- --check-validity --check-a11y --check-errors
+
+=== Capture 19/50 (https://searchatlas.na.teamtailor.com/jobs/649693-director-of-engineering/applications/new) ===
+Capture failed: Tab drifted from searchatlas.na.teamtailor.com to careers.searchatlas.com (https://careers.searchatlas.com/jobs/649693-director-of-engineering/applications/new)
+
+=== Capture 20/50 (https://jobs.smartrecruiters.com/InformaGroupPlc/744000118538763-account-manager-portfolio?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 21/50 (https://magellan-ai.breezy.hr/p/f08ff830a521-measurement-growth-director/apply) ===
+DISAGREE -> https-magellan-ai-breezy-hr-p-f08ff830a521-measurement-growth-director-apply
+  reasons: label Jaccard 0.400 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 22/50 (https://soulkitchen-academy.onlyfy.jobs/job/wi5plsh4) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 23/50 (https://jobs.ashbyhq.com/cube/0434dca8-c128-4ba5-aba4-6b86c07b6d79/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-0434dca8-c128-4ba5-aba4-6b86c07b6d79-application
+  detector=11 ai=10 jaccard=0.9091
+  campaign: 614/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-0434dca8-c128-4ba5-aba4-6b86c07b6d79-application --check-validity --check-a11y --check-errors
+
+=== Capture 24/50 (https://jobs.lever.co/happyco/c6af7ba1-8b33-421d-8a44-933807ad67d1/apply) ===
+AGREE -> https-jobs-lever-co-happyco-c6af7ba1-8b33-421d-8a44-933807ad67d1-apply
+  detector=15 ai=15 jaccard=1
+  campaign: 615/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-c6af7ba1-8b33-421d-8a44-933807ad67d1-apply --check-validity --check-a11y --check-errors
+
+=== Capture 25/50 (https://boards.greenhouse.io/robinhood/jobs/8052344/apply?t=gh_src=&gh_jid=8052344) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 26/50 (https://moxy-vienna-airport.jobs.personio.com/job/2417321?language=de) ===
+DISAGREE -> https-moxy-vienna-airport-jobs-personio-com-job-2417321
+  reasons: label Jaccard 0.125 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 27/50 (https://novakidschool.recruitee.com/o/creative-project-manager-youtube-short-form-distribution-remote) ===
+Capture failed: Tab drifted from novakidschool.recruitee.com to hr.novakidschool.com (https://hr.novakidschool.com/o/creative-project-manager-youtube-short-form-distribution-remote)
+
+=== Capture 28/50 (https://securitas.teamtailor.com/jobs/7676694-senior-data-scientist/applications/new) ===
+DISAGREE -> https-securitas-teamtailor-com-jobs-7676694-senior-data-scientist-applications-n
+  reasons: field count delta 11 exceeds tolerance 2 (detector=17, ai=6); label Jaccard 0.150 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 29/50 (https://jobs.smartrecruiters.com/InformationTechnologyPartners/744000023423357-full-stack-front-end-developer?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-informationtechnologypartners
+  reasons: label Jaccard 0.250 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 30/50 (https://magellan-ai.breezy.hr/p/f08ff830a521-measurement-growth-director/apply?source=BuiltInNationwide) ===
+DISAGREE -> https-magellan-ai-breezy-hr-p-f08ff830a521-measurement-growth-director-apply
+  reasons: label Jaccard 0.400 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 31/50 (https://stadtwerke-halle-gmbh.onlyfy.jobs/job/dvatauni) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 32/50 (https://jobs.ashbyhq.com/cube/248531ac-7bde-4a64-80f5-0dc709d71ab0/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-248531ac-7bde-4a64-80f5-0dc709d71ab0-application
+  detector=11 ai=11 jaccard=1
+  campaign: 616/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-248531ac-7bde-4a64-80f5-0dc709d71ab0-application --check-validity --check-a11y --check-errors
+
+=== Capture 33/50 (https://jobs.lever.co/happyco/f9dde308-e690-4600-84c0-b44180c51891/apply) ===
+AGREE -> https-jobs-lever-co-happyco-f9dde308-e690-4600-84c0-b44180c51891-apply
+  detector=15 ai=15 jaccard=1
+  campaign: 617/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-happyco-f9dde308-e690-4600-84c0-b44180c51891-apply --check-validity --check-a11y --check-errors
+
+=== Capture 34/50 (https://job-boards.greenhouse.io/anthropic/jobs/5023394008/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 35/50 (https://munerio.jobs.personio.com/job/2481860) ===
+DISAGREE -> https-munerio-jobs-personio-com-job-2481860
+  reasons: label Jaccard 0.455 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 36/50 (https://novakidteachers.recruitee.com/o/esl-teacher) ===
+AGREE -> https-novakidteachers-recruitee-com-o-esl-teacher-c-new
+  detector=27 ai=20 jaccard=0.6207
+  campaign: 618/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-novakidteachers-recruitee-com-o-esl-teacher-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 37/50 (https://securitas.teamtailor.com/jobs/7713471-business-process-owner-sales-securitas-technology-europe/applications/new) ===
+DISAGREE -> https-securitas-teamtailor-com-jobs-7713471-business-process-owner-sales-securit
+  reasons: label Jaccard 0.143 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 38/50 (https://jobs.smartrecruiters.com/IngramContentGroup1/744000128798699-java-software-engineer-intermediate) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 39/50 (https://masterworks.breezy.hr/p/b6ec9dee07ed-business-director-level-co/apply) ===
+DISAGREE -> https-masterworks-breezy-hr-p-b6ec9dee07ed-business-director-level-co-apply
+  reasons: label Jaccard 0.154 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 40/50 (https://tapde.softgarden.io/job/60061555) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 41/50 (https://jobs.ashbyhq.com/cube/8b733ff5-73f7-48fb-8efe-a66b00cb2468/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-8b733ff5-73f7-48fb-8efe-a66b00cb2468-application
+  detector=11 ai=11 jaccard=1
+  campaign: 619/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-8b733ff5-73f7-48fb-8efe-a66b00cb2468-application --check-validity --check-a11y --check-errors
+
+=== Capture 42/50 (https://jobs.lever.co/palantir/205c3184-4272-41a9-a1e2-5352d4d00910/apply) ===
+AGREE -> https-jobs-lever-co-palantir-205c3184-4272-41a9-a1e2-5352d4d00910-apply
+  detector=20 ai=15 jaccard=0.75
+  campaign: 620/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-205c3184-4272-41a9-a1e2-5352d4d00910-apply --check-validity --check-a11y --check-errors
+
+=== Capture 43/50 (https://job-boards.greenhouse.io/anthropic/jobs/5030244008/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 44/50 (https://ommax.jobs.personio.de/job/2543869?apply) ===
+AGREE -> https-ommax-jobs-personio-de-job-2543869
+  detector=11 ai=11 jaccard=0.375
+  campaign: 621/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-ommax-jobs-personio-de-job-2543869 --check-validity --check-a11y --check-errors
+
+=== Capture 45/50 (https://novritschtrading.recruitee.com/o/iniciative-application) ===
+AGREE -> https-novritschtrading-recruitee-com-o-iniciative-application-c-new
+  detector=7 ai=6 jaccard=0.8571
+  campaign: 622/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-novritschtrading-recruitee-com-o-iniciative-application-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 46/50 (https://securitas.teamtailor.com/jobs/7717982-senior-manager-digital-marketing-campaigns/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 47/50 (https://jobs.smartrecruiters.com/JYSK/744000109712587-apulaismyymalapaallikko-37-5h-vko-jysk-krossi?oga=true&trid=998bc6c9-cfbe-4db9-af4b-d7bb8407f264) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 48/50 (https://matrix-technologies-inc.breezy.hr/p/912e903e546e-account-manager/apply?utm_source=Jobgether&utm_content=69ea655ac646310ee3995336-account-manager-at-matrix-technologies&utm_campaign=search&utm_medium=website) ===
+DISAGREE -> https-matrix-technologies-inc-breezy-hr
+  reasons: field count delta 3 exceeds tolerance 2 (detector=0, ai=3); label Jaccard 0.000 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 49/50 (https://tapde.softgarden.io/job/62851279/Mitarbeiter-f%C3%BCr-die-Kundenbetreuung-das-Vertragsmanagement-m-w-d-) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 50/50 (https://jobs.ashbyhq.com/cube/8dc9427e-dfa8-47a5-bc07-9610200f33f4/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-8dc9427e-dfa8-47a5-bc07-9610200f33f4-application
+  detector=13 ai=13 jaccard=1
+  campaign: 623/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-8dc9427e-dfa8-47a5-bc07-9610200f33f4-application --check-validity --check-a11y --check-errors
+
+=== Session summary ===
+{
+  "agree": 19,
+  "disagree": 12,
+  "error": 19,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 623,
+  "campaign_target": 664,
+  "triage_count": 280
+}
+2026-07-11T02:07:49.088Z END oracle-url-queue-batch-28 exit=0 agrees_batch=19 disagree=12 error=19 cumulative=623 new=459 tabs_closed=reuse-one
+2026-07-11T02:07:49.185Z START oracle-url-queue-batch-29 cumulative=623 new=459
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-29.json (50 urls), batch_id=oracle-url-queue-batch-29
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 623/664 agrees
+
+=== Capture 1/50 (https://jobs.lever.co/palantir/7e3ec54c-b73a-4014-8ef3-cdce8a4953c4/apply) ===
+AGREE -> https-jobs-lever-co-palantir-7e3ec54c-b73a-4014-8ef3-cdce8a4953c4-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 624/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-7e3ec54c-b73a-4014-8ef3-cdce8a4953c4-apply --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://job-boards.greenhouse.io/anthropic/jobs/5183044008/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 3/50 (https://open.jobs.personio.com/job/2591683?display=en&language=en&pid=cba016e3-76b6-4f70-94e7-270f7b67e896&it=vuJ0a-Oi9hktPDyTOtRCGg&_ghcid=71e67ea4-f328-4404-ad0c-95e7b0e31743&apply) ===
+AGREE -> https-open-jobs-personio-com-job-2591683
+  detector=7 ai=7 jaccard=0.2727
+  campaign: 625/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-open-jobs-personio-com-job-2591683 --check-validity --check-a11y --check-errors
+
+=== Capture 4/50 (https://novritschtrading.recruitee.com/o/purchasing-manager-385-all-genders) ===
+AGREE -> https-novritschtrading-recruitee-com-o-purchasing-manager-385-all-genders-c-new
+  detector=13 ai=12 jaccard=0.9231
+  campaign: 626/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-novritschtrading-recruitee-com-o-purchasing-manager-385-all-genders-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 5/50 (https://silex.teamtailor.com/jobs/7449554-product-manager-product-development/applications/new) ===
+DISAGREE -> https-silex-teamtailor-com-jobs-7449554-product-manager-product-development-appl
+  reasons: field count delta 3 exceeds tolerance 2 (detector=16, ai=13); label Jaccard 0.450 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 6/50 (https://jobs.smartrecruiters.com/JYSK/744000125326694--jysk-?oga=true&trid=998bc6c9-cfbe-4db9-af4b-d7bb8407f264) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-jysk-publication-fa50c772-094
+  reasons: label Jaccard 0.053 below 0.7
+  ai_only backlog (9): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 7/50 (https://musicasa.breezy.hr/p/184b2b848f1901-administrator-receptionist/apply) ===
+DISAGREE -> https-musicasa-breezy-hr-p-184b2b848f1901-administrator-receptionist-apply
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (9): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 8/50 (https://teleperformance-bosnia.softgarden.io/job/63749764/Helpdesk-IT-Support-%E2%80%93-Employee-m-f-d-%E2%94%82-Remote?jobDbPVId=277228551&l=en) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 9/50 (https://jobs.ashbyhq.com/cube/b44ff703-bd8f-4227-9d03-c6de35b8e3de/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-b44ff703-bd8f-4227-9d03-c6de35b8e3de-application
+  detector=13 ai=9 jaccard=0.6923
+  campaign: 627/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-b44ff703-bd8f-4227-9d03-c6de35b8e3de-application --check-validity --check-a11y --check-errors
+
+=== Capture 10/50 (https://jobs.lever.co/palantir/a5fdd5ec-d1f3-4837-83af-161b003931dd/apply) ===
+AGREE -> https-jobs-lever-co-palantir-a5fdd5ec-d1f3-4837-83af-161b003931dd-apply
+  detector=21 ai=15 jaccard=0.7143
+  campaign: 628/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-palantir-a5fdd5ec-d1f3-4837-83af-161b003931dd-apply --check-validity --check-a11y --check-errors
+
+=== Capture 11/50 (https://job-boards.greenhouse.io/axon/jobs/7668421003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 12/50 (https://otonomee.jobs.personio.com/job/2632318?language=en) ===
+AGREE -> https-otonomee-jobs-personio-com-job-2632318
+  detector=13 ai=13 jaccard=0.1818
+  campaign: 629/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-otonomee-jobs-personio-com-job-2632318 --check-validity --check-a11y --check-errors
+
+=== Capture 13/50 (https://novritschtrading.recruitee.com/o/short-form-video-creator-20-385h-on-site-or-remote) ===
+AGREE -> https-novritschtrading-recruitee-com-o-short-form-video-creator-20-385h-on-site-
+  detector=9 ai=8 jaccard=0.8889
+  campaign: 630/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-novritschtrading-recruitee-com-o-short-form-video-creator-20-385h-on-site- --check-validity --check-a11y --check-errors
+
+=== Capture 14/50 (https://silex.teamtailor.com/jobs/7449870-mems-electrical-test-engineer/applications/new) ===
+DISAGREE -> https-silex-teamtailor-com-jobs-7449870-mems-electrical-test-engineer-applicatio
+  reasons: field count delta 4 exceeds tolerance 2 (detector=17, ai=13); label Jaccard 0.429 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 15/50 (https://jobs.smartrecruiters.com/JYSK/744000132069979--jysk-?oga=true&trid=998bc6c9-cfbe-4db9-af4b-d7bb8407f264) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-jysk-publication-a24978a3-a7d
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (9): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 16/50 (https://new-incentives.breezy.hr/p/bb0007be7436-field-officers-entry-level/apply) ===
+DISAGREE -> https-new-incentives-breezy-hr-p-bb0007be7436-field-officers-entry-level-apply
+  reasons: label Jaccard 0.143 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 17/50 (https://teleperformance-bosnia.softgarden.io/job/63808744/Solution-Architect-m-w-d-Remote-TPB-H?jobDbPVId=274190776&l=en) ===
+DISAGREE -> https-teleperformance-bosnia-softgarden-io-job-63808744-solution-architect-m-w-d
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 18/50 (https://jobs.ashbyhq.com/cube/b5e437de-ccd7-42b1-a3c0-4161412982d0/application) ===
+AGREE -> https-jobs-ashbyhq-com-cube-b5e437de-ccd7-42b1-a3c0-4161412982d0-application
+  detector=13 ai=13 jaccard=1
+  campaign: 631/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-cube-b5e437de-ccd7-42b1-a3c0-4161412982d0-application --check-validity --check-a11y --check-errors
+
+=== Capture 19/50 (https://jobs.lever.co/promenade/03cec66f-2d67-4f4f-9d8d-ac2a84cc1fe5/apply) ===
+AGREE -> https-jobs-lever-co-promenade-03cec66f-2d67-4f4f-9d8d-ac2a84cc1fe5-apply
+  detector=9 ai=9 jaccard=1
+  campaign: 632/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-03cec66f-2d67-4f4f-9d8d-ac2a84cc1fe5-apply --check-validity --check-a11y --check-errors
+
+=== Capture 20/50 (https://job-boards.greenhouse.io/axon/jobs/7670847003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 21/50 (https://paceteq-gmbh.jobs.personio.com/job/502807?language=en) ===
+AGREE -> https-paceteq-gmbh-jobs-personio-com-job-502807
+  detector=14 ai=14 jaccard=0.4
+  campaign: 633/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-paceteq-gmbh-jobs-personio-com-job-502807 --check-validity --check-a11y --check-errors
+
+=== Capture 22/50 (https://nozrecrute.recruitee.com/o/candidature-spontanee-1) ===
+DISAGREE -> https-nozrecrute-recruitee-com-o-candidature-spontanee-1-c-new
+  reasons: label Jaccard 0.667 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 23/50 (https://silex.teamtailor.com/jobs/7605416-applied-ai-engineer-production/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 24/50 (https://jobs.smartrecruiters.com/JYSK/744000135412876-verkaufer-in-teilzeit-m-w-d-meerane-18-5-std-?oga=true&trid=998bc6c9-cfbe-4db9-af4b-d7bb8407f264) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 25/50 (https://nexo.breezy.hr/p/7321236e022701-account-manager/apply) ===
+DISAGREE -> https-nexo-breezy-hr-p-7321236e022701-account-manager-apply
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (5): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 26/50 (https://tp-georgia.softgarden.io/job/57096198) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 27/50 (https://jobs.ashbyhq.com/dash0/0a4a8c5d-d0b2-42be-8663-8902a3149cc5/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-0a4a8c5d-d0b2-42be-8663-8902a3149cc5-application
+  detector=15 ai=14 jaccard=0.9333
+  campaign: 634/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-0a4a8c5d-d0b2-42be-8663-8902a3149cc5-application --check-validity --check-a11y --check-errors
+
+=== Capture 28/50 (https://jobs.lever.co/promenade/047dda0d-f2b7-4157-9a53-8b27c74e0750/apply) ===
+AGREE -> https-jobs-lever-co-promenade-047dda0d-f2b7-4157-9a53-8b27c74e0750-apply
+  detector=7 ai=7 jaccard=1
+  campaign: 635/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-047dda0d-f2b7-4157-9a53-8b27c74e0750-apply --check-validity --check-a11y --check-errors
+
+=== Capture 29/50 (https://job-boards.greenhouse.io/axon/jobs/7751164003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 30/50 (https://peakpeak.jobs.personio.de/job/2601349) ===
+DISAGREE -> https-peakpeak-jobs-personio-de-job-2601349
+  reasons: label Jaccard 0.222 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 31/50 (https://odysseyhotelgroup.recruitee.com/o/groups-events-sales-manager-1) ===
+AGREE -> https-odysseyhotelgroup-recruitee-com-o-groups-events-sales-manager-1-c-new
+  detector=11 ai=10 jaccard=0.9091
+  campaign: 636/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-odysseyhotelgroup-recruitee-com-o-groups-events-sales-manager-1-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 32/50 (https://silex.teamtailor.com/jobs/7678613-cad-engineer/applications/new) ===
+DISAGREE -> https-silex-teamtailor-com-jobs-7678613-cad-engineer-applications-new
+  reasons: field count delta 5 exceeds tolerance 2 (detector=17, ai=12); label Jaccard 0.381 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 33/50 (https://jobs.smartrecruiters.com/KeySolutionsInc/743999706028783-senior-software-developer-entity-framework-?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-keysolutionsinc-publication-9
+  reasons: label Jaccard 0.273 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 34/50 (https://peoplejoy.breezy.hr/p/c2753f14981e-founding-account-executive/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 35/50 (https://uksjobs.softgarden.io/job/65953193) ===
+DISAGREE -> https-uksjobs-softgarden-io-job-65953193
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 36/50 (https://jobs.ashbyhq.com/dash0/169bfa47-3bd1-4a30-b171-9305c21193e4/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-169bfa47-3bd1-4a30-b171-9305c21193e4-application
+  detector=12 ai=12 jaccard=1
+  campaign: 637/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-169bfa47-3bd1-4a30-b171-9305c21193e4-application --check-validity --check-a11y --check-errors
+
+=== Capture 37/50 (https://jobs.lever.co/promenade/11abec14-6a4c-4e6f-b9fc-2713ae92f95a/apply) ===
+AGREE -> https-jobs-lever-co-promenade-11abec14-6a4c-4e6f-b9fc-2713ae92f95a-apply
+  detector=9 ai=9 jaccard=1
+  campaign: 638/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-11abec14-6a4c-4e6f-b9fc-2713ae92f95a-apply --check-validity --check-a11y --check-errors
+
+=== Capture 38/50 (https://job-boards.greenhouse.io/axon/jobs/7782143003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 39/50 (https://pentahotels.jobs.personio.com/job/2619741?apply) ===
+DISAGREE -> https-pentahotels-jobs-personio-com-job-2619741
+  reasons: label Jaccard 0.333 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 40/50 (https://odysseyhotelgroup.recruitee.com/o/groups-events-seller-executive) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 41/50 (https://silex.teamtailor.com/jobs/7678613-mems-design-engineer/applications/new) ===
+DISAGREE -> https-silex-teamtailor-com-jobs-7678613-mems-design-engineer-applications-new
+  reasons: field count delta 5 exceeds tolerance 2 (detector=17, ai=12); label Jaccard 0.381 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 42/50 (https://jobs.smartrecruiters.com/KnowledgeFocus/743999891574063-ux-ui-designer) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 43/50 (https://personified-tech.breezy.hr/p/441171e8bf0a-it-operations-associate/apply?source=BuiltInNationwide) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 44/50 (https://uni-elektro.softgarden.io/job/63294529) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 45/50 (https://jobs.ashbyhq.com/dash0/1d767d26-51be-4089-ad25-bd4a4733c747/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-1d767d26-51be-4089-ad25-bd4a4733c747-application
+  detector=12 ai=12 jaccard=1
+  campaign: 639/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-1d767d26-51be-4089-ad25-bd4a4733c747-application --check-validity --check-a11y --check-errors
+
+=== Capture 46/50 (https://jobs.lever.co/promenade/23968d56-c82d-4844-a19b-7980ec89341d/apply) ===
+AGREE -> https-jobs-lever-co-promenade-23968d56-c82d-4844-a19b-7980ec89341d-apply
+  detector=9 ai=9 jaccard=1
+  campaign: 640/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-23968d56-c82d-4844-a19b-7980ec89341d-apply --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://job-boards.greenhouse.io/axon/jobs/7782144003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 48/50 (https://pitch.jobs.personio.de/job/161019?language=en) ===
+AGREE -> https-pitch-jobs-personio-de-job-161019
+  detector=8 ai=8 jaccard=0.3333
+  campaign: 641/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-pitch-jobs-personio-de-job-161019 --check-validity --check-a11y --check-errors
+
+=== Capture 49/50 (https://orangeburkina.recruitee.com/o/candidature-spontanees-orange-burkina) ===
+AGREE -> https-orangeburkina-recruitee-com-o-candidature-spontanees-orange-burkina-c-new
+  detector=11 ai=11 jaccard=0.8333
+  campaign: 642/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-orangeburkina-recruitee-com-o-candidature-spontanees-orange-burkina-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://silex.teamtailor.com/jobs/7786357-service-technician-backend-night-shift/applications/new) ===
+DISAGREE -> https-silex-teamtailor-com-jobs-7786357-service-technician-backend-night-shift-a
+  reasons: field count delta 3 exceeds tolerance 2 (detector=18, ai=15); label Jaccard 0.500 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Session summary ===
+{
+  "agree": 19,
+  "disagree": 16,
+  "error": 15,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 642,
+  "campaign_target": 664,
+  "triage_count": 296
+}
+2026-07-11T02:19:12.739Z END oracle-url-queue-batch-29 exit=0 agrees_batch=19 disagree=16 error=15 cumulative=642 new=478 tabs_closed=reuse-one
+2026-07-11T02:19:12.844Z START oracle-url-queue-batch-30 cumulative=642 new=478
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-30.json (50 urls), batch_id=oracle-url-queue-batch-30
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 642/664 agrees
+
+=== Capture 1/50 (https://jobs.smartrecruiters.com/Lesaffre/744000109967208-application-services-team-manager-w-m-?oga=true) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 2/50 (https://refibuy-inc.breezy.hr/p/bfbfcd86b944-content-marketing-manager/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 3/50 (https://uni-wh.softgarden.io/job/65500201/PhD-Position-50-in-the-field-of-virology-and-molecular-medicine-available-m-f-d-) ===
+DISAGREE -> https-uni-wh-softgarden-io-job-65500201-phd-position-50-in-the-field-of-virology
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 4/50 (https://jobs.ashbyhq.com/dash0/1feade1f-d751-432c-856a-8060b7d45cf6/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-1feade1f-d751-432c-856a-8060b7d45cf6-application
+  detector=15 ai=14 jaccard=0.8125
+  campaign: 643/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-1feade1f-d751-432c-856a-8060b7d45cf6-application --check-validity --check-a11y --check-errors
+
+=== Capture 5/50 (https://jobs.lever.co/promenade/baa8fb41-da6b-4c49-989a-9d7d26e275f6/apply) ===
+AGREE -> https-jobs-lever-co-promenade-baa8fb41-da6b-4c49-989a-9d7d26e275f6-apply
+  detector=10 ai=10 jaccard=1
+  campaign: 644/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-baa8fb41-da6b-4c49-989a-9d7d26e275f6-apply --check-validity --check-a11y --check-errors
+
+=== Capture 6/50 (https://job-boards.greenhouse.io/axon/jobs/7782145003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 7/50 (https://prologistik-group.jobs.personio.com/job/2671542?language=de) ===
+DISAGREE -> https-prologistik-group-jobs-personio-com-job-2671542
+  reasons: label Jaccard 0.455 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 8/50 (https://palebluedotrecruitment.recruitee.com/o/product-builder-operator-candidate-registration-portal) ===
+AGREE -> https-palebluedotrecruitment-recruitee-com-o-product-builder-operator-candidate-
+  detector=10 ai=9 jaccard=0.7273
+  campaign: 645/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-palebluedotrecruitment-recruitee-com-o-product-builder-operator-candidate- --check-validity --check-a11y --check-errors
+
+=== Capture 9/50 (https://sleepcycleab.teamtailor.com/jobs/6585885-spontaneous-application/applications/new) ===
+DISAGREE -> https-sleepcycleab-teamtailor-com-jobs-6585885-spontaneous-application-applicati
+  reasons: field count delta 3 exceeds tolerance 2 (detector=11, ai=8); label Jaccard 0.357 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 10/50 (https://jobs.smartrecruiters.com/LinkedIn3/744000126731849-sr-staff-software-engineer-development-infrastructure) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 11/50 (https://sepsis-alliance.breezy.hr/p/6b40e1948f17-member-advisory-board/apply) ===
+DISAGREE -> https-sepsis-alliance-breezy-hr-p-6b40e1948f17-member-advisory-board-apply
+  reasons: label Jaccard 0.517 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 12/50 (https://universalmusic.softgarden.io/job/63902329/A-V-Engineer-all-genders-?jobDbPVId=268722434&l=en) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 13/50 (https://jobs.ashbyhq.com/dash0/21f11a24-6424-4ad3-bc7b-be0df5940016/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-21f11a24-6424-4ad3-bc7b-be0df5940016-application
+  detector=12 ai=12 jaccard=1
+  campaign: 646/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-21f11a24-6424-4ad3-bc7b-be0df5940016-application --check-validity --check-a11y --check-errors
+
+=== Capture 14/50 (https://jobs.lever.co/promenade/d6858e02-ed22-451b-ba4f-120295b7d2c9/apply) ===
+AGREE -> https-jobs-lever-co-promenade-d6858e02-ed22-451b-ba4f-120295b7d2c9-apply
+  detector=9 ai=9 jaccard=1
+  campaign: 647/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-d6858e02-ed22-451b-ba4f-120295b7d2c9-apply --check-validity --check-a11y --check-errors
+
+=== Capture 15/50 (https://job-boards.greenhouse.io/axon/jobs/7782749003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 16/50 (https://prologistik-group.jobs.personio.de/job/2671542/?utm_source=Jobgether&utm_content=6a30b54063c956434a78f7d2-program-manager-fur-intralogistiksoftware-m-w-d&utm_campaign=search&utm_medium=website) ===
+DISAGREE -> https-prologistik-group-jobs-personio-de-job-2671542
+  reasons: label Jaccard 0.455 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 17/50 (https://pexin.recruitee.com/o/candidature-spontanee) ===
+DISAGREE -> https-pexin-recruitee-com-o-candidature-spontanee-c-new
+  reasons: label Jaccard 0.667 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 18/50 (https://solapayments.na.teamtailor.com/jobs/570928-senior-director-of-business-development/applications/new) ===
+DISAGREE -> https-solapayments-na-teamtailor-com-jobs-570928-senior-director-of-business-dev
+  reasons: field count delta 3 exceeds tolerance 2 (detector=10, ai=7); label Jaccard 0.133 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 19/50 (https://jobs.smartrecruiters.com/LinkedIn3/744000132289770-sr-software-engineer-systems-infrastructure) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 20/50 (https://sepsis-alliance.breezy.hr/p/6b40e1948f17-member-advisory-board/apply?utm_source=Jobgether&utm_content=undefined&utm_campaign=search&utm_medium=website) ===
+DISAGREE -> https-sepsis-alliance-breezy-hr-p-6b40e1948f17-member-advisory-board-apply
+  reasons: field count delta 10 exceeds tolerance 2 (detector=23, ai=13); label Jaccard 0.286 below 0.7
+  ai_only backlog (2): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 21/50 (https://wiit.softgarden.io/job/63437604/-Senior-Cloud-Infrastructure-Engineer-OpenStack-w-m-d-CH) ===
+DISAGREE -> https-wiit-softgarden-io-job-63437604-senior-cloud-infrastructure-engineer-opens
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 22/50 (https://jobs.ashbyhq.com/dash0/22fc8d57-5d22-4510-83ba-7147362657a6/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-22fc8d57-5d22-4510-83ba-7147362657a6-application
+  detector=18 ai=18 jaccard=1
+  campaign: 648/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-22fc8d57-5d22-4510-83ba-7147362657a6-application --check-validity --check-a11y --check-errors
+
+=== Capture 23/50 (https://jobs.lever.co/promenade/dd101097-1a65-4f5d-b735-36547780989c/apply) ===
+AGREE -> https-jobs-lever-co-promenade-dd101097-1a65-4f5d-b735-36547780989c-apply
+  detector=7 ai=7 jaccard=1
+  campaign: 649/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-promenade-dd101097-1a65-4f5d-b735-36547780989c-apply --check-validity --check-a11y --check-errors
+
+=== Capture 24/50 (https://job-boards.greenhouse.io/axon/jobs/7798041003/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 25/50 (https://raya-diagnostics.jobs.personio.de/job/2647997?language=de) ===
+DISAGREE -> https-raya-diagnostics-jobs-personio-de-job-2647997
+  reasons: label Jaccard 0.333 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 26/50 (https://posadmaxwangenerationenergy.recruitee.com/o/open-application) ===
+AGREE -> https-posadmaxwangenerationenergy-recruitee-com-o-open-application-c-new
+  detector=10 ai=9 jaccard=0.9
+  campaign: 650/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-posadmaxwangenerationenergy-recruitee-com-o-open-application-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 27/50 (https://sparteo.teamtailor.com/jobs/7294938-independent-media-sales-director-us-1099-contractor/applications/new) ===
+AGREE -> https-sparteo-teamtailor-com-jobs-7294938-independent-media-sales-director-us-10
+  detector=18 ai=10 jaccard=0.4737
+  campaign: 651/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-sparteo-teamtailor-com-jobs-7294938-independent-media-sales-director-us-10 --check-validity --check-a11y --check-errors
+
+=== Capture 28/50 (https://jobs.smartrecruiters.com/LinkedIn3/744000135601779-staff-software-engineer-systems-infrastructure) ===
+DISAGREE -> https-jobs-smartrecruiters-com-linkedin3-744000135601779-staff-software-engineer
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 29/50 (https://shake-smart-inc.breezy.hr/p/e6f300805d9a-cal-poly-san-luis-obispo/apply) ===
+DISAGREE -> https-shake-smart-inc-breezy-hr-p-e6f300805d9a-cal-poly-san-luis-obispo-apply
+  reasons: label Jaccard 0.455 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 30/50 (https://jobs.ashbyhq.com/dash0/256ad5ea-8d3a-4f2c-9c7b-c7ccedc1bf45/application) ===
+AGREE -> https-jobs-ashbyhq-com-dash0-256ad5ea-8d3a-4f2c-9c7b-c7ccedc1bf45-application
+  detector=12 ai=12 jaccard=1
+  campaign: 652/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-dash0-256ad5ea-8d3a-4f2c-9c7b-c7ccedc1bf45-application --check-validity --check-a11y --check-errors
+
+=== Capture 31/50 (https://jobs.lever.co/spotify/4310f31c-90e1-4e8d-bdcf-dce39c145b8c/apply) ===
+AGREE -> https-jobs-lever-co-spotify-4310f31c-90e1-4e8d-bdcf-dce39c145b8c-apply
+  detector=19 ai=16 jaccard=0.8421
+  campaign: 653/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-4310f31c-90e1-4e8d-bdcf-dce39c145b8c-apply --check-validity --check-a11y --check-errors
+
+=== Capture 32/50 (https://job-boards.greenhouse.io/capco/jobs/7682127/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 33/50 (https://recyda-gmbh.jobs.personio.com/job/2591080?apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 34/50 (https://protectdemocracy.recruitee.com/o/counsel-early-career) ===
+AGREE -> https-protectdemocracy-recruitee-com-o-counsel-early-career-c-new
+  detector=17 ai=16 jaccard=0.9412
+  campaign: 654/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-protectdemocracy-recruitee-com-o-counsel-early-career-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 35/50 (https://sparteo.teamtailor.com/jobs/7621769-chief-marketing-officer-groupe-sparteo/applications/new) ===
+AGREE -> https-sparteo-teamtailor-com-jobs-7621769-chief-marketing-officer-groupe-sparteo
+  detector=18 ai=10 jaccard=0.4737
+  campaign: 655/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-sparteo-teamtailor-com-jobs-7621769-chief-marketing-officer-groupe-sparteo --check-validity --check-a11y --check-errors
+
+=== Capture 36/50 (https://jobs.smartrecruiters.com/LLNL/3743990013357131-mechanical-technologist-senior-mechanical-technologist-high-explosives-application-facility?oga=true) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 37/50 (https://social-discovery-ventures.breezy.hr/p/16d87807e82001-devops-engineer/apply) ===
+Capture failed: Could not establish connection. Receiving end does not exist.
+
+=== Capture 38/50 (https://jobs.ashbyhq.com/eliseai/361a4117-cc1d-4423-92b8-2fcbe364010a/application) ===
+AGREE -> https-jobs-ashbyhq-com-eliseai-361a4117-cc1d-4423-92b8-2fcbe364010a-application
+  detector=14 ai=8 jaccard=0.5714
+  campaign: 656/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-eliseai-361a4117-cc1d-4423-92b8-2fcbe364010a-application --check-validity --check-a11y --check-errors
+
+=== Capture 39/50 (https://jobs.lever.co/spotify/77526d53-3811-4336-9c0d-72f6ac0242c7/apply) ===
+AGREE -> https-jobs-lever-co-spotify-77526d53-3811-4336-9c0d-72f6ac0242c7-apply
+  detector=19 ai=16 jaccard=0.8421
+  campaign: 657/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-77526d53-3811-4336-9c0d-72f6ac0242c7-apply --check-validity --check-a11y --check-errors
+
+=== Capture 40/50 (https://job-boards.greenhouse.io/capco/jobs/7704731/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 41/50 (https://regnology.jobs.personio.de/job/2645221?display=en) ===
+AGREE -> https-regnology-jobs-personio-de-job-2645221
+  detector=17 ai=17 jaccard=0.4783
+  campaign: 658/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-regnology-jobs-personio-de-job-2645221 --check-validity --check-a11y --check-errors
+
+=== Capture 42/50 (https://quantumsystemsgmbh.recruitee.com/o/flight-test-field-systems-engineer-cuas-mfd) ===
+Capture failed: Tab drifted from quantumsystemsgmbh.recruitee.com to career.quantum-systems.com (https://career.quantum-systems.com/o/flight-test-field-systems-engineer-cuas-mfd)
+
+=== Capture 43/50 (https://spiko.teamtailor.com/jobs/7406467-join-the-spiko-talent-pool-spontaneous-application/applications/new) ===
+AGREE -> https-spiko-teamtailor-com-jobs-7406467-join-the-spiko-talent-pool-spontaneous-a
+  detector=16 ai=6 jaccard=0.375
+  campaign: 659/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-spiko-teamtailor-com-jobs-7406467-join-the-spiko-talent-pool-spontaneous-a --check-validity --check-a11y --check-errors
+
+=== Capture 44/50 (https://jobs.smartrecruiters.com/LumosExpressLLC/3743990012721755-delivery-driver) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 45/50 (https://startupblink.breezy.hr/p/6f0247245b2a-general-application-form/apply) ===
+DISAGREE -> https-startupblink-breezy-hr-p-6f0247245b2a-general-application-form-apply
+  reasons: label Jaccard 0.462 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 46/50 (https://jobs.ashbyhq.com/eliseai/85c00ebc-7d74-4f63-bebd-ed1dfdf0b442/application) ===
+AGREE -> https-jobs-ashbyhq-com-eliseai-85c00ebc-7d74-4f63-bebd-ed1dfdf0b442-application
+  detector=15 ai=13 jaccard=0.8667
+  campaign: 660/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-eliseai-85c00ebc-7d74-4f63-bebd-ed1dfdf0b442-application --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://jobs.lever.co/spotify/d6657783-02b9-4db2-8875-f9c10e9ca345/apply) ===
+AGREE -> https-jobs-lever-co-spotify-d6657783-02b9-4db2-8875-f9c10e9ca345-apply
+  detector=19 ai=16 jaccard=0.8421
+  campaign: 661/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-spotify-d6657783-02b9-4db2-8875-f9c10e9ca345-apply --check-validity --check-a11y --check-errors
+
+=== Capture 48/50 (https://job-boards.greenhouse.io/capco/jobs/7914110/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 49/50 (https://reset-tech.jobs.personio.com/job/2610497?language=en) ===
+AGREE -> https-reset-tech-jobs-personio-com-job-2610497
+  detector=8 ai=8 jaccard=0.6
+  campaign: 662/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-reset-tech-jobs-personio-com-job-2610497 --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://quantumsystemsgmbh.recruitee.com/o/flight-test-field-systems-engineer-cuas-mfd?source=metaintro&utm_source=metaintro&utm_medium=job_board&utm_campaign=organic_traffic) ===
+Capture failed: Tab drifted from quantumsystemsgmbh.recruitee.com to career.quantum-systems.com (https://career.quantum-systems.com/o/flight-test-field-systems-engineer-cuas-mfd)
+
+=== Session summary ===
+{
+  "agree": 20,
+  "disagree": 13,
+  "error": 17,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 662,
+  "campaign_target": 664,
+  "triage_count": 309
+}
+2026-07-11T02:30:49.024Z END oracle-url-queue-batch-30 exit=0 agrees_batch=20 disagree=13 error=17 cumulative=662 new=498 tabs_closed=reuse-one
+2026-07-11T02:30:49.212Z START oracle-url-queue-batch-31 cumulative=662 new=498
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: /Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/oracle-url-queue-batch-31.json (50 urls), batch_id=oracle-url-queue-batch-31
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 662/664 agrees
+
+=== Capture 1/50 (https://spokeo.na.teamtailor.com/jobs/588853-senior-software-developer-web-application/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 2/50 (https://jobs.smartrecruiters.com/MATHoldings/744000119695484-general-application-for-employment?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-matholdings-publication-33e3b
+  reasons: label Jaccard 0.286 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 3/50 (https://sva.breezy.hr/p/5b516278d1e2-technical-assistant-temporary/apply) ===
+DISAGREE -> https-sva-breezy-hr-p-5b516278d1e2-technical-assistant-temporary-apply
+  reasons: field count delta 15 exceeds tolerance 2 (detector=9, ai=24); label Jaccard 0.031 below 0.7
+  ai_only backlog (20): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 4/50 (https://jobs.ashbyhq.com/eliseai/f8744c2a-ba16-47b8-894e-28406000681a/application) ===
+AGREE -> https-jobs-ashbyhq-com-eliseai-f8744c2a-ba16-47b8-894e-28406000681a-application
+  detector=15 ai=13 jaccard=0.8667
+  campaign: 663/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-eliseai-f8744c2a-ba16-47b8-894e-28406000681a-application --check-validity --check-a11y --check-errors
+
+=== Capture 5/50 (https://jobs.lever.co/sunsrce/a5263daa-759c-417b-91d9-14135edbeac0/apply) ===
+AGREE -> https-jobs-lever-co-sunsrce-a5263daa-759c-417b-91d9-14135edbeac0-apply
+  detector=21 ai=21 jaccard=0.8261
+  campaign: 664/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-lever-co-sunsrce-a5263daa-759c-417b-91d9-14135edbeac0-apply --check-validity --check-a11y --check-errors
+Campaign target 664 reached - stopping early.
+
+=== Session summary ===
+{
+  "agree": 2,
+  "disagree": 2,
+  "error": 1,
+  "captured": 5,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 664,
+  "campaign_target": 664,
+  "triage_count": 311
+}
+2026-07-11T02:31:52.454Z END oracle-url-queue-batch-31 exit=0 agrees_batch=2 disagree=2 error=1 cumulative=664 new=500 tabs_closed=reuse-one
+2026-07-11T02:31:52.458Z STOP target reached agrees=664 new=500
+2026-07-11T02:31:52.465Z DONE overnight chain agrees=664 new=500 target=664

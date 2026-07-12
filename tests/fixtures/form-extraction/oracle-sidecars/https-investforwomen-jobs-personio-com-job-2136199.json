@@ -1,0 +1,175 @@
+{
+  "id": "https-investforwomen-jobs-personio-com-job-2136199",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:57:28.624Z",
+  "page_url": "https://investforwomen.jobs.personio.com/job/2136199",
+  "page_title": "Initiative application (Full time) | Jobs at Investforwomen GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 0.6,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone ( )",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-triggered file inputs which may require interaction simulation for automated submission.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "available from",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f7"
+    }
+  ]
+}

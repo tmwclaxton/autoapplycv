@@ -1,0 +1,324 @@
+{
+  "id": "https-rubycentral-teamtailor-com-jobs-7248113-guide-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:56:52.378Z",
+  "page_url": "https://rubycentral.teamtailor.com/jobs/7248113-guide-application/applications/new",
+  "page_title": "Guide Application - Ruby Central",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 15,
+      "count_delta": 1,
+      "label_jaccard": 0.8235,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "what is your full name?",
+        "ai": "What is your full name?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns?",
+        "ai": "What are your pronouns?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "where would you be traveling from (state/province, country)?",
+        "ai": "Where would you be traveling from (State/Province, Country)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have you ever attended a past rubyconf?",
+        "ai": "Have you ever attended a past RubyConf?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a scholar alumni?",
+        "ai": "Are you a Scholar Alumni?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to attend the entire conference (july 14–16, 2026)?",
+        "ai": "Are you able to attend the entire conference (July 14–16, 2026)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to attend the speakers and scholars reception (evening timing; date and location tbd)?",
+        "ai": "Are you able to attend the Speakers and Scholars Reception (evening timing; date and location TBD)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe your current involvement in tech.",
+        "ai": "Briefly describe your current involvement in tech.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what would you say your top three skills are (technical or not)?",
+        "ai": "What would you say your top three skills are (technical or not)?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what draws you to participating in our guides program?",
+        "ai": "What draws you to participating in our Guides Program?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you mentored in the past? if so, tell us about that experience:",
+        "ai": "Have you mentored in the past? If so, tell us about that experience:",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "guides serve as not only a professional coach for our scholars, but also as mentors who guide scholars towards their objectives. scholars are to work on a mini-project, and guides are responsible for narrowing down their focus and ensuring progress. the aim is for scholars to complete their projects by the end of the conference and present their findings to their peers or a larger audience (ex) lightning talks or blog posts.",
+        "ai": "Guides serve as not only a professional coach for our Scholars, but also as mentors who guide Scholars towards their objectives. Scholars are required to work on a mini-project, and Guides are responsible for narrowing down their focus and ensuring progress. The aim is for Scholars to complete their projects by the end of the conference and present their findings to their peers or a larger audience (ex) Lightning Talks or blog posts.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if a scholar asked you for session recommendations, what factors would you consider in making those recommendations?",
+        "ai": "If a Scholar asked you for session recommendations, what factors would you consider in making those recommendations?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "now tell us something about you that has nothing to do with programming.",
+        "ai": "Now tell us something about you that has nothing to do with programming.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "anything else you’d like us to know about you?",
+        "ai": "Anything else you’d like us to know about you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[email]"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated before the 'Personal information' section, so fields like email, phone, and resume upload are missing from this output.",
+    "fields": [
+      {
+        "question": "What is your full name?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your pronouns?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Where would you be traveling from (State/Province, Country)?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you ever attended a past RubyConf?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you a Scholar Alumni?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to attend the entire conference (July 14–16, 2026)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Unsure"
+        ]
+      },
+      {
+        "question": "Are you able to attend the Speakers and Scholars Reception (evening timing; date and location TBD)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Unsure"
+        ]
+      },
+      {
+        "question": "Briefly describe your current involvement in tech.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What would you say your top three skills are (technical or not)?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What draws you to participating in our Guides Program?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you mentored in the past? If so, tell us about that experience:",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Guides serve as not only a professional coach for our Scholars, but also as mentors who guide Scholars towards their objectives. Scholars are required to work on a mini-project, and Guides are responsible for narrowing down their focus and ensuring progress. The aim is for Scholars to complete their projects by the end of the conference and present their findings to their peers or a larger audience (ex) Lightning Talks or blog posts.",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Ok, I understand."
+        ]
+      },
+      {
+        "question": "If a Scholar asked you for session recommendations, what factors would you consider in making those recommendations?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Now tell us something about you that has nothing to do with programming.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anything else you’d like us to know about you?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what is your full name?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "where would you be traveling from (state/province, country)?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "have you ever attended a past rubyconf?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "are you a scholar alumni?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "are you able to attend the entire conference (july 14–16, 2026)?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "are you able to attend the speakers and scholars reception (evening timing; date and location tbd)?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "briefly describe your current involvement in tech.",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what would you say your top three skills are (technical or not)?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what draws you to participating in our guides program?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "have you mentored in the past? if so, tell us about that experience:",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "guides serve as not only a professional coach for our scholars, but also as mentors who guide scholars towards their objectives. scholars are to work on a mini-project, and guides are responsible for narrowing down their focus and ensuring progress. the aim is for scholars to complete their projects by the end of the conference and present their findings to their peers or a larger audience (ex) lightning talks or blog posts.",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "if a scholar asked you for session recommendations, what factors would you consider in making those recommendations?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "now tell us something about you that has nothing to do with programming.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "anything else you’d like us to know about you?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f15"
+    }
+  ]
+}

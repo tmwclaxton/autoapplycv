@@ -122,7 +122,8 @@ function atsFamily(url, source = '') {
             return 'ashby';
         }
 
-        if (host.includes('lever.co')) {
+        // Use lever.co host match only - hostname.includes('lever') false-positives on "clever".
+        if (/(^|\.)lever\.co$/.test(host)) {
             return 'lever';
         }
 
@@ -134,12 +135,48 @@ function atsFamily(url, source = '') {
             return 'workable';
         }
 
-        if (host.includes('personio')) {
+        if (host.includes('personio.')) {
             return 'personio';
         }
 
         if (host.includes('recruitee.com')) {
             return 'recruitee';
+        }
+
+        if (host.includes('teamtailor.com')) {
+            return 'teamtailor';
+        }
+
+        if (host.includes('smartrecruiters.com')) {
+            return 'smartrecruiters';
+        }
+
+        if (host.includes('breezy.hr')) {
+            return 'breezy';
+        }
+
+        if (host.includes('bamboohr.com')) {
+            return 'bamboohr';
+        }
+
+        if (host.includes('icims.com')) {
+            return 'icims';
+        }
+
+        if (host.includes('myworkdayjobs.com') || host.includes('workday.com')) {
+            return 'workday';
+        }
+
+        if (host.includes('onlyfy.jobs') || host.includes('softgarden.')) {
+            return 'onlyfy';
+        }
+
+        if (host.includes('jobvite.com')) {
+            return 'jobvite';
+        }
+
+        if (host.includes('taleo.')) {
+            return 'taleo';
         }
     } catch {
         // fall through

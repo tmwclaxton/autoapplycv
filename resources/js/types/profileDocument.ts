@@ -10,6 +10,7 @@ export interface ProfileDocument {
     notes: string | null;
     created_at: string | null;
     download_url: string;
+    preview_url: string | null;
 }
 
 export interface DocumentCategoryOption {

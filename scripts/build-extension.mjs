@@ -50,8 +50,8 @@ function loadEnvFile(filePath) {
         let value = trimmed.slice(separatorIndex + 1).trim();
 
         if (
-            (value.startsWith('"') && value.endsWith('"'))
-            || (value.startsWith("'") && value.endsWith("'"))
+            (value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))
         ) {
             value = value.slice(1, -1);
         }
@@ -63,7 +63,8 @@ function loadEnvFile(filePath) {
 }
 
 function resolveExtensionApiBase(env) {
-    const raw = env.EXTENSION_API_BASE || env.APP_URL || 'https://autocvapply.com';
+    const raw =
+        env.EXTENSION_API_BASE || env.APP_URL || 'https://autocvapply.com';
 
     return raw.replace(/\/+$/, '');
 }
@@ -77,11 +78,15 @@ function hostPermissionForApiBase(apiBase) {
 function collectExportNames(content) {
     const names = new Set();
 
-    for (const match of content.matchAll(/export\s+(?:async\s+)?function\s+(\w+)/g)) {
+    for (const match of content.matchAll(
+        /export\s+(?:async\s+)?function\s+(\w+)/g,
+    )) {
         names.add(match[1]);
     }
 
-    for (const match of content.matchAll(/export\s+(?:const|let|var|class)\s+(\w+)/g)) {
+    for (const match of content.matchAll(
+        /export\s+(?:const|let|var|class)\s+(\w+)/g,
+    )) {
         names.add(match[1]);
     }
 
@@ -107,7 +112,9 @@ function collectExportNames(content) {
 function collectNamedImports(content) {
     const imports = [];
 
-    for (const match of content.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.\/[^'"]+)['"]/g)) {
+    for (const match of content.matchAll(
+        /import\s*\{([^}]+)\}\s*from\s*['"](\.\/[^'"]+)['"]/g,
+    )) {
         const names = match[1]
             .split(',')
             .map((part) => {
@@ -146,7 +153,9 @@ function verifyDistImports() {
             const importedPath = join(DIST, match[1]);
 
             if (!existsSync(importedPath)) {
-                throw new Error(`${file} imports missing dist file: ${match[1]}`);
+                throw new Error(
+                    `${file} imports missing dist file: ${match[1]}`,
+                );
             }
         }
 
@@ -154,7 +163,10 @@ function verifyDistImports() {
             const importedPath = join(DIST, from);
 
             if (!exportCache.has(importedPath)) {
-                exportCache.set(importedPath, collectExportNames(readFileSync(importedPath, 'utf8')));
+                exportCache.set(
+                    importedPath,
+                    collectExportNames(readFileSync(importedPath, 'utf8')),
+                );
             }
 
             const exports = exportCache.get(importedPath);
@@ -174,17 +186,21 @@ function patchManifest(apiBase) {
     const manifestPath = join(DIST, 'manifest.json');
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
     const apiOriginPattern = hostPermissionForApiBase(apiBase);
-    const excludeMatches = new Set(manifest.content_scripts?.[0]?.exclude_matches || []);
+    const excludeMatches = new Set(
+        manifest.content_scripts?.[0]?.exclude_matches || [],
+    );
 
     excludeMatches.add(apiOriginPattern);
 
     manifest.host_permissions = ['<all_urls>'];
 
-    const connectableMatches = new Set(manifest.externally_connectable?.matches || [
-        'https://autocvapply.com/*',
-        'http://localhost/*',
-        'http://127.0.0.1/*',
-    ]);
+    const connectableMatches = new Set(
+        manifest.externally_connectable?.matches || [
+            'https://autocvapply.com/*',
+            'http://localhost/*',
+            'http://127.0.0.1/*',
+        ],
+    );
 
     connectableMatches.add(apiOriginPattern);
 
@@ -209,83 +225,292 @@ rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
-copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
-copyFileSync(join(SRC, 'shared/answer-normalization.js'), join(DIST, 'answer-normalization.js'));
-copyFileSync(join(SRC, 'shared/profile-value-polish.js'), join(DIST, 'profile-value-polish.js'));
-copyFileSync(join(SRC, 'shared/draft-all-stream.js'), join(DIST, 'draft-all-stream.js'));
+copyFileSync(
+    join(ROOT, 'extension/manifest.json'),
+    join(DIST, 'manifest.json'),
+);
+copyFileSync(
+    join(SRC, 'shared/answer-normalization.js'),
+    join(DIST, 'answer-normalization.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/clarifying-fill.js'),
+    join(DIST, 'clarifying-fill.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/profile-value-polish.js'),
+    join(DIST, 'profile-value-polish.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/draft-all-stream.js'),
+    join(DIST, 'draft-all-stream.js'),
+);
 copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
-copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'application-settings.js'));
-copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
-copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
-copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
-copyFileSync(join(SRC, 'shared/cover-letter-pdf.js'), join(DIST, 'cover-letter-pdf.js'));
-copyFileSync(join(SRC, 'shared/extension-context.js'), join(DIST, 'extension-context.js'));
+copyFileSync(
+    join(SRC, 'shared/application-settings.js'),
+    join(DIST, 'application-settings.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/postbox-theme.css'),
+    join(DIST, 'postbox-theme.css'),
+);
+copyFileSync(
+    join(SRC, 'shared/form-frame-messaging.js'),
+    join(DIST, 'form-frame-messaging.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/file-transfer.js'),
+    join(DIST, 'file-transfer.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cover-letter-pdf.js'),
+    join(DIST, 'cover-letter-pdf.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/pdf-win-ansi.js'),
+    join(DIST, 'pdf-win-ansi.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/extension-context.js'),
+    join(DIST, 'extension-context.js'),
+);
 copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
-copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
+copyFileSync(
+    join(SRC, 'shared/debug-log-client.js'),
+    join(DIST, 'debug-log-client.js'),
+);
 copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
-copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-all-optimizations.js'));
-copyFileSync(join(SRC, 'shared/draft-all-pipeline.js'), join(DIST, 'draft-all-pipeline.js'));
-copyFileSync(join(SRC, 'shared/pending-fields.js'), join(DIST, 'pending-fields.js'));
-copyFileSync(join(SRC, 'shared/page-capture.js'), join(DIST, 'page-capture.js'));
-copyFileSync(join(SRC, 'shared/bridge-client.js'), join(DIST, 'bridge-client.js'));
-copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-chat.js'));
-copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
-copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
-copyFileSync(join(SRC, 'shared/side-panel-host-tab.js'), join(DIST, 'side-panel-host-tab.js'));
-copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
-copyFileSync(join(SRC, 'shared/indeed-platform.js'), join(DIST, 'indeed-platform.js'));
-copyFileSync(join(SRC, 'shared/totaljobs-platform.js'), join(DIST, 'totaljobs-platform.js'));
-copyFileSync(join(SRC, 'shared/reed-platform.js'), join(DIST, 'reed-platform.js'));
-copyFileSync(join(SRC, 'shared/cv-library-platform.js'), join(DIST, 'cv-library-platform.js'));
-copyFileSync(join(SRC, 'shared/totaljobs-auto-apply-runner.js'), join(DIST, 'totaljobs-auto-apply-runner.js'));
-copyFileSync(join(SRC, 'shared/glassdoor-platform.js'), join(DIST, 'glassdoor-platform.js'));
-copyFileSync(join(SRC, 'shared/glassdoor-auto-apply-runner.js'), join(DIST, 'glassdoor-auto-apply-runner.js'));
-copyFileSync(join(SRC, 'shared/simplyhired-platform.js'), join(DIST, 'simplyhired-platform.js'));
-copyFileSync(join(SRC, 'shared/simplyhired-auto-apply-runner.js'), join(DIST, 'simplyhired-auto-apply-runner.js'));
-copyFileSync(join(SRC, 'shared/simplyhired-orchestrator.js'), join(DIST, 'simplyhired-orchestrator.js'));
-copyFileSync(join(SRC, 'shared/reed-auto-apply-runner.js'), join(DIST, 'reed-auto-apply-runner.js'));
-copyFileSync(join(SRC, 'shared/cv-library-auto-apply-runner.js'), join(DIST, 'cv-library-auto-apply-runner.js'));
-copyFileSync(join(SRC, 'shared/cv-library-orchestrator.js'), join(DIST, 'cv-library-orchestrator.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-fit.js'), join(DIST, 'auto-apply-fit.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-window.js'), join(DIST, 'auto-apply-window.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-controls-ui.js'), join(DIST, 'auto-apply-controls-ui.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-pause-ui.js'), join(DIST, 'auto-apply-pause-ui.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-analytics.js'), join(DIST, 'auto-apply-analytics.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-orchestrator.js'), join(DIST, 'auto-apply-orchestrator.js'));
-copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
+copyFileSync(
+    join(SRC, 'shared/draft-all-optimizations.js'),
+    join(DIST, 'draft-all-optimizations.js'),
+);
+mkdirSync(join(DIST, 'draft-all'), { recursive: true });
+copyFileSync(
+    join(SRC, 'shared/draft-all/answer-utils.js'),
+    join(DIST, 'draft-all/answer-utils.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/draft-all/consent-fields.js'),
+    join(DIST, 'draft-all/consent-fields.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/draft-all/pipeline.js'),
+    join(DIST, 'draft-all-pipeline.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/pending-fields.js'),
+    join(DIST, 'pending-fields.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/bridge-client.js'),
+    join(DIST, 'bridge-client.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/draft-batch-chat.js'),
+    join(DIST, 'draft-batch-chat.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/upload-validation.js'),
+    join(DIST, 'upload-validation.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/side-panel-state.js'),
+    join(DIST, 'side-panel-state.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/side-panel-host-tab.js'),
+    join(DIST, 'side-panel-host-tab.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/job-board-market.js'),
+    join(DIST, 'job-board-market.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/linkedin-platform.js'),
+    join(DIST, 'linkedin-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/indeed-platform.js'),
+    join(DIST, 'indeed-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/totaljobs-platform.js'),
+    join(DIST, 'totaljobs-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/reed-platform.js'),
+    join(DIST, 'reed-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cv-library-platform.js'),
+    join(DIST, 'cv-library-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/totaljobs-auto-apply-runner.js'),
+    join(DIST, 'totaljobs-auto-apply-runner.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/glassdoor-platform.js'),
+    join(DIST, 'glassdoor-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/glassdoor-auto-apply-runner.js'),
+    join(DIST, 'glassdoor-auto-apply-runner.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/simplyhired-platform.js'),
+    join(DIST, 'simplyhired-platform.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/simplyhired-auto-apply-runner.js'),
+    join(DIST, 'simplyhired-auto-apply-runner.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/simplyhired-orchestrator.js'),
+    join(DIST, 'simplyhired-orchestrator.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/reed-auto-apply-runner.js'),
+    join(DIST, 'reed-auto-apply-runner.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cv-library-auto-apply-runner.js'),
+    join(DIST, 'cv-library-auto-apply-runner.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cv-library-orchestrator.js'),
+    join(DIST, 'cv-library-orchestrator.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-fit.js'),
+    join(DIST, 'auto-apply-fit.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-platforms.js'),
+    join(DIST, 'auto-apply-platforms.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-session.js'),
+    join(DIST, 'auto-apply-session.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-window.js'),
+    join(DIST, 'auto-apply-window.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-activity-ui.js'),
+    join(DIST, 'auto-apply-activity-ui.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-controls-ui.js'),
+    join(DIST, 'auto-apply-controls-ui.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-pause-ui.js'),
+    join(DIST, 'auto-apply-pause-ui.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-blockers.js'),
+    join(DIST, 'auto-apply-blockers.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-analytics.js'),
+    join(DIST, 'auto-apply-analytics.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-orchestrator.js'),
+    join(DIST, 'auto-apply-orchestrator.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-blockers.js'),
+    join(DIST, 'auto-apply-blockers.js'),
+);
 copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
-copyFileSync(join(SRC, 'content/form-content-signature.js'), join(DIST, 'form-content-signature.js'));
-copyFileSync(join(SRC, 'content/answer-normalization.js'), join(DIST, 'answer-normalization-content.js'));
-copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
-copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
-copyFileSync(join(SRC, 'content/form-validation-errors.js'), join(DIST, 'form-validation-errors.js'));
-copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parser.js'));
-copyFileSync(join(SRC, 'content/linkedin-page-health.js'), join(DIST, 'linkedin-page-health.js'));
-copyFileSync(join(SRC, 'content/linkedin-easy-apply-fields.js'), join(DIST, 'linkedin-easy-apply-fields.js'));
-copyFileSync(join(SRC, 'content/linkedin-auto-apply.js'), join(DIST, 'linkedin-auto-apply.js'));
-copyFileSync(join(SRC, 'content/indeed-auto-apply.js'), join(DIST, 'indeed-auto-apply.js'));
-copyFileSync(join(SRC, 'content/totaljobs-auto-apply.js'), join(DIST, 'totaljobs-auto-apply.js'));
-copyFileSync(join(SRC, 'content/glassdoor-auto-apply.js'), join(DIST, 'glassdoor-auto-apply.js'));
-copyFileSync(join(SRC, 'content/simplyhired-auto-apply.js'), join(DIST, 'simplyhired-auto-apply.js'));
-copyFileSync(join(SRC, 'content/reed-auto-apply.js'), join(DIST, 'reed-auto-apply.js'));
-copyFileSync(join(SRC, 'content/cv-library-auto-apply.js'), join(DIST, 'cv-library-auto-apply.js'));
-copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
-copyFileSync(join(SRC, 'content/field-highlighter.js'), join(DIST, 'field-highlighter.js'));
+copyFileSync(
+    join(SRC, 'content/form-content-signature.js'),
+    join(DIST, 'form-content-signature.js'),
+);
+copyFileSync(
+    join(SRC, 'content/answer-normalization.js'),
+    join(DIST, 'answer-normalization-content.js'),
+);
+copyFileSync(
+    join(SRC, 'content/form-heuristics.js'),
+    join(DIST, 'form-heuristics.js'),
+);
+copyFileSync(
+    join(SRC, 'content/field-inventory.js'),
+    join(DIST, 'field-inventory.js'),
+);
+copyFileSync(
+    join(SRC, 'content/form-validation-errors.js'),
+    join(DIST, 'form-validation-errors.js'),
+);
+copyFileSync(
+    join(SRC, 'content/linkedin-parser.js'),
+    join(DIST, 'linkedin-parser.js'),
+);
+copyFileSync(
+    join(SRC, 'content/linkedin-page-health.js'),
+    join(DIST, 'linkedin-page-health.js'),
+);
+copyFileSync(
+    join(SRC, 'content/linkedin-easy-apply-fields.js'),
+    join(DIST, 'linkedin-easy-apply-fields.js'),
+);
+copyFileSync(
+    join(SRC, 'content/linkedin-auto-apply.js'),
+    join(DIST, 'linkedin-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/indeed-auto-apply.js'),
+    join(DIST, 'indeed-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/totaljobs-auto-apply.js'),
+    join(DIST, 'totaljobs-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/glassdoor-auto-apply.js'),
+    join(DIST, 'glassdoor-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/simplyhired-auto-apply.js'),
+    join(DIST, 'simplyhired-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/reed-auto-apply.js'),
+    join(DIST, 'reed-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/cv-library-auto-apply.js'),
+    join(DIST, 'cv-library-auto-apply.js'),
+);
+copyFileSync(
+    join(SRC, 'content/focus-tracker.js'),
+    join(DIST, 'focus-tracker.js'),
+);
+copyFileSync(
+    join(SRC, 'content/field-highlighter.js'),
+    join(DIST, 'field-highlighter.js'),
+);
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
-copyFileSync(join(SRC, 'sidepanel/sidepanel.html'), join(DIST, 'sidepanel.html'));
+copyFileSync(
+    join(SRC, 'sidepanel/sidepanel.html'),
+    join(DIST, 'sidepanel.html'),
+);
 copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
 copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 copyFileSync(join(SRC, 'sidepanel/auto-apply.js'), join(DIST, 'auto-apply.js'));
-copyFileSync(join(SRC, 'sidepanel/pending-fields.js'), join(DIST, 'pending-fields-panel.js'));
+copyFileSync(
+    join(SRC, 'sidepanel/pending-fields.js'),
+    join(DIST, 'pending-fields-panel.js'),
+);
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');
@@ -297,7 +522,9 @@ mkdirSync(distIconsDir, { recursive: true });
 
 function ensureExtensionIcons() {
     if (!existsSync(faviconSvg)) {
-        const missingIcons = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
+        const missingIcons = requiredIcons.filter(
+            (icon) => !existsSync(join(iconsDir, icon)),
+        );
 
         if (missingIcons.length > 0) {
             throw new Error(
@@ -323,10 +550,14 @@ function ensureExtensionIcons() {
         );
     }
 
-    const stillMissing = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
+    const stillMissing = requiredIcons.filter(
+        (icon) => !existsSync(join(iconsDir, icon)),
+    );
 
     if (stillMissing.length > 0) {
-        throw new Error(`Failed to generate extension icons: ${stillMissing.join(', ')}`);
+        throw new Error(
+            `Failed to generate extension icons: ${stillMissing.join(', ')}`,
+        );
     }
 }
 
@@ -343,10 +574,14 @@ if (!existsSync(pingSoundSource)) {
 mkdirSync(distSoundDir, { recursive: true });
 copyFileSync(pingSoundSource, join(distSoundDir, 'ping.mp3'));
 
-const missingDistIcons = requiredIcons.filter((icon) => !existsSync(join(distIconsDir, icon)));
+const missingDistIcons = requiredIcons.filter(
+    (icon) => !existsSync(join(distIconsDir, icon)),
+);
 
 if (missingDistIcons.length > 0) {
-    throw new Error(`Extension build is missing icons in dist: ${missingDistIcons.join(', ')}`);
+    throw new Error(
+        `Extension build is missing icons in dist: ${missingDistIcons.join(', ')}`,
+    );
 }
 
 patchManifest(apiBase);
@@ -371,7 +606,9 @@ embedSidepanelIcon();
 
 function zipDirectory(sourceDir, outputPath) {
     rmSync(outputPath, { force: true });
-    execSync(`cd "${sourceDir}" && zip -qr "${outputPath}" .`, { stdio: 'inherit' });
+    execSync(`cd "${sourceDir}" && zip -qr "${outputPath}" .`, {
+        stdio: 'inherit',
+    });
 }
 
 function buildFirefoxDist() {
@@ -384,8 +621,15 @@ function buildFirefoxDist() {
     manifest.browser_specific_settings = {
         gecko: {
             id: 'autocvapply@autocvapply.com',
-            strict_min_version: '109.0',
+            strict_min_version: '121.0',
         },
+    };
+    // Firefox still runs MV3 backgrounds as event pages (service workers disabled).
+    // Dual keys: Chrome uses service_worker; Firefox 121+ uses scripts.
+    manifest.background = {
+        service_worker: 'background.js',
+        scripts: ['background.js'],
+        type: 'module',
     };
     manifest.sidebar_action = {
         default_panel: 'sidepanel.html',

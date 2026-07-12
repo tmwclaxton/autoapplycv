@@ -1,0 +1,244 @@
+{
+  "id": "https-inforcer-teamtailor-com-jobs-7747111-m365-solutions-engineer-applications-",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:40:32.313Z",
+  "page_url": "https://inforcer.teamtailor.com/jobs/7747111-m365-solutions-engineer/applications/new",
+  "page_title": "M365 Solutions Engineer - Inforcer",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 10,
+      "count_delta": 5,
+      "label_jaccard": 0.3889,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "how would you rate your expertise in microsoft 365 security, compliance, and governance best practices?",
+        "ai": "How would you rate your expertise in Microsoft 365 security, compliance, and governance best practices?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous experience within the msp or cybersecurity industry?",
+        "ai": "Do you have previous experience within the MSP or Cybersecurity industry?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "could you let us know your expected salary range for this role?",
+        "ai": "Could you let us know your expected salary range for this role?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you delivered product demonstrations or technical sessions to customers or partners?",
+        "ai": "Have you delivered product demonstrations or technical sessions to customers or partners?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently based?",
+        "ai": "Where are you currently based?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please confirm your right to work type...",
+        "ai": "Please confirm your Right to Work type..",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "email",
+      "phone",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that inforcer store my personal details to be able to process my job application.",
+      "yes, inforcer can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [
+      "How many years of experience do you have with Microsoft 365 administration?",
+      "How many Microsoft certifications do you currently hold?"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=15, ai=10)",
+      "label Jaccard 0.389 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Teamtailor's dynamic application framework. Some fields like resume upload or email/phone might be present in the truncated part of the HTML or loaded dynamically via the LinkedIn integration.",
+    "fields": [
+      {
+        "question": "How would you rate your expertise in Microsoft 365 security, compliance, and governance best practices?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Beginner",
+          "Intermediate",
+          "Advanced",
+          "Expert"
+        ]
+      },
+      {
+        "question": "Do you have previous experience within the MSP or Cybersecurity industry?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of experience do you have with Microsoft 365 administration?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Could you let us know your expected salary range for this role?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you delivered product demonstrations or technical sessions to customers or partners?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How many Microsoft certifications do you currently hold?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where are you currently based?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please confirm your Right to Work type..",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "how would you rate your expertise in microsoft 365 security, compliance, and governance best practices?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have previous experience within the msp or cybersecurity industry?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "could you let us know your expected salary range for this role?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "have you delivered product demonstrations or technical sessions to customers or partners?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "where are you currently based?",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "please confirm your right to work type...",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that inforcer store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "yes, inforcer can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

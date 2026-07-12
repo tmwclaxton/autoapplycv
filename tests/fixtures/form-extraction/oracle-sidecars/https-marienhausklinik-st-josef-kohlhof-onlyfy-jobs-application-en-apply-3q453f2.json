@@ -1,0 +1,301 @@
+{
+  "id": "https-marienhausklinik-st-josef-kohlhof-onlyfy-jobs-application-en-apply-3q453f2",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:20:21.844Z",
+  "page_url": "https://marienhausklinik-st-josef-kohlhof.onlyfy.jobs/application/en/apply/3q453f27",
+  "page_title": "Application Process",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birth date",
+        "ai": "Birth date",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "street and house number",
+        "ai": "Street and house number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zip code",
+        "ai": "ZIP Code",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "home city",
+        "ai": "Home city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail address",
+        "ai": "E-mail address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "ihre bewerbung als:",
+        "ai": "Ihre Bewerbung als:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "möchten sie uns sonst noch etwas mitteilen?",
+        "ai": "Möchten Sie uns sonst noch etwas mitteilen?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you learn about this job opening?",
+        "ai": "How did you learn about this job opening?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "liegt bei ihnen eine schwerbehinderung vor?",
+        "ai": "Liegt bei Ihnen eine Schwerbehinderung vor?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "ja (falls vorhanden, bitte nachweis hochladen)"
+    ],
+    "ai_only": [
+      "Salutation"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Radix UI components which hide the actual input elements. The resume/CV upload field is not present in the provided HTML snippet, though it is referenced in the disability question label.",
+    "fields": [
+      {
+        "question": "Salutation",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Mr",
+          "Ms",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birth date",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Street and house number",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "ZIP Code",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Home city",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Ihre Bewerbung als:",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Pflegefachkraft (m/w/d)",
+          "Pflegehelfer (m/w/d)",
+          "Auszubildender (m/w/d)",
+          "Sonstige (m/w/d)"
+        ]
+      },
+      {
+        "question": "Möchten Sie uns sonst noch etwas mitteilen?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Liegt bei Ihnen eine Schwerbehinderung vor?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Ja (falls vorhanden, bitte Nachweis hochladen)",
+          "Nein",
+          "Keine Angabe"
+        ]
+      },
+      {
+        "question": "How did you learn about this job opening?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Agentur für Arbeit",
+          "Aerztestellen.de",
+          "Ausbildung.de",
+          "HeyJobs",
+          "Indeed",
+          "Interne Ausschreibung",
+          "Jobmesse/Event",
+          "Jobware",
+          "Kleinanzeigen",
+          "Klimeta.de",
+          "LinkedIn",
+          "Marienhaus-Stellenbörse",
+          "Medikarriere.de",
+          "Medi-jobs.de",
+          "Mitarbeiterempfehlung",
+          "Printanzeige",
+          "Praktischarzt.de",
+          "Regionale Portale (Regio-jobanzeiger.de, Jobs-fuer-meine-region, Meine Stadt.de)",
+          "Social Media (Facebook, Instagram, TikTok)",
+          "Stepstone",
+          "Stellenanzeigen.de",
+          "Studyflix",
+          "XING",
+          "Andere Quelle",
+          "Nicht bekannt"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "birth date",
+      "field_type": "date",
+      "ref": "f2"
+    },
+    {
+      "question": "street and house number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "zip code",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "home city",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "e-mail address",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "ihre bewerbung als:",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "möchten sie uns sonst noch etwas mitteilen?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "ja (falls vorhanden, bitte nachweis hochladen)",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "how did you learn about this job opening?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "liegt bei ihnen eine schwerbehinderung vor?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    }
+  ]
+}

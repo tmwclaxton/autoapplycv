@@ -1,0 +1,157 @@
+{
+  "id": "https-juston-jobs-personio-com-job-91095",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:02:41.804Z",
+  "page_url": "https://juston.jobs.personio.com/job/91095",
+  "page_title": "Candidature spontanée | Postes à JustOn GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "prénom",
+        "ai": "Prénom",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nom",
+        "ai": "Nom",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail ( ) yourmail@domain.com",
+        "ai": "E-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "téléphone",
+        "ai": "Téléphone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "weitere informationen/further informations/informations complémentaires:",
+        "ai": "Weitere Informationen/further informations/informations complémentaires:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload autre",
+        "ai": "Autre",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom file upload buttons that trigger hidden file inputs. The form is rendered dynamically via JavaScript.",
+    "fields": [
+      {
+        "question": "Prénom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nom",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Téléphone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Weitere Informationen/further informations/informations complémentaires:",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Autre",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "prénom",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "nom",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "téléphone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "weitere informationen/further informations/informations complémentaires:",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "upload autre",
+      "field_type": "file",
+      "ref": "f6"
+    }
+  ]
+}

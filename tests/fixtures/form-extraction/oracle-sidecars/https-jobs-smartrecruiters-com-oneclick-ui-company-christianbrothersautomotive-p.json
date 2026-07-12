@@ -1,0 +1,167 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-christianbrothersautomotive-p",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:57:50.080Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/ChristianBrothersAutomotive/publication/1b9d63b8-a9df-42d6-9dac-3305550a33dc",
+  "page_title": "Easy apply - TEST CO040 - Fountain Creek General Application - Christian Brothers Automotive",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 0.125,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "upload profile image",
+        "ai": "Upload profile image",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "emailconfirmation",
+      "location autocomplete",
+      "message"
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Confirm your email",
+      "City",
+      "Resume",
+      "Let the company know about your interest working there"
+    ],
+    "reasons": [
+      "label Jaccard 0.125 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components (SmartRecruiters SPA). Experience and Education sections are expandable containers that likely reveal additional fields upon clicking 'Add'. The location field is an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Upload profile image",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirm your email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Let the company know about your interest working there",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "upload profile image",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

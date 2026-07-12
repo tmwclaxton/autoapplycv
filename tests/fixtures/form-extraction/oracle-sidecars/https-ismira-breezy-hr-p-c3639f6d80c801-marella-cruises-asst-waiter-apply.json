@@ -1,0 +1,180 @@
+{
+  "id": "https-ismira-breezy-hr-p-c3639f6d80c801-marella-cruises-asst-waiter-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:23:37.486Z",
+  "page_url": "https://ismira.breezy.hr/p/c3639f6d80c801-marella-cruises-asst-waiter/apply",
+  "page_title": "Marella Cruises - Asst. Waiter",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.7,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "other desired positions",
+        "ai": "Other desired positions",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "privacy policy",
+        "ai": "Privacy Policy",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "personal data handling consent",
+        "ai": "PERSONAL DATA HANDLING CONSENT",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The resume upload is handled via a hidden file input triggered by a button. The 'Other desired positions' field is dynamically generated from a JSON object in the HTML.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other desired positions",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Privacy Policy",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I have read and agree to the Privacy Policy stated above."
+        ]
+      },
+      {
+        "question": "PERSONAL DATA HANDLING CONSENT",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "other desired positions",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "privacy policy",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "personal data handling consent",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

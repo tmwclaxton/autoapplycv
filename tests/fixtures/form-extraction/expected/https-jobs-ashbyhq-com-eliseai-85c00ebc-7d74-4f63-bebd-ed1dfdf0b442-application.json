@@ -1,0 +1,314 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-85c00ebc-7d74-4f63-bebd-ed1dfdf0b442-application",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4bab3a22-0997-4171-8dc5-543fc992fa99",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "05411e5b-785e-4616-b67f-d7e93d37e0c3",
+        "name": "05411e5b-785e-4616-b67f-d7e93d37e0c3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "05411e5b-785e-4616-b67f-d7e93d37e0c3",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8dd56018-0827-4839-ac15-58f28f6b269a",
+        "name": "8dd56018-0827-4839-ac15-58f28f6b269a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8dd56018-0827-4839-ac15-58f28f6b269a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "1074bcbb-47dd-48b3-a3c3-7f9af93632fb",
+        "name": "1074bcbb-47dd-48b3-a3c3-7f9af93632fb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1074bcbb-47dd-48b3-a3c3-7f9af93632fb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about eliseai?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "28aef1e0-666b-446f-b16e-d6d4f7d1acfb",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "1716ee6a-a9a1-43ce-998c-d063609bdc9d",
+        "name": "1716ee6a-a9a1-43ce-998c-d063609bdc9d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1716ee6a-a9a1-43ce-998c-d063609bdc9d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ca5664b4-1193-4aaa-aba0-fb131171a24a",
+        "name": "ca5664b4-1193-4aaa-aba0-fb131171a24a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ca5664b4-1193-4aaa-aba0-fb131171a24a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "eliseai is an in-office company. are you comfortable working from our office around 4-5 days per week?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ad0a47dd-80b3-4f9f-9d8b-a0a226b129e4",
+        "name": "ad0a47dd-80b3-4f9f-9d8b-a0a226b129e4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ad0a47dd-80b3-4f9f-9d8b-a0a226b129e4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please share both your base salary and variable compensation expectations for this role (fill in both numbers separately, not combined)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f757d26f-09f9-4e37-b1b5-80772622b2e4",
+        "name": "f757d26f-09f9-4e37-b1b5-80772622b2e4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f757d26f-09f9-4e37-b1b5-80772622b2e4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what was your annualized quota in dollars in your current or last sales role? (eg. $600k, 800k, $1.2m, etc.)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0383ac21-e50f-4c50-ab4d-b71a4e16e5a4",
+        "name": "0383ac21-e50f-4c50-ab4d-b71a4e16e5a4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0383ac21-e50f-4c50-ab4d-b71a4e16e5a4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "for the above quota, what was your annualized quota attainment as a %? (eg. 80%, 100%, 120%, etc.)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5c54743c-57a6-4402-bb76-45dabeedf450",
+        "name": "5c54743c-57a6-4402-bb76-45dabeedf450",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5c54743c-57a6-4402-bb76-45dabeedf450",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please write a hypothetical cold prospecting email to a target account. this account is a property manager with over 25 buildings under their ownership. they currently use a competitive ai product for leasing communications. the contact is the vp of marketing. the email should be max 175 words.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "50791917-c17f-4168-a568-74e74f9d023b",
+        "name": "50791917-c17f-4168-a568-74e74f9d023b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "50791917-c17f-4168-a568-74e74f9d023b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

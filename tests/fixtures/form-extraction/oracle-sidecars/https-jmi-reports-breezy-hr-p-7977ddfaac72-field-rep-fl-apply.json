@@ -1,0 +1,499 @@
+{
+  "id": "https-jmi-reports-breezy-hr-p-7977ddfaac72-field-rep-fl-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:26:28.229Z",
+  "page_url": "https://jmi-reports.breezy.hr/p/7977ddfaac72-field-rep-fl/apply",
+  "page_title": "Field Rep - FL",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 24,
+      "count_delta": 1,
+      "label_jaccard": 0.8077,
+      "type_agree_rate": 0.9545,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "city",
+        "ai": "City",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "state",
+        "ai": "State",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zipcode",
+        "ai": "Zipcode",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "county:",
+        "ai": "County:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how much work are you looking for?",
+        "ai": "How much work are you looking for?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a valid drivers license?",
+        "ai": "Do you have a valid drivers license?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have safe, reliable and clean transportation?",
+        "ai": "Do you have safe, reliable and clean transportation?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you equipped to download an ios or android mobile app and use it to provide clear photos, answer questions about the property, and send and receive emails?",
+        "ai": "Are you equipped to download an iOS or Android mobile app and use it to provide clear photos, answer questions about the property, and send and receive emails?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how far from your home are you willing to travel to complete surveys?",
+        "ai": "How far from your home are you willing to travel to complete surveys?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about jmi reports?",
+        "ai": "How did you hear about JMI Reports?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working for other insurance reporting vendors?",
+        "ai": "Do you have experience working for other insurance reporting vendors?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience completing commercial inspection reports?",
+        "ai": "Do you have experience completing commercial inspection reports?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "have you previously been a field inspector for jmi reports?",
+        "ai": "Have you previously been a field inspector for JMI Reports?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a licensed property/casualty insurance agent and working as an active agent.?",
+        "ai": "Are you a licensed property/casualty insurance agent and working as an active agent.?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a felony conviction in the past 10 years?",
+        "ai": "Do you have a felony conviction in the past 10 years?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you been charged with a dui in the last five years?",
+        "ai": "Have you been charged with a DUI in the last five years?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please add a photo of yourself for your id badge.",
+        "ai": "Please add a photo of yourself for your ID badge.",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "SMS Consent"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a dynamic questionnaire system; some fields like address are duplicated in the UI and the questionnaire section.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "SMS Consent",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "State",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Zipcode",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "County:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How much work are you looking for?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1 Day Per Week",
+          "2-3 Days Per Week",
+          "4-5 Days Per Week",
+          "As much as I can get!",
+          "I can only work weekends (We do not work Sundays)"
+        ]
+      },
+      {
+        "question": "Do you have a valid drivers license?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have safe, reliable and clean transportation?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you equipped to download an iOS or Android mobile app and use it to provide clear photos, answer questions about the property, and send and receive emails?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How far from your home are you willing to travel to complete surveys?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about JMI Reports?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Referral from friend",
+          "Facebook",
+          "ZipRecruiter",
+          "Other Website"
+        ]
+      },
+      {
+        "question": "Do you have experience working for other insurance reporting vendors?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience completing commercial inspection reports?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you previously been a field inspector for JMI Reports?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you a licensed property/casualty insurance agent and working as an active agent.?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have a felony conviction in the past 10 years?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you been charged with a DUI in the last five years?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please add a photo of yourself for your ID badge.",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "state",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "zipcode",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "county:",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "how much work are you looking for?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "do you have a valid drivers license?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have safe, reliable and clean transportation?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "are you equipped to download an ios or android mobile app and use it to provide clear photos, answer questions about the property, and send and receive emails?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "how far from your home are you willing to travel to complete surveys?",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "how did you hear about jmi reports?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "do you have experience working for other insurance reporting vendors?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "do you have experience completing commercial inspection reports?",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "have you previously been a field inspector for jmi reports?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "are you a licensed property/casualty insurance agent and working as an active agent.?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "do you have a felony conviction in the past 10 years?",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "have you been charged with a dui in the last five years?",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "please add a photo of yourself for your id badge.",
+      "field_type": "file",
+      "ref": "f24"
+    }
+  ]
+}

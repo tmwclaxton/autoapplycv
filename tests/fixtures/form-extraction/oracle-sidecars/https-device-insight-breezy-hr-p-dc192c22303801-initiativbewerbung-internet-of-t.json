@@ -1,0 +1,211 @@
+{
+  "id": "https-device-insight-breezy-hr-p-dc192c22303801-initiativbewerbung-internet-of-t",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:26:32.112Z",
+  "page_url": "https://device-insight.breezy.hr/p/dc192c22303801-initiativbewerbung-internet-of-things/apply",
+  "page_title": "Initiativbewerbung - Internet of Things",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.6154,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "vollständiger name",
+        "ai": "Vollständiger Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail-adresse",
+        "ai": "E-Mail-Adresse",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefonnummer",
+        "ai": "Telefonnummer",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "adresse",
+        "ai": "Adresse",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "bitte teile uns deinen gehaltswunsch mit.",
+        "ai": "Bitte teile uns Deinen Gehaltswunsch mit.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "bitte teile uns deine frühestmögliche verfügbarkeit bzw. deine kündigungsfrist mit.",
+        "ai": "Bitte teile uns Deine frühestmögliche Verfügbarkeit bzw. Deine Kündigungsfrist mit.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "hast du einen github / gitlab / bitbucket-account? hier kannst du ihn mit uns teilen.",
+        "ai": "Hast du einen GitHub / GitLab / Bitbucket-Account? Hier kannst du ihn mit uns teilen.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "datenschutzhinweis zur bewerbung",
+        "ai": "Datenschutzhinweis zur Bewerbung",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "csummary",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Lebenslauf hochladen",
+      "Zusammenfassung der Erfahrungen"
+    ],
+    "reasons": [
+      "label Jaccard 0.615 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The file upload is handled via a hidden input field. The application also includes buttons for third-party integrations (Indeed, LinkedIn) which are not standard form fields.",
+    "fields": [
+      {
+        "question": "Lebenslauf hochladen",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Vollständiger Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefonnummer",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Adresse",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Zusammenfassung der Erfahrungen",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Bitte teile uns Deinen Gehaltswunsch mit.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Bitte teile uns Deine frühestmögliche Verfügbarkeit bzw. Deine Kündigungsfrist mit.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Hast du einen GitHub / GitLab / Bitbucket-Account? Hier kannst du ihn mit uns teilen.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Datenschutzhinweis zur Bewerbung",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "vollständiger name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "e-mail-adresse",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "adresse",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "bitte teile uns deinen gehaltswunsch mit.",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "bitte teile uns deine frühestmögliche verfügbarkeit bzw. deine kündigungsfrist mit.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "hast du einen github / gitlab / bitbucket-account? hier kannst du ihn mit uns teilen.",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "datenschutzhinweis zur bewerbung",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

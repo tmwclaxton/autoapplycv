@@ -1,7 +1,7 @@
 {
   "id": "https-jobs-ashbyhq-com-base-power-d39b45ee-d6f1-4b8e-bcc8-3389a7d666fd-applicati",
   "status": "agree",
-  "captured_at": "2026-07-10T19:08:32.211Z",
+  "captured_at": "2026-07-10T22:29:42.632Z",
   "page_url": "https://jobs.ashbyhq.com/base-power/d39b45ee-d6f1-4b8e-bcc8-3389a7d666fd/application",
   "page_title": "Last Mile Driver (Houston) @ Base Power Company",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 16,
       "ai_count": 11,
       "count_delta": 5,
-      "label_jaccard": 0.5882,
+      "label_jaccard": 0.6875,
       "type_agree_rate": 0.7273,
       "matched_count": 11
     },
@@ -37,7 +37,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone Number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -52,7 +52,7 @@
       },
       {
         "detector": "current location",
-        "ai": "Current Location",
+        "ai": "Current Location*",
         "detector_type": "select",
         "ai_type": "combobox",
         "type_agree": false
@@ -105,8 +105,14 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses custom React-based components for comboboxes and date pickers which may require specific interaction to trigger. The 'How did you hear about' field is a list of checkboxes.",
+    "notes": "The form uses custom React components for comboboxes and date pickers. The 'How did you hear about' field is truncated in the HTML excerpt but contains multiple checkbox options.",
     "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
       {
         "question": "Name",
         "field_type": "text",
@@ -135,14 +141,8 @@
         ]
       },
       {
-        "question": "Current Location",
+        "question": "Current Location*",
         "field_type": "combobox",
-        "required": true,
-        "options": null
-      },
-      {
-        "question": "Resume",
-        "field_type": "file",
         "required": true,
         "options": null
       },
@@ -205,7 +205,7 @@
       "ref": "f2"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f3"
     },

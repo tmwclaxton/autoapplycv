@@ -1,0 +1,148 @@
+{
+  "id": "https-backchannel-breezy-hr-p-a39d83ef3303-envio-de-candidatura-aberta-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:34:17.548Z",
+  "page_url": "https://backchannel.breezy.hr/p/a39d83ef3303-envio-de-candidatura-aberta/apply",
+  "page_title": "Envio de Candidatura Aberta",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.25,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "nome completo",
+        "ai": "Nome completo",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "endereço de e-mail",
+        "ai": "Endereço de e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefone",
+        "ai": "Telefone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Histórico profissional",
+      "Educação",
+      "Resumo de experiência",
+      "Carta de apresentação"
+    ],
+    "reasons": [
+      "label Jaccard 0.250 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic Angular components for work history and education, which may require specific interaction to reveal sub-fields. The 'Indeed' and 'LinkedIn' buttons are external OAuth/API integrations.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Histórico profissional",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Educação",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resumo de experiência",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Carta de apresentação",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "nome completo",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "endereço de e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    }
+  ]
+}

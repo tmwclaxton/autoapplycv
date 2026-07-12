@@ -1,0 +1,195 @@
+{
+  "id": "https-qevlar-1721317262-teamtailor-com-jobs-4865977-spontaneous-application-appl",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:24:25.365Z",
+  "page_url": "https://qevlar-1721317262.teamtailor.com/jobs/4865977-spontaneous-application/applications/new",
+  "page_title": "Spontaneous application - Qevlar AI",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 8,
+      "count_delta": 5,
+      "label_jaccard": 0.3125,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "what role would you like to be doing at qevlar ai?",
+        "ai": "What role would you like to be doing at Qevlar AI?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "Linkedin profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "anything else we should know about you?",
+        "ai": "Anything else we should know about you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what would be your ideal start date?",
+        "ai": "What would be your ideal start date?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that qevlar ai store my personal details to be able to process my job application.",
+      "yes, qevlar ai can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=13, ai=8)",
+      "label Jaccard 0.313 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a LinkedIn OAuth integration for pre-filling data. The phone input uses an international telephone input library (intl-tel-input) which is not fully captured in the static HTML.",
+    "fields": [
+      {
+        "question": "What role would you like to be doing at Qevlar AI?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedin profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anything else we should know about you?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What would be your ideal start date?",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what role would you like to be doing at qevlar ai?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "anything else we should know about you?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "what would be your ideal start date?",
+      "field_type": "date",
+      "ref": "f3"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that qevlar ai store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "yes, qevlar ai can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f12"
+    }
+  ]
+}

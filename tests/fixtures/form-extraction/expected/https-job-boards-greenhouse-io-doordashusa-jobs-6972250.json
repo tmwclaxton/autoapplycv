@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-greenhouse-io-doordashusa-jobs-6972250",
-  "min_fields": 29,
-  "exact_field_count": 29,
+  "min_fields": 28,
+  "exact_field_count": 28,
   "fields": [
     {
       "question": "first name",
@@ -104,7 +104,7 @@
       }
     },
     {
-      "question": "location (city) first name",
+      "question": "location (city)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -116,46 +116,6 @@
         "name": null,
         "data_testid": null,
         "role": "combobox",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
-        "name": null,
-        "data_testid": null,
-        "role": null,
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -224,7 +184,7 @@
       }
     },
     {
-      "question": "are you legally authorized to work in the united states? linkedin profile",
+      "question": "are you legally authorized to work in the united states?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -244,7 +204,7 @@
       }
     },
     {
-      "question": "will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)? linkedin profile",
+      "question": "will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a wri",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -264,7 +224,7 @@
       }
     },
     {
-      "question": "will you in the future require immigration require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a government agency)? linkedin profile",
+      "question": "will you in the future require immigration require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -284,7 +244,7 @@
       }
     },
     {
-      "question": "have you worked at doordash? linkedin profile",
+      "question": "have you worked at doordash?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -304,7 +264,7 @@
       }
     },
     {
-      "question": "do you have a bachelor’s or master’s degree in electrical engineering, computer engineering, or a related field? linkedin profile",
+      "question": "do you have a bachelor’s or master’s degree in electrical engineering, computer engineering, or a related field?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -324,7 +284,7 @@
       }
     },
     {
-      "question": "do you have 8 or more years of hands-on experience in embedded systems development? linkedin profile",
+      "question": "do you have 8 or more years of hands-on experience in embedded systems development?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -344,7 +304,7 @@
       }
     },
     {
-      "question": "do you have deep expertise in bare-metal programming on arm microcontrollers? linkedin profile",
+      "question": "do you have deep expertise in bare-metal programming on arm microcontrollers?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -364,7 +324,7 @@
       }
     },
     {
-      "question": "are you proficient in c/c++ for embedded targets and familiar with firmware design patterns? linkedin profile",
+      "question": "are you proficient in c/c++ for embedded targets and familiar with firmware design patterns?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -424,7 +384,7 @@
       }
     },
     {
-      "question": "applicant privacy acknowledgement linkedin profile",
+      "question": "applicant privacy acknowledgement",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -444,7 +404,7 @@
       }
     },
     {
-      "question": "would you like to receive communications via sms and/or whatsapp to the number provided [above or during the application process] about your application process? message & data rates may apply and message frequency may vary. if you select no, we will only communicate with you via email and/or telephone calls. if you select yes and change your mind, you can always reply stop to opt out. linkedin profile",
+      "question": "would you like to receive communications via sms and/or whatsapp to the number provided [above or during the application process] about your application process? message & data rates may apply and mes",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -582,10 +542,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

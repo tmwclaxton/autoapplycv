@@ -1,0 +1,229 @@
+{
+  "id": "https-jobs-ashbyhq-com-cube-248531ac-7bde-4a64-80f5-0dc709d71ab0-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:03:38.917Z",
+  "page_url": "https://jobs.ashbyhq.com/cube/248531ac-7bde-4a64-80f5-0dc709d71ab0/application",
+  "page_title": "Senior QA Engineer @ CUBE",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "highest education",
+        "ai": "Highest Education",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current ctc",
+        "ai": "Current CTC",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected ctc",
+        "ai": "Expected CTC",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "notice period",
+        "ai": "Notice Period",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "total years of experience",
+        "ai": "Total years of experience",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "reason for job change",
+        "ai": "Reason for Job change",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered within an Ashby-powered application page. The resume upload field is handled by a custom UI component that supports drag-and-drop and file selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Highest Education",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current CTC",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected CTC",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Notice Period",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Total years of experience",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Reason for Job change",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "highest education",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current ctc",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "expected ctc",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "notice period",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "total years of experience",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "reason for job change",
+      "field_type": "text",
+      "ref": "f10"
+    }
+  ]
+}

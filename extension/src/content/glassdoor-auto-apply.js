@@ -2,10 +2,13 @@
  * Glassdoor Easy Apply DOM helpers (Indeed Apply runs in nested iframes).
  */
 const AutoCVApplyGlassdoorAutoApply = (() => {
-    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const sleep = (ms) =>
+        new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
-        return String(text || '').replace(/\s+/g, ' ').trim();
+        return String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim();
     }
 
     function humanDelayMs(minMs, maxMs) {
@@ -24,11 +27,17 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     }
 
     function isGlassdoorSearchPage() {
-        return isGlassdoorHostname() && /^\/Job\/(jobs|index)\.htm$/i.test(window.location.pathname);
+        return (
+            isGlassdoorHostname() &&
+            /^\/Job\/(jobs|index)\.htm$/i.test(window.location.pathname)
+        );
     }
 
     function isGlassdoorJobListingPage() {
-        return isGlassdoorHostname() && /\/job-listing\//i.test(window.location.pathname);
+        return (
+            isGlassdoorHostname() &&
+            /\/job-listing\//i.test(window.location.pathname)
+        );
     }
 
     function isElementVisible(element) {
@@ -38,9 +47,11 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
         const style = window.getComputedStyle(element);
 
-        return style.display !== 'none'
-            && style.visibility !== 'hidden'
-            && element.getClientRects().length > 0;
+        return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            element.getClientRects().length > 0
+        );
     }
 
     async function scrollIntoViewHuman(element) {
@@ -48,7 +59,11 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             return;
         }
 
-        element.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+        element.scrollIntoView({
+            block: 'nearest',
+            inline: 'nearest',
+            behavior: 'smooth',
+        });
         await humanPause(280, 520);
     }
 
@@ -61,8 +76,20 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             await scrollIntoViewHuman(element);
         }
 
-        element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-        element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        element.dispatchEvent(
+            new MouseEvent('mousedown', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            }),
+        );
+        element.dispatchEvent(
+            new MouseEvent('mouseup', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            }),
+        );
         element.click();
 
         return true;
@@ -84,7 +111,11 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     }
 
     function dismissLoginOverlay() {
-        for (const selector of ['#HardsellOverlay', '.LoginModal', '[data-test="authModal"]']) {
+        for (const selector of [
+            '#HardsellOverlay',
+            '.LoginModal',
+            '[data-test="authModal"]',
+        ]) {
             const node = document.querySelector(selector);
 
             if (node instanceof HTMLElement) {
@@ -96,17 +127,21 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     }
 
     function readJobIdFromHref(href) {
-        const match = String(href || '').match(/[?&](?:jl|jobListingId)=(\d+)/i);
+        const match = String(href || '').match(
+            /[?&](?:jl|jobListingId)=(\d+)/i,
+        );
 
         return match?.[1] || null;
     }
 
     function readJobCardLink(item) {
-        return item.querySelector('a[data-test="job-title"][href*="jl="]')
-            || item.querySelector('a[data-test="job-title"]')
-            || item.querySelector('a[data-test="job-link"][href*="jl="]')
-            || item.querySelector('a[data-test="job-link"]')
-            || item.querySelector('a[href*="jl="]');
+        return (
+            item.querySelector('a[data-test="job-title"][href*="jl="]') ||
+            item.querySelector('a[data-test="job-title"]') ||
+            item.querySelector('a[data-test="job-link"][href*="jl="]') ||
+            item.querySelector('a[data-test="job-link"]') ||
+            item.querySelector('a[href*="jl="]')
+        );
     }
 
     function readEmployerName(item) {
@@ -133,17 +168,15 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             return true;
         }
 
-        if (item.querySelector('[data-test="easyApply"], [data-test="easy-apply"], [class*="easyApplyTag"], [class*="easyApplyLabel"], [aria-label="Easy Apply"]')) {
+        if (
+            item.querySelector(
+                '[data-test="easyApply"], [data-test="easy-apply"], [class*="easyApplyTag"], [class*="easyApplyLabel"], [aria-label="Easy Apply"]',
+            )
+        ) {
             return true;
         }
 
-        if (/\beasy apply\b/i.test(cardText)) {
-            return true;
-        }
-
-        const searchParams = new URLSearchParams(window.location.search);
-
-        return searchParams.get('applicationType') === '1';
+        return /\beasy apply\b/i.test(cardText);
     }
 
     function resolveGlassdoorOrigin() {
@@ -158,12 +191,15 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         const jobs = [];
         const seen = new Set();
 
-        const listings = document.querySelectorAll('[data-test="jobListing"], li[data-is-easy-apply="true"]');
+        const listings = document.querySelectorAll(
+            '[data-test="jobListing"], li[data-is-easy-apply="true"]',
+        );
 
         for (const item of listings) {
             const link = readJobCardLink(item);
             const href = link?.getAttribute('href') || '';
-            const jobId = readJobIdFromHref(href) || item.getAttribute('data-jobid');
+            const jobId =
+                readJobIdFromHref(href) || item.getAttribute('data-jobid');
 
             if (!jobId || seen.has(jobId)) {
                 continue;
@@ -171,9 +207,12 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
             seen.add(jobId);
 
-            const title = normalize(item.querySelector('[data-test="job-title"]')?.textContent)
-                || normalize(link?.textContent)
-                || 'Unknown role';
+            const title =
+                normalize(
+                    item.querySelector('[data-test="job-title"]')?.textContent,
+                ) ||
+                normalize(link?.textContent) ||
+                'Unknown role';
             const company = readEmployerName(item) || 'Unknown company';
             const cardText = normalize(item.textContent);
             const alreadyApplied = /\bapplied\b/i.test(cardText);
@@ -200,20 +239,47 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         return readJobCardsFromDocument();
     }
 
-    async function prepareJobSearch() {
+    async function prepareJobSearch(options = {}) {
         dismissLoginOverlay();
         await acceptCookieConsent();
 
-        const cardCount = document.querySelectorAll('[data-test="jobListing"]').length;
+        const expectedKeyword = String(options.expectedKeyword || '').trim();
+        const expectedLocation = String(options.expectedLocation || '').trim();
+        const params = new URLSearchParams(window.location.search);
+        const currentKeyword = String(params.get('sc.keyword0') || '').trim();
+        const currentLocation = String(params.get('locKeyword') || '').trim();
+        const slug = (text) =>
+            String(text || '')
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+        let searchMatched = true;
+
+        if (expectedKeyword && slug(currentKeyword) !== slug(expectedKeyword)) {
+            searchMatched = false;
+        }
+
+        if (
+            expectedLocation &&
+            slug(currentLocation) !== slug(expectedLocation)
+        ) {
+            searchMatched = false;
+        }
+
+        const cardCount = document.querySelectorAll(
+            '[data-test="jobListing"]',
+        ).length;
 
         if (cardCount >= 3) {
-            return { success: true, skipped: true };
+            return { success: true, skipped: true, searchMatched };
         }
 
         window.scrollBy({ top: 500, behavior: 'smooth' });
         await humanPause(400, 700);
 
-        return { success: true };
+        return { success: true, searchMatched };
     }
 
     function readApplyButton() {
@@ -234,7 +300,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             }
         }
 
-        for (const button of document.querySelectorAll('button, a[role="button"]')) {
+        for (const button of document.querySelectorAll(
+            'button, a[role="button"]',
+        )) {
             if (!(button instanceof HTMLElement) || !isElementVisible(button)) {
                 continue;
             }
@@ -252,7 +320,10 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
     function readExternalApplyMarker() {
         for (const element of document.querySelectorAll('a, button')) {
-            if (!(element instanceof HTMLElement) || !isElementVisible(element)) {
+            if (
+                !(element instanceof HTMLElement) ||
+                !isElementVisible(element)
+            ) {
                 continue;
             }
 
@@ -276,7 +347,10 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             const title = iframe.getAttribute('title') || '';
             const src = iframe.getAttribute('src') || '';
 
-            if (/job application form/i.test(title) || /indeedapply|smartapply\.indeed/i.test(src)) {
+            if (
+                /job application form/i.test(title) ||
+                /indeedapply|smartapply\.indeed/i.test(src)
+            ) {
                 return true;
             }
         }
@@ -290,7 +364,11 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         }
 
         if (readExternalApplyMarker()) {
-            return { easyApply: false, hasApplyButton: false, externalApply: true };
+            return {
+                easyApply: false,
+                hasApplyButton: false,
+                externalApply: true,
+            };
         }
 
         const applyButton = readApplyButton();
@@ -339,16 +417,22 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             await humanPause(550, 850);
         }
 
-        return { success: false, error: 'Glassdoor Easy Apply button not found on job page.' };
+        return {
+            success: false,
+            error: 'Glassdoor Easy Apply button not found on job page.',
+        };
     }
 
     function findJobCardById(jobId) {
         const targetId = String(jobId || '').trim();
 
-        for (const item of document.querySelectorAll('[data-test="jobListing"], li[data-is-easy-apply="true"]')) {
+        for (const item of document.querySelectorAll(
+            '[data-test="jobListing"], li[data-is-easy-apply="true"]',
+        )) {
             const link = readJobCardLink(item);
             const href = link?.getAttribute('href') || '';
-            const cardJobId = readJobIdFromHref(href) || item.getAttribute('data-jobid');
+            const cardJobId =
+                readJobIdFromHref(href) || item.getAttribute('data-jobid');
 
             if (cardJobId === targetId) {
                 return { item, link };
@@ -362,12 +446,16 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         const match = findJobCardById(jobId);
 
         if (!match?.item) {
-            return { success: false, error: `Glassdoor job card not found for id ${jobId}.` };
+            return {
+                success: false,
+                error: `Glassdoor job card not found for id ${jobId}.`,
+            };
         }
 
-        const cardClickTarget = match.item.querySelector('[data-test="job-card-wrapper"]')
-            || match.item.querySelector('[data-test="job-link"]')
-            || match.item;
+        const cardClickTarget =
+            match.item.querySelector('[data-test="job-card-wrapper"]') ||
+            match.item.querySelector('[data-test="job-link"]') ||
+            match.item;
 
         await clickElement(cardClickTarget);
         await humanPause(700, 1100);
@@ -381,13 +469,19 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         while (Date.now() < deadline) {
             dismissLoginOverlay();
 
-            if (readApplyButton() || readExternalApplyMarker() || hasIndeedApplyIframe()) {
+            if (
+                readApplyButton() ||
+                readExternalApplyMarker() ||
+                hasIndeedApplyIframe()
+            ) {
                 return { success: true, jobId };
             }
 
             const match = findJobCardById(jobId);
-            const selected = match?.item?.matches?.('[aria-current="true"], [data-selected="true"]')
-                || match?.item?.classList?.contains('selected');
+            const selected =
+                match?.item?.matches?.(
+                    '[aria-current="true"], [data-selected="true"]',
+                ) || match?.item?.classList?.contains('selected');
 
             if (selected) {
                 await humanPause(500, 800);
@@ -401,7 +495,10 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             await humanPause(500, 800);
         }
 
-        return { success: false, error: 'Glassdoor job detail panel did not load.' };
+        return {
+            success: false,
+            error: 'Glassdoor job detail panel did not load.',
+        };
     }
 
     function readJobDescriptionText() {
@@ -417,7 +514,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         let best = '';
 
         for (const selector of selectors) {
-            const text = normalize(document.querySelector(selector)?.textContent);
+            const text = normalize(
+                document.querySelector(selector)?.textContent,
+            );
 
             if (text.length > best.length) {
                 best = text;
@@ -425,7 +524,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         }
 
         if (best.length < 200) {
-            const mainText = normalize(document.querySelector('main')?.textContent);
+            const mainText = normalize(
+                document.querySelector('main')?.textContent,
+            );
 
             if (mainText.length > best.length) {
                 best = mainText;
@@ -435,7 +536,10 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         return best.slice(0, 20000);
     }
 
-    async function waitForJobDescriptionReady(minLength = 200, timeoutMs = 20_000) {
+    async function waitForJobDescriptionReady(
+        minLength = 200,
+        timeoutMs = 20_000,
+    ) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
@@ -466,18 +570,25 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     function scanPageHealth() {
         const bodyText = normalize(document.body?.textContent);
 
-        if (/humans only|mistakenly blocked|security protections may/i.test(bodyText)) {
+        if (
+            /humans only|mistakenly blocked|security protections may/i.test(
+                bodyText,
+            )
+        ) {
             return {
                 ok: false,
                 primary: {
-                    message: 'Glassdoor blocked automated access. Sign in manually and retry.',
+                    message:
+                        'Glassdoor blocked automated access. Sign in manually and retry.',
                 },
                 blocking: ['Glassdoor bot protection page'],
             };
         }
 
-        if (/sign in to glassdoor|create an account/i.test(bodyText)
-            && !document.querySelector('[data-test="jobListing"]')) {
+        if (
+            /sign in to glassdoor|create an account/i.test(bodyText) &&
+            !document.querySelector('[data-test="jobListing"]')
+        ) {
             return {
                 ok: false,
                 primary: {
@@ -491,9 +602,14 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     }
 
     async function goToNextSearchPage() {
-        const next = document.querySelector('[data-test="pagination-next"], a[aria-label="Next"]');
+        const next = document.querySelector(
+            '[data-test="pagination-next"], a[aria-label="Next"]',
+        );
 
-        if (!(next instanceof HTMLElement) || next.getAttribute('aria-disabled') === 'true') {
+        if (
+            !(next instanceof HTMLElement) ||
+            next.getAttribute('aria-disabled') === 'true'
+        ) {
             return { success: false };
         }
 

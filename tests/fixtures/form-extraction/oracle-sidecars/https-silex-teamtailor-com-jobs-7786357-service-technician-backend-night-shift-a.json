@@ -1,0 +1,328 @@
+{
+  "id": "https-silex-teamtailor-com-jobs-7786357-service-technician-backend-night-shift-a",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:19:12.481Z",
+  "page_url": "https://silex.teamtailor.com/jobs/7786357-service-technician-backend-night-shift/applications/new",
+  "page_title": "Service Technician Backend - Night Shift - Silex",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 15,
+      "count_delta": 3,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "ai": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you live in the stockholm area, or are about to move here?",
+        "ai": "Do you live in the Stockholm area, or are about to move here?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if not already living in stockholm, what does your plans to move here look like?",
+        "ai": "If not already living in Stockholm, what does your plans to move here look like?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "attach a link to your linkedin-profile if you're not attaching a cv",
+        "ai": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how well do you read technical documentation written in swedish? please share a bit about your experience in this area.",
+        "ai": "How well do you read technical documentation written in Swedish? Please share a bit about your experience in this area.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you comfortable reading and understanding electrical schematics / wiring diagrams?",
+        "ai": "Are you comfortable reading and understanding electrical schematics / wiring diagrams?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what type of machines have you previously worked with?",
+        "ai": "What type of machines have you previously worked with?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have at least three years of experience servicing industrial machines?",
+        "ai": "Do you have at least three years of experience servicing industrial machines?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "can you describe a troubleshooting situation where you used your electrical and/or electronic knowledge to diagnose and resolve an issue on a machine? please explain the situation, the steps you took, and the outcome.",
+        "ai": "Can you describe a troubleshooting situation where you used your electrical and/or electronic knowledge to diagnose and resolve an issue on a machine? Please explain the situation, the steps you took, and the outcome.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous experience working night shifts?",
+        "ai": "Do you have previous experience working night shifts?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+        "ai": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "upload resume",
+      "additional files",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=18, ai=15)",
+      "label Jaccard 0.500 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using Teamtailor's dynamic application system. Some fields (like file uploads) may be rendered via JavaScript after initial load or are part of the truncated HTML snippet.",
+    "fields": [
+      {
+        "question": "Do you have the right to work in Sweden, either through citizenship, work permit or being here on a job-search visa?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you live in the Stockholm area, or are about to move here?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If not already living in Stockholm, what does your plans to move here look like?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Attach a link to your LinkedIn-profile if you're not attaching a CV",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How well do you read technical documentation written in Swedish? Please share a bit about your experience in this area.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you comfortable reading and understanding electrical schematics / wiring diagrams?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What type of machines have you previously worked with?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have at least three years of experience servicing industrial machines?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Can you describe a troubleshooting situation where you used your electrical and/or electronic knowledge to diagnose and resolve an issue on a machine? Please explain the situation, the steps you took, and the outcome.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have previous experience working night shifts?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Uncertain"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have the right to work in sweden, either through citizenship, work permit or being here on a job-search visa?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you live in the stockholm area, or are about to move here?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "if not already living in stockholm, what does your plans to move here look like?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "attach a link to your linkedin-profile if you're not attaching a cv",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "how well do you read technical documentation written in swedish? please share a bit about your experience in this area.",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "are you comfortable reading and understanding electrical schematics / wiring diagrams?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "what type of machines have you previously worked with?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "do you have at least three years of experience servicing industrial machines?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "can you describe a troubleshooting situation where you used your electrical and/or electronic knowledge to diagnose and resolve an issue on a machine? please explain the situation, the steps you took, and the outcome.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "do you have previous experience working night shifts?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "do you have any medical devices or implants (e.g., pacemaker) that may be affected by magnetic fields? our machinery generates magnetic fields that, in some cases, may affect such devices. for health and safety reasons, if such a risk is identified, we unfortunately will not be able to proceed with your application.",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f13"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f14"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f16"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that silex store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f17"
+    }
+  ]
+}

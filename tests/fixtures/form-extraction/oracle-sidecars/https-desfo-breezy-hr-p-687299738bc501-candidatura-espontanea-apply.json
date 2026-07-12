@@ -1,0 +1,265 @@
+{
+  "id": "https-desfo-breezy-hr-p-687299738bc501-candidatura-espontanea-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:22:23.359Z",
+  "page_url": "https://desfo.breezy.hr/p/687299738bc501-candidatura-espontanea/apply",
+  "page_title": "Candidatura Espontânea",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.6,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "nome completo",
+        "ai": "Nome completo",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "endereço de e-mail",
+        "ai": "Endereço de e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "número de telefone",
+        "ai": "Número de telefone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "endereço",
+        "ai": "Endereço",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "quais são as suas localizações preferenciais?",
+        "ai": "Quais são as suas localizações preferenciais?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "qual é a tua disponibilidade para iniciar um novo projeto?",
+        "ai": "Qual é a tua disponibilidade para iniciar um novo projeto?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "tens viatura própria?",
+        "ai": "Tens viatura própria?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "quais destas soft skills consideras mais forte em ti?",
+        "ai": "Quais destas soft skills consideras mais forte em ti?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "cláusula de consentimento",
+        "ai": "Cláusula de Consentimento",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "csummary",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Resumo de experiência",
+      "Em qual área do grupo tens mais interesse em trabalhar?"
+    ],
+    "reasons": [
+      "label Jaccard 0.600 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. The resume upload is optional in the schema but marked as a button action. The 'multiplechoice' fields are rendered as radio buttons.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Número de telefone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resumo de experiência",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Quais são as suas localizações preferenciais?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Vilar do Pinheiro | Transnautica Global Logistics",
+          "Oliveira do Bairro | Transnautica Global Logistics",
+          "Coimbra | Transnautica Global Logistics",
+          "Alverca | Transnautica Global Logistics",
+          "Oiã | Transnautica Global Logistics",
+          "Vilar do Pinheiro | NCL",
+          "Grijó | DESFO",
+          "Murtosa | Desicor",
+          "Grijó | Oneskin",
+          "Grijó | Forcargo",
+          "Estágios | One step closer"
+        ]
+      },
+      {
+        "question": "Em qual área do grupo tens mais interesse em trabalhar?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Transportes e Logistica",
+          "Indústria",
+          "Serviços Partilhados"
+        ]
+      },
+      {
+        "question": "Qual é a tua disponibilidade para iniciar um novo projeto?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Imediata",
+          "30 dias",
+          "60 dias"
+        ]
+      },
+      {
+        "question": "Tens viatura própria?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Sim",
+          "Não"
+        ]
+      },
+      {
+        "question": "Quais destas soft skills consideras mais forte em ti?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Comunicação",
+          "Trabalho em Equipa",
+          "Resolução de Problemas",
+          "Flexibilidade",
+          "Inovação"
+        ]
+      },
+      {
+        "question": "Cláusula de Consentimento",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "nome completo",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "endereço de e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "número de telefone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "endereço",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "quais são as suas localizações preferenciais?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "qual é a tua disponibilidade para iniciar um novo projeto?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "tens viatura própria?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "quais destas soft skills consideras mais forte em ti?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "cláusula de consentimento",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

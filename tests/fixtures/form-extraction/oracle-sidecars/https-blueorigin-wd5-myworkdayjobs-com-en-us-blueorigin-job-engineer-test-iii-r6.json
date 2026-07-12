@@ -1,0 +1,39 @@
+{
+  "id": "https-blueorigin-wd5-myworkdayjobs-com-en-us-blueorigin-job-engineer-test-iii-r6",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:32:15.908Z",
+  "page_url": "https://blueorigin.wd5.myworkdayjobs.com/en-US/BlueOrigin/job/Engineer---Test-III_R66517",
+  "page_title": "Engineer - Test III",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Apply"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The actual application form is located behind the 'Apply' button, which triggers a Workday SPA (Single Page Application) that is not rendered in this static HTML excerpt.",
+    "fields": [
+      {
+        "question": "Apply",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

@@ -64,6 +64,7 @@ class ApplicationAssistantService
         }
 
         $needsFullJobContext = $this->batchNeedsFullProfile($llmQuestions);
+        $clarifyingInstructions = $this->clarifyingAnswerInstructions($llmQuestions);
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
@@ -78,6 +79,7 @@ class ApplicationAssistantService
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
+                        .$clarifyingInstructions
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
                         .'For open text questions about motivation, interest, fit, portfolio, GitHub, security, experience, or skills, write 2-4 sentences in first person. '
                         .'Every open-ended answer MUST name at least one real employer AND job title from profile.experience (for example "At Riverbank Systems as Senior Engineer I..."). '
@@ -129,7 +131,9 @@ class ApplicationAssistantService
             }
 
             if ($answer !== null && in_array(strtolower($answer), ['yes', 'no'], true)) {
-                $answer = strtolower($answer);
+                $matchedOption = $this->matchAnswerToOption($answer, is_array($question['options'] ?? null) ? $question['options'] : []);
+
+                $answer = $matchedOption ?? strtolower($answer);
             }
 
             $entry = [
@@ -163,6 +167,31 @@ class ApplicationAssistantService
             'answers' => $answers,
             'usage' => $usage,
         ];
+    }
+
+    /**
+     * @param  array<int, array{label: string, ref?: string, field_type?: string, max_chars?: int, options?: array<int, string>|null, clarifying_answer?: string}>  $questions
+     */
+    private function clarifyingAnswerInstructions(array $questions): string
+    {
+        foreach ($questions as $question) {
+            if (! is_array($question)) {
+                continue;
+            }
+
+            $clarifyingAnswer = $question['clarifying_answer'] ?? null;
+
+            if (! is_string($clarifyingAnswer) || trim($clarifyingAnswer) === '') {
+                continue;
+            }
+
+            return 'When a question includes clarifying_answer, the candidate already answered in their own words in the sidebar. '
+                .'Map clarifying_answer to exactly one allowed option from that question\'s options array (copy verbatim). '
+                .'Use the profile, job context, and question label to choose the best option. '
+                .'For select, radio, or checkbox fields with options, never return the clarifying_answer prose - return only an exact option string. ';
+        }
+
+        return '';
     }
 
     /**
@@ -266,7 +295,8 @@ class ApplicationAssistantService
         }
 
         if ($this->isYesNoOptions($options)) {
-            $booleanToken = $this->extractBooleanAnswer($answer);
+            $booleanToken = $this->extractBooleanAnswer($answer)
+                ?? $this->extractAgeThresholdBoolean($question['label'] ?? '', $answer);
 
             if ($booleanToken !== null) {
                 $matched = $this->matchAnswerToOption($booleanToken, $options);
@@ -284,16 +314,54 @@ class ApplicationAssistantService
 
     /**
      * @param  array<int, string>  $options
+     * @return array<int, string>
+     */
+    private function meaningfulChoiceOptions(array $options): array
+    {
+        $filtered = [];
+
+        foreach ($options as $option) {
+            if (! is_string($option)) {
+                continue;
+            }
+
+            $trimmed = trim($option);
+
+            if ($trimmed === '' || $this->isPlaceholderChoiceOption($trimmed)) {
+                continue;
+            }
+
+            $filtered[] = $trimmed;
+        }
+
+        return $filtered;
+    }
+
+    private function isPlaceholderChoiceOption(string $option): bool
+    {
+        $normalized = $this->normalizeQuestionLabel($option);
+
+        if ($normalized === '') {
+            return true;
+        }
+
+        return preg_match('/^(select an option|choose an option|choose one|please select|please choose|select(\s*\.\.\.?)?|--)$/u', $normalized) === 1;
+    }
+
+    /**
+     * @param  array<int, string>  $options
      */
     private function isYesNoOptions(array $options): bool
     {
-        if (count($options) !== 2) {
+        $meaningful = $this->meaningfulChoiceOptions($options);
+
+        if (count($meaningful) !== 2) {
             return false;
         }
 
         $normalized = array_map(
             fn (string $option): string => $this->normalizeQuestionLabel($option),
-            $options,
+            $meaningful,
         );
 
         sort($normalized);
@@ -328,6 +396,29 @@ class ApplicationAssistantService
         }
 
         return null;
+    }
+
+    private function extractAgeThresholdBoolean(string $label, string $answer): ?string
+    {
+        if (preg_match('/\b(?:over|above|at least|older than)\s+(?:the\s+)?age\s+of\s+(\d{1,3})\b/ui', $label, $thresholdMatch) !== 1
+            && preg_match('/\b(\d{1,3})\s*\+\s*(?:years?\s+old)?\b/ui', $label, $thresholdMatch) !== 1) {
+            return null;
+        }
+
+        $threshold = (int) $thresholdMatch[1];
+        $age = null;
+
+        if (preg_match('/(?:^(?:i am|i\'m)\s*(\d{1,3})\b|\b(\d{1,3})\s*(?:years?|yrs?)\s*old\b)/ui', $answer, $ageMatch) === 1) {
+            $age = (int) ($ageMatch[1] !== '' ? $ageMatch[1] : $ageMatch[2]);
+        } elseif (preg_match('/^\d{1,3}$/u', trim($answer)) === 1) {
+            $age = (int) trim($answer);
+        }
+
+        if ($age === null) {
+            return null;
+        }
+
+        return $age >= $threshold ? 'yes' : 'no';
     }
 
     /**

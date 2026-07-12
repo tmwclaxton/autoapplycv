@@ -1,0 +1,42 @@
+{
+  "id": "https-beta-jobs-nhs-uk-candidate-jobadvert-a5226-26-0035",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:50:42.873Z",
+  "page_url": "https://beta.jobs.nhs.uk/candidate/jobadvert/A5226-26-0035",
+  "page_title": "Job Advert",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Accept analytics cookies"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The job advertisement page is closed and does not contain an active application form. The link provided in the text leads to an external URL (https://nexushealthgroup.nhs.uk/2025-application-form). The only form fields present are for cookie consent.",
+    "fields": [
+      {
+        "question": "Accept analytics cookies",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "true",
+          "false"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

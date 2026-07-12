@@ -1,0 +1,536 @@
+{
+  "id": "https-guestresearcher-jobs-personio-com-job-2491001",
+  "min_fields": 24,
+  "exact_field_count": 24,
+  "fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-first_name",
+        "name": "first_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "First",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-last_name",
+        "name": "last_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Last",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "academic title",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Other / no indication",
+        "Dr.",
+        "Professor Dr.",
+        "PhD",
+        "Private Lecturer Dr."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3351077",
+        "name": "custom_attribute_3351077",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "female",
+        "male",
+        "diverse",
+        "no entry"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3781841",
+        "name": "custom_attribute_3781841",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email ( )",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "field-email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "yourmail@domain.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+49 176 123 4455",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "title of your proposed research project: ( ) title of your proposed research project:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765243",
+        "name": "custom_attribute_3765243",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Title of your proposed research project:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "home institution: ( ) home institution:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765315",
+        "name": "custom_attribute_3765315",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Home Institution:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country of home institution: ( ) country of home institution:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3896441",
+        "name": "custom_attribute_3896441",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Country of home institution:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "professional status and current position: ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "PhD student",
+        "Postdoc",
+        "Professor",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3765317",
+        "name": "custom_attribute_3765317",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you hold a phd, in what year did you defend your thesis? ( ) if you hold a phd, in what year did you defend your thesis?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765345",
+        "name": "custom_attribute_3765345",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "If you hold a PhD, in what year did you defend your thesis?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred dates of stay: ( ) preferred dates of stay:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765348",
+        "name": "custom_attribute_3765348",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Preferred dates of stay:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "proposed length of research visit (5 working days to 6 weeks): ( ) proposed length of research visit (5 working days to 6 weeks):",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765349",
+        "name": "custom_attribute_3765349",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Proposed length of research visit (5 working days to 6 weeks):",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gesis department with which you want to collaborate: ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Computational Social Science (CSS)",
+        "Data Services for the Social Sciences (DSS)",
+        "Data and Research on Society (DRS)",
+        "Knowledge Exchange and Outreach (KEO)",
+        "Knowledge Technologies for the Social Sciences (KTS)",
+        "Survey Data Curation (SDC)",
+        "Survey Design and Methodology (SDM)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3765355",
+        "name": "custom_attribute_3765355",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gesis staff member(s) with whom you would like to collaborate: ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Jessica #SurveyData, #LinkedData, #Representation",
+        "Fabienne #SurveyData, #Measurement",
+        "Cagla #SurveyData, #Measurement",
+        "Fiona #DBD, #Sensor",
+        "Thomas #DBD, #TextData, #Measurement",
+        "Laura #SurveyData, #TextData",
+        "Yannik #DBD, #TextData, #Representation",
+        "Anne #LinkedData, #GeoData",
+        "Florian #SurveyData, #LinkedData",
+        "Sina #DBD, #AI",
+        "Leah #DBD, #AI"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_4309843",
+        "name": "custom_attribute_4309843",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "statistical software (please list the software you need): ( ) statistical software (please list the software you need):",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765362",
+        "name": "custom_attribute_3765362",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Statistical software (please list the software you need):",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other support needed: ( ) other support needed:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765363",
+        "name": "custom_attribute_3765363",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Other support needed:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about the kodaqs data quality call? ( ) how did you hear about the kodaqs data quality call?",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3972832",
+        "name": "custom_attribute_3972832",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "How did you hear about the KODAQS Data Quality Call?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "is your application motivated by a gesis ambassador ( )",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3765367",
+        "name": "custom_attribute_3765367",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please indicate the name of the ambassador: ( ) if yes, please indicate the name of the ambassador:",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765386",
+        "name": "custom_attribute_3765386",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "If yes, please indicate the name of the Ambassador:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "access to data sets (please list the data sets you intend to use): ( ) access to data sets (please list the data sets you intend to use):",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3765361",
+        "name": "custom_attribute_3765361",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Access to data sets (please list the data sets you intend to use):",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cv",
+        "name": "documents.cv",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cover-letter",
+        "name": "documents.cover-letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-other",
+        "name": "documents.other",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

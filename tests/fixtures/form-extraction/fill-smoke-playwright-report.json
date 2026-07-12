@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-10T21:03:53.026Z",
+  "generated_at": "2026-07-12T16:05:48.289Z",
   "totals": {
     "scenarios": 13,
     "evaluated": 10,
-    "passed": 10,
-    "failed": 0,
-    "pass_rate": 1,
+    "passed": 8,
+    "failed": 2,
+    "pass_rate": 0.8,
     "critical_total": 6,
-    "critical_passed": 6,
-    "critical_pass_rate": 1,
+    "critical_passed": 4,
+    "critical_pass_rate": 0.6667,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -68,13 +68,19 @@
       "id": "web-boards-greenhouse-io-8614025002",
       "platform": "greenhouse",
       "priority": "critical",
-      "passed": true,
+      "passed": false,
       "plan_count": 34,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 0,
       "a11y_failures": 15,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "phone",
+          "ref": "f3",
+          "expected": "FillVerify-3"
+        },
         {
           "stage": "a11yState",
           "field": "phone",
@@ -117,10 +123,10 @@
         },
         {
           "stage": "a11yState",
-          "field": "current address (city – state – zip code)",
+          "field": "years of pharma experience years of pharma experience current address (city – state – zip code)",
           "ref": "f20",
           "message": "comboboxEmpty",
-          "expected": "FillVerify-14",
+          "expected": "FillVerify-19",
           "actual": ""
         },
         {
@@ -217,12 +223,6 @@
           "fieldType": "text"
         },
         {
-          "ref": "f3",
-          "expected": "FillVerify-3",
-          "actual": "FillVerify-3",
-          "fieldType": "text"
-        },
-        {
           "ref": "f11",
           "expected": "FillVerify-5",
           "actual": "FillVerify-5",
@@ -277,37 +277,37 @@
           "fieldType": "text"
         },
         {
-          "ref": "f20",
+          "ref": "f17",
           "expected": "FillVerify-14",
           "actual": "FillVerify-14",
           "fieldType": "text"
         },
         {
-          "ref": "f17",
+          "ref": "f18",
           "expected": "FillVerify-15",
           "actual": "FillVerify-15",
           "fieldType": "text"
         },
         {
-          "ref": "f18",
+          "ref": "f19",
           "expected": "FillVerify-16",
           "actual": "FillVerify-16",
           "fieldType": "text"
         },
         {
-          "ref": "f19",
+          "ref": "f21",
           "expected": "FillVerify-17",
           "actual": "FillVerify-17",
           "fieldType": "text"
         },
         {
-          "ref": "f21",
+          "ref": "f22",
           "expected": "FillVerify-18",
           "actual": "FillVerify-18",
           "fieldType": "text"
         },
         {
-          "ref": "f22",
+          "ref": "f20",
           "expected": "FillVerify-19",
           "actual": "FillVerify-19",
           "fieldType": "text"
@@ -443,10 +443,10 @@
               "actual": ""
             },
             {
-              "field": "current address (city – state – zip code)",
+              "field": "years of pharma experience years of pharma experience current address (city – state – zip code)",
               "ref": "f20",
               "reason": "comboboxEmpty",
-              "expected": "FillVerify-14",
+              "expected": "FillVerify-19",
               "actual": ""
             },
             {
@@ -720,7 +720,7 @@
         {
           "stage": "a11yState",
           "field": "nopolicy",
-          "ref": "f14",
+          "ref": "f13",
           "message": "checkboxNotChecked",
           "expected": "*",
           "actual": []
@@ -729,31 +729,31 @@
       "readback_failures_detail": [],
       "readbacks": [
         {
-          "ref": "f2",
+          "ref": "f1",
           "expected": "FillVerify-0",
           "actual": "FillVerify-0",
           "fieldType": "text"
         },
         {
-          "ref": "f3",
+          "ref": "f2",
           "expected": "FillVerify-1",
           "actual": "FillVerify-1",
           "fieldType": "text"
         },
         {
-          "ref": "f4",
+          "ref": "f3",
           "expected": "fillverify2@test.example",
           "actual": "fillverify2@test.example",
           "fieldType": "email"
         },
         {
-          "ref": "f5",
+          "ref": "f4",
           "expected": "fillverify3@test.example",
           "actual": "fillverify3@test.example",
           "fieldType": "email"
         },
         {
-          "ref": "f14",
+          "ref": "f13",
           "expected": "*",
           "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
           "fieldType": "checkbox"
@@ -765,7 +765,7 @@
           "failures": [
             {
               "field": "nopolicy",
-              "ref": "f14",
+              "ref": "f13",
               "reason": "checkboxNotChecked",
               "expected": "*",
               "actual": []
@@ -784,17 +784,23 @@
       "id": "web-oraclecloud-apply-flow-itv",
       "platform": "oracle",
       "priority": "critical",
-      "passed": true,
+      "passed": false,
       "plan_count": 3,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 0,
       "a11y_failures": 2,
-      "error_banner_count": 0,
+      "error_banner_count": 1,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "where did you hear about this opportunity?",
+          "ref": "f12",
+          "expected": "LinkedIn"
+        },
         {
           "stage": "a11yState",
           "field": "where did you hear about this opportunity?",
-          "ref": "f7",
+          "ref": "f12",
           "message": "comboboxEmpty",
           "expected": "LinkedIn",
           "actual": ""
@@ -802,28 +808,28 @@
         {
           "stage": "a11yState",
           "field": "do you have a disability?",
-          "ref": "f8",
+          "ref": "f13",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
+        },
+        {
+          "stage": "errorBanner",
+          "field": null,
+          "expected": "no errors",
+          "actual": "[aria-invalid=\"true\"]"
         }
       ],
       "readback_failures_detail": [],
       "readbacks": [
         {
-          "ref": "f7",
-          "expected": "LinkedIn",
-          "actual": "LinkedIn",
-          "fieldType": "select"
-        },
-        {
-          "ref": "f8",
+          "ref": "f13",
           "expected": "No",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f9",
+          "ref": "f14",
           "expected": "FillVerify-8",
           "actual": "FillVerify-8",
           "fieldType": "text"
@@ -835,14 +841,14 @@
           "failures": [
             {
               "field": "where did you hear about this opportunity?",
-              "ref": "f7",
+              "ref": "f12",
               "reason": "comboboxEmpty",
               "expected": "LinkedIn",
               "actual": ""
             },
             {
               "field": "do you have a disability?",
-              "ref": "f8",
+              "ref": "f13",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
@@ -850,8 +856,8 @@
           ]
         },
         "errorBanner": {
-          "passed": true,
-          "error_count": 0
+          "passed": false,
+          "error_count": 1
         }
       },
       "verify_engine": "playwright",
@@ -1094,14 +1100,6 @@
         {
           "stage": "a11yState",
           "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-          "ref": "f28",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have a driver's license?",
           "ref": "f29",
           "message": "radioGroupSelectionCount",
           "expected": 1,
@@ -1109,7 +1107,7 @@
         },
         {
           "stage": "a11yState",
-          "field": "do you have current right to work in the uk?",
+          "field": "do you have a driver's license?",
           "ref": "f30",
           "message": "radioGroupSelectionCount",
           "expected": 1,
@@ -1117,8 +1115,16 @@
         },
         {
           "stage": "a11yState",
+          "field": "do you have current right to work in the uk?",
+          "ref": "f31",
+          "message": "radioGroupSelectionCount",
+          "expected": 1,
+          "actual": 0
+        },
+        {
+          "stage": "a11yState",
           "field": "will you require sponsorship within the next 12 months?",
-          "ref": "f78",
+          "ref": "f59",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -1151,26 +1157,20 @@
           "fieldType": "tel"
         },
         {
-          "ref": "f17",
+          "ref": "f18",
           "expected": "FillVerify-14",
           "actual": "FillVerify-14",
           "fieldType": "text"
         },
         {
-          "ref": "f19",
+          "ref": "f20",
           "expected": "FillVerify-16",
           "actual": "FillVerify-16",
           "fieldType": "text"
         },
         {
-          "ref": "f28",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
           "ref": "f29",
-          "expected": "Yes",
+          "expected": "SVGs not supported by this browser. YES",
           "actual": "checked",
           "fieldType": "radio"
         },
@@ -1181,7 +1181,13 @@
           "fieldType": "radio"
         },
         {
-          "ref": "f78",
+          "ref": "f31",
+          "expected": "Yes",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f59",
           "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
@@ -1193,28 +1199,28 @@
           "failures": [
             {
               "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-              "ref": "f28",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have a driver's license?",
               "ref": "f29",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
-              "field": "do you have current right to work in the uk?",
+              "field": "do you have a driver's license?",
               "ref": "f30",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
+              "field": "do you have current right to work in the uk?",
+              "ref": "f31",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
               "field": "will you require sponsorship within the next 12 months?",
-              "ref": "f78",
+              "ref": "f59",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
@@ -1248,12 +1254,12 @@
     },
     "greenhouse": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 1,
-      "critical_passed": 1,
-      "pass_rate": 1,
-      "critical_pass_rate": 1
+      "critical_passed": 0,
+      "pass_rate": 0,
+      "critical_pass_rate": 0
     },
     "lever": {
       "total": 1,
@@ -1284,12 +1290,12 @@
     },
     "oracle": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 1,
-      "critical_passed": 1,
-      "pass_rate": 1,
-      "critical_pass_rate": 1
+      "critical_passed": 0,
+      "pass_rate": 0,
+      "critical_pass_rate": 0
     },
     "teamtailor": {
       "total": 1,
@@ -1337,11 +1343,16 @@
       "report": {
         "mode": "fixture",
         "reactLike": {
-          "appliedByRef": true,
-          "appliedByLabel": true,
-          "applied": true,
-          "selection": "Yes",
-          "checkboxChecked": true
+          "yesApplied": true,
+          "noApplied": true,
+          "yes": {
+            "selection": "Yes",
+            "checkboxChecked": true
+          },
+          "no": {
+            "selection": "No",
+            "checkboxChecked": false
+          }
         },
         "fixture": {
           "failures": [],
@@ -1360,7 +1371,7 @@
               "applied": true,
               "after": "No",
               "expected": "No",
-              "checkboxChecked": true
+              "checkboxChecked": false
             }
           }
         },

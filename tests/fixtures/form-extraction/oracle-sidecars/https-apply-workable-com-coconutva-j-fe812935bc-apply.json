@@ -1,16 +1,16 @@
 {
   "id": "https-apply-workable-com-coconutva-j-fe812935bc-apply",
   "status": "agree",
-  "captured_at": "2026-07-10T19:51:51.810Z",
+  "captured_at": "2026-07-10T22:20:45.785Z",
   "page_url": "https://apply.workable.com/coconutva/j/FE812935BC/apply/",
   "page_title": "✨ Coconut VA Philippine Talent Pool ✨ - Coconut - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 22,
+      "detector_count": 16,
       "ai_count": 4,
-      "count_delta": 18,
-      "label_jaccard": 0.2667,
+      "count_delta": 12,
+      "label_jaccard": 0.25,
       "type_agree_rate": 1,
       "matched_count": 4
     },
@@ -45,6 +45,7 @@
       }
     ],
     "detector_only": [
+      "address",
       "resume",
       "what's your cefr english proficiency level?",
       "list all tools/software/platforms you've had experience with (admin tools, crms, project management platforms, marketing platforms, page builders, etc.). separate entries with a comma.",
@@ -55,10 +56,6 @@
       "do you prefer being a managed talent or a direct hire?",
       "how did you learn about coconut?",
       "if you were referred, sourced by a head hunter/technical recruiter, or you chose other, please specify. put n/a if you've chosen something else.",
-      "have you uploaded a resume following the coconut profile template? (https://bit.ly/cvaprofiletemplate)",
-      "how many hours a week can you work?",
-      "do you prefer being a managed talent or a direct hire?",
-      "how did you learn about coconut?",
       "have you uploaded a resume following the coconut profile template? (https://bit.ly/cvaprofiletemplate)"
     ],
     "ai_only": [],
@@ -66,7 +63,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt provided is truncated, so only the initial fields (First name, Last name, Email, Phone) are captured. The phone input uses a country code selector (combobox) which is part of the 'iti' library.",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload, LinkedIn, or screening questions) that typically appear in Workable forms are missing from this output.",
     "fields": [
       {
         "question": "First name",
@@ -116,94 +113,64 @@
       "ref": "f3"
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "first name",
-      "field_type": "text",
+      "question": "resume",
+      "field_type": "file",
       "ref": "f5"
     },
     {
-      "question": "first name",
-      "field_type": "text",
-      "ref": "f6"
-    },
-    {
-      "question": "resume",
-      "field_type": "file",
-      "ref": "f7"
-    },
-    {
       "question": "what's your cefr english proficiency level?",
-      "field_type": "text",
-      "ref": "f8"
+      "field_type": "select",
+      "ref": "f6"
     },
     {
       "question": "list all tools/software/platforms you've had experience with (admin tools, crms, project management platforms, marketing platforms, page builders, etc.). separate entries with a comma.",
       "field_type": "textarea",
-      "ref": "f9"
+      "ref": "f7"
     },
     {
       "question": "drop the link to your 1-minute intro video below. broken or dummy links will result in disqualification.",
       "field_type": "text",
-      "ref": "f10"
+      "ref": "f8"
     },
     {
       "question": "what monthly rate range in usd are you expecting? please be realistic & reasonable with your selection based on experience and location.",
-      "field_type": "text",
-      "ref": "f11"
+      "field_type": "select",
+      "ref": "f9"
     },
     {
       "question": "how many hours a week can you work?",
       "field_type": "radio",
-      "ref": "f12"
+      "ref": "f10"
     },
     {
       "question": "indicate the specific job code/s you're applying to. separate entries with a comma. if you're submitting a general application, type genapp.",
       "field_type": "text",
-      "ref": "f13"
+      "ref": "f11"
     },
     {
       "question": "do you prefer being a managed talent or a direct hire?",
       "field_type": "radio",
-      "ref": "f14"
+      "ref": "f12"
     },
     {
       "question": "how did you learn about coconut?",
       "field_type": "radio",
-      "ref": "f15"
+      "ref": "f13"
     },
     {
       "question": "if you were referred, sourced by a head hunter/technical recruiter, or you chose other, please specify. put n/a if you've chosen something else.",
       "field_type": "text",
-      "ref": "f16"
+      "ref": "f14"
     },
     {
       "question": "have you uploaded a resume following the coconut profile template? (https://bit.ly/cvaprofiletemplate)",
       "field_type": "radio",
-      "ref": "f17"
-    },
-    {
-      "question": "how many hours a week can you work?",
-      "field_type": "radio",
-      "ref": "f18"
-    },
-    {
-      "question": "do you prefer being a managed talent or a direct hire?",
-      "field_type": "radio",
-      "ref": "f19"
-    },
-    {
-      "question": "how did you learn about coconut?",
-      "field_type": "radio",
-      "ref": "f20"
-    },
-    {
-      "question": "have you uploaded a resume following the coconut profile template? (https://bit.ly/cvaprofiletemplate)",
-      "field_type": "radio",
-      "ref": "f21"
+      "ref": "f15"
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { arrayBufferToBase64, triggerBrowserDownload } from './file-transfer.js';
+import { encodeForWinAnsiPdf, normalizePdfText } from './pdf-win-ansi.js';
 
 const PDF_WIDTH = 612;
 const PDF_HEIGHT = 792;
@@ -23,18 +24,11 @@ const PARAGRAPH_GAP = 10;
 const HEADER_GAP_BEFORE_BODY = 22;
 
 function normalizeForPdfText(text) {
-    return text
-        .replace(/\u2014/g, '-')
-        .replace(/\u2013/g, '-')
-        .replace(/[\u2018\u2019]/g, "'")
-        .replace(/[\u201C\u201D]/g, '"')
-        .replace(/\u2026/g, '...')
-        .replace(/\u00A0/g, ' ')
-        .replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, '?');
+    return normalizePdfText(text);
 }
 
 function escapePdfString(value) {
-    return value
+    return encodeForWinAnsiPdf(normalizePdfText(value))
         .replace(/\\/g, '\\\\')
         .replace(/\(/g, '\\(')
         .replace(/\)/g, '\\)')
@@ -342,7 +336,17 @@ export function buildCoverLetterPdfBytes(text, options = {}) {
         `trailer\n<< /Size ${lastObjectNumber + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`,
     );
 
-    return new TextEncoder().encode(chunks.join(''));
+    return stringToLatin1Bytes(chunks.join(''));
+}
+
+function stringToLatin1Bytes(text) {
+    const bytes = new Uint8Array(text.length);
+
+    for (let index = 0; index < text.length; index += 1) {
+        bytes[index] = text.charCodeAt(index) & 0xff;
+    }
+
+    return bytes;
 }
 
 export function buildCoverLetterPdfFileName({ jobTitle = null, company = null } = {}) {
@@ -360,7 +364,7 @@ export function buildCoverLetterPdfFileName({ jobTitle = null, company = null } 
 
 export function downloadCoverLetterPdf({ text, fileName, profile = null, job = null }) {
     const bytes = buildCoverLetterPdfBytes(text, { profile, job });
-    const base64 = arrayBufferToBase64(bytes.buffer);
+    const base64 = arrayBufferToBase64(bytes);
 
     triggerBrowserDownload({
         base64,

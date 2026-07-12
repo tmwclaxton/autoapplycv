@@ -1,0 +1,397 @@
+{
+  "id": "https-fatturaelettronicapa-breezy-hr-p-ad9ac20ddf20-full-stack-web-app-developer",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:38:14.837Z",
+  "page_url": "https://fatturaelettronicapa.breezy.hr/p/ad9ac20ddf20-full-stack-web-app-developer-saas-mid-senior/apply",
+  "page_title": "Full-Stack Web App Developer Saas (Mid-Senior)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 18,
+      "count_delta": 2,
+      "label_jaccard": 0.8095,
+      "type_agree_rate": 0.9412,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "nome completo",
+        "ai": "Nome completo",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "indirizzo e-mail",
+        "ai": "Indirizzo e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "numero di telefono",
+        "ai": "Numero di telefono",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "experience with cakephp",
+        "ai": "Experience with Cakephp",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "experience with javascript and jquery",
+        "ai": "Experience with JavaScript and jQuery",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "experience with css",
+        "ai": "Experience with CSS",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "direct experience with unit test",
+        "ai": "Direct Experience with Unit Test",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "experience with ai-assisted tools (cursor, github pilot, ecc)",
+        "ai": "Experience with AI-assisted tools (Cursor, Github Pilot, ecc)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "experience with git",
+        "ai": "Experience with Git",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "hands-on experience developing modern web app (for large user bases)",
+        "ai": "Hands-on experience developing modern Web App (for large user bases)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "conoscenza lingua italiana",
+        "ai": "Conoscenza lingua Italiana",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "share 2-3 bullet points on why you are the right fit for the fatturaelettronica app.",
+        "ai": "Share 2-3 bullet points on why you are the right fit for the FatturaElettronica APP.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "send us examples of software you’ve built or worked on that you’re most proud of (including personal projects): links, screenshots, videos, zip files, demo",
+        "ai": "Send us examples of software you’ve built or worked on that you’re most proud of (including personal projects): links, screenshots, videos, zip files, demo",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "(file attachment for the question above)",
+        "ai": "(file attachment for the question above)",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "if you’ve developed and launched a web app, share the link",
+        "ai": "If you’ve developed and launched a web app, share the link",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "drop a link to your github profile.",
+        "ai": "Drop a link to your GitHub profile.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "drop a link to your linkedin profile",
+        "ai": "Drop a link to your Linkedin profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "hp_7f2b hp_7f2b",
+      "recruitment privacy notice"
+    ],
+    "ai_only": [
+      "Carica Curriculum"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. Some fields are dynamically generated from a JSON object in the HTML. The 'Conoscenza lingua Italiana' field has conditional logic that may disqualify the candidate.",
+    "fields": [
+      {
+        "question": "Carica Curriculum",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Indirizzo e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Numero di telefono",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Experience with Cakephp",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Experience with JavaScript and jQuery",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Experience with CSS",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Direct Experience with Unit Test",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Experience with AI-assisted tools (Cursor, Github Pilot, ecc)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Experience with Git",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Hands-on experience developing modern Web App (for large user bases)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "question": "Conoscenza lingua Italiana",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Nessuna",
+          "Accettabile, capisco ma non parlo o scrivo bene",
+          "Buona, riesco a parlare e a scrivere",
+          "Ottima, parlo e scrivo senza nessun problema"
+        ]
+      },
+      {
+        "question": "Share 2-3 bullet points on why you are the right fit for the FatturaElettronica APP.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Send us examples of software you’ve built or worked on that you’re most proud of (including personal projects): links, screenshots, videos, zip files, demo",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "(file attachment for the question above)",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "If you’ve developed and launched a web app, share the link",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Drop a link to your GitHub profile.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Drop a link to your Linkedin profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "nome completo",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "indirizzo e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "numero di telefono",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "experience with cakephp",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "experience with javascript and jquery",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "experience with css",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "direct experience with unit test",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "experience with ai-assisted tools (cursor, github pilot, ecc)",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "experience with git",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "hands-on experience developing modern web app (for large user bases)",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "conoscenza lingua italiana",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "share 2-3 bullet points on why you are the right fit for the fatturaelettronica app.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "send us examples of software you’ve built or worked on that you’re most proud of (including personal projects): links, screenshots, videos, zip files, demo",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "(file attachment for the question above)",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "if you’ve developed and launched a web app, share the link",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "drop a link to your github profile.",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "drop a link to your linkedin profile",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "recruitment privacy notice",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}
