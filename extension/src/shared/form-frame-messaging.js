@@ -237,9 +237,28 @@ export async function clickInventoryRefOnTab(tabId, ref, frameId) {
     return sendTabMessage(tabId, { type: 'INVENTORY_CLICK_REF', ref }, resolvedFrameId);
 }
 
+export function computeApplyDraftBatchTimeoutMs(answers = []) {
+    const perAnswerMs = (answers || []).reduce((total, answer) => {
+        const answerText = typeof answer?.answer === 'string' ? answer.answer : '';
+        const fieldType = answer?.field_type || '';
+
+        if (fieldType === 'tel' || fieldType === 'select') {
+            return total + 45_000;
+        }
+
+        if (fieldType === 'textarea' || answerText.length > 120) {
+            return total + 45_000;
+        }
+
+        return total + 20_000;
+    }, 0);
+
+    return Math.min(300_000, Math.max(45_000, 10_000 + perAnswerMs));
+}
+
 export async function applyDraftBatchToTab(tabId, answers, frameId) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
-    const timeoutMs = 45_000;
+    const timeoutMs = computeApplyDraftBatchTimeoutMs(answers);
 
     try {
         return await Promise.race([
@@ -267,6 +286,7 @@ export async function applyDraftAnswerToTab(tabId, label, answer, options = {}) 
         ref: options.ref || null,
         dom: options.dom || null,
         field_type: options.field_type || null,
+        options: options.options || null,
         data_field_path: options.data_field_path || options.dom?.data_field_path || null,
     }, resolvedFrameId);
 }

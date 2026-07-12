@@ -1,3 +1,9 @@
+import {
+    isCountryOnlyLocation,
+    resolveGlassdoorHost,
+    resolveJobBoardMarket,
+} from './job-board-market.js';
+
 export const GLASSDOOR_PLATFORM_ID = 'glassdoor';
 
 /**
@@ -26,15 +32,37 @@ export function slugifyGlassdoorSegment(text) {
 }
 
 /**
- * @param {string} roleDescription
- * @param {{ filters?: GlassdoorSearchFilters|null, page?: number, easyApplyOnly?: boolean }} [options]
+ * @param {{ host?: string|null, location?: string|null, filters?: GlassdoorSearchFilters|null }} [options]
  * @returns {string}
  */
-export function buildGlassdoorJobSearchUrl(roleDescription, {
+export function resolveGlassdoorHostFromOptions({
+    host = null,
+    location = null,
     filters = null,
-    page = 1,
-    easyApplyOnly = true,
 } = {}) {
+    const explicit = String(host || '')
+        .trim()
+        .replace(/^https?:\/\//i, '')
+        .replace(/\/+$/, '');
+
+    if (explicit) {
+        return explicit;
+    }
+
+    const locationText = String(location || filters?.location || '').trim();
+
+    return resolveGlassdoorHost(resolveJobBoardMarket(locationText));
+}
+
+/**
+ * @param {string} roleDescription
+ * @param {{ filters?: GlassdoorSearchFilters|null, page?: number, easyApplyOnly?: boolean, host?: string|null }} [options]
+ * @returns {string}
+ */
+export function buildGlassdoorJobSearchUrl(
+    roleDescription,
+    { filters = null, page = 1, easyApplyOnly = true, host = null } = {},
+) {
     const keyword = String(roleDescription || '').trim();
 
     if (!keyword) {
@@ -48,7 +76,10 @@ export function buildGlassdoorJobSearchUrl(roleDescription, {
     const location = String(filters?.location || '').trim();
 
     if (location) {
-        params.set('locT', 'C');
+        if (!isCountryOnlyLocation(location)) {
+            params.set('locT', 'C');
+        }
+
         params.set('locKeyword', location);
     }
 
@@ -60,7 +91,9 @@ export function buildGlassdoorJobSearchUrl(roleDescription, {
         params.set('p', String(page));
     }
 
-    return `https://www.glassdoor.com/Job/jobs.htm?${params.toString()}`;
+    const baseHost = resolveGlassdoorHostFromOptions({ host, filters });
+
+    return `https://${baseHost}/Job/jobs.htm?${params.toString()}`;
 }
 
 /**
@@ -71,8 +104,10 @@ export function isGlassdoorJobsSearchUrl(url) {
     try {
         const parsed = new URL(url);
 
-        return isGlassdoorHostname(parsed.hostname)
-            && /^\/Job\/(jobs|index)\.htm$/i.test(parsed.pathname);
+        return (
+            isGlassdoorHostname(parsed.hostname) &&
+            /^\/Job\/(jobs|index)\.htm$/i.test(parsed.pathname)
+        );
     } catch {
         return false;
     }
@@ -84,24 +119,40 @@ export function isGlassdoorJobsSearchUrl(url) {
  */
 export function readGlassdoorJobIdFromHref(href) {
     const text = String(href || '');
-    const match = text.match(/[?&](?:jl|jobListingId)=(\d+)/i)
-        || text.match(/[?&]jl=(\d+)/i);
+    const match =
+        text.match(/[?&](?:jl|jobListingId)=(\d+)/i) ||
+        text.match(/[?&]jl=(\d+)/i);
 
     return match?.[1] || null;
 }
 
 /**
  * @param {string} jobId
- * @param {{ path?: string|null, url?: string|null }} [options]
+ * @param {{ path?: string|null, url?: string|null, host?: string|null, location?: string|null, filters?: GlassdoorSearchFilters|null }} [options]
  * @returns {string}
  */
-export function buildGlassdoorJobOpenUrl(jobId, { path = null, url = null } = {}) {
+export function buildGlassdoorJobOpenUrl(
+    jobId,
+    {
+        path = null,
+        url = null,
+        host = null,
+        location = null,
+        filters = null,
+    } = {},
+) {
     const explicitUrl = String(url || '').trim();
 
     if (explicitUrl.startsWith('http')) {
         return explicitUrl;
     }
 
+    const baseHost = resolveGlassdoorHostFromOptions({
+        host,
+        location,
+        filters,
+    });
+    const origin = `https://${baseHost}`;
     const explicitPath = String(path || '').trim();
 
     if (explicitPath.startsWith('http')) {
@@ -109,7 +160,7 @@ export function buildGlassdoorJobOpenUrl(jobId, { path = null, url = null } = {}
     }
 
     if (explicitPath.startsWith('/')) {
-        return `https://www.glassdoor.com${explicitPath}`;
+        return `${origin}${explicitPath}`;
     }
 
     const numericId = String(jobId || '').trim();
@@ -118,7 +169,7 @@ export function buildGlassdoorJobOpenUrl(jobId, { path = null, url = null } = {}
         throw new Error(`Invalid Glassdoor job id: ${jobId}`);
     }
 
-    return `https://www.glassdoor.com/job-listing/job.htm?jl=${numericId}`;
+    return `${origin}/job-listing/job.htm?jl=${numericId}`;
 }
 
 /**
@@ -127,27 +178,42 @@ export function buildGlassdoorJobOpenUrl(jobId, { path = null, url = null } = {}
  * @param {GlassdoorSearchFilters|null|undefined} filters
  * @returns {boolean}
  */
-export function urlsMatchGlassdoorSearch(currentUrl, expectedUrl, filters = null) {
+export function urlsMatchGlassdoorSearch(
+    currentUrl,
+    expectedUrl,
+    filters = null,
+) {
     try {
         const current = new URL(currentUrl);
         const expected = new URL(expectedUrl);
 
-        if (!isGlassdoorJobsSearchUrl(currentUrl) || !isGlassdoorJobsSearchUrl(expectedUrl)) {
+        if (
+            !isGlassdoorJobsSearchUrl(currentUrl) ||
+            !isGlassdoorJobsSearchUrl(expectedUrl)
+        ) {
             return false;
         }
 
         const currentKeyword = current.searchParams.get('sc.keyword0') || '';
         const expectedKeyword = expected.searchParams.get('sc.keyword0') || '';
 
-        if (slugifyGlassdoorSegment(currentKeyword) !== slugifyGlassdoorSegment(expectedKeyword)) {
+        if (
+            slugifyGlassdoorSegment(currentKeyword) !==
+            slugifyGlassdoorSegment(expectedKeyword)
+        ) {
             return false;
         }
 
         const currentLocation = current.searchParams.get('locKeyword') || '';
-        const expectedLocation = expected.searchParams.get('locKeyword')
-            || String(filters?.location || '').trim();
+        const expectedLocation =
+            expected.searchParams.get('locKeyword') ||
+            String(filters?.location || '').trim();
 
-        if (expectedLocation && slugifyGlassdoorSegment(currentLocation) !== slugifyGlassdoorSegment(expectedLocation)) {
+        if (
+            expectedLocation &&
+            slugifyGlassdoorSegment(currentLocation) !==
+                slugifyGlassdoorSegment(expectedLocation)
+        ) {
             return false;
         }
 

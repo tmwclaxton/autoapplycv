@@ -9,14 +9,30 @@ import {
 } from '../../extension/src/shared/glassdoor-platform.js';
 
 describe('glassdoor-platform', () => {
-    it('buildGlassdoorJobSearchUrl includes role and location', () => {
+    it('buildGlassdoorJobSearchUrl includes role and location on UK host', () => {
         const url = buildGlassdoorJobSearchUrl('software engineer', {
             filters: { location: 'London' },
         });
 
+        assert.match(url, /www\.glassdoor\.co\.uk/);
         assert.match(url, /sc\.keyword0=software\+engineer/);
         assert.match(url, /locKeyword=London/);
+        assert.match(url, /locT=C/);
         assert.match(url, /applicationType=1/);
+    });
+
+    it('buildGlassdoorJobSearchUrl uses .com for US locations and skips locT for country-only', () => {
+        const usUrl = buildGlassdoorJobSearchUrl('Scientist', {
+            filters: { location: 'San Jose CA USA' },
+        });
+        const countryUrl = buildGlassdoorJobSearchUrl('Scientist', {
+            filters: { location: 'United States' },
+        });
+
+        assert.match(usUrl, /www\.glassdoor\.com/);
+        assert.match(usUrl, /locT=C/);
+        assert.match(countryUrl, /www\.glassdoor\.com/);
+        assert.equal(new URL(countryUrl).searchParams.get('locT'), null);
     });
 
     it('readGlassdoorJobIdFromHref parses jl and jobListingId query params', () => {
@@ -56,5 +72,6 @@ describe('glassdoor-platform', () => {
         const current = 'https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=data+engineer&locKeyword=Manchester';
 
         assert.equal(urlsMatchGlassdoorSearch(current, expected, { location: 'Manchester' }), true);
+        assert.match(expected, /www\.glassdoor\.co\.uk/);
     });
 });

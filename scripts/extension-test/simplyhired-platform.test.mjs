@@ -14,6 +14,12 @@ test('buildSimplyHiredJobSearchUrl includes role and location', () => {
     assert.equal(url, 'https://www.simplyhired.co.uk/search?q=Software+Engineer&l=London');
 });
 
+test('buildSimplyHiredJobSearchUrl uses .com for US locations', () => {
+    const url = buildSimplyHiredJobSearchUrl('Scientist', { filters: { location: 'San Jose CA USA' } });
+
+    assert.equal(url, 'https://www.simplyhired.com/search?q=Scientist&l=San+Jose+CA+USA');
+});
+
 test('readSimplyHiredJobIdFromHref parses job paths', () => {
     assert.equal(
         readSimplyHiredJobIdFromHref('/job/NxyLGOqrkmBKUC3Mc6qET3l65QVwh6P0uYbR-XkbHuyKddt3IrWnbQ'),
@@ -23,7 +29,7 @@ test('readSimplyHiredJobIdFromHref parses job paths', () => {
 
 test('buildSimplyHiredJobOpenUrl builds UK job URL', () => {
     assert.equal(
-        buildSimplyHiredJobOpenUrl('SH123', { path: '/job/SH123' }),
+        buildSimplyHiredJobOpenUrl('SH123', { path: '/job/SH123', filters: { location: 'London' } }),
         'https://www.simplyhired.co.uk/job/SH123',
     );
 });
@@ -38,6 +44,14 @@ test('urlsMatchSimplyHiredSearch matches role and location', () => {
             { location: 'London' },
         ),
         true,
+    );
+    assert.equal(
+        urlsMatchSimplyHiredSearch(
+            'https://www.simplyhired.com/search?q=software+engineer&l=london',
+            expected,
+            { location: 'London' },
+        ),
+        false,
     );
     assert.equal(isSimplyHiredJobsSearchUrl('https://www.simplyhired.co.uk/search?q=developer'), true);
     assert.equal(isSimplyHiredJobsSearchUrl('https://www.simplyhired.co.uk/job/abc'), false);

@@ -149,6 +149,27 @@ const cases = [
         },
     },
     {
+        name: 'Indeed US location uses www.indeed.com',
+        fn: () => {
+            const session = createInitialSession({
+                platform: INDEED_PLATFORM_ID,
+                roleDescription: 'Scientist',
+                filters: buildSearchFiltersForPlatform(INDEED_PLATFORM_ID, {
+                    location: 'San Jose CA USA',
+                }),
+            });
+
+            const url = buildJobSearchUrl(session.platform, session.roleDescription, {
+                easyApplyOnly: true,
+                filters: session.filters,
+            });
+            const parsed = new URL(url);
+
+            assert.equal(parsed.hostname, 'www.indeed.com');
+            assert.equal(parsed.searchParams.get('l'), 'San Jose CA USA');
+        },
+    },
+    {
         name: 'buildSearchFiltersForPlatform keeps LinkedIn-only filters off Indeed runs',
         fn: () => {
             const indeedFilters = buildSearchFiltersForPlatform(INDEED_PLATFORM_ID, {

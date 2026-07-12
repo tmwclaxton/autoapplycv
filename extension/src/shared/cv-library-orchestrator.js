@@ -32,7 +32,6 @@ export function createCvLibraryOrchestrator(deps) {
         requestAutoApplyAtsScore,
         resolveAutoApplyFitDecision,
         summarizeAtsFitReason,
-        captureJobPage,
         recordAnalyticsEvent,
         runDraftAllForStep,
         ensureStepFilledOrPaused,
@@ -520,8 +519,6 @@ export function createCvLibraryOrchestrator(deps) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
-        await captureJobPage(tabId);
-
         const health = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_SCAN_PAGE_HEALTH');
 
         if (health && health.ok === false) {
@@ -568,7 +565,6 @@ export function createCvLibraryOrchestrator(deps) {
         await waitForCvLibraryContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         invalidateTabFrameCache(tabId);
-        await captureJobPage(tabId, { force: true });
 
         const preApplyState = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_APPLY_STATE').catch(() => null);
 
