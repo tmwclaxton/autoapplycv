@@ -27,8 +27,9 @@ class DraftFieldRequest extends FormRequest
             'field.label' => ['required', 'string', 'max:500'],
             'field.field_type' => ['nullable', 'string', 'max:32'],
             'field.max_chars' => ['nullable', 'integer', 'min:20', 'max:5000'],
-            'field.options' => ['nullable', 'array', 'max:30'],
+            'field.options' => ['nullable', 'array', 'max:64'],
             'field.options.*' => ['string', 'max:255'],
+            'clarifying_answer' => ['nullable', 'string', 'max:2000'],
             'settings' => ['nullable', 'array'],
         ];
     }

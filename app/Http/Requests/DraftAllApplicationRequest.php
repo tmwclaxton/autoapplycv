@@ -30,7 +30,7 @@ class DraftAllApplicationRequest extends FormRequest
             'fields.*.label' => ['required', 'string', 'max:500'],
             'fields.*.field_type' => ['nullable', 'string', 'max:32'],
             'fields.*.max_chars' => ['nullable', 'integer', 'min:20', 'max:5000'],
-            'fields.*.options' => ['nullable', 'array', 'max:30'],
+            'fields.*.options' => ['nullable', 'array', 'max:64'],
             'fields.*.options.*' => ['string', 'max:255'],
             'fields.*.dom' => ['nullable', 'array'],
             'fields.*.dom.id' => ['nullable', 'string', 'max:255'],

@@ -32,7 +32,7 @@ class InventoryApplicationRequest extends FormRequest
             'snapshot.elements.*.question' => ['required', 'string', 'max:500'],
             'snapshot.elements.*.field_type' => ['nullable', 'string', 'max:32'],
             'snapshot.elements.*.max_chars' => ['nullable', 'integer', 'min:20', 'max:5000'],
-            'snapshot.elements.*.options' => ['nullable', 'array', 'max:30'],
+            'snapshot.elements.*.options' => ['nullable', 'array', 'max:64'],
             'snapshot.elements.*.options.*' => ['string', 'max:255'],
             'snapshot.elements.*.required' => ['nullable', 'boolean'],
             'snapshot.elements.*.context' => ['nullable', 'string', 'max:500'],

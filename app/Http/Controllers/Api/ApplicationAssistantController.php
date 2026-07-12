@@ -18,6 +18,7 @@ use App\Services\ApplicationDraftOrchestratorService;
 use App\Services\ApplicationFieldInventoryService;
 use App\Services\ApplicationJobContextService;
 use App\Services\AutofillAnalyticsService;
+use App\Services\CoverLetterDocumentService;
 use App\Services\ExtensionNanoGptUsageService;
 use App\Support\AiAssistCosts;
 use Illuminate\Http\JsonResponse;
@@ -32,6 +33,7 @@ class ApplicationAssistantController extends Controller
         private readonly ApplicationJobContextService $jobContext,
         private readonly AiTokenService $usage,
         private readonly AutofillAnalyticsService $analytics,
+        private readonly CoverLetterDocumentService $coverLetters,
         private readonly ExtensionNanoGptUsageService $nanoGptUsage,
     ) {}
 
@@ -314,17 +316,28 @@ class ApplicationAssistantController extends Controller
 
         $validated = $request->validated();
         $field = $validated['field'];
+        $clarifyingAnswer = isset($validated['clarifying_answer']) && is_string($validated['clarifying_answer'])
+            ? trim($validated['clarifying_answer'])
+            : '';
+
+        $question = [
+            'label' => $field['label'],
+            'field_type' => $field['field_type'] ?? 'text',
+            'max_chars' => $field['max_chars'] ?? null,
+            'options' => $field['options'] ?? null,
+        ];
+
+        if ($clarifyingAnswer !== '') {
+            $question['clarifying_answer'] = $clarifyingAnswer;
+        }
+
+        $settings = $validated['settings'] ?? [];
 
         $answers = $this->assistant->answerQuestions(
             $profile,
             $validated['job'],
-            [[
-                'label' => $field['label'],
-                'field_type' => $field['field_type'] ?? 'text',
-                'max_chars' => $field['max_chars'] ?? null,
-                'options' => $field['options'] ?? null,
-            ]],
-            $validated['settings'] ?? [],
+            [$question],
+            $settings,
         );
 
         if ($answers === null) {
@@ -465,11 +478,21 @@ class ApplicationAssistantController extends Controller
         $this->usage->recordCredit($user, $cost);
         $this->nanoGptUsage->record($user, 'assist.cover-letter', $coverLetterResult['usage'], $cost);
 
+        $savedCoverLetter = $this->coverLetters->saveFromText(
+            $user,
+            $this->normalizeJob($validated['job']),
+            $coverLetterResult['content'],
+            $profile,
+        );
+
         return response()->json([
             'success' => true,
             'cover_letter' => $coverLetterResult['content'],
             'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
+            'saved_document' => $savedCoverLetter['document']?->toFrontendArray('api.profile.documents.download'),
+            'document_saved' => $savedCoverLetter['saved'],
+            'document_duplicate' => $savedCoverLetter['duplicate'],
         ]);
     }
 
