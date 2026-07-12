@@ -396,36 +396,32 @@ async function countDraftableFieldsInDocument() {
     };
 }
 
-async function fillResumeFileInput() {
-    contentLog('debug', 'fill.resume', 'Attempting resume file attach', {});
+function isResumeFileInput(input) {
+    const identity = `${input?.name || ''} ${input?.id || ''}`.toLowerCase();
 
-    let fileInput = null;
+    return /resume|\.cv\b|\bcv\b/.test(identity);
+}
 
-    AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
-        if (fileInput) {
-            return;
-        }
+function isCoverLetterFileInput(input) {
+    if (!input || input.type !== 'file' || isResumeFileInput(input)) {
+        return false;
+    }
 
-        for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry, [aria-labelledby="upload-label-resume"], [id="upload-label-resume"]')) {
-            if (!/resume|cv/i.test(entry.textContent || entry.id || '')) {
-                continue;
-            }
+    const identity = `${input.name || ''} ${input.id || ''}`.toLowerCase();
 
-            const candidate = entry.querySelector('input[type="file"]:not([disabled])');
+    if (/cover/i.test(identity)) {
+        return true;
+    }
 
-            if (candidate) {
-                fileInput = candidate;
+    const labelRoot = input.closest('.field-wrapper, .form-group, label, [class*="field"]');
+    const labelText = (labelRoot?.textContent || '').replace(/\s+/g, ' ').trim();
 
-                return;
-            }
-        }
+    return /\bcover letter\b/i.test(labelText);
+}
 
-        fileInput = doc.querySelector('#resume, input[type="file"][id*="resume" i]:not([disabled])')
-            || doc.querySelector('input[type="file"]:not([disabled])');
-    });
-
+async function attachDocumentToFileInput(fileInput, messageType, logPhase) {
     if (!fileInput || fileInput.files?.length > 0 || fileInput.value) {
-        contentLog('info', 'fill.resume', 'Resume input skipped', {
+        contentLog('info', logPhase, 'File input skipped', {
             foundInput: Boolean(fileInput),
             hasFiles: fileInput?.files?.length > 0,
             hasValue: Boolean(fileInput?.value),
@@ -451,7 +447,7 @@ async function fillResumeFileInput() {
                 return;
             }
 
-            ctx.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, onResponse);
+            ctx.safeRuntimeSendCallback({ type: messageType }, onResponse);
         });
 
         if (!ctx) {
@@ -461,7 +457,7 @@ async function fillResumeFileInput() {
         const fetchImpl = ctx.safeFetch;
         const response = await fetchImpl(result.base64);
         const blob = await response.blob();
-        const file = new File([blob], result.fileName || 'cv.pdf', {
+        const file = new File([blob], result.fileName || 'document.pdf', {
             type: result.mimeType || blob.type || 'application/pdf',
         });
         const dataTransfer = new DataTransfer();
@@ -480,14 +476,170 @@ async function fillResumeFileInput() {
         fileInput.dispatchEvent(new Event('input', { bubbles: true }));
         fileInput.dispatchEvent(new Event('change', { bubbles: true }));
 
-        contentLog('info', 'fill.resume', 'Resume file attached', {
+        contentLog('info', logPhase, 'File attached', {
             fileName: result.fileName,
             mimeType: result.mimeType,
         });
 
         return true;
     } catch (error) {
-        contentLog('warn', 'fill.resume', 'Resume attach failed', {
+        contentLog('warn', logPhase, 'File attach failed', {
+            error: error instanceof Error ? error.message : error,
+        });
+
+        return false;
+    }
+}
+
+function findResumeFileInput() {
+    let fileInput = null;
+
+    AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
+        if (fileInput) {
+            return;
+        }
+
+        for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry, [aria-labelledby="upload-label-resume"], [id="upload-label-resume"]')) {
+            if (!/resume|cv/i.test(entry.textContent || entry.id || '')) {
+                continue;
+            }
+
+            const candidate = entry.querySelector('input[type="file"]:not([disabled])');
+
+            if (candidate) {
+                fileInput = candidate;
+
+                return;
+            }
+        }
+
+        fileInput = doc.querySelector('input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])')
+            || doc.querySelector('input[type="file"]#_systemfield_resume:not([disabled])')
+            || doc.querySelector('input[type="file"][name="documents.cv"]:not([disabled])')
+            || doc.querySelector('input[type="file"]#doc-input-cv:not([disabled])')
+            || doc.querySelector('input[type="file"][name="candidate.cv"]:not([disabled])')
+            || doc.querySelector('input[type="file"][id*="candidate.cv" i]:not([disabled])')
+            || doc.querySelector('input[type="file"]#resume-upload-input:not([disabled])')
+            || doc.querySelector('input[type="file"][name="resume"]:not([disabled])')
+            || doc.querySelector('input[type="file"][id*="resume" i]:not([disabled])')
+            || doc.querySelector('input[type="file"][name*="resume" i]:not([disabled])')
+            || doc.querySelector('input[type="file"][id^="input_files_input"]:not([disabled])')
+            || doc.querySelector('#resume, input[type="file"][id="input_files_input"]:not([disabled])')
+            || Array.from(doc.querySelectorAll('input[type="file"]:not([disabled])')).find(isResumeFileInput);
+    });
+
+    return fileInput;
+}
+
+function findCoverLetterFileInput() {
+    let fileInput = null;
+
+    AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
+        if (fileInput) {
+            return;
+        }
+
+        for (const entry of doc.querySelectorAll('[data-field-path*="cover"], [aria-labelledby*="cover" i], [id*="cover-letter" i], [id*="upload-label-cover" i]')) {
+            if (!/cover letter/i.test(entry.textContent || entry.id || '')) {
+                continue;
+            }
+
+            const candidate = entry.querySelector('input[type="file"]:not([disabled])');
+
+            if (candidate && isCoverLetterFileInput(candidate)) {
+                fileInput = candidate;
+
+                return;
+            }
+        }
+
+        fileInput = doc.querySelector('input[type="file"][name="candidate.coverLetterFile"]:not([disabled])')
+            || doc.querySelector('input[type="file"][id*="coverLetter" i]:not([disabled])')
+            || doc.querySelector('input[type="file"]#cover_letter:not([disabled])')
+            || doc.querySelector('input[type="file"][name*="cover" i]:not([disabled])')
+            || Array.from(doc.querySelectorAll('input[type="file"]:not([disabled])')).find(isCoverLetterFileInput);
+    });
+
+    return fileInput;
+}
+
+async function fillResumeFileInput() {
+    contentLog('debug', 'fill.resume', 'Attempting resume file attach', {});
+
+    return attachDocumentToFileInput(findResumeFileInput(), 'GET_CV_DOCUMENT', 'fill.resume');
+}
+
+async function fillCoverLetterFileInput(job = null) {
+    contentLog('debug', 'fill.cover-letter', 'Attempting cover letter file attach', {});
+
+    const fileInput = findCoverLetterFileInput();
+
+    if (!fileInput) {
+        contentLog('info', 'fill.cover-letter', 'Cover letter input not found', {});
+
+        return false;
+    }
+
+    const ctx = extensionContext();
+
+    if (!ctx) {
+        return false;
+    }
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            ctx.safeRuntimeSendCallback({
+                type: 'GET_COVER_LETTER_DOCUMENT',
+                job: job || null,
+            }, (response) => {
+                if (response?.error) {
+                    reject(new Error(response.error));
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+        if (!fileInput || fileInput.files?.length > 0 || fileInput.value) {
+            contentLog('info', 'fill.cover-letter', 'Cover letter input skipped', {
+                foundInput: Boolean(fileInput),
+                hasFiles: fileInput?.files?.length > 0,
+                hasValue: Boolean(fileInput?.value),
+            });
+
+            return false;
+        }
+
+        const fetchImpl = ctx.safeFetch;
+        const response = await fetchImpl(result.base64);
+        const blob = await response.blob();
+        const file = new File([blob], result.fileName || 'cover-letter.pdf', {
+            type: result.mimeType || blob.type || 'application/pdf',
+        });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        const view = fileInput.ownerDocument?.defaultView || window;
+        const prototype = view.HTMLInputElement?.prototype;
+        const descriptor = prototype ? Object.getOwnPropertyDescriptor(prototype, 'files') : null;
+
+        if (descriptor?.set) {
+            descriptor.set.call(fileInput, dataTransfer.files);
+        } else {
+            fileInput.files = dataTransfer.files;
+        }
+
+        fileInput.dispatchEvent(new Event('input', { bubbles: true }));
+        fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+        contentLog('info', 'fill.cover-letter', 'Cover letter file attached', {
+            fileName: result.fileName,
+            mimeType: result.mimeType,
+        });
+
+        return true;
+    } catch (error) {
+        contentLog('warn', 'fill.cover-letter', 'Cover letter attach failed', {
             error: error instanceof Error ? error.message : error,
         });
 
@@ -579,6 +731,7 @@ async function runFullFill() {
     });
 
     await fillResumeFileInput();
+    await fillCoverLetterFileInput();
 
     return {
         ok: true,
@@ -958,7 +1111,7 @@ async function collectDraftContext(injectedProfile = null) {
 
     const settings = getAutofillSettings();
     const snapshot = typeof AutoCVApplyFieldInventory !== 'undefined'
-        ? AutoCVApplyFieldInventory.buildSnapshotAllFrames(document, profileData.profile, settings, {})
+        ? await AutoCVApplyFieldInventory.buildSnapshotAllFramesAsync(document, profileData.profile, settings, {})
         : null;
     const fields = typeof AutoCVApplyFieldInventory !== 'undefined' && snapshot
         ? AutoCVApplyFieldInventory.fieldsFromInventory(snapshot.elements)
@@ -1053,8 +1206,20 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return new Promise((resolve) => window.setTimeout(resolve, humanDelayMs(minMs, maxMs)));
             }
 
+            function shouldClickRefBeforeBatchApply(answer) {
+                const fieldType = String(answer?.field_type || answer?.dom?.type || '').toLowerCase();
+
+                // Native selects/radios/checkboxes lose programmatic fills after a pre-click
+                // (Personio future-jobs consent, Greenhouse Yes/No selects, etc.).
+                if (['select', 'select-one', 'radio', 'checkbox', 'range'].includes(fieldType)) {
+                    return false;
+                }
+
+                return Boolean(answer?.ref && typeof AutoCVApplyFieldInventory !== 'undefined');
+            }
+
             async function applySingleAnswer(answer) {
-                if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
+                if (shouldClickRefBeforeBatchApply(answer)) {
                     AutoCVApplyFieldInventory.clickRefAllFrames(document, answer.ref);
                     await humanPause(120, 260);
                 }
@@ -1101,12 +1266,42 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return filled ? 1 : 0;
             }
 
+            function applyTimeoutMsForAnswer(answer) {
+                const answerText = typeof answer?.answer === 'string' ? answer.answer : '';
+                const fieldType = answer?.field_type || '';
+
+                if (fieldType === 'tel' || fieldType === 'select') {
+                    return 45_000;
+                }
+
+                if (fieldType === 'textarea' || answerText.length > 120) {
+                    return 45_000;
+                }
+
+                return 20_000;
+            }
+
             for (let index = 0; index < answers.length; index += 1) {
                 if (index > 0) {
                     await humanPause(240, 520);
                 }
 
-                applied += await applySingleAnswer(answers[index]);
+                const answer = answers[index];
+                const applyFieldTimeoutMs = applyTimeoutMsForAnswer(answer);
+
+                applied += await Promise.race([
+                    applySingleAnswer(answer),
+                    new Promise((resolve) => {
+                        window.setTimeout(() => {
+                            contentLog('warn', 'apply.batch', 'Field apply timed out; continuing batch', {
+                                ref: answer?.ref,
+                                label: answer?.label,
+                                timeoutMs: applyFieldTimeoutMs,
+                            });
+                            resolve(0);
+                        }, applyFieldTimeoutMs);
+                    }),
+                ]);
             }
 
             contentLog('info', 'apply.batch', 'Batch apply complete', {
@@ -1156,67 +1351,18 @@ const contentMessageListener = (message, sender, sendResponse) => {
         }
 
         if (message.type === 'BRIDGE_READ_FIELD_VALUES') {
-            const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
-            const controls = [];
+            if (typeof AutoCVApplyFormHeuristics === 'undefined') {
+                sendResponse({ success: false, error: 'Form heuristics unavailable.' });
 
-            document.querySelectorAll('input, textarea, select').forEach((element, index) => {
-                const tag = String(element.tagName || '').toLowerCase();
-                const type = String(element.type || (tag === 'textarea' ? 'textarea' : tag === 'select' ? 'select-one' : 'text')).toLowerCase();
-                const name = element.name || '';
-                const id = element.id || '';
-                const labelBits = `${name} ${id} ${element.getAttribute('aria-label') || ''}`.toLowerCase();
+                return;
+            }
 
-                if (skipTypes.has(type)) {
-                    return;
-                }
-
-                if (/search|captcha|honeypot|leave this blank|csrf|_token/.test(labelBits)) {
-                    return;
-                }
-
-                let value = '';
-                let checked = false;
-
-                if (type === 'checkbox' || type === 'radio') {
-                    checked = Boolean(element.checked);
-                    value = checked ? String(element.value || 'on') : '';
-                } else if (tag === 'select') {
-                    value = String(element.value || '');
-                } else {
-                    value = String(element.value || '');
-                }
-
-                controls.push({
-                    index,
-                    tag,
-                    type,
-                    id: id || null,
-                    name: name || null,
-                    value,
-                    checked,
-                    required: Boolean(element.required),
-                    visible: element.offsetParent !== null
-                        || (element.getClientRects?.().length ?? 0) > 0,
-                });
-            });
-
-            const filled = controls.filter((control) => {
-                if (control.type === 'checkbox' || control.type === 'radio') {
-                    return control.checked;
-                }
-
-                return String(control.value || '').trim() !== '';
-            });
-
-            sendResponse({
-                success: true,
-                page_url: window.location.href.split('?')[0],
-                page_title: document.title || '',
-                count: controls.length,
-                filled_count: filled.length,
-                fill_rate: controls.length === 0 ? 0 : Number((filled.length / controls.length).toFixed(4)),
+            const controls = AutoCVApplyFormHeuristics.collectReadableFieldValueControlsAllFrames();
+            sendResponse(AutoCVApplyFormHeuristics.summarizeReadableFieldValueControls(
                 controls,
-            });
+                window.location.href.split('?')[0],
+                document.title || '',
+            ));
 
             return;
         }
@@ -1327,6 +1473,7 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const normalizedAnswer = typeof AutoCVApplyAnswerNormalization !== 'undefined'
                 ? AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, message.answer, {
                     fieldType: message.field_type || null,
+                    options: message.options || null,
                 })
                 : String(message.answer ?? '').trim();
 
@@ -1367,6 +1514,12 @@ const contentMessageListener = (message, sender, sendResponse) => {
 
         if (message.type === 'FILL_RESUME') {
             sendResponse({ success: await fillResumeFileInput() });
+
+            return;
+        }
+
+        if (message.type === 'FILL_COVER_LETTER') {
+            sendResponse({ success: await fillCoverLetterFileInput(message.job || null) });
 
             return;
         }
@@ -1866,7 +2019,10 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(await AutoCVApplyGlassdoorAutoApply.prepareJobSearch());
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.prepareJobSearch({
+                expectedKeyword: message.expectedKeyword || null,
+                expectedLocation: message.expectedLocation || null,
+            }));
 
             return;
         }

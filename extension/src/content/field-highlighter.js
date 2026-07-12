@@ -27,6 +27,46 @@ const AutoCVApplyFieldHighlighter = (() => {
         );
     }
 
+    function resolveChoiceHighlightScope(target, roleRadios) {
+        const rep = Array.isArray(target) ? target[0] : (roleRadios?.[0] || target);
+
+        if (typeof AutoCVApplyFormHeuristics?.getChoiceGroupScope === 'function' && rep) {
+            const scope = AutoCVApplyFormHeuristics.getChoiceGroupScope(rep);
+
+            if (scope instanceof Element) {
+                return scope;
+            }
+        }
+
+        return null;
+    }
+
+    function resolveChoiceOptionHighlightElement(input) {
+        if (!(input instanceof Element)) {
+            return null;
+        }
+
+        return input.closest('label')
+            || input.closest('li.column, li[class*="option"], [role="option"]')
+            || input;
+    }
+
+    function resolveChoiceGroupHighlightElements(target, roleRadios) {
+        const inputs = Array.isArray(target) && target.length > 1
+            ? target
+            : (roleRadios?.length > 1 ? roleRadios : null);
+
+        if (!inputs?.length) {
+            return [];
+        }
+
+        const optionElements = inputs
+            .map((input) => resolveChoiceOptionHighlightElement(input))
+            .filter((element) => element instanceof Element);
+
+        return optionElements.length >= 2 ? optionElements : [];
+    }
+
     function resolveHighlightElement(target, roleRadios) {
         let rep = roleRadios?.[0] || target;
         let scope = rep;
@@ -47,16 +87,39 @@ const AutoCVApplyFieldHighlighter = (() => {
         } else if (target?.getAttribute?.('role') === 'listbox') {
             scope = target;
         } else if (target?.getAttribute?.('role') === 'combobox') {
-            scope = target.closest('[data-field-path], .ashby-application-form-field-entry') || target;
-        } else if (target?.type === 'radio' || target?.type === 'checkbox') {
-            scope = target.closest(
-                'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry',
-            ) || target;
+            // Greenhouse / react-select: outline .select__container (label +
+            // control). The combobox itself is a 2px-wide input.
+            scope = target.closest('.select__container')
+                || target.closest('.select__control, .select-shell')
+                || target.closest('[data-field-path], .ashby-application-form-field-entry')
+                || target;
         } else if (Array.isArray(target)) {
-            scope = target[0];
+            scope = resolveChoiceHighlightScope(target, roleRadios)
+                || target[0]?.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || target[0];
+        } else if (target?.type === 'radio' || target?.type === 'checkbox') {
+            scope = resolveChoiceHighlightScope(target, roleRadios)
+                || target.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || target;
         }
 
         return scope instanceof Element ? scope : null;
+    }
+
+    function resolveHighlightElements(target, roleRadios) {
+        const choiceOptions = resolveChoiceGroupHighlightElements(target, roleRadios);
+
+        if (choiceOptions.length >= 2) {
+            return choiceOptions;
+        }
+
+        const element = resolveHighlightElement(target, roleRadios);
+
+        return element instanceof Element ? [element] : [];
     }
 
     function clearHighlights() {
@@ -72,14 +135,14 @@ const AutoCVApplyFieldHighlighter = (() => {
         clearHighlights();
 
         AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (_field, target, roleRadios) => {
-            const element = resolveHighlightElement(target, roleRadios);
+            for (const element of resolveHighlightElements(target, roleRadios)) {
+                if (!element || isExtensionUiElement(element)) {
+                    continue;
+                }
 
-            if (!element || isExtensionUiElement(element)) {
-                return;
+                element.classList.add(HIGHLIGHT_CLASS);
+                highlightedElements.add(element);
             }
-
-            element.classList.add(HIGHLIGHT_CLASS);
-            highlightedElements.add(element);
         });
     }
 

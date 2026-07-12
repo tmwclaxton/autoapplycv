@@ -34,34 +34,47 @@ function mountReactLikeAshbyYesNoHtml() {
     <input type="checkbox" class="_input_1svni_78" tabindex="-1" name="e01a85db-feaa-42b3-a9ad-69b1dcbbab3f">
   </div>
 </div>
+<div class="ashby-application-form-field-entry" data-field-path="0c295b7f-ba01-454f-8dba-a8d09f6d3eed">
+  <label class="ashby-application-form-question-title">Are you legally authorised to work in the country you wish to work in without the need for visa sponsorship?</label>
+  <div class="_container_1svni_28 _yesno_1e3gg_148">
+    <button type="button" class="_container_pjyt6_1 _option_1svni_32" aria-pressed="false">Yes</button>
+    <button type="button" class="_container_pjyt6_1 _option_1svni_32" aria-pressed="false">No</button>
+    <input type="checkbox" class="_input_1svni_78" tabindex="-1" name="0c295b7f-ba01-454f-8dba-a8d09f6d3eed">
+  </div>
+</div>
 <script>
 (function () {
-  const entry = document.querySelector('[data-field-path="e01a85db-feaa-42b3-a9ad-69b1dcbbab3f"]');
-  const container = entry.querySelector('[class*="_yesno_"]');
-  const buttons = Array.from(container.querySelectorAll('button'));
-  const checkbox = container.querySelector('input[type="checkbox"]');
-  let selected = null;
+  function wireYesNo(entry) {
+    const container = entry.querySelector('[class*="_yesno_"]');
+    const buttons = Array.from(container.querySelectorAll('button'));
+    const checkbox = container.querySelector('input[type="checkbox"]');
+    let selected = null;
 
-  Object.defineProperty(checkbox, 'checked', {
-    configurable: true,
-    get() { return selected === 'Yes'; },
-    set(value) {
-      if (!value) {
-        selected = null;
-      }
-    },
-  });
-
-  for (const button of buttons) {
-    button.addEventListener('click', () => {
-      selected = button.textContent.trim();
-      buttons.forEach((candidate) => {
-        candidate.setAttribute('aria-pressed', candidate === button ? 'true' : 'false');
-      });
-      checkbox.dispatchEvent(new Event('input', { bubbles: true }));
-      checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    Object.defineProperty(checkbox, 'checked', {
+      configurable: true,
+      get() { return selected === 'Yes'; },
+      set(value) {
+        if (!value) {
+          selected = null;
+        }
+      },
     });
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        selected = button.textContent.trim();
+        buttons.forEach((candidate) => {
+          const isSelected = candidate === button;
+          candidate.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+          candidate.classList.toggle('_active_1svni_57', isSelected);
+        });
+        checkbox.dispatchEvent(new Event('input', { bubbles: true }));
+        checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    }
   }
+
+  document.querySelectorAll('[data-field-path]').forEach(wireYesNo);
 })();
 </script>
 </body></html>`;
@@ -92,33 +105,39 @@ async function runReactLikeMiniPage(page) {
     await page.addScriptTag({ content: inventory });
 
     return page.evaluate(async () => {
-        const fieldPath = 'e01a85db-feaa-42b3-a9ad-69b1dcbbab3f';
         window.AutoCVApplyFieldInventory.buildSnapshot(document, null, {}, {});
 
-        const appliedByRef = await window.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
+        const yesApplied = await window.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
             document,
             'f0',
             'Yes',
         );
-        const appliedByLabel = appliedByRef || await window.AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(
+        const noApplied = await window.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
             document,
-            'anchor days',
-            'yes, I can commit to anchor days',
+            'f1',
+            'No',
         );
 
-        const entry = document.querySelector(`[data-field-path="${fieldPath}"]`);
-        const container = entry?.querySelector('[class*="_yesno_"]');
-        const selected = Array.from(container?.querySelectorAll('button') || []).find(
-            (button) => button.getAttribute('aria-pressed') === 'true',
-        );
-        const checkbox = container?.querySelector('input[type="checkbox"]');
+        const readState = (fieldPath) => {
+            const entry = document.querySelector(`[data-field-path="${fieldPath}"]`);
+            const container = entry?.querySelector('[class*="_yesno_"]');
+            const selected = Array.from(container?.querySelectorAll('button') || []).find(
+                (button) => button.getAttribute('aria-pressed') === 'true'
+                    || /_active_/i.test(String(button.className || '')),
+            );
+            const checkbox = container?.querySelector('input[type="checkbox"]');
+
+            return {
+                selection: selected?.textContent.replace(/\s+/g, ' ').trim() ?? null,
+                checkboxChecked: checkbox?.checked ?? null,
+            };
+        };
 
         return {
-            appliedByRef,
-            appliedByLabel,
-            applied: appliedByRef || appliedByLabel,
-            selection: selected?.textContent.replace(/\s+/g, ' ').trim() ?? null,
-            checkboxChecked: checkbox?.checked ?? null,
+            yesApplied,
+            noApplied,
+            yes: readState('e01a85db-feaa-42b3-a9ad-69b1dcbbab3f'),
+            no: readState('0c295b7f-ba01-454f-8dba-a8d09f6d3eed'),
         };
     });
 }
@@ -176,7 +195,7 @@ async function runFixturePage(page, { useFixture, profile, fillCases }) {
             const container = entry?.querySelector('[class*="_yesno_"]');
             const selected = Array.from(container?.querySelectorAll('button') || []).find(
                 (button) => button.getAttribute('aria-pressed') === 'true'
-                    || /selected|active|checked|true/i.test(String(button.className || '')),
+                    || /_active_/i.test(String(button.className || '')),
             );
             const checkbox = container?.querySelector('input[type="checkbox"]');
             const after = selected?.textContent.replace(/\s+/g, ' ').trim() ?? null;
@@ -228,8 +247,12 @@ export async function runAshbyYesNoSmoke({ live = false } = {}) {
             mode: live ? 'live' : 'fixture',
             reactLike,
             fixture,
-            passed: reactLike.applied
-                && reactLike.selection === 'Yes'
+            passed: reactLike.yesApplied
+                && reactLike.noApplied
+                && reactLike.yes.selection === 'Yes'
+                && reactLike.yes.checkboxChecked === true
+                && reactLike.no.selection === 'No'
+                && reactLike.no.checkboxChecked === false
                 && fixture.failures.length === 0,
         };
     } finally {

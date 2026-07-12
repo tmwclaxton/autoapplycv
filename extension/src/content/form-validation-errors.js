@@ -403,57 +403,32 @@ const AutoCVApplyFormValidation = (() => {
         return [...new Set(messages)].slice(0, 12);
     }
 
-    function findValidationSubmitControl(root) {
-        const modal = root.querySelector('[data-test-modal-id="easy-apply-modal"], .jobs-easy-apply-modal');
-
-        if (modal) {
-            return null;
-        }
-
-        const scopes = [
-            root.querySelector('form[id^="gform_"]'),
-            root.querySelector('form.gform_wrapper form, .gform_wrapper form'),
-            root.querySelector('form[action*="apply"], form[action*="application"], form'),
-            root.querySelector('.ashby-application-form-container'),
-        ].filter(Boolean);
-
-        for (const scope of scopes) {
-            const candidates = scope.querySelectorAll(
-                'button[type="submit"], input[type="submit"], button.gform_button, .gform_button',
-            );
-
-            for (const candidate of candidates) {
-                if (!isVisible(candidate) || candidate.disabled) {
-                    continue;
-                }
-
-                const label = normalizeText(candidate.textContent || candidate.value || '');
-
-                if (/search|subscribe|newsletter|cookie/i.test(label)) {
-                    continue;
-                }
-
-                return candidate;
-            }
-        }
-
-        return null;
-    }
-
     async function triggerClientSideValidation(root, options = {}) {
         const waitMs = Number(options.waitMs) || 450;
-        const submitControl = findValidationSubmitControl(root);
+        const doc = root.ownerDocument || root;
+        const form = root.querySelector?.('form')
+            || (root.tagName?.toLowerCase() === 'form' ? root : null)
+            || doc.querySelector?.('form');
 
-        if (!submitControl) {
-            return { triggered: false, reason: 'no_submit_control' };
+        // Prefer HTML5 reportValidity - surfaces errors without navigating/submitting.
+        // Never click real Apply/Submit controls: many ATS boards (Teamtailor, etc.) post the
+        // application from the button click handler without a cancelable form submit event.
+        if (form && typeof form.reportValidity === 'function') {
+            try {
+                form.reportValidity();
+            } catch {
+                // Some ATS forms throw on reportValidity; still do not click Submit.
+            }
+
+            await new Promise((resolve) => window.setTimeout(resolve, waitMs));
+
+            return { triggered: true, method: 'reportValidity' };
         }
 
-        submitControl.focus?.();
-        submitControl.click();
+        // No form handle - scan visible invalid state only; do not click Submit/Apply.
+        await new Promise((resolve) => window.setTimeout(resolve, 80));
 
-        await new Promise((resolve) => window.setTimeout(resolve, waitMs));
-
-        return { triggered: true };
+        return { triggered: false, reason: 'no_safe_validation_trigger' };
     }
 
     function scanFormValidationState(root = document, options = {}) {

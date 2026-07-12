@@ -5,6 +5,10 @@ const AutoCVApplyAnswerNormalization = (() => {
     const YEARS_INTEGER_PATTERN = /^\d+$/;
     const YEARS_WITH_UNIT_PATTERN = /^(\d+)\s*\+?\s*(?:years?|yrs?)\b/i;
     const EMBEDDED_YEARS_PATTERN = /\b(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i;
+    const PLACEHOLDER_OPTION_PATTERN = /^(select an option|choose an option|choose one|please select|please choose|select\s*\.\.\.?|--)$/i;
+    const AGE_STATEMENT_PATTERN = /(?:^(?:i am|i'm)\s*(\d{1,3})\b|\b(\d{1,3})\s*(?:years?|yrs?)\s*old\b)/i;
+    const OVER_AGE_QUESTION_PATTERN = /\b(?:over|above|at least|older than)\s+(?:the\s+)?age\s+of\s+(\d{1,3})\b|\b(\d{1,3})\s*\+\s*(?:years?\s+old)?\b/i;
+    const CHOICE_FIELD_TYPES = new Set(['select', 'radio', 'checkbox']);
 
     function isYearsExperienceQuestion(label) {
         const text = String(label || '').replace(/\s+/g, ' ').trim();
@@ -43,7 +47,7 @@ const AutoCVApplyAnswerNormalization = (() => {
 
         if (raw === '') {
             if (YEARS_INTEGER_PATTERN.test(profileYears)) {
-                return profileYears;
+                return clampYearsInteger(profileYears) ?? profileYears;
             }
 
             return options.fallback ?? '';
@@ -93,12 +97,170 @@ const AutoCVApplyAnswerNormalization = (() => {
         return fieldType === 'textarea';
     }
 
+    function normalizeOptionText(value) {
+        return String(value || '')
+            .toLowerCase()
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function isPlaceholderChoiceOption(option) {
+        const text = normalizeOptionText(option);
+
+        return text === '' || PLACEHOLDER_OPTION_PATTERN.test(text);
+    }
+
+    function filterMeaningfulChoiceOptions(options) {
+        if (!Array.isArray(options)) {
+            return [];
+        }
+
+        return options
+            .map((option) => String(option ?? '').trim())
+            .filter((option) => option !== '' && !isPlaceholderChoiceOption(option));
+    }
+
+    function isYesNoChoiceOptions(options) {
+        const meaningful = filterMeaningfulChoiceOptions(options);
+
+        if (meaningful.length !== 2) {
+            return false;
+        }
+
+        const normalized = meaningful.map((option) => normalizeOptionText(option)).sort();
+
+        return normalized[0] === 'no' && normalized[1] === 'yes';
+    }
+
+    function findYesNoOption(options, token) {
+        const target = token === 'yes' ? 'yes' : 'no';
+
+        return filterMeaningfulChoiceOptions(options).find((option) => normalizeOptionText(option) === target) || null;
+    }
+
+    function extractBooleanAnswerToken(answer) {
+        const normalized = normalizeOptionText(answer);
+
+        if (!normalized) {
+            return null;
+        }
+
+        if (/^(yes|y|true)\b/.test(normalized) || normalized.includes(' i am open') || normalized.includes(' i can start')) {
+            return 'yes';
+        }
+
+        if (/^(no|n|false)\b/.test(normalized) || normalized.includes(' not open') || normalized.includes(' i am not')) {
+            return 'no';
+        }
+
+        const yesMatch = normalized.match(/\b(yes|yeah|yep|true)\b/);
+        const noMatch = normalized.match(/\b(no|nope|false)\b/);
+
+        if (yesMatch && !noMatch) {
+            return 'yes';
+        }
+
+        if (noMatch && !yesMatch) {
+            return 'no';
+        }
+
+        return null;
+    }
+
+    function extractAgeFromAnswer(answer) {
+        const text = String(answer ?? '').trim();
+
+        if (!text) {
+            return null;
+        }
+
+        const statementMatch = text.match(AGE_STATEMENT_PATTERN);
+
+        if (statementMatch) {
+            const age = Number.parseInt(statementMatch[1] || statementMatch[2], 10);
+
+            return Number.isNaN(age) ? null : age;
+        }
+
+        if (/^\d{1,3}$/.test(text)) {
+            const age = Number.parseInt(text, 10);
+
+            return Number.isNaN(age) ? null : age;
+        }
+
+        return null;
+    }
+
+    function extractOverAgeThreshold(label) {
+        const text = String(label || '').replace(/\s+/g, ' ').trim();
+        const match = text.match(OVER_AGE_QUESTION_PATTERN);
+
+        if (!match) {
+            return null;
+        }
+
+        const threshold = Number.parseInt(match[1] || match[2], 10);
+
+        return Number.isNaN(threshold) ? null : threshold;
+    }
+
+    function coerceAgeStatementToYesNo(label, answer, options) {
+        if (!isYesNoChoiceOptions(options)) {
+            return null;
+        }
+
+        const threshold = extractOverAgeThreshold(label);
+        const age = extractAgeFromAnswer(answer);
+
+        if (threshold === null || age === null) {
+            return null;
+        }
+
+        return findYesNoOption(options, age >= threshold ? 'yes' : 'no');
+    }
+
+    function normalizeChoiceAnswerForQuestion(label, answer, options = {}) {
+        const choiceOptions = options.options;
+        const trimmed = String(answer ?? '').trim();
+
+        if (!Array.isArray(choiceOptions) || choiceOptions.length === 0 || trimmed === '') {
+            return trimmed;
+        }
+
+        const ageCoerced = coerceAgeStatementToYesNo(label, trimmed, choiceOptions);
+
+        if (ageCoerced) {
+            return ageCoerced;
+        }
+
+        if (!isYesNoChoiceOptions(choiceOptions)) {
+            return trimmed;
+        }
+
+        const booleanToken = extractBooleanAnswerToken(trimmed);
+
+        if (!booleanToken) {
+            return trimmed;
+        }
+
+        return findYesNoOption(choiceOptions, booleanToken) || trimmed;
+    }
+
     function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
         if (isYearsExperienceQuestion(label)) {
             return normalizeYearsExperienceAnswer(answer, options);
         }
 
         const trimmed = String(answer ?? '').trim();
+        const fieldType = String(options.fieldType || '').toLowerCase();
+
+        if (CHOICE_FIELD_TYPES.has(fieldType) || Array.isArray(options.options)) {
+            const choiceNormalized = normalizeChoiceAnswerForQuestion(label, trimmed, options);
+
+            if (choiceNormalized !== '') {
+                return choiceNormalized;
+            }
+        }
 
         if (shouldCapitalizeFreeTextAnswer(options.fieldType)) {
             return capitalizeFreeTextAnswer(trimmed);
@@ -111,6 +273,14 @@ const AutoCVApplyAnswerNormalization = (() => {
         isYearsExperienceQuestion,
         normalizeYearsExperienceAnswer,
         capitalizeFreeTextAnswer,
+        isPlaceholderChoiceOption,
+        filterMeaningfulChoiceOptions,
+        isYesNoChoiceOptions,
+        extractBooleanAnswerToken,
+        extractAgeFromAnswer,
+        extractOverAgeThreshold,
+        coerceAgeStatementToYesNo,
+        normalizeChoiceAnswerForQuestion,
         normalizeFieldAnswerForQuestion,
     };
 })();

@@ -1,5 +1,6 @@
 /**
  * Stagehand-style field inventory: stable refs, page snapshots, ref-based fill.
+ * Pairs with form-heuristics.js (fill) under extension/src/content/form/ as inventory grows.
  */
 const AutoCVApplyFieldInventory = (() => {
     function inventoryLog(level, phase, message, data) {
@@ -56,6 +57,29 @@ const AutoCVApplyFieldInventory = (() => {
         return ref;
     }
 
+    function findSrDataTest(element) {
+        let current = element;
+
+        while (current) {
+            const match = current.closest?.('[data-test^="personal-info-"]');
+
+            if (match?.getAttribute?.('data-test')) {
+                return match.getAttribute('data-test');
+            }
+
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            break;
+        }
+
+        return null;
+    }
+
     function buildDomMetadata(target, roleRadios) {
         let rep = roleRadios?.[0] || target;
         let scope = rep;
@@ -78,7 +102,22 @@ const AutoCVApplyFieldInventory = (() => {
             scope = target;
             rep = target.querySelector('[role="option"]') || target;
         } else if (target?.type === 'radio' || target?.type === 'checkbox') {
-            scope = target.closest('fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry') || target;
+            scope = (typeof AutoCVApplyFormHeuristics?.getChoiceGroupScope === 'function'
+                ? AutoCVApplyFormHeuristics.getChoiceGroupScope(target)
+                : null)
+                || target.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || target;
+        } else if (Array.isArray(target) && target[0]?.type) {
+            const rep = target[0];
+            scope = (typeof AutoCVApplyFormHeuristics?.getChoiceGroupScope === 'function'
+                ? AutoCVApplyFormHeuristics.getChoiceGroupScope(rep)
+                : null)
+                || rep.closest(
+                    'fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry, .application-field, .gfield',
+                )
+                || rep;
         } else if (ashbyEntry) {
             scope = ashbyEntry;
         }
@@ -97,12 +136,21 @@ const AutoCVApplyFieldInventory = (() => {
             }
         }
 
+        const srHost = rep?.closest?.(
+            '[data-test^="personal-info-"], spl-phone-field, oc-phone-number, oc-location-autocomplete, spl-form-field, oc-input',
+        );
+        const srDataTest = findSrDataTest(rep)
+            || srHost?.closest?.('[data-test]')?.getAttribute?.('data-test')
+            || srHost?.getAttribute?.('data-test')
+            || null;
+
         return {
             tag,
             type,
             id: scope?.id || rep?.id || null,
             name: rep?.name || rep?.getAttribute?.('name') || scope?.getAttribute?.('name') || null,
             data_testid: scope?.getAttribute?.('data-testid') || rep?.getAttribute?.('data-testid') || null,
+            sr_data_test: srDataTest,
             role: (tag === 'input' || tag === 'textarea' || tag === 'select')
                 ? (rep?.getAttribute?.('role') || null)
                 : (scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null),
@@ -156,6 +204,61 @@ const AutoCVApplyFieldInventory = (() => {
             }
 
             cursor = cursor.previousElementSibling;
+        }
+
+        return null;
+    }
+
+    function getJobPostingLocationFromPage(doc = document) {
+        const locationEl = doc.querySelector('.job__location, [class*="job-location"], [data-qa="job-location"]');
+        const domText = normalizeContextSnippet(locationEl?.textContent || '');
+
+        if (domText.length >= 3 && domText.length <= 200) {
+            return domText;
+        }
+
+        for (const script of doc.querySelectorAll('script:not([src])')) {
+            const text = script.textContent || '';
+            const scriptMatch = text.match(/job_post_location["\s:\\]+([^"\\,\}]{3,200})/);
+
+            if (scriptMatch?.[1]) {
+                return scriptMatch[1].replace(/\\u003c/g, '<').replace(/\\u003e/g, '>').slice(0, 200);
+            }
+        }
+
+        const html = doc.documentElement?.innerHTML || '';
+
+        for (const pattern of [
+            /job_post_location\\":\\"([^"\\]+)\\"/,
+            /job_post_location":"([^"]+)"/,
+            /"job_post_location":"([^"]+)"/,
+        ]) {
+            const match = html.match(pattern);
+
+            if (match?.[1]) {
+                return match[1].slice(0, 200);
+            }
+        }
+
+        const bodyText = doc.body?.innerText || '';
+        const structuredUsMatch = bodyText.match(
+            /\b([A-Za-z][A-Za-z\s.'-]+,\s*[A-Z]{2},\s*United States(?: of America)?)/,
+        );
+
+        if (structuredUsMatch?.[1]) {
+            return structuredUsMatch[1].trim().slice(0, 200);
+        }
+
+        const structuredUkMatch = bodyText.match(
+            /\b([A-Za-z][A-Za-z\s.'-]+,\s*(?:England|Scotland|Wales),\s*United Kingdom)/,
+        );
+
+        if (structuredUkMatch?.[1]) {
+            return structuredUkMatch[1].trim().slice(0, 200);
+        }
+
+        if (/\bunited states armed forces\b/i.test(bodyText)) {
+            return 'United States';
         }
 
         return null;
@@ -275,6 +378,11 @@ const AutoCVApplyFieldInventory = (() => {
             return false;
         }
 
+        if (typeof AutoCVApplyFormHeuristics?.isInactiveConditionalField === 'function'
+            && AutoCVApplyFormHeuristics.isInactiveConditionalField(anchor)) {
+            return false;
+        }
+
         if (anchor.required === true || anchor.getAttribute('aria-required') === 'true') {
             return true;
         }
@@ -316,25 +424,53 @@ const AutoCVApplyFieldInventory = (() => {
             }
         }
 
+        // Teamtailor and similar: question title includes "*Required" beside the control.
+        const questionRoot = anchor.closest(
+            'fieldset, [class*="question"], [class*="Question"], [data-question], .form-group',
+        );
+
+        if (questionRoot) {
+            const heading = (questionRoot.querySelector('label, legend, h1, h2, h3, h4, p, span')?.textContent
+                || questionRoot.textContent
+                || '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .slice(0, 180);
+
+            if (/\*\s*required\b|\brequired\s*\*/i.test(heading) || /\S\*\s*required\b/i.test(heading)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
-    function appendSnapshotFromRoot(root, profile, settings, memo, merged) {
-        AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (field, target, roleRadios) => {
-            const anchor = roleRadios?.[0] || target;
-            const ref = registerTarget(target, roleRadios);
+    function appendSnapshotFromRoot(root, profile, settings, memo, merged, jobPostingLocation = null) {
+        // Inventory must surface every application question, including already-filled
+        // ones - Draft All still uses eachDraftableField without includeFilled.
+        AutoCVApplyFormHeuristics.eachDraftableField(
+            root,
+            profile,
+            settings,
+            memo,
+            (field, target, roleRadios) => {
+                const anchor = roleRadios?.[0] || target;
+                const ref = registerTarget(target, roleRadios);
 
-            merged.elements.push({
-                ref,
-                question: field.label,
-                field_type: field.field_type,
-                max_chars: field.max_chars,
-                options: field.options,
-                required: resolveFieldRequired(anchor),
-                context: anchor ? getContextText(anchor) : null,
-                dom: buildDomMetadata(target, roleRadios),
-            });
-        });
+                merged.elements.push({
+                    ref,
+                    question: field.label,
+                    field_type: field.field_type,
+                    max_chars: field.max_chars,
+                    options: field.options,
+                    required: resolveFieldRequired(anchor),
+                    context: anchor ? getContextText(anchor) : null,
+                    job_posting_location: jobPostingLocation,
+                    dom: buildDomMetadata(target, roleRadios),
+                });
+            },
+            { includeFilled: true },
+        );
 
         merged.controls.push(...collectNavigationControls(root));
     }
@@ -348,10 +484,57 @@ const AutoCVApplyFieldInventory = (() => {
             elements: [],
             controls: [],
         };
+        const jobPostingLocation = getJobPostingLocationFromPage(root.ownerDocument || document);
 
-        appendSnapshotFromRoot(root, profile, settings, memo, snapshot);
+        appendSnapshotFromRoot(root, profile, settings, memo, snapshot, jobPostingLocation);
 
         return snapshot;
+    }
+
+    async function enrichSnapshotOptions(elements) {
+        if (typeof AutoCVApplyFormHeuristics?.harvestLazyComboboxOptionLabels !== 'function') {
+            return elements;
+        }
+
+        const MAX_LAZY_HARVESTS = 24;
+        let harvestCount = 0;
+
+        for (const element of elements || []) {
+            if (!['select', 'radio'].includes(element.field_type)) {
+                continue;
+            }
+
+            if (Array.isArray(element.options) && element.options.length >= 2) {
+                continue;
+            }
+
+            const entry = refRegistry.get(element.ref);
+            const target = entry?.target;
+            const anchor = Array.isArray(target) ? target[0] : target;
+
+            if (!anchor || anchor.getAttribute?.('role') !== 'combobox') {
+                continue;
+            }
+
+            if (harvestCount >= MAX_LAZY_HARVESTS) {
+                break;
+            }
+
+            harvestCount += 1;
+
+            const labels = await AutoCVApplyFormHeuristics.harvestLazyComboboxOptionLabels(anchor);
+
+            if (labels.length >= 2) {
+                element.options = labels;
+            }
+        }
+
+        inventoryLog('info', 'snapshot.options', 'Lazy combobox option harvest complete', {
+            harvestCount,
+            withOptions: (elements || []).filter((element) => Array.isArray(element.options) && element.options.length >= 2).length,
+        });
+
+        return elements;
     }
 
     function buildSnapshotAllFrames(root, profile, settings, memo = {}) {
@@ -364,14 +547,24 @@ const AutoCVApplyFieldInventory = (() => {
             controls: [],
         };
 
+        const jobPostingLocation = getJobPostingLocationFromPage(document);
+
         AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
-            appendSnapshotFromRoot(doc, profile, settings, memo, merged);
+            appendSnapshotFromRoot(doc, profile, settings, memo, merged, jobPostingLocation);
         });
 
         inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames complete', {
             elementCount: merged.elements.length,
             controlCount: merged.controls.length,
         });
+
+        return merged;
+    }
+
+    async function buildSnapshotAllFramesAsync(root, profile, settings, memo = {}) {
+        const merged = buildSnapshotAllFrames(root, profile, settings, memo);
+
+        await enrichSnapshotOptions(merged.elements);
 
         return merged;
     }
@@ -660,13 +853,19 @@ const AutoCVApplyFieldInventory = (() => {
         }
 
         if (element.type === 'radio' || element.type === 'checkbox') {
-            const group = element.closest('fieldset, [role="radiogroup"], [role="group"], .gfield');
-            const groupInputs = group
-                ? [...group.querySelectorAll(`input[type="${element.type}"]`)]
-                    .filter((input) => !element.name || input.name === element.name)
-                : [element];
+            const groupInputs = typeof AutoCVApplyFormHeuristics?.getGroupInputs === 'function'
+                ? AutoCVApplyFormHeuristics.getGroupInputs(element)
+                : (() => {
+                    const group = element.closest('fieldset, [role="radiogroup"], [role="group"], .gfield, .application-field');
+                    const groupInputs = group
+                        ? [...group.querySelectorAll(`input[type="${element.type}"]`)]
+                            .filter((input) => !element.name || input.name === element.name)
+                        : [element];
 
-            return registerTarget(groupInputs.length ? groupInputs : element, groupInputs);
+                    return groupInputs.length ? groupInputs : [element];
+                })();
+
+            return registerTarget(groupInputs.length > 1 ? groupInputs : element, groupInputs.length > 1 ? groupInputs : null);
         }
 
         return registerTarget(element, null);
@@ -701,7 +900,7 @@ const AutoCVApplyFieldInventory = (() => {
                 data_field_path: dom.data_field_path,
                 updated_at: Date.now(),
             };
-        });
+        }, { includeFilled: true });
 
         return resolved;
     }
@@ -709,6 +908,7 @@ const AutoCVApplyFieldInventory = (() => {
     return {
         buildSnapshot,
         buildSnapshotAllFrames,
+        buildSnapshotAllFramesAsync,
         applyAnswerByRef,
         applyAnswerByRefAllFrames,
         applyAnswerByRefWithFallback,
