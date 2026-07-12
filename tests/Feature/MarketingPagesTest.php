@@ -68,6 +68,9 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('/images/platforms/logos/', $site);
         $this->assertStringNotContainsString('google.com/s2/favicons', $site);
         $this->assertStringContainsString('platformLogoUrl', $badges);
+        $this->assertStringContainsString('platformSiteUrl', $badges);
+        $this->assertStringContainsString('PLATFORM_SITE_URLS', $site);
+        $this->assertStringContainsString("LinkedIn: 'https://www.linkedin.com/jobs'", $site);
         $this->assertStringContainsString('postbox-badge-logo', $badges);
         $this->assertStringContainsString('Platforms Coming Soon:', $badges);
 

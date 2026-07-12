@@ -147,6 +147,67 @@ export const PLATFORM_LOGO_SOURCES: Record<string, string> = {
     ZipRecruiter: 'https://ziprecruiter.com/apple-touch-icon.png',
 };
 
+/** Public marketing or job-search URLs for platform badges. */
+export const PLATFORM_SITE_URLS: Record<string, string> = {
+    Workday: 'https://www.workday.com',
+    Greenhouse: 'https://www.greenhouse.io',
+    Lever: 'https://www.lever.co',
+    Ashby: 'https://www.ashbyhq.com',
+    SmartRecruiters: 'https://www.smartrecruiters.com',
+    Teamtailor: 'https://www.teamtailor.com',
+    Oracle: 'https://www.oracle.com/applications/human-capital-management/talent-management/recruiting/',
+    BambooHR: 'https://www.bamboohr.com',
+    Workable: 'https://www.workable.com',
+    iCIMS: 'https://www.icims.com',
+    Trakstar: 'https://www.trakstar.com',
+    WordPress: 'https://wordpress.org/plugins/tags/job-board/',
+    LinkedIn: 'https://www.linkedin.com/jobs',
+    Indeed: 'https://www.indeed.com',
+    Totaljobs: 'https://www.totaljobs.com',
+    Glassdoor: 'https://www.glassdoor.com/Job/index.htm',
+    SimplyHired: 'https://www.simplyhired.com',
+    Reed: 'https://www.reed.co.uk/jobs',
+    'CV-Library': 'https://www.cv-library.co.uk',
+    Adzuna: 'https://www.adzuna.com',
+    'APS Jobs': 'https://www.apsjobs.gov.au',
+    CareerBuilder: 'https://www.careerbuilder.com',
+    CareerOne: 'https://www.careerone.com.au',
+    'Civil Service Jobs': 'https://www.civilservicejobs.service.gov.uk',
+    Dice: 'https://www.dice.com',
+    Eluta: 'https://www.eluta.ca',
+    EthicalJobs: 'https://www.ethicaljobs.com.au',
+    'Find a Job': 'https://findajob.dwp.gov.uk',
+    FlexJobs: 'https://www.flexjobs.com',
+    'Government Jobs': 'https://www.governmentjobs.com',
+    'Guardian Jobs': 'https://jobs.theguardian.com',
+    Idealist: 'https://www.idealist.org',
+    'IrishJobs.ie': 'https://www.irishjobs.ie',
+    'Job Bank': 'https://www.jobbank.gc.ca',
+    'Jobs.ac.uk': 'https://www.jobs.ac.uk',
+    'Jobs Go Public': 'https://www.jobsgopublic.com',
+    JobSearch: 'https://www.jobsearch.gov.au',
+    'Jobs.ie': 'https://www.jobs.ie',
+    JobsIreland: 'https://www.jobsireland.ie',
+    Jobserve: 'https://www.jobserve.com',
+    JobsDB: 'https://www.jobsdb.com',
+    JobStreet: 'https://www.jobstreet.com',
+    Jobillico: 'https://www.jobillico.com',
+    Jora: 'https://www.jora.com',
+    Ladders: 'https://www.theladders.com',
+    'LG Jobs': 'https://www.lgjobs.com',
+    LinkUp: 'https://www.linkup.com',
+    Monster: 'https://www.monster.com',
+    'NHS Jobs': 'https://www.jobs.nhs.uk',
+    'NZ Government Jobs': 'https://www.jobs.govt.nz',
+    'Publicjobs.ie': 'https://www.publicjobs.ie',
+    SEEK: 'https://www.seek.com.au',
+    Snagajob: 'https://www.snagajob.com',
+    'Trade Me Jobs': 'https://www.trademe.co.nz/jobs',
+    USAJobs: 'https://www.usajobs.gov',
+    Workopolis: 'https://www.workopolis.com',
+    ZipRecruiter: 'https://www.ziprecruiter.com',
+};
+
 function platformLogoSlug(platform: string): string {
     return platform
         .toLowerCase()
@@ -172,6 +233,10 @@ export function platformLogoUrl(platform: string): string | null {
     const extension = platformLogoExtension(sourceUrl);
 
     return `/images/platforms/logos/${slug}.${extension}`;
+}
+
+export function platformSiteUrl(platform: string): string | null {
+    return PLATFORM_SITE_URLS[platform] ?? null;
 }
 
 export const PLATFORM_MARKETING_LINE =

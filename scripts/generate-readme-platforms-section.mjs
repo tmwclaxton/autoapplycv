@@ -67,6 +67,28 @@ function parseLogoSources(source) {
     return entries;
 }
 
+function parseSiteUrls(source) {
+    const match = source.match(
+        /export const PLATFORM_SITE_URLS[^=]*=\s*\{([\s\S]*?)\};/,
+    );
+
+    if (!match) {
+        throw new Error('Could not parse PLATFORM_SITE_URLS from site.ts');
+    }
+
+    const entries = {};
+    const entryPattern =
+        /(?:'([^']+)'|([A-Za-z0-9]+)):\s*'(https?:\/\/[^']+)'/gs;
+
+    for (const [, quotedKey, bareKey, siteUrl] of match[1].matchAll(
+        entryPattern,
+    )) {
+        entries[quotedKey || bareKey] = siteUrl;
+    }
+
+    return entries;
+}
+
 function logoTag(platform, sources) {
     const sourceUrl = sources[platform];
 
@@ -80,11 +102,18 @@ function logoTag(platform, sources) {
     return `<img src="public/images/platforms/logos/${slug}.${extension}" width="18" height="18" alt="" />`;
 }
 
-function platformCell(platform, sources) {
-    return `${logoTag(platform, sources)} ${platform}`;
+function platformCell(platform, sources, siteUrls) {
+    const label = `${logoTag(platform, sources)} ${platform}`;
+    const siteUrl = siteUrls[platform];
+
+    if (!siteUrl) {
+        return label;
+    }
+
+    return `<a href="${siteUrl}">${label}</a>`;
 }
 
-function platformGrid(platforms, sources, columns = 4) {
+function platformGrid(platforms, sources, siteUrls, columns = 4) {
     const rows = [];
 
     for (let index = 0; index < platforms.length; index += columns) {
@@ -92,7 +121,7 @@ function platformGrid(platforms, sources, columns = 4) {
         const cells = slice
             .map(
                 (platform) =>
-                    `<td valign="top">${platformCell(platform, sources)}</td>`,
+                    `<td valign="top">${platformCell(platform, sources, siteUrls)}</td>`,
             )
             .join('');
 
@@ -105,6 +134,7 @@ function platformGrid(platforms, sources, columns = 4) {
 function main() {
     const site = readFileSync(SITE_TS, 'utf8');
     const sources = parseLogoSources(site);
+    const siteUrls = parseSiteUrls(site);
     const atsPlatforms = parseConstArray(site, 'SUPPORTED_PLATFORMS');
     const autoApplySupported = parseConstArray(
         site,
@@ -120,19 +150,19 @@ Autofill works on most major ATS and employer career sites. **Auto Apply** runs 
 
 ### Autofill on ATS and career sites
 
-${platformGrid(atsPlatforms, sources)}
+${platformGrid(atsPlatforms, sources, siteUrls)}
 
 <sub>Plus many more employer career sites and ATS variants.</sub>
 
 ### Auto Apply - supported today
 
-${platformGrid(autoApplySupported, sources)}
+${platformGrid(autoApplySupported, sources, siteUrls)}
 
 Full end-to-end apply: search filtered jobs, open each posting, fill every step, and submit from the extension sidebar **Auto Apply** tab.
 
 ### Auto Apply - coming soon
 
-${platformGrid(autoApplyComingSoon, sources, 5)}
+${platformGrid(autoApplyComingSoon, sources, siteUrls, 5)}
 
 <sub>+ more boards across the Anglosphere.</sub>
 

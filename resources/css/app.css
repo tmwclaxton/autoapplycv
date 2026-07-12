@@ -251,6 +251,16 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--postbox-navy);
+        text-decoration: none;
+        transition:
+            border-color 0.15s ease,
+            background-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    a.postbox-badge:hover {
+        border-color: var(--postbox-red);
+        color: var(--postbox-red);
     }
 
     .postbox-badge-supported {
@@ -266,6 +276,15 @@
         text-transform: uppercase;
         color: #ffffff;
         box-shadow: var(--postbox-stamp-shadow);
+        text-decoration: none;
+        transition:
+            filter 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    a.postbox-badge-supported:hover {
+        filter: brightness(1.05);
+        transform: translateY(-1px);
     }
 
     .postbox-badge-logo {

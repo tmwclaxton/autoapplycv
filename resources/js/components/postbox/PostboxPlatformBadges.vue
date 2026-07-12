@@ -6,6 +6,7 @@ import {
     PLATFORM_MARKETING_LINE,
     SUPPORTED_PLATFORMS,
     platformLogoUrl,
+    platformSiteUrl,
 } from '@/lib/site';
 
 defineProps<{
@@ -15,12 +16,14 @@ defineProps<{
 type PlatformBadge = {
     name: string;
     logoUrl: string | null;
+    siteUrl: string | null;
 };
 
 function toBadges(platforms: readonly string[]): PlatformBadge[] {
     return platforms.map((name) => ({
         name,
         logoUrl: platformLogoUrl(name),
+        siteUrl: platformSiteUrl(name),
     }));
 }
 
@@ -44,10 +47,14 @@ function onLogoError(event: Event): void {
             {{ PLATFORM_MARKETING_LINE }}
         </p>
         <div class="flex flex-wrap gap-2">
-            <span
+            <component
+                :is="platform.siteUrl ? 'a' : 'span'"
                 v-for="platform in atsPlatforms"
                 :key="platform.name"
+                :href="platform.siteUrl ?? undefined"
                 class="postbox-badge"
+                :rel="platform.siteUrl ? 'noopener noreferrer' : undefined"
+                :target="platform.siteUrl ? '_blank' : undefined"
             >
                 <img
                     v-if="platform.logoUrl"
@@ -61,7 +68,7 @@ function onLogoError(event: Event): void {
                     @error="onLogoError"
                 />
                 {{ platform.name }}
-            </span>
+            </component>
             <span class="postbox-badge-more">+ more</span>
         </div>
 
@@ -74,10 +81,14 @@ function onLogoError(event: Event): void {
                 Zealand coming soon.
             </p>
             <div class="flex flex-wrap gap-2">
-                <span
+                <component
+                    :is="platform.siteUrl ? 'a' : 'span'"
                     v-for="platform in autoApplySupported"
                     :key="platform.name"
+                    :href="platform.siteUrl ?? undefined"
                     class="postbox-badge-supported"
+                    :rel="platform.siteUrl ? 'noopener noreferrer' : undefined"
+                    :target="platform.siteUrl ? '_blank' : undefined"
                 >
                     <img
                         v-if="platform.logoUrl"
@@ -91,14 +102,18 @@ function onLogoError(event: Event): void {
                         @error="onLogoError"
                     />
                     {{ platform.name }} · Supported
-                </span>
+                </component>
             </div>
             <p class="postbox-label mt-4 mb-2">Platforms Coming Soon:</p>
             <div class="flex flex-wrap gap-2">
-                <span
+                <component
+                    :is="platform.siteUrl ? 'a' : 'span'"
                     v-for="platform in autoApplyComingSoon"
                     :key="platform.name"
+                    :href="platform.siteUrl ?? undefined"
                     class="postbox-badge border-dashed"
+                    :rel="platform.siteUrl ? 'noopener noreferrer' : undefined"
+                    :target="platform.siteUrl ? '_blank' : undefined"
                 >
                     <img
                         v-if="platform.logoUrl"
@@ -112,7 +127,7 @@ function onLogoError(event: Event): void {
                         @error="onLogoError"
                     />
                     {{ platform.name }}
-                </span>
+                </component>
                 <span class="postbox-badge-more">+ more</span>
             </div>
         </template>
