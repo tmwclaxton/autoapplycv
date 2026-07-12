@@ -824,7 +824,9 @@ const AutoCVApplyFormHeuristics = (() => {
             return null;
         }
 
-        return element.closest('[role="group"][aria-labelledby]');
+        return element.closest('fieldset[role="radiogroup"][aria-labelledby]')
+            || element.closest('[role="radiogroup"][aria-labelledby]')
+            || element.closest('[role="group"][aria-labelledby]');
     }
 
     function getWorkableCheckboxOptionLabel(element) {
