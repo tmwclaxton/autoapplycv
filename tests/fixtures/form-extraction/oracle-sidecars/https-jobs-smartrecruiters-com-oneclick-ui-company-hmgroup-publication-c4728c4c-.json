@@ -1,0 +1,204 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-hmgroup-publication-c4728c4c-",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:52:50.489Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/HMGroup/publication/c4728c4c-1f0a-46eb-a828-c7f9dc3772e0",
+  "page_title": "손쉬운 지원 - 용산 아이파크몰점 Sales Advisor (PT20 5W) - H&M",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 13,
+      "count_delta": 1,
+      "label_jaccard": 0.0417,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "first name",
+      "last name",
+      "email",
+      "email confirmation",
+      "location autocomplete",
+      "phone",
+      "linked in",
+      "twitter",
+      "website",
+      "message"
+    ],
+    "ai_only": [
+      "이력서 업로드",
+      "이름",
+      "성",
+      "이메일",
+      "이메일 확인",
+      "도시",
+      "전화번호",
+      "링크드인",
+      "X(이전의 Twitter)",
+      "웹사이트",
+      "이력서",
+      "여기서 근무하는 것에 대한 귀하의 관심을 회사에 알려주세요"
+    ],
+    "reasons": [
+      "label Jaccard 0.042 below 0.7",
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Angular components and dynamic loading. Experience and Education sections are dynamic and require clicking 'Add' buttons to reveal sub-fields. LinkedIn and Indeed are external OAuth providers.",
+    "fields": [
+      {
+        "question": "이력서 업로드",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "이름",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "성",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "이메일",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "이메일 확인",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "도시",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "전화번호",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "링크드인",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X(이전의 Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "웹사이트",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "이력서",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "여기서 근무하는 것에 대한 귀하의 관심을 회사에 알려주세요",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "email confirmation",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "linked in",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f11"
+    }
+  ]
+}

@@ -104,46 +104,6 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
       "question": "our contracts with the united states department of defense require that all zone 5 technologies employees are us citizens- are you currently a us citizen?",
       "field_type": "select",
       "max_chars": null,
@@ -184,7 +144,7 @@
       }
     },
     {
-      "question": "do you have experience developing software for real-time application in embedded hardware? our contracts with the united states department of defense require that all zone 5 technologies employees are us citizens- are you currently a us citizen?",
+      "question": "do you have experience developing software for real-time application in embedded hardware?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -224,7 +184,7 @@
       }
     },
     {
-      "question": "we operate with an on-site work model at our san luis obispo, ca office. this setup fosters a culture of collaboration, ownership, and rapid development. we recognize the power of face-to-face interactions, as they ignite creativity and drive our team's success. are you available to collaborate onsite in our office san luis obispo, ca. our contracts with the united states department of defense require that all zone 5 technologies employees are us citizens- are you currently a us citizen?",
+      "question": "we operate with an on-site work model at our san luis obispo, ca office. this setup fosters a culture of collaboration, ownership, and rapid development. we recognize the power of face-to-face interac",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -284,6 +244,26 @@
       }
     },
     {
+      "question": "please identify your race",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "race",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
       "question": "veteran status",
       "field_type": "select",
       "max_chars": null,
@@ -322,10 +302,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

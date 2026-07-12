@@ -1,0 +1,209 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-continental-publication-d2b4b",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:26:14.851Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/Continental/publication/d2b4b393-dbf7-4319-abe9-b7dfc44718ce",
+  "page_title": "Aplicați ușor - Tehnician Mentenanta CTTR - Continental",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 13,
+      "count_delta": 1,
+      "label_jaccard": 0.087,
+      "type_agree_rate": 0,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "email",
+      "emailconfirmation",
+      "location autocomplete",
+      "phone",
+      "twitter",
+      "website",
+      "message"
+    ],
+    "ai_only": [
+      "Resume/CV",
+      "Prenume",
+      "Nume",
+      "E-mail",
+      "Confirmare adresă de email",
+      "Oraș",
+      "Număr de telefon",
+      "X (fost Twitter)",
+      "Site",
+      "CV",
+      "Anunțați compania despre interesul dumneavoastră de a lucra acolo"
+    ],
+    "reasons": [
+      "label Jaccard 0.087 below 0.7",
+      "type agreement 0.000 below 0.6 on 2 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components for experience and education sections which are not fully expanded in the static HTML. The location field is an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Prenume",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nume",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirmare adresă de email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Oraș",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Număr de telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (fost Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Site",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Anunțați compania despre interesul dumneavoastră de a lucra acolo",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f11"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-ajnainfotech-publication-d762",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:30:29.676Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/AjnaInfotech/publication/d76274e2-af23-478c-9142-ae5e005e803c",
+  "page_title": "Easy apply - Talend HVR Consultant (AWS is must)(Independent consultants only) - Ajna Infotech",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 14,
+      "count_delta": 13,
+      "label_jaccard": 0.0714,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "upload profile image",
+        "ai": "Upload profile image",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email",
+      "Confirm your email",
+      "City",
+      "Phone number",
+      "LinkedIn",
+      "Facebook",
+      "X (fka Twitter)",
+      "Website",
+      "Resume",
+      "Let the company know about your interest working there",
+      "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice."
+    ],
+    "reasons": [
+      "field count delta 13 exceeds tolerance 2 (detector=1, ai=14)",
+      "label Jaccard 0.071 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components (SmartRecruiters SPA). Experience and Education sections are expandable via buttons, which may contain additional fields not visible in the static HTML.",
+    "fields": [
+      {
+        "question": "Upload profile image",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Confirm your email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (fka Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Let the company know about your interest working there",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "upload profile image",
+      "field_type": "file",
+      "ref": "f0"
+    }
+  ]
+}

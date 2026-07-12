@@ -1,0 +1,164 @@
+{
+  "id": "https-munerio-jobs-personio-com-job-2481860",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:04:14.933Z",
+  "page_url": "https://munerio.jobs.personio.com/job/2481860",
+  "page_title": "Application Engineer Motion Control (all genders) Region D/A/CH | Jobs bei munerio consulting GmbH",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 0.4545,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "verfügbar ab",
+        "ai": "Verfügbar ab",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung",
+        "ai": "Gehaltsvorstellung",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload andere",
+        "ai": "Andere",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "first name",
+      "last name",
+      "email"
+    ],
+    "ai_only": [
+      "Vorname",
+      "Nachname",
+      "E-Mail"
+    ],
+    "reasons": [
+      "label Jaccard 0.455 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom file upload buttons that trigger hidden file inputs. The 'available_from' and 'salary_expectations' fields are standard text inputs.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Verfügbar ab",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gehaltsvorstellung",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Andere",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefon",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "verfügbar ab",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "gehaltsvorstellung",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "upload lebenslauf",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "upload andere",
+      "field_type": "file",
+      "ref": "f7"
+    }
+  ]
+}

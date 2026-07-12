@@ -1,0 +1,458 @@
+{
+  "id": "https-jobs-lever-co-palantir-b88cd6e1-22b7-49d6-b215-1ca262a05728-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:32:49.033Z",
+  "page_url": "https://jobs.lever.co/palantir/b88cd6e1-22b7-49d6-b215-1ca262a05728/apply",
+  "page_title": "Palantir Technologies - American Tech Fellowship for Veterans",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 20,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "language skill(s) (check all that apply)",
+        "ai": "Language Skill(s) (Check all that apply)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred name | what would you like us to call you?",
+        "ai": "Preferred Name | What would you like us to call you?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "name pronunciation | how do you pronounce your name?",
+        "ai": "Name Pronunciation | How do you pronounce your name?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please tell us how you heard about this opportunity.",
+        "ai": "Please tell us how you heard about this opportunity.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "why are you interested in the american tech fellowship?",
+        "ai": "Why are you interested in the American Tech Fellowship?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how does your technical background and skillset align with this opportunity?",
+        "ai": "How does your technical background and skillset align with this opportunity?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "walk us through a particular project that you initiated, scoped, designed, implemented, and saw through to completion. this can be big or small, technical or non-technical. give us a view into how you approach identifying and solving a problem.",
+        "ai": "Walk us through a particular project that you initiated, scoped, designed, implemented, and saw through to completion. This can be big or small, technical or non-technical. Give us a view into how you approach identifying and solving a problem.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what does success look like for you after this fellowship?",
+        "ai": "What does success look like for you after this fellowship?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "upon successful completion of the fellowship, would you be interested in a full-time role with palantir or one of our partners/customers?",
+        "ai": "Upon successful completion of the Fellowship, would you be interested in a full-time role with Palantir or one of our partners/customers?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently located in, or willing to move to, one of palantir’s hubs (palo alto, dc, nyc, denver)? check all that may apply.",
+        "ai": "Are you currently located in, or willing to move to, one of Palantir’s hubs (Palo Alto, DC, NYC, Denver)? Check all that may apply.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "as part of our interview process, we may use ai notetakers to transcribe conversations for accuracy and efficiency. please see our candidate privacy policy for more information on how we process your data. your decision to opt in or out of this tooling will not impact your candidacy.",
+        "ai": "As part of our interview process, we may use AI notetakers to transcribe conversations for accuracy and efficiency. Please see our candidate privacy policy for more information on how we process your data. Your decision to opt in or out of this tooling will not impact your candidacy.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with multiple dynamic 'cards' containing custom questions. The location field is a text input with an associated hidden field for selection.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Language Skill(s) (Check all that apply)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "English (ENG)",
+          "Spanish (SPA)",
+          "French (FRA)",
+          "German (DEU)",
+          "Japanese (JPN)",
+          "Cantonese (CANT)",
+          "Mandarin (MAN)",
+          "Dutch (NLD)",
+          "Hindi (HIN)",
+          "Arabic (ARA)",
+          "Danish (DAN)",
+          "Turkish (TUR)",
+          "Portuguese (POR)",
+          "Hebrew (HEB)",
+          "Swedish (SWE)",
+          "Norwegian (NOR)",
+          "Italian (ITA)",
+          "Vietnamese (VIE)",
+          "Tagalog (TGL)",
+          "Khmer (KHM)",
+          "Hmong (HMN)",
+          "Telugu (TEL)",
+          "Bengali (BNE)",
+          "Marathi (MAR)",
+          "Urdu (URD)",
+          "Gujarati (GUJ)",
+          "Lithuanian (LIT)",
+          "Korean (KOR)",
+          "American Sign Language (ASL)",
+          "British Sign Language (BSL)",
+          "Choose not to disclose",
+          "Polish",
+          "Other"
+        ]
+      },
+      {
+        "question": "Preferred Name | What would you like us to call you?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name Pronunciation | How do you pronounce your name?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please tell us how you heard about this opportunity.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Agency or Non-Palantir Recruiter",
+          "America's Job Exchange",
+          "BuiltIn",
+          "Campus Ambassador",
+          "Friend or Family",
+          "Glassdoor",
+          "Hackajob",
+          "Hallo",
+          "Handshake",
+          "Job Board (Indeed, Monster, etc.)",
+          "LinkedIn",
+          "Palantir Event",
+          "Palantir Medium Blog",
+          "Palantir Recruiter",
+          "Palantir Website",
+          "Rewriting the Code",
+          "Tapia",
+          "University Job Board",
+          "University or University Organization",
+          "Other"
+        ]
+      },
+      {
+        "question": "Why are you interested in the American Tech Fellowship?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How does your technical background and skillset align with this opportunity?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Walk us through a particular project that you initiated, scoped, designed, implemented, and saw through to completion. This can be big or small, technical or non-technical. Give us a view into how you approach identifying and solving a problem.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What does success look like for you after this fellowship?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Upon successful completion of the Fellowship, would you be interested in a full-time role with Palantir or one of our partners/customers?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently located in, or willing to move to, one of Palantir’s hubs (Palo Alto, DC, NYC, Denver)? Check all that may apply.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Palo Alto, CA",
+          "Washington D.C.",
+          "New York, NY",
+          "Denver, CO",
+          "Not interested in relocating to a Palantir hub"
+        ]
+      },
+      {
+        "question": "As part of our interview process, we may use AI notetakers to transcribe conversations for accuracy and efficiency. Please see our candidate privacy policy for more information on how we process your data. Your decision to opt in or out of this tooling will not impact your candidacy.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I consent",
+          "No, I do not consent"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "language skill(s) (check all that apply)",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "preferred name | what would you like us to call you?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "name pronunciation | how do you pronounce your name?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "please tell us how you heard about this opportunity.",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "why are you interested in the american tech fellowship?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "how does your technical background and skillset align with this opportunity?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "walk us through a particular project that you initiated, scoped, designed, implemented, and saw through to completion. this can be big or small, technical or non-technical. give us a view into how you approach identifying and solving a problem.",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "what does success look like for you after this fellowship?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "upon successful completion of the fellowship, would you be interested in a full-time role with palantir or one of our partners/customers?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "are you currently located in, or willing to move to, one of palantir’s hubs (palo alto, dc, nyc, denver)? check all that may apply.",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "as part of our interview process, we may use ai notetakers to transcribe conversations for accuracy and efficiency. please see our candidate privacy policy for more information on how we process your data. your decision to opt in or out of this tooling will not impact your candidacy.",
+      "field_type": "radio",
+      "ref": "f19"
+    }
+  ]
+}

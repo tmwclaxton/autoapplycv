@@ -1,0 +1,157 @@
+{
+  "id": "https-beta-jobs-nhs-uk-candidate-auth-register",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:22:41.880Z",
+  "page_url": "https://beta.jobs.nhs.uk/candidate/auth/register",
+  "page_title": "Create an account",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "password",
+        "ai": "Password",
+        "detector_type": "password",
+        "ai_type": "password",
+        "type_agree": true
+      },
+      {
+        "detector": "confirm password",
+        "ai": "Confirm password",
+        "detector_type": "password",
+        "ai_type": "password",
+        "type_agree": true
+      },
+      {
+        "detector": "i agree to comply with the acceptable use declaration (opens in new tab).",
+        "ai": "I agree to comply with the acceptable use declaration",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "i accept the terms in the privacy policy (opens in new tab).",
+        "ai": "I accept the terms in the privacy policy",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses standard HTML inputs. Required attributes were not explicitly present in the provided HTML snippet, so they are marked as false.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Password",
+        "field_type": "password",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Confirm password",
+        "field_type": "password",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I agree to comply with the acceptable use declaration",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I accept the terms in the privacy policy",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "password",
+      "field_type": "password",
+      "ref": "f3"
+    },
+    {
+      "question": "confirm password",
+      "field_type": "password",
+      "ref": "f4"
+    },
+    {
+      "question": "i agree to comply with the acceptable use declaration (opens in new tab).",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "i accept the terms in the privacy policy (opens in new tab).",
+      "field_type": "checkbox",
+      "ref": "f6"
+    }
+  ]
+}

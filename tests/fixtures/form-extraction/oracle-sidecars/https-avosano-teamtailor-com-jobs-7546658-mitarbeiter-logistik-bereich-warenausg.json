@@ -1,0 +1,170 @@
+{
+  "id": "https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:41:14.669Z",
+  "page_url": "https://avosano.teamtailor.com/jobs/7546658-mitarbeiter-logistik-bereich-warenausgang-m-w-d-100/applications/new",
+  "page_title": "Mitarbeiter Logistik Bereich Warenausgang (m/w/d) 100% - Avosano",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 6,
+      "count_delta": 5,
+      "label_jaccard": 0.5455,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "wie hoch sind deine gehaltsvorstellungen (brutto jahreslohn)?",
+        "ai": "Wie hoch sind deine Gehaltsvorstellungen (brutto Jahreslohn)?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "eintrittsdatum",
+        "ai": "Eintrittsdatum",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben",
+      "mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass avosano meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "ja, avosano kann mich auch bezüglich künftiger stellenangebote kontaktieren."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload or further screening questions) that might exist in the full form are missing. The phone input uses an international telephone input library (intl-tel-input).",
+    "fields": [
+      {
+        "question": "Wie hoch sind deine Gehaltsvorstellungen (brutto Jahreslohn)?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Eintrittsdatum",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "wie hoch sind deine gehaltsvorstellungen (brutto jahreslohn)?",
+      "field_type": "number",
+      "ref": "f0"
+    },
+    {
+      "question": "eintrittsdatum",
+      "field_type": "date",
+      "ref": "f1"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass avosano meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "ja, avosano kann mich auch bezüglich künftiger stellenangebote kontaktieren.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

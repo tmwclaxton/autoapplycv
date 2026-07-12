@@ -1,0 +1,144 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-accorhotel-publication-538233",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:19:45.989Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/AccorHotel/publication/53823301-8e40-42a7-a581-9d73bbb71791",
+  "page_title": "Gyors jelentkezés - Éjszakai szállodai recepciós - IBIS",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 14,
+      "count_delta": 13,
+      "label_jaccard": 0.0714,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "profilkép feltöltése",
+        "ai": "Profilkép feltöltése",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Keresztnév",
+      "Vezetéknév",
+      "E-mail",
+      "E-mail-cím megerősítése",
+      "Város",
+      "Telefonszám",
+      "LinkedIn",
+      "Facebook",
+      "X (korábban Twitter)",
+      "Website",
+      "Önéletrajz",
+      "Tudassa a céggel, hogy szívesen dolgozna náluk",
+      "Ön kijelenti, hogy elolvasta és megértette a(z) AccorHotel adatvédelmi közleményét."
+    ],
+    "reasons": [
+      "field count delta 13 exceeds tolerance 2 (detector=1, ai=14)",
+      "label Jaccard 0.071 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses SmartRecruiters' SPA framework. Experience and Education sections are dynamic and require clicking 'Add' to reveal further fields. The location field is an autocomplete component.",
+    "fields": [
+      {
+        "question": "Profilkép feltöltése",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Keresztnév",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Vezetéknév",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-mail-cím megerősítése",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Város",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefonszám",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (korábban Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Önéletrajz",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tudassa a céggel, hogy szívesen dolgozna náluk",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ön kijelenti, hogy elolvasta és megértette a(z) AccorHotel adatvédelmi közleményét.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "profilkép feltöltése",
+      "field_type": "file",
+      "ref": "f0"
+    }
+  ]
+}

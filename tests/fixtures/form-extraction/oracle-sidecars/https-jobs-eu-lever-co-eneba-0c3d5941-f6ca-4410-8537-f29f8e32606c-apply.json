@@ -1,17 +1,17 @@
 {
   "id": "https-jobs-eu-lever-co-eneba-0c3d5941-f6ca-4410-8537-f29f8e32606c-apply",
-  "status": "disagree",
-  "captured_at": "2026-07-10T19:55:17.574Z",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:17:43.047Z",
   "page_url": "https://jobs.eu.lever.co/eneba/0c3d5941-f6ca-4410-8537-f29f8e32606c/apply",
   "page_title": "Eneba - Influencers Manager",
   "diff": {
-    "status": "disagree",
+    "status": "agree",
     "metrics": {
       "detector_count": 13,
       "ai_count": 13,
       "count_delta": 0,
       "label_jaccard": 0.8571,
-      "type_agree_rate": 0.5385,
+      "type_agree_rate": 0.6154,
       "matched_count": 13
     },
     "matched": [
@@ -47,8 +47,8 @@
         "detector": "phone",
         "ai": "Phone",
         "detector_type": "text",
-        "ai_type": "tel",
-        "type_agree": false
+        "ai_type": "text",
+        "type_agree": true
       },
       {
         "detector": "current location",
@@ -109,19 +109,18 @@
     ],
     "detector_only": [],
     "ai_only": [],
-    "reasons": [
-      "type agreement 0.538 below 0.6 on 13 matched pairs"
-    ]
+    "reasons": []
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a Lever-specific application structure. Location input includes an autocomplete/dropdown mechanism. LinkedIn profile button is an external integration.",
+    "notes": "The form uses an hCaptcha challenge and a LinkedIn auto-fill integration. The 'Current location' field is an interactive input that likely triggers a dynamic search/dropdown.",
     "fields": [
       {
         "question": "Which location are you applying for?",
         "field_type": "select",
-        "required": false,
+        "required": true,
         "options": [
+          "Select..",
           "Remote",
           "Kaunas",
           "Lithuania",
@@ -148,7 +147,7 @@
       },
       {
         "question": "Phone",
-        "field_type": "tel",
+        "field_type": "text",
         "required": false,
         "options": null
       },

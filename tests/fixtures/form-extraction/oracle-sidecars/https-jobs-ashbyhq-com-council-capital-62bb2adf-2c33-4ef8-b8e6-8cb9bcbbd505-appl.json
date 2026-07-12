@@ -1,0 +1,182 @@
+{
+  "id": "https-jobs-ashbyhq-com-council-capital-62bb2adf-2c33-4ef8-b8e6-8cb9bcbbd505-appl",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:18:25.220Z",
+  "page_url": "https://jobs.ashbyhq.com/council-capital/62bb2adf-2c33-4ef8-b8e6-8cb9bcbbd505/application",
+  "page_title": "Head of AI, Portfolio Operations @ Council Capital",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "upload a file version of previous work product.",
+        "ai": "Upload a file version of previous work product.",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you open to relocating to nashville?",
+        "ai": "Are you open to relocating to Nashville?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you require visa sponsorship, either now or in the future?",
+        "ai": "Will you require visa sponsorship, either now or in the future?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom combobox for location and custom file upload widgets. The visa sponsorship field is implemented as a set of checkboxes.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Upload a file version of previous work product.",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you open to relocating to Nashville?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Already live in the area",
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you require visa sponsorship, either now or in the future?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f3"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "url",
+      "ref": "f4"
+    },
+    {
+      "question": "upload a file version of previous work product.",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "are you open to relocating to nashville?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "will you require visa sponsorship, either now or in the future?",
+      "field_type": "checkbox",
+      "ref": "f7"
+    }
+  ]
+}

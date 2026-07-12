@@ -1,0 +1,39 @@
+{
+  "id": "https-baufi24-softgarden-io-job-16522577-unsolicited-application-m-f-d",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:23:53.517Z",
+  "page_url": "https://baufi24.softgarden.io/job/16522577/Unsolicited-Application-m-f-d-",
+  "page_title": "Unsolicited Application (m/f/d)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Online bewerben"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The page contains a link to an external application portal (softgarden.de) rather than an embedded form. The 'Online bewerben' button redirects the user to the actual application form.",
+    "fields": [
+      {
+        "question": "Online bewerben",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

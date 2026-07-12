@@ -1,0 +1,220 @@
+{
+  "id": "https-securitas-teamtailor-com-jobs-7676694-senior-data-scientist-applications-n",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:02:45.425Z",
+  "page_url": "https://securitas.teamtailor.com/jobs/7676694-senior-data-scientist/applications/new",
+  "page_title": "Senior Data Scientist - Securitas",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 6,
+      "count_delta": 11,
+      "label_jaccard": 0.15,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "what is your current location?",
+        "ai": "What is your current location?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "depending on where you live - are you able to work in a hybrid working model from our malmö/stockholm office?",
+        "ai": "Depending on where you live - are you able to work in a hybrid working model from our Malmö/Stockholm office?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your proficiency in english?",
+        "ai": "What is your proficiency in English?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "which cloud platforms do you have experience working with? please select all that apply.",
+        "ai": "Which cloud platforms do you have experience working with?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following genai areas have you worked with? please select all that apply.",
+        "ai": "Which of the following GenAI areas have you worked with?",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "do you have experience with mentoring junior team members?",
+      "what is your notice period?",
+      "please indicate your desired compensation range for this role (sek/gross).",
+      "locations",
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "phone",
+      "candidate[location][query]",
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [
+      "On a scale of 0 to 5, how would you rate your Python proficiency?"
+    ],
+    "reasons": [
+      "field count delta 11 exceeds tolerance 2 (detector=17, ai=6)",
+      "label Jaccard 0.150 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom SPA components (Teamtailor) for dropdowns and range sliders. The HTML excerpt was truncated, so standard fields like Name, Email, and Resume upload are likely present in the full form but missing from this snippet.",
+    "fields": [
+      {
+        "question": "What is your current location?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Depending on where you live - are you able to work in a hybrid working model from our Malmö/Stockholm office?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your proficiency in English?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "On a scale of 0 to 5, how would you rate your Python proficiency?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which cloud platforms do you have experience working with?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "AWS",
+          "GCP",
+          "Azure",
+          "None"
+        ]
+      },
+      {
+        "question": "Which of the following GenAI areas have you worked with?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "GenAI or LLM evaluation frameworks",
+          "Measuring output quality (e.g., relevance, faithfulness, hallucination rates)",
+          "Identifying failure modes in AI-generated outputs",
+          "Prompt strategy / prompt engineering",
+          "RAG systems",
+          "Designing or testing GenAI workflows or architectures",
+          "Latency, quality, or performance tradeoff analysis",
+          "Setting evaluation standards or benchmarks for AI systems",
+          "None of the above"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what is your current location?",
+      "field_type": "textarea",
+      "ref": "f0"
+    },
+    {
+      "question": "depending on where you live - are you able to work in a hybrid working model from our malmö/stockholm office?",
+      "field_type": "textarea",
+      "ref": "f1"
+    },
+    {
+      "question": "what is your proficiency in english?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "which cloud platforms do you have experience working with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "which of the following genai areas have you worked with? please select all that apply.",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "do you have experience with mentoring junior team members?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "please indicate your desired compensation range for this role (sek/gross).",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f11"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f12"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f16"
+    }
+  ]
+}

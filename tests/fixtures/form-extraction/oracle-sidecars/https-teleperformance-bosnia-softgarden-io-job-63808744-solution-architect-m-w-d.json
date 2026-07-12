@@ -1,0 +1,46 @@
+{
+  "id": "https-teleperformance-bosnia-softgarden-io-job-63808744-solution-architect-m-w-d",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:11:41.291Z",
+  "page_url": "https://teleperformance-bosnia.softgarden.io/job/63808744/Solution-Architect-m-w-d-Remote-TPB-H",
+  "page_title": "Solution Architect (m/w/d) | Remote TPB&H bei TP Bosnia | softgarden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 2,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Lebenslauf (CV)",
+      "Motivationsschreiben"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML contains a link to an external application portal (softgarden.de). The actual form fields (name, email, etc.) are hosted on that external domain and are not present in the provided HTML snippet. Only the file upload requirements mentioned in the text are captured.",
+    "fields": [
+      {
+        "question": "Lebenslauf (CV)",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Motivationsschreiben",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

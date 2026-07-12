@@ -1,0 +1,197 @@
+{
+  "id": "https-ensek-teamtailor-com-jobs-7948295-lead-product-designer-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:42:03.092Z",
+  "page_url": "https://ensek.teamtailor.com/jobs/7948295-lead-product-designer/applications/new",
+  "page_title": "Lead Product Designer - ENSEK",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 8,
+      "count_delta": 3,
+      "label_jaccard": 0.7273,
+      "type_agree_rate": 1,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "do you currently have right to work in the uk?",
+        "ai": "Do you currently have Right to work in the UK?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "current salary?",
+        "ai": "Current Salary?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "desired salary?",
+        "ai": "Desired Salary?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current notice period?",
+        "ai": "What is your current notice period?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a complex international phone input widget (iti). The HTML excerpt was truncated, so additional fields (like resume upload or social links) may exist in the full document.",
+    "fields": [
+      {
+        "question": "Do you currently have Right to work in the UK?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No - I require sponsorship"
+        ]
+      },
+      {
+        "question": "Current Salary?",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your current notice period?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you currently have right to work in the uk?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "current salary?",
+      "field_type": "number",
+      "ref": "f1"
+    },
+    {
+      "question": "desired salary?",
+      "field_type": "number",
+      "ref": "f2"
+    },
+    {
+      "question": "what is your current notice period?",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f10"
+    }
+  ]
+}

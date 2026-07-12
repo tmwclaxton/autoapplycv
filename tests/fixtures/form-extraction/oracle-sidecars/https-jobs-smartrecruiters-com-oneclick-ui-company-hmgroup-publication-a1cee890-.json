@@ -1,0 +1,204 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-hmgroup-publication-a1cee890-",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:54:44.474Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/HMGroup/publication/a1cee890-c687-4d20-afa2-96567edd8e27",
+  "page_title": "Легке подання заявки - Продавець- консультант (ТРЦ Sky Mall) - H&M",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 13,
+      "count_delta": 1,
+      "label_jaccard": 0.0435,
+      "type_agree_rate": 0,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "first name",
+      "last name",
+      "email",
+      "email confirmation",
+      "location autocomplete",
+      "phone",
+      "linked in",
+      "twitter",
+      "website",
+      "message"
+    ],
+    "ai_only": [
+      "Резюме",
+      "Ім'я",
+      "Прізвище",
+      "Електронна пошта",
+      "Підтвердьте свою адресу електронної пошти",
+      "Місто",
+      "Номер телефону",
+      "LinkedIn",
+      "X (колишній Twitter)",
+      "Вебсайт",
+      "Резюме",
+      "Повірте про своє бажання працювати у відповідній компанії"
+    ],
+    "reasons": [
+      "label Jaccard 0.043 below 0.7",
+      "type agreement 0.000 below 0.6 on 1 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components (SmartRecruiters OneClick). Experience and Education sections are expandable, meaning additional fields may appear upon user interaction. LinkedIn and Indeed are provided as external authentication providers.",
+    "fields": [
+      {
+        "question": "Резюме",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ім'я",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Прізвище",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Електронна пошта",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Підтвердьте свою адресу електронної пошти",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Місто",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Номер телефону",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X (колишній Twitter)",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Вебсайт",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Резюме",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Повірте про своє бажання працювати у відповідній компанії",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "email confirmation",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "linked in",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f11"
+    }
+  ]
+}

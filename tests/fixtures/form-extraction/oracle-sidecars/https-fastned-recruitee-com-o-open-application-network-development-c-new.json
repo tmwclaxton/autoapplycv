@@ -1,0 +1,246 @@
+{
+  "id": "https-fastned-recruitee-com-o-open-application-network-development-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:09:45.260Z",
+  "page_url": "https://fastned.recruitee.com/o/open-application-network-development/c/new",
+  "page_title": "Fastned - Open application - Location Acquisition - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 11,
+      "count_delta": 1,
+      "label_jaccard": 0.9167,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what type of role(s) would you be interested in?",
+        "ai": "What type of role(s) would you be interested in?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your salary indication (in eur, gross/year)?",
+        "ai": "What is your salary indication (in EUR, gross/year)?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us a bit more about your motivation. why would you like to work at fastned?",
+        "ai": "Tell us a bit more about your motivation. Why would you like to work at Fastned?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you need a sponsorship / visa to work in europe?",
+        "ai": "Do you need a sponsorship / visa to work in Europe?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is an unusual habit or absurd thing you love that will make us remember you?",
+        "ai": "What is an unusual habit or absurd thing you love that will make us remember you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred work location?",
+        "ai": "What is your preferred work location?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "i hereby give consent for my personal data included in my application to be processed according to the fastned privacy statement.",
+        "ai": "I hereby give consent for my personal data included in my application to be processed according to the Fastned privacy statement.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not a standard input field. The phone number field uses a custom country code selector.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What type of role(s) would you be interested in?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your salary indication (in EUR, gross/year)?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us a bit more about your motivation. Why would you like to work at Fastned?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you need a sponsorship / visa to work in Europe?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is an unusual habit or absurd thing you love that will make us remember you?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your preferred work location?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Amsterdam Office (Amstelplein 44, Amsterdam, Noord-Holland, Netherlands)",
+          "Cologne Office (Gregorius-Maurus-Straße 7-9, Köln, Nordrhein-Westfalen, Germany)",
+          "Copenhagen Office (Copenhagen, Hovedstaden, Denmark)",
+          "Ghent Office (Ghent, Oost-Vlaanderen, Belgium)",
+          "London Office (3 Bath Pl, London, England, United Kingdom)",
+          "Madrid Office (Calle Zurbano 76, Madrid, Comunidad de Madrid, Spain)",
+          "Milan Office (Via San Senatore 8, Milan, Lombardia, Italy)",
+          "Paris Office (18 Rue du Faubourg du Temple, Paris, Île-de-France, France)",
+          "Zurich Office (Bändliweg 20, Zürich, Zürich, Switzerland)"
+        ]
+      },
+      {
+        "question": "I hereby give consent for my personal data included in my application to be processed according to the Fastned privacy statement.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "what type of role(s) would you be interested in?",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "what is your salary indication (in eur, gross/year)?",
+      "field_type": "number",
+      "ref": "f5"
+    },
+    {
+      "question": "tell us a bit more about your motivation. why would you like to work at fastned?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "do you need a sponsorship / visa to work in europe?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is an unusual habit or absurd thing you love that will make us remember you?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "what is your preferred work location?",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "i hereby give consent for my personal data included in my application to be processed according to the fastned privacy statement.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f11"
+    }
+  ]
+}

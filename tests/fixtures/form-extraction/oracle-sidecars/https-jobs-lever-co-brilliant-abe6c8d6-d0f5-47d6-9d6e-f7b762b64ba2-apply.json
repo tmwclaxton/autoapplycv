@@ -1,0 +1,265 @@
+{
+  "id": "https-jobs-lever-co-brilliant-abe6c8d6-d0f5-47d6-9d6e-f7b762b64ba2-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:45:52.687Z",
+  "page_url": "https://jobs.lever.co/brilliant/abe6c8d6-d0f5-47d6-9d6e-f7b762b64ba2/apply",
+  "page_title": "Brilliant - Senior/Staff Software Engineer (Interactives)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.6154,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "briefly describe an exceptional contribution you made in frontend web engineering beyond frameworks like react. for example: perhaps you solved a tricky performance bug in chromium, built a widely used animation library, or crafted a highly polished and performant interactive experience.",
+        "ai": "Briefly describe an exceptional contribution you made in frontend web engineering beyond frameworks like React. For example: perhaps you solved a tricky performance bug in Chromium, built a widely used animation library, or crafted a highly polished and performant interactive experience.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe your current use of ai in software development. what tools and systems do you have in place, and how do you determine what roles should be played by humans versus models?",
+        "ai": "Briefly describe your current use of AI in software development. What tools and systems do you have in place, and how do you determine what roles should be played by humans versus models?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe one thing that you would change about brilliant to improve the experience for learners.",
+        "ai": "Briefly describe one thing that you would change about Brilliant to improve the experience for learners.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom location input with a dropdown; the hCaptcha is a security widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Briefly describe an exceptional contribution you made in frontend web engineering beyond frameworks like React. For example: perhaps you solved a tricky performance bug in Chromium, built a widely used animation library, or crafted a highly polished and performant interactive experience.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Briefly describe your current use of AI in software development. What tools and systems do you have in place, and how do you determine what roles should be played by humans versus models?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Briefly describe one thing that you would change about Brilliant to improve the experience for learners.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "briefly describe an exceptional contribution you made in frontend web engineering beyond frameworks like react. for example: perhaps you solved a tricky performance bug in chromium, built a widely used animation library, or crafted a highly polished and performant interactive experience.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "briefly describe your current use of ai in software development. what tools and systems do you have in place, and how do you determine what roles should be played by humans versus models?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "briefly describe one thing that you would change about brilliant to improve the experience for learners.",
+      "field_type": "textarea",
+      "ref": "f12"
+    }
+  ]
+}

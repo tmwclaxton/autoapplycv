@@ -1,7 +1,7 @@
 {
   "id": "https-anexia-onlyfy-jobs-application-en-apply-6ltsssdd4k6jl6aj33l8sylswahu34",
   "status": "disagree",
-  "captured_at": "2026-07-10T19:42:37.905Z",
+  "captured_at": "2026-07-10T22:16:53.911Z",
   "page_url": "https://anexia.onlyfy.jobs/application/en/apply/6ltsssdd4k6jl6aj33l8sylswahu34",
   "page_title": "Application Process",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 13,
       "ai_count": 14,
       "count_delta": 1,
-      "label_jaccard": 0.5,
+      "label_jaccard": 0.5882,
       "type_agree_rate": 0.9091,
       "matched_count": 11
     },
@@ -51,7 +51,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -103,12 +103,12 @@
       "Upload"
     ],
     "reasons": [
-      "label Jaccard 0.500 below 0.7"
+      "label Jaccard 0.588 below 0.7"
     ]
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses Radix UI components for selects and comboboxes, which are mapped to hidden native select elements. The location combobox options are dynamically loaded and not visible in the static HTML.",
+    "notes": "The form uses Radix UI components for selects and comboboxes, which are hidden in the DOM but mapped to standard select elements. The location combobox options are not explicitly listed in the static HTML.",
     "fields": [
       {
         "question": "Salutation",
@@ -243,7 +243,7 @@
       "ref": "f4"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f5"
     },

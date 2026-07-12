@@ -1,0 +1,272 @@
+{
+  "id": "https-jobs-ashbyhq-com-nerdwallet-148d0d7a-798f-4e4b-b131-8dd5b5374e42-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:39:30.638Z",
+  "page_url": "https://jobs.ashbyhq.com/nerdwallet/148d0d7a-798f-4e4b-b131-8dd5b5374e42/application",
+  "page_title": "Senior Account Executive - NerdWallet Small Business @ NerdWallet",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 26,
+      "ai_count": 7,
+      "count_delta": 19,
+      "label_jaccard": 0.2692,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current or most recent company?",
+        "ai": "What is your current or most recent company?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "have you ever worked at nerdwallet?",
+      "do you currently reside in the country this role is listed in?",
+      "are you subject to a non-competition agreement or any other agreement which would preclude or restrict your employment at nerdwallet or any other nerdwallet subsidiary?",
+      "are you authorized to work in the country this role is listed in?",
+      "do you need, or will you need in the future, any immigration related support or sponsorship from nerdwallet in order to begin or continue employment with nerdwallet?",
+      "please note: this role is located in new york, and requires in-office participation. please confirm one of the following:",
+      "how many years of sales experience do you have?",
+      "linkedin url",
+      "other website",
+      "why do you want to work at nerdwallet?",
+      "how did you hear about this job?",
+      "if other, please specify:",
+      "if yes, please specify the jurisdiction (state, province, or country) and provide details about your agreements:",
+      "i identify my gender as: (select one)",
+      "i identify as transgender: (select one)",
+      "i identify my sexual orientation as: (select one)",
+      "i identify my ethnicity as (mark all that apply):",
+      "veteran status: (select one)",
+      "i have a physical disability: (select one)"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so additional role-specific questions that may have followed the 'Role-Specific Questions' section header are missing.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your current or most recent company?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "have you ever worked at nerdwallet?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you currently reside in the country this role is listed in?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you subject to a non-competition agreement or any other agreement which would preclude or restrict your employment at nerdwallet or any other nerdwallet subsidiary?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you authorized to work in the country this role is listed in?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "do you need, or will you need in the future, any immigration related support or sponsorship from nerdwallet in order to begin or continue employment with nerdwallet?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f7"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f8"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your current or most recent company?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "please note: this role is located in new york, and requires in-office participation. please confirm one of the following:",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "how many years of sales experience do you have?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "why do you want to work at nerdwallet?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "if other, please specify:",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "if yes, please specify the jurisdiction (state, province, or country) and provide details about your agreements:",
+      "field_type": "textarea",
+      "ref": "f19"
+    },
+    {
+      "question": "i identify my gender as: (select one)",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "i identify as transgender: (select one)",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "i identify my sexual orientation as: (select one)",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "i identify my ethnicity as (mark all that apply):",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "veteran status: (select one)",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "i have a physical disability: (select one)",
+      "field_type": "radio",
+      "ref": "f25"
+    }
+  ]
+}

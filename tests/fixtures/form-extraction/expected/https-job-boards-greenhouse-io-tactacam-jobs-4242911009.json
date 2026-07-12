@@ -124,46 +124,6 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
       "question": "linkedin profile",
       "field_type": "text",
       "max_chars": 255,
@@ -204,7 +164,7 @@
       }
     },
     {
-      "question": "are you authorized to work in the united states? linkedin profile",
+      "question": "are you authorized to work in the united states?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -224,7 +184,7 @@
       }
     },
     {
-      "question": "will you now or in the future require employment visa sponsorship? linkedin profile",
+      "question": "will you now or in the future require employment visa sponsorship?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -244,7 +204,7 @@
       }
     },
     {
-      "question": "are you willing to relocate to billings, mt? linkedin profile",
+      "question": "are you willing to relocate to billings, mt?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -304,6 +264,26 @@
       }
     },
     {
+      "question": "please identify your race",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "race",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
       "question": "veteran status",
       "field_type": "select",
       "max_chars": null,
@@ -342,10 +322,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

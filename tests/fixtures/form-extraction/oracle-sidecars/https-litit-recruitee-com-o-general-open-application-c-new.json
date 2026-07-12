@@ -1,0 +1,272 @@
+{
+  "id": "https-litit-recruitee-com-o-general-open-application-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:48:44.988Z",
+  "page_url": "https://litit.recruitee.com/o/general-open-application/c/new",
+  "page_title": "LITIT - GENERAL OPEN APPLICATION - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 12,
+      "count_delta": 1,
+      "label_jaccard": 0.9231,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if your response to the previous question was 'european union', please specify the particular country within the eu.",
+        "ai": "If your response to the previous question was 'European Union', please specify the particular country within the EU.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your level of proficiency in english?",
+        "ai": "What is your level of proficiency in English?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please introduce yourself and share a brief summary of your skills, experience, and professional background.",
+        "ai": "Please introduce yourself and share a brief summary of your skills, experience, and professional background.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if applicable, how much notice period do you need to give your current organisation?",
+        "ai": "If applicable, how much notice period do you need to give your current organisation?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "your expected monthly gross salary (in eur, including taxes)",
+        "ai": "Your expected monthly gross salary (in EUR, including taxes)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a hCaptcha widget which is not a standard input field. The cover letter section allows for file upload, but the UI suggests a toggle to switch to a text area input.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "European Union",
+          "Romania",
+          "Portugal",
+          "Spain",
+          "Germany",
+          "India",
+          "Pakistan",
+          "Nigeria",
+          "Egypt",
+          "Turkey",
+          "Other"
+        ]
+      },
+      {
+        "question": "If your response to the previous question was 'European Union', please specify the particular country within the EU.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your level of proficiency in English?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "A2 - Elementary level",
+          "B1 - Low intermediate level",
+          "B2 - High intermediate level",
+          "C1 - Advanced level",
+          "C2 - Full proficiency level"
+        ]
+      },
+      {
+        "question": "Please introduce yourself and share a brief summary of your skills, experience, and professional background.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If applicable, how much notice period do you need to give your current organisation?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Your expected monthly gross salary (in EUR, including taxes)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "if your response to the previous question was 'european union', please specify the particular country within the eu.",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your level of proficiency in english?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "please introduce yourself and share a brief summary of your skills, experience, and professional background.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "if applicable, how much notice period do you need to give your current organisation?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "your expected monthly gross salary (in eur, including taxes)",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f12"
+    }
+  ]
+}

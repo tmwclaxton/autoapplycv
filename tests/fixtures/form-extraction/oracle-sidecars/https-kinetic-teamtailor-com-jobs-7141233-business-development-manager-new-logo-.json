@@ -1,0 +1,286 @@
+{
+  "id": "https-kinetic-teamtailor-com-jobs-7141233-business-development-manager-new-logo-",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:48:17.020Z",
+  "page_url": "https://kinetic.teamtailor.com/jobs/7141233-business-development-manager-new-logo-us-higher-education/applications/new",
+  "page_title": "Business Development Manager (New Logo) - US Higher Education - Kinetic Software",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 11,
+      "count_delta": 6,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "do you currently have the legal right to work in the united states without the need for sponsorship now or in the future?",
+        "ai": "Do you currently have the legal right to work in the United States without the need for sponsorship now or in the future?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please indicate your eligibility to work in the u.s. (e.g., u.s. citizen, green card, ead, other – please specify). note: visas requiring employer sponsorship are not accepted.",
+        "ai": "Please indicate your eligibility to work in the U.S. (e.g., U.S. Citizen, Green Card, EAD, other – please specify). Note: Visas requiring employer sponsorship are not accepted.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have you owned a revenue or sales quota in a customer-facing role?",
+        "ai": "Have you owned a revenue or sales quota in a customer-facing role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you negotiated contracts and terms of agreement directly with clients in a sales role?",
+        "ai": "Have you negotiated contracts and terms of agreement directly with clients in a sales role?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following best describes your experience demonstrating software to potential clients?",
+        "ai": "Which of the following best describes your experience demonstrating software to potential clients?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary requirements for the role",
+        "ai": "What are your salary requirements for the role",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience completing and submitting rfp documentation for software sales?",
+        "ai": "Do you have experience completing and submitting RFP documentation for software sales?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which crm platforms have you used extensively for sales prospecting and pipeline management?",
+        "ai": "Which CRM platforms have you used extensively for sales prospecting and pipeline management?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "email",
+      "phone",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that kinetic software store my personal details to be able to process my job application.",
+      "yes, kinetic software can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [
+      "How many years of experience do you have selling SaaS solutions to higher education institutions or universities?"
+    ],
+    "reasons": [
+      "field count delta 6 exceeds tolerance 2 (detector=17, ai=11)",
+      "label Jaccard 0.556 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so fields following 'Last name' (such as email, phone, and resume upload) are missing from this list.",
+    "fields": [
+      {
+        "question": "Do you currently have the legal right to work in the United States without the need for sponsorship now or in the future?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please indicate your eligibility to work in the U.S. (e.g., U.S. Citizen, Green Card, EAD, other – please specify). Note: Visas requiring employer sponsorship are not accepted.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you owned a revenue or sales quota in a customer-facing role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you negotiated contracts and terms of agreement directly with clients in a sales role?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which of the following best describes your experience demonstrating software to potential clients?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Regularly run product demos",
+          "Occasionally participate in demos",
+          "Support team members during demos",
+          "No direct demo experience"
+        ]
+      },
+      {
+        "question": "What are your salary requirements for the role",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have experience completing and submitting RFP documentation for software sales?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How many years of experience do you have selling SaaS solutions to higher education institutions or universities?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which CRM platforms have you used extensively for sales prospecting and pipeline management?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Salesforce",
+          "HubSpot",
+          "Zoho CRM",
+          "Microsoft Dynamics",
+          "Pipedrive",
+          "Other"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you currently have the legal right to work in the united states without the need for sponsorship now or in the future?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "please indicate your eligibility to work in the u.s. (e.g., u.s. citizen, green card, ead, other – please specify). note: visas requiring employer sponsorship are not accepted.",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "have you owned a revenue or sales quota in a customer-facing role?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "have you negotiated contracts and terms of agreement directly with clients in a sales role?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "which of the following best describes your experience demonstrating software to potential clients?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "what are your salary requirements for the role",
+      "field_type": "number",
+      "ref": "f5"
+    },
+    {
+      "question": "do you have experience completing and submitting rfp documentation for software sales?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "which crm platforms have you used extensively for sales prospecting and pipeline management?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f10"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f11"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that kinetic software store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "yes, kinetic software can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f16"
+    }
+  ]
+}

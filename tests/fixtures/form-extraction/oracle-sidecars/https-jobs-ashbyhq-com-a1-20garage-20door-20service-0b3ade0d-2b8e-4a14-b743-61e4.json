@@ -1,7 +1,7 @@
 {
   "id": "https-jobs-ashbyhq-com-a1-20garage-20door-20service-0b3ade0d-2b8e-4a14-b743-61e4",
   "status": "agree",
-  "captured_at": "2026-07-10T18:28:37.972Z",
+  "captured_at": "2026-07-10T22:22:33.316Z",
   "page_url": "https://jobs.ashbyhq.com/A1%20Garage%20Door%20Service/0b3ade0d-2b8e-4a14-b743-61e410defcdc/application",
   "page_title": "Customer Engagement Specialist, Inbound @ A1 Garage Door Service",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 14,
       "ai_count": 14,
       "count_delta": 0,
-      "label_jaccard": 0.8667,
+      "label_jaccard": 1,
       "type_agree_rate": 1,
       "matched_count": 14
     },
@@ -79,7 +79,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone Number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -120,7 +120,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. The communication consent is a radio group.",
+    "notes": "The form uses custom button-based radio inputs. The 'Yes/No' fields are implemented as pairs of buttons that toggle a hidden checkbox.",
     "fields": [
       {
         "question": "Resume",
@@ -276,7 +276,7 @@
       "ref": "f8"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f9"
     },

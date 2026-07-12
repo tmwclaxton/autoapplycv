@@ -1,0 +1,369 @@
+{
+  "id": "https-jobs-lever-co-snaplogic-01dafb95-82d4-4201-8419-65025306ca0f-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:41:21.387Z",
+  "page_url": "https://jobs.lever.co/snaplogic/01dafb95-82d4-4201-8419-65025306ca0f/apply",
+  "page_title": "SnapLogic - Senior Product Manager Platform",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 16,
+      "count_delta": 0,
+      "label_jaccard": 0.8824,
+      "type_agree_rate": 0.8125,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "work status",
+        "ai": "Work Status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "will you be able to work at hq in san mateo, ca on a hybrid basis (weekly)?",
+        "ai": "Will you be able to work at HQ in San Mateo, CA on a hybrid basis (weekly)?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, snaplogic can contact me about future job opportunities for up to 4 yearsprivacy policy",
+        "ai": "Yes, SnapLogic can contact me about future job opportunities for up to 4 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Includes an hCaptcha challenge. Pronouns field includes a hidden text input for custom values.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Select..",
+          "San Mateo, CA",
+          "United States"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Work Status",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Select..",
+          "None",
+          "US Citizen",
+          "Permanent Resident",
+          "H1",
+          "H4",
+          "F1",
+          "TN",
+          "Decline To Self Identify"
+        ]
+      },
+      {
+        "question": "Will you be able to work at HQ in San Mateo, CA on a hybrid basis (weekly)?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Select..",
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Select ..",
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Select ..",
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Select ..",
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Yes, SnapLogic can contact me about future job opportunities for up to 4 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "work status",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "will you be able to work at hq in san mateo, ca on a hybrid basis (weekly)?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "yes, snaplogic can contact me about future job opportunities for up to 4 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

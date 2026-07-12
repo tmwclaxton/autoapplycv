@@ -1,0 +1,144 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-check24-publication-2f275e14-",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:40:10.460Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/CHECK24/publication/2f275e14-ae42-4a16-a58d-846898f7e9ef",
+  "page_title": "Einfach Bewerben - Account Manager (m/w/d) Field Sales - Hotel Connect - CHECK24 Travel",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 0.0667,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "profilbild hochladen",
+        "ai": "Profilbild hochladen",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "firstname",
+      "lastname",
+      "email",
+      "emailconfirmation",
+      "location autocomplete",
+      "phone",
+      "resume upload"
+    ],
+    "ai_only": [
+      "Vorname",
+      "Nachname",
+      "E-Mail-Adresse",
+      "E-Mail-Adresse bestätigen",
+      "Stadt",
+      "Telefonnummer",
+      "Lebenslauf"
+    ],
+    "reasons": [
+      "label Jaccard 0.067 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses SmartRecruiters' SPA components. The location field is a custom autocomplete widget. The resume upload is a drag-and-drop zone.",
+    "fields": [
+      {
+        "question": "Profilbild hochladen",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse bestätigen",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Stadt",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefonnummer",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "profilbild hochladen",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "resume upload",
+      "field_type": "file",
+      "ref": "f7"
+    }
+  ]
+}

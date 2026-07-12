@@ -1,0 +1,466 @@
+{
+  "id": "https-digitalforms-recruitee-com-o-program-manager-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:45:55.081Z",
+  "page_url": "https://digitalforms.recruitee.com/o/program-manager/c/new",
+  "page_title": "Digital Forms - Program Manager - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 28,
+      "ai_count": 19,
+      "count_delta": 9,
+      "label_jaccard": 0.6786,
+      "type_agree_rate": 1,
+      "matched_count": 19
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of professional experience do you have in a comparable position?",
+        "ai": "How many years of professional experience do you have in a comparable position?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "what’s your seniority level?",
+        "ai": "What’s your seniority level?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a polish business entity that can invoice b2b, or are you willing to set one up before starting?",
+        "ai": "Do you have a Polish business entity that can invoice B2B, or are you willing to set one up before starting?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your preferred b2b net hourly rate [pln]? please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. it's easier to divide your expected salary by 168 hours.",
+        "ai": "What is your preferred B2B net hourly rate [PLN]? Please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. It's easier to divide your expected salary by 168 hours.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you open to rate negotiation?",
+        "ai": "Are you open to rate negotiation?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+        "ai": "Are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your english language proficiency level?",
+        "ai": "What is your English language proficiency level?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently live in poland?",
+        "ai": "Do you currently live in Poland?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which city are you primarily based in?",
+        "ai": "Which city are you primarily based in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "can you work on your computer?",
+        "ai": "Can you work on your computer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently employed anywhere?",
+        "ai": "Are you currently employed anywhere?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if you’re currently employed, we’d appreciate if you could tell us what motivates you to explore new career opportunities.",
+        "ai": "If you’re currently employed, we’d appreciate if you could tell us what motivates you to explore new career opportunities.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "when would you be available to start a new role?",
+        "ai": "When would you be available to start a new role?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "markets you’ve worked with extensively (select all): uk / us / dach / nordics / benelux / other (specify)",
+        "ai": "Markets you’ve worked with extensively (select all): UK / US / DACH / Nordics / Benelux / Other (specify)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "have you worked directly with western european / us / canadian clients in english in a delivery/program role for 24+ months?",
+      "have you led at least 2 project escalations with c-level / vp stakeholders?",
+      "have you negotiated change requests / scope changes that affected budget or timeline?",
+      "largest single engagement contract value you owned:",
+      "largest annual delivery portfolio you owned (sum of accounts/programs):",
+      "largest team size (direct + matrix):",
+      "concurrent projects/programs managed:",
+      "change requests sold/negotiated in last 12 months:",
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Recruitee's dynamic field generation. The final textarea field was truncated in the provided HTML excerpt but is included as a textarea.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of professional experience do you have in a comparable position?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What’s your seniority level?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Junior",
+          "Mid",
+          "Senior",
+          "Lead"
+        ]
+      },
+      {
+        "question": "Do you have a Polish business entity that can invoice B2B, or are you willing to set one up before starting?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your preferred B2B net hourly rate [PLN]? Please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. It's easier to divide your expected salary by 168 hours.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          ">100 PLN",
+          "110-130 PLN",
+          "140-170 PLN",
+          "180-200 PLN",
+          "210-230 PLN",
+          ">230 PLN"
+        ]
+      },
+      {
+        "question": "Are you open to rate negotiation?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Full-time",
+          "Part-time",
+          "Both"
+        ]
+      },
+      {
+        "question": "What is your English language proficiency level?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "A1 (Beginner): Basic phrases, very limited communication.",
+          "A2 (Elementary): Simple tasks, basic professional interactions.",
+          "B1 (Intermediate): Understands main points, handles routine IT discussions.",
+          "B2 (Upper Intermediate): Good operational command, fluent in most IT contexts.",
+          "C1 (Advanced): Highly proficient, effective communication in complex IT scenarios.",
+          "C2 (Proficient): Near-native fluency, comprehensive understanding for any IT role."
+        ]
+      },
+      {
+        "question": "Do you currently live in Poland?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which city are you primarily based in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Can you work on your computer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently employed anywhere?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you’re currently employed, we’d appreciate if you could tell us what motivates you to explore new career opportunities.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "When would you be available to start a new role?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Markets you’ve worked with extensively (select all): UK / US / DACH / Nordics / Benelux / Other (specify)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "how many years of professional experience do you have in a comparable position?",
+      "field_type": "number",
+      "ref": "f5"
+    },
+    {
+      "question": "what’s your seniority level?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "do you have a polish business entity that can invoice b2b, or are you willing to set one up before starting?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your preferred b2b net hourly rate [pln]? please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. it's easier to divide your expected salary by 168 hours.",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "are you open to rate negotiation?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "what is your english language proficiency level?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you currently live in poland?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "which city are you primarily based in?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "can you work on your computer?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "are you currently employed anywhere?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "if you’re currently employed, we’d appreciate if you could tell us what motivates you to explore new career opportunities.",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "when would you be available to start a new role?",
+      "field_type": "date",
+      "ref": "f17"
+    },
+    {
+      "question": "markets you’ve worked with extensively (select all): uk / us / dach / nordics / benelux / other (specify)",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "have you worked directly with western european / us / canadian clients in english in a delivery/program role for 24+ months?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "have you led at least 2 project escalations with c-level / vp stakeholders?",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "have you negotiated change requests / scope changes that affected budget or timeline?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "largest single engagement contract value you owned:",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "largest annual delivery portfolio you owned (sum of accounts/programs):",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "largest team size (direct + matrix):",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "concurrent projects/programs managed:",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "change requests sold/negotiated in last 12 months:",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f27"
+    }
+  ]
+}

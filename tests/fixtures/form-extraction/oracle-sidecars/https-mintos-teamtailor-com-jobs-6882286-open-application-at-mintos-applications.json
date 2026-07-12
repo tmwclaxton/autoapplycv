@@ -1,0 +1,149 @@
+{
+  "id": "https-mintos-teamtailor-com-jobs-6882286-open-application-at-mintos-applications",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:00:05.232Z",
+  "page_url": "https://mintos.teamtailor.com/jobs/6882286-open-application-at-mintos/applications/new",
+  "page_title": "Open Application at Mintos - Mintos",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 5,
+      "count_delta": 4,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that mintos store my personal details to be able to process my job application.",
+      "yes, mintos can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload or cover letter) that typically appear in Teamtailor forms are missing. The phone input uses an international telephone input library (intl-tel-input).",
+    "fields": [
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Riga, Latvia",
+          "Berlin, Germany"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that mintos store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "yes, mintos can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

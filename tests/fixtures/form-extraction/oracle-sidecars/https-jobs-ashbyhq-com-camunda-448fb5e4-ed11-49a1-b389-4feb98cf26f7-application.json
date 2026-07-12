@@ -1,0 +1,134 @@
+{
+  "id": "https-jobs-ashbyhq-com-camunda-448fb5e4-ed11-49a1-b389-4feb98cf26f7-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:47:49.142Z",
+  "page_url": "https://jobs.ashbyhq.com/camunda/448fb5e4-ed11-49a1-b389-4feb98cf26f7/application",
+  "page_title": "Copywriter @ Camunda",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 3,
+      "count_delta": 8,
+      "label_jaccard": 0.2727,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you legally eligible to work in the country where you’re planning to work from?",
+      "are you able and willing to work remotely?",
+      "location",
+      "if you are eligible, please select the status that allows you to work and live in that country",
+      "what are your pronouns for others to use when referring to you?",
+      "what are your salary expectations?",
+      "linkedin profile",
+      "if you have discussed this role with a current camunda employee, please enter their full name here"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like phone, LinkedIn, or custom screening questions) that typically appear after the resume upload in Ashby forms are missing from this output.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "ref": "f10"
+    }
+  ]
+}

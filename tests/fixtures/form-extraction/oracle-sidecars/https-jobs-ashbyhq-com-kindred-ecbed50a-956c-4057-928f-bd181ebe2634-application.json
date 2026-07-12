@@ -1,0 +1,270 @@
+{
+  "id": "https-jobs-ashbyhq-com-kindred-ecbed50a-956c-4057-928f-bd181ebe2634-application",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:03:15.706Z",
+  "page_url": "https://jobs.ashbyhq.com/kindred/ecbed50a-956c-4057-928f-bd181ebe2634/application",
+  "page_title": "Staff Data Scientist, Product & Pricing @ Kindred",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 9,
+      "count_delta": 11,
+      "label_jaccard": 0.381,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require kindred to sponsor an immigration case in order to employ you?",
+        "ai": "Will you now or in the future require Kindred to sponsor an immigration case in order to employ you?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "full name (legal)",
+        "ai": "Full Name (Legal)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current Company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what are the pronouns that you would like our team to use when addressing you?",
+        "ai": "What are the pronouns that you would like our team to use when addressing you?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "linkedin url",
+      "twitter url",
+      "github url",
+      "portfolio url",
+      "other website",
+      "what attracts you to this opportunity at kindred?",
+      "what is your current age?",
+      "what is your gender identity?",
+      "do you identify as transgender?",
+      "how do you identify your sexual orientation? please select all that apply.",
+      "which ethnicity(ies) do you identify with? please select all that apply.",
+      "which of the following communities do you belong to? please select all that apply."
+    ],
+    "ai_only": [
+      "Autofill from resume"
+    ],
+    "reasons": [
+      "field count delta 11 exceeds tolerance 2 (detector=20, ai=9)",
+      "label Jaccard 0.381 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so additional fields (like LinkedIn/Portfolio links) that might have appeared after the 'Links' section header are missing.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name (Legal)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require Kindred to sponsor an immigration case in order to employ you?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What are the pronouns that you would like our team to use when addressing you?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Prefer not to say",
+          "Not represented here",
+          "She/Her",
+          "He/Him",
+          "They/Them",
+          "Xe/Xem",
+          "Ze/Hir"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require kindred to sponsor an immigration case in order to employ you?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "full name (legal)",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "what are the pronouns that you would like our team to use when addressing you?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "what attracts you to this opportunity at kindred?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}

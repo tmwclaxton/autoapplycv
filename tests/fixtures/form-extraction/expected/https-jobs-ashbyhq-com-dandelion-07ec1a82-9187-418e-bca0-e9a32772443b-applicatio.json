@@ -1,0 +1,330 @@
+{
+  "id": "https-jobs-ashbyhq-com-dandelion-07ec1a82-9187-418e-bca0-e9a32772443b-applicatio",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "will you now or in the future require employment visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cad0ff80-8eb3-4708-afd4-9ae0b98e9e1f",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "c35cb431-e2e9-4717-9950-26c5d203e1f6",
+        "name": "c35cb431-e2e9-4717-9950-26c5d203e1f6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c35cb431-e2e9-4717-9950-26c5d203e1f6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred pronouns",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "a253a2e6-aa50-4728-a70b-4eb390644f43",
+        "name": "a253a2e6-aa50-4728-a70b-4eb390644f43",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a253a2e6-aa50-4728-a70b-4eb390644f43",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "09e4cefe-7f9a-43b6-b9dc-40564165915c",
+        "name": "09e4cefe-7f9a-43b6-b9dc-40564165915c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "09e4cefe-7f9a-43b6-b9dc-40564165915c",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i consent to receiving text messages",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I consent to receiving text messages",
+        "No - I do not consent to receiving text messages"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "communicationConsent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "09e4cefe-7f9a-43b6-b9dc-40564165915c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "718c200c-8f6c-4255-b7d0-96d050fe0a68",
+        "name": "718c200c-8f6c-4255-b7d0-96d050fe0a68",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "718c200c-8f6c-4255-b7d0-96d050fe0a68",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter / additional materials (optional)",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "cf774440-1187-4a52-963c-585e52e53710",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cf774440-1187-4a52-963c-585e52e53710",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which location are you applying for?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "CO - Denver",
+        "MA - Boston",
+        "MD/DC (Field Roles Only)",
+        "NY - Peekskill",
+        "USA - Remote",
+        "VA - Arlington"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "637a3456-012a-444b-82f3-e5b016295a4e_f0e18473-e48b-447c-8268-91154080a717-labeled-radio-0",
+        "name": "637a3456-012a-444b-82f3-e5b016295a4e_f0e18473-e48b-447c-8268-91154080a717",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your minimum base pay requirement?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "21de278f-b4b6-4d5a-86da-9b4f6523fb0e",
+        "name": "21de278f-b4b6-4d5a-86da-9b4f6523fb0e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "21de278f-b4b6-4d5a-86da-9b4f6523fb0e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a valid driver's license?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I have a valid non-commercial driver's license.",
+        "Yes, and I have a CDL -A.",
+        "Yes, and I have a CDL - B.",
+        "No, I do not currently have a driver's license,",
+        "My license has conditions or restrictions that would limit my ability to drive for work."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "637a3456-012a-444b-82f3-e5b016295a4e_695ae74c-7dac-4e2c-9ff6-25e7a726bbea-labeled-radio-0",
+        "name": "637a3456-012a-444b-82f3-e5b016295a4e_695ae74c-7dac-4e2c-9ff6-25e7a726bbea",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this position? (if you were referred, put employee full name here.)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e329f65b-fc8e-4253-b6a1-5ef97a11f498",
+        "name": "e329f65b-fc8e-4253-b6a1-5ef97a11f498",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e329f65b-fc8e-4253-b6a1-5ef97a11f498",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

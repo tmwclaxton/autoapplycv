@@ -1,0 +1,302 @@
+{
+  "id": "https-sva-breezy-hr-p-5b516278d1e2-technical-assistant-temporary-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:31:30.099Z",
+  "page_url": "https://sva.breezy.hr/p/5b516278d1e2-technical-assistant-temporary/apply",
+  "page_title": "Technical Assistant (Temporary)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 24,
+      "count_delta": 15,
+      "label_jaccard": 0.0313,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "c phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from School of Visual Arts.",
+      "Experience Summary",
+      "Cover Letter",
+      "Preferred Name",
+      "Pronouns",
+      "Are you over 18 years of age?",
+      "Are you legally authorized to work in the United States?",
+      "Will you now or in the future require visa sponsorship?",
+      "Have you ever been disciplined for a violation of company rules or regulations? If yes please explain",
+      "Are you capable of performing the essential functions of the job for which you are applying without a reasonable accommodation?",
+      "Are you able to meet the attendance requirements of the job for which you are applying to?",
+      "Earliest date you can start",
+      "Hourly rate/salary desired",
+      "How did you learn about this position?",
+      "Have you ever worked for SVA before?",
+      "Are you an alumnus or former student of SVA?",
+      "I certify that my answers to the foregoing questions are true and correct.",
+      "Please describe your relevant experience in a studio, arts, academic, or administrative support environment.",
+      "Describe your experience with the software relevant to this position."
+    ],
+    "reasons": [
+      "field count delta 15 exceeds tolerance 2 (detector=9, ai=24)",
+      "label Jaccard 0.031 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a multi-step questionnaire structure rendered via AngularJS. Some fields (work history/education) are dynamic and may not be fully captured in static HTML.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from School of Visual Arts.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Preferred Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you over 18 years of age?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you ever been disciplined for a violation of company rules or regulations? If yes please explain",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you capable of performing the essential functions of the job for which you are applying without a reasonable accommodation?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to meet the attendance requirements of the job for which you are applying to?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Earliest date you can start",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Hourly rate/salary desired",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you learn about this position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you ever worked for SVA before?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you an alumnus or former student of SVA?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I certify that my answers to the foregoing questions are true and correct.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, my answers are true and correct",
+          "No, I do not certify my answers are true and correct"
+        ]
+      },
+      {
+        "question": "Please describe your relevant experience in a studio, arts, academic, or administrative support environment.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Describe your experience with the software relevant to this position.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

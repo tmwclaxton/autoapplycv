@@ -1,0 +1,237 @@
+{
+  "id": "https-ckw-teamtailor-com-jobs-8019021-berater-in-kundensupport-w-m-d-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:10:58.901Z",
+  "page_url": "https://ckw.teamtailor.com/jobs/8019021-berater-in-kundensupport-w-m-d/applications/new",
+  "page_title": "Berater/in Kundensupport (w/m/d) - CKW",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 9,
+      "count_delta": 5,
+      "label_jaccard": 0.5333,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "mit welchem geschlecht identifizierst du dich? bei ckw schätzen wir vielfalt und inklusion. um uns kontinuierlich bei der stetigen sicherstellung einer vielfältigen belegschaft zu unterstützen, bitten wir bewerberinnen und bewerber freundlich darum, optional während des bewerbungsprozesses ihre geschlechterinformationen mitzuteilen. sei versichert, dass diese informationen deine bewerbung nicht beeinflussen und ausschliesslich für interne zwecke zur verfolgung und verbesserung unserer diversitätsinitiativen verwendet werden. vielen dank, dass du zu unserem engagement für inklusion beiträgst.",
+        "ai": "Mit welchem Geschlecht identifizierst du dich?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "wurde dir die stelle von einem ckw/axpo group mitarbeitenden empfohlen?",
+        "ai": "Wurde dir die Stelle von einem CKW/Axpo Group Mitarbeitenden empfohlen?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "nenne uns deine jährliche salärerwartung in chf für ein 100% pensum inkl. allfälligen bonuszahlungen",
+        "ai": "Nenne uns deine jährliche Salärerwartung in CHF für ein 100% Pensum inkl. allfälligen Bonuszahlungen",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "nenne uns deine kündigungsfrist resp. deine verfügbarkeit.",
+        "ai": "Nenne uns deine Kündigungsfrist resp. deine Verfügbarkeit.",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "wie gut sind deine französischkenntnisse?",
+        "ai": "Wie gut sind deine Französischkenntnisse?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben",
+      "ich habe die datenschutzerklärung gelesen bin mit der datenschutzerklärung einverstanden.",
+      "ich bin damit einverstanden, dass meine daten auch über eine konkrete stellenbesetzung hinaus gespeichert werden und ich auf interessante stellenangebote hingewiesen werde."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom international telephone input component (iti) and includes several hidden fields for tracking and social media integration. The HTML snippet provided was truncated, so additional fields (like file uploads or further contact details) might exist in the full form.",
+    "fields": [
+      {
+        "question": "Mit welchem Geschlecht identifizierst du dich?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Weiblich",
+          "Männlich",
+          "Divers"
+        ]
+      },
+      {
+        "question": "Wurde dir die Stelle von einem CKW/Axpo Group Mitarbeitenden empfohlen?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Nenne uns deine jährliche Salärerwartung in CHF für ein 100% Pensum inkl. allfälligen Bonuszahlungen",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nenne uns deine Kündigungsfrist resp. deine Verfügbarkeit.",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wie gut sind deine Französischkenntnisse?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Grundkenntnisse (A1–A2)",
+          "Gute Kenntnisse (B1)",
+          "Sehr gute Kenntnisse (B2)",
+          "Fliessende Kenntnisse (C1)",
+          "Muttersprache / zweisprachig (C2)"
+        ]
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "mit welchem geschlecht identifizierst du dich? bei ckw schätzen wir vielfalt und inklusion. um uns kontinuierlich bei der stetigen sicherstellung einer vielfältigen belegschaft zu unterstützen, bitten wir bewerberinnen und bewerber freundlich darum, optional während des bewerbungsprozesses ihre geschlechterinformationen mitzuteilen. sei versichert, dass diese informationen deine bewerbung nicht beeinflussen und ausschliesslich für interne zwecke zur verfolgung und verbesserung unserer diversitätsinitiativen verwendet werden. vielen dank, dass du zu unserem engagement für inklusion beiträgst.",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "wurde dir die stelle von einem ckw/axpo group mitarbeitenden empfohlen?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "nenne uns deine jährliche salärerwartung in chf für ein 100% pensum inkl. allfälligen bonuszahlungen",
+      "field_type": "number",
+      "ref": "f2"
+    },
+    {
+      "question": "nenne uns deine kündigungsfrist resp. deine verfügbarkeit.",
+      "field_type": "date",
+      "ref": "f3"
+    },
+    {
+      "question": "wie gut sind deine französischkenntnisse?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f7"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f8"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "ich habe die datenschutzerklärung gelesen bin mit der datenschutzerklärung einverstanden.",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "ich bin damit einverstanden, dass meine daten auch über eine konkrete stellenbesetzung hinaus gespeichert werden und ich auf interessante stellenangebote hingewiesen werde.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "id": "https-jobs-ashbyhq-com-credo-ai-69c3e74e-c264-4e8a-a34b-3122d028f9c2-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:08:36.731Z",
+  "page_url": "https://jobs.ashbyhq.com/credo.ai/69c3e74e-c264-4e8a-a34b-3122d028f9c2/application",
+  "page_title": "Submit your Resume for Future Hiring @ Credo.AI",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "do you hold permanent us work authorization?",
+        "ai": "Do you hold permanent US work authorization?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "Linkedin Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this opportunity? (select all that apply)",
+        "ai": "How did you hear about this opportunity? (select all that apply)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "optional cover letter - what type of role(s) would you be interested in at credo ai?",
+        "ai": "Optional Cover Letter - what type of role(s) would you be interested in at Credo AI?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Do you agree to allow Credo.AI to contact you about job opportunities for up to 2 years?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components for location (combobox) and yes/no selection (radio-like buttons). The resume upload is handled by a drag-and-drop area that also functions as a file input.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Linkedin Profile",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you hold permanent US work authorization?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about this opportunity? (select all that apply)",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "News",
+          "Linkedin Jobs",
+          "Credo AI Employee",
+          "Credo AI Website"
+        ]
+      },
+      {
+        "question": "Optional Cover Letter - what type of role(s) would you be interested in at Credo AI?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you agree to allow Credo.AI to contact you about job opportunities for up to 2 years?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you hold permanent us work authorization?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "how did you hear about this opportunity? (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "optional cover letter - what type of role(s) would you be interested in at credo ai?",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

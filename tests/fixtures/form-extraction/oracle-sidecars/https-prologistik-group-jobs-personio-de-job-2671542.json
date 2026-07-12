@@ -1,0 +1,329 @@
+{
+  "id": "https-prologistik-group-jobs-personio-de-job-2671542",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:23:03.879Z",
+  "page_url": "https://prologistik-group.jobs.personio.de/job/2671542/",
+  "page_title": "Program Manager für Intralogistiksoftware (m/w/d) | Jobs bei proLogistik Group",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 16,
+      "count_delta": 0,
+      "label_jaccard": 0.4545,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "verfügbar ab ( ) verfügbar ab",
+        "ai": "Verfügbar ab",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "wie bist du auf uns aufmerksam geworden? ( )",
+        "ai": "Wie bist du auf uns aufmerksam geworden?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung rahmen",
+        "ai": "Gehaltsvorstellung Rahmen",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "liegt dein wohnort in deutschland, in österreich oder in der schweiz?",
+        "ai": "Liegt dein Wohnort in Deutschland, in Österreich oder in der Schweiz?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "wie stufst du dein deutsches sprachniveau ein?",
+        "ai": "Wie stufst du dein deutsches Sprachniveau ein?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload anschreiben",
+        "ai": "Anschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload arbeitszeugnis",
+        "ai": "Arbeitszeugnis",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload urkunde",
+        "ai": "Urkunde",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload andere",
+        "ai": "Andere",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "first name",
+      "last name",
+      "email",
+      "location"
+    ],
+    "ai_only": [
+      "Vorname",
+      "Nachname",
+      "E-Mail",
+      "Ort"
+    ],
+    "reasons": [
+      "label Jaccard 0.455 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered dynamically via Personio. File inputs are hidden and triggered by custom buttons.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Ort",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Verfügbar ab",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Wie bist du auf uns aufmerksam geworden?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Stepstone",
+          "LinkedIn",
+          "XING",
+          "kununu",
+          "meinestadt.de",
+          "Arbeitsagentur",
+          "get in IT",
+          "Azubiyo",
+          "stellenwerk",
+          "jobteaser",
+          "it-jobs.de",
+          "Messe",
+          "Google",
+          "indeed",
+          "LinkedIn"
+        ]
+      },
+      {
+        "question": "Gehaltsvorstellung Rahmen",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Liegt dein Wohnort in Deutschland, in Österreich oder in der Schweiz?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Wie stufst du dein deutsches Sprachniveau ein?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "A1 (Anfänger): Kann einfache alltägliche Ausdrücke verstehen und verwenden sowie grundlegende Fragen stellen und beantworten.",
+          "A2 (Grundlegende Kenntnisse): Kann häufig gebrauchte Sätze und Ausdrücke verstehen und mich in einfachen, routinemäßigen Situationen verständigen.",
+          "B1 (Fortgeschrittene Sprachverwendung): Kann die Hauptpunkte verstehen und mich über vertraute Themen zusammenhängend äußern.",
+          "B2 (Selbstständige Sprachverwendung): Kann komplexere Texte verstehen und mich klar und detailliert zu vielen Themen äußern.",
+          "C1 (Fortgeschrittenes Niveau): Kann anspruchsvolle Texte verstehen und mich spontan, fließend und präzise ausdrücken.",
+          "C2 (Annähernd muttersprachliche bis muttersprachliche Kenntnisse): Kann alles mühelos verstehen und mich differenziert, präzise und fließend ausdrücken."
+        ]
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Anschreiben",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Arbeitszeugnis",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Urkunde",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Andere",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefon",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "verfügbar ab ( ) verfügbar ab",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "wie bist du auf uns aufmerksam geworden? ( )",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "gehaltsvorstellung rahmen",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "liegt dein wohnort in deutschland, in österreich oder in der schweiz?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "wie stufst du dein deutsches sprachniveau ein?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "upload lebenslauf",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "upload anschreiben",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "upload arbeitszeugnis",
+      "field_type": "file",
+      "ref": "f13"
+    },
+    {
+      "question": "upload urkunde",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "upload andere",
+      "field_type": "file",
+      "ref": "f15"
+    }
+  ]
+}

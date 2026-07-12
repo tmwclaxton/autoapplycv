@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-eu-greenhouse-io-netcraft-jobs-4845100101",
   "status": "agree",
-  "captured_at": "2026-07-10T19:55:50.382Z",
+  "captured_at": "2026-07-10T22:35:09.642Z",
   "page_url": "https://job-boards.eu.greenhouse.io/netcraft/jobs/4845100101",
   "page_title": "Job Application for Enterprise Account Executive at Netcraft",
   "diff": {
@@ -62,7 +62,7 @@
       "attach first name",
       "attach first name",
       "linkedin profile",
-      "please click to acknowledge our gdpr notice.  linkedin profile",
+      "please click to acknowledge our gdpr notice. linkedin profile",
       "gender",
       "are you hispanic/latino?",
       "veteran status",
@@ -73,7 +73,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt provided is truncated during the country selection list. The form uses a Greenhouse-style application structure which typically includes additional fields like Resume/CV, LinkedIn, and custom screening questions that were not present in the provided snippet.",
+    "notes": "The HTML excerpt provided is truncated and ends during the country selection list. Additional fields (such as resume upload, LinkedIn, or custom screening questions) are likely present in the full form but were not captured in the provided snippet.",
     "fields": [
       {
         "question": "First Name",
@@ -160,7 +160,7 @@
       "ref": "f8"
     },
     {
-      "question": "please click to acknowledge our gdpr notice.  linkedin profile",
+      "question": "please click to acknowledge our gdpr notice. linkedin profile",
       "field_type": "select",
       "ref": "f9"
     },

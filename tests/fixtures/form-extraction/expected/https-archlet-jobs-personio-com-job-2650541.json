@@ -44,11 +44,11 @@
       }
     },
     {
-      "question": "email",
+      "question": "email ( )",
       "field_type": "email",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "email",
@@ -84,11 +84,11 @@
       }
     },
     {
-      "question": "available from  available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -104,11 +104,11 @@
       }
     },
     {
-      "question": "expected salary  expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -124,11 +124,11 @@
       }
     },
     {
-      "question": "location  location",
+      "question": "location ( ) location",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",

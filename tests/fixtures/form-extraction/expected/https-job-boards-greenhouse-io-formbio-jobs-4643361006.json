@@ -124,26 +124,6 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
       "question": "are you authorized to work in the us for any employer?",
       "field_type": "select",
       "max_chars": null,
@@ -164,7 +144,7 @@
       }
     },
     {
-      "question": "will you now or in the future require sponsorship to continue working in the us? are you authorized to work in the us for any employer?",
+      "question": "will you now or in the future require sponsorship to continue working in the us?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -184,7 +164,7 @@
       }
     },
     {
-      "question": "are you currently based in the dallas, tx metro area? this role requires that you are local to our client. relocation is not an option at this time. are you authorized to work in the us for any employer?",
+      "question": "are you currently based in the dallas, tx metro area? this role requires that you are local to our client. relocation is not an option at this time.",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -204,7 +184,7 @@
       }
     },
     {
-      "question": "the salary range for this position is $100,000–$115,000. is this range within your salary expectations? are you authorized to work in the us for any employer?",
+      "question": "the salary range for this position is $100,000–$115,000. is this range within your salary expectations?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -224,7 +204,7 @@
       }
     },
     {
-      "question": "do you have 5+ years experience in project/program management? are you authorized to work in the us for any employer?",
+      "question": "do you have 5+ years experience in project/program management?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -244,7 +224,7 @@
       }
     },
     {
-      "question": "do you have at least 3 years of experience acting as the primary day-to-day point of contact for executive-level stakeholders within an enterprise-scale software services or consulting engagement? are you authorized to work in the us for any employer?",
+      "question": "do you have at least 3 years of experience acting as the primary day-to-day point of contact for executive-level stakeholders within an enterprise-scale software services or consulting engagement?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -264,7 +244,7 @@
       }
     },
     {
-      "question": "have you personally managed the delivery of complex technical projects involving at least two of the following: cloud infrastructure (e.g., gcp/aws), data warehousing, or ai/ml workflows? are you authorized to work in the us for any employer?",
+      "question": "have you personally managed the delivery of complex technical projects involving at least two of the following: cloud infrastructure (e.g., gcp/aws), data warehousing, or ai/ml workflows?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -284,7 +264,7 @@
       }
     },
     {
-      "question": "do you have proven experience leading agile software engineering teams through the full lifecycle of a custom software application delivery for an external customer? are you authorized to work in the us for any employer?",
+      "question": "do you have proven experience leading agile software engineering teams through the full lifecycle of a custom software application delivery for an external customer?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -304,7 +284,7 @@
       }
     },
     {
-      "question": "do you have direct experience working in or with academic research or biotech r&d organizations? are you authorized to work in the us for any employer?",
+      "question": "do you have direct experience working in or with academic research or biotech r&d organizations?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -324,7 +304,7 @@
       }
     },
     {
-      "question": "do you have a degree in bioinformatics or similar field? are you authorized to work in the us for any employer?",
+      "question": "do you have a degree in bioinformatics or similar field?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -342,10 +322,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

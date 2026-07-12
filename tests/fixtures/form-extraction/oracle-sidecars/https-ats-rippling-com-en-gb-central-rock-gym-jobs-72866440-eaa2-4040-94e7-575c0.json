@@ -1,0 +1,258 @@
+{
+  "id": "https-ats-rippling-com-en-gb-central-rock-gym-jobs-72866440-eaa2-4040-94e7-575c0",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:36:09.260Z",
+  "page_url": "https://ats.rippling.com/en-GB/central-rock-gym/jobs/72866440-eaa2-4040-94e7-575c0daa0198/apply",
+  "page_title": "Apply - Mass Posting - Apprentice Route Setter",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 0.2,
+      "type_agree_rate": 0.6,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "drop or select (.doc / .docx / .pdf)",
+      "search",
+      "textbox",
+      "field-55",
+      "month mm",
+      "day dd",
+      "year yyyy",
+      "vetxwtmlmjh field-73",
+      "y4n1udjm1go field-77",
+      "yes – i consent to receiving text messages"
+    ],
+    "ai_only": [
+      "CV",
+      "Pronouns",
+      "Location",
+      "Cover letter",
+      "Please provide your availability for the next 6 months.",
+      "If hired, how soon could you start working for Central Rock Gym?",
+      "How many years of Route Setting experience do you have?",
+      "Were you referred to CRG by a past or current employee?",
+      "Do you have a personal, familial, or close relationship with any current CRG employees?",
+      "Tick Yes or No to indicate your agreement to receive text message updates from Central Rock Gym regarding your job application."
+    ],
+    "reasons": [
+      "label Jaccard 0.200 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom React-based components for selects and date inputs. The phone number field includes a country code selector. The 'Location' field appears to be an address autocomplete widget.",
+    "fields": [
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please provide your availability for the next 6 months.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If hired, how soon could you start working for Central Rock Gym?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of Route Setting experience do you have?",
+        "field_type": "select",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Were you referred to CRG by a past or current employee?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have a personal, familial, or close relationship with any current CRG employees?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tick Yes or No to indicate your agreement to receive text message updates from Central Rock Gym regarding your job application.",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes – I consent to receiving text messages",
+          "No – I do not consent to receiving text messages"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "drop or select (.doc / .docx / .pdf)",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "textbox",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "field-55",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "month mm",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "day dd",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "year yyyy",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "vetxwtmlmjh field-73",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "y4n1udjm1go field-77",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "yes – i consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

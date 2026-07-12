@@ -1,0 +1,323 @@
+{
+  "id": "https-jobs-ashbyhq-com-corti-3155c7b6-f7cc-424e-8e90-176b579446b7-application",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "currentCompany",
+        "name": "currentCompany",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "currentCompany",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "currentLocation",
+        "name": "currentLocation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "currentLocation",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "phone",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "additionalInformation",
+        "name": "additionalInformation",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "additionalInformation",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "LinkedIn",
+        "name": "LinkedIn",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "LinkedIn",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "GitHub",
+        "name": "GitHub",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "GitHub",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Portfolio",
+        "name": "Portfolio",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "Portfolio",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Other",
+        "name": "Other",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "Other",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how much experience do you have with go?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "Under 1 year",
+        "1 - 2 years",
+        "2 - 3 years",
+        "3 - 4 years",
+        "4 - 5 years",
+        "5+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "21cf8562-ccbf-40ed-99cc-a56d531827ea_92ec4531-a98b-4fac-968b-bab9063d9c42-labeled-radio-0",
+        "name": "21cf8562-ccbf-40ed-99cc-a56d531827ea_92ec4531-a98b-4fac-968b-bab9063d9c42",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience working with llm's? if yes please can you give us an example?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "22bfcf47-7391-46fc-aa32-74e364ba6ec3",
+        "name": "22bfcf47-7391-46fc-aa32-74e364ba6ec3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "22bfcf47-7391-46fc-aa32-74e364ba6ec3",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your compensation expectations?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c65248e3-d5ab-40ea-b936-e53ac95e79b0",
+        "name": "c65248e3-d5ab-40ea-b936-e53ac95e79b0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c65248e3-d5ab-40ea-b936-e53ac95e79b0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role is based in copenhagen. do you currently live there or are you open to relocating?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Currently living in Copenhagen - not a problem!",
+        "I'm looking or open to moving.",
+        "Not interested in that - but would love to hear about remote opportunities when they open!"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "21cf8562-ccbf-40ed-99cc-a56d531827ea_68450031-32d8-49b1-98a2-4d2427367bf3-labeled-radio-0",
+        "name": "21cf8562-ccbf-40ed-99cc-a56d531827ea_68450031-32d8-49b1-98a2-4d2427367bf3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

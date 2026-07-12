@@ -1,0 +1,245 @@
+{
+  "id": "https-jobs-ashbyhq-com-corti-1173a4ef-5d81-4f24-bfd4-cd50f31c165d-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:07:17.129Z",
+  "page_url": "https://jobs.ashbyhq.com/corti/1173a4ef-5d81-4f24-bfd4-cd50f31c165d/application",
+  "page_title": "Security Compliance Officer @ Corti",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 10,
+      "count_delta": 5,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 0.9,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe any experience with protecting sensitive data, or working in a healthtech, medtech, or ai company",
+        "ai": "Briefly describe any experience with protecting sensitive data, or working in a Healthtech, Medtech, or AI company",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "briefly describe any hands on experience with an information security management system (iso 27001 and/or soc 2), including your level of responsibility",
+        "ai": "Briefly describe any hands on experience with an information security management system (ISO 27001 and/or SOC 2), including your level of responsibility",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have a linkedin profile? please attach a link here!",
+        "ai": "Have a LinkedIn profile? Please attach a link here!",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have prior experience working in a start-up?",
+        "ai": "Do you have prior experience working in a start-up?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "do you have experience with healthcare?",
+      "how many years of relevant experience do you have?",
+      "what attracted you to apply for this role?",
+      "how did you hear about us?",
+      "this role is based in copenhagen. do you currently live there or are you open to relocating?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a combobox for location and radio buttons for the startup experience question. The HTML excerpt was truncated, so the radio options were inferred based on standard form patterns.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Briefly describe any experience with protecting sensitive data, or working in a Healthtech, Medtech, or AI company",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Briefly describe any hands on experience with an information security management system (ISO 27001 and/or SOC 2), including your level of responsibility",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have a LinkedIn profile? Please attach a link here!",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have prior experience working in a start-up?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "briefly describe any experience with protecting sensitive data, or working in a healthtech, medtech, or ai company",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "briefly describe any hands on experience with an information security management system (iso 27001 and/or soc 2), including your level of responsibility",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "have a linkedin profile? please attach a link here!",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "do you have prior experience working in a start-up?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "do you have experience with healthcare?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "how many years of relevant experience do you have?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "what attracted you to apply for this role?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "this role is based in copenhagen. do you currently live there or are you open to relocating?",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

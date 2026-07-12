@@ -1,0 +1,162 @@
+{
+  "id": "https-masterworks-breezy-hr-p-b6ec9dee07ed-business-director-level-co-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:05:06.480Z",
+  "page_url": "https://masterworks.breezy.hr/p/b6ec9dee07ed-business-director-level-co/apply",
+  "page_title": "Business Director, Level & Co.",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 7,
+      "count_delta": 1,
+      "label_jaccard": 0.1538,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "c phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "will you now, or in the future require visa sponsorship?",
+        "ai": "Will you now, or in the future require Visa Sponsorship?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please confirm your understanding that this role is on-site in new york city",
+        "ai": "Please confirm your understanding that this role is on-site in New York City",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Masterworks. Masterworks will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+    ],
+    "reasons": [
+      "label Jaccard 0.154 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based framework (Breezy HR). The resume upload field is hidden and triggered by a button click. There is an additional hidden honeypot field 'hp_7f2b' which was ignored.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Masterworks. Masterworks will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you now, or in the future require Visa Sponsorship?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please confirm your understanding that this role is on-site in New York City",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "will you now, or in the future require visa sponsorship?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "please confirm your understanding that this role is on-site in new york city",
+      "field_type": "radio",
+      "ref": "f7"
+    }
+  ]
+}

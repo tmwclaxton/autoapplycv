@@ -1,0 +1,782 @@
+{
+  "id": "https-jobs-lever-co-hightechhigh-b2454d13-6a37-4921-b8f8-ec5476deb271-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:02:27.513Z",
+  "page_url": "https://jobs.lever.co/hightechhigh/b2454d13-6a37-4921-b8f8-ec5476deb271/apply",
+  "page_title": "High Tech High - Daytime Supervisor",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 66,
+      "ai_count": 27,
+      "count_delta": 39,
+      "label_jaccard": 0.2979,
+      "type_agree_rate": 0.96,
+      "matched_count": 25
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a current employee of hth schools?",
+        "ai": "Are you a current employee of HTH Schools?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you requesting a transfer to another school?",
+        "ai": "Are you requesting a Transfer to another school?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which school is your current location?",
+        "ai": "Which school is your current location?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the united states without requiring sponsorship now or in the future?",
+        "ai": "Are you legally authorized to work in the United States without requiring sponsorship now or in the future?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i authorize high tech high to contact my listed references for the purpose of verifying the information provided on my application.",
+        "ai": "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name (Reference 1)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email (Reference 1)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone (Reference 1)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "relationship",
+        "ai": "Relationship (Reference 1)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name (Reference 2)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email (Reference 2)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone (Reference 2)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "relationship",
+        "ai": "Relationship (Reference 2)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name (Reference 3)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email (Reference 3)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "#1 previous employer company name for your related experience to this position",
+      "supervisor's name & title",
+      "company phone number",
+      "company email address",
+      "your job title with previous employer",
+      "start date of employment (mmddyyyy)",
+      "end date of employment (mmddyyyy)",
+      "job duties & responsibilities",
+      "how many months did you work per year (10, 11, 12, etc.)",
+      "hours worked per week",
+      "total number of years worked for this employer",
+      "did you work 1,000 hours or more in any calendar year or school year during employment?",
+      "#2 previous employer company name for your related experience to this position",
+      "supervisor's name & title",
+      "company phone number",
+      "company email address",
+      "your job title with previous employer",
+      "start date of employment (mmddyyyy)",
+      "end date of employment (mmddyyyy)",
+      "job duties & responsibilities",
+      "how many months did you work per year (10, 11, 12, etc.)",
+      "hours worked per week",
+      "total number of years worked for this employer",
+      "#3 previous employer company name for your related experience to this position",
+      "supervisor's name & title",
+      "company phone number",
+      "company email address",
+      "your job title with previous employer",
+      "start date of employment (mmddyyyy)",
+      "end date of employment (mmddyyyy)",
+      "job duties & responsibilities",
+      "how many months did you work per year (10, 11, 12, etc.)",
+      "hours worked per week",
+      "total number of years worked for this employer",
+      "do you have more employers to report with related experience?",
+      "i understand that this position is an in-person opportunity and that i will be to report to the school site.",
+      "what is your age range?",
+      "i identify my ethnicity as",
+      "what gender do you identify as?"
+    ],
+    "ai_only": [
+      "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application. (Reference 2)",
+      "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application. (Reference 3)"
+    ],
+    "reasons": [
+      "field count delta 39 exceeds tolerance 2 (detector=66, ai=27)",
+      "label Jaccard 0.298 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with multiple custom cards. Some fields (like name/email/phone) appear twice due to redundant card definitions in the HTML. The final reference field was truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you a current employee of HTH Schools?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you requesting a Transfer to another school?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ]
+      },
+      {
+        "question": "Which school is your current location?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "HTe",
+          "HTeX",
+          "HTM",
+          "HTMMA",
+          "HTH",
+          "HTHMA",
+          "HTHI",
+          "HTHCV",
+          "HTMCV",
+          "HTeCV",
+          "HTHNC",
+          "HTMNC",
+          "HTeNC",
+          "HTHM",
+          "HTMM",
+          "HTeM",
+          "Central Office/CMO",
+          "N/A"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the United States without requiring sponsorship now or in the future?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes, I am legally authorized to work in the United States without requiring sponsorship now or in the future.",
+          "No, I am not legally authorized to work in the United States without requiring sponsorship now or in the future."
+        ]
+      },
+      {
+        "question": "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes, I give permission to contact my references.",
+          "No, I do not give permission to contact my references."
+        ]
+      },
+      {
+        "question": "Name (Reference 1)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email (Reference 1)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone (Reference 1)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Relationship (Reference 1)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application. (Reference 2)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes, I give permission to contact my references.",
+          "No, I do not give permission to contact my references."
+        ]
+      },
+      {
+        "question": "Name (Reference 2)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email (Reference 2)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone (Reference 2)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Relationship (Reference 2)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I authorize High Tech High to contact my listed references for the purpose of verifying the information provided on my application. (Reference 3)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes, I give permission to contact my references.",
+          "No, I do not give permission to contact my references."
+        ]
+      },
+      {
+        "question": "Name (Reference 3)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email (Reference 3)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "email address",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "are you a current employee of hth schools?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "are you requesting a transfer to another school?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "which school is your current location?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "are you legally authorized to work in the united states without requiring sponsorship now or in the future?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "i authorize high tech high to contact my listed references for the purpose of verifying the information provided on my application.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "relationship",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f21"
+    },
+    {
+      "question": "relationship",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f23"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f24"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f25"
+    },
+    {
+      "question": "relationship",
+      "field_type": "text",
+      "ref": "f26"
+    },
+    {
+      "question": "#1 previous employer company name for your related experience to this position",
+      "field_type": "text",
+      "ref": "f27"
+    },
+    {
+      "question": "supervisor's name & title",
+      "field_type": "text",
+      "ref": "f28"
+    },
+    {
+      "question": "company phone number",
+      "field_type": "text",
+      "ref": "f29"
+    },
+    {
+      "question": "company email address",
+      "field_type": "text",
+      "ref": "f30"
+    },
+    {
+      "question": "your job title with previous employer",
+      "field_type": "text",
+      "ref": "f31"
+    },
+    {
+      "question": "start date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f32"
+    },
+    {
+      "question": "end date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f33"
+    },
+    {
+      "question": "job duties & responsibilities",
+      "field_type": "textarea",
+      "ref": "f34"
+    },
+    {
+      "question": "how many months did you work per year (10, 11, 12, etc.)",
+      "field_type": "select",
+      "ref": "f35"
+    },
+    {
+      "question": "hours worked per week",
+      "field_type": "text",
+      "ref": "f36"
+    },
+    {
+      "question": "total number of years worked for this employer",
+      "field_type": "text",
+      "ref": "f37"
+    },
+    {
+      "question": "did you work 1,000 hours or more in any calendar year or school year during employment?",
+      "field_type": "radio",
+      "ref": "f38"
+    },
+    {
+      "question": "#2 previous employer company name for your related experience to this position",
+      "field_type": "text",
+      "ref": "f39"
+    },
+    {
+      "question": "supervisor's name & title",
+      "field_type": "text",
+      "ref": "f40"
+    },
+    {
+      "question": "company phone number",
+      "field_type": "text",
+      "ref": "f41"
+    },
+    {
+      "question": "company email address",
+      "field_type": "text",
+      "ref": "f42"
+    },
+    {
+      "question": "your job title with previous employer",
+      "field_type": "text",
+      "ref": "f43"
+    },
+    {
+      "question": "start date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f44"
+    },
+    {
+      "question": "end date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f45"
+    },
+    {
+      "question": "job duties & responsibilities",
+      "field_type": "textarea",
+      "ref": "f46"
+    },
+    {
+      "question": "how many months did you work per year (10, 11, 12, etc.)",
+      "field_type": "select",
+      "ref": "f47"
+    },
+    {
+      "question": "hours worked per week",
+      "field_type": "text",
+      "ref": "f48"
+    },
+    {
+      "question": "total number of years worked for this employer",
+      "field_type": "text",
+      "ref": "f49"
+    },
+    {
+      "question": "#3 previous employer company name for your related experience to this position",
+      "field_type": "text",
+      "ref": "f50"
+    },
+    {
+      "question": "supervisor's name & title",
+      "field_type": "text",
+      "ref": "f51"
+    },
+    {
+      "question": "company phone number",
+      "field_type": "text",
+      "ref": "f52"
+    },
+    {
+      "question": "company email address",
+      "field_type": "text",
+      "ref": "f53"
+    },
+    {
+      "question": "your job title with previous employer",
+      "field_type": "text",
+      "ref": "f54"
+    },
+    {
+      "question": "start date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f55"
+    },
+    {
+      "question": "end date of employment (mmddyyyy)",
+      "field_type": "text",
+      "ref": "f56"
+    },
+    {
+      "question": "job duties & responsibilities",
+      "field_type": "textarea",
+      "ref": "f57"
+    },
+    {
+      "question": "how many months did you work per year (10, 11, 12, etc.)",
+      "field_type": "select",
+      "ref": "f58"
+    },
+    {
+      "question": "hours worked per week",
+      "field_type": "text",
+      "ref": "f59"
+    },
+    {
+      "question": "total number of years worked for this employer",
+      "field_type": "text",
+      "ref": "f60"
+    },
+    {
+      "question": "do you have more employers to report with related experience?",
+      "field_type": "radio",
+      "ref": "f61"
+    },
+    {
+      "question": "i understand that this position is an in-person opportunity and that i will be to report to the school site.",
+      "field_type": "checkbox",
+      "ref": "f62"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f63"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f64"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f65"
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "id": "https-gesis-jobs-personio-de-job-1896153",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:43:24.874Z",
+  "page_url": "https://gesis.jobs.personio.de/job/1896153",
+  "page_title": "Unsolicited application | Jobs at GESIS – Leibniz-Institut für Sozialwissenschaften",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 17,
+      "count_delta": 0,
+      "label_jaccard": 0.7,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "academic title",
+        "ai": "Academic title",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone ( )",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "street and house number",
+        "ai": "Street and house number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zip code and city",
+        "ai": "Zip code and city",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "nationality",
+        "ai": "Nationality",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "birthday",
+        "ai": "Birthday",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "disability or disability with equality",
+        "ai": "Disability or Disability with equality",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "i am interested in working in the following department: ( )",
+        "ai": "I am interested in working in the following department:",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you find us?",
+        "ai": "How did you find us?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a standard Personio application form. File inputs are handled via custom buttons that trigger hidden file inputs.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Academic title",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Other / no indication",
+          "Dr.",
+          "Professor Dr.",
+          "PhD",
+          "Private Lecturer Dr."
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Street and house number",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Zip code and city",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "female",
+          "male",
+          "diverse",
+          "no entry"
+        ]
+      },
+      {
+        "question": "Nationality",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Birthday",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Disability or Disability with equality",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "yes",
+          "no"
+        ]
+      },
+      {
+        "question": "I am interested in working in the following department:",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Administration",
+          "Computational Social Science",
+          "Data and Research on Society",
+          "Data Services for the Social Sciences",
+          "Executive Board",
+          "IT Infrastructure and Service",
+          "Knowledge Exchange and Outreach",
+          "Knowledge Technologies for the Social Sciences",
+          "Service Strategy and Engineering",
+          "Survey Data Curation",
+          "Survey Design and Methodology"
+        ]
+      },
+      {
+        "question": "How did you find us?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Academics / Zeit online",
+          "Azubiyo",
+          "Bundesagentur für Arbeit",
+          "Euraxess",
+          "Friends",
+          "Indeed",
+          "Instagram",
+          "LinkedIn",
+          "Psychjob",
+          "Stellenwerk Köln",
+          "Stepstone",
+          "Studierendenwerk Heidelberg",
+          "Bluesky",
+          "Other",
+          "www.gesis.org",
+          "Leibniz Gemeinschaft",
+          "AUBI-plus"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "academic title",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "street and house number",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "zip code and city",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "nationality",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "birthday",
+      "field_type": "date",
+      "ref": "f9"
+    },
+    {
+      "question": "available from",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "disability or disability with equality",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "i am interested in working in the following department: ( )",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "how did you find us?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f14"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f16"
+    }
+  ]
+}

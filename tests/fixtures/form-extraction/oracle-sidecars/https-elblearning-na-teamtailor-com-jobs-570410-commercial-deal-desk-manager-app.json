@@ -1,0 +1,304 @@
+{
+  "id": "https-elblearning-na-teamtailor-com-jobs-570410-commercial-deal-desk-manager-app",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:40:01.065Z",
+  "page_url": "https://elblearning.na.teamtailor.com/jobs/570410-commercial-deal-desk-manager/applications/new",
+  "page_title": "Commercial Deal Desk Manager - ELB Learning",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 23,
+      "ai_count": 8,
+      "count_delta": 15,
+      "label_jaccard": 0.3478,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "how many years of experience do you have supporting seller-side commercial contracts?",
+        "ai": "How many years of experience do you have supporting seller-side commercial contracts?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what best describes your contracting experience?",
+        "ai": "What best describes your contracting experience?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how would you describe your role in contracting work?",
+        "ai": "How would you describe your role in contracting work?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked within or closely alongside a legal or commercial contracts team supporting enterprise deals?",
+        "ai": "Have you worked within or closely alongside a legal or commercial contracts team supporting enterprise deals?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which best describes your experience with ai tools in your workflow?",
+        "ai": "Which best describes your experience with AI tools in your workflow?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked directly with legal teams or general counsel in a contracting environment?",
+        "ai": "Have you worked directly with Legal teams or General Counsel in a contracting environment?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked with msas, sows, order forms, or similar commercial agreements?",
+        "ai": "Have you worked with MSAs, SOWs, order forms, or similar commercial agreements?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which industries have you worked in? (select all that apply)",
+        "ai": "Which industries have you worked in? (Select all that apply)",
+        "detector_type": "text",
+        "ai_type": "checkbox",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "briefly describe the type of company you most recently worked for and what they sold.",
+      "how did you hear about this open job for elb learning?",
+      "which us state are you based in?",
+      "please clarify which of the following apply to you? (select all that apply)",
+      "what is your targeted annual w2 salary? this applied to base salary only. if this is a commission based role, that would be calculated separately, please discuss with your recruiter.",
+      "which of the following best describes your working relationship with elb learning?",
+      "first name",
+      "last name",
+      "email",
+      "phone",
+      "upload resume",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that elb learning store my personal details to be able to process my job application.",
+      "yes, elb learning can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom dropdown component for the multi-select industry question. The HTML excerpt was truncated, so standard fields like name, email, and resume upload are likely present in the full form but not visible in this snippet.",
+    "fields": [
+      {
+        "question": "How many years of experience do you have supporting seller-side commercial contracts?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Less than 2 years",
+          "2 – 4 years",
+          "5 – 7 years",
+          "8 – 10 years",
+          "10+ years"
+        ]
+      },
+      {
+        "question": "What best describes your contracting experience?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Primarily sell-side (supporting Sales teams to close deals)",
+          "Primarily buy-side (procurement/vendor management)",
+          "Mixed experience",
+          "Not directly involved in contracting"
+        ]
+      },
+      {
+        "question": "How would you describe your role in contracting work?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I actively drive deals from start to signature",
+          "I support deal flow and coordinate stakeholders",
+          "I mainly prepare or review documents when requested",
+          "I primarily escalate to Legal for decisions"
+        ]
+      },
+      {
+        "question": "Have you worked within or closely alongside a legal or commercial contracts team supporting enterprise deals?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which best describes your experience with AI tools in your workflow?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Regularly use AI tools to improve speed and quality of work",
+          "Occasionally use AI tools",
+          "Minimal use",
+          "Do not use AI tools"
+        ]
+      },
+      {
+        "question": "Have you worked directly with Legal teams or General Counsel in a contracting environment?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you worked with MSAs, SOWs, order forms, or similar commercial agreements?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which industries have you worked in? (Select all that apply)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "SaaS / Technology",
+          "Professional Services",
+          "Manufacturing",
+          "Healthcare",
+          "Finance / Insurance / Banking",
+          "Government / Public Sector",
+          "Retail / Consumer / B2C"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "how many years of experience do you have supporting seller-side commercial contracts?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "what best describes your contracting experience?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "how would you describe your role in contracting work?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "have you worked within or closely alongside a legal or commercial contracts team supporting enterprise deals?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "which best describes your experience with ai tools in your workflow?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "have you worked directly with legal teams or general counsel in a contracting environment?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "have you worked with msas, sows, order forms, or similar commercial agreements?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "which industries have you worked in? (select all that apply)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "briefly describe the type of company you most recently worked for and what they sold.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you hear about this open job for elb learning?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "which us state are you based in?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please clarify which of the following apply to you? (select all that apply)",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "what is your targeted annual w2 salary? this applied to base salary only. if this is a commission based role, that would be calculated separately, please discuss with your recruiter.",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "which of the following best describes your working relationship with elb learning?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f16"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f17"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f18"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f19"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that elb learning store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "yes, elb learning can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f22"
+    }
+  ]
+}

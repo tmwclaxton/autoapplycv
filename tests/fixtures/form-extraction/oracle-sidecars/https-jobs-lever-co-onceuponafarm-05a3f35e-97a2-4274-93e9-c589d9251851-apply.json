@@ -1,0 +1,478 @@
+{
+  "id": "https-jobs-lever-co-onceuponafarm-05a3f35e-97a2-4274-93e9-c589d9251851-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:29:35.993Z",
+  "page_url": "https://jobs.lever.co/onceuponafarm/05a3f35e-97a2-4274-93e9-c589d9251851/apply",
+  "page_title": "Once Upon a Farm - Don't See Your Role?",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 22,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8182,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "do you currently work at once upon a farm?",
+        "ai": "Do you currently work at Once Upon a Farm?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "were you referred by someone who works at once upon a farm? if so, who?",
+        "ai": "Were you referred by someone who works at Once Upon a Farm? If so, who?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "due to current team needs, we are only considering candidates based in the usa. please confirm you're based in the usa.",
+        "ai": "Due to current team needs, we are only considering candidates based in the USA. Please confirm you're based in the USA.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship to work for a u.s. employer (e.g., h-1b, tn, e-3, f-1 visa status)?",
+        "ai": "Will you now or in the future require sponsorship to work for a U.S. employer (e.g., H-1B, TN, E-3, F-1 visa status)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about this role?",
+        "ai": "How did you hear about this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "name pronunciation:",
+        "ai": "Name Pronunciation:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "we believe it’s on us to provide an inclusive interview experience for all, including people with disabilities. we are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. please specify any requests for such accommodations here.",
+        "ai": "We believe it’s on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i identify my ethnicity as",
+        "ai": "I identify my ethnicity as",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you identify as?",
+        "ai": "What gender do you identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "disability status: check all that apply",
+        "ai": "Disability Status: Check all that apply",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you served on active duty in the u.s. military?",
+        "ai": "Have you served on active duty in the U.S. Military?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a standard Lever application structure. Includes an optional demographic survey and an hCaptcha challenge.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you currently work at Once Upon a Farm?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Were you referred by someone who works at Once Upon a Farm? If so, who?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Due to current team needs, we are only considering candidates based in the USA. Please confirm you're based in the USA.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I am based in the USA.",
+          "No, I am not based in the USA, but I'm planning to relocate to the USA.",
+          "No, I am not based in the USA, nor am I open to relocating to the USA."
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship to work for a U.S. employer (e.g., H-1B, TN, E-3, F-1 visa status)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you hear about this role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name Pronunciation:",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "We believe it’s on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "17 or younger",
+          "18-20",
+          "21-29",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older"
+        ]
+      },
+      {
+        "question": "I identify my ethnicity as",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White / Caucasian",
+          "Hispanic, Latino, or Spanish origin",
+          "Black or African American",
+          "Asian",
+          "Native Hawaiian or other Pacific Islander",
+          "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+          "Middle Eastern or North African",
+          "Some other race, ethnicity, or origin"
+        ]
+      },
+      {
+        "question": "What gender do you identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary"
+        ]
+      },
+      {
+        "question": "Disability Status: Check all that apply",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "I have a disability",
+          "I do not have a disability",
+          "I choose not to identify"
+        ]
+      },
+      {
+        "question": "Have you served on active duty in the U.S. Military?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "I am a US Veteran",
+          "I am not a US Veteran",
+          "I choose not to disclose"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "do you currently work at once upon a farm?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "were you referred by someone who works at once upon a farm? if so, who?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "due to current team needs, we are only considering candidates based in the usa. please confirm you're based in the usa.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work for a u.s. employer (e.g., h-1b, tn, e-3, f-1 visa status)?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "how did you hear about this role?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "name pronunciation:",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "we believe it’s on us to provide an inclusive interview experience for all, including people with disabilities. we are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. please specify any requests for such accommodations here.",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "disability status: check all that apply",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "have you served on active duty in the u.s. military?",
+      "field_type": "radio",
+      "ref": "f21"
+    }
+  ]
+}

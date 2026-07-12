@@ -1,0 +1,110 @@
+{
+  "id": "https-autohdr-1748964592-na-teamtailor-com-jobs-572039-customer-support-represen",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:30:10.543Z",
+  "page_url": "https://autohdr-1748964592.na.teamtailor.com/jobs/572039-customer-support-representative/applications/new",
+  "page_title": "Customer Support Representative - AutoHDR",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 2,
+      "count_delta": 7,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "in 1 minute or less, describe why you are the perfect fit for this role.",
+        "ai": "In 1 minute or less, describe why you are the perfect fit for this role.",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your monthly salary expectations?",
+        "ai": "What are your monthly salary expectations?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what are your ideal working hours, in cst (usa)? how many hours per week are you willing and able to work?",
+      "first name",
+      "last name",
+      "email",
+      "address start typing your address",
+      "upload resume",
+      "cover letter"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like name, email, or resume upload) that typically appear after the salary question are missing from this output.",
+    "fields": [
+      {
+        "question": "In 1 minute or less, describe why you are the perfect fit for this role.",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your monthly salary expectations?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "in 1 minute or less, describe why you are the perfect fit for this role.",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "what are your monthly salary expectations?",
+      "field_type": "number",
+      "ref": "f1"
+    },
+    {
+      "question": "what are your ideal working hours, in cst (usa)? how many hours per week are you willing and able to work?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "address start typing your address",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f8"
+    }
+  ]
+}

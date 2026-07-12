@@ -1,0 +1,188 @@
+{
+  "id": "https-eathappygroup-teamtailor-com-jobs-7502757-projekt-manager-operational-exce",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:33:16.889Z",
+  "page_url": "https://eathappygroup.teamtailor.com/jobs/7502757-projekt-manager-operational-excellence-m-w-d/applications/new",
+  "page_title": "Project Manager Operational Excellence (m/w/d) - EAT HAPPY GROUP",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 7,
+      "count_delta": 5,
+      "label_jaccard": 0.5833,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "ab wann bist du frühestens verfügbar?",
+        "ai": "Ab wann bist du frühestens verfügbar?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "was sind deine gehaltsvorstellungen? (brutto/jährlich)",
+        "ai": "Was sind deine Gehaltsvorstellungen? (brutto/jährlich)",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "wurdest du von einem mitarbeitenden unseres unternehmens geworben? wenn ja, von wem?",
+        "ai": "Wurdest du von einem Mitarbeitenden unseres Unternehmens geworben? Wenn ja, von wem?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben",
+      "ich habe die datenschutzerklärung gelesen und bin damit einverstanden, dass eat happy group meine personenbezogenen daten speichert um meine bewerbung/en bearbeiten zu können.",
+      "ja, eat happy group darf mich auch bei künftigen stellenanzeigen kontaktieren."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor SPA structure. Additional fields like resume upload or social links are likely injected dynamically or handled via the LinkedIn integration button.",
+    "fields": [
+      {
+        "question": "Ab wann bist du frühestens verfügbar?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Was sind deine Gehaltsvorstellungen? (brutto/jährlich)",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wurdest du von einem Mitarbeitenden unseres Unternehmens geworben? Wenn ja, von wem?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "ab wann bist du frühestens verfügbar?",
+      "field_type": "date",
+      "ref": "f0"
+    },
+    {
+      "question": "was sind deine gehaltsvorstellungen? (brutto/jährlich)",
+      "field_type": "number",
+      "ref": "f1"
+    },
+    {
+      "question": "wurdest du von einem mitarbeitenden unseres unternehmens geworben? wenn ja, von wem?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "ich habe die datenschutzerklärung gelesen und bin damit einverstanden, dass eat happy group meine personenbezogenen daten speichert um meine bewerbung/en bearbeiten zu können.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "ja, eat happy group darf mich auch bei künftigen stellenanzeigen kontaktieren.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

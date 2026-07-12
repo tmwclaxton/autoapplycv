@@ -1,0 +1,39 @@
+{
+  "id": "https-jobs-smartrecruiters-com-linkedin3-744000135601779-staff-software-engineer",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:25:37.729Z",
+  "page_url": "https://jobs.smartrecruiters.com/LinkedIn3/744000135601779-staff-software-engineer-systems-infrastructure",
+  "page_title": "LinkedIn Staff Software Engineer - Systems Infrastructure | SmartRecruiters",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "I'm interested"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The 'I'm interested' buttons are links that redirect to an external SmartRecruiters application flow (oneclick-ui), which is not contained within this static HTML excerpt.",
+    "fields": [
+      {
+        "question": "I'm interested",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

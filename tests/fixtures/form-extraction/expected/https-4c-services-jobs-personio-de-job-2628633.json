@@ -44,11 +44,11 @@
       }
     },
     {
-      "question": "location  location",
+      "question": "location ( ) location",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -64,11 +64,11 @@
       }
     },
     {
-      "question": "email",
+      "question": "email ( )",
       "field_type": "email",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "email",
@@ -84,11 +84,11 @@
       }
     },
     {
-      "question": "phone",
+      "question": "phone ( )",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -104,11 +104,11 @@
       }
     },
     {
-      "question": "nationality  nationality",
+      "question": "nationality ( ) nationality",
       "field_type": "text",
       "max_chars": 5000,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -124,7 +124,7 @@
       }
     },
     {
-      "question": "english language skills",
+      "question": "english language skills ( )",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -138,7 +138,7 @@
         "None",
         "Native"
       ],
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "select",
         "type": "select-one",
@@ -154,7 +154,7 @@
       }
     },
     {
-      "question": "spanish language skills",
+      "question": "spanish language skills ( )",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -168,7 +168,7 @@
         "None",
         "Native"
       ],
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "select",
         "type": "select-one",
@@ -184,11 +184,11 @@
       }
     },
     {
-      "question": "other language skills  other language skills",
+      "question": "other language skills ( ) other language skills",
       "field_type": "text",
       "max_chars": 5000,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -204,11 +204,11 @@
       }
     },
     {
-      "question": "available from  available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -224,11 +224,11 @@
       }
     },
     {
-      "question": "expected salary  expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",

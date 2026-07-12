@@ -1,0 +1,148 @@
+{
+  "id": "https-desfo-breezy-hr-p-b2d50c1c6f9001-commission-based-sales-representative-app",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:24:31.995Z",
+  "page_url": "https://desfo.breezy.hr/p/b2d50c1c6f9001-commission-based-sales-representative/apply",
+  "page_title": "Commission-Based Sales Representative",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0.25,
+      "type_agree_rate": 0.6667,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "nome completo",
+        "ai": "Nome completo",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "endereço de e-mail",
+        "ai": "Endereço de e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "número de telefone",
+        "ai": "Número de telefone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Experiência profissional",
+      "Formação",
+      "Resumo de experiência",
+      "Carta de acompanhamento"
+    ],
+    "reasons": [
+      "label Jaccard 0.250 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic Angular components for work history and education, which may not be fully captured in static HTML. The resume upload is technically optional based on the hidden input field.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Número de telefone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experiência profissional",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Formação",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resumo de experiência",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Carta de acompanhamento",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "nome completo",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "endereço de e-mail",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "número de telefone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    }
+  ]
+}

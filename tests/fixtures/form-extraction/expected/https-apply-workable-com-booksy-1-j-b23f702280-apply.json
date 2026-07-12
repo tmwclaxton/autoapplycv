@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-booksy-1-j-b23f702280-apply",
-  "min_fields": 24,
-  "exact_field_count": 24,
+  "min_fields": 19,
+  "exact_field_count": 19,
   "fields": [
     {
       "question": "first name",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "question": "input_files_input_gjn1tryshhzntk7v",
+      "question": "photo",
       "field_type": "file",
       "max_chars": null,
       "options": null,
@@ -92,7 +92,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_gjn1TRySHhZntk7v",
+        "id": "input_files_input_leqiDzjuuD9TH1jc",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -104,7 +104,7 @@
       }
     },
     {
-      "question": "city city",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -112,8 +112,8 @@
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -124,47 +124,7 @@
       }
     },
     {
-      "question": "postcode postcode",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "country country",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "input_files_input_dgozidfpkvhpjscf",
+      "question": "resume",
       "field_type": "file",
       "max_chars": null,
       "options": null,
@@ -172,7 +132,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_dGOZidfPKvhPJsCf",
+        "id": "input_files_input_jmuSAT9tuXHHTqDt",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -184,7 +144,7 @@
       }
     },
     {
-      "question": "summary (optional)",
+      "question": "summary",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -224,7 +184,7 @@
       }
     },
     {
-      "question": "cover letter (optional)",
+      "question": "cover letter",
       "field_type": "textarea",
       "max_chars": 200000,
       "options": null,
@@ -288,14 +248,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "BJjVWjQYbte1Sj0a",
+        "id": "emoDsNGmIOWm00Sj",
         "name": "QA_11301620",
         "data_testid": null,
         "role": null,
@@ -311,14 +271,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "Gk6ZmhS7tCMHokN3",
+        "id": "qVv4bKSRZnslCdra",
         "name": "QA_11301623",
         "data_testid": null,
         "role": null,
@@ -330,40 +290,40 @@
       }
     },
     {
-      "question": "qa_11301624",
-      "field_type": "text",
+      "question": "please specify your current legal work authorization status.",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "QA_11301624",
+        "id": "input_QA_11301624_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
       }
     },
     {
-      "question": "qa_11301622",
-      "field_type": "text",
+      "question": "please confirm which of the following is your preferred cooperation form.",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "QA_11301622",
+        "id": "input_QA_11301622_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -374,14 +334,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "bn5fmbXCL4V3JUUP",
+        "id": "Y4STB0QnbDY4W7NS",
         "name": "QA_11302009",
         "data_testid": null,
         "role": null,
@@ -393,20 +353,20 @@
       }
     },
     {
-      "question": "qa_11318908",
-      "field_type": "text",
+      "question": "how did you learn about our early careers programme?",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "QA_11318908",
+        "id": "input_QA_11318908_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -417,7 +377,7 @@
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read, understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application."
+        "I have read, understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application."
       ],
       "required": false,
       "dom": {
@@ -427,75 +387,6 @@
         "name": "gdpr",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you available to start a 12-month, full-time programme in september 2026? (please note the start date is not flexible)",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_BJjVWjQYbte1Sj0a",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you legally eligible to work in poland without sponsorship?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_Gk6ZmhS7tCMHokN3",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you agree that booksy can use the personal data from your application to contact you about future job opportunities for up to 12 months? you understand that this consent is optional and that you can withdraw it at any time. withdrawing your consent will not affect how your data was used before you withdrew it.",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_bn5fmbXCL4V3JUUP",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,

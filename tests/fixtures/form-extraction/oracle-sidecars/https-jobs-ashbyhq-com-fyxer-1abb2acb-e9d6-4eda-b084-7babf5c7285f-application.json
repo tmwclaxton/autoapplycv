@@ -1,0 +1,103 @@
+{
+  "id": "https-jobs-ashbyhq-com-fyxer-1abb2acb-e9d6-4eda-b084-7babf5c7285f-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:31:38.131Z",
+  "page_url": "https://jobs.ashbyhq.com/fyxer/1abb2acb-e9d6-4eda-b084-7babf5c7285f/application",
+  "page_title": "Senior Customer Success Manager @ Fyxer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 4,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile url",
+        "ai": "LinkedIn Profile URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an 'Autofill from resume' feature which uses a file input. The main application form fields are standard text/email/file inputs.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "id": "https-jobs-ashbyhq-com-doinstruct-80b4feb9-30aa-4082-9d50-e935c8462b40-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:38:41.589Z",
+  "page_url": "https://jobs.ashbyhq.com/doinstruct/80b4feb9-30aa-4082-9d50-e935c8462b40/application",
+  "page_title": "Founding Account Executive - USA @ doinstruct",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "will you require employer sponsorship to work in the united states now or in the future?",
+        "ai": "Will you require employer sponsorship to work in the United States now or in the future?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able and willing to work primarily in eastern time (us) hours on a regular basis?",
+        "ai": "Are you able and willing to work primarily in Eastern Time (US) hours on a regular basis?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "this role involves regular travel to us customers and occasional travel to europe. are you comfortable with this level of travel?",
+        "ai": "This role involves regular travel to US customers and occasional travel to Europe. Are you comfortable with this level of travel?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your expected yearly gross salary?",
+        "ai": "What is your expected yearly gross salary?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "when is your desired start date?",
+        "ai": "When is your desired start date?",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "which us state do you plan to work from primarily for this role?",
+        "ai": "Which US state do you plan to work from primarily for this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for yes/no questions. The date picker is a third-party component (react-datepicker).",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your expected yearly gross salary?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "When is your desired start date?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you require employer sponsorship to work in the United States now or in the future?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which US state do you plan to work from primarily for this role?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able and willing to work primarily in Eastern Time (US) hours on a regular basis?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "This role involves regular travel to US customers and occasional travel to Europe. Are you comfortable with this level of travel?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you require employer sponsorship to work in the united states now or in the future?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you able and willing to work primarily in eastern time (us) hours on a regular basis?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "this role involves regular travel to us customers and occasional travel to europe. are you comfortable with this level of travel?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your expected yearly gross salary?",
+      "field_type": "number",
+      "ref": "f6"
+    },
+    {
+      "question": "when is your desired start date?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "which us state do you plan to work from primarily for this role?",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

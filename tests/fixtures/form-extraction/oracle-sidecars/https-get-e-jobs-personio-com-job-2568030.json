@@ -1,0 +1,295 @@
+{
+  "id": "https-get-e-jobs-personio-com-job-2568030",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:45:03.182Z",
+  "page_url": "https://get-e.jobs.personio.com/job/2568030",
+  "page_title": "Supplier Onboarding Intern (August/September 2026) | Jobs at Get-e",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 0.2174,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone ( )",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location ( ) location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you fluent in english? ( )",
+        "ai": "Are you fluent in English?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently require, or will you require in the future, visa sponsorship to work with get-e? ( )",
+        "ai": "Do you currently require, or will you require in the future, visa sponsorship to work with Get-e?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you live in the netherlands? ( )",
+        "ai": "Do you live in the Netherlands?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "is your one-way commute to our office less than 75 minutes? ( )",
+        "ai": "Is your one-way commute to our office less than 75 minutes?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what motivated you to apply to this position at get-e? ( ) what motivated you to apply to this position at get-e?",
+        "ai": "What motivated you to apply to this position at Get-e?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a standard Personio dynamic form structure. File inputs are triggered by buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you fluent in English?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you currently require, or will you require in the future, visa sponsorship to work with Get-e?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you live in the Netherlands?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Is your one-way commute to our office less than 75 minutes?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What motivated you to apply to this position at Get-e?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "location ( ) location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "are you fluent in english? ( )",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "do you currently require, or will you require in the future, visa sponsorship to work with get-e? ( )",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "do you live in the netherlands? ( )",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "is your one-way commute to our office less than 75 minutes? ( )",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "what motivated you to apply to this position at get-e? ( ) what motivated you to apply to this position at get-e?",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f13"
+    }
+  ]
+}

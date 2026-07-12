@@ -1,0 +1,514 @@
+{
+  "id": "https-jobs-eu-lever-co-westernacher-708859d1-a867-41ba-838e-0cabde17b15c-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:20:43.622Z",
+  "page_url": "https://jobs.eu.lever.co/westernacher/708859d1-a867-41ba-838e-0cabde17b15c/apply",
+  "page_title": "Westernacher Consulting - People/HR Ops",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 25,
+      "count_delta": 0,
+      "label_jaccard": 0.9231,
+      "type_agree_rate": 0.84,
+      "matched_count": 25
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "naukri url",
+        "ai": "Naukri URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "by submitting my application i acknowledge and consent to the data privacy policies of the westernacher group. i am particularly aware about the exchange of my information within the westernacher group, as well as that my data could be transferred to third countries. i understand that my application data may be stored for up to 24 months for statutory and recruitment‑related purposes. https://westernacher.com/wp-content/uploads/2022/02/data-protection-information.pdf",
+        "ai": "By submitting my application I acknowledge and consent to the data privacy policies of the Westernacher Group. I am particularly aware about the exchange of my information within the Westernacher Group, as well as that my data could be transferred to third countries. I understand that my application data may be stored for up to 24 months for statutory and recruitment-related purposes. https://westernacher.com/wp-content/uploads/2022/02/Data-Protection-Information.pdf",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i give westernacher consulting my consent to collect and process video and audio material of me for recruitment purposes.",
+        "ai": "I give Westernacher Consulting my consent to collect and process video and audio material of me for recruitment purposes.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i give westernacher consulting my consent to collect and process my personal id information for recruitment purposes.",
+        "ai": "I give Westernacher Consulting my consent to collect and process my personal ID information for recruitment purposes.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i give westernacher consulting my consent to collect and process my employment and payroll data for recruitment purposes.",
+        "ai": "I give Westernacher Consulting my consent to collect and process my employment and payroll data for recruitment purposes.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i agree to be considered for other positions.",
+        "ai": "I agree to be considered for other positions.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you been previously employed with westernacher consulting?",
+        "ai": "Have you been previously employed with Westernacher Consulting?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "mention your total work experience in years:",
+        "ai": "Mention your total work experience in years:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of relevant work experience do you have for this requirement?",
+        "ai": "How many years of relevant work experience do you have for this requirement?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "mention name of your current employer/ payroll company:",
+        "ai": "Mention name of your current employer/ payroll company:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location:",
+        "ai": "Current location:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked on international assignments, onsite?",
+        "ai": "Have you worked on international assignments, onsite?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "if worked on international assignments, please mention the regions and duration.",
+        "ai": "If worked on international assignments, please mention the regions and duration.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if selected, in how many days can you join?",
+        "ai": "If selected, in how many days can you join?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current ctc?",
+        "ai": "What is your current CTC?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your expected ctc?",
+        "ai": "What is your expected CTC?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "have you been associate with westernacher before ?",
+        "ai": "Have you been associate with Westernacher before ?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-specific structure where custom questions are embedded in a JSON-like hidden input and rendered dynamically. The hCaptcha is present.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Naukri URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By submitting my application I acknowledge and consent to the data privacy policies of the Westernacher Group. I am particularly aware about the exchange of my information within the Westernacher Group, as well as that my data could be transferred to third countries. I understand that my application data may be stored for up to 24 months for statutory and recruitment-related purposes. https://westernacher.com/wp-content/uploads/2022/02/Data-Protection-Information.pdf",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I give Westernacher Consulting my consent to collect and process video and audio material of me for recruitment purposes.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "I give Westernacher Consulting my consent to collect and process my personal ID information for recruitment purposes.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "I give Westernacher Consulting my consent to collect and process my employment and payroll data for recruitment purposes.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "I agree to be considered for other positions.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "Have you been previously employed with Westernacher Consulting?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "Mention your total work experience in years:",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1-3 years",
+          "4-7 years",
+          "8-15 years",
+          "16+ years"
+        ]
+      },
+      {
+        "question": "How many years of relevant work experience do you have for this requirement?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "1-3 years",
+          "4-7 years",
+          "8-15 years",
+          "16+ years"
+        ]
+      },
+      {
+        "question": "Mention name of your current employer/ payroll company:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you worked on international assignments, onsite?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "If worked on international assignments, please mention the regions and duration.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If selected, in how many days can you join?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "within 2 weeks",
+          "15-30 days",
+          "31-60 days",
+          "61-90 days"
+        ]
+      },
+      {
+        "question": "What is your current CTC?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your expected CTC?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you been associate with Westernacher before ?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "naukri url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "by submitting my application i acknowledge and consent to the data privacy policies of the westernacher group. i am particularly aware about the exchange of my information within the westernacher group, as well as that my data could be transferred to third countries. i understand that my application data may be stored for up to 24 months for statutory and recruitment‑related purposes. https://westernacher.com/wp-content/uploads/2022/02/data-protection-information.pdf",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "i give westernacher consulting my consent to collect and process video and audio material of me for recruitment purposes.",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "i give westernacher consulting my consent to collect and process my personal id information for recruitment purposes.",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "i give westernacher consulting my consent to collect and process my employment and payroll data for recruitment purposes.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "i agree to be considered for other positions.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "have you been previously employed with westernacher consulting?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "mention your total work experience in years:",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "how many years of relevant work experience do you have for this requirement?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "mention name of your current employer/ payroll company:",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "current location:",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "have you worked on international assignments, onsite?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "if worked on international assignments, please mention the regions and duration.",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "if selected, in how many days can you join?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "what is your current ctc?",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "what is your expected ctc?",
+      "field_type": "text",
+      "ref": "f23"
+    },
+    {
+      "question": "have you been associate with westernacher before ?",
+      "field_type": "textarea",
+      "ref": "f24"
+    }
+  ]
+}

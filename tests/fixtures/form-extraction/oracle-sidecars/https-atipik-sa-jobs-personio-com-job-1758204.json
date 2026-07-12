@@ -1,7 +1,7 @@
 {
   "id": "https-atipik-sa-jobs-personio-com-job-1758204",
   "status": "agree",
-  "captured_at": "2026-07-10T20:15:32.125Z",
+  "captured_at": "2026-07-10T22:44:41.631Z",
   "page_url": "https://atipik-sa.jobs.personio.com/job/1758204",
   "page_title": "Candidature spontanée | Postes à atipik",
   "diff": {
@@ -30,42 +30,42 @@
         "type_agree": true
       },
       {
-        "detector": "e-mail (obligatoire) yourmail@domain.com",
+        "detector": "e-mail ( ) yourmail@domain.com",
         "ai": "E-mail",
         "detector_type": "email",
         "ai_type": "email",
         "type_agree": true
       },
       {
-        "detector": "téléphone (obligatoire)",
+        "detector": "téléphone ( )",
         "ai": "Téléphone",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "disponible à partir du (obligatoire) disponible à partir du",
+        "detector": "disponible à partir du ( ) disponible à partir du",
         "ai": "Disponible à partir du",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "rémunération souhaitée (obligatoire) rémunération souhaitée",
+        "detector": "rémunération souhaitée ( ) rémunération souhaitée",
         "ai": "Rémunération souhaitée",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "lieu (obligatoire) lieu",
+        "detector": "lieu ( ) lieu",
         "ai": "Lieu",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "années d’expérience (obligatoire)",
+        "detector": "années d’expérience ( )",
         "ai": "Années d’expérience",
         "detector_type": "select",
         "ai_type": "select",
@@ -92,7 +92,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a custom file upload widget that triggers a hidden file input. The 'Disponible à partir du' field is a text input, though it may be intended for date entry.",
+    "notes": "The form uses a custom file upload button that triggers a hidden file input. The 'Disponible à partir du' field is a text input, though it implies a date.",
     "fields": [
       {
         "question": "Prénom",
@@ -179,32 +179,32 @@
       "ref": "f1"
     },
     {
-      "question": "e-mail (obligatoire) yourmail@domain.com",
+      "question": "e-mail ( ) yourmail@domain.com",
       "field_type": "email",
       "ref": "f2"
     },
     {
-      "question": "téléphone (obligatoire)",
+      "question": "téléphone ( )",
       "field_type": "text",
       "ref": "f3"
     },
     {
-      "question": "disponible à partir du (obligatoire) disponible à partir du",
+      "question": "disponible à partir du ( ) disponible à partir du",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "rémunération souhaitée (obligatoire) rémunération souhaitée",
+      "question": "rémunération souhaitée ( ) rémunération souhaitée",
       "field_type": "text",
       "ref": "f5"
     },
     {
-      "question": "lieu (obligatoire) lieu",
+      "question": "lieu ( ) lieu",
       "field_type": "text",
       "ref": "f6"
     },
     {
-      "question": "années d’expérience (obligatoire)",
+      "question": "années d’expérience ( )",
       "field_type": "select",
       "ref": "f7"
     },

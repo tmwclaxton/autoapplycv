@@ -1,0 +1,75 @@
+{
+  "id": "https-kickstart-accounting-inc-breezy-hr",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:49:31.258Z",
+  "page_url": "https://kickstart-accounting-inc.breezy.hr/",
+  "page_title": "Openings at Kickstart Accounting, Inc.",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 4,
+      "count_delta": 4,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Departments",
+      "Countries",
+      "Locations",
+      "Remote"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=0, ai=4)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job board landing page. The actual application forms are located on individual job pages (e.g., /p/26b198dfe908-bookkeeper-remote-mexico-central-america), which were not provided in the excerpt. The fields listed here are the filtering controls on the main page.",
+    "fields": [
+      {
+        "question": "Departments",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Any Department",
+          "Other"
+        ]
+      },
+      {
+        "question": "Countries",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Any Country",
+          "Mexico",
+          "United States"
+        ]
+      },
+      {
+        "question": "Locations",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Any Location",
+          "Mexico",
+          "United States"
+        ]
+      },
+      {
+        "question": "Remote",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Any Remote Type",
+          "Fully remote, no location restrictions"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

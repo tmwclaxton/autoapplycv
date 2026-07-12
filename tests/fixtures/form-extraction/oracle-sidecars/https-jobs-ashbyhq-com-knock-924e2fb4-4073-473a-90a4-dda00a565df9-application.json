@@ -1,0 +1,121 @@
+{
+  "id": "https-jobs-ashbyhq-com-knock-924e2fb4-4073-473a-90a4-dda00a565df9-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:06:00.047Z",
+  "page_url": "https://jobs.ashbyhq.com/knock/924e2fb4-4073-473a-90a4-dda00a565df9/application",
+  "page_title": "DevOps Engineer @ Knock",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 5,
+      "ai_count": 5,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "Linkedin URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an Ashby-specific SPA framework. The resume upload field is present both as a drag-and-drop zone and a standard file input.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedin URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    }
+  ]
+}

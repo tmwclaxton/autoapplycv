@@ -1,0 +1,542 @@
+{
+  "id": "https-jobs-lever-co-aledade-d416d854-0534-4b58-94b4-4bd394d818f5-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:32:02.412Z",
+  "page_url": "https://jobs.lever.co/aledade/d416d854-0534-4b58-94b4-4bd394d818f5/apply",
+  "page_title": "Aledade - Senior Software Engineer I - AI/ML",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 24,
+      "count_delta": 1,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 0.7273,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn profile",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally eligible to work in the united states?",
+        "ai": "Are you legally eligible to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you currently require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the united states? this includes, but is not limited to, h-1b visas (lottery and transfers), tn visas, e-3 visas, or other company-sponsored visas.",
+        "ai": "Do you currently require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the United States? This includes, but is not limited to, H-1B visas (lottery and transfers), TN visas, E-3 visas, or other company-sponsored visas.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "in the future, will you require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the united states? this includes, but is not limited to, h-1b visas (lottery and transfers), tn visas, e-3 visas, or other company-sponsored visas.",
+        "ai": "In the future, will you require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the United States? This includes, but is not limited to, H-1B visas (lottery and transfers), TN visas, E-3 visas, or other company-sponsored visas.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you learn about aledade?",
+        "ai": "How did you learn about Aledade?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your desired compensation for this position?",
+        "ai": "What is your desired compensation for this position?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently employed by an aledade partner practice?",
+        "ai": "Are you currently employed by an Aledade Partner Practice?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please list the state that you plan to be physically located in while employed with our company? for employment at aledade, it is to be located within the united states; even for remote based roles.",
+        "ai": "Please list the state that you plan to be physically located in while employed with our company? For employment at Aledade, it is required to be located within the United States; even for remote based roles.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you subject to an agreement with a former employer or other party (such as non-competition or non-solicitation agreement) that might, in any way, restrict your ability to work for our company?",
+        "ai": "Are you subject to an agreement with a former employer or other party (such as non-competition or non-solicitation agreement) that might, in any way, restrict your ability to work for our Company?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "by clicking \"submit application\" i agree to the aledade applicant privacy policy & terms of service - https://www.aledade.com/privacy-policy-applicants",
+        "ai": "By clicking \"Submit Application\" I agree to the Aledade Applicant Privacy Policy & Terms of Service - https://www.aledade.com/privacy-policy-applicants",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "by clicking \"submit application\" i certify that all statements made in this application are true and complete. i understand that any falsification, misrepresentation, or omission of fact is sufficient cause for my removal from consideration for employment or my dismissal if hired",
+        "ai": "By clicking \"Submit Application\" I certify that all statements made in this application are true and complete. I understand that any falsification, misrepresentation, or omission of fact is sufficient cause for my removal from consideration for employment or my dismissal if hired",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "I consent to receiving text messages",
+      "race",
+      "veteran status"
+    ],
+    "ai_only": [
+      "LinkedIn URL",
+      "Would you like to opt-in to receiving text messages for this role regarding the hiring process (e.g., interview requests and reminders)? Note: Selecting “No” will not eliminate you from consideration. Message and data rates may apply. You can opt-out at any time by replying “STOP.”"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The EEO section was truncated in the provided HTML; only Gender was fully parsed.",
+    "fields": [
+      {
+        "question": "LinkedIn profile",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you currently require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the United States? This includes, but is not limited to, H-1B visas (lottery and transfers), TN visas, E-3 visas, or other company-sponsored visas.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "In the future, will you require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the United States? This includes, but is not limited to, H-1B visas (lottery and transfers), TN visas, E-3 visas, or other company-sponsored visas.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "How did you learn about Aledade?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your desired compensation for this position?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you currently employed by an Aledade Partner Practice?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please list the state that you plan to be physically located in while employed with our company? For employment at Aledade, it is required to be located within the United States; even for remote based roles.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Alabama",
+          "Alaska",
+          "Arizona",
+          "Arkansas",
+          "California",
+          "Colorado",
+          "Connecticut",
+          "Delaware",
+          "Florida",
+          "Georgia",
+          "Hawaii",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Kansas",
+          "Kentucky",
+          "Louisiana",
+          "Maine",
+          "Maryland",
+          "Massachusetts",
+          "Michigan",
+          "Minnesota",
+          "Mississippi",
+          "Missouri",
+          "Montana",
+          "Nebraska",
+          "Nevada",
+          "New Hampshire",
+          "New Jersey",
+          "New Mexico",
+          "New York",
+          "North Carolina",
+          "North Dakota",
+          "Ohio",
+          "Oklahoma",
+          "Oregon",
+          "Pennsylvania",
+          "Rhode Island",
+          "South Carolina",
+          "South Dakota",
+          "Tennessee",
+          "Texas",
+          "Utah",
+          "Vermont",
+          "Virginia",
+          "Washington",
+          "Washington, D.C.",
+          "West Virginia",
+          "Wisconsin",
+          "Wyoming",
+          "Puerto Rico",
+          "Outside of United States"
+        ]
+      },
+      {
+        "question": "Are you subject to an agreement with a former employer or other party (such as non-competition or non-solicitation agreement) that might, in any way, restrict your ability to work for our Company?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Not sure / would like to discuss"
+        ]
+      },
+      {
+        "question": "Would you like to opt-in to receiving text messages for this role regarding the hiring process (e.g., interview requests and reminders)? Note: Selecting “No” will not eliminate you from consideration. Message and data rates may apply. You can opt-out at any time by replying “STOP.”",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I do want to opt-in to receiving text messages as stated above.",
+          "No, I do not want to opt-in to receiving text messages as stated above."
+        ]
+      },
+      {
+        "question": "By clicking \"Submit Application\" I agree to the Aledade Applicant Privacy Policy & Terms of Service - https://www.aledade.com/privacy-policy-applicants",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Submit Application"
+        ]
+      },
+      {
+        "question": "By clicking \"Submit Application\" I certify that all statements made in this application are true and complete. I understand that any falsification, misrepresentation, or omission of fact is sufficient cause for my removal from consideration for employment or my dismissal if hired",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Submit Application"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally eligible to work in the united states?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you currently require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the united states? this includes, but is not limited to, h-1b visas (lottery and transfers), tn visas, e-3 visas, or other company-sponsored visas.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "in the future, will you require the company’s sponsorship or need the company’s assistance to obtain or maintain authorization to work legally in the united states? this includes, but is not limited to, h-1b visas (lottery and transfers), tn visas, e-3 visas, or other company-sponsored visas.",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "how did you learn about aledade?",
+      "field_type": "text",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your desired compensation for this position?",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "are you currently employed by an aledade partner practice?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "please list the state that you plan to be physically located in while employed with our company? for employment at aledade, it is to be located within the united states; even for remote based roles.",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "are you subject to an agreement with a former employer or other party (such as non-competition or non-solicitation agreement) that might, in any way, restrict your ability to work for our company?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "by clicking \"submit application\" i agree to the aledade applicant privacy policy & terms of service - https://www.aledade.com/privacy-policy-applicants",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "by clicking \"submit application\" i certify that all statements made in this application are true and complete. i understand that any falsification, misrepresentation, or omission of fact is sufficient cause for my removal from consideration for employment or my dismissal if hired",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f22"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f23"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f24"
+    }
+  ]
+}

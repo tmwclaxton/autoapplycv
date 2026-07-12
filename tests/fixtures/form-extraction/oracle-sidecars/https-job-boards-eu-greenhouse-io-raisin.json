@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-eu-greenhouse-io-raisin",
   "status": "disagree",
-  "captured_at": "2026-07-10T19:57:48.793Z",
+  "captured_at": "2026-07-10T22:38:42.376Z",
   "page_url": "https://job-boards.eu.greenhouse.io/raisin",
   "page_title": "Jobs at Raisin",
   "diff": {
@@ -52,7 +52,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The provided HTML is a job board index page, not a specific job application form. The fields identified are filters for searching job listings. No application-specific fields (like name, email, or resume upload) are present on this page.",
+    "notes": "The provided HTML is a job board index page. The actual application form fields are not present as the page indicates the job is no longer open and the user is on the main listing page. The fields identified are for filtering the job list.",
     "fields": [
       {
         "question": "Search",

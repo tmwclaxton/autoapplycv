@@ -1,0 +1,42 @@
+{
+  "id": "https-beta-jobs-nhs-uk-candidate-jobadvert-a4893-26-0000",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:30:01.552Z",
+  "page_url": "https://beta.jobs.nhs.uk/candidate/jobadvert/A4893-26-0000",
+  "page_title": "Job Advert",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Accept analytics cookies"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The job advertisement is closed, so no application form fields are present. The only form on the page is for cookie consent.",
+    "fields": [
+      {
+        "question": "Accept analytics cookies",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "true",
+          "false"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

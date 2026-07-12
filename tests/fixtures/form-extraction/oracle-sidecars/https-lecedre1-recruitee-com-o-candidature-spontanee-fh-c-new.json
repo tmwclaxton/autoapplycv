@@ -1,0 +1,159 @@
+{
+  "id": "https-lecedre1-recruitee-com-o-candidature-spontanee-fh-c-new",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:25:32.921Z",
+  "page_url": "https://lecedre1.recruitee.com/o/candidature-spontanee-fh/c/new",
+  "page_title": "Le Cèdre - Candidature spontanée F/H - Candidature",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 0.5556,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "nom complet",
+        "ai": "Nom complet",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "adresse e-mail",
+        "ai": "Adresse e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "numéro de téléphone",
+        "ai": "Numéro de téléphone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "lettre de motivation",
+        "ai": "Lettre de motivation",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "dites-nous à quel type d'emploi vous aspirez (commercial, acheteur, administratif, informatique, rh, communication, comptabilité, assurances, finances... ) et où souhaiteriez-vous exercer cette emploi (région) ?",
+        "ai": "Dites-nous à quel type d'emploi vous aspirez (commercial, acheteur, administratif, informatique, RH, communication, comptabilité, assurances, finances.. ) et où souhaiteriez-vous exercer cette emploi (région) ?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "vous êtes ?",
+        "ai": "Vous êtes ?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "sélectionner l'indicatif du pays"
+    ],
+    "ai_only": [
+      "CV"
+    ],
+    "reasons": [
+      "label Jaccard 0.556 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a hCaptcha widget which is not a standard input field. The phone input uses a custom dropdown for country codes.",
+    "fields": [
+      {
+        "question": "Nom complet",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Adresse e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Numéro de téléphone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lettre de motivation",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Dites-nous à quel type d'emploi vous aspirez (commercial, acheteur, administratif, informatique, RH, communication, comptabilité, assurances, finances.. ) et où souhaiteriez-vous exercer cette emploi (région) ?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Vous êtes ?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Femme",
+          "Homme"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "dites-nous à quel type d'emploi vous aspirez (commercial, acheteur, administratif, informatique, rh, communication, comptabilité, assurances, finances... ) et où souhaiteriez-vous exercer cette emploi (région) ?",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "vous êtes ?",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "sélectionner l'indicatif du pays",
+      "field_type": "select",
+      "ref": "f6"
+    }
+  ]
+}

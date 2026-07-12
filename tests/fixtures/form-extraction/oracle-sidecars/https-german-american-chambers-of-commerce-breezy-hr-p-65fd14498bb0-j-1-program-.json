@@ -1,0 +1,444 @@
+{
+  "id": "https-german-american-chambers-of-commerce-breezy-hr-p-65fd14498bb0-j-1-program-",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:46:50.474Z",
+  "page_url": "https://german-american-chambers-of-commerce.breezy.hr/p/65fd14498bb0-j-1-program-recruiting-coordinator-j-1-aro/apply",
+  "page_title": "J-1 Program & Recruiting Coordinator/J-1 ARO",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 17,
+      "count_delta": 1,
+      "label_jaccard": 0.4348,
+      "type_agree_rate": 0.8,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "desired salary",
+        "ai": "Desired Salary Currency",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "do you now or will you in the future require sponsorship for employment authorization?",
+        "ai": "Do you now or will you in the future require sponsorship for employment authorization?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide your salary expectations.",
+        "ai": "Please provide your salary expectations.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please rate your german language abilities.",
+        "ai": "Please rate your German language abilities.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to relocate, in the case that the position indicates a set location?",
+        "ai": "Are you willing to relocate, in the case that the position indicates a set location?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what about this role intrigued you to apply?",
+        "ai": "What about this role intrigued you to apply?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "race or ethnicity",
+        "ai": "Race or Ethnicity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b",
+      "gender"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from German American Chambers of Commerce.",
+      "Desired Salary",
+      "Desired Salary Frequency",
+      "Experience Summary",
+      "Cover Letter",
+      "How did you hear about this role?"
+    ],
+    "reasons": [
+      "label Jaccard 0.435 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a dynamic questionnaire section. The EEOC section is optional. The salary currency dropdown contains a large list of global currencies.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from German American Chambers of Commerce.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Currency",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "US Dollar ($)",
+          "Canadian Dollar ($)",
+          "Euro (€)",
+          "United Arab Emirates Dirham (د.إ.)",
+          "Afghan Afghani (؋)",
+          "Albanian Lek (Lek)",
+          "Armenian Dram (դր.)",
+          "Argentine Peso ($)",
+          "Australian Dollar ($)",
+          "Azerbaijani Manat (man.)",
+          "Bosnia-Herzegovina Convertible Mark (KM)",
+          "Bangladeshi Taka (৳)",
+          "Bulgarian Lev (лв.)",
+          "Bahraini Dinar (د.ب.)",
+          "Burundian Franc (FBu)",
+          "Brunei Dollar ($)",
+          "Bolivian Boliviano (Bs)",
+          "Brazilian Real (R$)",
+          "Botswanan Pula (P)",
+          "Belarusian Ruble (руб.)",
+          "Belize Dollar ($)",
+          "Congolese Franc (FrCD)",
+          "Swiss Franc (CHF)",
+          "Chilean Peso ($)",
+          "Chinese Yuan (CN¥)",
+          "Colombian Peso ($)",
+          "Costa Rican Colón (₡)",
+          "Cape Verdean Escudo (CV$)",
+          "Czech Republic Koruna (Kč)",
+          "Djiboutian Franc (Fdj)",
+          "Danish Krone (kr)",
+          "Dominican Peso (RD$)",
+          "Algerian Dinar (د.ج.)",
+          "Estonian Kroon (kr)",
+          "Egyptian Pound (ج.م.)",
+          "Eritrean Nakfa (Nfk)",
+          "Ethiopian Birr (Br)",
+          "British Pound Sterling (£)",
+          "Georgian Lari (GEL)",
+          "Ghanaian Cedi (GH₵)",
+          "Guinean Franc (FG)",
+          "Guatemalan Quetzal (Q)",
+          "Hong Kong Dollar ($)",
+          "Honduran Lempira (L)",
+          "Croatian Kuna (kn)",
+          "Hungarian Forint (Ft)",
+          "Indonesian Rupiah (Rp)",
+          "Israeli New Sheqel (₪)",
+          "Indian Rupee (₹)",
+          "Iraqi Dinar (د.ع.)",
+          "Iranian Rial (﷼)",
+          "Icelandic Króna (kr)",
+          "Jamaican Dollar ($)",
+          "Jordanian Dinar (د.أ.)",
+          "Japanese Yen (￥)",
+          "Kenyan Shilling (Ksh)",
+          "Cambodian Riel (៛)",
+          "Comorian Franc (FC)",
+          "South Korean Won (₩)",
+          "Kuwaiti Dinar (د.ك.)",
+          "Kazakhstani Tenge (тңг.)",
+          "Lebanese Pound (ل.ل.)",
+          "Sri Lankan Rupee (SL Re)",
+          "Lithuanian Litas (Lt)",
+          "Latvian Lats (Ls)",
+          "Libyan Dinar (د.ل.)",
+          "Moroccan Dirham (د.م.)",
+          "Moldovan Leu (MDL)",
+          "Malagasy Ariary (MGA)",
+          "Macedonian Denar (MKD)",
+          "Myanma Kyat (K)",
+          "Macanese Pataca (MOP$)",
+          "Mauritian Rupee (MURs)",
+          "Mexican Peso ($)",
+          "Malaysian Ringgit (RM)",
+          "Mozambican Metical (MTn)",
+          "Namibian Dollar (N$)",
+          "Nigerian Naira (₦)",
+          "Nicaraguan Córdoba (C$)",
+          "Norwegian Krone (kr)",
+          "Nepalese Rupee (नेरु)",
+          "New Zealand Dollar ($)",
+          "Omani Rial (ر.ع.)",
+          "Panamanian Balboa (B/.)",
+          "Peruvian Nuevo Sol (S/.)",
+          "Philippine Peso (₱)",
+          "Pakistani Rupee (₨)",
+          "Polish Zloty (zł)",
+          "Paraguayan Guarani (₲)",
+          "Qatari Rial (ر.ق.)",
+          "Romanian Leu (RON)",
+          "Serbian Dinar (дин.)",
+          "Russian Ruble (₽.)",
+          "Rwandan Franc (FR)",
+          "Saudi Riyal (ر.س.)",
+          "Sudanese Pound (SDG)",
+          "Swedish Krona (kr)",
+          "Singapore Dollar ($)",
+          "Somali Shilling (Ssh)",
+          "Syrian Pound (ل.س.)",
+          "Thai Baht (฿)",
+          "Tunisian Dinar (د.ت.)",
+          "Tongan Pa'anga (T$)",
+          "Turkish Lira (TL)",
+          "Trinidad and Tobago Dollar ($)",
+          "New Taiwan Dollar (NT$)",
+          "Tanzanian Shilling (TSh)",
+          "Ukrainian Hryvnia (₴)",
+          "Ugandan Shilling (USh)",
+          "Uruguayan Peso ($)",
+          "Uzbekistan Som (UZS)",
+          "Venezuelan Bolívar (Bs.F.)",
+          "Vietnamese Dong (₫)",
+          "CFA Franc BEAC (FCFA)",
+          "CFA Franc BCEAO (CFA)",
+          "Yemeni Rial (ر.ي.)",
+          "South African Rand (R)",
+          "Zambian Kwacha (ZK)",
+          "Zimbabwean Dollar (ZWL$)"
+        ]
+      },
+      {
+        "question": "Desired Salary",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Desired Salary Frequency",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you now or will you in the future require sponsorship for employment authorization?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please provide your salary expectations.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please rate your German language abilities.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about this role?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Social Media",
+          "From a colleague, friend etc.",
+          "Event",
+          "GACC Midwest Homepage - Careers Site",
+          "Google Search",
+          "Other"
+        ]
+      },
+      {
+        "question": "Are you willing to relocate, in the case that the position indicates a set location?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What about this role intrigued you to apply?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Race or Ethnicity",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "White (not Hispanic or Latino)",
+          "Black or African-American (not Hispanic or Latino)",
+          "Asian (not Hispanic or Latino)",
+          "American Indian or Alaskan Native (not Hispanic or Latino)",
+          "Native Hawaiian or other Pacific islander (not Hispanic or Latino)",
+          "Two or more races/ethnicities (not Hispanic or Latino)",
+          "Hispanic or Latino (including Black individuals whose origins are Hispanic)",
+          "I don't wish to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "do you now or will you in the future require sponsorship for employment authorization?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "please provide your salary expectations.",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please rate your german language abilities.",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "are you willing to relocate, in the case that the position indicates a set location?",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "what about this role intrigued you to apply?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f15"
+    }
+  ]
+}

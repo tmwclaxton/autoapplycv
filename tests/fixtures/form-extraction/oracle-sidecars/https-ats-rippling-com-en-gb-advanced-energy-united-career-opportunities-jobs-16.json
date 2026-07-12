@@ -1,0 +1,382 @@
+{
+  "id": "https-ats-rippling-com-en-gb-advanced-energy-united-career-opportunities-jobs-16",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:18:30.346Z",
+  "page_url": "https://ats.rippling.com/en-GB/advanced-energy-united-career-opportunities/jobs/16ceba67-4a3d-4a44-bb1a-f74012d24e73/apply",
+  "page_title": "Apply - Expression of Interest - Future Employment Opportunities",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 20,
+      "ai_count": 27,
+      "count_delta": 7,
+      "label_jaccard": 0.1463,
+      "type_agree_rate": 0.5,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "text",
+        "ai_type": "email",
+        "type_agree": false
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin link",
+        "ai": "LinkedIn Link",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "drop or select (.doc / .docx / .pdf)",
+      "search",
+      "textbox",
+      "field-59",
+      "field-63",
+      "field-67",
+      "field-71",
+      "field-75",
+      "field-79",
+      "guj5p89ysik field-95",
+      "diyvglx6u4n field-105",
+      "select...",
+      "yes – i consent to receiving text messages",
+      "yes"
+    ],
+    "ai_only": [
+      "CV",
+      "Pronouns",
+      "Location",
+      "Cover letter",
+      "Why do working at Advanced Energy United (United) and this role in particular appeal to you?",
+      "Please note in order of importance to you, the following attributes of a job. • Compensation • Title • Authority • Recognition • Career progression • Learning • Teamwork/collaboration • Quality of coworkers • Mission • Culture • Values alignment",
+      "Please briefly describe your professional experience crafting and advocating for public policy and/or political candidates and/or issue-based campaigns. If none, please note NA.",
+      "Please describe your experience with clean technologies/businesses, qualitative and/or quantitative commercial analytics or comparable experience with another industry. If you have none, please note NA.",
+      "Please describe your experience making or selling something new. Please share with us why you chose to create it or sell it, how you did it, and what the results were? This can be anything from a product/service to an idea.",
+      "United is committed to developing a diverse, equitable, and inclusive workplace. Please share any additional information regarding your professional or personal experience that supports United's commitment to diversity, equity, inclusion, and justice.",
+      "Will you now or in the future require sponsorship, for example, H-1B to continue working in the U.S.?",
+      "Are you willing to travel as needed?",
+      "Please provide a range for your salary expectations.",
+      "Were you referred by a United employee?",
+      "If you were referred by a United employee, please provide their name.",
+      "Do you reside in the United States?",
+      "Gender",
+      "Please identify your race",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "reasons": [
+      "field count delta 7 exceeds tolerance 2 (detector=20, ai=27)",
+      "label Jaccard 0.146 below 0.7",
+      "type agreement 0.500 below 0.6 on 6 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom combobox components for selects and checkboxes for binary choices. Some fields are dynamically loaded or truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Link",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why do working at Advanced Energy United (United) and this role in particular appeal to you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please note in order of importance to you, the following attributes of a job. • Compensation • Title • Authority • Recognition • Career progression • Learning • Teamwork/collaboration • Quality of coworkers • Mission • Culture • Values alignment",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please briefly describe your professional experience crafting and advocating for public policy and/or political candidates and/or issue-based campaigns. If none, please note NA.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please describe your experience with clean technologies/businesses, qualitative and/or quantitative commercial analytics or comparable experience with another industry. If you have none, please note NA.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please describe your experience making or selling something new. Please share with us why you chose to create it or sell it, how you did it, and what the results were? This can be anything from a product/service to an idea.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "United is committed to developing a diverse, equitable, and inclusive workplace. Please share any additional information regarding your professional or personal experience that supports United's commitment to diversity, equity, inclusion, and justice.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require sponsorship, for example, H-1B to continue working in the U.S.?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you willing to travel as needed?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please provide a range for your salary expectations.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Were you referred by a United employee?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you were referred by a United employee, please provide their name.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you reside in the United States?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please identify your race",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you Hispanic/Latino?",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Veteran Status",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Disability Status",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "drop or select (.doc / .docx / .pdf)",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "textbox",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin link",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "field-59",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "field-63",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "field-67",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "field-71",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "field-75",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "field-79",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "guj5p89ysik field-95",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "diyvglx6u4n field-105",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "select...",
+      "field_type": "select",
+      "ref": "f17"
+    },
+    {
+      "question": "yes – i consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "yes",
+      "field_type": "checkbox",
+      "ref": "f19"
+    }
+  ]
+}

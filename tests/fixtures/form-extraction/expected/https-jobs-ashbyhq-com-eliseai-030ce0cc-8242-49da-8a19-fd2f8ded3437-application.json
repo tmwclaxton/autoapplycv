@@ -1,0 +1,343 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-030ce0cc-8242-49da-8a19-fd2f8ded3437-application",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "92775e97-5e5e-4f80-90ef-4f80094f5801",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "76b9bef7-b774-415b-9281-e4519dbbf371",
+        "name": "76b9bef7-b774-415b-9281-e4519dbbf371",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "76b9bef7-b774-415b-9281-e4519dbbf371",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you interested in working from our boston or nyc office?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8c5e940c-671c-463f-870d-7ee90952ce22",
+        "name": "8c5e940c-671c-463f-870d-7ee90952ce22",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8c5e940c-671c-463f-870d-7ee90952ce22",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "414c4083-853c-4aab-92b0-475541a51808",
+        "name": "414c4083-853c-4aab-92b0-475541a51808",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "414c4083-853c-4aab-92b0-475541a51808",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about eliseai?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Job Board (e.g., Indeed, Built In, Wellfound)",
+        "Company Website",
+        "Referred by a current or former employee",
+        "Recruiter reached out to me",
+        "EliseAI Event",
+        "Other",
+        "Handshake"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "420fad83-cd44-45d2-8377-33f3fa32dd55_daa6f195-4bab-4464-8f51-fd867b100881-labeled-radio-0",
+        "name": "420fad83-cd44-45d2-8377-33f3fa32dd55_daa6f195-4bab-4464-8f51-fd867b100881",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7a66e726-2d1e-4736-840e-e3bcc987c5d2",
+        "name": "7a66e726-2d1e-4736-840e-e3bcc987c5d2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7a66e726-2d1e-4736-840e-e3bcc987c5d2",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "a665e3b8-ce3d-4d44-92f6-f371f75ed0ab",
+        "name": "a665e3b8-ce3d-4d44-92f6-f371f75ed0ab",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a665e3b8-ce3d-4d44-92f6-f371f75ed0ab",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "eliseai is an in-office company. are you comfortable working from our office 5 days per week?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9e6d858a-3389-41da-82c8-4e8250b7c4fa",
+        "name": "9e6d858a-3389-41da-82c8-4e8250b7c4fa",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9e6d858a-3389-41da-82c8-4e8250b7c4fa",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please provide a range of your compensation expectations.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "51c83d5b-3ccd-445b-adb0-8829ad4e0e43",
+        "name": "51c83d5b-3ccd-445b-adb0-8829ad4e0e43",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "51c83d5b-3ccd-445b-adb0-8829ad4e0e43",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what was your gpa?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "db4b52d5-4feb-42af-bf64-22bc13be4f11",
+        "name": "db4b52d5-4feb-42af-bf64-22bc13be4f11",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "db4b52d5-4feb-42af-bf64-22bc13be4f11",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please include a copy of your college or university transcript. an unofficial transcript is fine.",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "bd11bb3b-2d56-4537-aaad-595d29f8e731",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "bd11bb3b-2d56-4537-aaad-595d29f8e731",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "rate your comfort level by making 80+ cold calls per day on a scale of 1-10. why did you choose that rating?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "24cd8ac4-950e-4a6f-8fd9-6c6ae54b49c8",
+        "name": "24cd8ac4-950e-4a6f-8fd9-6c6ae54b49c8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "24cd8ac4-950e-4a6f-8fd9-6c6ae54b49c8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what’s the most ambitious goal you’ve set for yourself, academically or professionally? how did you achieve it?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "15b98915-1561-430b-ba24-765fe7b47a3e",
+        "name": "15b98915-1561-430b-ba24-765fe7b47a3e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "15b98915-1561-430b-ba24-765fe7b47a3e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

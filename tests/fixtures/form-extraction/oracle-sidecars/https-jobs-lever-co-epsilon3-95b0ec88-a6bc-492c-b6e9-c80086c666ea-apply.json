@@ -1,0 +1,484 @@
+{
+  "id": "https-jobs-lever-co-epsilon3-95b0ec88-a6bc-492c-b6e9-c80086c666ea-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:34:48.221Z",
+  "page_url": "https://jobs.lever.co/epsilon3/95b0ec88-a6bc-492c-b6e9-c80086c666ea/apply",
+  "page_title": "Epsilon3 - General Job Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 24,
+      "count_delta": 2,
+      "label_jaccard": 0.84,
+      "type_agree_rate": 0.7727,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "what motivated you to apply?",
+        "ai": "What motivated you to apply?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what types of roles are you interested in?",
+        "ai": "What types of roles are you interested in?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a u.s. citizen? ( for itar)",
+        "ai": "Are you a U.S. Citizen? (Required for ITAR)",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you live in the united states?",
+        "ai": "Do you live in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have a bachelors degree?",
+        "ai": "Do you have a Bachelors degree?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which u.s. state do you currently live in?",
+        "ai": "Which U.S. state do you currently live in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "in two sentences, please share what interests you about this role.",
+        "ai": "In two sentences, please share what interests you about this role.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "disability status",
+        "ai": "Disability status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Name (Disability Signature)",
+      "Date (Disability Signature)"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Disability signature fields are conditionally displayed based on the disability status selection. Includes hCaptcha.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What motivated you to apply?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What types of roles are you interested in?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you a U.S. Citizen? (Required for ITAR)",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you live in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have a Bachelors degree?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which U.S. state do you currently live in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "In two sentences, please share what interests you about this role.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a Protected Veteran",
+          "I am not a Protected Veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Disability status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes, I have a disability, or have had one in the past",
+          "No, I do not have a disability and have not had one in the past",
+          "I do not want to answer"
+        ]
+      },
+      {
+        "question": "Name (Disability Signature)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Date (Disability Signature)",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "what motivated you to apply?",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "what types of roles are you interested in?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "are you a u.s. citizen? ( for itar)",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "do you live in the united states?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have a bachelors degree?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "which u.s. state do you currently live in?",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "in two sentences, please share what interests you about this role.",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f21"
+    }
+  ]
+}

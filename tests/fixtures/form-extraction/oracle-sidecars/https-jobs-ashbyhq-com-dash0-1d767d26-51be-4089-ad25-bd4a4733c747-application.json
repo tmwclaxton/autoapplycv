@@ -1,0 +1,262 @@
+{
+  "id": "https-jobs-ashbyhq-com-dash0-1d767d26-51be-4089-ad25-bd4a4733c747-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:18:12.318Z",
+  "page_url": "https://jobs.ashbyhq.com/dash0/1d767d26-51be-4089-ad25-bd4a4733c747/application",
+  "page_title": "Commercial Account Executive - Benelux @ Dash0",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8333,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "do you require sponsorship to work in the given location?",
+        "ai": "Do you require sponsorship to work in the given location?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "Linkedin url",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "available start date",
+        "ai": "Available start date",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      },
+      {
+        "detector": "yearly salary expectation (ote + split)",
+        "ai": "Yearly Salary Expectation (OTE + split)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "which languages are you fluent in? (c1 level)",
+        "ai": "Which languages are you fluent in? (C1 level)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "work arrangement preference",
+        "ai": "Work Arrangement Preference",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you want to work for dash0?",
+        "ai": "Why do you want to work for dash0?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom components for location (combobox) and date selection. The sponsorship question uses a custom radio-like button group.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Linkedin url",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require sponsorship to work in the given location?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Available start date",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Yearly Salary Expectation (OTE + split)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which languages are you fluent in? (C1 level)",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Arabic",
+          "Dutch",
+          "English",
+          "French",
+          "German",
+          "Nordic language (Norwegian, Swedish, Finnish, Danish)",
+          "Spanish"
+        ]
+      },
+      {
+        "question": "Work Arrangement Preference",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Onsite",
+          "Hybrid",
+          "Remote"
+        ]
+      },
+      {
+        "question": "Why do you want to work for dash0?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you require sponsorship to work in the given location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "available start date",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "yearly salary expectation (ote + split)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "which languages are you fluent in? (c1 level)",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "work arrangement preference",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "why do you want to work for dash0?",
+      "field_type": "textarea",
+      "ref": "f11"
+    }
+  ]
+}

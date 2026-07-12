@@ -1,0 +1,256 @@
+{
+  "id": "https-heydata-teamtailor-com-jobs-7339823-team-lead-data-analytics-all-genders-a",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:26:04.025Z",
+  "page_url": "https://heydata.teamtailor.com/jobs/7339823-team-lead-data-analytics-all-genders/applications/new",
+  "page_title": "Team Lead Data Analytics (all genders) - heyData GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 10,
+      "count_delta": 5,
+      "label_jaccard": 0.6667,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "what is your earliest possible start date?",
+        "ai": "What is your earliest possible start date?",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your primary working location?",
+        "ai": "What is your primary working location?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please enter your english level",
+        "ai": "Please enter your English Level",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please enter your german level.",
+        "ai": "Please enter your German Level.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "your linkedin profile",
+        "ai": "Your LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your yearly salary expectations for this position?",
+        "ai": "What are your yearly salary expectations for this position?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address start typing your address",
+      "upload resume",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that heydata gmbh store my personal details to be able to process my job application."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so the resume/CV upload field and any subsequent fields (like privacy policy checkboxes) are missing from this list.",
+    "fields": [
+      {
+        "question": "What is your earliest possible start date?",
+        "field_type": "date",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your primary working location?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please enter your English Level",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "A1",
+          "A2",
+          "B1",
+          "B2",
+          "C1",
+          "C2"
+        ]
+      },
+      {
+        "question": "Please enter your German Level.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "A1",
+          "A2",
+          "B1",
+          "B2",
+          "C1",
+          "C2"
+        ]
+      },
+      {
+        "question": "Your LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your yearly salary expectations for this position?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what is your earliest possible start date?",
+      "field_type": "date",
+      "ref": "f0"
+    },
+    {
+      "question": "what is your primary working location?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "please enter your english level",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "please enter your german level.",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "your linkedin profile",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "what are your yearly salary expectations for this position?",
+      "field_type": "number",
+      "ref": "f5"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f8"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f9"
+    },
+    {
+      "question": "address start typing your address",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that heydata gmbh store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "https-il-gabbiano-societa-cooperativa-sociale-onlus-breezy-hr",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:05:41.831Z",
+  "page_url": "https://il-gabbiano-societa-cooperativa-sociale-onlus.breezy.hr/",
+  "page_title": "Posizioni aperte a Il Gabbiano, Società Cooperativa Sociale - ONLUS",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 2,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Reparti",
+      "Sedi"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a landing page for job listings. The actual application forms are located on individual job pages (e.g., /p/..) which were not provided in the excerpt. The fields above represent the filtering controls on the main page.",
+    "fields": [
+      {
+        "question": "Reparti",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Qualsiasi reparto",
+          "Area Anziani",
+          "Area Disabilità",
+          "Area Infanzia",
+          "Area Inserimento Lavorativo",
+          "Area Salute Mentale",
+          "Area Sanitaria",
+          "Area Servizi Domiciliari",
+          "Area sanitaria",
+          "RSA S.Lucia",
+          "Altro"
+        ]
+      },
+      {
+        "question": "Sedi",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Qualsiasi sede",
+          "Alfianello (BS), IT",
+          "Bagnolo Mella (BS), IT",
+          "Barbariga (BS), IT",
+          "Bassano Bresciano (BS), IT",
+          "Brescia (BS), IT",
+          "Certosa di Pavia (PV), IT",
+          "Gambara (BS), IT",
+          "Ghedi (BS), IT",
+          "Gottolengo (BS), IT",
+          "Gussago (BS), IT",
+          "Leno (BS), IT",
+          "Manerbio (BS), IT",
+          "Milano (MI), IT",
+          "Milzano (BS), IT",
+          "Montichiari (BS), IT",
+          "Paderno Franciacorta (BS), IT",
+          "Pavone Mella (BS), IT",
+          "Piadena Drizzona (CR), IT",
+          "Pontevico (BS), IT",
+          "Robecco d'Oglio (CR), IT",
+          "Verolanuova (BS), IT",
+          "Verona (VR), IT"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

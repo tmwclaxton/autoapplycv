@@ -1,7 +1,7 @@
 {
   "id": "https-cce-recruitee-com-l-fr-o-initiativbewerbung-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T20:01:31.155Z",
+  "captured_at": "2026-07-10T22:44:51.299Z",
   "page_url": "https://cce.recruitee.com/l/fr/o/initiativbewerbung/c/new",
   "page_title": "CCE - Unsolicited Application - Application",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 7,
       "ai_count": 6,
       "count_delta": 1,
-      "label_jaccard": 0.625,
+      "label_jaccard": 0.8571,
       "type_agree_rate": 1,
       "matched_count": 6
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -66,7 +66,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form includes an hCaptcha challenge. The phone number field uses a custom country selector component.",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The cover letter section allows for a file upload or a text input (via a toggle button not fully rendered in static HTML).",
     "fields": [
       {
         "question": "Full name",
@@ -127,7 +127,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },

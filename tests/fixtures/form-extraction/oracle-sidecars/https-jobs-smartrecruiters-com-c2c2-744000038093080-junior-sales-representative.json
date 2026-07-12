@@ -1,0 +1,39 @@
+{
+  "id": "https-jobs-smartrecruiters-com-c2c2-744000038093080-junior-sales-representative",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:24:22.530Z",
+  "page_url": "https://jobs.smartrecruiters.com/C2C2/744000038093080-junior-sales-representative",
+  "page_title": "C2C Junior Sales Representative | SmartRecruiters",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "I'm interested"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The actual application form is hosted on a separate SmartRecruiters 'oneclick' URL (https://jobs.smartrecruiters.com/oneclick-ui/company/C2C2/publication/48f13ba8-fa39-4390-9193-a69fb3cbcf10?dcr_ci=C2C2), which is not accessible in the provided static HTML excerpt. The 'I'm interested' button is the trigger for the application flow.",
+    "fields": [
+      {
+        "question": "I'm interested",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

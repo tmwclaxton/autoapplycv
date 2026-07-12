@@ -1,0 +1,567 @@
+{
+  "id": "https-jobs-ashbyhq-com-jane-5afa9ff4-20b6-4a3c-91d3-54e2785d815e-application",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:59:18.246Z",
+  "page_url": "https://jobs.ashbyhq.com/jane/5afa9ff4-20b6-4a3c-91d3-54e2785d815e/application",
+  "page_title": "Customer Support @ Jane",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 32,
+      "ai_count": 27,
+      "count_delta": 5,
+      "label_jaccard": 0.7879,
+      "type_agree_rate": 1,
+      "matched_count": 26
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what industry are you currently working in, or what was your most recent industry?",
+        "ai": "What industry are you currently working in, or what was your most recent industry?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what city are you currently based in?",
+        "ai": "What City are you currently based in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what country are you based in?",
+        "ai": "What country are you based in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what province are you based in?",
+        "ai": "What province are you based in?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "at jane, we openly embrace the use of ai in our day-to-day work and throughout the interview process, including transcription tools that help us stay present and focus on deeper, more meaningful conversations. are you comfortable with this?",
+        "ai": "At Jane, we openly embrace the use of AI in our day-to-day work and throughout the interview process, including transcription tools that help us stay present and focus on deeper, more meaningful conversations. Are you comfortable with this?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "as part of your application, we’d love to hear from you directly by recording a video of yourself. the question: in 60–120 seconds, tell us why you're excited about this role at jane, and what draws you to customer support specifically. you might consider: what stood out to you about jane or our mission what excites you about doing meaningful support work why this kind of fast-paced, real-time problem solving appeals to you how your values or strengths align with the way we work we want to know why this role, here, now, not just that you're looking for “a remote job in tech.” we recommend using loom to record the video and share the link here.",
+        "ai": "As part of your application, we’d love to hear from you directly by recording a video of yourself. The Question: In 60–120 seconds, tell us why you're excited about this role at Jane, and what draws you to customer support specifically. You might consider: What stood out to you about Jane or our mission What excites you about doing meaningful support work Why this kind of fast-paced, real-time problem solving appeals to you How your values or strengths align with the way we work We want to know why this role, here, now, not just that you're looking for “a remote job in tech.” We recommend using loom to record the video and share the link here.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "again creating another video of youself. in under 90 seconds, walk us through how you'd troubleshoot a situation where a customer says, 'your software isn't working.' you can't see their screen. what would you do first, second, and third?",
+        "ai": "Again creating another video of youself. In under 90 seconds, walk us through how you'd troubleshoot a situation where a customer says, 'Your software isn't working.' You can't see their screen. What would you do first, second, and third?",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "what's the toughest job you've had? what made it challenging, and what did you learn that stuck with you?",
+        "ai": "What's the toughest job you've had? What made it challenging, and what did you learn that stuck with you?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about a time you had to learn a new tool or system on your own. how did you go about it?",
+        "ai": "Tell us about a time you had to learn a new tool or system on your own. How did you go about it?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this role involves back-to-back customer calls, structured schedules, and frequent context-switching — all while working remotely. what's your strategy for staying energized and focused in that environment? tell us about a time you've managed something similar.",
+        "ai": "This role involves back-to-back customer calls, structured schedules, and frequent context-switching — all while working remotely. What's your strategy for staying energized and focused in that environment? Tell us about a time you've managed something similar.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about a time you noticed a customer (or teammate) was headed toward a problem before it happened. what did you do, and what was the result?",
+        "ai": "Tell us about a time you noticed a customer (or teammate) was headed toward a problem before it happened. What did you do, and what was the result?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how do you currently use ai or technology to work smarter? give us a specific example where it meaningfully changed your approach or output. what excites you, and what concerns you the most about ai?",
+        "ai": "How do you currently use AI or technology to work smarter? Give us a specific example where it meaningfully changed your approach or output. What excites you, and what concerns you the most about AI?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cover letter",
+        "ai": "Upload Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "we would love to know! 😊",
+        "ai": "We would love to know! 😊",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "other",
+        "ai": "Other",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "please let us know if you have any pre-booked vacations that we should know about:",
+        "ai": "Please let us know if you have any pre-booked vacations that we should know about:",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "please specify which timezone you're in:",
+        "ai": "Please specify which timezone you're in:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "when would you be available to start if selected for this position? (considering we generally have a hiring cohort at the beginning of a month and half way through)",
+        "ai": "When would you be available to start if selected for this position? (Considering we generally have a hiring cohort at the beginning of a month and half way through)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i acknowledge that i am available to work tuesday to saturday between the hours of 7-7 within my timezone",
+        "ai": "I acknowledge that I am available to work Tuesday to Saturday between the hours of 7-7 within my timezone",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in canada?",
+        "ai": "Are you legally authorized to work in Canada?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "which of the following best describes your gender?",
+      "if you selected “other\", you can describe your gender in your own words below (optional).",
+      "are you part of the 2slgbtqia+ community?",
+      "please select the race or ethnicity that you identify with most.",
+      "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+      "do you identify as a person with a disability (including apparent or non-apparent)?"
+    ],
+    "ai_only": [
+      "Autofill from resume"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=32, ai=27)"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is rendered via a React-based SPA. Some fields (like the final radio button) were truncated in the provided HTML excerpt but inferred based on standard patterns.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What industry are you currently working in, or what was your most recent industry?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What City are you currently based in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What country are you based in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What province are you based in?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Additional information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "At Jane, we openly embrace the use of AI in our day-to-day work and throughout the interview process, including transcription tools that help us stay present and focus on deeper, more meaningful conversations. Are you comfortable with this?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I’m comfortable with this and excited to move forward",
+          "No, this approach isn’t for me right now."
+        ]
+      },
+      {
+        "question": "As part of your application, we’d love to hear from you directly by recording a video of yourself. The Question: In 60–120 seconds, tell us why you're excited about this role at Jane, and what draws you to customer support specifically. You might consider: What stood out to you about Jane or our mission What excites you about doing meaningful support work Why this kind of fast-paced, real-time problem solving appeals to you How your values or strengths align with the way we work We want to know why this role, here, now, not just that you're looking for “a remote job in tech.” We recommend using loom to record the video and share the link here.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Again creating another video of youself. In under 90 seconds, walk us through how you'd troubleshoot a situation where a customer says, 'Your software isn't working.' You can't see their screen. What would you do first, second, and third?",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What's the toughest job you've had? What made it challenging, and what did you learn that stuck with you?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us about a time you had to learn a new tool or system on your own. How did you go about it?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role involves back-to-back customer calls, structured schedules, and frequent context-switching — all while working remotely. What's your strategy for staying energized and focused in that environment? Tell us about a time you've managed something similar.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us about a time you noticed a customer (or teammate) was headed toward a problem before it happened. What did you do, and what was the result?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How do you currently use AI or technology to work smarter? Give us a specific example where it meaningfully changed your approach or output. What excites you, and what concerns you the most about AI?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Upload Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "We would love to know! 😊",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I have used Jane as a patient",
+          "I've worked with Jane in a clinic",
+          "LinkedIn",
+          "Jane Employee",
+          "Indeed"
+        ]
+      },
+      {
+        "question": "Other",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please let us know if you have any pre-booked vacations that we should know about:",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please specify which timezone you're in:",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Pacific Standard Time",
+          "Mountain Standard Time",
+          "Central Standard Time",
+          "Eastern Standard Time",
+          "Newfoundland Standard Time"
+        ]
+      },
+      {
+        "question": "When would you be available to start if selected for this position? (Considering we generally have a hiring cohort at the beginning of a month and half way through)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I acknowledge that I am available to work Tuesday to Saturday between the hours of 7-7 within my timezone",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes, I acknlowledge",
+          "No, but I would love for Jane to keep my application for future opportunities"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in Canada?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I am legally authorized to work in Canada",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "what industry are you currently working in, or what was your most recent industry?",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "what city are you currently based in?",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "what country are you based in?",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what province are you based in?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "at jane, we openly embrace the use of ai in our day-to-day work and throughout the interview process, including transcription tools that help us stay present and focus on deeper, more meaningful conversations. are you comfortable with this?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "as part of your application, we’d love to hear from you directly by recording a video of yourself. the question: in 60–120 seconds, tell us why you're excited about this role at jane, and what draws you to customer support specifically. you might consider: what stood out to you about jane or our mission what excites you about doing meaningful support work why this kind of fast-paced, real-time problem solving appeals to you how your values or strengths align with the way we work we want to know why this role, here, now, not just that you're looking for “a remote job in tech.” we recommend using loom to record the video and share the link here.",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "again creating another video of youself. in under 90 seconds, walk us through how you'd troubleshoot a situation where a customer says, 'your software isn't working.' you can't see their screen. what would you do first, second, and third?",
+      "field_type": "url",
+      "ref": "f12"
+    },
+    {
+      "question": "what's the toughest job you've had? what made it challenging, and what did you learn that stuck with you?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "tell us about a time you had to learn a new tool or system on your own. how did you go about it?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "this role involves back-to-back customer calls, structured schedules, and frequent context-switching — all while working remotely. what's your strategy for staying energized and focused in that environment? tell us about a time you've managed something similar.",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "tell us about a time you noticed a customer (or teammate) was headed toward a problem before it happened. what did you do, and what was the result?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "how do you currently use ai or technology to work smarter? give us a specific example where it meaningfully changed your approach or output. what excites you, and what concerns you the most about ai?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "upload cover letter",
+      "field_type": "file",
+      "ref": "f18"
+    },
+    {
+      "question": "we would love to know! 😊",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "other",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "please let us know if you have any pre-booked vacations that we should know about:",
+      "field_type": "textarea",
+      "ref": "f21"
+    },
+    {
+      "question": "please specify which timezone you're in:",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "when would you be available to start if selected for this position? (considering we generally have a hiring cohort at the beginning of a month and half way through)",
+      "field_type": "text",
+      "ref": "f23"
+    },
+    {
+      "question": "i acknowledge that i am available to work tuesday to saturday between the hours of 7-7 within my timezone",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "are you legally authorized to work in canada?",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "which of the following best describes your gender?",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "if you selected “other\", you can describe your gender in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f27"
+    },
+    {
+      "question": "are you part of the 2slgbtqia+ community?",
+      "field_type": "radio",
+      "ref": "f28"
+    },
+    {
+      "question": "please select the race or ethnicity that you identify with most.",
+      "field_type": "select",
+      "ref": "f29"
+    },
+    {
+      "question": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+      "field_type": "text",
+      "ref": "f30"
+    },
+    {
+      "question": "do you identify as a person with a disability (including apparent or non-apparent)?",
+      "field_type": "radio",
+      "ref": "f31"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "id": "https-palebluedotrecruitment-recruitee-com-o-product-builder-operator-candidate-",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:21:13.390Z",
+  "page_url": "https://palebluedotrecruitment.recruitee.com/o/product-builder-operator-candidate-registration-portal/c/new",
+  "page_title": "Pale Blue Dot® Recruitment - Product Builder / Operator Candidate Registration Portal - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 9,
+      "count_delta": 1,
+      "label_jaccard": 0.7273,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "photo",
+        "ai": "Photo",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "you have an opted to be part of our talent pool. by being part of our talent pool you may be contacted by someone in pale blue dot recruitment in relation to similar roles or opportunities that we feel may be of interest to you. your details will be maintained as part of our privacy policy found on this website and our company website (https://pbdrecruit.ie/privacy-policy/) and (https://pbdrecruit.ie/terms-of-service-for-candidates/). these policies incorporate the requirements of general data protection regulation (eu) 2016/679. do you hereby agree to the terms and conditions laid out in privacy policy and terms of service for candidates of pale blue dot® recruitment.?",
+        "ai": "You have an opted to be part of our talent pool. By being part of our talent pool you may be contacted by someone in Pale Blue Dot Recruitment in relation to similar roles or opportunities that we feel may be of interest to you. Your details will be maintained as part of our privacy policy found on this website and our company website (https://pbdrecruit.ie/privacy-policy/) and (https://pbdrecruit.ie/terms-of-service-for-candidates/). These policies incorporate the requirements of General Data Protection Regulation (EU) 2016/679. Do you hereby agree to the terms and conditions laid out in Privacy Policy* and Terms of Service for Candidates* of Pale Blue Dot® Recruitment.?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "an employer can decide whether to sponsor an employment visa for a successful candidate do you require sponsorship to work in ireland?",
+        "ai": "An employer can decide whether to sponsor an employment visa for a successful candidate Do you require sponsorship to work in Ireland?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "privacy policy incorporating gdpr and disclaimerseffective date: august 21, 2018pale blue dot recruitment limited (“us”, “we”, or “our”) operates the https://www.pbdrecruit.ie webs",
+        "ai": "Privacy Policy incorporating GDPR and Disclaimers",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is contained within a tabbed interface. The 'Write it here instead' button for the cover letter suggests a dynamic UI change that may reveal a textarea not present in the initial static HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Photo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "You have an opted to be part of our talent pool. By being part of our talent pool you may be contacted by someone in Pale Blue Dot Recruitment in relation to similar roles or opportunities that we feel may be of interest to you. Your details will be maintained as part of our privacy policy found on this website and our company website (https://pbdrecruit.ie/privacy-policy/) and (https://pbdrecruit.ie/terms-of-service-for-candidates/). These policies incorporate the requirements of General Data Protection Regulation (EU) 2016/679. Do you hereby agree to the terms and conditions laid out in Privacy Policy* and Terms of Service for Candidates* of Pale Blue Dot® Recruitment.?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      },
+      {
+        "question": "An employer can decide whether to sponsor an employment visa for a successful candidate Do you require sponsorship to work in Ireland?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "'No'",
+          "Yes"
+        ]
+      },
+      {
+        "question": "Privacy Policy incorporating GDPR and Disclaimers",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "you have an opted to be part of our talent pool. by being part of our talent pool you may be contacted by someone in pale blue dot recruitment in relation to similar roles or opportunities that we feel may be of interest to you. your details will be maintained as part of our privacy policy found on this website and our company website (https://pbdrecruit.ie/privacy-policy/) and (https://pbdrecruit.ie/terms-of-service-for-candidates/). these policies incorporate the requirements of general data protection regulation (eu) 2016/679. do you hereby agree to the terms and conditions laid out in privacy policy and terms of service for candidates of pale blue dot® recruitment.?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "an employer can decide whether to sponsor an employment visa for a successful candidate do you require sponsorship to work in ireland?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "privacy policy incorporating gdpr and disclaimerseffective date: august 21, 2018pale blue dot recruitment limited (“us”, “we”, or “our”) operates the https://www.pbdrecruit.ie webs",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f9"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "https-uni-wh-softgarden-io-job-65500201-phd-position-50-in-the-field-of-virology",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:20:16.409Z",
+  "page_url": "https://uni-wh.softgarden.io/job/65500201/PhD-Position-50-in-the-field-of-virology-and-molecular-medicine-available-m-f-d-",
+  "page_title": "PhD Position (50%) in the field of virology and molecular medicine available (m/f/d)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Application form"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML only contains a link to an external application portal (softgarden.de). The actual form fields are hosted on a separate domain and are not present in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Application form",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

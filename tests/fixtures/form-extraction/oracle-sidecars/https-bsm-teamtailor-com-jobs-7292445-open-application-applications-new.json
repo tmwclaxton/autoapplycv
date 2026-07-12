@@ -1,0 +1,183 @@
+{
+  "id": "https-bsm-teamtailor-com-jobs-7292445-open-application-applications-new",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:03:46.545Z",
+  "page_url": "https://bsm.teamtailor.com/jobs/7292445-open-application/applications/new",
+  "page_title": "Open Application - Bernhard Schulte Shipmanagement",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 6,
+      "count_delta": 5,
+      "label_jaccard": 0.5455,
+      "type_agree_rate": 0.8333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "what country are you interested in?",
+        "ai": "What country are you interested in?",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "do you have a valid work permit for the country you have selected?",
+        "ai": "Do you have a valid work permit for the country you have selected?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter",
+      "by submitting this application, i agree that i have read the privacy policy and confirm that bernhard schulte shipmanagement store my person details to be able to process my job application.",
+      "yes, bernhard schulte shipmanagement can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom dropdown component for the country selection and a phone input with international dialing code support. LinkedIn application integration is present.",
+    "fields": [
+      {
+        "question": "What country are you interested in?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Germany",
+          "Cyprus",
+          "Greece",
+          "UK",
+          "India",
+          "Singapore",
+          "China",
+          "Hong Kong",
+          "Philippines"
+        ]
+      },
+      {
+        "question": "Do you have a valid work permit for the country you have selected?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what country are you interested in?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have a valid work permit for the country you have selected?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "by submitting this application, i agree that i have read the privacy policy and confirm that bernhard schulte shipmanagement store my person details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "yes, bernhard schulte shipmanagement can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

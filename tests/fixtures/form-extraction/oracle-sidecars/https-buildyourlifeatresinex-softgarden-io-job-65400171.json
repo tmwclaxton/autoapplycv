@@ -1,0 +1,39 @@
+{
+  "id": "https-buildyourlifeatresinex-softgarden-io-job-65400171",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:44:30.175Z",
+  "page_url": "https://buildyourlifeatresinex.softgarden.io/job/65400171",
+  "page_title": "Regional Product Manager Polyolefine (m/w/d) DACH bei Resinex | softgarden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Online bewerben"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt only contains a link to an external application portal (softgarden.de). The actual form fields are hosted on a different domain and are not present in this static HTML snippet.",
+    "fields": [
+      {
+        "question": "Online bewerben",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

@@ -1,0 +1,588 @@
+{
+  "id": "https-jobs-lever-co-magnetforensics-0c7c5eb2-f0fc-4327-a038-f56de3fcc218-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:13:43.971Z",
+  "page_url": "https://jobs.lever.co/magnetforensics/0c7c5eb2-f0fc-4327-a038-f56de3fcc218/apply",
+  "page_title": "Magnet Forensics - Vulnerability Researcher",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 29,
+      "ai_count": 28,
+      "count_delta": 1,
+      "label_jaccard": 0.9655,
+      "type_agree_rate": 0.7857,
+      "matched_count": 28
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred to magnet, who referred you? (note: we may verify referral details internally.)",
+        "ai": "If you were referred to Magnet, who referred you? (Note: We may verify referral details internally.)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "please enter the country you are legally registered to work in.",
+        "ai": "Please enter the country you are legally registered to work in.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "will you require sponsorship or other assistance or support to be authorized to, or otherwise, work from your country of residence?",
+        "ai": "Will you require sponsorship or other assistance or support to be authorized to, or otherwise, work from your country of residence?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "work authorization",
+        "ai": "Work authorization",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period to begin working with magnet forensics?",
+        "ai": "What is your notice period to begin working with Magnet Forensics?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your total annual salary expectations (ote)?",
+        "ai": "What are your total annual salary expectations (OTE)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "i have read and agree to the applicant privacy notice and understand how my personal information will be used (http://bit.ly/3lj7cbk) also accessible under job postings on our careers page",
+        "ai": "I have read and agree to the Applicant Privacy Notice and understand how my personal information will be used (http://bit.ly/3Lj7cbk) also accessible under Job Postings on our Careers page",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a citizen of the united states?",
+        "ai": "Are you a Citizen of The United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have vulnerability research experience?",
+        "ai": "Do you have Vulnerability Research experience?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience in low level ios and/or low level android?",
+        "ai": "Do you have experience in low level iOS AND/OR low level Android?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with embedded linux?",
+        "ai": "Do you have experience with Embedded Linux?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience with bluetooth and/or wifi?",
+        "ai": "Do you have experience with Bluetooth AND/OR Wifi?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "disability status",
+        "ai": "Disability status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "yes, magnet forensics can contact me about future job opportunities for up to 1 yearprivacy policy"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. The disability status field was truncated in the provided HTML but inferred from standard Lever patterns.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "LinkedIn",
+          "Magnet Forensics Career Site",
+          "Referral",
+          "Other"
+        ]
+      },
+      {
+        "question": "If you were referred to Magnet, who referred you? (Note: We may verify referral details internally.)",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please enter the country you are legally registered to work in.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you require sponsorship or other assistance or support to be authorized to, or otherwise, work from your country of residence?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Work authorization",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "I am authorized to work in the country due to my nationality",
+          "I am authorized to work in the country based on a valid work permit and do not need a company to sponsor my visa",
+          "I am authorized to work in the country based on a valid work permit which needs to be sponsored by the company I work for",
+          "I am not authorized to work in the country and need visa support"
+        ]
+      },
+      {
+        "question": "What is your notice period to begin working with Magnet Forensics?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Available Immediately",
+          "1-2 weeks",
+          "2-4 weeks",
+          "4-6 weeks",
+          "6-8 weeks",
+          "8+ weeks"
+        ]
+      },
+      {
+        "question": "What are your total annual salary expectations (OTE)?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I have read and agree to the Applicant Privacy Notice and understand how my personal information will be used (http://bit.ly/3Lj7cbk) also accessible under Job Postings on our Careers page",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      },
+      {
+        "question": "Are you a Citizen of The United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have Vulnerability Research experience?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience in low level iOS AND/OR low level Android?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience with Embedded Linux?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience with Bluetooth AND/OR Wifi?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a Protected Veteran",
+          "I am not a Protected Veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Disability status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes, I have a disability, or have had one in the past",
+          "No, I do not have a disability and have not had one in the past",
+          "I do not want to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f11"
+    },
+    {
+      "question": "if you were referred to magnet, who referred you? (note: we may verify referral details internally.)",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "please enter the country you are legally registered to work in.",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "will you require sponsorship or other assistance or support to be authorized to, or otherwise, work from your country of residence?",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "work authorization",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "what is your notice period to begin working with magnet forensics?",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "what are your total annual salary expectations (ote)?",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "i have read and agree to the applicant privacy notice and understand how my personal information will be used (http://bit.ly/3lj7cbk) also accessible under job postings on our careers page",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "are you a citizen of the united states?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "do you have vulnerability research experience?",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "do you have experience in low level ios and/or low level android?",
+      "field_type": "textarea",
+      "ref": "f21"
+    },
+    {
+      "question": "do you have experience with embedded linux?",
+      "field_type": "textarea",
+      "ref": "f22"
+    },
+    {
+      "question": "do you have experience with bluetooth and/or wifi?",
+      "field_type": "textarea",
+      "ref": "f23"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f24"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f26"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f27"
+    },
+    {
+      "question": "yes, magnet forensics can contact me about future job opportunities for up to 1 yearprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f28"
+    }
+  ]
+}

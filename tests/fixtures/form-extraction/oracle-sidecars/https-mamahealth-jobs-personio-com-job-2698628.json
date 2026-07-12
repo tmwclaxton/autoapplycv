@@ -1,0 +1,259 @@
+{
+  "id": "https-mamahealth-jobs-personio-com-job-2698628",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:48:34.037Z",
+  "page_url": "https://mamahealth.jobs.personio.com/job/2698628",
+  "page_title": "Working Student (m/f/d) Business Operations (20h/week, Berlin) | Jobs at mama health",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work onsite in our berlin office for 15–20 hours per week?",
+        "ai": "Are you able to work onsite in our Berlin office for 15–20 hours per week?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently enrolled at a university in germany?",
+        "ai": "Are you currently enrolled at a university in Germany?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you based?",
+        "ai": "Where are you based?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a dynamic Personio framework. File inputs are triggered by custom buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you able to work onsite in our Berlin office for 15–20 hours per week?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently enrolled at a university in Germany?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Where are you based?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "European Union",
+          "Rest of the world",
+          "Germany",
+          "USA",
+          "New York"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "are you able to work onsite in our berlin office for 15–20 hours per week?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "are you currently enrolled at a university in germany?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "where are you based?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f10"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f11"
+    }
+  ]
+}

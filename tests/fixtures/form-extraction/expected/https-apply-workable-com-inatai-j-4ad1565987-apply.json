@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-inatai-j-4ad1565987-apply",
-  "min_fields": 18,
-  "exact_field_count": 18,
+  "min_fields": 15,
+  "exact_field_count": 15,
   "fields": [
     {
       "question": "first name",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "question": "your pronouns (e.g., she/her, he/him, they/them) (optional)",
+      "question": "your pronouns (e.g., she/her, he/him, they/them)",
       "field_type": "text",
       "max_chars": 127,
       "options": null,
@@ -108,14 +108,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No - I do not live in WA state"
+        "yes",
+        "no - i do not live in wa state"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "zdeonDjUVUw26SSj",
+        "id": "uz9sXAUBAKW1oDFC",
         "name": "CA_45367",
         "data_testid": null,
         "role": null,
@@ -127,20 +127,20 @@
       }
     },
     {
-      "question": "ca_45368",
-      "field_type": "text",
+      "question": "if you live in washington state, please select your county of residence from the following list..",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "CA_45368",
+        "id": "input_CA_45368_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -151,14 +151,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Yes",
-        "SVGs not supported by this browser.No"
+        "yes",
+        "no"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "Jleb12dzJn4lE13j",
+        "id": "ZeymDs0NfHAJQnzP",
         "name": "CA_46117",
         "data_testid": null,
         "role": null,
@@ -170,7 +170,7 @@
       }
     },
     {
-      "question": "city city",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -178,8 +178,8 @@
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -190,55 +190,15 @@
       }
     },
     {
-      "question": "postcode postcode",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "country country",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "input_files_input_r5fsfgclwpyoatys",
+      "question": "resume",
       "field_type": "file",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_R5FSfgCLwPYoATyS",
+        "id": "input_files_input_LzAoMBzKlSqqEGJs",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -290,7 +250,7 @@
       }
     },
     {
-      "question": "please indicate the types of positions for which you would like to be considered (e.g., policy/advocacy, grantmaking, program, research, administrative, finance, investment, communications, human resources, it, operations).",
+      "question": "please indicate the types of positions for which you would like to be considered (e.g., policy/advocacy, grantmaking, program, research, administrative, finance, investment, communications, human reso",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -310,64 +270,38 @@
       }
     },
     {
-      "question": "qa_1223184",
-      "field_type": "text",
+      "question": "how did you learn about inatai foundation?",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
+        "id": "input_QA_1223184_input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Select an option…",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
         "id": null,
-        "name": "QA_1223184",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you live in the state of washington (wa)?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_zdeonDjUVUw26SSj",
         "name": null,
         "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "if you do not live in washington (wa), would you be willing to relocate?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_Jleb12dzJn4lE13j",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
+        "role": "combobox",
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -377,7 +311,5 @@
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

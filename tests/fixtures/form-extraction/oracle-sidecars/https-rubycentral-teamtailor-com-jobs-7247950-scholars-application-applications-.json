@@ -1,0 +1,350 @@
+{
+  "id": "https-rubycentral-teamtailor-com-jobs-7247950-scholars-application-applications-",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:54:33.567Z",
+  "page_url": "https://rubycentral.teamtailor.com/jobs/7247950-scholars-application/applications/new",
+  "page_title": "Scholars Application - Ruby Central",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 14,
+      "count_delta": 8,
+      "label_jaccard": 0.5,
+      "type_agree_rate": 1,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "what is your full name?",
+        "ai": "What is your full name?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your pronouns?",
+        "ai": "What are your pronouns?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "where would you be traveling from (state/province, country)?",
+        "ai": "Where would you be traveling from (State/Province, Country)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about the scholars and guides program opportunity?",
+        "ai": "How did you hear about the Scholars and Guides Program opportunity?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were referred to apply to the program, who was your referral?",
+        "ai": "If you were referred to apply to the program, who was your referral?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to attend the entire conference (july 14–16, 2026)?",
+        "ai": "Are you able to attend the entire conference (July 14–16, 2026)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to attend the speakers and scholars reception (evening timing; date and location tbd)?",
+        "ai": "Are you able to attend the Speakers and Scholars Reception (evening timing; date and location TBD)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "you confirm that you are aware and will attempt to attend the 3 optional meet-ups, including a virtual pre-conf meeting, post-conf meeting, and the speakers & scholars reception? these are special opportunities to meet your guide, other guides, fellow scholars, and other inspiring professionals to help provide guidance and new experiences to your achieving overall goals.",
+        "ai": "You confirm that you are aware and will attempt to attend the 3 optional meet-ups, including a virtual pre-conf meeting, post-conf meeting, and the Speakers & Scholars Reception?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "you confirm that you are aware and will attempt to complete a mini-project during the duration of your attendance with the scholars and guides program. these mini-projects are due by the end of the conference.",
+        "ai": "You confirm that you are aware and will attempt to complete a mini-project during the duration of your attendance with the Scholars and Guides Program.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you become interested in computer programming?",
+        "ai": "How did you become interested in computer programming?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "describe your current experience with computers and computer programming.",
+        "ai": "Describe your current experience with computers and computer programming.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us more about who you are outside of programming.",
+        "ai": "Tell us more about who you are outside of programming.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "is there a local ruby or rails community in your area? if so, are you involved at all?",
+        "ai": "Is there a local Ruby or Rails community in your area? If so, are you involved at all?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how might attending the conference affect your professional and/or life paths?",
+        "ai": "How might attending the conference affect your professional and/or life paths?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "how do you most want to spend your time at rubyconf?",
+      "you will be assigned a guide to lead you throughout the conference and to mentor you on different ways to expand your resources and connections to help build up your portfolio. these guides are more experienced developers and some are even graduated scholars from the scholars program and want to share their knowledge and welcome the new members of the community.",
+      "have you been in a mentor program in the past? if so, tell us about that experience. what do you think went well or enjoyed? what do you wish could have been improved or lacked? what did you do and what did your mentor do?",
+      "have you attended any software conferences before?",
+      "please tell us if you belong to an underrepresented group(s)?",
+      "we often are able to provide a limited amount of financial support for scholars’ transportation and/or accommodation, due to generous donations from our conference sponsors. this support is provided on a first-come, first-served basis to scholars who submit their paid actual travel costs for reimbursement. while this is not something that we can guarantee at this early stage, we will update scholar applicants as soon as we know if this is a possibility. all reimbursements would be capped at $500 usd total per scholar. please check below to acknowledge that you've read this.",
+      "anything else you’d like us to know about you?",
+      "candidate[email]"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated at the end, so the final question field is incomplete. The form uses Teamtailor's dynamic question structure.",
+    "fields": [
+      {
+        "question": "What is your full name?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your pronouns?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Where would you be traveling from (State/Province, Country)?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about the Scholars and Guides Program opportunity?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Social Media",
+          "Newsletter",
+          "Podcast",
+          "RubyCentral.org official website",
+          "Referral"
+        ]
+      },
+      {
+        "question": "If you were referred to apply to the program, who was your referral?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you able to attend the entire conference (July 14–16, 2026)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Unsure"
+        ]
+      },
+      {
+        "question": "Are you able to attend the Speakers and Scholars Reception (evening timing; date and location TBD)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Unsure"
+        ]
+      },
+      {
+        "question": "You confirm that you are aware and will attempt to attend the 3 optional meet-ups, including a virtual pre-conf meeting, post-conf meeting, and the Speakers & Scholars Reception?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I understand."
+        ]
+      },
+      {
+        "question": "You confirm that you are aware and will attempt to complete a mini-project during the duration of your attendance with the Scholars and Guides Program.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I understand."
+        ]
+      },
+      {
+        "question": "How did you become interested in computer programming?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Describe your current experience with computers and computer programming.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Tell us more about who you are outside of programming.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Is there a local Ruby or Rails community in your area? If so, are you involved at all?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How might attending the conference affect your professional and/or life paths?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "what is your full name?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "where would you be traveling from (state/province, country)?",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "how did you hear about the scholars and guides program opportunity?",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "if you were referred to apply to the program, who was your referral?",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "are you able to attend the entire conference (july 14–16, 2026)?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "are you able to attend the speakers and scholars reception (evening timing; date and location tbd)?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "you confirm that you are aware and will attempt to attend the 3 optional meet-ups, including a virtual pre-conf meeting, post-conf meeting, and the speakers & scholars reception? these are special opportunities to meet your guide, other guides, fellow scholars, and other inspiring professionals to help provide guidance and new experiences to your achieving overall goals.",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "you confirm that you are aware and will attempt to complete a mini-project during the duration of your attendance with the scholars and guides program. these mini-projects are due by the end of the conference.",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "how did you become interested in computer programming?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "describe your current experience with computers and computer programming.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "tell us more about who you are outside of programming.",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "is there a local ruby or rails community in your area? if so, are you involved at all?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "how might attending the conference affect your professional and/or life paths?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "how do you most want to spend your time at rubyconf?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "you will be assigned a guide to lead you throughout the conference and to mentor you on different ways to expand your resources and connections to help build up your portfolio. these guides are more experienced developers and some are even graduated scholars from the scholars program and want to share their knowledge and welcome the new members of the community.",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "have you been in a mentor program in the past? if so, tell us about that experience. what do you think went well or enjoyed? what do you wish could have been improved or lacked? what did you do and what did your mentor do?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "have you attended any software conferences before?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "please tell us if you belong to an underrepresented group(s)?",
+      "field_type": "textarea",
+      "ref": "f18"
+    },
+    {
+      "question": "we often are able to provide a limited amount of financial support for scholars’ transportation and/or accommodation, due to generous donations from our conference sponsors. this support is provided on a first-come, first-served basis to scholars who submit their paid actual travel costs for reimbursement. while this is not something that we can guarantee at this early stage, we will update scholar applicants as soon as we know if this is a possibility. all reimbursements would be capped at $500 usd total per scholar. please check below to acknowledge that you've read this.",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "anything else you’d like us to know about you?",
+      "field_type": "textarea",
+      "ref": "f20"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f21"
+    }
+  ]
+}

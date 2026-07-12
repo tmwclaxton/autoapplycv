@@ -1,0 +1,401 @@
+{
+  "id": "https-jobs-lever-co-pointclickcare-3a806e9e-34e2-480f-9670-8cf3cd7f49df-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:34:25.906Z",
+  "page_url": "https://jobs.lever.co/pointclickcare/3a806e9e-34e2-480f-9670-8cf3cd7f49df/apply",
+  "page_title": "PointClickCare - Product Manager, Senior Care - Prior Authorization and Concurrent Review",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 18,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7778,
+      "matched_count": 18
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the us for our company?",
+        "ai": "Are you legally authorized to work in the US for our company?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you now, or will you in the future, require sponsorship for employment visa status (e.g., h-1b visa status, etc.) to work legally for our company in the united states?",
+        "ai": "Do you now, or will you in the future, require sponsorship for employment visa status (e.g., H-1B visa status, etc.) to work legally for our Company in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your minimum yearly base salary expectation (not including total rewards)?",
+        "ai": "What is your minimum yearly base salary expectation (not including total rewards)?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "gender identity",
+        "ai": "Gender Identity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as a member of the lgbtq+ community?",
+        "ai": "Do you identify as a member of the LGBTQ+ Community?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "race/ethnicity",
+        "ai": "Race/Ethnicity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran Status",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "disability",
+        "ai": "Disability",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a LinkedIn integration button and an hCaptcha challenge. The location field includes a dynamic dropdown search.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the US for our company?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you now, or will you in the future, require sponsorship for employment visa status (e.g., H-1B visa status, etc.) to work legally for our Company in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your minimum yearly base salary expectation (not including total rewards)?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender Identity",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Gender non-binary",
+          "Not Listed",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Do you identify as a member of the LGBTQ+ Community?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Race/Ethnicity",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Hispanic or Latine: A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",
+          "Native American/Alaskan Native (not Hispanic or Latino: A person having origins in any of the original peoples of North and South America (including Central America) and who maintain tribal affiliation or community attachment.",
+          "Indigenous Peoples (Canada)",
+          "Asian (not Hispanic or Latino): A person having origins in any of the original peoples of the Far East, Southeast Asia or the Indian subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam",
+          "Black or African American (not Hispanic or Latino): A person having origins in any of the black racial groups of Africa",
+          "Native Hawaiian or Other Pacific Islander (not Hispanic or Latino): A person having origins in any of the original peoples of Hawaii, Guam, Samoa or other Pacific Islands",
+          "White (not Hispanic or Latino): A person having origins in any of the original peoples of Europe, the Middle East, or North Africa",
+          "Two or more Races (not Hispanic or Latino)",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Veteran Status",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Disability",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes, I Have A Disability, Or Have A History/Record Of Having A Disability",
+          "No, I Don’t Have A Disability, Or A History/Record Of Having A Disability",
+          "I Don’t Wish To Answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "are you legally authorized to work in the us for our company?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "do you now, or will you in the future, require sponsorship for employment visa status (e.g., h-1b visa status, etc.) to work legally for our company in the united states?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "what is your minimum yearly base salary expectation (not including total rewards)?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "gender identity",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "do you identify as a member of the lgbtq+ community?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "race/ethnicity",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "disability",
+      "field_type": "radio",
+      "ref": "f17"
+    }
+  ]
+}

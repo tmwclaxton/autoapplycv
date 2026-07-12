@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-coconutva-j-fe812935bc-apply",
-  "min_fields": 22,
-  "exact_field_count": 22,
+  "min_fields": 16,
+  "exact_field_count": 16,
   "fields": [
     {
       "question": "first name",
@@ -84,56 +84,16 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -152,7 +112,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_FUrmVFyDAfct9jsc",
+        "id": "input_files_input_KSSDpCmJbz7h3hfw",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -165,19 +125,19 @@
     },
     {
       "question": "what's your cefr english proficiency level?",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "CA_35369",
+        "id": "input_CA_35369_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -225,19 +185,19 @@
     },
     {
       "question": "what monthly rate range in usd are you expecting? please be realistic & reasonable with your selection based on experience and location.",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "CA_35371",
+        "id": "input_CA_35371_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -248,16 +208,16 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Full-time: 40 hours",
-        "SVGs not supported by this browser.Part-time: 30 hours",
-        "SVGs not supported by this browser.Part-time: 20 hours",
-        "SVGs not supported by this browser.Part-time: 10 hours"
+        "Full-time: 40 hours",
+        "Part-time: 30 hours",
+        "Part-time: 20 hours",
+        "Part-time: 10 hours"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "gLswzQrq1qFoLcor",
+        "id": "IDA6HaJRivkEY6bI",
         "name": "CA_35372",
         "data_testid": null,
         "role": null,
@@ -293,15 +253,15 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Managed Talent: Work with a client under Coconut. Full Coconut Community benefits.",
-        "SVGs not supported by this browser.Direct Hire: Sourced by Coconut, but hired directly by the client after a successful trial period.",
-        "SVGs not supported by this browser.I'm okay with either Managed Talent or Direct Hire opportunities."
+        "Managed Talent: Work with a client under Coconut. Full Coconut Community benefits.",
+        "Direct Hire: Sourced by Coconut, but hired directly by the client after a successful trial period.",
+        "I'm okay with either Managed Talent or Direct Hire opportunities."
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "RXm9lgiPk2IUy1cb",
+        "id": "byCEZjuc6hETD0hg",
         "name": "CA_48270",
         "data_testid": null,
         "role": null,
@@ -317,23 +277,23 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser.Coconut Socials (FB Page, FB Group, TikTok, LinkedIn, IG, YT, Spotify)",
-        "SVGs not supported by this browser.Referral (Coconut VA, Individual, Influencer, Online Community, etc.)",
-        "SVGs not supported by this browser.Job Boards (Onlinejobs.ph, Indeed, Glassdoor, ZipRecruiter, etc.)",
-        "SVGs not supported by this browser.Google Search/Website",
-        "SVGs not supported by this browser.Facebook (not Coconut's page/group)",
-        "SVGs not supported by this browser.LinkedIn (not Coconut's account)",
-        "SVGs not supported by this browser.Instagram (not Coconut's account)",
-        "SVGs not supported by this browser.TikTok (not Coconut's account)",
-        "SVGs not supported by this browser.YouTube (not Coconut's account)",
-        "SVGs not supported by this browser.Head Hunter/Technical Recruiter",
-        "SVGs not supported by this browser.Other"
+        "Coconut Socials (FB Page, FB Group, TikTok, LinkedIn, IG, YT, Spotify)",
+        "Referral (Coconut VA, Individual, Influencer, Online Community, etc.)",
+        "Job Boards (Onlinejobs.ph, Indeed, Glassdoor, ZipRecruiter, etc.)",
+        "Google Search/Website",
+        "Facebook (not Coconut's page/group)",
+        "LinkedIn (not Coconut's account)",
+        "Instagram (not Coconut's account)",
+        "TikTok (not Coconut's account)",
+        "YouTube (not Coconut's account)",
+        "Head Hunter/Technical Recruiter",
+        "Other"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "KB2vihdFLmVxxREX",
+        "id": "mCyFHllJ2qI2JpQ2",
         "name": "CA_35386",
         "data_testid": null,
         "role": null,
@@ -369,121 +329,17 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "RbUiTZiQBUW4ZxuC",
+        "id": "DnMe9K3PMOVQ9qi3",
         "name": "QA_9847082",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "how many hours a week can you work?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_gLswzQrq1qFoLcor",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "do you prefer being a managed talent or a direct hire?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_RXm9lgiPk2IUy1cb",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "how did you learn about coconut?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser.",
-        "SVGs not supported by this browser."
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_KB2vihdFLmVxxREX",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "have you uploaded a resume following the coconut profile template? (https://bit.ly/cvaprofiletemplate)",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_RbUiTZiQBUW4ZxuC",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,

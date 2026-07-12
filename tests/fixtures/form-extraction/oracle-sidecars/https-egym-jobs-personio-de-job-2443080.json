@@ -1,0 +1,237 @@
+{
+  "id": "https-egym-jobs-personio-de-job-2443080",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:57:03.354Z",
+  "page_url": "https://egym.jobs.personio.de/job/2443080",
+  "page_title": "Senior Data Scientist (m/f/d) | Jobs at EGYM",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.2941,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "gender ( )",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you find us? ( ) where did you find us?",
+        "ai": "Where did you find us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred location ( )",
+        "ai": "Preferred location",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a dynamic Personio framework. File inputs are triggered via custom buttons that interact with hidden file inputs.",
+    "fields": [
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Male",
+          "Female",
+          "Diverse",
+          "Undefined"
+        ]
+      },
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where did you find us?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred location",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Berlin",
+          "Munich"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "gender ( )",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "where did you find us? ( ) where did you find us?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "preferred location ( )",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

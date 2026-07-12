@@ -1,0 +1,144 @@
+{
+  "id": "https-rebtel-teamtailor-com-jobs-7805704-ai-ml-engineer-applications-new",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:46:47.942Z",
+  "page_url": "https://rebtel.teamtailor.com/jobs/7805704-ai-ml-engineer/applications/new",
+  "page_title": "Machine Learning Engineer - Rebtel",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 5,
+      "count_delta": 5,
+      "label_jaccard": 0.1538,
+      "type_agree_rate": 1,
+      "matched_count": 2
+    },
+    "matched": [
+      {
+        "detector": "do you live near stockholm or would you be willing to relocate?",
+        "ai": "Do you live near Stockholm or would you be willing to relocate?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "candidate[location][query]",
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that rebtel store my personal details to be able to process my job application."
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=10, ai=5)",
+      "label Jaccard 0.154 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a complex international phone input (intl-tel-input) and LinkedIn integration. The HTML excerpt was truncated, so additional fields (like resume upload or cover letter) may exist in the full form.",
+    "fields": [
+      {
+        "question": "Do you live near Stockholm or would you be willing to relocate?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you live near stockholm or would you be willing to relocate?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that rebtel store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f9"
+    }
+  ]
+}

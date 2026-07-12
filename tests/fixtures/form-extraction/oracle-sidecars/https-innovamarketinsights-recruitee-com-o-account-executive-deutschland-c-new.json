@@ -1,0 +1,182 @@
+{
+  "id": "https-innovamarketinsights-recruitee-com-o-account-executive-deutschland-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:19:15.406Z",
+  "page_url": "https://innovamarketinsights.recruitee.com/o/account-executive-deutschland/c/new",
+  "page_title": "Innova Market Insights - Account Executive Deutschland - Bewerbung",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 8,
+      "count_delta": 0,
+      "label_jaccard": 0.7778,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "vor- und nachname",
+        "ai": "Vor- und Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail-adresse",
+        "ai": "E-Mail-Adresse",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefonnummer",
+        "ai": "Telefonnummer",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "anschreiben",
+        "ai": "Anschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "was ist ihre gehaltsangabe?",
+        "ai": "Was ist Ihre Gehaltsangabe?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "was ist dein bevorzugter arbeitsort?",
+        "ai": "Was ist dein bevorzugter Arbeitsort?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "ländervorwahl auswählen"
+    ],
+    "ai_only": [
+      "Haben Sie ein gültiges Visum/Arbeitserlaubnis, um in Deutschland zu arbeiten?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget. The 'Anschreiben' field allows switching to a text input via a button, which is not represented as a static field in the HTML.",
+    "fields": [
+      {
+        "question": "Vor- und Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefonnummer",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Anschreiben",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Was ist Ihre Gehaltsangabe?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Haben Sie ein gültiges Visum/Arbeitserlaubnis, um in Deutschland zu arbeiten?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Was ist dein bevorzugter Arbeitsort?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Cologne (Cologne, Nordrhein-Westfalen, Deutschland)",
+          "Düsseldorf (Düsseldorf, Nordrhein-Westfalen, Deutschland)",
+          "Frankfurt, Deutschland (Frankfurt, Hessen, Deutschland)",
+          "Germany (Dortmund, Nordrhein-Westfalen, Deutschland)",
+          "Hamburg, Deutschland (Hamburg, Schleswig-Holstein, Deutschland)",
+          "Stuttgart, Deutschland (Stuttgart, Baden-Württemberg, Deutschland)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vor- und nachname",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "e-mail-adresse",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "lebenslauf",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "anschreiben",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "was ist ihre gehaltsangabe?",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "was ist dein bevorzugter arbeitsort?",
+      "field_type": "checkbox",
+      "ref": "f6"
+    },
+    {
+      "question": "ländervorwahl auswählen",
+      "field_type": "select",
+      "ref": "f7"
+    }
+  ]
+}

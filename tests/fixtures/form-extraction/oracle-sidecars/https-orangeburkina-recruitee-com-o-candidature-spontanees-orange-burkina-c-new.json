@@ -1,0 +1,260 @@
+{
+  "id": "https-orangeburkina-recruitee-com-o-candidature-spontanees-orange-burkina-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:19:00.888Z",
+  "page_url": "https://orangeburkina.recruitee.com/o/candidature-spontanees-orange-burkina/c/new",
+  "page_title": "GRowing Consulting - CANDIDATURES SPONTANEES ORANGE BURKINA - Candidature",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "nom complet",
+        "ai": "Nom complet",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "adresse e-mail",
+        "ai": "Adresse e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "numéro de téléphone",
+        "ai": "Numéro de téléphone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "lettre de motivation",
+        "ai": "Lettre de motivation",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "quel est votre niveau d'étude?",
+        "ai": "Quel est votre niveau d'étude?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "vous êtes",
+        "ai": "Vous êtes",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "quelle est votre date de naissance",
+        "ai": "Quelle est votre date de naissance",
+        "detector_type": "date",
+        "ai_type": "date",
+        "type_agree": true
+      },
+      {
+        "detector": "quelle est votre nationalité?",
+        "ai": "Quelle est votre nationalité?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "quelle est le domaine de votre diplôme ?",
+        "ai": "Quelle est le domaine de votre diplôme ?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "à partir de quel endroit aimeriez-vous travailler ?",
+        "ai": "À partir de quel endroit aimeriez-vous travailler ?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "sélectionner l'indicatif du pays"
+    ],
+    "ai_only": [
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Recruitee SPA framework. Phone input includes a custom country selector. Captcha is present.",
+    "fields": [
+      {
+        "question": "Nom complet",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Adresse e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Numéro de téléphone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lettre de motivation",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Quel est votre niveau d'étude?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Bac",
+          "Bac+1",
+          "Bac+2",
+          "Bac+3",
+          "Bac+4",
+          "Bac+5",
+          "Bac+5 et plus"
+        ]
+      },
+      {
+        "question": "Vous êtes",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Homme",
+          "Femme"
+        ]
+      },
+      {
+        "question": "Quelle est votre date de naissance",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Quelle est votre nationalité?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Quelle est le domaine de votre diplôme ?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Marketing",
+          "Gestion Commerciale",
+          "Ressources Humaines",
+          "DroitTransport & Logistique",
+          "Communication",
+          "Finance",
+          "Comptabilité Contrôle Audit",
+          "Economie",
+          "Gestion de projet",
+          "Informatique / Développement logiciel",
+          "Réseaux et Télécommunications",
+          "Data Science / Intelligence Artificielle",
+          "Cybersécurité",
+          "Multimédia et Design Digital",
+          "Banque – Finance – Assurance",
+          "Génie Électrique, Électronique et Énergétique",
+          "Gestion des Entreprises / Management"
+        ]
+      },
+      {
+        "question": "À partir de quel endroit aimeriez-vous travailler ?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Bobo-Dioulasso (Bobo-Dioulasso, Centre-Ouest, Burkina Faso)",
+          "Ouagadougou (ouagadougou, Centre, Burkina Faso)",
+          "Ouagadougou (Ouagadougou, Centre, Burkina Faso)",
+          "Ouahigouya (Ouahigouya, Nord, Burkina Faso)"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "quel est votre niveau d'étude?",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "vous êtes",
+      "field_type": "checkbox",
+      "ref": "f5"
+    },
+    {
+      "question": "quelle est votre date de naissance",
+      "field_type": "date",
+      "ref": "f6"
+    },
+    {
+      "question": "quelle est votre nationalité?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "quelle est le domaine de votre diplôme ?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "à partir de quel endroit aimeriez-vous travailler ?",
+      "field_type": "checkbox",
+      "ref": "f9"
+    },
+    {
+      "question": "sélectionner l'indicatif du pays",
+      "field_type": "select",
+      "ref": "f10"
+    }
+  ]
+}

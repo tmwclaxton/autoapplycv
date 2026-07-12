@@ -1,0 +1,392 @@
+{
+  "id": "https-jobs-ashbyhq-com-mapbox-029bda44-667c-4aed-8a11-7499df34a4a0-application",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the country for which you are applying?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "231b39a8-700f-461a-b2db-c31e369256a0",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you require (now or in the future) visa sponsorship or transfer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2b8956b7-335e-48d8-8aed-4358b29c0f83",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you been employed by mapbox previously?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7a606908-d45a-44f3-b0b0-7cb12b4e29ea",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8aea1d4e-4d2c-4a52-aabd-8603e4acffe0",
+        "name": "8aea1d4e-4d2c-4a52-aabd-8603e4acffe0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8aea1d4e-4d2c-4a52-aabd-8603e4acffe0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7d03ca56-484a-4231-862a-53f8256ea5f4",
+        "name": "7d03ca56-484a-4231-862a-53f8256ea5f4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7d03ca56-484a-4231-862a-53f8256ea5f4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "aba1cd24-043c-4755-ac5c-513d446c1ae0",
+        "name": "aba1cd24-043c-4755-ac5c-513d446c1ae0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "aba1cd24-043c-4755-ac5c-513d446c1ae0",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i consent to receiving text messages",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I consent to receiving text messages",
+        "No - I do not consent to receiving text messages"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "communicationConsent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "aba1cd24-043c-4755-ac5c-513d446c1ae0",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred pronouns",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "she/her",
+        "he/him",
+        "they/them",
+        "she/they",
+        "he/they",
+        "Prefer not to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "6c0472c4-3e1c-422b-ad84-874fe08c9e2f_59284962-bfef-4c28-9f7e-9ce210bc2769-labeled-radio-0",
+        "name": "6c0472c4-3e1c-422b-ad84-874fe08c9e2f_59284962-bfef-4c28-9f7e-9ce210bc2769",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "self describe - i prefer to use the following pronouns:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4e237efd-8e6b-4796-ba26-9dd4d8235307",
+        "name": "4e237efd-8e6b-4796-ba26-9dd4d8235307",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4e237efd-8e6b-4796-ba26-9dd4d8235307",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please briefly describe your current situation.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "8f6b414b-d780-4f1a-9123-537ea6d42457",
+        "name": "8f6b414b-d780-4f1a-9123-537ea6d42457",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8f6b414b-d780-4f1a-9123-537ea6d42457",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, what was your department and team?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ed1a9fcf-35da-4cd6-88e7-73568a18ff23",
+        "name": "ed1a9fcf-35da-4cd6-88e7-73568a18ff23",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ed1a9fcf-35da-4cd6-88e7-73568a18ff23",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "briefly describe your partnership and collaboration with engineering organizations.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "f7bd0e9b-a7c3-4adf-9eaf-01dddbe85cf9",
+        "name": "f7bd0e9b-a7c3-4adf-9eaf-01dddbe85cf9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f7bd0e9b-a7c3-4adf-9eaf-01dddbe85cf9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "briefly describe your portfolio of products you own.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "b1dca07f-758a-4a71-804d-2589002bd5e6",
+        "name": "b1dca07f-758a-4a71-804d-2589002bd5e6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b1dca07f-758a-4a71-804d-2589002bd5e6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "privacy policy acknowledgment and consent",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I have read Mapbox Privacy Policy and consent to the processing and transfer of my personal data for recruitment purposes."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "6c0472c4-3e1c-422b-ad84-874fe08c9e2f_095fdc22-b8d0-41ef-99d4-1816cb41bd33-labeled-checkbox-0",
+        "name": "I have read Mapbox Privacy Policy and consent to the processing and transfer of my personal data for recruitment purposes.",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

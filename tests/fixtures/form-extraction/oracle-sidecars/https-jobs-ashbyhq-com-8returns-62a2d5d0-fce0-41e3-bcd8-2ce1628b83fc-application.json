@@ -1,0 +1,153 @@
+{
+  "id": "https-jobs-ashbyhq-com-8returns-62a2d5d0-fce0-41e3-bcd8-2ce1628b83fc-application",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:00:24.872Z",
+  "page_url": "https://jobs.ashbyhq.com/8returns/62a2d5d0-fce0-41e3-bcd8-2ce1628b83fc/application",
+  "page_title": "Customer Success Manager (m/w/d) @ 8returns GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 6,
+      "ai_count": 7,
+      "count_delta": 1,
+      "label_jaccard": 0.8571,
+      "type_agree_rate": 0.8333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "wohnort",
+        "ai": "Wohnort",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gehaltsvorstellung",
+        "ai": "Gehaltsvorstellung",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "wie sind deine deutschkenntnisse?",
+        "ai": "Wie sind deine Deutschkenntnisse?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field is a combobox that likely fetches data dynamically. The resume upload is handled by a custom file input component.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Wohnort",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gehaltsvorstellung",
+        "field_type": "number",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Wie sind deine Deutschkenntnisse?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Keine",
+          "Grundkenntnisse",
+          "Fließend",
+          "Verhandlungssicher",
+          "Muttersprache oder Zweisprachig"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "wohnort",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "gehaltsvorstellung",
+      "field_type": "number",
+      "ref": "f4"
+    },
+    {
+      "question": "wie sind deine deutschkenntnisse?",
+      "field_type": "radio",
+      "ref": "f5"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "id": "https-medactafrance-recruitee-com-o-candidature-spontannee-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:52:35.426Z",
+  "page_url": "https://medactafrance.recruitee.com/o/candidature-spontannee/c/new",
+  "page_title": "MEDACTA FRANCE SAS - Candidature spontannée - Candidature",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 7,
+      "count_delta": 0,
+      "label_jaccard": 0.75,
+      "type_agree_rate": 1,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "nom complet",
+        "ai": "Nom complet",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "adresse e-mail",
+        "ai": "Adresse e-mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "numéro de téléphone",
+        "ai": "Numéro de téléphone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "lettre de motivation",
+        "ai": "Lettre de motivation",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "postulez-vous pour:",
+        "ai": "Postulez-vous pour:",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "si vous postulez pour le siège social, basé à nanterre, êtes-vous prêt à travailler sur site à 100% (dans de superbes locaux)?",
+        "ai": "Si vous postulez pour le siège social, basé à Nanterre, êtes-vous prêt à travailler sur site à 100% (dans de superbes locaux)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "sélectionner l'indicatif du pays"
+    ],
+    "ai_only": [
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an hCaptcha widget which is not represented as a standard input field. The phone number input uses a custom country selector component.",
+    "fields": [
+      {
+        "question": "Nom complet",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Adresse e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Numéro de téléphone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Lettre de motivation",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Postulez-vous pour:",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "le siège social, basé à Nanterre",
+          "le site logistique, basé à Gennevilliers",
+          "une région de France"
+        ]
+      },
+      {
+        "question": "Si vous postulez pour le siège social, basé à Nanterre, êtes-vous prêt à travailler sur site à 100% (dans de superbes locaux)?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Oui",
+          "Non"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "postulez-vous pour:",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "si vous postulez pour le siège social, basé à nanterre, êtes-vous prêt à travailler sur site à 100% (dans de superbes locaux)?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "sélectionner l'indicatif du pays",
+      "field_type": "select",
+      "ref": "f6"
+    }
+  ]
+}

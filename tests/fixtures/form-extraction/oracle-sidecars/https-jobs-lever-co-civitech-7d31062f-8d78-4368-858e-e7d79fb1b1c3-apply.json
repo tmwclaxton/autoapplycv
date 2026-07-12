@@ -1,0 +1,464 @@
+{
+  "id": "https-jobs-lever-co-civitech-7d31062f-8d78-4368-858e-e7d79fb1b1c3-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:06:24.545Z",
+  "page_url": "https://jobs.lever.co/civitech/7d31062f-8d78-4368-858e-e7d79fb1b1c3/apply",
+  "page_title": "Civitech - VP of Finance and M&A",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 21,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.7143,
+      "matched_count": 21
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for an employment visa status to work in the united states?",
+        "ai": "Will you now or in the future require sponsorship for an employment visa status to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you completed the form?",
+        "ai": "Have you completed the form?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your race/ethnicity?",
+        "ai": "What is your race/ethnicity?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your gender?",
+        "ai": "What is your gender?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a us military veteran?",
+        "ai": "Are you a US military veteran?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure, including an hCaptcha challenge and multiple optional demographic survey sections.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for an employment visa status to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you completed the form?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I have filled out the form",
+          "I have not filled out the form"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "17 or younger",
+          "18-20",
+          "21-29",
+          "30-39",
+          "40-49",
+          "50-59",
+          "60 or older",
+          "Decline to answer"
+        ]
+      },
+      {
+        "question": "What is your race/ethnicity?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White / Caucasian",
+          "Hispanic, Latino, or Spanish origin",
+          "Black or African American",
+          "Asian",
+          "Native Hawaiian or other Pacific Islander",
+          "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+          "Middle Eastern or North African",
+          "Other race, ethnicity, or origin",
+          "Decline to answer"
+        ]
+      },
+      {
+        "question": "What is your gender?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Other",
+          "Decline to answer"
+        ]
+      },
+      {
+        "question": "Are you a US military veteran?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Decline to answer"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for an employment visa status to work in the united states?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "have you completed the form?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f15"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your race/ethnicity?",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "what is your gender?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "are you a us military veteran?",
+      "field_type": "radio",
+      "ref": "f20"
+    }
+  ]
+}

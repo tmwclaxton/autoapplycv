@@ -1,0 +1,61 @@
+{
+  "id": "https-career4-successfactors-com-career",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:07:53.751Z",
+  "page_url": "https://career4.successfactors.com/career",
+  "page_title": "Career Opportunities: Pre-Board Screening Officer (234265)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 3,
+      "count_delta": 2,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "language"
+    ],
+    "ai_only": [
+      "Your friend’s email address",
+      "Message",
+      "Confirm you are not a robot"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The 'Apply' button triggers a dynamic process (likely a multi-step SPA) that is not present in the static HTML. The fields extracted are specifically for the 'Email Job to Friend' dialog box found in the source.",
+    "fields": [
+      {
+        "question": "Your friend’s email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Message",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Confirm you are not a robot",
+        "field_type": "other",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "language",
+      "field_type": "select",
+      "ref": "f0"
+    }
+  ]
+}

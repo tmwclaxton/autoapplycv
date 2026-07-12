@@ -1,7 +1,7 @@
 {
   "id": "https-jobs-ashbyhq-com-base-power-0ba323b9-4d33-478c-b7ad-6284ce1935b6-applicati",
   "status": "agree",
-  "captured_at": "2026-07-10T19:03:12.962Z",
+  "captured_at": "2026-07-10T22:26:12.150Z",
   "page_url": "https://jobs.ashbyhq.com/base-power/0ba323b9-4d33-478c-b7ad-6284ce1935b6/application",
   "page_title": "Electrician (Austin) @ Base Power Company",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 17,
       "ai_count": 13,
       "count_delta": 4,
-      "label_jaccard": 0.6667,
+      "label_jaccard": 0.7647,
       "type_agree_rate": 0.7692,
       "matched_count": 13
     },
@@ -37,7 +37,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone Number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -118,8 +118,14 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses custom components for comboboxes and date pickers. The HTML was truncated, so the final location checkbox options may be incomplete.",
+    "notes": "The HTML was truncated, so the final checkbox options for location may be incomplete. The form uses custom React-based components for date picking and comboboxes.",
     "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
       {
         "question": "Name",
         "field_type": "text",
@@ -150,12 +156,6 @@
       {
         "question": "Current Location*",
         "field_type": "combobox",
-        "required": true,
-        "options": null
-      },
-      {
-        "question": "Resume",
-        "field_type": "file",
         "required": true,
         "options": null
       },
@@ -235,7 +235,7 @@
       "ref": "f2"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f3"
     },

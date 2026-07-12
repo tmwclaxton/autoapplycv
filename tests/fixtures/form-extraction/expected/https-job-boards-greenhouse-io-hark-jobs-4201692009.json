@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-greenhouse-io-hark-jobs-4201692009",
-  "min_fields": 10,
-  "exact_field_count": 10,
+  "min_fields": 11,
+  "exact_field_count": 11,
   "fields": [
     {
       "question": "first name",
@@ -124,7 +124,7 @@
       }
     },
     {
-      "question": "attach first name",
+      "question": "resume/cv",
       "field_type": "file",
       "max_chars": null,
       "options": null,
@@ -144,7 +144,7 @@
       }
     },
     {
-      "question": "attach first name",
+      "question": "cover letter",
       "field_type": "file",
       "max_chars": null,
       "options": null,
@@ -202,10 +202,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

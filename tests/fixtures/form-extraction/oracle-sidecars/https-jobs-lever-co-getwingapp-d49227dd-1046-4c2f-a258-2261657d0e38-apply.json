@@ -1,0 +1,271 @@
+{
+  "id": "https-jobs-lever-co-getwingapp-d49227dd-1046-4c2f-a258-2261657d0e38-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:50:44.395Z",
+  "page_url": "https://jobs.lever.co/getwingapp/d49227dd-1046-4c2f-a258-2261657d0e38/apply",
+  "page_title": "Wing Assistant - AI Voice Trainer - Telugu",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 13,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8462,
+      "matched_count": 13
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile url",
+        "ai": "LinkedIn Profile URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "current monthly salary/compensation (usd)",
+        "ai": "Current Monthly Salary/Compensation (USD)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected monthly salary/compensation (usd)",
+        "ai": "Expected Monthly Salary/Compensation (USD)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please complete the short application form here: [ https://forms.gle/nb6vqbqnc6xm46bf7 ]. only candidates who complete the form will be reviewed.",
+        "ai": "Please complete the short application form here: [ https://forms.gle/nb6VQBqNC6XM46Bf7 ]. Only candidates who complete the form will be reviewed.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "our rate is $2 to $5 per hour. does that work for you?",
+        "ai": "Our rate is $2 to $5 per hour. Does that work for you?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "screenshot of internet speed",
+        "ai": "Screenshot of Internet Speed",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "screenshot of work equipment's specifications",
+        "ai": "Screenshot of Work Equipment's Specifications",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a LinkedIn integration button for auto-filling. It also includes an hCaptcha challenge.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Monthly Salary/Compensation (USD)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected Monthly Salary/Compensation (USD)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please complete the short application form here: [ https://forms.gle/nb6VQBqNC6XM46Bf7 ]. Only candidates who complete the form will be reviewed.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Our rate is $2 to $5 per hour. Does that work for you?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Screenshot of Internet Speed",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Screenshot of Work Equipment's Specifications",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "current monthly salary/compensation (usd)",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "expected monthly salary/compensation (usd)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "please complete the short application form here: [ https://forms.gle/nb6vqbqnc6xm46bf7 ]. only candidates who complete the form will be reviewed.",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "our rate is $2 to $5 per hour. does that work for you?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "screenshot of internet speed",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "screenshot of work equipment's specifications",
+      "field_type": "file",
+      "ref": "f12"
+    }
+  ]
+}

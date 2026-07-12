@@ -1,0 +1,249 @@
+{
+  "id": "https-goodcarbon-jobs-personio-de-job-2602875",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:49:35.985Z",
+  "page_url": "https://goodcarbon.jobs.personio.de/job/2602875",
+  "page_title": "Senior Business Development Manager (remote/hybrid) | Jobs at goodcarbon",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 0.2222,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "first",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email ( ) yourmail@domain.com",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone ( )",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin ( ) linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "years of experience ( )",
+        "ai": "Years of Experience",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "years of experience in carbon credit sales ( )",
+        "ai": "Years of Experience in Carbon Credit Sales",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom file upload widget that triggers a hidden file input. The 'Available from' and 'Expected salary' fields are text inputs.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Years of Experience",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "less than 1 year",
+          "1–2 years",
+          "2–3 years",
+          "3–4 years",
+          "4–5 years",
+          "5–6 years",
+          "6-7 years",
+          "7-10 years",
+          "10-15 years",
+          "more than 15 years"
+        ]
+      },
+      {
+        "question": "Years of Experience in Carbon Credit Sales",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "no experience",
+          "less than 1 year",
+          "1-2 years",
+          "2-3 years",
+          "3-4 years",
+          "4-6 years",
+          "6-8 years",
+          "more than 8 years"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email ( ) yourmail@domain.com",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone ( )",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin ( ) linkedin",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "years of experience ( )",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "years of experience in carbon credit sales ( )",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f10"
+    }
+  ]
+}

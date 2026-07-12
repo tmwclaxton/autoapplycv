@@ -1,0 +1,312 @@
+{
+  "id": "https-jobs-lever-co-get-vocal-pbc-c6a5ee3b-0f67-443f-857e-413c5e787de5-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:46:03.858Z",
+  "page_url": "https://jobs.lever.co/get-vocal-pbc/c6a5ee3b-0f67-443f-857e-413c5e787de5/apply",
+  "page_title": "Vocal Media - Social Media Manager — AI Content",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 14,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.8571,
+      "matched_count": 14
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "please share the link to a piece of content you've made using ai tools. tell us what tools you used and what choices you made.",
+        "ai": "Please share the link to a piece of content you've made using AI tools. Tell us what tools you used and what choices you made.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if you were to launch a new account from scratch, what are 2-3 topics, niches, or cultural spaces that you think you could consistently create strong content around? (this could be anything from tv or sports to internet trends or social issues.)",
+        "ai": "If you were to launch a new account from scratch, what are 2-3 topics, niches, or cultural spaces that you think you could consistently create strong content around? (This could be anything from TV or sports to internet trends or social issues.)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working for non-profit or social impact issues? please describe.",
+        "ai": "Do you have experience working for non-profit or social impact issues? Please describe.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-standard application structure. Pronouns include a hidden text input for custom entries. Location field uses an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please share the link to a piece of content you've made using AI tools. Tell us what tools you used and what choices you made.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you were to launch a new account from scratch, what are 2-3 topics, niches, or cultural spaces that you think you could consistently create strong content around? (This could be anything from TV or sports to internet trends or social issues.)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience working for non-profit or social impact issues? Please describe.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "please share the link to a piece of content you've made using ai tools. tell us what tools you used and what choices you made.",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "if you were to launch a new account from scratch, what are 2-3 topics, niches, or cultural spaces that you think you could consistently create strong content around? (this could be anything from tv or sports to internet trends or social issues.)",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "do you have experience working for non-profit or social impact issues? please describe.",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f13"
+    }
+  ]
+}

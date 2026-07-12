@@ -1,0 +1,123 @@
+{
+  "id": "https-roomersbadenbadenhotelbetriebsgmbh-teamtailor-com-jobs-7798084-beikoch-m-w",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:48:53.774Z",
+  "page_url": "https://roomersbadenbadenhotelbetriebsgmbh.teamtailor.com/jobs/7798084-beikoch-m-w-d/applications/new",
+  "page_title": "Beikoch (m/w/d) - ROOMERS Baden-Baden",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 4,
+      "count_delta": 5,
+      "label_jaccard": 0.0833,
+      "type_agree_rate": 1,
+      "matched_count": 1
+    },
+    "matched": [
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben",
+      ".mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass roomers baden-baden meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "ja, roomers baden-baden kann mich direkt über bestimmte zukünftige stellen informieren."
+    ],
+    "ai_only": [
+      "Vorname",
+      "Nachname",
+      "E-Mail"
+    ],
+    "reasons": [
+      "field count delta 5 exceeds tolerance 2 (detector=9, ai=4)",
+      "label Jaccard 0.083 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload or screening questions) that typically appear later in Teamtailor forms are missing. The phone input uses a complex international dropdown widget.",
+    "fields": [
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": ".mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass roomers baden-baden meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "field_type": "checkbox",
+      "ref": "f7"
+    },
+    {
+      "question": "ja, roomers baden-baden kann mich direkt über bestimmte zukünftige stellen informieren.",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

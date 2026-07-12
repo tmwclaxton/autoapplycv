@@ -1,0 +1,39 @@
+{
+  "id": "https-jobs-smartrecruiters-com-aristanetworks-744000130075551-senior-lead-softwa",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:57:49.896Z",
+  "page_url": "https://jobs.smartrecruiters.com/AristaNetworks/744000130075551-senior-lead-software-engineer-packet-forwarding-engines-",
+  "page_title": "Arista Networks Senior/Lead Software Engineer (Packet Forwarding Engines) | SmartRecruiters",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "I'm interested"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The actual application form is hosted on a separate SmartRecruiters URL (linked via the 'I'm interested' button) and is not present in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "I'm interested",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

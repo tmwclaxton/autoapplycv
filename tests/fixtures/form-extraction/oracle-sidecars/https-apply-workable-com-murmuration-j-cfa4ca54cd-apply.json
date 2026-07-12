@@ -1,0 +1,254 @@
+{
+  "id": "https-apply-workable-com-murmuration-j-cfa4ca54cd-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:17:24.220Z",
+  "page_url": "https://apply.workable.com/murmuration/j/CFA4CA54CD/apply/",
+  "page_title": "Senior Data Scientist Job - Murmuration - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 27,
+      "ai_count": 5,
+      "count_delta": 22,
+      "label_jaccard": 0.1852,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "headline",
+        "ai": "Headline",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "preferred pronouns",
+      "does the listed compensation align with your expectations?",
+      "summary",
+      "resume",
+      "6+ years of work experience as a data scientist or equivalent role producing models and analytics for business applications;",
+      "deep understanding of advanced data science techniques, machine learning algorithms, and optimization methods;",
+      "experience building and deploying machine learning models;",
+      "proficiency in data engineering and data pipelines;",
+      "skill in using advanced data visualization tools and techniques to effectively communicate insights and tell compelling stories with data;",
+      "mastery of programming languages (python and sql), version control (git), and ability to learn and apply new data science tools and techniques efficiently;",
+      "exceptional problem-solving abilities, strong leadership skills, and ability to communicate insights strategically to influence team direction;",
+      "ability to mentor and guide junior team members in their technical growth and development; and",
+      "capacity to work collaboratively with cross-functional teams and stakeholders.",
+      "domain expertise in organizing and advocacy;",
+      "experience working with voter file data and in campaign data science;",
+      "familiarity with data engineering tools such as dbt and dagster;",
+      "experience with polling methodologies, survey analysis, and multilevel regression and poststratification (mrp) modeling; and/or",
+      "bachelor’s or master’s degree in statistics, computer science, mathematics, physics, economics, computer engineering, or a related field.",
+      "will you now or in the future require employment sponsorship (please also note if opt applies)?",
+      "how did you hear about us?",
+      "linkedin profile"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, screening questions, or social links) that typically appear after the phone input in Workable forms are missing from this output.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Headline",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "headline",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "preferred pronouns",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "does the listed compensation align with your expectations?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "6+ years of work experience as a data scientist or equivalent role producing models and analytics for business applications;",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "deep understanding of advanced data science techniques, machine learning algorithms, and optimization methods;",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "experience building and deploying machine learning models;",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "proficiency in data engineering and data pipelines;",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "skill in using advanced data visualization tools and techniques to effectively communicate insights and tell compelling stories with data;",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "mastery of programming languages (python and sql), version control (git), and ability to learn and apply new data science tools and techniques efficiently;",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "exceptional problem-solving abilities, strong leadership skills, and ability to communicate insights strategically to influence team direction;",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "ability to mentor and guide junior team members in their technical growth and development; and",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "capacity to work collaboratively with cross-functional teams and stakeholders.",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "domain expertise in organizing and advocacy;",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "experience working with voter file data and in campaign data science;",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "familiarity with data engineering tools such as dbt and dagster;",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "experience with polling methodologies, survey analysis, and multilevel regression and poststratification (mrp) modeling; and/or",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "bachelor’s or master’s degree in statistics, computer science, mathematics, physics, economics, computer engineering, or a related field.",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "will you now or in the future require employment sponsorship (please also note if opt applies)?",
+      "field_type": "textarea",
+      "ref": "f24"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f25"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f26"
+    }
+  ]
+}

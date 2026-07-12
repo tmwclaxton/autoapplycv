@@ -1,0 +1,47 @@
+{
+  "id": "https-careers-aptiveresources-icims-com-jobs-4403-program-analyst-e2-80-93-senio",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:53:10.172Z",
+  "page_url": "https://careers-aptiveresources.icims.com/jobs/4403/program-analyst-%e2%80%93-senior/login",
+  "page_title": "Login",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 1,
+      "ai_count": 1,
+      "count_delta": 0,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "email"
+    ],
+    "ai_only": [
+      "Skip Branding"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt is a login page wrapper and does not contain the actual job application form fields. The form is likely loaded inside the 'icims_content_iframe' mentioned in the skip link.",
+    "fields": [
+      {
+        "question": "Skip Branding",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f0"
+    }
+  ]
+}

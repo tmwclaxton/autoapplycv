@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-eu-greenhouse-io-cision-jobs-4818344101",
   "status": "agree",
-  "captured_at": "2026-07-10T18:29:06.177Z",
+  "captured_at": "2026-07-10T22:17:33.595Z",
   "page_url": "https://job-boards.eu.greenhouse.io/cision/jobs/4818344101",
   "page_title": "Job Application for Senior Full Stack Engineer (.NET/React) at Cision",
   "diff": {
@@ -56,7 +56,7 @@
       "attach first name",
       "where are you currently located?",
       "linkedin profile",
-      "will you require sponsorship to work in the job required region/country? where are you currently located?",
+      "will you require sponsorship to work in the job region/country? where are you currently located?",
       "what are your gross salary expectations?",
       "what is your notice period?",
       "how did you hear about this role? where are you currently located?"
@@ -66,7 +66,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt is truncated, so the full form (including resume upload and additional questions) is likely missing. The phone input uses a complex international telephone input library (intl-tel-input).",
+    "notes": "The HTML excerpt is truncated, so additional fields (like resume upload, LinkedIn, or custom questions) likely exist in the full form but are not visible here.",
     "fields": [
       {
         "question": "First Name",
@@ -147,7 +147,7 @@
       "ref": "f8"
     },
     {
-      "question": "will you require sponsorship to work in the job required region/country? where are you currently located?",
+      "question": "will you require sponsorship to work in the job region/country? where are you currently located?",
       "field_type": "select",
       "ref": "f9"
     },

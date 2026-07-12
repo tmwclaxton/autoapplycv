@@ -1,0 +1,506 @@
+{
+  "id": "https-jobs-lever-co-pointclickcare-b924d7a9-41d0-44bd-b7fc-da5841a5ed68-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:35:53.287Z",
+  "page_url": "https://jobs.lever.co/pointclickcare/b924d7a9-41d0-44bd-b7fc-da5841a5ed68/apply",
+  "page_title": "PointClickCare - Senior Research Data Engineer (US)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 25,
+      "ai_count": 22,
+      "count_delta": 3,
+      "label_jaccard": 0.88,
+      "type_agree_rate": 0.8182,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally eligible to work for any employer in the united states?",
+        "ai": "Are you legally eligible to work for any employer in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "would you require future sponsorship in order to work in the united states?",
+        "ai": "Would you require future sponsorship in order to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you personally designed and maintained a reusable \"gold\" dataset or feature layer used by multiple ml/ai projects—not just a one-off pipeline? please briefly describe the dataset, who used it, and how it was maintained.",
+        "ai": "Have you personally designed and maintained a reusable \"gold\" dataset or feature layer used by multiple ML/AI projects—not just a one-off pipeline? Please briefly describe the dataset, who used it, and how it was maintained.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about a time you had to determine what data actually meant by reading sql, stored procedures, source code, or interviewing subject matter experts. what was the outcome?",
+        "ai": "Tell us about a time you had to determine what data actually meant by reading SQL, stored procedures, source code, or interviewing subject matter experts. What was the outcome?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you built datasets specifically for ml, llm, or genai use cases? select all that apply:",
+        "ai": "Have you built datasets specifically for ML, LLM, or GenAI use cases? Select all that apply:",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked with both structured and unstructured data (e.g., text, pdfs, logs) to create ai/ml-ready datasets (e.g., feature engineering, labeling, or rag datasets)? why we ask: the role supports both traditional ml and generative ai use cases, which require working across different data types.",
+        "ai": "Have you worked with both structured and unstructured data (e.g., text, PDFs, logs) to create AI/ML-ready datasets (e.g., feature engineering, labeling, or RAG datasets)? Why we ask: The role supports both traditional ML and generative AI use cases, which require working across different data types.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which databricks capabilities have you personally implemented in production?",
+        "ai": "Which Databricks capabilities have you personally implemented in production?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you built pipelines that transformed unstructured data into ai-ready datasets?",
+        "ai": "Have you built pipelines that transformed unstructured data into AI-ready datasets?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which of the following have you personally implemented for model-training datasets?",
+        "ai": "Which of the following have you personally implemented for model-training datasets?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender identity",
+        "ai": "Gender Identity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you identify as a member of the lgbtq+ community?",
+        "ai": "Do you identify as a member of the LGBTQ+ Community?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "race/ethnicity",
+      "veteran status",
+      "disability"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. The 'Voluntary Self-Identification Survey' was truncated in the provided HTML, so only the first two questions are included.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He/him",
+          "She/her",
+          "They/them",
+          "Xe/xem",
+          "Ze/hir",
+          "Ey/em",
+          "Hir/hir",
+          "Fae/faer",
+          "Hu/hu",
+          "Use name only",
+          "Custom"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally eligible to work for any employer in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Would you require future sponsorship in order to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you personally designed and maintained a reusable \"gold\" dataset or feature layer used by multiple ML/AI projects—not just a one-off pipeline? Please briefly describe the dataset, who used it, and how it was maintained.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us about a time you had to determine what data actually meant by reading SQL, stored procedures, source code, or interviewing subject matter experts. What was the outcome?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Have you built datasets specifically for ML, LLM, or GenAI use cases? Select all that apply:",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "YES",
+          "NO"
+        ]
+      },
+      {
+        "question": "Have you worked with both structured and unstructured data (e.g., text, PDFs, logs) to create AI/ML-ready datasets (e.g., feature engineering, labeling, or RAG datasets)? Why we ask: The role supports both traditional ML and generative AI use cases, which require working across different data types.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Feature engineering",
+          "Point-in-time correct datasets",
+          "Train/validation/test datasets",
+          "RAG datasets",
+          "Embedding pipelines",
+          "Evaluation datasets",
+          "None of the above"
+        ]
+      },
+      {
+        "question": "Which Databricks capabilities have you personally implemented in production?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Delta Lake",
+          "Unity Catalog",
+          "MLflow",
+          "Databricks Workflows",
+          "Delta Live Tables",
+          "Feature Store",
+          "None"
+        ]
+      },
+      {
+        "question": "Have you built pipelines that transformed unstructured data into AI-ready datasets?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "PDFs",
+          "Documents",
+          "Clinical notes",
+          "Logs",
+          "Conversations",
+          "Transcripts"
+        ]
+      },
+      {
+        "question": "Which of the following have you personally implemented for model-training datasets?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Programmatic labeling",
+          "Weak supervision (Snorkel or equivalent)",
+          "Synthetic data generation",
+          "Near-duplicate detection (e.g., MinHash/LSH)",
+          "None of the above"
+        ]
+      },
+      {
+        "question": "Gender Identity",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Gender non-binary",
+          "Not Listed",
+          "Prefer not to disclose"
+        ]
+      },
+      {
+        "question": "Do you identify as a member of the LGBTQ+ Community?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No",
+          "Prefer not to disclose"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally eligible to work for any employer in the united states?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "would you require future sponsorship in order to work in the united states?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "have you personally designed and maintained a reusable \"gold\" dataset or feature layer used by multiple ml/ai projects—not just a one-off pipeline? please briefly describe the dataset, who used it, and how it was maintained.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "tell us about a time you had to determine what data actually meant by reading sql, stored procedures, source code, or interviewing subject matter experts. what was the outcome?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "have you built datasets specifically for ml, llm, or genai use cases? select all that apply:",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "have you worked with both structured and unstructured data (e.g., text, pdfs, logs) to create ai/ml-ready datasets (e.g., feature engineering, labeling, or rag datasets)? why we ask: the role supports both traditional ml and generative ai use cases, which require working across different data types.",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "which databricks capabilities have you personally implemented in production?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "have you built pipelines that transformed unstructured data into ai-ready datasets?",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "which of the following have you personally implemented for model-training datasets?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "gender identity",
+      "field_type": "radio",
+      "ref": "f20"
+    },
+    {
+      "question": "do you identify as a member of the lgbtq+ community?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "race/ethnicity",
+      "field_type": "radio",
+      "ref": "f22"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f23"
+    },
+    {
+      "question": "disability",
+      "field_type": "radio",
+      "ref": "f24"
+    }
+  ]
+}

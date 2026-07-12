@@ -1,0 +1,504 @@
+{
+  "id": "https-jobs-lever-co-anovium-5095c201-f023-40a7-8df7-614bae036156-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:36:44.627Z",
+  "page_url": "https://jobs.lever.co/Anovium/5095c201-f023-40a7-8df7-614bae036156/apply",
+  "page_title": "Anovium - Senior React Native Engineer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 24,
+      "ai_count": 24,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.75,
+      "matched_count": 24
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other url",
+        "ai": "Other URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "tell us about a time where you fielded a difficult technical challenge",
+        "ai": "Tell us about a time where you fielded a difficult technical challenge",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us a bit about why you applied for this position!",
+        "ai": "Tell us a bit about why you applied for this position!",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "to better understand if we are a fit, what is your desired compensation range for this role?",
+        "ai": "To better understand if we are a fit, what is your desired compensation range for this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working in the logistics field? specifically with transportation management systems?",
+        "ai": "Do you have experience working in the logistics field? Specifically with Transportation management systems?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working on or building a transportation management system?",
+        "ai": "Do you have experience working on or building a transportation management system?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of working experience with python do you have?",
+        "ai": "How many years of working experience with Python do you have?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked with the python fast api framework?",
+        "ai": "Have you worked with the python fast api framework?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i identify my ethnicity as",
+        "ai": "I identify my ethnicity as",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you identify as?",
+        "ai": "What gender do you identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with dynamic cards for custom questions and EEO/demographic surveys.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Tell us about a time where you fielded a difficult technical challenge",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Tell us a bit about why you applied for this position!",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "To better understand if we are a fit, what is your desired compensation range for this role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience working in the logistics field? Specifically with Transportation management systems?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have experience working on or building a transportation management system?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of working experience with Python do you have?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Have you worked with the python fast api framework?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "17 or younger",
+          "18-20",
+          "21-25",
+          "26-29",
+          "30-35",
+          "36-39",
+          "40-49",
+          "50-59",
+          "60 or older"
+        ]
+      },
+      {
+        "question": "I identify my ethnicity as",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White / Caucasian",
+          "Hispanic, Latino, or Spanish origin",
+          "Black or African American",
+          "Asian",
+          "Native Hawaiian or other Pacific Islander",
+          "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+          "Middle Eastern or North African",
+          "Some other race, ethnicity, or origin"
+        ]
+      },
+      {
+        "question": "What gender do you identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Other"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "tell us about a time where you fielded a difficult technical challenge",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "tell us a bit about why you applied for this position!",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "to better understand if we are a fit, what is your desired compensation range for this role?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have experience working in the logistics field? specifically with transportation management systems?",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have experience working on or building a transportation management system?",
+      "field_type": "textarea",
+      "ref": "f15"
+    },
+    {
+      "question": "how many years of working experience with python do you have?",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "have you worked with the python fast api framework?",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f21"
+    },
+    {
+      "question": "i identify my ethnicity as",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f23"
+    }
+  ]
+}

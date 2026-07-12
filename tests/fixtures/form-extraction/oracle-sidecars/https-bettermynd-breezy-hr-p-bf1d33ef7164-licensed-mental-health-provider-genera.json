@@ -1,0 +1,520 @@
+{
+  "id": "https-bettermynd-breezy-hr-p-bf1d33ef7164-licensed-mental-health-provider-genera",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:37:46.682Z",
+  "page_url": "https://bettermynd.breezy.hr/p/bf1d33ef7164-licensed-mental-health-provider-general/apply",
+  "page_title": "Licensed Mental Health Provider (General)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 29,
+      "ai_count": 25,
+      "count_delta": 4,
+      "label_jaccard": 0.5882,
+      "type_agree_rate": 0.95,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a minimum of 18 years old?",
+        "ai": "Are you a minimum of 18 years old?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you eligible to work in the us?",
+        "ai": "Are you eligible to work in the US?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to allocate at least 8 hours per week to be available to bettermynd clients?",
+        "ai": "Are you able to allocate at least 8 hours per week to be available to BetterMynd clients?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please confirm you are aware of our compensation below",
+        "ai": "Please confirm you are aware of our compensation below",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your professional discipline?",
+        "ai": "What is your professional discipline?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please list your primary areas of clinical expertise? (i.e., anxiety, depression, trauma, etc.)",
+        "ai": "Please list your primary areas of clinical expertise? (i.e., anxiety, depression, trauma, etc.)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of post-graduate clinical experience do you have?",
+        "ai": "How many years of post-graduate clinical experience do you have?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what type of independent clinical license do you hold?",
+        "ai": "What type of independent clinical license do you hold?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which state(s) are you licensed to practice in?",
+        "ai": "Which state(s) are you licensed to practice in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide license number(s).",
+        "ai": "Please provide license number(s).",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "do we have your permission to run your license information through our compliance clearinghouse?",
+        "ai": "Do we have your permission to run your license information through our compliance clearinghouse?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you bilingual? if \"yes\", please list.",
+        "ai": "Are you bilingual? If \"yes\", please list.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "please list any additional relevant credentials or certifications that you currently hold:",
+        "ai": "Please list any additional relevant credentials or certifications that you currently hold:",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "why did you choose to apply to work with bettermynd?",
+        "ai": "Why did you choose to apply to work with BetterMynd?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about us?",
+        "ai": "How did you hear about us?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "have you ever been a 1099 contractor with us at bettermynd?",
+        "ai": "Have you ever been a 1099 contractor with us at BetterMynd?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b",
+      "race or ethnicity",
+      "gender",
+      "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "yes, i have a disability (or previously had a disability) race or ethnicity"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from BetterMynd.",
+      "Experience Summary",
+      "Cover Letter",
+      "What is the best way to reach you?"
+    ],
+    "reasons": [
+      "field count delta 4 exceeds tolerance 2 (detector=29, ai=25)",
+      "label Jaccard 0.588 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS controller for dynamic field rendering. Work history and education sections are dynamic lists not fully captured in static HTML.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from BetterMynd.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you a minimum of 18 years old?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you eligible to work in the US?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to allocate at least 8 hours per week to be available to BetterMynd clients?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please confirm you are aware of our compensation below",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes"
+        ]
+      },
+      {
+        "question": "What is your professional discipline?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please list your primary areas of clinical expertise? (i.e., anxiety, depression, trauma, etc.)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How many years of post-graduate clinical experience do you have?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What type of independent clinical license do you hold?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Licensed Clinical Social Worker",
+          "Licensed Mental Health Counselor",
+          "Licensed Psychologist",
+          "Licensed Marriage and Family Therapist",
+          "Other related independently licensed mental health provider"
+        ]
+      },
+      {
+        "question": "Which state(s) are you licensed to practice in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please provide license number(s).",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do we have your permission to run your license information through our compliance clearinghouse?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you bilingual? If \"yes\", please list.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please list any additional relevant credentials or certifications that you currently hold:",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Why did you choose to apply to work with BetterMynd?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How did you hear about us?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "BetterMynd Website",
+          "Referred by Internal BetterMynd Employee",
+          "Referred by BetterMynd Counselor",
+          "Recruiter Outreach",
+          "LinkedIn",
+          "Indeed",
+          "ZipRecruiter",
+          "Other"
+        ]
+      },
+      {
+        "question": "What is the best way to reach you?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Email",
+          "Phone"
+        ]
+      },
+      {
+        "question": "Have you ever been a 1099 contractor with us at BetterMynd?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you a minimum of 18 years old?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "are you eligible to work in the us?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "are you able to allocate at least 8 hours per week to be available to bettermynd clients?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "please confirm you are aware of our compensation below",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your professional discipline?",
+      "field_type": "text",
+      "ref": "f13"
+    },
+    {
+      "question": "please list your primary areas of clinical expertise? (i.e., anxiety, depression, trauma, etc.)",
+      "field_type": "textarea",
+      "ref": "f14"
+    },
+    {
+      "question": "how many years of post-graduate clinical experience do you have?",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "what type of independent clinical license do you hold?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "which state(s) are you licensed to practice in?",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "please provide license number(s).",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "do we have your permission to run your license information through our compliance clearinghouse?",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "are you bilingual? if \"yes\", please list.",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "please list any additional relevant credentials or certifications that you currently hold:",
+      "field_type": "textarea",
+      "ref": "f21"
+    },
+    {
+      "question": "why did you choose to apply to work with bettermynd?",
+      "field_type": "textarea",
+      "ref": "f22"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "have you ever been a 1099 contractor with us at bettermynd?",
+      "field_type": "radio",
+      "ref": "f24"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f25"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "i identify as one or more of the classifications of protected veterans listed above race or ethnicity",
+      "field_type": "radio",
+      "ref": "f27"
+    },
+    {
+      "question": "yes, i have a disability (or previously had a disability) race or ethnicity",
+      "field_type": "radio",
+      "ref": "f28"
+    }
+  ]
+}

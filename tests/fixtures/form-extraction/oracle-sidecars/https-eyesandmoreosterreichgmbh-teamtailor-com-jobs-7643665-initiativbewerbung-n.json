@@ -1,0 +1,185 @@
+{
+  "id": "https-eyesandmoreosterreichgmbh-teamtailor-com-jobs-7643665-initiativbewerbung-n",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:48:36.412Z",
+  "page_url": "https://eyesandmoreosterreichgmbh.teamtailor.com/jobs/7643665-initiativbewerbung-neueroeffnungen-2026/applications/new",
+  "page_title": "Initiativbewerbung Neueröffnungen 2026 - eyes and more Österreich GmbH",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 7,
+      "count_delta": 4,
+      "label_jaccard": 0.6364,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "für welchen store/standort interessierst du dich?",
+        "ai": "Für welchen Store/Standort interessierst du dich?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "welcher stundenumfang passt für dich und an wie vielen tagen in der woche möchtest du diese ableisten?",
+        "ai": "Welcher Stundenumfang passt für dich und an wie vielen Tagen in der Woche möchtest du diese ableisten?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "bist du am freitag und samstag einsetzbar?",
+        "ai": "Bist du am Freitag und Samstag einsetzbar?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "vorname",
+        "ai": "Vorname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "nachname",
+        "ai": "Nachname",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail",
+        "ai": "E-Mail",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "telefon",
+        "ai": "Telefon",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "lebenslauf hochladen",
+      "weitere dateien",
+      "bewerbungsschreiben",
+      ".mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass eyes and more österreich gmbh meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom international telephone input (intl-tel-input) and includes hidden fields for LinkedIn integration. The HTML excerpt was truncated, so additional fields like file uploads or further questions may exist in the full form.",
+    "fields": [
+      {
+        "question": "Für welchen Store/Standort interessierst du dich?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Welcher Stundenumfang passt für dich und an wie vielen Tagen in der Woche möchtest du diese ableisten?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Bist du am Freitag und Samstag einsetzbar?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Ja",
+          "Nein"
+        ]
+      },
+      {
+        "question": "Vorname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nachname",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefon",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "für welchen store/standort interessierst du dich?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "welcher stundenumfang passt für dich und an wie vielen tagen in der woche möchtest du diese ableisten?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "bist du am freitag und samstag einsetzbar?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "e-mail",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "lebenslauf hochladen",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "weitere dateien",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "bewerbungsschreiben",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": ".mit dem absenden meiner bewerbung bestätige ich, dass ich die datenschutzerklärung gelesen habe. weiterhin bestätige ich, dass eyes and more österreich gmbh meine personenbezogenen daten zum zweck der bearbeitung meiner bewerbung speichern darf.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    }
+  ]
+}

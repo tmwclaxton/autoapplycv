@@ -1,0 +1,52 @@
+{
+  "id": "https-careers-americas-icims-com-jobs-25090-account-executive-2c-strategic-job",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:32:35.375Z",
+  "page_url": "https://careers-americas.icims.com/jobs/25090/account-executive%2C-strategic/job",
+  "page_title": "Account Executive, Strategic in Austin, Texas | Careers at Austin - United States",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Choose your language"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt does not contain the actual job application form. It only contains a language selector in the footer and links to external pages. The application form is likely loaded dynamically or on a different page.",
+    "fields": [
+      {
+        "question": "Choose your language",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Deutsch",
+          "English",
+          "Español",
+          "Français",
+          "Italiano",
+          "한국어",
+          "Nederlands",
+          "日本語",
+          "Polski",
+          "Português",
+          "русский",
+          "中文"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

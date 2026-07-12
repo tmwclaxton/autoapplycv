@@ -1,16 +1,16 @@
 {
   "id": "https-allright-recruitee-com-o-online-english-teacher-for-kids-c-new",
   "status": "agree",
-  "captured_at": "2026-07-10T18:29:50.638Z",
+  "captured_at": "2026-07-10T22:17:15.742Z",
   "page_url": "https://allright.recruitee.com/o/online-english-teacher-for-kids/c/new",
   "page_title": "All Right - Online English teacher for kids - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 15,
+      "detector_count": 16,
       "ai_count": 16,
-      "count_delta": 1,
-      "label_jaccard": 0.8235,
+      "count_delta": 0,
+      "label_jaccard": 0.8824,
       "type_agree_rate": 1,
       "matched_count": 15
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "phone",
+        "detector": "phone number",
         "ai": "Phone number",
         "detector_type": "tel",
         "ai_type": "tel",
@@ -121,7 +121,9 @@
         "type_agree": true
       }
     ],
-    "detector_only": [],
+    "detector_only": [
+      "country calling code"
+    ],
     "ai_only": [
       "Do you have a teaching certificate for teaching English as a Second Language (ESL)? If yes, please select which one(s):"
     ],
@@ -129,7 +131,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses a custom phone input component and a hCaptcha widget. The application form is contained within a tabbed interface.",
+    "notes": "The form uses a custom phone input component and an hCaptcha widget. The form is contained within a tabbed interface.",
     "fields": [
       {
         "question": "Full name",
@@ -256,7 +258,7 @@
       "ref": "f1"
     },
     {
-      "question": "phone",
+      "question": "phone number",
       "field_type": "tel",
       "ref": "f2"
     },
@@ -319,6 +321,11 @@
       "question": "how long have you been teaching english?",
       "field_type": "radio",
       "ref": "f14"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f15"
     }
   ]
 }

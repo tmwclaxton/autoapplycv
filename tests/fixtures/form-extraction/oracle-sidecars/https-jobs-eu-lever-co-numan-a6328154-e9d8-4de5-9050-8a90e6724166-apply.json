@@ -1,0 +1,671 @@
+{
+  "id": "https-jobs-eu-lever-co-numan-a6328154-e9d8-4de5-9050-8a90e6724166-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:31:56.806Z",
+  "page_url": "https://jobs.eu.lever.co/numan/a6328154-e9d8-4de5-9050-8a90e6724166/apply",
+  "page_title": "Numan - Lead Technical Product Manager",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 17,
+      "count_delta": 4,
+      "label_jaccard": 0.8095,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your contractual notice period?",
+        "ai": "What is your contractual notice period?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your current salary?",
+        "ai": "What is your current salary?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you need reasonable adjustments to be made for your interview?",
+        "ai": "Do you need reasonable adjustments to be made for your interview?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require visa sponsorship?",
+        "ai": "Will you now or in the future require visa sponsorship?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any conflict of interest that will prevent you from working for us?",
+        "ai": "Do you have any conflict of interest that will prevent you from working for us?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any criminal convictions or pending criminal charges?",
+        "ai": "Do you have any criminal convictions or pending criminal charges?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your location?",
+        "ai": "What is your location?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your age range?",
+        "ai": "What is your age range?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your ethnicity?",
+        "ai": "What is your ethnicity?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you identify as?",
+        "ai": "What gender do you identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what is your sexual orientation?",
+      "what is your religion or belief?",
+      "do you have one or more disabilities as described in the equality act 2010?",
+      "yes, numan can contact me about future job opportunities for up to 3 yearsprivacy policy"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so the demographic survey fields (Sexual Orientation, Religion, Disability) are incomplete.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your contractual notice period?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Immediate",
+          "1 month",
+          "2 months",
+          "3 months",
+          "3 months +"
+        ]
+      },
+      {
+        "question": "What is your current salary?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "£25,000 – £35,000",
+          "£35,001 – £45,000",
+          "£45,001 – £55,000",
+          "£55,001 – £65,000",
+          "£65,001 – £75,000",
+          "£75,001 – £85,000",
+          "£85,001 – £95,000",
+          "£95,001 – £105,000",
+          "£105,001 – £120,000",
+          "£120,000+"
+        ]
+      },
+      {
+        "question": "Do you need reasonable adjustments to be made for your interview?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any conflict of interest that will prevent you from working for us?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have any criminal convictions or pending criminal charges?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your location?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "AF",
+          "AL",
+          "DZ",
+          "AS",
+          "AD",
+          "AO",
+          "AI",
+          "AQ",
+          "AG",
+          "AR",
+          "AM",
+          "AW",
+          "AU",
+          "AT",
+          "AZ",
+          "BS",
+          "BH",
+          "BD",
+          "BB",
+          "BY",
+          "BE",
+          "BZ",
+          "BJ",
+          "BM",
+          "BT",
+          "BO",
+          "BQ",
+          "BA",
+          "BW",
+          "BV",
+          "BR",
+          "IO",
+          "BN",
+          "BG",
+          "BF",
+          "BI",
+          "KH",
+          "CM",
+          "CA",
+          "CV",
+          "KY",
+          "CF",
+          "TD",
+          "CL",
+          "CN",
+          "CX",
+          "CC",
+          "CO",
+          "KM",
+          "CG",
+          "CD",
+          "CK",
+          "CR",
+          "HR",
+          "CU",
+          "CW",
+          "CY",
+          "CZ",
+          "DK",
+          "DJ",
+          "DM",
+          "DO",
+          "EC",
+          "EG",
+          "SV",
+          "GQ",
+          "ER",
+          "EE",
+          "SZ",
+          "ET",
+          "FK",
+          "FO",
+          "FJ",
+          "FI",
+          "FR",
+          "GF",
+          "PF",
+          "TF",
+          "GA",
+          "GM",
+          "GE",
+          "DE",
+          "GH",
+          "GI",
+          "GR",
+          "GL",
+          "GD",
+          "GP",
+          "GU",
+          "GT",
+          "GG",
+          "GN",
+          "GW",
+          "GY",
+          "HT",
+          "HM",
+          "VA",
+          "HN",
+          "HK",
+          "HU",
+          "IS",
+          "IN",
+          "ID",
+          "IR",
+          "IQ",
+          "IE",
+          "IM",
+          "IL",
+          "IT",
+          "CI",
+          "JM",
+          "JP",
+          "JE",
+          "JO",
+          "KZ",
+          "KE",
+          "KI",
+          "XK",
+          "KW",
+          "KG",
+          "LA",
+          "LV",
+          "LB",
+          "LS",
+          "LR",
+          "LY",
+          "LI",
+          "LT",
+          "LU",
+          "MO",
+          "MK",
+          "MG",
+          "MW",
+          "MY",
+          "MV",
+          "ML",
+          "MT",
+          "MH",
+          "MQ",
+          "MR",
+          "MU",
+          "YT",
+          "MX",
+          "FM",
+          "MD",
+          "MC",
+          "MN",
+          "ME",
+          "MS",
+          "MA",
+          "MZ",
+          "MM",
+          "NA",
+          "NR",
+          "NP",
+          "NL",
+          "NC",
+          "NZ",
+          "NI",
+          "NE",
+          "NG",
+          "NU",
+          "NF",
+          "KP",
+          "MP",
+          "NO",
+          "OM",
+          "PK",
+          "PW",
+          "PS",
+          "PA",
+          "PG",
+          "PY",
+          "PE",
+          "PH",
+          "PN",
+          "PL",
+          "PT",
+          "PR",
+          "QA",
+          "RO",
+          "RU",
+          "RW",
+          "RE",
+          "BL",
+          "SH",
+          "KN",
+          "LC",
+          "MF",
+          "PM",
+          "VC",
+          "WS",
+          "SM",
+          "ST",
+          "SA",
+          "SN",
+          "RS",
+          "SC",
+          "SL",
+          "SG",
+          "SX",
+          "SK",
+          "SI",
+          "SB",
+          "SO",
+          "ZA",
+          "GS",
+          "KR",
+          "SS",
+          "ES",
+          "LK",
+          "SD",
+          "SR",
+          "SJ",
+          "SE",
+          "CH",
+          "SY",
+          "TW",
+          "TJ",
+          "TZ",
+          "TH",
+          "TL",
+          "TG",
+          "TK",
+          "TO",
+          "TT",
+          "TN",
+          "TR",
+          "TM",
+          "TC",
+          "TV",
+          "UG",
+          "UA",
+          "AE",
+          "GB",
+          "US",
+          "UM",
+          "UY",
+          "UZ",
+          "VU",
+          "VE",
+          "VN",
+          "VG",
+          "VI",
+          "WF",
+          "EH",
+          "YE",
+          "ZM",
+          "ZW",
+          "AX"
+        ]
+      },
+      {
+        "question": "What is your age range?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "20 or younger",
+          "21-30",
+          "31-40",
+          "41-50",
+          "51-60",
+          "61 or older",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "What is your ethnicity?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "White or White British",
+          "Other White background",
+          "Black or Black British - Caribbean",
+          "Black or Black British - African",
+          "Other Black background",
+          "Asian or Asian British - Indian",
+          "Asian or Asian British - Pakistani",
+          "Asian or Asian British - Bangladeshi",
+          "Chinese",
+          "Other Asian background",
+          "Mixed - White and Black Caribbean",
+          "Mixed - White and Black African",
+          "Mixed - White and Asian",
+          "Other mixed background",
+          "Arab",
+          "Other ethnic background",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "What gender do you identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Other",
+          "Prefer not to say"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what is your contractual notice period?",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your current salary?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "do you need reasonable adjustments to be made for your interview?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship?",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "do you have any conflict of interest that will prevent you from working for us?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have any criminal convictions or pending criminal charges?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "what is your location?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "what is your ethnicity?",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "what is your sexual orientation?",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your religion or belief?",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "do you have one or more disabilities as described in the equality act 2010?",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "yes, numan can contact me about future job opportunities for up to 3 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f20"
+    }
+  ]
+}

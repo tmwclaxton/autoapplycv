@@ -1,0 +1,39 @@
+{
+  "id": "https-jobs-smartrecruiters-com-aumovio-744000135306189-software-engineer-orin-th",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:08:54.438Z",
+  "page_url": "https://jobs.smartrecruiters.com/Aumovio/744000135306189-software-engineer-orin-thor-adas-in-architecture-and-network-solutions-r-d-aumovio-korea",
+  "page_title": "Aumovio Software Engineer – Orin/Thor ADAS in Architecture and Network Solutions R&D | AUMOVIO Korea | SmartRecruiters",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "I'm interested"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a job description page. The actual application form is hosted on a separate SmartRecruiters 'oneclick' URL (linked via the 'I'm interested' button), which is not contained within this static HTML snippet.",
+    "fields": [
+      {
+        "question": "I'm interested",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

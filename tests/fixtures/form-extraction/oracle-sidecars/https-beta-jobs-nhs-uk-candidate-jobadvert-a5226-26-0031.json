@@ -1,0 +1,42 @@
+{
+  "id": "https-beta-jobs-nhs-uk-candidate-jobadvert-a5226-26-0031",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:37:04.317Z",
+  "page_url": "https://beta.jobs.nhs.uk/candidate/jobadvert/A5226-26-0031",
+  "page_title": "Job Advert",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Accept analytics cookies"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The job application is hosted on an external site (https://nexushealthgroup.nhs.uk/2025-application-form) as indicated in the job summary. The current page only contains a cookie consent form and navigation links.",
+    "fields": [
+      {
+        "question": "Accept analytics cookies",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "true",
+          "false"
+        ]
+      }
+    ]
+  },
+  "detector_fields": []
+}

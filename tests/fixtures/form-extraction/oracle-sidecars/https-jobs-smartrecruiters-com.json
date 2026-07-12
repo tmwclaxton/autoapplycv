@@ -1,0 +1,54 @@
+{
+  "id": "https-jobs-smartrecruiters-com",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:10:34.035Z",
+  "page_url": "https://jobs.smartrecruiters.com/",
+  "page_title": "SmartRecruiters Job Search",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 3,
+      "count_delta": 3,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Job title, location or keyword",
+      "Company",
+      "Job Location Type"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=0, ai=3)",
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a search landing page for a job board. The fields identified are for searching jobs, not for a specific job application. The 'Job Location Type' filter is a custom component that likely expands into a list of options not visible in the static HTML.",
+    "fields": [
+      {
+        "question": "Job title, location or keyword",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Company",
+        "field_type": "combobox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Job Location Type",
+        "field_type": "select",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

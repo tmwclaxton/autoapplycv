@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-greenhouse-io-formhealth-jobs-5290202008",
-  "min_fields": 9,
-  "exact_field_count": 9,
+  "min_fields": 8,
+  "exact_field_count": 8,
   "fields": [
     {
       "question": "first name",
@@ -124,7 +124,7 @@
       }
     },
     {
-      "question": "location (city) first name",
+      "question": "location (city)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -144,40 +144,20 @@
       }
     },
     {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
+      "question": "search",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
       "required": false,
       "dom": {
         "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
+        "type": "search",
+        "id": "iti-0__search-input",
         "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Search",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -185,7 +165,5 @@
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

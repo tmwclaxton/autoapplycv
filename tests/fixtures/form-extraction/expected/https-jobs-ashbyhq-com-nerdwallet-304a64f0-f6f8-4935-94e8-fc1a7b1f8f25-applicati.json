@@ -1,0 +1,599 @@
+{
+  "id": "https-jobs-ashbyhq-com-nerdwallet-304a64f0-f6f8-4935-94e8-fc1a7b1f8f25-applicati",
+  "min_fields": 27,
+  "exact_field_count": 27,
+  "fields": [
+    {
+      "question": "have you ever worked at nerdwallet?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "347d8723-d237-492f-9acb-61d8d933e02e",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you currently reside in the country this role is listed in?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0058c960-255f-445d-8705-06568806c13c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you subject to a non-competition agreement or any other agreement which would preclude or restrict your employment at nerdwallet or any other nerdwallet subsidiary?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1b0e4c20-4a49-439d-beb1-99cb3d1e58c5",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you authorized to work in the country this role is listed in?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "81ba6c19-9336-43c9-aa5b-0cca682ffec2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you need, or will you need in the future, any immigration related support or sponsorship from nerdwallet in order to begin or continue employment with nerdwallet?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f01c419f-66b3-44b6-8cb8-4a266347d936",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9bd3c57f-856e-4f21-8e0c-f5f8f4019bfc",
+        "name": "9bd3c57f-856e-4f21-8e0c-f5f8f4019bfc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9bd3c57f-856e-4f21-8e0c-f5f8f4019bfc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "8df14b36-db4b-4003-bf16-1c43ec6a8a57",
+        "name": "8df14b36-db4b-4003-bf16-1c43ec6a8a57",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8df14b36-db4b-4003-bf16-1c43ec6a8a57",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current or most recent company?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "88dae1ac-4656-41cf-a253-4a280098a056",
+        "name": "88dae1ac-4656-41cf-a253-4a280098a056",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "88dae1ac-4656-41cf-a253-4a280098a056",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ab19d0a6-31e3-4fb1-aa06-858dabe61042",
+        "name": "ab19d0a6-31e3-4fb1-aa06-858dabe61042",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ab19d0a6-31e3-4fb1-aa06-858dabe61042",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7b27c66e-630c-42bf-ac4c-23bc6e3687cc",
+        "name": "7b27c66e-630c-42bf-ac4c-23bc6e3687cc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7b27c66e-630c-42bf-ac4c-23bc6e3687cc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which fp&a tools are you currently proficient in?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f6c71cad-af9c-4c89-85d2-106af1caf60e",
+        "name": "f6c71cad-af9c-4c89-85d2-106af1caf60e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f6c71cad-af9c-4c89-85d2-106af1caf60e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in your most recent role, which stakeholders (titles or functions) did you support as their finance partner?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e18cd771-e623-4743-995d-a45f165c7da8",
+        "name": "e18cd771-e623-4743-995d-a45f165c7da8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e18cd771-e623-4743-995d-a45f165c7da8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what type of financial models do you build most frequently (e.g., forecasting, scenario analysis, kpi tracking)? briefly note their purpose.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cc9155d1-1431-4355-a912-732c0af4f011",
+        "name": "cc9155d1-1431-4355-a912-732c0af4f011",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cc9155d1-1431-4355-a912-732c0af4f011",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is one data-driven recommendation you’ve made to improve business performance? what was the outcome?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9ed1dd7d-8c5a-4223-9141-d00283a7f97b",
+        "name": "9ed1dd7d-8c5a-4223-9141-d00283a7f97b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9ed1dd7d-8c5a-4223-9141-d00283a7f97b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why do you want to work at nerdwallet?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "679aca47-003d-486f-ab71-1592ee86b4c9",
+        "name": "679aca47-003d-486f-ab71-1592ee86b4c9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "679aca47-003d-486f-ab71-1592ee86b4c9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "efea2881-b0ec-4de3-a527-b8e492ff8ac1",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if other, please specify:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "165e7c1c-d210-4a58-8a27-fc6116b3867b",
+        "name": "165e7c1c-d210-4a58-8a27-fc6116b3867b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "165e7c1c-d210-4a58-8a27-fc6116b3867b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please specify the jurisdiction (state, province, or country) and provide details about your agreements:",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e4162813-2530-49fb-bf4a-299db8465e0b",
+        "name": "e4162813-2530-49fb-bf4a-299db8465e0b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e4162813-2530-49fb-bf4a-299db8465e0b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my gender as: (select one)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Woman",
+        "Man",
+        "Non-binary / third gender (Inclusive of bigender, agender, androgynous, gender fluid, gender non-conforming)",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_3a343d7d-5334-4437-b573-4b3b2c60d4fd-labeled-radio-0",
+        "name": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_3a343d7d-5334-4437-b573-4b3b2c60d4fd",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify as transgender: (select one)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_ca2f78d2-9b38-4582-9c8f-fd5e14b29b99-labeled-radio-0",
+        "name": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_ca2f78d2-9b38-4582-9c8f-fd5e14b29b99",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my sexual orientation as: (select one)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Asexual",
+        "Bisexual, pansexual and/or queer",
+        "Gay and/or lesbian",
+        "Heterosexual",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_223eb238-5614-43c8-9388-567e07aed3e0-labeled-radio-0",
+        "name": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_223eb238-5614-43c8-9388-567e07aed3e0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my ethnicity as (mark all that apply):",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian",
+        "Black or African American",
+        "Hispanic or Latino",
+        "Native Hawaiian or Other Pacific Islander",
+        "Two or More Races",
+        "White",
+        "American Indian or Alaska Native",
+        "Not specified",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_abc0664c-891b-41cc-8e98-1f44bc43cbbb-labeled-checkbox-0",
+        "name": "Asian",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran status: (select one)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am a veteran",
+        "No, I am not a veteran",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_52e4e842-1529-4e5d-b705-cff04c66ea44-labeled-radio-0",
+        "name": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_52e4e842-1529-4e5d-b705-cff04c66ea44",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i have a physical disability: (select one)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_fb71a1e1-2f85-445b-a92b-de09c7ba76fd-labeled-radio-0",
+        "name": "80dd8731-b8c3-4dd3-8080-a5b88f5ac103_fb71a1e1-2f85-445b-a92b-de09c7ba76fd",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "Promoted by curated dual-oracle agree."
+  ]
+}

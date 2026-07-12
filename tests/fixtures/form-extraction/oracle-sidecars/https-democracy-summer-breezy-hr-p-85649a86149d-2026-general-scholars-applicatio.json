@@ -1,0 +1,249 @@
+{
+  "id": "https-democracy-summer-breezy-hr-p-85649a86149d-2026-general-scholars-applicatio",
+  "status": "disagree",
+  "captured_at": "2026-07-10T23:20:10.724Z",
+  "page_url": "https://democracy-summer.breezy.hr/p/85649a86149d-2026-general-scholars-application-virtual-only/apply",
+  "page_title": "2026 General Scholars Application (Virtual-Only)",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 20,
+      "count_delta": 13,
+      "label_jaccard": 0.1818,
+      "type_agree_rate": 0.75,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "address",
+        "ai": "Address",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "personal details",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "By providing your phone number you agree to receive informational text messages from Democracy Summer.",
+      "Pronouns",
+      "Phone Number",
+      "Current Address",
+      "Summer Address",
+      "State",
+      "Congressional District",
+      "Current Year in School",
+      "School Name",
+      "Birthdate",
+      "Please tell us about yourself and explain why you would like to participate in the 2026 National Democracy Summer School.",
+      "Please tell us about any previous work, summer, or after-school leadership experiences you have had that you believe would contribute to your success as a Democracy Summer Fellow or Scholar. What did you learn from these experiences?",
+      "Please tell us about a time when you had a conflict or disagreement with other people and how you addressed it.",
+      "Do you have any strong political passions or values? How did you arrive at them?",
+      "As a Scholar, you will be asked to identify and attend several organizing events in your area to supplement your learning from the online portion of the program. Have you had any experience organizing or volunteering in political campaigns? Please tell us about it, if so, but prior political experience is not required."
+    ],
+    "reasons": [
+      "field count delta 13 exceeds tolerance 2 (detector=7, ai=20)",
+      "label Jaccard 0.182 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an AngularJS-based questionnaire system where sections are toggled via visibility. Some fields (like phone number and address) appear in both the standard Breezy profile section and the custom questionnaire section.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "By providing your phone number you agree to receive informational text messages from Democracy Summer.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Address",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Summer Address",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "State",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Congressional District",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current Year in School",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Freshman (High School)",
+          "Sophomore (High School)",
+          "Junior (High School)",
+          "Senior (High School)",
+          "Freshman (College)",
+          "Sophomore (College)",
+          "Junior (College)",
+          "Senior (College)",
+          "Recently Graduated",
+          "Gap Year/ Other"
+        ]
+      },
+      {
+        "question": "School Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Birthdate",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please tell us about yourself and explain why you would like to participate in the 2026 National Democracy Summer School.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please tell us about any previous work, summer, or after-school leadership experiences you have had that you believe would contribute to your success as a Democracy Summer Fellow or Scholar. What did you learn from these experiences?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Please tell us about a time when you had a conflict or disagreement with other people and how you addressed it.",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have any strong political passions or values? How did you arrive at them?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "As a Scholar, you will be asked to identify and attend several organizing events in your area to supplement your learning from the online portion of the program. Have you had any experience organizing or volunteering in political campaigns? Please tell us about it, if so, but prior political experience is not required.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    }
+  ]
+}

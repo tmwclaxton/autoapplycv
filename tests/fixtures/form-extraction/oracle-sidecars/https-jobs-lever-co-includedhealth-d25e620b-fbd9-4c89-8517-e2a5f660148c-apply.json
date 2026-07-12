@@ -1,0 +1,530 @@
+{
+  "id": "https-jobs-lever-co-includedhealth-d25e620b-fbd9-4c89-8517-e2a5f660148c-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:03:28.314Z",
+  "page_url": "https://jobs.lever.co/includedhealth/d25e620b-fbd9-4c89-8517-e2a5f660148c/apply",
+  "page_title": "Included Health - Remote Physician",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 30,
+      "ai_count": 20,
+      "count_delta": 10,
+      "label_jaccard": 0.6129,
+      "type_agree_rate": 0.9,
+      "matched_count": 20
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "other website",
+        "ai": "Other website",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "please enter your zip code:",
+        "ai": "Please enter your zip code:",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the u.s.?",
+        "ai": "Are you legally authorized to work in the U.S.?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require sponsorship for employment visa status (e.g. h-1b status)?",
+        "ai": "Will you now or in the future require sponsorship for employment visa status (e.g. H-1B status)?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you previously worked for grand rounds, included health, or doctor on demand as a permanent or temporary employee?",
+        "ai": "Have you previously worked for Grand Rounds, Included Health, or Doctor on Demand as a permanent or temporary employee?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i acknowledge that all information regarding the company, including its business, products, services, financial data, and trade secrets, disclosed during the interview process is confidential. i agree not to disclose, use, or reproduce this information except to evaluate employment with the company. i understand and agree that this confidentiality obligation is legally binding and remains in effect indefinitely, regardless of whether i am offered or accept a position.",
+        "ai": "I acknowledge that all information regarding the company, including its business, products, services, financial data, and trade secrets, disclosed during the interview process is confidential. I agree not to disclose, use, or reproduce this information except to evaluate employment with the company. I understand and agree that this confidentiality obligation is legally binding and remains in effect indefinitely, regardless of whether I am offered or accept a position.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you consent to receive text (sms) communications from included health recruiters regarding this application and related job‑relevant updates? opting in does not guarantee that you will be contacted via text. message frequency will vary. msg & data rates may apply. reply help for help or stop to cancel.",
+        "ai": "Do you consent to receive text (SMS) communications from Included Health recruiters regarding this application and related job-relevant updates? Opting in does not guarantee that you will be contacted via text. Message Frequency will vary. Msg & data rates may apply. Reply HELP for help or STOP to cancel.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your primary clinical specialty?",
+        "ai": "What is your primary clinical specialty?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "additional specialization (please specify if you selected \"other\" above):",
+        "ai": "Additional specialization (please specify if you selected \"other\" above):",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently board certified?",
+        "ai": "Are you currently board certified?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "if yes, please list your specialty board(s):",
+        "ai": "If yes, please list your specialty board(s):",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your primary state of residence?",
+        "ai": "What is your primary state of residence?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "which state(s) do you currently hold an active license in?",
+        "ai": "Which state(s) do you currently hold an active license in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "do you have experience practicing in a virtual care or telemedicine setting?",
+      "what is your area of experience or clinical interest? please select all that apply.",
+      "what types of opportunities are you open to?",
+      "what days and times are you generally available to work? select all that apply.",
+      "additional information:",
+      "gender",
+      "race",
+      "veteran status",
+      "disability status",
+      "yes, included health can contact me about future job opportunities for up to 4 years"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML provided was truncated at the end, missing the final few fields (virtual care experience, clinical interest, availability, and additional info).",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other website",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Please enter your zip code:",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the U.S.?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require sponsorship for employment visa status (e.g. H-1B status)?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you previously worked for Grand Rounds, Included Health, or Doctor on Demand as a permanent or temporary employee?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I acknowledge that all information regarding the company, including its business, products, services, financial data, and trade secrets, disclosed during the interview process is confidential. I agree not to disclose, use, or reproduce this information except to evaluate employment with the company. I understand and agree that this confidentiality obligation is legally binding and remains in effect indefinitely, regardless of whether I am offered or accept a position.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "I Acknowledge and Agree",
+          "I Do Not Acknowledge or Agree"
+        ]
+      },
+      {
+        "question": "Do you consent to receive text (SMS) communications from Included Health recruiters regarding this application and related job-relevant updates? Opting in does not guarantee that you will be contacted via text. Message Frequency will vary. Msg & data rates may apply. Reply HELP for help or STOP to cancel.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I understand"
+        ]
+      },
+      {
+        "question": "What is your primary clinical specialty?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Family Medicine",
+          "Internal Medicine",
+          "Emergency Medicine",
+          "Psychiatry",
+          "Pediatrics",
+          "OB/GYN",
+          "Oncology",
+          "Other (Please specify)"
+        ]
+      },
+      {
+        "question": "Additional specialization (please specify if you selected \"other\" above):",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you currently board certified?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "In process"
+        ]
+      },
+      {
+        "question": "If yes, please list your specialty board(s):",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your primary state of residence?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Alabama",
+          "Alaska",
+          "Arizona",
+          "Arkansas",
+          "California",
+          "Colorado",
+          "Connecticut",
+          "Delaware",
+          "Florida",
+          "Georgia",
+          "Hawaii",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Kansas",
+          "Kentucky",
+          "Louisiana",
+          "Maine",
+          "Maryland",
+          "Massachusetts",
+          "Michigan",
+          "Minnesota",
+          "Mississippi",
+          "Missouri",
+          "Montana",
+          "Nebraska",
+          "Nevada",
+          "New Hampshire",
+          "New Jersey",
+          "New Mexico",
+          "New York",
+          "North Carolina",
+          "North Dakota",
+          "Ohio",
+          "Oklahoma",
+          "Oregon",
+          "Pennsylvania",
+          "Rhode Island",
+          "South Carolina",
+          "South Dakota",
+          "Tennessee",
+          "Texas",
+          "Utah",
+          "Vermont",
+          "Virginia",
+          "Washington",
+          "West Virginia",
+          "Wisconsin",
+          "Wyoming"
+        ]
+      },
+      {
+        "question": "Which state(s) do you currently hold an active license in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "please enter your zip code:",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you legally authorized to work in the u.s.?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment visa status (e.g. h-1b status)?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "have you previously worked for grand rounds, included health, or doctor on demand as a permanent or temporary employee?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "i acknowledge that all information regarding the company, including its business, products, services, financial data, and trade secrets, disclosed during the interview process is confidential. i agree not to disclose, use, or reproduce this information except to evaluate employment with the company. i understand and agree that this confidentiality obligation is legally binding and remains in effect indefinitely, regardless of whether i am offered or accept a position.",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "do you consent to receive text (sms) communications from included health recruiters regarding this application and related job‑relevant updates? opting in does not guarantee that you will be contacted via text. message frequency will vary. msg & data rates may apply. reply help for help or stop to cancel.",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "what is your primary clinical specialty?",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "additional specialization (please specify if you selected \"other\" above):",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "are you currently board certified?",
+      "field_type": "select",
+      "ref": "f16"
+    },
+    {
+      "question": "if yes, please list your specialty board(s):",
+      "field_type": "textarea",
+      "ref": "f17"
+    },
+    {
+      "question": "what is your primary state of residence?",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "which state(s) do you currently hold an active license in?",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "do you have experience practicing in a virtual care or telemedicine setting?",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "what is your area of experience or clinical interest? please select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "what types of opportunities are you open to?",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "what days and times are you generally available to work? select all that apply.",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "additional information:",
+      "field_type": "textarea",
+      "ref": "f24"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f25"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f26"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f27"
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "ref": "f28"
+    },
+    {
+      "question": "yes, included health can contact me about future job opportunities for up to 4 years",
+      "field_type": "checkbox",
+      "ref": "f29"
+    }
+  ]
+}

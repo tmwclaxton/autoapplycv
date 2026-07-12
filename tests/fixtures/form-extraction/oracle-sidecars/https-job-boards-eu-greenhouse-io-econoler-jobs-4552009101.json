@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-eu-greenhouse-io-econoler-jobs-4552009101",
   "status": "agree",
-  "captured_at": "2026-07-10T18:32:50.783Z",
+  "captured_at": "2026-07-10T22:24:31.870Z",
   "page_url": "https://job-boards.eu.greenhouse.io/econoler/jobs/4552009101",
   "page_title": "Candidature à un emploi de Candidature spontanée - Econoler chez Econoler",
   "diff": {
@@ -59,7 +59,7 @@
       "quel est ton niveau de compétence en français? pourquoi veux-tu travailler avec nous chez econoler?",
       "quel est ton niveau de compétence en anglais? pourquoi veux-tu travailler avec nous chez econoler?",
       "as-tu l'autorisation légale de travailler au canada? pourquoi veux-tu travailler avec nous chez econoler?",
-      "quel est ton statut d'emploi au canada?  pourquoi veux-tu travailler avec nous chez econoler?",
+      "quel est ton statut d'emploi au canada? pourquoi veux-tu travailler avec nous chez econoler?",
       "🔒 en soumettant ta candidature, tu reconnais qu’econoler recueillera et traitera tes renseignements personnels aux fins du processus de recrutement, conformément aux lois applicables en matière de protection des renseignements personnels et à notre politique de confidentialité. pourquoi veux-tu travailler avec nous chez econoler?"
     ],
     "ai_only": [],
@@ -67,7 +67,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt provided is truncated during the phone number country selection list. The form is a standard Greenhouse application form.",
+    "notes": "The form is truncated in the provided HTML. The phone input uses a complex third-party library (intl-tel-input) and a custom combobox for country selection.",
     "fields": [
       {
         "question": "Prénom",
@@ -163,7 +163,7 @@
       "ref": "f11"
     },
     {
-      "question": "quel est ton statut d'emploi au canada?  pourquoi veux-tu travailler avec nous chez econoler?",
+      "question": "quel est ton statut d'emploi au canada? pourquoi veux-tu travailler avec nous chez econoler?",
       "field_type": "select",
       "ref": "f12"
     },

@@ -1,0 +1,211 @@
+{
+  "id": "https-jobs-ashbyhq-com-neotaste-2ad2c499-3cb2-4a9b-b5cf-2bde05704bf4-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:39:10.589Z",
+  "page_url": "https://jobs.ashbyhq.com/neotaste/2ad2c499-3cb2-4a9b-b5cf-2bde05704bf4/application",
+  "page_title": "Senior iOS Engineer @ NeoTaste",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 11,
+      "count_delta": 2,
+      "label_jaccard": 0.8182,
+      "type_agree_rate": 0.7778,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you authorised to work in germany?",
+        "ai": "Are you authorised to work in Germany?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us a little bit about yourself and why you would like to join us! why neotaste? why this job?",
+        "ai": "Tell us a little bit about yourself and why you would like to join us! Why NeoTaste? Why this job?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred salary expectations",
+        "ai": "Preferred salary expectations",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred start date",
+        "ai": "Preferred start date",
+        "detector_type": "text",
+        "ai_type": "date",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Autofill from resume",
+      "CV"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The location field uses a combobox widget. The 'Are you authorised to work in Germany?' field uses custom buttons that act as radio inputs.",
+    "fields": [
+      {
+        "question": "Autofill from resume",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Tell us a little bit about yourself and why you would like to join us! Why NeoTaste? Why this job?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you authorised to work in Germany?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Preferred salary expectations",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Preferred start date",
+        "field_type": "date",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorised to work in germany?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f4"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "tell us a little bit about yourself and why you would like to join us! why neotaste? why this job?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "preferred salary expectations",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "preferred start date",
+      "field_type": "text",
+      "ref": "f8"
+    }
+  ]
+}

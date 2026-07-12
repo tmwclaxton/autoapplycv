@@ -1,0 +1,602 @@
+{
+  "id": "https-jobs-lever-co-field-ai-5aa0a3ef-b693-4404-829a-63d8b9dad776-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:41:11.622Z",
+  "page_url": "https://jobs.lever.co/field-ai/5aa0a3ef-b693-4404-829a-63d8b9dad776/apply",
+  "page_title": "FieldAI - Embedded Systems Engineer-Federal",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 31,
+      "ai_count": 29,
+      "count_delta": 2,
+      "label_jaccard": 0.9355,
+      "type_agree_rate": 0.7931,
+      "matched_count": 29
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "twitter url",
+        "ai": "Twitter URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "field ai",
+        "ai": "Field AI",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "are you legally authorized to work in the country where this position is located?",
+        "ai": "Are you legally authorized to work in the country where this position is located?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require employer sponsorship for a work visa or employment authorization to work in the country where this position is located?",
+        "ai": "Will you now or in the future require employer sponsorship for a work visa or employment authorization to work in the country where this position is located?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you at least 18 years of age and legally eligible to perform the duties of this position?",
+        "ai": "Are you at least 18 years of age and legally eligible to perform the duties of this position?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i certify that the information provided in this application is true, complete, and accurate to the best of my knowledge. i understand that providing false or misleading information may result in the rejection of my application or termination of employment if discovered after hire.",
+        "ai": "I certify that the information provided in this application is true, complete, and accurate to the best of my knowledge. I understand that providing false or misleading information may result in the rejection of my application or termination of employment if discovered after hire.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "middle name",
+        "ai": "Middle Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address line 1",
+        "ai": "Address Line 1",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "address line 2",
+        "ai": "Address Line 2",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "city",
+        "ai": "City",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "state",
+        "ai": "State",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "zip code",
+        "ai": "Zip Code",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the united states?",
+        "ai": "Are you authorized to work in the United States?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now, or in the future, require sponsorship (i.e. h-1b visa, etc.) to legally work in the u.s.?",
+        "ai": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently in a period of optional practical training (opt)?",
+        "ai": "Are you currently in a period of Optional Practical Training (OPT)?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "do you hold a degree in a science, technology, engineering, or mathematics (stem) field from a u.s. accredited institution that would allow you to apply for a 24-month opt extension?",
+        "ai": "Do you hold a degree in a Science, Technology, Engineering, or Mathematics (STEM) field from a U.S. accredited institution that would allow you to apply for a 24-month OPT extension?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work onsite?",
+        "ai": "Are you able to work onsite?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please let us know you would be able to begin a new opportunity.",
+        "ai": "Please let us know you would be able to begin a new opportunity.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "how did you learn about this opportunity?",
+      "fieldai has my consent to contact me about future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt was truncated, so the final 'How Did You Hear About Us?' question is incomplete in the source but included as a field based on the available metadata.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Twitter URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Field AI",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you legally authorized to work in the country where this position is located?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or in the future require employer sponsorship for a work visa or employment authorization to work in the country where this position is located?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you at least 18 years of age and legally eligible to perform the duties of this position?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I certify that the information provided in this application is true, complete, and accurate to the best of my knowledge. I understand that providing false or misleading information may result in the rejection of my application or termination of employment if discovered after hire.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I certify and agree"
+        ]
+      },
+      {
+        "question": "First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Middle Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address Line 1",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Address Line 2",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "City",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "State",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Zip Code",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Not applicable"
+        ]
+      },
+      {
+        "question": "Are you currently in a period of Optional Practical Training (OPT)?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Not applicable"
+        ]
+      },
+      {
+        "question": "Do you hold a degree in a Science, Technology, Engineering, or Mathematics (STEM) field from a U.S. accredited institution that would allow you to apply for a 24-month OPT extension?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "Not applicable"
+        ]
+      },
+      {
+        "question": "Are you able to work onsite?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please let us know you would be able to begin a new opportunity.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I can start immediately.",
+          "I can start in two to three weeks.",
+          "I can start in a month.",
+          "I can start in six weeks to two months.",
+          "I can start in eight to twelve weeks.",
+          "I can start in three to six months."
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "field ai",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "are you legally authorized to work in the country where this position is located?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "will you now or in the future require employer sponsorship for a work visa or employment authorization to work in the country where this position is located?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "are you at least 18 years of age and legally eligible to perform the duties of this position?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "i certify that the information provided in this application is true, complete, and accurate to the best of my knowledge. i understand that providing false or misleading information may result in the rejection of my application or termination of employment if discovered after hire.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f15"
+    },
+    {
+      "question": "middle name",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f17"
+    },
+    {
+      "question": "address line 1",
+      "field_type": "text",
+      "ref": "f18"
+    },
+    {
+      "question": "address line 2",
+      "field_type": "text",
+      "ref": "f19"
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "ref": "f20"
+    },
+    {
+      "question": "state",
+      "field_type": "text",
+      "ref": "f21"
+    },
+    {
+      "question": "zip code",
+      "field_type": "text",
+      "ref": "f22"
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship (i.e. h-1b visa, etc.) to legally work in the u.s.?",
+      "field_type": "checkbox",
+      "ref": "f24"
+    },
+    {
+      "question": "are you currently in a period of optional practical training (opt)?",
+      "field_type": "checkbox",
+      "ref": "f25"
+    },
+    {
+      "question": "do you hold a degree in a science, technology, engineering, or mathematics (stem) field from a u.s. accredited institution that would allow you to apply for a 24-month opt extension?",
+      "field_type": "checkbox",
+      "ref": "f26"
+    },
+    {
+      "question": "are you able to work onsite?",
+      "field_type": "radio",
+      "ref": "f27"
+    },
+    {
+      "question": "please let us know you would be able to begin a new opportunity.",
+      "field_type": "checkbox",
+      "ref": "f28"
+    },
+    {
+      "question": "how did you learn about this opportunity?",
+      "field_type": "checkbox",
+      "ref": "f29"
+    },
+    {
+      "question": "fieldai has my consent to contact me about future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f30"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "id": "https-nexo-breezy-hr-p-7321236e022701-account-manager-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:13:29.961Z",
+  "page_url": "https://nexo.breezy.hr/p/7321236e022701-account-manager/apply",
+  "page_title": "Account Manager",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 7,
+      "ai_count": 8,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 1,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "c name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "c email",
+        "ai": "Email Address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "c phone number",
+        "ai": "Phone Number",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Upload Resume",
+      "Work History",
+      "Education",
+      "Experience Summary",
+      "Cover Letter"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses AngularJS and dynamic DOM manipulation for work history and education entries. The 'Add Position' and 'Add Education' buttons trigger dynamic field generation not visible in the static HTML.",
+    "fields": [
+      {
+        "question": "Upload Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email Address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Work History",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Education",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experience Summary",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f6"
+    }
+  ]
+}

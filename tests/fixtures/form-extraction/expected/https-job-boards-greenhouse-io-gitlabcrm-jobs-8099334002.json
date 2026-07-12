@@ -1,7 +1,7 @@
 {
   "id": "https-job-boards-greenhouse-io-gitlabcrm-jobs-8099334002",
-  "min_fields": 19,
-  "exact_field_count": 19,
+  "min_fields": 18,
+  "exact_field_count": 18,
   "fields": [
     {
       "question": "first name",
@@ -124,7 +124,7 @@
       }
     },
     {
-      "question": "location (city) first name",
+      "question": "location (city)",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -136,46 +136,6 @@
         "name": null,
         "data_testid": null,
         "role": "combobox",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "resume",
-        "name": null,
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "attach first name",
-      "field_type": "file",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "file",
-        "id": "cover_letter",
-        "name": null,
-        "data_testid": null,
-        "role": null,
         "data_field_path": null,
         "placeholder": null,
         "min": null,
@@ -204,7 +164,7 @@
       }
     },
     {
-      "question": "how many total years of people experience do you have? please select from the skills listed below you have relevant experience in",
+      "question": "how many total years of people experience do you have?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -224,7 +184,7 @@
       }
     },
     {
-      "question": "are you proficient in both written and verbal english communication, as we operate globally in english? please select from the skills listed below you have relevant experience in",
+      "question": "are you proficient in both written and verbal english communication, as we operate globally in english?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -244,7 +204,7 @@
       }
     },
     {
-      "question": "are you proficient in both writing and speaking any other languages? please select from the skills listed below you have relevant experience in",
+      "question": "are you proficient in both writing and speaking any other languages?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -264,7 +224,7 @@
       }
     },
     {
-      "question": "where are you located? please note: due to regulatory requirements, gitlab can only hire in certain countries. depending on your location, we may not be able to move forward with your application. please select from the skills listed below you have relevant experience in",
+      "question": "where are you located? please note: due to regulatory requirements, gitlab can only hire in certain countries. depending on your location, we may not be able to move forward with your application.",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -284,7 +244,7 @@
       }
     },
     {
-      "question": "will you now or in the future require sponsorship for a visa to remain in your current location? please select from the skills listed below you have relevant experience in",
+      "question": "will you now or in the future require sponsorship for a visa to remain in your current location?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -304,7 +264,7 @@
       }
     },
     {
-      "question": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer? please select from the skills listed below you have relevant experience in",
+      "question": "are you subject to any employment agreements and/or post-employment restrictions with your current employer or a past employer?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -324,7 +284,7 @@
       }
     },
     {
-      "question": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience. please select from the skills listed below you have relevant experience in",
+      "question": "which statement best describes your current level of ai literacy? please select the option that most closely aligns with your experience.",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -344,7 +304,7 @@
       }
     },
     {
-      "question": "where did you learn about a career at gitlab? please select from the skills listed below you have relevant experience in",
+      "question": "where did you learn about a career at gitlab?",
       "field_type": "select",
       "max_chars": null,
       "options": null,
@@ -382,10 +342,28 @@
         "max": null,
         "question_prefix": null
       }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
     }
   ],
   "controls": [],
-  "vet_notes": [
-    "Promoted by curated dual-oracle agree."
-  ]
+  "vet_notes": []
 }

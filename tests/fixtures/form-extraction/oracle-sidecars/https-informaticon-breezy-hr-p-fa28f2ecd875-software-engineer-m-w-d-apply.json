@@ -1,0 +1,200 @@
+{
+  "id": "https-informaticon-breezy-hr-p-fa28f2ecd875-software-engineer-m-w-d-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:11:09.620Z",
+  "page_url": "https://informaticon.breezy.hr/p/fa28f2ecd875-software-engineer-m-w-d/apply",
+  "page_title": "Software Engineer (m/w/d)",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 9,
+      "count_delta": 1,
+      "label_jaccard": 0.9,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "vollständiger name",
+        "ai": "Vollständiger Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "e-mail-adresse",
+        "ai": "E-Mail-Adresse",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "unterlagen",
+        "ai": "Unterlagen",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "bewerbungs- / motivationsschreiben",
+        "ai": "Bewerbungs- / Motivationsschreiben",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "lebenslauf",
+        "ai": "Lebenslauf",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "diplome und notenausweise",
+        "ai": "Diplome und Notenausweise",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "arbeitszeugnisse",
+        "ai": "Arbeitszeugnisse",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "sonstige unterlagen",
+        "ai": "Sonstige Unterlagen",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "bemerkung",
+        "ai": "Bemerkung",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is built using AngularJS. File inputs are handled via custom UI triggers. The 'required' status for file uploads in the questionnaire section is dynamically controlled by the application logic.",
+    "fields": [
+      {
+        "question": "Vollständiger Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "E-Mail-Adresse",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Unterlagen",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Bewerbungs- / Motivationsschreiben",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Lebenslauf",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Diplome und Notenausweise",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Arbeitszeugnisse",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Sonstige Unterlagen",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Bemerkung",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "vollständiger name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "e-mail-adresse",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "unterlagen",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "bewerbungs- / motivationsschreiben",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "lebenslauf",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "diplome und notenausweise",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "arbeitszeugnisse",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "sonstige unterlagen",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "bemerkung",
+      "field_type": "textarea",
+      "ref": "f9"
+    }
+  ]
+}

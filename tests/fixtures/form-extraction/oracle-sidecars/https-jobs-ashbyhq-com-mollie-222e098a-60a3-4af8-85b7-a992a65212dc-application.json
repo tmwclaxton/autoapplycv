@@ -1,0 +1,219 @@
+{
+  "id": "https-jobs-ashbyhq-com-mollie-222e098a-60a3-4af8-85b7-a992a65212dc-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:34:15.892Z",
+  "page_url": "https://jobs.ashbyhq.com/mollie/222e098a-60a3-4af8-85b7-a992a65212dc/application",
+  "page_title": "Regional Marketing Intern - Benelux @ Mollie",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 10,
+      "count_delta": 1,
+      "label_jaccard": 0.9,
+      "type_agree_rate": 0.6667,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you currently enrolled in an educational institution and looking for a mandatory internship?",
+        "ai": "Are you currently enrolled in an educational institution and looking for a mandatory internship?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "do you speak dutch fluently?",
+        "ai": "Do you speak Dutch fluently?",
+        "detector_type": "radio",
+        "ai_type": "checkbox",
+        "type_agree": false
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "do you require visa sponsorship or a visa transfer?",
+        "ai": "Do you require visa sponsorship or a visa transfer?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations? (yearly gross)",
+        "ai": "What are your salary expectations? (Yearly gross)",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you most closely identify as?",
+        "ai": "What gender do you most closely identify as?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Do you agree to allow Mollie to contact you about job opportunities for up to 1 year?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom UI components (buttons acting as checkboxes/toggles) for some fields, which may require specific interaction handling. The location field is a combobox.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you require visa sponsorship or a visa transfer?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Visa Sponsorship",
+          "Visa Transfer",
+          "Not Applicable"
+        ]
+      },
+      {
+        "question": "What are your salary expectations? (Yearly gross)",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you currently enrolled in an educational institution and looking for a mandatory internship?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you speak Dutch fluently?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What gender do you most closely identify as?",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Man",
+          "Woman",
+          "Non-Binary",
+          "Another Gender Identity",
+          "I prefer not to answer"
+        ]
+      },
+      {
+        "question": "Do you agree to allow Mollie to contact you about job opportunities for up to 1 year?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you currently enrolled in an educational institution and looking for a mandatory internship?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you speak dutch fluently?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f5"
+    },
+    {
+      "question": "do you require visa sponsorship or a visa transfer?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "what are your salary expectations? (yearly gross)",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "what gender do you most closely identify as?",
+      "field_type": "radio",
+      "ref": "f8"
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "id": "https-jobs-ashbyhq-com-formenergy-e1d90b76-609a-455e-a5f2-2091b154d7ac-applicati",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:30:04.964Z",
+  "page_url": "https://jobs.ashbyhq.com/FORMENERGY/e1d90b76-609a-455e-a5f2-2091b154d7ac/application",
+  "page_title": "Staff NPI Project Engineer @ Form Energy, Inc",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 21,
+      "ai_count": 9,
+      "count_delta": 12,
+      "label_jaccard": 0.4286,
+      "type_agree_rate": 0.8889,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "legal first and last name",
+        "ai": "Legal First and Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "pronouns",
+        "ai": "Pronouns",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a current employee , contractor, or temporary employee at form energy?",
+        "ai": "Are you a current Employee , Contractor, or Temporary Employee at Form Energy?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you able to work onsite from the listed work location?",
+      "linkedin url",
+      "github url",
+      "other website",
+      "are you legally eligible to work in the united states?",
+      "will you now or in the future need visa sponsorship?",
+      "how did you hear about form energy?",
+      "(optional) add a cover letter or anything else you would like to share",
+      "form energy is committed to ensuring a fair and equitable hiring process. solving the world's toughest energy challenges requires genuine collaboration and creative thinking. our interviews are designed to assess how you tackle these problems in real time. to ensure we’re getting to know your unique perspective and problem-solving style, we ask that you engage with us directly rather than using ai-generated responses. to maintain the integrity of our interviews and candidate evaluations, we require that all applicants adhere to the following policy:",
+      "gender",
+      "race",
+      "veteran status"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an Ashby-based SPA. The 'Location' field is a combobox. The 'Are you a current Employee..' field was truncated in the HTML excerpt, but inferred as a radio group based on the structure.",
+    "fields": [
+      {
+        "question": "Legal First and Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pronouns",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "He / him",
+          "She / her",
+          "They / them",
+          "Other",
+          "Use name only"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you a current Employee , Contractor, or Temporary Employee at Form Energy?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Current Employee",
+          "Contractor",
+          "Temporary Employee",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you able to work onsite from the listed work location?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "legal first and last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "pronouns",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f5"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "are you a current employee , contractor, or temporary employee at form energy?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "ref": "f12"
+    },
+    {
+      "question": "are you legally eligible to work in the united states?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "will you now or in the future need visa sponsorship?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "how did you hear about form energy?",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "(optional) add a cover letter or anything else you would like to share",
+      "field_type": "textarea",
+      "ref": "f16"
+    },
+    {
+      "question": "form energy is committed to ensuring a fair and equitable hiring process. solving the world's toughest energy challenges requires genuine collaboration and creative thinking. our interviews are designed to assess how you tackle these problems in real time. to ensure we’re getting to know your unique perspective and problem-solving style, we ask that you engage with us directly rather than using ai-generated responses. to maintain the integrity of our interviews and candidate evaluations, we require that all applicants adhere to the following policy:",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f18"
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "ref": "f19"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f20"
+    }
+  ]
+}

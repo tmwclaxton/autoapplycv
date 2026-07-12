@@ -1,0 +1,211 @@
+{
+  "id": "https-jobs-ashbyhq-com-novig-bd216331-c180-4534-b203-336d34c63ab9-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:44:21.110Z",
+  "page_url": "https://jobs.ashbyhq.com/novig/bd216331-c180-4534-b203-336d34c63ab9/application",
+  "page_title": "Fraud Specialist @ Novig",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 9,
+      "ai_count": 9,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 9
+    },
+    "matched": [
+      {
+        "detector": "are you authorized to work in the united states?",
+        "ai": "Are you authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "what schedule are you open to working?",
+        "ai": "What schedule are you open to working?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your familiarity with prediction markets on a scale of 1-10?",
+        "ai": "What is your familiarity with prediction markets on a scale of 1-10?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The 'Are you authorized to work in the United States?' field uses buttons to toggle a hidden checkbox. The familiarity scale uses checkboxes for a single-choice selection.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What schedule are you open to working?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Day Shift | Monday – Friday | 9:00 AM – 5:00 PM ET",
+          "Night & Weekend Shift | Thursday – Monday | 6:00 PM – 2:00 AM ET",
+          "No preference"
+        ]
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is your familiarity with prediction markets on a scale of 1-10?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "url",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "what schedule are you open to working?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your familiarity with prediction markets on a scale of 1-10?",
+      "field_type": "checkbox",
+      "ref": "f8"
+    }
+  ]
+}

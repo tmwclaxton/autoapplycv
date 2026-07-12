@@ -1,0 +1,254 @@
+{
+  "id": "https-apply-workable-com-west-wing-writers-j-061ead0e79-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:28:06.965Z",
+  "page_url": "https://apply.workable.com/west-wing-writers/j/061EAD0E79/apply/",
+  "page_title": "General Interest Form - West Wing Writers - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 29,
+      "ai_count": 4,
+      "count_delta": 25,
+      "label_jaccard": 0.1379,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "address",
+      "photo",
+      "summary",
+      "resume",
+      "in 150 words or fewer, and in place of a cover letter, why are you interested in working at west wing writers?",
+      "as writers and communications experts, we strongly believe that our clients benefit from a variety of perspectives, experiences, and backgrounds. in 150 words or fewer, tell us a bit about the perspec",
+      "writing sample one: submit an op-ed (or similar piece of writing), 800 words or fewer, that demonstrates your ability to structure an argument and cites relevant data and research to substantiate your",
+      "writing sample two: submit one piece of your best writing. it can be of any type, including an excerpt or abridged version of a longer piece, as long as it’s 800 words or fewer. please copy the text o",
+      "are you authorized to work in the united states?",
+      "svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater washington, dc area svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater washington, dc area",
+      "svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater new york city area svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater new york city area",
+      "svgs not supported by this browser.svgs not supported by this browser.fully remote svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.fully remote",
+      "please list your preferred pronouns.",
+      "svgs not supported by this browser.svgs not supported by this browser.interaction with a current or former west wing writer svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.interaction with a current or former west wing writer",
+      "svgs not supported by this browser.svgs not supported by this browser.professor/classmate svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.professor/classmate",
+      "svgs not supported by this browser.svgs not supported by this browser.colleague/employer svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.colleague/employer",
+      "svgs not supported by this browser.svgs not supported by this browser.web search svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.web search",
+      "svgs not supported by this browser.svgs not supported by this browser.news article svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.news article",
+      "svgs not supported by this browser.svgs not supported by this browser.online/email job listing (e.g. inclusv) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.online/email job listing (e.g. inclusv)",
+      "svgs not supported by this browser.svgs not supported by this browser.social media (twitter, facebook) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.social media (twitter, facebook)",
+      "svgs not supported by this browser.svgs not supported by this browser.other svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.other",
+      "we’re always working to improve our outreach! please help us by providing more detail on your selection above. who or what, specifically, brought you to www?",
+      "are you interested in our internship program? if yes, please let us know which internship cycle(s) you would like to apply for.",
+      "what location would you prefer to work from?",
+      "how did you hear about us?"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so only the initial fields (First name, Last name, Email, Phone) are captured. The 'Import resume' button is present but is a UI trigger, not a standard file input field in the provided snippet.",
+    "fields": [
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f3"
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "summary",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "in 150 words or fewer, and in place of a cover letter, why are you interested in working at west wing writers?",
+      "field_type": "textarea",
+      "ref": "f8"
+    },
+    {
+      "question": "as writers and communications experts, we strongly believe that our clients benefit from a variety of perspectives, experiences, and backgrounds. in 150 words or fewer, tell us a bit about the perspec",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "writing sample one: submit an op-ed (or similar piece of writing), 800 words or fewer, that demonstrates your ability to structure an argument and cites relevant data and research to substantiate your",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "writing sample two: submit one piece of your best writing. it can be of any type, including an excerpt or abridged version of a longer piece, as long as it’s 800 words or fewer. please copy the text o",
+      "field_type": "textarea",
+      "ref": "f11"
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater washington, dc area svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater washington, dc area",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater new york city area svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.hybrid in the greater new york city area",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.fully remote svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.fully remote",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "please list your preferred pronouns.",
+      "field_type": "text",
+      "ref": "f16"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.interaction with a current or former west wing writer svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.interaction with a current or former west wing writer",
+      "field_type": "checkbox",
+      "ref": "f17"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.professor/classmate svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.professor/classmate",
+      "field_type": "checkbox",
+      "ref": "f18"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.colleague/employer svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.colleague/employer",
+      "field_type": "checkbox",
+      "ref": "f19"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.web search svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.web search",
+      "field_type": "checkbox",
+      "ref": "f20"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.news article svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.news article",
+      "field_type": "checkbox",
+      "ref": "f21"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.online/email job listing (e.g. inclusv) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.online/email job listing (e.g. inclusv)",
+      "field_type": "checkbox",
+      "ref": "f22"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.social media (twitter, facebook) svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.social media (twitter, facebook)",
+      "field_type": "checkbox",
+      "ref": "f23"
+    },
+    {
+      "question": "svgs not supported by this browser.svgs not supported by this browser.other svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.other",
+      "field_type": "checkbox",
+      "ref": "f24"
+    },
+    {
+      "question": "we’re always working to improve our outreach! please help us by providing more detail on your selection above. who or what, specifically, brought you to www?",
+      "field_type": "textarea",
+      "ref": "f25"
+    },
+    {
+      "question": "are you interested in our internship program? if yes, please let us know which internship cycle(s) you would like to apply for.",
+      "field_type": "text",
+      "ref": "f26"
+    },
+    {
+      "question": "what location would you prefer to work from?",
+      "field_type": "checkbox",
+      "ref": "f27"
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "ref": "f28"
+    }
+  ]
+}

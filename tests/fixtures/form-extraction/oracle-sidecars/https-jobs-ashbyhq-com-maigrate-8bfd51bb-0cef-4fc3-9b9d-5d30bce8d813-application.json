@@ -1,0 +1,232 @@
+{
+  "id": "https-jobs-ashbyhq-com-maigrate-8bfd51bb-0cef-4fc3-9b9d-5d30bce8d813-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:19:38.394Z",
+  "page_url": "https://jobs.ashbyhq.com/maigrate/8bfd51bb-0cef-4fc3-9b9d-5d30bce8d813/application",
+  "page_title": "Junior AI Engineer @ Maigrate",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 11,
+      "count_delta": 1,
+      "label_jaccard": 0.9091,
+      "type_agree_rate": 1,
+      "matched_count": 10
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "cell phone number",
+        "ai": "Cell Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "I consent to receiving text messages",
+        "ai": "I consent to receiving text messages",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you a us citizen and/or authorized to work in the usa?",
+        "ai": "Are you a US citizen and/or authorized to work in the USA?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "tell us about an ai tool or development has caught your attention recently, and why?",
+        "ai": "Tell us about an AI tool or development has caught your attention recently, and why?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "if applicable, tell us about a project you took from idea to a working product, include the tools used",
+        "ai": "If applicable, tell us about a project you took from idea to a working product, include the tools used",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work from our lawrence, ny office?",
+        "ai": "Are you able to work from our Lawrence, NY office?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "i consent to receiving sms/text messages from maigrate regarding my application and recruitment process (e.g. interview scheduling, status updates, and next steps). i understand that message and data rates may apply, message frequency varies, and my information will never be shared or sold to third parties. i may opt out at any time by replying stop, or contact maigrate directly with any data privacy questions.",
+        "ai": "I consent to receiving SMS/text messages from Maigrate regarding my application and recruitment process (e.g. interview scheduling, status updates, and next steps). I understand that message and data rates may apply, message frequency varies, and my information will never be shared or sold to third parties. I may opt out at any time by replying STOP, or contact Maigrate directly with any data privacy questions.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Upload your resume here to autofill key application fields."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a custom SPA structure. The resume upload field appears twice (once for autofill, once as a required field). The SMS consent is captured via both a radio group and a checkbox field.",
+    "fields": [
+      {
+        "question": "Upload your resume here to autofill key application fields.",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cell Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "I consent to receiving text messages",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you a US citizen and/or authorized to work in the USA?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No",
+          "I am currently authorized but will require visa sponsorship in the future"
+        ]
+      },
+      {
+        "question": "Tell us about an AI tool or development has caught your attention recently, and why?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If applicable, tell us about a project you took from idea to a working product, include the tools used",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you able to work from our Lawrence, NY office?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "I consent to receiving SMS/text messages from Maigrate regarding my application and recruitment process (e.g. interview scheduling, status updates, and next steps). I understand that message and data rates may apply, message frequency varies, and my information will never be shared or sold to third parties. I may opt out at any time by replying STOP, or contact Maigrate directly with any data privacy questions.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "cell phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "I consent to receiving text messages",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "are you a us citizen and/or authorized to work in the usa?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "tell us about an ai tool or development has caught your attention recently, and why?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "if applicable, tell us about a project you took from idea to a working product, include the tools used",
+      "field_type": "textarea",
+      "ref": "f7"
+    },
+    {
+      "question": "are you able to work from our lawrence, ny office?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "i consent to receiving sms/text messages from maigrate regarding my application and recruitment process (e.g. interview scheduling, status updates, and next steps). i understand that message and data rates may apply, message frequency varies, and my information will never be shared or sold to third parties. i may opt out at any time by replying stop, or contact maigrate directly with any data privacy questions.",
+      "field_type": "checkbox",
+      "ref": "f9"
+    }
+  ]
+}

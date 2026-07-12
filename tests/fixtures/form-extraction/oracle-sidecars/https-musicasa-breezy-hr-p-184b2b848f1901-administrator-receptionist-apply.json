@@ -1,0 +1,145 @@
+{
+  "id": "https-musicasa-breezy-hr-p-184b2b848f1901-administrator-receptionist-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T02:09:24.467Z",
+  "page_url": "https://musicasa.breezy.hr/p/184b2b848f1901-administrator-receptionist/apply",
+  "page_title": "Administrator \\ Receptionist",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 8,
+      "ai_count": 9,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [
+      "cresume main-attachment",
+      "c name",
+      "c email",
+      "c phone number",
+      "detalhes pessoais",
+      "csummary",
+      "ccoverletter",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Nome completo",
+      "Endereço de e-mail",
+      "Número de telefone",
+      "SMS Consent",
+      "Experiência profissional",
+      "Formação",
+      "Resumo de experiência",
+      "Carta de acompanhamento"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic Angular components for work history and education, which may not be fully captured by static analysis. The file input is hidden and triggered by a button.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Número de telefone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "SMS Consent",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Experiência profissional",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Formação",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Resumo de experiência",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Carta de acompanhamento",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "detalhes pessoais",
+      "field_type": "checkbox",
+      "ref": "f4"
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f7"
+    }
+  ]
+}

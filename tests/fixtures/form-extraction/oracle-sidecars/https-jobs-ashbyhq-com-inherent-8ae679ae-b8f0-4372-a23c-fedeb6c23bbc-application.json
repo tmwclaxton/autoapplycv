@@ -1,0 +1,113 @@
+{
+  "id": "https-jobs-ashbyhq-com-inherent-8ae679ae-b8f0-4372-a23c-fedeb6c23bbc-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:50:33.885Z",
+  "page_url": "https://jobs.ashbyhq.com/inherent/8ae679ae-b8f0-4372-a23c-fedeb6c23bbc/application",
+  "page_title": "General Application @ Inherent",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 4,
+      "ai_count": 5,
+      "count_delta": 1,
+      "label_jaccard": 0.8,
+      "type_agree_rate": 1,
+      "matched_count": 4
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "I have read and understood the Privacy Policy and agree that Inherent may process my personal information for recruitment purposes and contact me about job opportunities."
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an autofill resume uploader which is captured as a file input. The consent checkbox is labeled 'I agree'.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "I have read and understood the Privacy Policy and agree that Inherent may process my personal information for recruitment purposes and contact me about job opportunities.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "I agree"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f2"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f3"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "id": "https-jobs-ashbyhq-com-eliseai-361a4117-cc1d-4423-92b8-2fcbe364010a-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:27:48.098Z",
+  "page_url": "https://jobs.ashbyhq.com/eliseai/361a4117-cc1d-4423-92b8-2fcbe364010a/application",
+  "page_title": "Brand Designer @ EliseAI",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 14,
+      "ai_count": 8,
+      "count_delta": 6,
+      "label_jaccard": 0.5714,
+      "type_agree_rate": 0.875,
+      "matched_count": 8
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how did you hear about eliseai?",
+        "ai": "How did you hear about EliseAI?",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+        "ai": "If you were contacted by a recruiter or a current/former employee, please specify who.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "are you legally authorized to work in the united states?",
+      "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "eliseai is an in-office company. are you comfortable working from our office around 4-5 days per week?",
+      "please provide a range of your compensation expectations.",
+      "please include a link or pdf of your portfolio of recent work, highlighting your abilities and experience relevant to the role, with specific examples of how you work, think, collaborate, and contribute to great design outcomes. please note that we are unable to accept any applications without a portfolio.",
+      "website"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The 'How did you hear about EliseAI?' field is a combobox with dynamic options not visible in the static HTML. The resume upload uses a custom file input handler.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How did you hear about EliseAI?",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "If you were contacted by a recruiter or a current/former employee, please specify who.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "how did you hear about eliseai?",
+      "field_type": "select",
+      "ref": "f7"
+    },
+    {
+      "question": "if you were contacted by a recruiter or a current/former employee, please specify who.",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "will you now, or in the future, require sponsorship for employment visa status (e.g. h-1b, tn visa status)?",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": "eliseai is an in-office company. are you comfortable working from our office around 4-5 days per week?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "please provide a range of your compensation expectations.",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "please include a link or pdf of your portfolio of recent work, highlighting your abilities and experience relevant to the role, with specific examples of how you work, think, collaborate, and contribute to great design outcomes. please note that we are unable to accept any applications without a portfolio.",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f13"
+    }
+  ]
+}

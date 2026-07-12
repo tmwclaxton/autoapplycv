@@ -1,7 +1,7 @@
 {
   "id": "https-apply-workable-com-jenzabar1-j-058958f0fd-apply",
-  "min_fields": 17,
-  "exact_field_count": 17,
+  "min_fields": 13,
+  "exact_field_count": 13,
   "fields": [
     {
       "question": "first name",
@@ -84,56 +84,16 @@
       }
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false,
+      "required": true,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": "city",
-        "name": "city",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "postcode",
-        "name": "postcode",
-        "data_testid": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": "country",
-        "name": "country",
+        "id": "address",
+        "name": "address",
         "data_testid": null,
         "role": null,
         "data_field_path": null,
@@ -172,7 +132,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_mYp6Ekyy82TdAtZp",
+        "id": "input_files_input_p6QV4aiWrpS7jU1L",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -192,7 +152,7 @@
       "dom": {
         "tag": "input",
         "type": "file",
-        "id": "input_files_input_W8Bp9OlkZuldnObv",
+        "id": "input_files_input_ExL9QaQVLdMSEQU3",
         "name": null,
         "data_testid": null,
         "role": null,
@@ -205,19 +165,19 @@
     },
     {
       "question": "do you currently work for a jenzabar client/institution?",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
-        "id": null,
-        "name": "CA_39195",
+        "id": "input_CA_39195_input",
+        "name": null,
         "data_testid": null,
-        "role": null,
+        "role": "combobox",
         "data_field_path": null,
-        "placeholder": null,
+        "placeholder": "Select an option…",
         "min": null,
         "max": null,
         "question_prefix": null
@@ -268,14 +228,14 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "kNwkpfmUJkagchM3",
+        "id": "UhKgzoD36CmNEDyS",
         "name": "QA_11583693",
         "data_testid": null,
         "role": null,
@@ -291,63 +251,17 @@
       "field_type": "radio",
       "max_chars": null,
       "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
+        "YES",
+        "NO"
       ],
       "required": true,
       "dom": {
         "tag": "input",
         "type": "radio",
-        "id": "X7koegLZs1aFwx8J",
+        "id": "DNuzxN3x4tw6be7j",
         "name": "QA_11583694",
         "data_testid": null,
         "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you legally authorized to work in the united states now and in future?",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_kNwkpfmUJkagchM3",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "are you authorized to work for any employer without sponsorship now and in the future? please note that jenzabar does not sponsor applicants for work visas.",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "SVGs not supported by this browser. YES",
-        "SVGs not supported by this browser. NO"
-      ],
-      "required": true,
-      "dom": {
-        "tag": "div",
-        "type": null,
-        "id": "wrapper_X7koegLZs1aFwx8J",
-        "name": null,
-        "data_testid": null,
-        "role": "radiogroup",
         "data_field_path": null,
         "placeholder": null,
         "min": null,

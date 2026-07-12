@@ -1,0 +1,342 @@
+{
+  "id": "https-jobs-lever-co-aprio-34bd7177-b53a-46d9-8704-92bb1193ddba-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:41:05.155Z",
+  "page_url": "https://jobs.lever.co/Aprio/34bd7177-b53a-46d9-8704-92bb1193ddba/apply",
+  "page_title": "Aprio - Campus Recruiting General Interest Form",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.9375,
+      "type_agree_rate": 0.8667,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "university",
+        "ai": "University",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your major?",
+        "ai": "What is your major?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what year in school are you?",
+        "ai": "What year in school are you?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "what opportunities are you interested in?",
+        "ai": "What opportunities are you interested in?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "aprio has my consent to contact me about future job opportunities.",
+        "ai": "Aprio has my consent to contact me about future job opportunities.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Would you like to receive text messages from the Aprio campus recruiting team?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure with embedded custom cards for university details and text consent. Includes an hCaptcha challenge.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "University",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your major?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What year in school are you?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Freshman",
+          "Sophomore",
+          "Junior",
+          "Senior",
+          "Masters"
+        ]
+      },
+      {
+        "question": "What opportunities are you interested in?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Tax/Audit Internships",
+          "Advisory Internships",
+          "Full Time Opportunities",
+          "Diversity Initiatives (Case Competition, DEI Mixers, Etc.)",
+          "Early Talent Initiatives (HeadStart)",
+          "N/A"
+        ]
+      },
+      {
+        "question": "Would you like to receive text messages from the Aprio campus recruiting team?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Aprio has my consent to contact me about future job opportunities.",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "university",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "what is your major?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "what year in school are you?",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "what opportunities are you interested in?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "aprio has my consent to contact me about future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

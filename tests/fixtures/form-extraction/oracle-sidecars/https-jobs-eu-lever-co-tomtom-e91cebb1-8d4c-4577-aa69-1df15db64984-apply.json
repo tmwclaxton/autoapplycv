@@ -1,0 +1,313 @@
+{
+  "id": "https-jobs-eu-lever-co-tomtom-e91cebb1-8d4c-4577-aa69-1df15db64984-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:18:38.029Z",
+  "page_url": "https://jobs.eu.lever.co/tomtom/e91cebb1-8d4c-4577-aa69-1df15db64984/apply",
+  "page_title": "TomTom - Applied Scientist",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 15,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "which location are you applying for?",
+        "ai": "Which location are you applying for?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio url",
+        "ai": "Portfolio URL",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary expectations?",
+        "ai": "What are your salary expectations?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this position requires working on a hybrid model, with at least two days a week at the office. are you willing to work under a hybrid model with a two-day-a-week office presence?",
+        "ai": "This position requires working on a hybrid model, with at least two days a week at the office. Are you willing to work under a hybrid model with a two-day-a-week office presence?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you currently located in amsterdam or madrid?",
+        "ai": "Are you currently located in Amsterdam or Madrid?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what gender do you most closely identify as?",
+        "ai": "What gender do you most closely identify as?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "tomtom has my consent to retain my data for the purpose of considering me for employment and for up to 2 years thereafter. i understand i may withdraw my consent at any time.",
+        "ai": "TomTom has my consent to retain my data for the purpose of considering me for employment and for up to 2 years thereafter. I understand I may withdraw my consent at any time.",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. Includes an hCaptcha challenge which is not represented as a standard form field. The location field uses a custom dropdown/input hybrid.",
+    "fields": [
+      {
+        "question": "Which location are you applying for?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Amsterdam, The Netherlands",
+          "Madrid, Spain"
+        ]
+      },
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio URL",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your salary expectations?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This position requires working on a hybrid model, with at least two days a week at the office. Are you willing to work under a hybrid model with a two-day-a-week office presence?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you currently located in Amsterdam or Madrid?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What gender do you most closely identify as?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Female",
+          "Male",
+          "Non-binary",
+          "Other",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "TomTom has my consent to retain my data for the purpose of considering me for employment and for up to 2 years thereafter. I understand I may withdraw my consent at any time.",
+        "field_type": "checkbox",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "which location are you applying for?",
+      "field_type": "select",
+      "ref": "f0"
+    },
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "textarea",
+      "ref": "f10"
+    },
+    {
+      "question": "this position requires working on a hybrid model, with at least two days a week at the office. are you willing to work under a hybrid model with a two-day-a-week office presence?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "are you currently located in amsterdam or madrid?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what gender do you most closely identify as?",
+      "field_type": "checkbox",
+      "ref": "f13"
+    },
+    {
+      "question": "tomtom has my consent to retain my data for the purpose of considering me for employment and for up to 2 years thereafter. i understand i may withdraw my consent at any time.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    }
+  ]
+}

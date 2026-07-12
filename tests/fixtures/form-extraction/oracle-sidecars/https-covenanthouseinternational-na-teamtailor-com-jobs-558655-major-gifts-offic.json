@@ -1,0 +1,260 @@
+{
+  "id": "https-covenanthouseinternational-na-teamtailor-com-jobs-558655-major-gifts-offic",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:13:17.490Z",
+  "page_url": "https://covenanthouseinternational.na.teamtailor.com/jobs/558655-major-gifts-officer-dallas-texas/applications/new",
+  "page_title": "Major Gifts Officer - Dallas, Texas - Covenant House International",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 11,
+      "count_delta": 5,
+      "label_jaccard": 0.5882,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "are you currently authorized to work in the us?",
+        "ai": "Are you currently authorized to work in the US?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require visa sponsorship to work in the us?",
+        "ai": "Will you now or in the future require Visa sponsorship to work in the US?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you find our job posting?",
+        "ai": "Where did you find our job posting?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have at least two (2) years of major giving, nonprofit corporate partnership, or other similar experience?",
+        "ai": "Do you have at least two (2) years of major giving, nonprofit corporate partnership, or other similar experience?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this is a remote position based in the greater dallas area. you must be able to travel throughout north texas to meet with prospective and current supporters and colleagues, with local travel up to 30% of the time. do you currently reside in the greater dallas area or within a reasonable commuting distance to support this travel requirement?",
+        "ai": "This is a remote position based in the Greater Dallas area. You must be able to travel throughout North Texas to meet with prospective and current supporters and colleagues, with local travel required up to 30% of the time. Do you currently reside in the Greater Dallas area or within a reasonable commuting distance to support this travel requirement?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your salary requirements, not just to accept but also be excited if we were to extend an offer?",
+        "ai": "What are your salary requirements, not just to accept but also be excited if we were to extend an offer?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "is there anything else you would like to share about yourself or questions you have for us you would like to discuss in an interview?",
+        "ai": "Is there anything else you would like to share about yourself or questions you have for us you would like to discuss in an interview?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload resume",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that covenant house international store my personal details to be able to process my job application.",
+      "yes, covenant house international can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Teamtailor application flow. Some fields like resume upload or LinkedIn profile might be handled by the 'Apply with LinkedIn' button or subsequent steps not fully rendered in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Are you currently authorized to work in the US?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require Visa sponsorship to work in the US?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where did you find our job posting?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have at least two (2) years of major giving, nonprofit corporate partnership, or other similar experience?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This is a remote position based in the Greater Dallas area. You must be able to travel throughout North Texas to meet with prospective and current supporters and colleagues, with local travel required up to 30% of the time. Do you currently reside in the Greater Dallas area or within a reasonable commuting distance to support this travel requirement?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your salary requirements, not just to accept but also be excited if we were to extend an offer?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Is there anything else you would like to share about yourself or questions you have for us you would like to discuss in an interview?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "are you currently authorized to work in the us?",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship to work in the us?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "where did you find our job posting?",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "do you have at least two (2) years of major giving, nonprofit corporate partnership, or other similar experience?",
+      "field_type": "textarea",
+      "ref": "f3"
+    },
+    {
+      "question": "this is a remote position based in the greater dallas area. you must be able to travel throughout north texas to meet with prospective and current supporters and colleagues, with local travel up to 30% of the time. do you currently reside in the greater dallas area or within a reasonable commuting distance to support this travel requirement?",
+      "field_type": "textarea",
+      "ref": "f4"
+    },
+    {
+      "question": "what are your salary requirements, not just to accept but also be excited if we were to extend an offer?",
+      "field_type": "textarea",
+      "ref": "f5"
+    },
+    {
+      "question": "is there anything else you would like to share about yourself or questions you have for us you would like to discuss in an interview?",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f9"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f10"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that covenant house international store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "yes, covenant house international can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

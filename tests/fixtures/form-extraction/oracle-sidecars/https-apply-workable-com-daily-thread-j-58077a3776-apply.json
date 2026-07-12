@@ -1,16 +1,16 @@
 {
   "id": "https-apply-workable-com-daily-thread-j-58077a3776-apply",
   "status": "agree",
-  "captured_at": "2026-07-10T19:56:03.135Z",
+  "captured_at": "2026-07-10T22:28:10.481Z",
   "page_url": "https://apply.workable.com/daily-thread/j/58077A3776/apply/",
   "page_title": "Part-Time Assistant Store Manager- Huntsville - 89th & Madison - Application",
   "diff": {
     "status": "agree",
     "metrics": {
-      "detector_count": 15,
+      "detector_count": 13,
       "ai_count": 5,
-      "count_delta": 10,
-      "label_jaccard": 0.4167,
+      "count_delta": 8,
+      "label_jaccard": 0.3846,
       "type_agree_rate": 1,
       "matched_count": 5
     },
@@ -52,6 +52,7 @@
       }
     ],
     "detector_only": [
+      "address",
       "photo",
       "are you older than 16 years old?",
       "are you older than 18 years old?",
@@ -65,7 +66,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The HTML excerpt provided is truncated during the phone number country code list. The form likely contains additional fields (e.g., resume upload, social links, screening questions) that were not present in the provided snippet.",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload, address, or screening questions) that likely exist further down the form are missing from this list.",
     "fields": [
       {
         "question": "First name",
@@ -126,54 +127,44 @@
       "ref": "f4"
     },
     {
-      "question": "first name",
+      "question": "address",
       "field_type": "text",
       "ref": "f5"
     },
     {
-      "question": "first name",
-      "field_type": "text",
+      "question": "photo",
+      "field_type": "file",
       "ref": "f6"
     },
     {
-      "question": "first name",
-      "field_type": "text",
+      "question": "are you older than 16 years old?",
+      "field_type": "select",
       "ref": "f7"
     },
     {
-      "question": "photo",
-      "field_type": "file",
+      "question": "are you older than 18 years old?",
+      "field_type": "select",
       "ref": "f8"
     },
     {
-      "question": "are you older than 16 years old?",
-      "field_type": "text",
-      "ref": "f9"
-    },
-    {
-      "question": "are you older than 18 years old?",
-      "field_type": "text",
-      "ref": "f10"
-    },
-    {
       "question": "are you located in the united states?",
-      "field_type": "text",
-      "ref": "f11"
+      "field_type": "select",
+      "ref": "f9"
     },
     {
       "question": "summary",
       "field_type": "textarea",
-      "ref": "f12"
+      "ref": "f10"
     },
     {
       "question": "resume",
       "field_type": "file",
-      "ref": "f13"
+      "ref": "f11"
     },
     {
       "question": "cover letter",
       "field_type": "textarea",
-      "ref": "f14"
+      "ref": "f12"
     }
   ]
 }

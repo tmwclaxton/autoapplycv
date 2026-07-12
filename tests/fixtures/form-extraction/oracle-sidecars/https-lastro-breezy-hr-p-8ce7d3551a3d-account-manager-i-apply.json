@@ -1,0 +1,325 @@
+{
+  "id": "https-lastro-breezy-hr-p-8ce7d3551a3d-account-manager-i-apply",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:53:01.348Z",
+  "page_url": "https://lastro.breezy.hr/p/8ce7d3551a3d-account-manager-i/apply",
+  "page_title": "Account Manager I",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 10,
+      "ai_count": 11,
+      "count_delta": 1,
+      "label_jaccard": 0.2353,
+      "type_agree_rate": 0.8,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "pretensão salarial",
+        "ai": "Pretensão salarial (Moeda)",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "cpf",
+        "ai": "CPF",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cidade",
+        "ai": "Cidade",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "você foi indicado por alguém da empresa?",
+        "ai": "Você foi indicado por alguém da empresa?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "caso tenha sido indicado, informe o e-mail de quem te indicou",
+        "ai": "Caso tenha sido indicado, informe o e-mail de quem te indicou",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "cresume main-attachment",
+      "c name",
+      "c email",
+      "c phone number",
+      "hp_7f2b hp_7f2b"
+    ],
+    "ai_only": [
+      "Carregar currículo",
+      "Nome completo",
+      "Endereço de e-mail",
+      "Telefone",
+      "Pretensão salarial (Valor)",
+      "Pretensão salarial (Frequência)"
+    ],
+    "reasons": [
+      "label Jaccard 0.235 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses AngularJS and dynamic questionnaire sections. LinkedIn application is available as an alternative to manual entry.",
+    "fields": [
+      {
+        "question": "Carregar currículo",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Nome completo",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Endereço de e-mail",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Telefone",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pretensão salarial (Moeda)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BAM",
+          "BDT",
+          "BGN",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EEK",
+          "EGP",
+          "ERN",
+          "ETB",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GNF",
+          "GTQ",
+          "HKD",
+          "HNL",
+          "HRK",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LBP",
+          "LKR",
+          "LTL",
+          "LVL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MOP",
+          "MUR",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SOS",
+          "SYP",
+          "THB",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "UYU",
+          "UZS",
+          "VEF",
+          "VND",
+          "XAF",
+          "XOF",
+          "YER",
+          "ZAR",
+          "ZMK",
+          "ZWL"
+        ]
+      },
+      {
+        "question": "Pretensão salarial (Valor)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Pretensão salarial (Frequência)",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Hourly",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ]
+      },
+      {
+        "question": "CPF",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cidade",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Você foi indicado por alguém da empresa?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Sim",
+          "Não"
+        ]
+      },
+      {
+        "question": "Caso tenha sido indicado, informe o e-mail de quem te indicou",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "pretensão salarial",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "cpf",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "cidade",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "você foi indicado por alguém da empresa?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "caso tenha sido indicado, informe o e-mail de quem te indicou",
+      "field_type": "text",
+      "ref": "f9"
+    }
+  ]
+}

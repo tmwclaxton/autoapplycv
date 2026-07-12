@@ -1,0 +1,39 @@
+{
+  "id": "https-carrier-wd5-myworkdayjobs-com-en-us-jobs-job-production-supervisor-3020096",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:52:53.928Z",
+  "page_url": "https://carrier.wd5.myworkdayjobs.com/en-US/jobs/job/Production-Supervisor_30200961",
+  "page_title": "Careers",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Search for Jobs"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML is a 404 error page for a Workday job portal. No actual job application form fields are present in this excerpt.",
+    "fields": [
+      {
+        "question": "Search for Jobs",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

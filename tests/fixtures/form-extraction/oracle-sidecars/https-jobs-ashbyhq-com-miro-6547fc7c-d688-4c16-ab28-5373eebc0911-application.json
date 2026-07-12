@@ -1,0 +1,253 @@
+{
+  "id": "https-jobs-ashbyhq-com-miro-6547fc7c-d688-4c16-ab28-5373eebc0911-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:32:09.311Z",
+  "page_url": "https://jobs.ashbyhq.com/miro/6547fc7c-d688-4c16-ab28-5373eebc0911/application",
+  "page_title": "Commercial Account Executive @ Miro",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "do you have 5+ years of account executive experience in a saas or technology company?",
+        "ai": "Do you have 5+ years of Account Executive experience in a SaaS or technology company?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future require visa sponsorship for employment with miro?",
+        "ai": "Will you now or in the future require visa sponsorship for employment with Miro?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website (please include password if necessary)",
+        "ai": "Website (please include password if necessary)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to conduct business discussions, handle meetings, read and explain documents, and correspond in japanese with corporate clients at a professional level?",
+        "ai": "Are you able to conduct business discussions, handle meetings, read and explain documents, and correspond in Japanese with corporate clients at a professional level?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is it about miro that makes you interested in joining the team?",
+        "ai": "What is it about Miro that makes you interested in joining the team?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "why do you feel you would be well suited for this role?",
+        "ai": "Why do you feel you would be well suited for this role?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs for Yes/No questions. The resume and cover letter fields are file upload inputs.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website (please include password if necessary)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Do you have 5+ years of Account Executive experience in a SaaS or technology company?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to conduct business discussions, handle meetings, read and explain documents, and correspond in Japanese with corporate clients at a professional level?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship for employment with Miro?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "What is it about Miro that makes you interested in joining the team?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Why do you feel you would be well suited for this role?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have 5+ years of account executive experience in a saas or technology company?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship for employment with miro?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "website (please include password if necessary)",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you able to conduct business discussions, handle meetings, read and explain documents, and correspond in japanese with corporate clients at a professional level?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what is it about miro that makes you interested in joining the team?",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "why do you feel you would be well suited for this role?",
+      "field_type": "text",
+      "ref": "f11"
+    }
+  ]
+}

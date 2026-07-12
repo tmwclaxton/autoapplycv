@@ -1,0 +1,194 @@
+{
+  "id": "https-flightstory-teamtailor-com-jobs-7719679-trailer-editor-the-diary-of-a-ceo-",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:51:10.903Z",
+  "page_url": "https://flightstory.teamtailor.com/jobs/7719679-trailer-editor-the-diary-of-a-ceo/applications/new",
+  "page_title": "Trailer Editor, The Diary Of A CEO - FlightStory",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 7,
+      "count_delta": 5,
+      "label_jaccard": 0.5833,
+      "type_agree_rate": 1,
+      "matched_count": 7
+    },
+    "matched": [
+      {
+        "detector": "do you have the right to work in the us?",
+        "ai": "Do you have the right to work in the US?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "would you be able and willing to work full-time, in-office, five days a week in our studio in la?",
+        "ai": "Would you be able and willing to work full-time, in-office, five days a week in our Studio in LA?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "insert portfolio / work examples",
+        "ai": "Insert Portfolio / Work Examples",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "first name",
+        "ai": "First name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "upload cv",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that flightstory store my personal details to be able to process my job application.",
+      "yes, flightstory can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt is truncated, so additional fields (like file uploads or further questions) may exist in the full form. The phone input uses an international telephone input library (intl-tel-input).",
+    "fields": [
+      {
+        "question": "Do you have the right to work in the US?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Would you be able and willing to work full-time, in-office, five days a week in our Studio in LA?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Insert Portfolio / Work Examples",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "do you have the right to work in the us?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "would you be able and willing to work full-time, in-office, five days a week in our studio in la?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "insert portfolio / work examples",
+      "field_type": "textarea",
+      "ref": "f2"
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f6"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f9"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that flightstory store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "yes, flightstory can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

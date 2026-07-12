@@ -1,0 +1,39 @@
+{
+  "id": "https-bearingpointgmbh-teamtailor-com-pages-bewerbungsprozess",
+  "status": "disagree",
+  "captured_at": "2026-07-10T22:05:06.551Z",
+  "page_url": "https://bearingpointgmbh.teamtailor.com/pages/bewerbungsprozess",
+  "page_title": "Der Bewerbungsprozess - BearingPoint Austria",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 0,
+      "ai_count": 1,
+      "count_delta": 1,
+      "label_jaccard": 0,
+      "type_agree_rate": 0,
+      "matched_count": 0
+    },
+    "matched": [],
+    "detector_only": [],
+    "ai_only": [
+      "Anmelden"
+    ],
+    "reasons": [
+      "label Jaccard 0.000 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The provided HTML excerpt only contains a 'Login' button for existing employees/applicants (auto_join form). No standard job application form fields (name, email, etc.) are present in this specific snippet.",
+    "fields": [
+      {
+        "question": "Anmelden",
+        "field_type": "other",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": []
+}

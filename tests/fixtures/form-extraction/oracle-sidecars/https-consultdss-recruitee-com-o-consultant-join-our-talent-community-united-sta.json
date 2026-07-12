@@ -1,0 +1,356 @@
+{
+  "id": "https-consultdss-recruitee-com-o-consultant-join-our-talent-community-united-sta",
+  "status": "agree",
+  "captured_at": "2026-07-10T23:23:48.222Z",
+  "page_url": "https://consultdss.recruitee.com/o/consultant-join-our-talent-community-united-states/c/new",
+  "page_title": "dss+ - Consultant - Join Our Talent Community - United States - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 18,
+      "ai_count": 15,
+      "count_delta": 3,
+      "label_jaccard": 0.8333,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email address",
+        "ai": "Email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work lawfully in the country for which you are applying?",
+        "ai": "Are you authorized to work lawfully in the country for which you are applying?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "will you now or in the future need visa sponsorship?",
+        "ai": "Will you now or In the future need visa sponsorship?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "please provide your desired salary expectations",
+        "ai": "Please provide your desired salary expectations",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how much travel are you comfortable with?",
+        "ai": "How much travel are you comfortable with?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "which languages are you business fluent in?",
+        "ai": "Which languages are you business fluent in?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your notice period / when would you be available?",
+        "ai": "What is your notice period / when would you be available?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have previous management consulting experience?",
+        "ai": "Do you have previous Management Consulting Experience?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you confirm that everything you have shared in this application and on your resume is accurate and up to date?",
+        "ai": "Do you confirm that everything you have shared in this application and on your resume is accurate and up to date?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "race or ethnicity",
+        "ai": "Race or ethnicity",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "veteran status",
+      "please check one of the boxes below:",
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes an Indeed integration widget and an EEO survey section. The race/ethnicity options were truncated in the provided HTML.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work lawfully in the country for which you are applying?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Will you now or In the future need visa sponsorship?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Please provide your desired salary expectations",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "How much travel are you comfortable with?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Up to 20%",
+          "Up to 40%",
+          "Up to 60%",
+          "Up to 80%",
+          "Up to 100%",
+          "None"
+        ]
+      },
+      {
+        "question": "Which languages are you business fluent in?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What is your notice period / when would you be available?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Immediately available",
+          "1 month or less",
+          "3 months or less",
+          "6 months or less",
+          "More than 6 months"
+        ]
+      },
+      {
+        "question": "Do you have previous Management Consulting Experience?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you confirm that everything you have shared in this application and on your resume is accurate and up to date?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "Prefer not to tell",
+          "Female",
+          "Male"
+        ]
+      },
+      {
+        "question": "Race or ethnicity",
+        "field_type": "radio",
+        "required": false,
+        "options": [
+          "I do not wish to identify at this time",
+          "Hispanic or Latino",
+          "White (not Hispanic or Latino)",
+          "Black or African-American (not Hispanic or Latino)",
+          "Asian (not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (not"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "are you authorized to work lawfully in the country for which you are applying?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "will you now or in the future need visa sponsorship?",
+      "field_type": "radio",
+      "ref": "f6"
+    },
+    {
+      "question": "please provide your desired salary expectations",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "how much travel are you comfortable with?",
+      "field_type": "checkbox",
+      "ref": "f8"
+    },
+    {
+      "question": "which languages are you business fluent in?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "what is your notice period / when would you be available?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "do you have previous management consulting experience?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you confirm that everything you have shared in this application and on your resume is accurate and up to date?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "please check one of the boxes below:",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f17"
+    }
+  ]
+}

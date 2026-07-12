@@ -1,0 +1,477 @@
+{
+  "id": "https-jobs-lever-co-happyco-8fc93b78-f344-4f4c-b4d0-a0d446570a21-apply",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:57:53.983Z",
+  "page_url": "https://jobs.lever.co/happyco/8fc93b78-f344-4f4c-b4d0-a0d446570a21/apply",
+  "page_title": "HappyCo - Lead Software Engineer",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 22,
+      "ai_count": 22,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.9091,
+      "matched_count": 22
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "will you require work sponsorship now or in the future to legally work in canada?",
+        "ai": "Will you require work sponsorship now or in the future to legally work in Canada?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you able to work within the western us/canada timezone?",
+        "ai": "Are you able to work within the Western US/Canada Timezone?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you looking for a hands-on role where you write and review code regularly, not a purely architectural or advisory position?",
+        "ai": "Are you looking for a hands-on role where you write and review code regularly, not a purely architectural or advisory position?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you worked closely with product managers and designers in an agile/iterative development process?",
+        "ai": "Have you worked closely with Product Managers and Designers in an agile/iterative development process?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you comfortable being accountable for technical decisions, delivery timelines, and quality outcomes?",
+        "ai": "Are you comfortable being accountable for technical decisions, delivery timelines, and quality outcomes?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you comfortable working in a fast-paced startup environment where priorities can shift quickly?",
+        "ai": "Are you comfortable working in a fast-paced startup environment where priorities can shift quickly?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you been the primary technical owner responsible for defining and driving a major feature with a team in a production saas environment?",
+        "ai": "Have you been the primary technical owner responsible for defining and driving a major feature with a team in a production SaaS environment?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you implemented or significantly improved automated testing practices in a production codebase?",
+        "ai": "Have you implemented or significantly improved automated testing practices in a production codebase?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "have you regularly participated in support ticket triage or handled customer-facing technical issues?",
+        "ai": "Have you regularly participated in support ticket triage or handled customer-facing technical issues?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do your compensation expectations align with a $170,000 cad target?",
+        "ai": "Do your compensation expectations align with a $170,000 CAD target?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have at least 5 years of experience in ruby on rails or go?",
+        "ai": "Do you have at least 5 years of experience in Ruby on Rails or Go?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "race",
+        "ai": "Race",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "veteran status",
+        "ai": "Veteran status",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, happyco can contact me about future job opportunities for up to 2 years",
+        "ai": "Yes, HappyCo can contact me about future job opportunities for up to 2 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses a Lever-based application structure. Location input includes a hidden field for selection. hCaptcha is present.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you require work sponsorship now or in the future to legally work in Canada?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you able to work within the Western US/Canada Timezone?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you looking for a hands-on role where you write and review code regularly, not a purely architectural or advisory position?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you worked closely with Product Managers and Designers in an agile/iterative development process?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you comfortable being accountable for technical decisions, delivery timelines, and quality outcomes?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you comfortable working in a fast-paced startup environment where priorities can shift quickly?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you been the primary technical owner responsible for defining and driving a major feature with a team in a production SaaS environment?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you implemented or significantly improved automated testing practices in a production codebase?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you regularly participated in support ticket triage or handled customer-facing technical issues?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do your compensation expectations align with a $170,000 CAD target?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have at least 5 years of experience in Ruby on Rails or Go?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Race",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Hispanic or Latino",
+          "White (Not Hispanic or Latino)",
+          "Black or African American (Not Hispanic or Latino)",
+          "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+          "Asian (Not Hispanic or Latino)",
+          "American Indian or Alaska Native (Not Hispanic or Latino)",
+          "Two or More Races (Not Hispanic or Latino)",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Veteran status",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "I am a veteran",
+          "I am not a veteran",
+          "Decline to self-identify"
+        ]
+      },
+      {
+        "question": "Yes, HappyCo can contact me about future job opportunities for up to 2 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "will you require work sponsorship now or in the future to legally work in canada?",
+      "field_type": "radio",
+      "ref": "f7"
+    },
+    {
+      "question": "are you able to work within the western us/canada timezone?",
+      "field_type": "radio",
+      "ref": "f8"
+    },
+    {
+      "question": "are you looking for a hands-on role where you write and review code regularly, not a purely architectural or advisory position?",
+      "field_type": "radio",
+      "ref": "f9"
+    },
+    {
+      "question": "have you worked closely with product managers and designers in an agile/iterative development process?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "are you comfortable being accountable for technical decisions, delivery timelines, and quality outcomes?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "are you comfortable working in a fast-paced startup environment where priorities can shift quickly?",
+      "field_type": "radio",
+      "ref": "f12"
+    },
+    {
+      "question": "have you been the primary technical owner responsible for defining and driving a major feature with a team in a production saas environment?",
+      "field_type": "radio",
+      "ref": "f13"
+    },
+    {
+      "question": "have you implemented or significantly improved automated testing practices in a production codebase?",
+      "field_type": "radio",
+      "ref": "f14"
+    },
+    {
+      "question": "have you regularly participated in support ticket triage or handled customer-facing technical issues?",
+      "field_type": "radio",
+      "ref": "f15"
+    },
+    {
+      "question": "do your compensation expectations align with a $170,000 cad target?",
+      "field_type": "radio",
+      "ref": "f16"
+    },
+    {
+      "question": "do you have at least 5 years of experience in ruby on rails or go?",
+      "field_type": "radio",
+      "ref": "f17"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f18"
+    },
+    {
+      "question": "race",
+      "field_type": "select",
+      "ref": "f19"
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "ref": "f20"
+    },
+    {
+      "question": "yes, happyco can contact me about future job opportunities for up to 2 years",
+      "field_type": "checkbox",
+      "ref": "f21"
+    }
+  ]
+}

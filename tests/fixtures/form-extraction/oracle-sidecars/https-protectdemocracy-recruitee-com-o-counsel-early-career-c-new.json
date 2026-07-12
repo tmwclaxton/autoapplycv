@@ -1,0 +1,341 @@
+{
+  "id": "https-protectdemocracy-recruitee-com-o-counsel-early-career-c-new",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:27:05.661Z",
+  "page_url": "https://protectdemocracy.recruitee.com/o/counsel-early-career/c/new",
+  "page_title": "Protect Democracy - Counsel (Early Career) | Protect Democracy | Election Process - Application",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.9412,
+      "type_agree_rate": 1,
+      "matched_count": 16
+    },
+    "matched": [
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "personal email address",
+        "ai": "Personal email address",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "cv or resume",
+        "ai": "CV or resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "where did you hear about this job? (if you heard of it through current or former staff at protect democracy, please provide their name.)",
+        "ai": "Where did you hear about this job? (If you heard of it through current or former staff at Protect Democracy, please provide their name.)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your preferred pronouns?",
+        "ai": "What are your preferred pronouns?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "what is your linkedin?",
+        "ai": "What is your LinkedIn?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "where are you currently located (city/state)?",
+        "ai": "Where are you currently located (city/state)?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you planning to move locations? if so, where do you plan to relocate and when?",
+        "ai": "Are you planning to move locations? If so, where do you plan to relocate and when?",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the united states?",
+        "ai": "Are you authorized to work in the United States?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "as part of our interview process, we use a transcription service that requires recording the interview. the recording and transcription will only be used for purposes of assessing candidacies and will be deleted after the process is concluded. please let us know if you give consent for this recording. your response here will not affect your candidacy.",
+        "ai": "As part of our interview process, we use a transcription service that requires recording the interview. The recording and transcription will only be used for purposes of assessing candidacies and will be deleted after the process is concluded. Please let us know if you give consent for this recording. Your response here will not affect your candidacy.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have bar membership in good standing in the jurisdiction where you reside?",
+        "ai": "Do you have bar membership in good standing in the jurisdiction where you reside?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "if you do not currently have bar membership where you reside, please add any context that you believe will be helpful for us to know as we consider your candidacy.",
+        "ai": "If you do not currently have bar membership where you reside, please add any context that you believe will be helpful for us to know as we consider your candidacy.",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "how many years of legal experience do you have (including post-law-school clerkships, fellowships, legal internships, etc.)?",
+        "ai": "How many years of legal experience do you have (including post-law-school clerkships, fellowships, legal internships, etc.)?",
+        "detector_type": "number",
+        "ai_type": "number",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have any of the following? (check all that apply)",
+        "ai": "Do you have any of the following? (Check all that apply)",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "country calling code"
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form includes a hidden hCaptcha widget. The cover letter field has a toggle button to switch between file upload and text input, which may dynamically change the DOM.",
+    "fields": [
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Personal email address",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone number",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "CV or resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Cover letter",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Where did you hear about this job? (If you heard of it through current or former staff at Protect Democracy, please provide their name.)",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "What are your preferred pronouns?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What is your LinkedIn?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Where are you currently located (city/state)?",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Are you planning to move locations? If so, where do you plan to relocate and when?",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you authorized to work in the United States?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "I am authorized to work in the United States for any employer.",
+          "I am authorized to work in the United States for my current employer only.",
+          "I require sponsorship to work in the United States.",
+          "My authorization to work in the United States is unknown."
+        ]
+      },
+      {
+        "question": "As part of our interview process, we use a transcription service that requires recording the interview. The recording and transcription will only be used for purposes of assessing candidacies and will be deleted after the process is concluded. Please let us know if you give consent for this recording. Your response here will not affect your candidacy.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have bar membership in good standing in the jurisdiction where you reside?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "If you do not currently have bar membership where you reside, please add any context that you believe will be helpful for us to know as we consider your candidacy.",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How many years of legal experience do you have (including post-law-school clerkships, fellowships, legal internships, etc.)?",
+        "field_type": "number",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Do you have any of the following? (Check all that apply)",
+        "field_type": "checkbox",
+        "required": false,
+        "options": [
+          "Background in election or voting rights law",
+          "Experience in impact litigation or representing plaintiffs in civil litigation",
+          "Experience supporting policy advocacy"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "personal email address",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f2"
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "ref": "f3"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f4"
+    },
+    {
+      "question": "where did you hear about this job? (if you heard of it through current or former staff at protect democracy, please provide their name.)",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "what are your preferred pronouns?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "what is your linkedin?",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "where are you currently located (city/state)?",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "are you planning to move locations? if so, where do you plan to relocate and when?",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "checkbox",
+      "ref": "f10"
+    },
+    {
+      "question": "as part of our interview process, we use a transcription service that requires recording the interview. the recording and transcription will only be used for purposes of assessing candidacies and will be deleted after the process is concluded. please let us know if you give consent for this recording. your response here will not affect your candidacy.",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have bar membership in good standing in the jurisdiction where you reside?",
+      "field_type": "checkbox",
+      "ref": "f12"
+    },
+    {
+      "question": "if you do not currently have bar membership where you reside, please add any context that you believe will be helpful for us to know as we consider your candidacy.",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "how many years of legal experience do you have (including post-law-school clerkships, fellowships, legal internships, etc.)?",
+      "field_type": "number",
+      "ref": "f14"
+    },
+    {
+      "question": "do you have any of the following? (check all that apply)",
+      "field_type": "checkbox",
+      "ref": "f15"
+    },
+    {
+      "question": "country calling code",
+      "field_type": "select",
+      "ref": "f16"
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "id": "https-jobs-smartrecruiters-com-oneclick-ui-company-continental-publication-3a835",
+  "status": "disagree",
+  "captured_at": "2026-07-11T00:29:54.755Z",
+  "page_url": "https://jobs.smartrecruiters.com/oneclick-ui/company/Continental/publication/3a835718-453a-4c5d-894d-c94b9a419c4d",
+  "page_title": "轻松申请 - CN - Tires - Social Communication Specialist - Continental",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 13,
+      "ai_count": 14,
+      "count_delta": 1,
+      "label_jaccard": 0.125,
+      "type_agree_rate": 0.3333,
+      "matched_count": 3
+    },
+    "matched": [
+      {
+        "detector": "上传简历照片",
+        "ai": "上传简历照片",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "facebook",
+        "ai": "Facebook",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      }
+    ],
+    "detector_only": [
+      "apply with resume container",
+      "firstname",
+      "lastname",
+      "email",
+      "emailconfirmation",
+      "location autocomplete",
+      "phone",
+      "twitter",
+      "website",
+      "message"
+    ],
+    "ai_only": [
+      "Resume/CV",
+      "名字",
+      "姓氏",
+      "电子邮件",
+      "确认您的电子邮箱",
+      "城市",
+      "电话号码",
+      "X（前身是 Twitter）",
+      "网站",
+      "简历",
+      "告诉公司您有兴趣在那里工作"
+    ],
+    "reasons": [
+      "label Jaccard 0.125 below 0.7",
+      "type agreement 0.333 below 0.6 on 3 matched pairs"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses dynamic components (SmartRecruiters SPA). Experience and Education sections are expandable and contain nested fields not fully rendered in the static HTML. The location field is an autocomplete widget.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "上传简历照片",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "名字",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "姓氏",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "电子邮件",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "确认您的电子邮箱",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "城市",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "电话号码",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Facebook",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "X（前身是 Twitter）",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "网站",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "简历",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "告诉公司您有兴趣在那里工作",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "上传简历照片",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "apply with resume container",
+      "field_type": "file",
+      "ref": "f1"
+    },
+    {
+      "question": "firstname",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "lastname",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "emailconfirmation",
+      "field_type": "email",
+      "ref": "f5"
+    },
+    {
+      "question": "location autocomplete",
+      "field_type": "select",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "facebook",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "twitter",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "ref": "f11"
+    },
+    {
+      "question": "message",
+      "field_type": "textarea",
+      "ref": "f12"
+    }
+  ]
+}

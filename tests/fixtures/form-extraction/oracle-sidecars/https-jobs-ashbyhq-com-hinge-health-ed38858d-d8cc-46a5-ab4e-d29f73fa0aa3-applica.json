@@ -1,0 +1,241 @@
+{
+  "id": "https-jobs-ashbyhq-com-hinge-health-ed38858d-d8cc-46a5-ab4e-d29f73fa0aa3-applica",
+  "status": "agree",
+  "captured_at": "2026-07-11T00:42:31.929Z",
+  "page_url": "https://jobs.ashbyhq.com/hinge-health/ed38858d-d8cc-46a5-ab4e-d29f73fa0aa3/application",
+  "page_title": "Senior Associate, Email Marketing @ Hinge Health",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 0.9091,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require any immigration related support or sponsorship from hinge health? this could include support (such as j-1, f-1 cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-3, o-1, or tn), and/or any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). by selecting this option, you certify that this information provided regarding your sponsorship needs is true and accurate. providing false or misleading information may result in the withdrawal of a job application or termination of employment.",
+        "ai": "Will you now or in the future require any immigration related support or sponsorship from Hinge Health? This could include support (such as J-1, F-1 CPT letter or STEM OPT Training Plan), visa sponsorship for employment (H-1B, H-1B1, E-3, O-1, or TN), and/or any EAD holders that will need longer term employment authorization (temporary work visa or permanent residency). By selecting this option, you certify that this information provided regarding your sponsorship needs is true and accurate. Providing false or misleading information may result in the withdrawal of a job application or termination of employment.",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you legally authorized to work in the united states?",
+        "ai": "Are you legally authorized to work in the United States?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you willing to work from the san francisco office 3 days a week, for the full 8 hours of a typical business day?",
+        "ai": "Are you willing to work from the San Francisco office 3 days a week, for the full 8 hours of a typical business day?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you located in or willing to relocate to the sf bay area?",
+        "ai": "Are you located in or willing to relocate to the SF Bay Area?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "legal first & last name",
+        "ai": "Legal First & Last Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "preferred first name",
+        "ai": "Preferred First Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone number",
+        "ai": "Phone Number",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "select",
+        "ai_type": "combobox",
+        "type_agree": false
+      },
+      {
+        "detector": "linkedin profile link",
+        "ai": "Linkedin Profile Link",
+        "detector_type": "url",
+        "ai_type": "url",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle hidden checkboxes. The location field is a combobox that likely requires dynamic input.",
+    "fields": [
+      {
+        "question": "Legal First & Last Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Preferred First Name",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone Number",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "combobox",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require any immigration related support or sponsorship from Hinge Health? This could include support (such as J-1, F-1 CPT letter or STEM OPT Training Plan), visa sponsorship for employment (H-1B, H-1B1, E-3, O-1, or TN), and/or any EAD holders that will need longer term employment authorization (temporary work visa or permanent residency). By selecting this option, you certify that this information provided regarding your sponsorship needs is true and accurate. Providing false or misleading information may result in the withdrawal of a job application or termination of employment.",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you legally authorized to work in the United States?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Linkedin Profile Link",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Are you willing to work from the San Francisco office 3 days a week, for the full 8 hours of a typical business day?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you located in or willing to relocate to the SF Bay Area?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require any immigration related support or sponsorship from hinge health? this could include support (such as j-1, f-1 cpt letter or stem opt training plan), visa sponsorship for employment (h-1b, h-1b1, e-3, o-1, or tn), and/or any ead holders that will need longer term employment authorization (temporary work visa or permanent residency). by selecting this option, you certify that this information provided regarding your sponsorship needs is true and accurate. providing false or misleading information may result in the withdrawal of a job application or termination of employment.",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you willing to work from the san francisco office 3 days a week, for the full 8 hours of a typical business day?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "are you located in or willing to relocate to the sf bay area?",
+      "field_type": "radio",
+      "ref": "f3"
+    },
+    {
+      "question": "legal first & last name",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "ref": "f8"
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "linkedin profile link",
+      "field_type": "url",
+      "ref": "f10"
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "id": "https-spiko-teamtailor-com-jobs-7406467-join-the-spiko-talent-pool-spontaneous-a",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:28:46.273Z",
+  "page_url": "https://spiko.teamtailor.com/jobs/7406467-join-the-spiko-talent-pool-spontaneous-application/applications/new",
+  "page_title": "Join the Spiko Talent Pool (Spontaneous Application) - Spiko",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 16,
+      "ai_count": 6,
+      "count_delta": 10,
+      "label_jaccard": 0.375,
+      "type_agree_rate": 0.8333,
+      "matched_count": 6
+    },
+    "matched": [
+      {
+        "detector": "why are you interested in joining spiko ?",
+        "ai": "Why are you interested in joining Spiko ?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "which area are you interested in?",
+        "ai": "Which area are you interested in?",
+        "detector_type": "text",
+        "ai_type": "select",
+        "type_agree": false
+      },
+      {
+        "detector": "what is your current work authorization in the eu / uk ?",
+        "ai": "What is your current work authorization in the EU / UK ?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "which type of contract are you looking for ?",
+        "ai": "Which type of contract are you looking for ?",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "spiko is an english-speaking environment. how comfortable are you communicating professionally in english on a daily basis?",
+        "ai": "Spiko is an English-speaking environment. How comfortable are you communicating professionally in English on a daily basis?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "how comfortable are you communicating professionally in french on a daily basis?",
+        "ai": "How comfortable are you communicating professionally in French on a daily basis?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "what are your salary expectations ?",
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "phone",
+      "upload resume",
+      "additional files",
+      "cover letter",
+      ".by submitting this application, i agree that i have read the privacy policy and confirm that spiko store my personal details to be able to process my job application.",
+      "yes, spiko can contact me directly about specific future job opportunities."
+    ],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom dropdown components and hidden radio/checkbox inputs. The provided HTML was truncated, so additional fields (like name, email, or resume upload) likely exist in the full form but were not present in the excerpt.",
+    "fields": [
+      {
+        "question": "Why are you interested in joining Spiko ?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Which area are you interested in?",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Tech",
+          "Sales",
+          "Legal & Compliance",
+          "Finance",
+          "People / Talent",
+          "Customer Success",
+          "Marketing / Growth",
+          "Operations",
+          "Product"
+        ]
+      },
+      {
+        "question": "What is your current work authorization in the EU / UK ?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "EU / UK Citizen",
+          "Valid Work Permit",
+          "Would need sponsorship"
+        ]
+      },
+      {
+        "question": "Which type of contract are you looking for ?",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Full-time",
+          "Freelance",
+          "Internship / Alternance",
+          "Part-time"
+        ]
+      },
+      {
+        "question": "Spiko is an English-speaking environment. How comfortable are you communicating professionally in English on a daily basis?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Fully comfortable",
+          "Comfortable",
+          "Somewhat comfortable",
+          "Not comfortable"
+        ]
+      },
+      {
+        "question": "How comfortable are you communicating professionally in French on a daily basis?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Fully comfortable",
+          "Comfortable",
+          "Somewhat Comfortable",
+          "Not comfortable"
+        ]
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "why are you interested in joining spiko ?",
+      "field_type": "textarea",
+      "ref": "f0"
+    },
+    {
+      "question": "which area are you interested in?",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "what is your current work authorization in the eu / uk ?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "which type of contract are you looking for ?",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "spiko is an english-speaking environment. how comfortable are you communicating professionally in english on a daily basis?",
+      "field_type": "radio",
+      "ref": "f4"
+    },
+    {
+      "question": "how comfortable are you communicating professionally in french on a daily basis?",
+      "field_type": "radio",
+      "ref": "f5"
+    },
+    {
+      "question": "what are your salary expectations ?",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f9"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f10"
+    },
+    {
+      "question": "upload resume",
+      "field_type": "file",
+      "ref": "f11"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f12"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that spiko store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "ref": "f14"
+    },
+    {
+      "question": "yes, spiko can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "ref": "f15"
+    }
+  ]
+}

@@ -1,0 +1,363 @@
+{
+  "id": "https-regnology-jobs-personio-de-job-2645221",
+  "status": "agree",
+  "captured_at": "2026-07-11T02:28:30.920Z",
+  "page_url": "https://regnology.jobs.personio.de/job/2645221",
+  "page_title": "Customer Support Specialist | Jobs at Regnology",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 17,
+      "ai_count": 17,
+      "count_delta": 0,
+      "label_jaccard": 0.4783,
+      "type_agree_rate": 1,
+      "matched_count": 17
+    },
+    "matched": [
+      {
+        "detector": "first name",
+        "ai": "First",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "last name",
+        "ai": "Last",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "gender",
+        "ai": "Gender",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "location",
+        "ai": "Location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "available from ( ) available from",
+        "ai": "Available from",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "expected salary ( ) expected salary",
+        "ai": "Expected salary",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "work permit ( )",
+        "ai": "Work Permit",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "application for full- or part-time ( )",
+        "ai": "Application for full- or part-time",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "are you fluent in english",
+        "ai": "Are you fluent in English",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "have you previously worked as a customer support specialist or in a similar support role?",
+        "ai": "Have you previously worked as a Customer Support Specialist or in a similar support role?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working in a saas (software as a service) or technology company?",
+        "ai": "Do you have experience working in a SaaS (Software as a Service) or technology company?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "this customer support specialist role may occasionally require weekend availability based on business needs. are you comfortable working weekends when needed?",
+        "ai": "This Customer Support Specialist role may occasionally require weekend availability based on business needs. Are you comfortable working weekends when needed?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working in finance / regulatory reporting / risk management / financial markets / banking / tax?",
+        "ai": "Do you have experience working in finance / regulatory reporting / risk management / financial markets / banking / tax?",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "upload cv",
+        "ai": "CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "upload other",
+        "ai": "Other",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form is a dynamic Personio application form. File inputs are handled via hidden inputs triggered by buttons.",
+    "fields": [
+      {
+        "question": "First",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Gender",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Diverse",
+          "Undefined"
+        ]
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Location",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Available from",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Expected salary",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Work Permit",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Work permit for the respective country in place",
+          "Work permit for the respective country missing"
+        ]
+      },
+      {
+        "question": "Application for full- or part-time",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "Full-time",
+          "Part-time"
+        ]
+      },
+      {
+        "question": "Are you fluent in English",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Have you previously worked as a Customer Support Specialist or in a similar support role?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience working in a SaaS (Software as a Service) or technology company?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "This Customer Support Specialist role may occasionally require weekend availability based on business needs. Are you comfortable working weekends when needed?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have experience working in finance / regulatory reporting / risk management / financial markets / banking / tax?",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "ref": "f2"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "available from ( ) available from",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "expected salary ( ) expected salary",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "work permit ( )",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "application for full- or part-time ( )",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "are you fluent in english",
+      "field_type": "select",
+      "ref": "f10"
+    },
+    {
+      "question": "have you previously worked as a customer support specialist or in a similar support role?",
+      "field_type": "select",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have experience working in a saas (software as a service) or technology company?",
+      "field_type": "select",
+      "ref": "f12"
+    },
+    {
+      "question": "this customer support specialist role may occasionally require weekend availability based on business needs. are you comfortable working weekends when needed?",
+      "field_type": "select",
+      "ref": "f13"
+    },
+    {
+      "question": "do you have experience working in finance / regulatory reporting / risk management / financial markets / banking / tax?",
+      "field_type": "select",
+      "ref": "f14"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f15"
+    },
+    {
+      "question": "upload other",
+      "field_type": "file",
+      "ref": "f16"
+    }
+  ]
+}

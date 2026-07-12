@@ -1,7 +1,7 @@
 {
   "id": "https-archlet-jobs-personio-com-job-2606153",
   "status": "agree",
-  "captured_at": "2026-07-10T19:54:03.850Z",
+  "captured_at": "2026-07-10T22:31:14.087Z",
   "page_url": "https://archlet.jobs.personio.com/job/2606153",
   "page_title": "Sourcing Analyst / Solution Consultant | Jobs at Archlet",
   "diff": {
@@ -10,7 +10,7 @@
       "detector_count": 9,
       "ai_count": 9,
       "count_delta": 0,
-      "label_jaccard": 0.5,
+      "label_jaccard": 0.3846,
       "type_agree_rate": 1,
       "matched_count": 9
     },
@@ -30,7 +30,7 @@
         "type_agree": true
       },
       {
-        "detector": "email (required) yourmail@domain.com",
+        "detector": "email ( ) yourmail@domain.com",
         "ai": "Email",
         "detector_type": "email",
         "ai_type": "email",
@@ -44,21 +44,21 @@
         "type_agree": true
       },
       {
-        "detector": "available from (required) available from",
+        "detector": "available from ( ) available from",
         "ai": "Available from",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "expected salary (required) expected salary",
+        "detector": "expected salary ( ) expected salary",
         "ai": "Expected salary",
         "detector_type": "text",
         "ai_type": "text",
         "type_agree": true
       },
       {
-        "detector": "location (required) location",
+        "detector": "location ( ) location",
         "ai": "Location",
         "detector_type": "text",
         "ai_type": "text",
@@ -85,7 +85,7 @@
   },
   "ai": {
     "model": "google/gemini-3.1-flash-lite:throughput",
-    "notes": "The form uses custom button-triggered file inputs. The 'Available from' and 'Expected salary' fields are standard text inputs.",
+    "notes": "The form uses custom file upload buttons that trigger hidden file inputs. The 'Available from' and 'Expected salary' fields are standard text inputs.",
     "fields": [
       {
         "question": "First",
@@ -155,7 +155,7 @@
       "ref": "f1"
     },
     {
-      "question": "email (required) yourmail@domain.com",
+      "question": "email ( ) yourmail@domain.com",
       "field_type": "email",
       "ref": "f2"
     },
@@ -165,17 +165,17 @@
       "ref": "f3"
     },
     {
-      "question": "available from (required) available from",
+      "question": "available from ( ) available from",
       "field_type": "text",
       "ref": "f4"
     },
     {
-      "question": "expected salary (required) expected salary",
+      "question": "expected salary ( ) expected salary",
       "field_type": "text",
       "ref": "f5"
     },
     {
-      "question": "location (required) location",
+      "question": "location ( ) location",
       "field_type": "text",
       "ref": "f6"
     },

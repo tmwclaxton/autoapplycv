@@ -1,0 +1,321 @@
+{
+  "id": "https-jobs-ashbyhq-com-corti-a81160c5-0147-492e-b6da-5f098e05a593-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:55:36.754Z",
+  "page_url": "https://jobs.ashbyhq.com/corti/a81160c5-0147-492e-b6da-5f098e05a593/application",
+  "page_title": "Senior Backend Engineer, Speech Recognition @ Corti",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 15,
+      "ai_count": 16,
+      "count_delta": 1,
+      "label_jaccard": 0.9375,
+      "type_agree_rate": 1,
+      "matched_count": 15
+    },
+    "matched": [
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "additional information",
+        "ai": "Additional information",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin",
+        "ai": "LinkedIn",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "github",
+        "ai": "GitHub",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "portfolio",
+        "ai": "Portfolio",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "other",
+        "ai": "Other",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "how much experience do you have with go?",
+        "ai": "How much experience do you have with Go?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have experience working with llm's? if yes please can you give us an example?",
+        "ai": "Do you have experience working with LLM's? If yes please can you give us an example?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "what are your compensation expectations?",
+        "ai": "What are your compensation expectations?",
+        "detector_type": "textarea",
+        "ai_type": "textarea",
+        "type_agree": true
+      },
+      {
+        "detector": "this role is based in copenhagen. do you currently live there or are you open to relocating?",
+        "ai": "This role is based in Copenhagen. Do you currently live there or are you open to relocating?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [
+      "Do you agree to allow Corti to contact you about job opportunities for up to 2 years?"
+    ],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses an Ashby-specific resume parser widget. The final consent checkbox was truncated in the provided HTML snippet.",
+    "fields": [
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Additional information",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Portfolio",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Other",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "How much experience do you have with Go?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "None",
+          "Under 1 year",
+          "1 - 2 years",
+          "2 - 3 years",
+          "3 - 4 years",
+          "4 - 5 years",
+          "5+ years"
+        ]
+      },
+      {
+        "question": "Do you have experience working with LLM's? If yes please can you give us an example?",
+        "field_type": "textarea",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "What are your compensation expectations?",
+        "field_type": "textarea",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "This role is based in Copenhagen. Do you currently live there or are you open to relocating?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Currently living in Copenhagen - not a problem!",
+          "I'm looking or open to moving.",
+          "Not interested in that - but would love to hear about remote opportunities when they open!"
+        ]
+      },
+      {
+        "question": "Do you agree to allow Corti to contact you about job opportunities for up to 2 years?",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f1"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f2"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "ref": "f6"
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "github",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "portfolio",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "other",
+      "field_type": "text",
+      "ref": "f10"
+    },
+    {
+      "question": "how much experience do you have with go?",
+      "field_type": "radio",
+      "ref": "f11"
+    },
+    {
+      "question": "do you have experience working with llm's? if yes please can you give us an example?",
+      "field_type": "textarea",
+      "ref": "f12"
+    },
+    {
+      "question": "what are your compensation expectations?",
+      "field_type": "textarea",
+      "ref": "f13"
+    },
+    {
+      "question": "this role is based in copenhagen. do you currently live there or are you open to relocating?",
+      "field_type": "radio",
+      "ref": "f14"
+    }
+  ]
+}

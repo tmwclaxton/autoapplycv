@@ -1,0 +1,194 @@
+{
+  "id": "https-passivelogic-teamtailor-com-jobs-6589862-building-controls-application-eng",
+  "status": "disagree",
+  "captured_at": "2026-07-11T01:19:25.636Z",
+  "page_url": "https://passivelogic.teamtailor.com/jobs/6589862-building-controls-application-engineer/applications/new",
+  "page_title": "Building Controls Application Engineer - PassiveLogic",
+  "diff": {
+    "status": "disagree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 8,
+      "count_delta": 3,
+      "label_jaccard": 0.2667,
+      "type_agree_rate": 1,
+      "matched_count": 5
+    },
+    "matched": [
+      {
+        "detector": "if you were referred by someone, please list their first and last name.",
+        "ai": "If you were referred by someone, please list their first and last name.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "this is a in-office position. are you willing to work in office in amsterdam, netherlands?",
+        "ai": "This is a in-office position. Are you willing to work in office in Amsterdam, Netherlands?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "are you authorized to work in the eu? passivelogic is committed to hiring the best candidates, wherever they are in the world, and whatever their status — we need to know a little about your status so we know what kind of support you require.",
+        "ai": "Are you authorized to work in the EU?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "locations",
+        "ai": "Locations",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "tel",
+        "ai_type": "tel",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [
+      "candidate[first name]",
+      "candidate[last name]",
+      "candidate[email]",
+      "upload cv",
+      "additional files",
+      "cover letter"
+    ],
+    "ai_only": [
+      "First name",
+      "Last name",
+      "Email"
+    ],
+    "reasons": [
+      "field count delta 3 exceeds tolerance 2 (detector=11, ai=8)",
+      "label Jaccard 0.267 below 0.7"
+    ]
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The HTML excerpt provided is truncated, so additional fields (like resume upload or further questions) that typically appear after the phone input in Teamtailor forms are missing from this JSON.",
+    "fields": [
+      {
+        "question": "If you were referred by someone, please list their first and last name.",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "This is a in-office position. Are you willing to work in office in Amsterdam, Netherlands?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Are you authorized to work in the EU?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes.",
+          "Yes, and I will need sponsorship.",
+          "No, I will need help with a work visa.",
+          "No, I will be working from another place where I have work authorization."
+        ]
+      },
+      {
+        "question": "Locations",
+        "field_type": "checkbox",
+        "required": true,
+        "options": [
+          "Salt Lake City",
+          "PassiveLogic - Netherlands"
+        ]
+      },
+      {
+        "question": "First name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Last name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "if you were referred by someone, please list their first and last name.",
+      "field_type": "text",
+      "ref": "f0"
+    },
+    {
+      "question": "this is a in-office position. are you willing to work in office in amsterdam, netherlands?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "are you authorized to work in the eu? passivelogic is committed to hiring the best candidates, wherever they are in the world, and whatever their status — we need to know a little about your status so we know what kind of support you require.",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "ref": "f3"
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "ref": "f6"
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "ref": "f7"
+    },
+    {
+      "question": "upload cv",
+      "field_type": "file",
+      "ref": "f8"
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "ref": "f9"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "ref": "f10"
+    }
+  ]
+}

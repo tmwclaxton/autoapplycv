@@ -1,0 +1,258 @@
+{
+  "id": "https-jobs-eu-lever-co-mobileye-611bbd28-c08d-42ab-b02f-cc91e3d506d2-apply",
+  "status": "agree",
+  "captured_at": "2026-07-10T22:03:39.258Z",
+  "page_url": "https://jobs.eu.lever.co/mobileye/611bbd28-c08d-42ab-b02f-cc91e3d506d2/apply",
+  "page_title": "Mobileye - Embedded Systems Software Architect ( C++ )",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 12,
+      "ai_count": 12,
+      "count_delta": 0,
+      "label_jaccard": 0.8462,
+      "type_agree_rate": 0.75,
+      "matched_count": 12
+    },
+    "matched": [
+      {
+        "detector": "resume/cv",
+        "ai": "Resume/CV",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "full name",
+        "ai": "Full name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "tel",
+        "type_agree": false
+      },
+      {
+        "detector": "current location",
+        "ai": "Current location",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "current company",
+        "ai": "Current company",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin url",
+        "ai": "LinkedIn URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "github url",
+        "ai": "GitHub URL",
+        "detector_type": "text",
+        "ai_type": "url",
+        "type_agree": false
+      },
+      {
+        "detector": "we kindly request that you make us aware if a family member of yours is currently employed by mobileye. due to potential issues that can arise such as conflict of interest, favoritism, personal conflicts etc., having this information will enable us to be considerate.",
+        "ai": "We kindly request that you make us aware if a family member of yours is currently employed by Mobileye. *Due to potential issues that can arise such as conflict of interest, favoritism, personal conflicts etc., having this information will enable us to be considerate.",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "this question is asked for the purpose of ensuring inclusivity and diversity. your response is optional and will not affect the evaluation of your application",
+        "ai": "This question is asked for the purpose of ensuring inclusivity and diversity. Your response is optional and will not affect the evaluation of your application",
+        "detector_type": "select",
+        "ai_type": "select",
+        "type_agree": true
+      },
+      {
+        "detector": "at mobileye, we work from the office 4 days per week. for this role specifically, 1-2 of those days would need to be from our jerusalem office (we offer shuttles from tel aviv, shfela, and sharon areas) . would commuting to jerusalem once or twice a week work for you?",
+        "ai": "At Mobileye, we work from the office 4 days per week. For this role specifically, 1-2 of those days would need to be from our Jerusalem office (We offer shuttles from Tel Aviv, Shfela, and Sharon areas) . Would commuting to Jerusalem once or twice a week work for you?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "yes, mobileye can contact me about future job opportunities for up to 3 yearsprivacy policy",
+        "ai": "Yes, Mobileye can contact me about future job opportunities for up to 3 years",
+        "detector_type": "checkbox",
+        "ai_type": "checkbox",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses Lever's standard application structure. The 'Apply with LinkedIn' button is a third-party widget that may auto-fill fields.",
+    "fields": [
+      {
+        "question": "Resume/CV",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Full name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "tel",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current location",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Current company",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "GitHub URL",
+        "field_type": "url",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "We kindly request that you make us aware if a family member of yours is currently employed by Mobileye. *Due to potential issues that can arise such as conflict of interest, favoritism, personal conflicts etc., having this information will enable us to be considerate.",
+        "field_type": "select",
+        "required": true,
+        "options": [
+          "I don't have any family member working at Mobileye",
+          "I have a family member working at Mobileye"
+        ]
+      },
+      {
+        "question": "This question is asked for the purpose of ensuring inclusivity and diversity. Your response is optional and will not affect the evaluation of your application",
+        "field_type": "select",
+        "required": false,
+        "options": [
+          "Male",
+          "Female",
+          "Non-binary",
+          "Prefer not to say"
+        ]
+      },
+      {
+        "question": "At Mobileye, we work from the office 4 days per week. For this role specifically, 1-2 of those days would need to be from our Jerusalem office (We offer shuttles from Tel Aviv, Shfela, and Sharon areas) . Would commuting to Jerusalem once or twice a week work for you?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes, I’m fine with coming to Jerusalem once or twice a week.",
+          "No, I’m not able to commute to Jerusalem weekly."
+        ]
+      },
+      {
+        "question": "Yes, Mobileye can contact me about future job opportunities for up to 3 years",
+        "field_type": "checkbox",
+        "required": false,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "ref": "f0"
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "ref": "f1"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f2"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "ref": "f4"
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "ref": "f5"
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "ref": "f7"
+    },
+    {
+      "question": "we kindly request that you make us aware if a family member of yours is currently employed by mobileye. due to potential issues that can arise such as conflict of interest, favoritism, personal conflicts etc., having this information will enable us to be considerate.",
+      "field_type": "select",
+      "ref": "f8"
+    },
+    {
+      "question": "this question is asked for the purpose of ensuring inclusivity and diversity. your response is optional and will not affect the evaluation of your application",
+      "field_type": "select",
+      "ref": "f9"
+    },
+    {
+      "question": "at mobileye, we work from the office 4 days per week. for this role specifically, 1-2 of those days would need to be from our jerusalem office (we offer shuttles from tel aviv, shfela, and sharon areas) . would commuting to jerusalem once or twice a week work for you?",
+      "field_type": "radio",
+      "ref": "f10"
+    },
+    {
+      "question": "yes, mobileye can contact me about future job opportunities for up to 3 yearsprivacy policy",
+      "field_type": "checkbox",
+      "ref": "f11"
+    }
+  ]
+}

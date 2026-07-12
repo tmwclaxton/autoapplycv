@@ -1,0 +1,238 @@
+{
+  "id": "https-jobs-ashbyhq-com-miro-04795998-7f24-465c-b413-8b4cb0c0d864-application",
+  "status": "agree",
+  "captured_at": "2026-07-11T01:30:54.248Z",
+  "page_url": "https://jobs.ashbyhq.com/miro/04795998-7f24-465c-b413-8b4cb0c0d864/application",
+  "page_title": "Director Product Design - Structured Modes @ Miro",
+  "diff": {
+    "status": "agree",
+    "metrics": {
+      "detector_count": 11,
+      "ai_count": 11,
+      "count_delta": 0,
+      "label_jaccard": 1,
+      "type_agree_rate": 1,
+      "matched_count": 11
+    },
+    "matched": [
+      {
+        "detector": "will you now or in the future require visa sponsorship for employment with miro?",
+        "ai": "Will you now or in the future require visa sponsorship for employment with Miro?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have 10+ years of product design experience, with at least 4 years leading and managing teams in a technology company?",
+        "ai": "Do you have 10+ years of product design experience, with at least 4 years leading and managing teams in a technology company?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "do you have proven experience designing ai-powered or ai-adjacent product experiences?",
+        "ai": "Do you have proven experience designing AI-powered or AI-adjacent product experiences?",
+        "detector_type": "radio",
+        "ai_type": "radio",
+        "type_agree": true
+      },
+      {
+        "detector": "name",
+        "ai": "Name",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "email",
+        "ai": "Email",
+        "detector_type": "email",
+        "ai_type": "email",
+        "type_agree": true
+      },
+      {
+        "detector": "resume",
+        "ai": "Resume",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "phone",
+        "ai": "Phone",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "cover letter",
+        "ai": "Cover Letter",
+        "detector_type": "file",
+        "ai_type": "file",
+        "type_agree": true
+      },
+      {
+        "detector": "linkedin profile",
+        "ai": "LinkedIn Profile",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "website (please include password if necessary)",
+        "ai": "Website (please include password if necessary)",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      },
+      {
+        "detector": "we are excited to see some of your great work! please share the link (and password if applicable) to your portfolio.",
+        "ai": "We are excited to see some of your great work! Please share the link (and password if applicable) to your portfolio.",
+        "detector_type": "text",
+        "ai_type": "text",
+        "type_agree": true
+      }
+    ],
+    "detector_only": [],
+    "ai_only": [],
+    "reasons": []
+  },
+  "ai": {
+    "model": "google/gemini-3.1-flash-lite:throughput",
+    "notes": "The form uses custom button-based radio inputs that toggle a hidden checkbox. The resume/cover letter fields are file upload inputs.",
+    "fields": [
+      {
+        "question": "Name",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Email",
+        "field_type": "email",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Resume",
+        "field_type": "file",
+        "required": true,
+        "options": null
+      },
+      {
+        "question": "Phone",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Cover Letter",
+        "field_type": "file",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "LinkedIn Profile",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Website (please include password if necessary)",
+        "field_type": "text",
+        "required": false,
+        "options": null
+      },
+      {
+        "question": "Will you now or in the future require visa sponsorship for employment with Miro?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have 10+ years of product design experience, with at least 4 years leading and managing teams in a technology company?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Do you have proven experience designing AI-powered or AI-adjacent product experiences?",
+        "field_type": "radio",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "We are excited to see some of your great work! Please share the link (and password if applicable) to your portfolio.",
+        "field_type": "text",
+        "required": true,
+        "options": null
+      }
+    ]
+  },
+  "detector_fields": [
+    {
+      "question": "will you now or in the future require visa sponsorship for employment with miro?",
+      "field_type": "radio",
+      "ref": "f0"
+    },
+    {
+      "question": "do you have 10+ years of product design experience, with at least 4 years leading and managing teams in a technology company?",
+      "field_type": "radio",
+      "ref": "f1"
+    },
+    {
+      "question": "do you have proven experience designing ai-powered or ai-adjacent product experiences?",
+      "field_type": "radio",
+      "ref": "f2"
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "ref": "f3"
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "ref": "f4"
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "ref": "f5"
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "ref": "f6"
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "ref": "f7"
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "ref": "f8"
+    },
+    {
+      "question": "website (please include password if necessary)",
+      "field_type": "text",
+      "ref": "f9"
+    },
+    {
+      "question": "we are excited to see some of your great work! please share the link (and password if applicable) to your portfolio.",
+      "field_type": "text",
+      "ref": "f10"
+    }
+  ]
+}
