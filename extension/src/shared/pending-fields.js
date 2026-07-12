@@ -174,6 +174,9 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email', 'e post', 'epost', 'adresse e-mail', 'adresse email'] },
     { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell', 'telefon', 'téléphone', 'telephone'] },
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin', 'profil linkedin'] },
+    { path: '_profile_link.github', label: 'GitHub', dashboard_tab: 'profile', dashboard_anchor: 'field-social-links', keywords: ['github', 'github url', 'github profile', 'github link'] },
+    { path: '_profile_link.portfolio', label: 'Portfolio', dashboard_tab: 'profile', dashboard_anchor: 'field-website-url', keywords: ['portfolio', 'portfolio url', 'work samples', 'behance', 'dribbble'] },
+    { path: 'website_url', label: 'Website', dashboard_tab: 'profile', dashboard_anchor: 'field-website-url', keywords: ['personal website', 'website url', 'your website', 'other website', 'web site'], exactLabels: ['website'] },
     { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town', 'stad', 'ort'] },
     { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'postcode', label: 'Postcode', dashboard_tab: 'profile', dashboard_anchor: 'field-postcode', keywords: ['postcode', 'postal code', 'zip code', 'zip'] },
@@ -201,6 +204,9 @@ const IDENTITY_PROFILE_PATHS = new Set([
     '_phone_country_dial',
     '_phone_national',
     'linkedin_url',
+    '_profile_link.github',
+    '_profile_link.portfolio',
+    'website_url',
     'city',
     'location',
     'country',
@@ -2056,9 +2062,119 @@ export function isUserSpecificQuestion(label) {
         || isSalaryQuestionLabel(label);
 }
 
+function readProfileSocialLinks(profileData) {
+    const structured = profileData?.profile?.structured_data
+        || profileData?.structured_data
+        || {};
+    const links = Array.isArray(structured.social_links) ? structured.social_links : [];
+
+    return links
+        .map((link) => ({
+            label: String(link?.label || '').trim(),
+            url: String(link?.url || '').trim(),
+        }))
+        .filter((link) => link.url !== '');
+}
+
+function urlHostContains(url, fragment) {
+    const text = String(url || '').trim().toLowerCase();
+
+    if (!text || !fragment) {
+        return false;
+    }
+
+    try {
+        return new URL(text).hostname.includes(String(fragment).toLowerCase());
+    } catch {
+        return text.includes(String(fragment).toLowerCase());
+    }
+}
+
+function resolveSocialLinkUrl(links, { labelPattern = null, urlHostFragment = null } = {}) {
+    for (const link of links) {
+        if (labelPattern?.test(link.label)) {
+            return link.url;
+        }
+
+        if (urlHostFragment && urlHostContains(link.url, urlHostFragment)) {
+            return link.url;
+        }
+    }
+
+    return '';
+}
+
+function resolveGithubProfileUrl(profileData) {
+    const links = readProfileSocialLinks(profileData);
+    const fromSocial = resolveSocialLinkUrl(links, {
+        labelPattern: /\bgithub\b/i,
+        urlHostFragment: 'github.com',
+    });
+
+    if (fromSocial) {
+        return fromSocial;
+    }
+
+    const website = String(readProfileValue(profileData, 'website_url') || '').trim();
+
+    if (website && urlHostContains(website, 'github.com')) {
+        return website;
+    }
+
+    return '';
+}
+
+function resolvePortfolioProfileUrl(profileData) {
+    const links = readProfileSocialLinks(profileData);
+    const fromSocial = resolveSocialLinkUrl(links, {
+        labelPattern: /\b(portfolio|behance|dribbble|work samples?)\b/i,
+    });
+
+    if (fromSocial && !urlHostContains(fromSocial, 'github.com')) {
+        return fromSocial;
+    }
+
+    for (const link of links) {
+        if (urlHostContains(link.url, 'behance.net') || urlHostContains(link.url, 'dribbble.com')) {
+            return link.url;
+        }
+    }
+
+    const website = String(readProfileValue(profileData, 'website_url') || '').trim();
+
+    if (website
+        && !urlHostContains(website, 'github.com')
+        && !urlHostContains(website, 'linkedin.com')) {
+        return website;
+    }
+
+    const structured = profileData?.profile?.structured_data
+        || profileData?.structured_data
+        || {};
+    const projects = Array.isArray(structured.projects) ? structured.projects : [];
+
+    for (const project of projects) {
+        const url = String(project?.url || '').trim();
+
+        if (/^https?:\/\//i.test(url)) {
+            return url;
+        }
+    }
+
+    return '';
+}
+
 export function readProfileValue(profileData, path) {
     if (!profileData || !path) {
         return '';
+    }
+
+    if (path === '_profile_link.github') {
+        return resolveGithubProfileUrl(profileData);
+    }
+
+    if (path === '_profile_link.portfolio') {
+        return resolvePortfolioProfileUrl(profileData);
     }
 
     if (path === 'full_name.first' || path === 'full_name.last') {

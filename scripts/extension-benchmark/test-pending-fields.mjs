@@ -577,6 +577,64 @@ const tobyProfile = {
     },
 };
 
+const linkProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        linkedin_url: 'https://linkedin.com/in/tmwclaxton',
+        website_url: 'https://cineark.net',
+        structured_data: {
+            social_links: [
+                { label: 'GitHub', url: 'https://github.com/tmwclaxton' },
+            ],
+        },
+    },
+};
+
+assert(
+    resolveProfileMappingForLabel('github url', linkProfile)?.path === '_profile_link.github',
+    'github url label should map to profile github link',
+);
+
+assert(
+    resolveIdentityProfileAnswer({ label: 'github url', field_type: 'text' }, linkProfile)
+        === 'https://github.com/tmwclaxton',
+    'github url should instant-fill from social_links',
+);
+
+assert(
+    !shouldPromptUserForMissingDraftAnswer({ label: 'github url', field_type: 'text' }, linkProfile),
+    'filled github url should not sidebar prompt',
+);
+
+assert(
+    resolveIdentityProfileAnswer({ label: 'portfolio url', field_type: 'text' }, linkProfile)
+        === 'https://cineark.net',
+    'portfolio url should fill from website_url',
+);
+
+assert(
+    resolveIdentityProfileAnswer({ label: 'github url', field_type: 'text' }, {
+        profile: {
+            website_url: 'https://github.com/tmwclaxton',
+            structured_data: { social_links: [] },
+        },
+    }) === 'https://github.com/tmwclaxton',
+    'github url should fallback to website_url when github.com',
+);
+
+const { identityAnswers: linkIdentityAnswers } = partitionIdentityProfileFields([
+    { ref: 'gh1', label: 'github url', field_type: 'text' },
+    { ref: 'li1', label: 'LinkedIn URL', field_type: 'text' },
+], linkProfile);
+
+const linkIdentityByRef = new Map(linkIdentityAnswers.map((row) => [row.ref, row.answer]));
+
+assert(
+    linkIdentityByRef.get('gh1') === 'https://github.com/tmwclaxton'
+        && linkIdentityByRef.get('li1') === 'https://linkedin.com/in/tmwclaxton',
+    'identity partition should include github and linkedin url fields',
+);
+
 const { toApply: identityApply } = partitionBatchAnswers([
     { ref: 'f1', label: 'First name', answer: 'Alex' },
     { ref: 'f2', label: 'Last name', answer: 'Andersson' },
