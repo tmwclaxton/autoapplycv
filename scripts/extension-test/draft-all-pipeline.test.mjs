@@ -8,7 +8,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const {
     buildDraftAllApplyPlan,
     partitionDraftAllBatchAnswers,
-} = await import(pathToFileURL(join(ROOT, 'extension/src/shared/draft-all-pipeline.js')).href);
+} = await import(pathToFileURL(join(ROOT, 'extension/dist/draft-all-pipeline.js')).href);
 
 const profileData = {
     full_name: 'Toby Claxton',
@@ -84,6 +84,170 @@ test('buildDraftAllApplyPlan routes prior employer contact fields to pending sid
 
     assert.equal(plan.pendingFields.length, 1);
     assert.equal(plan.pendingFields[0].ref, 'f1');
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f2');
+});
+
+test('buildDraftAllApplyPlan applies preference and agreement fields before LLM', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Do you currently require immigration sponsorship for work authorization?',
+                field_type: 'select',
+                options: ['Select...', 'Yes', 'No'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Applicant statement: I certify that all information is true.',
+                field_type: 'checkbox',
+                options: ['Yes, I have read and understand this APPLICANT STATEMENT'],
+                required: true,
+            },
+            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 3,
+                ref: 'f3',
+                label: 'Gender',
+                field_type: 'radio',
+                options: ['Man', 'Woman', 'Prefer not to respond'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            application_settings: {
+                ...profileData.application_settings,
+                visa_sponsorship: 'no',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'agreement'), true);
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'eeo'), true);
+    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+    const agreement = plan.applyStages.find((stage) => stage.type === 'agreement');
+    assert.equal(preference.answers[0].answer, 'No');
+    assert.match(agreement.answers[0].answer, /APPLICANT STATEMENT/i);
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f2');
+});
+
+test('buildDraftAllApplyPlan answers country-specific US work auth from profile country', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Are you authorized to work in the United States for any employer without requiring sponsorship now or in the future?',
+                field_type: 'radio',
+                options: ['YES', 'NO'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Do you require visa sponsorship?',
+                field_type: 'select',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            country: 'United Kingdom',
+            application_settings: {
+                ...profileData.application_settings,
+                visa_sponsorship: 'no',
+                legally_authorized: 'yes',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
+    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+    assert.equal(preference.answers.length, 2);
+    assert.deepEqual(
+        preference.answers.map((answer) => ({ ref: answer.ref, answer: answer.answer })).sort((a, b) => a.ref.localeCompare(b.ref)),
+        [
+            { ref: 'f0', answer: 'No' },
+            { ref: 'f1', answer: 'No' },
+        ],
+    );
+    assert.equal(plan.llmFields.length, 0);
+    assert.equal(plan.skipsLlm, true);
+});
+
+test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { id: 0, ref: 'f0', label: 'First name', field_type: 'text' },
+            {
+                id: 1,
+                ref: 'f1',
+                label: "What is Devon's favourite fruit?",
+                field_type: 'radio',
+                options: ['Banana', 'Pineapple', 'Raspberry', 'Peach'],
+            },
+            { id: 2, ref: 'f2', label: 'Why Hospitable?', field_type: 'textarea' },
+        ],
+        profileData,
+        questionMemo: {},
+    });
+
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f2');
+    assert.equal(plan.pendingFields.length, 1);
+    assert.equal(plan.pendingFields[0].ref, 'f1');
+    assert.equal(plan.pendingFields[0].reason, 'screening_clarify');
+});
+
+test('buildDraftAllApplyPlan auto-fills electronic certification signature from profile', () => {
+    const certifyLabel = 'I certify that all of the information I have provided is correct and complete. Please sign by typing your Full Legal First, Middle Initial, and Last Name.';
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { id: 0, ref: 'f0', label: 'First name', field_type: 'text' },
+            { id: 1, ref: 'f1', label: certifyLabel, field_type: 'text', required: true },
+            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+        ],
+        profileData,
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'signature'), true);
+    const signature = plan.applyStages.find((stage) => stage.type === 'signature');
+    assert.equal(signature.answers[0].ref, 'f1');
+    assert.equal(signature.answers[0].answer, 'Toby Claxton');
+    assert.equal(plan.pendingFields.some((field) => field.ref === 'f1'), false);
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f2');
+});
+
+test('buildDraftAllApplyPlan auto-declines Personio data retention consent before LLM', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { id: 0, ref: 'f0', label: 'First name', field_type: 'text' },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'I would like Cenosco to store my data for 12 months and contact me about future job opportunities.',
+                field_type: 'select',
+                options: ['Please select', 'Yes', 'No'],
+                required: true,
+            },
+            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+        ],
+        profileData,
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'marketing_consent'), true);
+    const marketingConsent = plan.applyStages.find((stage) => stage.type === 'marketing_consent');
+    assert.equal(marketingConsent.answers[0].ref, 'f1');
+    assert.equal(marketingConsent.answers[0].answer, 'No');
+    assert.equal(plan.pendingFields.some((field) => field.ref === 'f1'), false);
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].ref, 'f2');
 });
