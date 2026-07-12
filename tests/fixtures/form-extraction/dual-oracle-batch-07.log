@@ -1,0 +1,243 @@
+
+> form-corpus:curated-oracle
+> node scripts/form-corpus/curated-oracle-capture.mjs --limit=50 --urls-file=tests/fixtures/form-extraction/oracle-url-queue-batch-07.json --batch-id=oracle-url-queue-batch-07
+
+Curated dual-oracle capture: limit=50, mode=url-list
+URLs file: tests/fixtures/form-extraction/oracle-url-queue-batch-07.json (50 urls), batch_id=oracle-url-queue-batch-07
+Navigate Ashby/Lever/Workable/Personio to the real apply form before each capture.
+Campaign progress: 164/664 agrees
+
+=== Capture 1/50 (https://jobs.ashbyhq.com/corti/ec4a946c-4dc3-43e4-b7e6-2e4623035fb9/application) ===
+AGREE -> https-jobs-ashbyhq-com-corti-ec4a946c-4dc3-43e4-b7e6-2e4623035fb9-application
+  detector=10 ai=11 jaccard=0.9091
+  campaign: 165/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-corti-ec4a946c-4dc3-43e4-b7e6-2e4623035fb9-application --check-validity --check-a11y --check-errors
+
+=== Capture 2/50 (https://jobs.eu.lever.co/mobileye/28b9b2ee-4480-4486-b057-0f554d324151/apply) ===
+AGREE -> https-jobs-eu-lever-co-mobileye-28b9b2ee-4480-4486-b057-0f554d324151-apply
+  detector=11 ai=11 jaccard=0.8333
+  campaign: 166/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-eu-lever-co-mobileye-28b9b2ee-4480-4486-b057-0f554d324151-apply --check-validity --check-a11y --check-errors
+
+=== Capture 3/50 (https://boards.greenhouse.io/bgcp/jobs/4521479008/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 4/50 (https://apply.workable.com/jacuzzi-group) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 5/50 (https://auvesy-mdt-holding-gmbh.jobs.personio.com/job/2700967?apply) ===
+AGREE -> https-auvesy-mdt-holding-gmbh-jobs-personio-com-job-2700967
+  detector=18 ai=18 jaccard=0.7143
+  campaign: 167/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-auvesy-mdt-holding-gmbh-jobs-personio-com-job-2700967 --check-validity --check-a11y --check-errors
+
+=== Capture 6/50 (https://certus.recruitee.com/o/vice-president-of-product-management-technical-skills-and-simulations-1/c/new) ===
+AGREE -> https-certus-recruitee-com-o-vice-president-of-product-management-technical-skil
+  detector=11 ai=10 jaccard=0.9091
+  campaign: 168/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-certus-recruitee-com-o-vice-president-of-product-management-technical-skil --check-validity --check-a11y --check-errors
+
+=== Capture 7/50 (https://avosano.teamtailor.com/jobs/7546658-mitarbeiter-logistik-bereich-warenausgang-m-w-d-100/applications/new?utm_id=9423724&utm_source=laboora.ch) ===
+DISAGREE -> https-avosano-teamtailor-com-jobs-7546658-mitarbeiter-logistik-bereich-warenausg
+  reasons: field count delta 5 exceeds tolerance 2 (detector=11, ai=6); label Jaccard 0.000 below 0.7
+  ai_only backlog (4): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 8/50 (https://jobs.smartrecruiters.com/EVERSANA1/744000131140259--marketing-technology-analyst-crm-marketing-cloud-no-3rd-party-candidates) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 9/50 (https://agbo.breezy.hr/p/09408f8add7a-expression-of-interest-fx-artist/apply?source=BuiltInNationwide) ===
+DISAGREE -> https-agbo-breezy-hr-p-09408f8add7a-expression-of-interest-fx-artist-apply
+  reasons: label Jaccard 0.407 below 0.7
+  ai_only backlog (9): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 10/50 (https://www.bamboohr.com/careers/application) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 11/50 (https://careers-oldnational.icims.com/jobs/18999/application-analyst-iii/job) ===
+DISAGREE -> https-careers-oldnational-icims-com-jobs-18999-application-analyst-iii-job
+  reasons: field count delta 3 exceeds tolerance 2 (detector=0, ai=3); label Jaccard 0.000 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 12/50 (https://airliquidehr.wd3.myworkdayjobs.com/airgasexternalcareer/job/denver-co---vasquez---retail-shop/customer-experience-director_r10094714-1/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 13/50 (https://anexia.onlyfy.jobs/application/apply/6ltsssdd4k6jl6aj33l8sylswahu34) ===
+DISAGREE -> https-anexia-onlyfy-jobs-application-en-apply-6ltsssdd4k6jl6aj33l8sylswahu34
+  reasons: label Jaccard 0.588 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 14/50 (https://jobs.jobvite.com/absolute/apply) ===
+Capture failed: Agree with too few fields (1) - skip empty/login wall
+
+=== Capture 15/50 (https://aa080.taleo.net/careersection/sdp_external_career_section/jobsearch.ftl) ===
+DISAGREE -> https-aa080-taleo-net-careersection-sdp-external-career-section-jobsearch-ftl
+  reasons: field count delta 8 exceeds tolerance 2 (detector=5, ai=13); label Jaccard 0.200 below 0.7
+  ai_only backlog (10): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 16/50 (https://groupo.pinpointhq.com/en/postings/f828fd96-a843-4823-8b6d-1cc2bef42173) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 17/50 (https://career4.successfactors.com/career?career%5Fns=job%5Flisting&company=takomagov&navBarLevel=JOB%5FSEARCH&rcm%5Fsite%5Flocale=en%5FUS&career_job_req_id=5708&selected_lang=en_US&jobAlertController_jobAlertId=&jobAlertController_jobAlertName=&browserTimeZone=America/New_York&_s.crb=geaMmTWpUT2serhvJ0zzpHc57FEPN7wmA06sHfm1mY0%3D) ===
+DISAGREE -> https-career4-successfactors-com-career
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 18/50 (https://ats.rippling.com/absencesoft/jobs/f6e31ed4-c39b-43a9-9aee-c09ac9ae1b74/apply) ===
+Capture failed: Tab drifted from ats.rippling.com to absencesoft.com (https://absencesoft.com/careers/#openings)
+
+=== Capture 19/50 (https://www.123formbuilder.com/fr/modeles-formulaires-gratuits/formulaire-de-candidature-a-un-poste-1854138) ===
+DISAGREE -> https-www-123formbuilder-com-fr-modeles-formulaires-gratuits-formulaire-de-candi
+  reasons: field count delta 5 exceeds tolerance 2 (detector=2, ai=7); label Jaccard 0.000 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 20/50 (https://arbetsformedlingen.se/other-languages/english-engelska/additional-support/support-a-z/labour-market-entry-agreement/application-for-labour-market-entry-agreement) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 21/50 (https://jobs.ashbyhq.com/council-capital/a78a4b38-b9d5-4247-8f0e-f0d653610eec/application) ===
+AGREE -> https-jobs-ashbyhq-com-council-capital-a78a4b38-b9d5-4247-8f0e-f0d653610eec-appl
+  detector=8 ai=8 jaccard=1
+  campaign: 169/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-council-capital-a78a4b38-b9d5-4247-8f0e-f0d653610eec-appl --check-validity --check-a11y --check-errors
+
+=== Capture 22/50 (https://jobs.eu.lever.co/mobileye/611bbd28-c08d-42ab-b02f-cc91e3d506d2/apply) ===
+AGREE -> https-jobs-eu-lever-co-mobileye-611bbd28-c08d-42ab-b02f-cc91e3d506d2-apply
+  detector=12 ai=12 jaccard=0.8462
+  campaign: 170/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-eu-lever-co-mobileye-611bbd28-c08d-42ab-b02f-cc91e3d506d2-apply --check-validity --check-a11y --check-errors
+
+=== Capture 23/50 (https://boards.greenhouse.io/buildops/jobs/5993798004/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 24/50 (https://apply.workable.com/jenzabar1/j/058958F0FD) ===
+AGREE -> https-apply-workable-com-jenzabar1-j-058958f0fd-apply
+  detector=13 ai=4 jaccard=0.3077
+  campaign: 170/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-apply-workable-com-jenzabar1-j-058958f0fd-apply --check-validity --check-a11y --check-errors
+
+=== Capture 25/50 (https://baramundi-software-ag.jobs.personio.de/job/2633773?language=en) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 26/50 (https://chrhautesenne.recruitee.com/candidature-spontanee) ===
+DISAGREE -> https-chrhautesenne-recruitee-com-candidature-spontanee
+  reasons: field count delta 8 exceeds tolerance 2 (detector=0, ai=8); label Jaccard 0.000 below 0.7
+  ai_only backlog (8): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 27/50 (https://bearingpointgmbh.teamtailor.com/pages/bewerbungsprozess) ===
+DISAGREE -> https-bearingpointgmbh-teamtailor-com-pages-bewerbungsprozess
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 28/50 (https://jobs.smartrecruiters.com/EVERSANA1/744000131140259--marketing-technology-analyst-crm-marketing-cloud-no-3rd-party-candidates?oga=true&trid=8dc3fc18-7d27-474f-af15-47b783076ace) ===
+DISAGREE -> https-jobs-smartrecruiters-com-oneclick-ui-company-eversana1-publication-261b8f7
+  reasons: field count delta 13 exceeds tolerance 2 (detector=1, ai=14); label Jaccard 0.071 below 0.7
+  ai_only backlog (13): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 29/50 (https://agbo.breezy.hr/p/477c5544f2b1-expression-of-interest-unreal-environment-artist/apply?source=BuiltInNationwide) ===
+DISAGREE -> https-agbo-breezy-hr-p-477c5544f2b1-expression-of-interest-unreal-environment-ar
+  reasons: label Jaccard 0.357 below 0.7
+  ai_only backlog (9): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 30/50 (https://help.bamboohr.com/s/article/1012413) ===
+Capture failed: Agree with too few fields (1) - skip empty/login wall
+
+=== Capture 31/50 (https://atriaretirementcanada-atria.icims.com/jobs?hashed=-435742461) ===
+Capture failed: Tab drifted from atriaretirementcanada-atria.icims.com to atriacareers.com (https://www.atriacareers.com/)
+
+=== Capture 32/50 (https://airliquidehr.wd3.myworkdayjobs.com/AirLiquideExternalCareer/job/Mexico-Apodaca/Chofer-De-Reparto--local--PG_R10094977/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 33/50 (https://barlog-plastics-gmbh.onlyfy.jobs/application/apply/i9xzq3pmp5uvfs71n1v7kvw79gxpha) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 34/50 (https://jobs.jobvite.com/bridgeforce/apply) ===
+Capture failed: Tab drifted from jobs.jobvite.com to bridgeforce.com (https://bridgeforce.com/about-us/careers/)
+
+=== Capture 35/50 (https://aa142.taleo.net/careersection/ext/jobsearch.ftl) ===
+DISAGREE -> https-aa142-taleo-net-careersection-ext-jobsearch-ftl
+  reasons: field count delta 6 exceeds tolerance 2 (detector=4, ai=10); label Jaccard 0.273 below 0.7
+  ai_only backlog (7): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 36/50 (https://leadforamerica.pinpointhq.com/jobs/41304) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 37/50 (https://career4.successfactors.com/career?company=garda&career_ns=job_listing&career_job_req_id=234265&lang=en_US&source=Indeed) ===
+DISAGREE -> https-career4-successfactors-com-career
+  reasons: label Jaccard 0.000 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 38/50 (https://ats.rippling.com/advanced-energy-united-career-opportunities/jobs/16ceba67-4a3d-4a44-bb1a-f74012d24e73/apply?utm_source=Jobgether&utm_content=6a250258f8af0ea2c40a47cd-expression-of-interest---future-employment-opportunities&utm_campaign=search&utm_medium=website) ===
+DISAGREE -> https-ats-rippling-com-en-gb-advanced-energy-united-career-opportunities-jobs-16
+  reasons: field count delta 7 exceeds tolerance 2 (detector=20, ai=27); label Jaccard 0.146 below 0.7; type agreement 0.500 below 0.6 on 6 matched pairs
+  ai_only backlog (21): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 39/50 (https://www.123formbuilder.com/pt/templates-de-formularios-gratis/formulario-de-candidatura-de-emprego-1619680) ===
+AGREE -> https-www-123formbuilder-com-pt-templates-de-formularios-gratis-formulario-de-ca
+  detector=2 ai=0 jaccard=0
+  campaign: 171/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-www-123formbuilder-com-pt-templates-de-formularios-gratis-formulario-de-ca --check-validity --check-a11y --check-errors
+
+=== Capture 40/50 (https://beltramesupermercados.pandape.catho.com.br/CandidateHelp) ===
+AGREE -> https-beltramesupermercados-pandape-catho-com-br-candidatehelp
+  detector=8 ai=8 jaccard=1
+  campaign: 172/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-beltramesupermercados-pandape-catho-com-br-candidatehelp --check-validity --check-a11y --check-errors
+
+=== Capture 41/50 (https://jobs.ashbyhq.com/credo.ai/69c3e74e-c264-4e8a-a34b-3122d028f9c2/application) ===
+AGREE -> https-jobs-ashbyhq-com-credo-ai-69c3e74e-c264-4e8a-a34b-3122d028f9c2-application
+  detector=9 ai=10 jaccard=0.9
+  campaign: 173/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-jobs-ashbyhq-com-credo-ai-69c3e74e-c264-4e8a-a34b-3122d028f9c2-application --check-validity --check-a11y --check-errors
+
+=== Capture 42/50 (https://jobs.eu.lever.co/mobileye/f10044d7-c978-4fed-bb58-0bd0170ab8ec/apply) ===
+DISAGREE -> https-jobs-eu-lever-co-mobileye-f10044d7-c978-4fed-bb58-0bd0170ab8ec-apply
+  reasons: label Jaccard 0.692 below 0.7
+  ai_only backlog (1): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 43/50 (https://boards.greenhouse.io/c3iot/jobs/4416889002/apply) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 44/50 (https://apply.workable.com/joey-restaurants-1/j/422B360A9E) ===
+AGREE -> https-apply-workable-com-joey-restaurants-1-j-422b360a9e-apply
+  detector=50 ai=5 jaccard=0.1
+  campaign: 173/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-apply-workable-com-joey-restaurants-1-j-422b360a9e-apply --check-validity --check-a11y --check-errors
+
+=== Capture 45/50 (https://bellabona.jobs.personio.de/privacy-policy?language=fr) ===
+DISAGREE -> https-bellabona-jobs-personio-de-privacy-policy
+  reasons: field count delta 8 exceeds tolerance 2 (detector=0, ai=8); label Jaccard 0.000 below 0.7
+  ai_only backlog (8): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 46/50 (https://demoupcliplister.recruitee.com/o/initiativ-bewerbungen-2) ===
+AGREE -> https-demoupcliplister-recruitee-com-o-initiativ-bewerbungen-2-c-new
+  detector=16 ai=15 jaccard=0.9375
+  campaign: 174/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-demoupcliplister-recruitee-com-o-initiativ-bewerbungen-2-c-new --check-validity --check-a11y --check-errors
+
+=== Capture 47/50 (https://career.teamtailor.com/jobs/123456/applications/new) ===
+Capture failed: Agree with too few fields (0) - skip empty/login wall
+
+=== Capture 48/50 (https://jobs.smartrecruiters.com) ===
+DISAGREE -> https-jobs-smartrecruiters-com
+  reasons: field count delta 3 exceeds tolerance 2 (detector=0, ai=3); label Jaccard 0.000 below 0.7
+  ai_only backlog (3): fix heuristics/inventory, rebuild/reload, re-run curated-oracle on this page.
+
+=== Capture 49/50 (https://atlas-technica.breezy.hr/p/3715b0c39ede-sr-systems-engineer-east-coast/apply) ===
+AGREE -> https-atlas-technica-breezy-hr-p-3715b0c39ede-sr-systems-engineer-east-coast-app
+  detector=24 ai=23 jaccard=0.7407
+  campaign: 175/664
+  next: node scripts/form-corpus/run-fill-verify-curated.mjs --id=https-atlas-technica-breezy-hr-p-3715b0c39ede-sr-systems-engineer-east-coast-app --check-validity --check-a11y --check-errors
+
+=== Capture 50/50 (https://help.bamboohr.com/s/article/875031) ===
+Capture failed: Agree with too few fields (1) - skip empty/login wall
+
+=== Session summary ===
+{
+  "agree": 13,
+  "disagree": 17,
+  "error": 20,
+  "captured": 50,
+  "report": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/curated-oracle-report.json",
+  "campaign_agrees": 175,
+  "campaign_target": 664,
+  "triage_count": 94
+}
