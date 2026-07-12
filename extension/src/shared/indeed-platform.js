@@ -1,6 +1,6 @@
 import {
     resolveIndeedHost,
-    resolveJobBoardMarket,
+    resolveSessionMarket,
 } from './job-board-market.js';
 
 export const INDEED_PLATFORM_ID = 'indeed';
@@ -11,6 +11,7 @@ export const INDEED_APPLY_FILTER = '0kf:attr(DSQF7)';
 /**
  * @typedef {Object} IndeedSearchFilters
  * @property {string} [location]
+ * @property {string} [market]
  */
 
 /**
@@ -41,7 +42,12 @@ export function resolveIndeedHostFromOptions({
 
     const locationText = String(location || filters?.location || '').trim();
 
-    return resolveIndeedHost(resolveJobBoardMarket(locationText));
+    return resolveIndeedHost(
+        resolveSessionMarket({
+            market: filters?.market,
+            location: locationText,
+        }),
+    );
 }
 
 /**
@@ -123,6 +129,22 @@ export function buildIndeedJobOpenUrl(
     const baseHost = resolveIndeedHostFromOptions({ host, location, filters });
 
     return `https://${baseHost}/viewjob?jk=${jk}`;
+}
+
+/**
+ * Direct Indeed Apply form entry URL (avoids popup-blocked new-tab clicks).
+ *
+ * @param {string} jobId Indeed jk hex id
+ * @returns {string}
+ */
+export function buildIndeedSmartApplyUrl(jobId) {
+    const jk = String(jobId || '').trim();
+
+    if (!/^[a-f0-9]{16}$/i.test(jk)) {
+        throw new Error(`Invalid Indeed job id: ${jobId}`);
+    }
+
+    return `https://smartapply.indeed.com/beta/indeedapply/form/profile-location?jk=${jk}`;
 }
 
 /**

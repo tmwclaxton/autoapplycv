@@ -70,6 +70,7 @@ import {
 } from './glassdoor-platform.js';
 import {
     buildIndeedJobOpenUrl,
+    buildIndeedSmartApplyUrl,
     isIndeedJobsSearchUrl,
     urlsMatchIndeedSearch,
 } from './indeed-platform.js';
@@ -3952,8 +3953,35 @@ async function processIndeedJob(
     await waitForTabLoadComplete(tabId);
     tabId = await resolveIndeedApplyTabId(tabId, {
         windowId: session?.windowId ?? null,
+        timeoutMs: 8_000,
     });
-    await waitForTabLoadComplete(tabId);
+
+    const bootstrapState = await sendIndeedApplyFlowMessage(tabId, {
+        type: 'INDEED_APPLY_STATE',
+    }).catch(() => null);
+
+    if (!bootstrapState?.open && job.jobId) {
+        const searchTabId = tabId;
+        let windowId = session?.windowId ?? null;
+
+        if (typeof windowId !== 'number') {
+            try {
+                const searchTab = await chrome.tabs.get(searchTabId);
+                windowId = searchTab?.windowId ?? null;
+            } catch {
+                windowId = null;
+            }
+        }
+
+        const applyTab = await chrome.tabs.create({
+            url: buildIndeedSmartApplyUrl(job.jobId),
+            windowId: typeof windowId === 'number' ? windowId : undefined,
+            active: true,
+        });
+        tabId = applyTab.id ?? tabId;
+        await waitForTabLoadComplete(tabId);
+    }
+
     await waitForIndeedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);

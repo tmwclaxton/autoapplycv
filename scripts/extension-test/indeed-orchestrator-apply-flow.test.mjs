@@ -22,10 +22,10 @@ assert.match(
     /sendIndeedApplyFlowMessage\(tabId,\s*\{\s*type: 'INDEED_APPLY_STATE'/,
     'Indeed apply loop should use iframe-aware messaging',
 );
-assert.doesNotMatch(
+assert.match(
     processIndeedJobBlock,
-    /sendIndeedMessage\(tabId, 'INDEED_APPLY_STATE'\)/,
-    'Indeed apply loop should not use top-frame-only APPLY_STATE',
+    /buildIndeedSmartApplyUrl/,
+    'Indeed apply should fall back to direct smartapply navigation',
 );
 
 console.log('indeed-orchestrator-apply-flow tests passed.');
