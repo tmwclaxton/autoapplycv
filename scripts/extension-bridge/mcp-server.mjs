@@ -580,7 +580,7 @@ server.tool(
         tabId: z.number().int().optional(),
     },
     async ({ tabId }) => {
-        const result = await runCommand('start_draft_all', { tabId }, 180000);
+        const result = await runCommand('start_draft_all', { tabId }, 900000);
 
         return {
             content: [{

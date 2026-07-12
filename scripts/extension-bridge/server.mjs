@@ -28,6 +28,9 @@ import { withResolvedCommandParams } from './lib/resolve-command-params.mjs';
 
 const config = resolveBridgeConfig();
 
+/** Draft All on long Ashby/Greenhouse forms can exceed legacy MCP client timeouts. */
+const DRAFT_ALL_MIN_TIMEOUT_MS = 900_000;
+
 /** @type {Map<string, { resolve: (value: unknown) => void, reject: (error: Error) => void, timer: ReturnType<typeof setTimeout> }>} */
 const pendingCommands = new Map();
 
@@ -320,9 +323,13 @@ async function handleHttpRequest(req, res) {
                 return;
             }
 
-            const timeoutMs = Number(body.timeoutMs || config.commandTimeoutMs);
+            let timeoutMs = Number(body.timeoutMs || config.commandTimeoutMs);
             const params = body.params || {};
             const instanceId = body.instanceId ?? null;
+
+            if (action === 'start_draft_all') {
+                timeoutMs = Math.max(timeoutMs, DRAFT_ALL_MIN_TIMEOUT_MS);
+            }
 
             if (action === 'find_buttons') {
                 const result = await runFindButtons(
