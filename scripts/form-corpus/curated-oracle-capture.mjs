@@ -200,11 +200,46 @@ async function ensureWorkableApplyForm(tabId, pageUrl) {
 }
 
 /**
+ * Teamtailor job pages (`/jobs/{id}-slug`) need `/applications/new` for the form.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function preferTeamtailorApplyUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        if (!/(?:^|\.)teamtailor\.com$/i.test(parsed.hostname)) {
+            return url;
+        }
+
+        if (/\/applications\/new\/?$/i.test(parsed.pathname)) {
+            return url;
+        }
+
+        const jobMatch = parsed.pathname.match(/^(\/jobs\/\d+[^/]*)\/?$/i);
+
+        if (!jobMatch) {
+            return url;
+        }
+
+        parsed.pathname = `${jobMatch[1].replace(/\/$/, '')}/applications/new`;
+        parsed.search = '';
+
+        return parsed.toString();
+    } catch {
+        return url;
+    }
+}
+
+/**
  * @param {string} url
  * @returns {string}
  */
 function preferApplyFormUrl(url) {
-    return preferLeverApplyUrl(preferWorkableApplyUrl(preferPersonioApplyUrl(url)));
+    return preferTeamtailorApplyUrl(
+        preferLeverApplyUrl(preferWorkableApplyUrl(preferPersonioApplyUrl(url))),
+    );
 }
 
 function parseUrlArgs() {
