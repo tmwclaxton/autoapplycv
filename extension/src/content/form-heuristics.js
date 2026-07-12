@@ -624,6 +624,73 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalize(raw);
     }
 
+    function isLeverLocationInput(element) {
+        if (!element || !isLeverJobsHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        return element.id === 'location-input' || element.classList?.contains('location-input');
+    }
+
+    async function setLeverLocationValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const typed = stringValue.split(',')[0].trim() || stringValue;
+
+        element.focus();
+        await fillReactTextControl(element, typed);
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+
+        const fieldRoot = element.closest('.application-field');
+        const dropdown = fieldRoot?.querySelector('.dropdown-container');
+
+        if (dropdown) {
+            dropdown.style.display = 'block';
+        }
+
+        await sleep(120);
+
+        const results = Array.from(fieldRoot?.querySelectorAll('.dropdown-results > *') || [])
+            .filter((node) => isVisible(node) && normalize(node.textContent || '').length >= 2);
+
+        let best = null;
+        let bestScore = -1;
+        const normalizedAnswer = normalizeOption(stringValue);
+        const normalizedTyped = normalizeOption(typed);
+
+        for (const result of results) {
+            const text = normalize(result.textContent || '');
+            let score = 0;
+
+            if (normalizedTyped && text.includes(normalizedTyped)) {
+                score += 10;
+            }
+
+            if (normalizedAnswer && text.includes(normalizedAnswer)) {
+                score += 8;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                best = result;
+            }
+        }
+
+        if (best) {
+            nativeClick(best);
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+            return valueMatchesAnswer(element.value, stringValue)
+                || valueMatchesAnswer(element.value, typed);
+        }
+
+        return valueMatchesAnswer(element.value, typed);
+    }
+
     function isRecruiteeApplyHost(doc = document) {
         try {
             return /\.recruitee\.com$/i.test(doc.location?.hostname || '');
@@ -692,6 +759,27 @@ const AutoCVApplyFormHeuristics = (() => {
 
             if (/cover letter/i.test(wrapperText)) {
                 return 'cover letter';
+            }
+        }
+
+        const fieldName = String(element.name || element.id || '');
+
+        if (/^custom_attribute_/i.test(fieldName) || /^field-custom_attribute_/i.test(element.id || '')) {
+            const wrapper = element.closest('[class*="fieldWrapper"], [class*="FieldWrapper"]');
+            const labelEl = wrapper?.querySelector('[class*="formLabel"], .form-label, label');
+
+            if (labelEl) {
+                const clone = labelEl.cloneNode(true);
+
+                for (const node of clone.querySelectorAll('.sr-only, [aria-hidden="true"]')) {
+                    node.remove();
+                }
+
+                const raw = clone.textContent ? normalize(clone.textContent) : '';
+
+                if (raw.length >= 3) {
+                    return raw;
+                }
             }
         }
 
@@ -827,6 +915,70 @@ const AutoCVApplyFormHeuristics = (() => {
         return element.closest('fieldset[role="radiogroup"][aria-labelledby]')
             || element.closest('[role="radiogroup"][aria-labelledby]')
             || element.closest('[role="group"][aria-labelledby]');
+    }
+
+    function getWorkableRoleRadioHost(element) {
+        return element?.closest?.('[role="radio"][data-ui="option"]')
+            || element?.closest?.('[role="radio"]')
+            || null;
+    }
+
+    function readWorkableRoleRadioLabel(roleHost) {
+        if (!roleHost) {
+            return '';
+        }
+
+        const doc = roleHost.ownerDocument || document;
+        const labelledBy = roleHost.getAttribute('aria-labelledby') || '';
+
+        for (const refId of labelledBy.split(/\s+/)) {
+            if (!/radio_label_/i.test(refId)) {
+                continue;
+            }
+
+            const labelEl = doc.getElementById(refId);
+            const text = labelEl?.textContent ? normalize(labelEl.textContent) : '';
+
+            if (text.length >= 1) {
+                return text;
+            }
+        }
+
+        const native = roleHost.querySelector('input[type="radio"]');
+        const nativeValue = String(native?.value || '').trim();
+
+        if (/^(true|false)$/i.test(nativeValue)) {
+            return nativeValue.toLowerCase() === 'true' ? 'Yes' : 'No';
+        }
+
+        return nativeValue;
+    }
+
+    function syncWorkableNativeRadioFromRoleHost(roleHost) {
+        if (!roleHost) {
+            return;
+        }
+
+        const native = roleHost.querySelector('input[type="radio"]');
+
+        if (!native) {
+            return;
+        }
+
+        const selected = roleHost.getAttribute('aria-checked') === 'true';
+
+        setNativeChecked(native, selected);
+
+        if (selected) {
+            native.dispatchEvent(new Event('input', { bubbles: true }));
+            native.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
+    function syncWorkableRoleRadioGroup(roleRadios) {
+        for (const roleRadio of roleRadios || []) {
+            syncWorkableNativeRadioFromRoleHost(roleRadio);
+        }
     }
 
     function getWorkableCheckboxOptionLabel(element) {
@@ -2268,6 +2420,14 @@ const AutoCVApplyFormHeuristics = (() => {
             if (singleValue?.textContent?.trim()) {
                 return singleValue.textContent.replace(/\s+/g, ' ').trim();
             }
+
+            const dataValueContainer = control.querySelector('.select__input-container[data-value]')
+                || element.closest('.select__input-container[data-value]');
+            const dataValue = String(dataValueContainer?.getAttribute('data-value') || '').trim();
+
+            if (dataValue.length >= 1 && !/^select\b/i.test(dataValue)) {
+                return dataValue;
+            }
         }
 
         const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
@@ -2807,6 +2967,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return staticLabels;
         }
 
+        const isGreenhouseHost = isGreenhouseApplyHost(doc);
+        const maxAttempts = isGreenhouseHost ? 4 : 12;
+        const optionWaitMs = isGreenhouseHost ? 200 : 900;
+
         const beforeValue = readReactSelectValue(element) || String(element.value || '').trim();
 
         await closeOpenComboboxMenus(doc);
@@ -2816,7 +2980,7 @@ const AutoCVApplyFormHeuristics = (() => {
 
         let optionElements = [];
 
-        for (let attempt = 0; attempt < 12 && optionElements.length < 2; attempt += 1) {
+        for (let attempt = 0; attempt < maxAttempts && optionElements.length < 2; attempt += 1) {
             optionElements = collectComboboxOptions(doc, element);
 
             if (optionElements.length >= 2) {
@@ -2824,12 +2988,12 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             await new Promise((resolve) => {
-                setTimeout(resolve, 80);
+                setTimeout(resolve, isGreenhouseHost ? 40 : 80);
             });
         }
 
         if (optionElements.length === 0) {
-            optionElements = await waitForComboboxOptions(doc, element, 900);
+            optionElements = await waitForComboboxOptions(doc, element, optionWaitMs);
         }
 
         const labels = optionElementsToLabels(optionElements);
@@ -3883,6 +4047,16 @@ const AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
+    const GENERIC_CHOICE_GROUP_MARKERS = new Set(['multiple-choice']);
+
+    function resolveChoiceGroupMarker(marker, element) {
+        if (!marker || GENERIC_CHOICE_GROUP_MARKERS.has(marker)) {
+            return element?.name || marker || null;
+        }
+
+        return marker;
+    }
+
     function getChoiceGroupIdentity(element) {
         const scope = getChoiceGroupScope(element);
 
@@ -3899,12 +4073,13 @@ const AutoCVApplyFormHeuristics = (() => {
             || scope.getAttribute('data-field-path');
 
         if (scopedMarker) {
-            return scopedMarker;
+            return resolveChoiceGroupMarker(scopedMarker, element);
         }
 
         const nested = scope.querySelector('[data-qa], ul[id], ol[id], div[id]');
+        const nestedMarker = nested?.getAttribute('data-qa') || nested?.id || null;
 
-        return nested?.getAttribute('data-qa') || nested?.id || null;
+        return resolveChoiceGroupMarker(nestedMarker, element);
     }
 
     function getGroupName(element) {
@@ -4244,6 +4419,20 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setRadioGroupValue(element, answer) {
+        if (isWorkableApplyHost(element.ownerDocument || document)) {
+            const workableGroup = getWorkableChoiceGroup(element);
+
+            if (workableGroup) {
+                const roleRadios = Array.from(workableGroup.querySelectorAll('[role="radio"]')).filter(isVisible);
+
+                if (roleRadios.length >= 2 && setRoleRadioGroupValue(roleRadios, answer)) {
+                    syncWorkableRoleRadioGroup(roleRadios);
+
+                    return true;
+                }
+            }
+        }
+
         for (const radio of getGroupInputs(element)) {
             const optionText = getOptionLabel(radio);
             const optionValue = String(radio.value || '');
@@ -4554,6 +4743,8 @@ const AutoCVApplyFormHeuristics = (() => {
                         candidate.setAttribute('tabindex', selected ? '0' : '-1');
                     });
                 }
+
+                syncWorkableRoleRadioGroup(radios);
 
                 return true;
             }
@@ -6423,6 +6614,18 @@ const AutoCVApplyFormHeuristics = (() => {
             checked = Boolean(element.checked);
             value = checked ? String(element.value || 'on') : '';
 
+            if (type === 'radio' && isWorkableApplyHost(element.ownerDocument || document)) {
+                const roleHost = getWorkableRoleRadioHost(element);
+                const roleLabel = roleHost?.getAttribute('aria-checked') === 'true'
+                    ? readWorkableRoleRadioLabel(roleHost)
+                    : '';
+
+                if (roleLabel) {
+                    checked = true;
+                    value = roleLabel;
+                }
+            }
+
             if (
                 type === 'checkbox'
                 && element.closest('[class*="_yesno_"]')
@@ -7285,6 +7488,10 @@ const AutoCVApplyFormHeuristics = (() => {
             if (choiceInput) {
                 return setGroupValue(choiceInput, value);
             }
+        }
+
+        if (isLeverLocationInput(element)) {
+            return setLeverLocationValue(element, value);
         }
 
         const filled = await fillReactTextControl(element, value);

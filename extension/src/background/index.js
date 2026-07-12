@@ -49,6 +49,7 @@ import {
     compactSnapshotForInventory,
     enrichApplyAnswers,
     enrichFieldsWithSnapshotDom,
+    isJobSpecificMemoField,
     shouldReuseCachedDraftAllSnapshot,
     snapshotFingerprint,
     fetchGreenhouseJobPostingLocation,
@@ -1076,6 +1077,10 @@ async function saveLocalMemo(answers, fieldsByRef = null, profileData = null) {
             }
 
             if (isMarketingOrFutureConsentField(field)) {
+                continue;
+            }
+
+            if (isJobSpecificMemoField(field)) {
                 continue;
             }
         }
@@ -2567,6 +2572,10 @@ async function syncQuestionMemoFromApplicationAnswers(applicationAnswers) {
         const answer = String(entry?.answer || '').trim();
 
         if (!question || !answer) {
+            continue;
+        }
+
+        if (isJobSpecificMemoField({ label: question })) {
             continue;
         }
 

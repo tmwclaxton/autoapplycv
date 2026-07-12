@@ -83,6 +83,12 @@ export function normalizeQuestionLabel(label) {
         .trim();
 }
 
+export function isJobSpecificMemoField(field) {
+    const label = normalizeQuestionLabel(field?.label || field?.question || '');
+
+    return /\bcover letter\b/.test(label);
+}
+
 export function matchMemoAnswer(questionMemo, fieldLabel) {
     if (!questionMemo || typeof questionMemo !== 'object') {
         return null;
@@ -136,6 +142,11 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData 
         }
 
         if (isAgreementCheckboxField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        if (isJobSpecificMemoField(field)) {
             remainingFields.push(field);
             continue;
         }

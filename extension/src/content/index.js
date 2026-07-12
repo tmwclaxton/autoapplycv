@@ -513,8 +513,11 @@ function findResumeFileInput() {
             }
         }
 
-        fileInput = doc.querySelector('input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])')
+        fileInput = doc.querySelector('input[type="file"][data-qa="input-resume"]:not([disabled])')
+            || doc.querySelector('input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])')
             || doc.querySelector('input[type="file"]#_systemfield_resume:not([disabled])')
+            || doc.querySelector('[data-role="dropzone"] input[type="file"]:not([disabled])')
+            || doc.querySelector('[data-ui="resume"] input[type="file"]:not([disabled])')
             || doc.querySelector('input[type="file"][name="documents.cv"]:not([disabled])')
             || doc.querySelector('input[type="file"]#doc-input-cv:not([disabled])')
             || doc.querySelector('input[type="file"][name="candidate.cv"]:not([disabled])')

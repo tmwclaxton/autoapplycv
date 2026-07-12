@@ -497,9 +497,14 @@ const AutoCVApplyFieldInventory = (() => {
         }
 
         const MAX_LAZY_HARVESTS = 24;
+        const harvestDeadlineMs = Date.now() + 12_000;
         let harvestCount = 0;
 
         for (const element of elements || []) {
+            if (Date.now() > harvestDeadlineMs) {
+                break;
+            }
+
             if (!['select', 'radio'].includes(element.field_type)) {
                 continue;
             }

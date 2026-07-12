@@ -202,6 +202,29 @@ test('Ashby labeled-radio group outlines every visible option row', () => {
     assert.equal(hearField.highlightedCount, 5, `${hearField.label} should outline all 5 Ashby option rows`);
 });
 
+test('Lever additional-cards multiple-choice groups inventory separately by card name', () => {
+    const window = loadLeverFixture(
+        'tests/fixtures/form-extraction/html/https-jobs-eu-lever-co-asobostudio-3edcc5db-2619-4c98-98d1-81778e6c4e66-apply.html',
+        'https://jobs.eu.lever.co/asobostudio/3edcc5db-2619-4c98-98d1-81778e6c4e66/apply',
+    );
+    const fields = collectChoiceFields(window);
+    const radioFields = fields.filter((field) => field.field_type === 'radio');
+
+    assert.equal(
+        radioFields.length,
+        4,
+        `expected 4 Lever card-radio groups, got ${JSON.stringify(radioFields.map((field) => field.label))}`,
+    );
+    assert.ok(
+        radioFields.some((field) => /expériences professionnelles|professional experience/i.test(field.label)),
+        'expected experience card-radio group',
+    );
+    assert.ok(
+        radioFields.some((field) => /présentiel|on-site/i.test(field.label)),
+        'expected on-site card-radio group',
+    );
+});
+
 test('Lever choice group highlighting outlines every option label in pronoun and opportunity groups', () => {
     const hivelyWindow = loadLeverFixture(
         'tests/fixtures/form-extraction/html/web-jobs-lever-co-apply.html',

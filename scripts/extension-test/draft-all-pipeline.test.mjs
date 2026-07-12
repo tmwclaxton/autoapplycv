@@ -268,3 +268,23 @@ test('partitionDraftAllBatchAnswers keeps identity answers over null LLM output'
     assert.equal(toApply[1].answer, 'Grounded answer.');
     assert.equal(pending.length, 0);
 });
+
+test('cover letter question memo does not auto-apply across jobs', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { id: 0, ref: 'f0', label: 'Cover letter', field_type: 'textarea' },
+            { id: 1, ref: 'f1', label: 'Why do you want this role?', field_type: 'textarea' },
+        ],
+        profileData,
+        questionMemo: {
+            'Cover letter': 'Dear Hiring Manager at 4Subsea, I am excited to apply...',
+            'Why do you want this role?': 'I enjoy building reliable products.',
+        },
+    });
+
+    const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
+
+    assert.equal(memoStage?.answers?.some((answer) => /cover letter/i.test(answer.label || '')), false);
+    assert.equal(plan.llmFields.some((field) => /cover letter/i.test(field.label || '')), true);
+    assert.equal(plan.llmFields.some((field) => /why do you want this role/i.test(field.label || '')), false);
+});
