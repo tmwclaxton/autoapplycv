@@ -181,7 +181,7 @@ server.tool(
         frameId: z.number().int().optional(),
     },
     async ({ tabId, windowId, frameId }) => {
-        const result = await runCommand('get_field_inventory', { tabId, windowId, frameId });
+        const result = await runCommand('get_field_inventory', { tabId, windowId, frameId }, 120000);
 
         return {
             content: [{
