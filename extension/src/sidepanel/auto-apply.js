@@ -13,11 +13,11 @@ import {
     normalizeAutoApplyPlatform,
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
+import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
     resolveProfileSearchLocation,
     shouldUseProfileSearchLocation,
 } from './auto-apply-start-filters.js';
-import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
     describeTimingLevel,
     normalizeTimingLevel,

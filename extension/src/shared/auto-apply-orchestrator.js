@@ -31,7 +31,6 @@ import {
     normalizeAutoApplyPlatform,
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
-import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import {
     appendAutoApplyLog,
@@ -45,6 +44,7 @@ import {
     resumeAutoApplyFromInput,
     saveAutoApplySession,
 } from './auto-apply-session.js';
+import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import {
     clearActiveAutoApplyTiming,
     persistActiveAutoApplyTiming,
@@ -2274,21 +2274,6 @@ async function savePendingFieldsForTab(tabId, fields) {
         .catch(() => {});
 }
 
-async function removePendingFieldFromTab(tabId, fieldRef) {
-    const ref = String(fieldRef || '').trim();
-
-    if (!ref) {
-        return;
-    }
-
-    const fields = await loadPendingFieldsForTab(tabId);
-    const next = fields.filter((field) => field?.ref !== ref);
-
-    if (next.length !== fields.length) {
-        await savePendingFieldsForTab(tabId, next);
-    }
-}
-
 async function enrichDraftResultWithGaps(tabId, draftResult, options = {}) {
     const useStoredPending = options.useStoredPending !== false;
     const pendingFields = draftResult?.pendingFields?.length
@@ -2651,7 +2636,7 @@ async function handleAdvanceValidationRetry(
         );
     }
 
-    const pauseOutcome = await pauseForUserInput(
+    await pauseForUserInput(
         session,
         tabId,
         job,
@@ -2732,7 +2717,7 @@ async function ensureStepFilledOrPaused(
         return { paused: false, session, profileData };
     }
 
-    const pauseOutcome = await pauseForUserInput(
+    await pauseForUserInput(
         session,
         tabId,
         job,
@@ -8485,14 +8470,9 @@ async function runAutoApplyLoop(
 
 /** @type {(() => Promise<object|null>)|null} */
 let profileLoader = null;
-let questionMemoLoader = null;
 
 export function configureAutoApplyProfileLoader(loader) {
     profileLoader = typeof loader === 'function' ? loader : null;
-}
-
-export function configureAutoApplyQuestionMemoLoader(loader) {
-    questionMemoLoader = typeof loader === 'function' ? loader : null;
 }
 
 async function getProfileForAutoApply() {
@@ -8504,20 +8484,6 @@ async function getProfileForAutoApply() {
         return await profileLoader();
     } catch {
         return null;
-    }
-}
-
-async function getQuestionMemoForAutoApply() {
-    if (!questionMemoLoader) {
-        return {};
-    }
-
-    try {
-        const memo = await questionMemoLoader();
-
-        return memo && typeof memo === 'object' ? memo : {};
-    } catch {
-        return {};
     }
 }
 

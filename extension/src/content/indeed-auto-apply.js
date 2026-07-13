@@ -1640,17 +1640,6 @@ const AutoCVApplyIndeedAutoApply = (() => {
         };
     }
 
-    function unescapeJsonStringFragment(value) {
-        try {
-            return JSON.parse(`"${String(value || '')}"`);
-        } catch {
-            return String(value || '')
-                .replace(/\\u0026/g, '&')
-                .replace(/\\"/g, '"')
-                .replace(/\\\\/g, '\\');
-        }
-    }
-
     function decodeIndeedEmbeddedJsonSlice(slice) {
         return String(slice || '')
             .replace(/\\"/g, '"')

@@ -2,8 +2,8 @@
  * Merge Auto Apply search filters from bridge/MCP params and scenario payloads.
  */
 
-import { resolveConciseLocationValue } from './pending-fields.js';
 import { resolveJobBoardMarket } from './job-board-market.js';
+import { resolveConciseLocationValue } from './pending-fields.js';
 
 /**
  * @param {object|null|undefined} profileData

@@ -7,7 +7,6 @@ import {
 } from './auto-apply-blockers.js';
 import {
     configureAutoApplyProfileLoader,
-    configureAutoApplyQuestionMemoLoader,
     clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
     getAutoApplyStatus,
@@ -107,7 +106,6 @@ import { validateCvUpload, validateDocumentUpload } from './upload-validation.js
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
-configureAutoApplyQuestionMemoLoader(loadQuestionMemo);
 void reconcileOrphanedAutoApplySession();
 
 let cachedProfile = null;
