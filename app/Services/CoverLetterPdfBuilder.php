@@ -39,8 +39,9 @@ class CoverLetterPdfBuilder
     /**
      * @param  array<string, mixed>|null  $profile
      * @param  array<string, mixed>|null  $job
+     * @param  array<string, mixed>  $options
      */
-    public function build(string $text, ?array $profile = null, ?array $job = null): string
+    public function build(string $text, ?array $profile = null, ?array $job = null, array $options = []): string
     {
         $normalized = $this->normalizeUnicodeForPdf(trim($text));
 
@@ -48,7 +49,7 @@ class CoverLetterPdfBuilder
             throw new \InvalidArgumentException('Nothing to save yet.');
         }
 
-        $pageItems = $this->paginateLayoutItems($this->buildStyledLayoutItems($normalized, $profile, $job));
+        $pageItems = $this->paginateLayoutItems($this->buildStyledLayoutItems($normalized, $profile, $job, $options));
         $pageContents = array_map(fn (array $items): string => $this->buildPageContentStream($items), $pageItems);
 
         return $this->renderPdf($pageContents);
@@ -57,10 +58,12 @@ class CoverLetterPdfBuilder
     /**
      * @param  array<string, mixed>|null  $profile
      * @param  array<string, mixed>|null  $job
+     * @param  array<string, mixed>  $options
      * @return array<int, array<string, mixed>>
      */
-    private function buildStyledLayoutItems(string $text, ?array $profile, ?array $job): array
+    private function buildStyledLayoutItems(string $text, ?array $profile, ?array $job, array $options = []): array
     {
+        $includeDate = (bool) ($options['include_date'] ?? true);
         $items = [];
         $y = self::PDF_HEIGHT - self::MARGIN_TOP;
         $contentBottom = self::MARGIN_BOTTOM;
@@ -92,6 +95,7 @@ class CoverLetterPdfBuilder
         };
 
         $fullName = trim((string) ($profile['full_name'] ?? ''));
+        $headline = trim((string) ($profile['headline'] ?? ''));
         $contactLine = $this->buildContactLine($profile);
 
         if ($fullName !== '') {
@@ -100,6 +104,15 @@ class CoverLetterPdfBuilder
                 'font' => self::FONT_SANS_BOLD,
                 'size' => self::SIZE_NAME,
                 'leading' => 16,
+            ]);
+        }
+
+        if ($headline !== '') {
+            $pushText([
+                'text' => $headline,
+                'font' => self::FONT_SANS,
+                'size' => self::SIZE_CONTACT,
+                'leading' => 14,
             ]);
         }
 
@@ -113,18 +126,22 @@ class CoverLetterPdfBuilder
             ]);
         }
 
-        if ($fullName !== '' || $contactLine !== '') {
+        if ($fullName !== '' || $headline !== '' || $contactLine !== '') {
             $pushGap(10);
         }
 
-        $pushText([
-            'text' => now()->format('j F Y'),
-            'font' => self::FONT_SANS,
-            'size' => self::SIZE_META,
-            'leading' => 14,
-        ]);
+        if ($includeDate) {
+            $pushText([
+                'text' => now()->format('j F Y'),
+                'font' => self::FONT_SANS,
+                'size' => self::SIZE_META,
+                'leading' => 14,
+            ]);
 
-        $pushGap(self::HEADER_GAP_BEFORE_BODY);
+            $pushGap(self::HEADER_GAP_BEFORE_BODY);
+        } elseif ($fullName !== '' || $headline !== '' || $contactLine !== '') {
+            $pushGap(self::HEADER_GAP_BEFORE_BODY - 10);
+        }
 
         $paragraphs = preg_split('/\n\s*\n/', str_replace("\r\n", "\n", $text)) ?: [];
 
@@ -164,7 +181,7 @@ class CoverLetterPdfBuilder
         $parts = array_values(array_filter([
             trim((string) ($profile['email'] ?? '')),
             trim((string) ($profile['phone'] ?? '')),
-            trim((string) ($profile['city'] ?? '')),
+            trim((string) ($profile['location'] ?? $profile['city'] ?? '')),
         ], fn (string $value): bool => $value !== ''));
 
         return implode(' | ', $parts);

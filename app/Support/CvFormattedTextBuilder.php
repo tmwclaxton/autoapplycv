@@ -36,6 +36,30 @@ class CvFormattedTextBuilder
     }
 
     /**
+     * Body sections only (summary, skills, experience, education) for PDF headers that already show name and contact.
+     *
+     * @param  array<string, mixed>  $normalized
+     */
+    public static function bodySections(array $normalized): string
+    {
+        $withoutHeader = $normalized;
+        unset(
+            $withoutHeader['full_name'],
+            $withoutHeader['headline'],
+            $withoutHeader['email'],
+            $withoutHeader['phone'],
+            $withoutHeader['location'],
+            $withoutHeader['city'],
+            $withoutHeader['postcode'],
+            $withoutHeader['country'],
+            $withoutHeader['linkedin_url'],
+            $withoutHeader['website_url'],
+        );
+
+        return self::fromStructured($withoutHeader);
+    }
+
+    /**
      * @param  array<string, mixed>  $normalized
      */
     public static function fromStructured(array $normalized): string

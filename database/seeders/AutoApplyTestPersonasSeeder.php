@@ -10,8 +10,8 @@ use App\Models\User;
 use App\Services\CoverLetterPdfBuilder;
 use App\Services\ExtensionConnectionService;
 use App\Support\ApplicationSettings;
+use App\Support\TestPersonaCvFixtures;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -154,15 +154,7 @@ class AutoApplyTestPersonasSeeder extends Seeder
         $fixturePdfPath = base_path(self::CV_DIR.'/'.$cvFilename);
 
         if (! is_file($fixturePdfPath)) {
-            File::ensureDirectoryExists(dirname($fixturePdfPath));
-            $pdfBody = $pdfBuilder->build(
-                (string) ($profileData['formatted_cv_text'] ?? $profileData['raw_cv_text'] ?? 'Test CV'),
-                [
-                    'full_name' => (string) ($profileData['full_name'] ?? $user->name),
-                    'email' => (string) ($persona['email'] ?? $user->email),
-                ],
-            );
-            file_put_contents($fixturePdfPath, $pdfBody);
+            TestPersonaCvFixtures::writePdf($persona, $profileData, $pdfBuilder);
         }
 
         $storedPath = 'profile-documents/'.$user->id.'/'.$cvFilename;

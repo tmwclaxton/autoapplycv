@@ -44,4 +44,34 @@ class CvFormattedTextBuilderTest extends TestCase
         $this->assertStringContainsString('Developer - Example Ltd', $formatted);
         $this->assertStringContainsString('- Shipped billing', $formatted);
     }
+
+    #[Test]
+    public function test_body_sections_omit_header_fields(): void
+    {
+        $body = CvFormattedTextBuilder::bodySections([
+            'full_name' => 'James Mitchell',
+            'headline' => 'Senior Laravel Developer',
+            'email' => 'test-uk@autocvapply.test',
+            'phone' => '+447700900123',
+            'location' => 'London, United Kingdom',
+            'summary' => 'Backend engineer specialising in Laravel APIs.',
+            'skills' => ['PHP', 'Laravel'],
+            'experience' => [[
+                'title' => 'Senior Software Engineer',
+                'company' => 'Riverbank Systems',
+                'highlights' => ['Led migration of monolith to Laravel microservices'],
+            ]],
+            'education' => [[
+                'degree' => 'BSc Computer Science',
+                'institution' => 'University of Bristol',
+            ]],
+        ]);
+
+        $this->assertStringNotContainsString('James Mitchell', $body);
+        $this->assertStringContainsString('Summary', $body);
+        $this->assertStringContainsString('Skills', $body);
+        $this->assertStringContainsString('Experience', $body);
+        $this->assertStringContainsString('Education', $body);
+        $this->assertStringContainsString('- Led migration of monolith to Laravel microservices', $body);
+    }
 }
