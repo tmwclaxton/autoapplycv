@@ -1053,10 +1053,12 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
                 /timed out/i.test(message) &&
                 (type === 'LINKEDIN_SELECT_JOB' ||
                     type === 'LINKEDIN_OPEN_EASY_APPLY' ||
-                    type === 'LINKEDIN_CLICK_EASY_APPLY')
+                    type === 'LINKEDIN_CLICK_EASY_APPLY' ||
+                    type === 'LINKEDIN_WAIT_FOR_STEP_READY')
             ) {
                 return {
                     success: false,
+                    ready: false,
                     needsNavigation: type === 'LINKEDIN_SELECT_JOB',
                     timedOut: true,
                     error: message,
@@ -3168,14 +3170,20 @@ async function processLinkedInJob(
             tabId,
             'LINKEDIN_WAIT_FOR_STEP_READY',
             { timeoutMs: 20_000 },
-        ).catch(() => null);
+        ).catch((error) => ({
+            ready: false,
+            error:
+                error instanceof Error
+                    ? error.message
+                    : 'Easy Apply step-ready check failed.',
+        }));
 
-        if (stepReady && stepReady.ready === false) {
+        if (!stepReady?.ready) {
             stepLoadAttempts += 1;
 
             await logSession(
                 'warn',
-                `[linkedin_load] ${job.title}: ${stepReady.error || 'Easy Apply step not ready yet.'} (attempt ${stepLoadAttempts}/3)`,
+                `[linkedin_load] ${job.title}: ${stepReady?.error || 'Easy Apply step not ready yet.'} (attempt ${stepLoadAttempts}/3)`,
             );
 
             if (stepLoadAttempts < 3) {

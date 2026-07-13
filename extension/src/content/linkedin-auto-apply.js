@@ -1701,10 +1701,32 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const spinner = modal.querySelector(
-            '.artdeco-loader, .jobs-loader, [data-test-loader]',
+            '.artdeco-loader, .jobs-loader, [data-test-loader], .artdeco-loader__bars',
         );
 
-        return Boolean(spinner && isElementVisible(spinner));
+        if (!spinner) {
+            return false;
+        }
+
+        // LinkedIn often keeps loader nodes mounted with 0x0 boxes while the
+        // Easy Apply shell is still empty - treat presence as loading.
+        if (isElementVisible(spinner)) {
+            return true;
+        }
+
+        const fieldCount = modal.querySelectorAll(
+            'input:not([type="hidden"]), textarea, select',
+        ).length;
+
+        if (fieldCount > 0) {
+            return false;
+        }
+
+        return Boolean(
+            modal.querySelector(
+                '.jobs-loader, .artdeco-loader, [data-test-loader]',
+            ),
+        );
     }
 
     function hasEasyApplyStepContent(modal) {
