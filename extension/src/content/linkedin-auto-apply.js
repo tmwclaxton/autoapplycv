@@ -1864,7 +1864,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 return { ready: false, error: 'Easy Apply modal is not open.' };
             }
 
-            await waitForLoadingToSettle(modal, 2_000);
+            await waitForLoadingToSettle(modal, 1_500);
 
             if (
                 !isEasyApplyStepLoading(modal) &&
@@ -1882,9 +1882,24 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                     emptySince = Date.now();
                 }
 
-                if (!nudged && Date.now() - emptySince >= 2_000) {
+                if (!nudged && Date.now() - emptySince >= 1_500) {
                     await nudgeEasyApplyModalFocus(modal);
                     nudged = true;
+                }
+
+                // Empty shell + stuck loader rarely hydrates after a few
+                // seconds - fail fast so orchestrator can reopen/skip.
+                if (
+                    isEasyApplyStepLoading(modal) &&
+                    Date.now() - emptySince >= 6_000
+                ) {
+                    return {
+                        ready: false,
+                        zombie: true,
+                        error: 'Easy Apply step is still loading.',
+                        stepFingerprint: readStepFingerprint(modal),
+                        state: getEasyApplyModalState(),
+                    };
                 }
             } else {
                 emptySince = null;

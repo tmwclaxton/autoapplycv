@@ -3047,6 +3047,38 @@ async function processLinkedInJob(
                 'warn',
                 `[linkedin_load] ${job.title}: Easy Apply shell open but empty - will recover before fill.`,
             );
+
+            const recovered = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_RECOVER_EMPTY_SHELL',
+                { waitMs: 12_000 },
+                {
+                    maxAttempts: 1,
+                    timeoutMs: 40_000,
+                },
+            ).catch((error) => ({
+                recovered: false,
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : 'Empty-shell recovery failed.',
+            }));
+
+            if (recovered?.recovered || recovered?.ready) {
+                await logSession(
+                    'info',
+                    `[linkedin_load] ${job.title}: empty shell recovered via ${recovered.method || 'reopen'} before page reload.`,
+                );
+                postOpenReady = {
+                    ready: true,
+                    recoveredFromEmptyShell: true,
+                };
+            } else {
+                await logSession(
+                    'warn',
+                    `[linkedin_load] ${job.title}: empty-shell reopen failed - ${recovered?.error || 'still empty'}; reloading page.`,
+                );
+            }
         }
     }
 
