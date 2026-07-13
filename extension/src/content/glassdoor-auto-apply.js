@@ -274,6 +274,13 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
         let searchMatched = true;
 
+        if (
+            /countryRedirect=true/i.test(window.location.href) ||
+            /Recommended Jobs For You/i.test(document.title || '')
+        ) {
+            searchMatched = false;
+        }
+
         if (expectedKeyword && slug(currentKeyword) !== slug(expectedKeyword)) {
             searchMatched = false;
         }
@@ -307,7 +314,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             return {
                 success: false,
                 searchMatched: false,
-                error: 'Glassdoor search results do not match the expected role or location.',
+                error: /countryRedirect=true/i.test(window.location.href)
+                    ? 'Glassdoor redirected this search to a regional recommended feed. Sign in with a US Glassdoor profile or clear the country redirect before Auto Apply.'
+                    : 'Glassdoor search results do not match the expected role or location.',
             };
         }
 

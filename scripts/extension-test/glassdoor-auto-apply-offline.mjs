@@ -73,6 +73,19 @@ assert.equal(
     'recommended jobs outside job-list-panel must be ignored',
 );
 
+const redirectDom = new JSDOM(searchHtml, {
+    url: 'https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=Scientist&locKeyword=San+Jose+CA+USA&countryRedirect=true',
+});
+redirectDom.window.document.title = 'Recommended Jobs For You | Glassdoor Job Search';
+const redirectApi = loadGlassdoorAutoApply(redirectDom.window);
+const redirectPrepared = await redirectApi.prepareJobSearch({
+    expectedKeyword: 'Scientist',
+    expectedLocation: 'San Jose CA USA',
+});
+
+assert.equal(redirectPrepared.searchMatched, false);
+assert.match(redirectPrepared.error || '', /country redirect/i);
+
 const mismatchDom = new JSDOM(searchHtml, {
     url: 'https://www.glassdoor.com/Job/jobs.htm?sc.keyword0=Software+Engineer&locKeyword=London&applicationType=1',
 });
@@ -83,6 +96,9 @@ const prepared = await mismatchApi.prepareJobSearch({
 });
 
 assert.equal(prepared.searchMatched, false);
-assert.equal(prepared.success, false);
+assert.match(
+    prepared.error || '',
+    /country redirect|role or location/i,
+);
 
 console.log('Glassdoor auto-apply offline tests passed.');
