@@ -43,6 +43,20 @@ assert.match(
     'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
 );
 
+const pauseForCaptchaReviewBlock = orchestrator.match(
+    /async function pauseForCaptchaReview\([\s\S]*?^export async function rePauseAutoApplyForValidationRetry/m,
+)?.[0];
+
+assert.ok(
+    pauseForCaptchaReviewBlock,
+    'pauseForCaptchaReview block should exist',
+);
+assert.match(
+    pauseForCaptchaReviewBlock,
+    /type: 'AUTO_APPLY_PAUSED'[\s\S]*?reason: 'captcha'/,
+    'Captcha pause should broadcast AUTO_APPLY_PAUSED so the sidepanel plays the alert sound',
+);
+
 const sendIndeedMessageBlock = orchestrator.match(
     /async function sendIndeedMessage\([\s\S]*?^async function sendTotalJobsMessage/m,
 )?.[0];

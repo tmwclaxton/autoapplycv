@@ -2532,7 +2532,7 @@ async function pauseForCaptchaReview(session, tabId, job, modalState) {
         captcha: true,
     };
 
-    return updateSession((current) =>
+    await updateSession((current) =>
         pauseAutoApplyForInput(
             appendAutoApplyLog(
                 current,
@@ -2542,6 +2542,14 @@ async function pauseForCaptchaReview(session, tabId, job, modalState) {
             pauseContext,
         ),
     );
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'captcha',
+        })
+        .catch(() => {});
 }
 
 /**
