@@ -42,8 +42,20 @@ export async function sendTabMessage(tabId, message, frameId = 0) {
     return chrome.tabs.sendMessage(tabId, message, { frameId });
 }
 
+function isFinishedIndeedApplyUrl(url) {
+    return /smartapply\.indeed\.com.*\/form\/post-apply/i.test(
+        String(url || ''),
+    );
+}
+
 function isIndeedApplyUrl(url) {
-    return /smartapply\.indeed\.com|indeedapply/i.test(String(url || ''));
+    const value = String(url || '');
+
+    if (isFinishedIndeedApplyUrl(value)) {
+        return false;
+    }
+
+    return /smartapply\.indeed\.com|indeedapply/i.test(value);
 }
 
 export function pickIndeedApplyTabId(hostTabId, tabs = []) {

@@ -62,9 +62,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readJobIdFromUrl() {
-        const match = window.location.search.match(/[?&]jk=([a-f0-9]{16})/i);
+        for (const key of ['jk', 'vjk']) {
+            const match = window.location.search.match(
+                new RegExp(`[?&]${key}=([a-f0-9]{16})`, 'i'),
+            );
 
-        return match?.[1]?.toLowerCase() || null;
+            if (match?.[1]) {
+                return match[1].toLowerCase();
+            }
+        }
+
+        return null;
     }
 
     function readApplyStepSlug() {
@@ -773,6 +781,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
     async function waitForJobDetailReady(jobId, timeoutMs = 35_000) {
         const deadline = Date.now() + timeoutMs;
+        const target = String(jobId).toLowerCase();
         let scrollPass = 0;
 
         while (Date.now() < deadline) {
@@ -787,19 +796,19 @@ const AutoCVApplyIndeedAutoApply = (() => {
             scrollPass += 1;
 
             const currentJk = readJobIdFromUrl();
-            const onTargetJob =
-                currentJk === String(jobId).toLowerCase() ||
-                isIndeedViewJobPage() ||
+            const onTargetJob = currentJk === target;
+            const detailPanelReady =
+                onTargetJob ||
                 (isIndeedSearchPage() &&
-                    currentJk === String(jobId).toLowerCase());
+                    (readIndeedApplyButton() || readExternalApplyMarker()));
 
-            if (onTargetJob) {
+            if (detailPanelReady) {
                 if (readAlreadyAppliedMarker()) {
-                    return { success: false, alreadyApplied: true, jobId };
+                    return { success: false, alreadyApplied: true, jobId: target };
                 }
 
                 if (readIndeedApplyButton()) {
-                    return { success: true, jobId };
+                    return { success: true, jobId: target };
                 }
 
                 if (readExternalApplyMarker()) {
@@ -860,7 +869,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         await clickElement(clickable);
         await humanPause(550, 900);
 
-        const detailReady = await waitForJobDetailReady(target, 25_000);
+        const detailReady = await waitForJobDetailReady(target, 18_000);
 
         if (detailReady.success) {
             return { success: true, jobId: target };
@@ -1703,6 +1712,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         isIndeedApplyFlowPage,
         isIndeedSearchPage,
         isIndeedViewJobPage,
+        readJobIdFromUrl,
         revealJobCardById,
         findJobCardById,
     };

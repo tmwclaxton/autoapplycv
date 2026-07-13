@@ -50,4 +50,19 @@ test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () =
         ]),
         hostTabId,
     );
+
+    assert.equal(
+        pickIndeedApplyTabId(hostTabId, [
+            { id: hostTabId, url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd' },
+            {
+                id: applyTabId,
+                url: 'https://smartapply.indeed.com/beta/indeedapply/form/post-apply',
+            },
+            {
+                id: 303,
+                url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/questions/1',
+            },
+        ]),
+        303,
+    );
 });

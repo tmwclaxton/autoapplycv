@@ -4070,6 +4070,8 @@ async function processIndeedJobInner(
     profileData = null,
     searchTabId = session?.tabId ?? tabId,
 ) {
+    await closeIndeedAuxiliaryTabs(session, searchTabId);
+
     await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );

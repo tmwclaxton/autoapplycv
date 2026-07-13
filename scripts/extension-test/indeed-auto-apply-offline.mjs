@@ -26,7 +26,12 @@ function loadIndeedAutoApply(domWindow) {
         clearTimeout: domWindow.clearTimeout.bind(domWindow),
         MouseEvent: domWindow.MouseEvent,
         PointerEvent: domWindow.PointerEvent,
+        AutoCVApplyTiming: {
+            humanPause: async () => {},
+        },
     };
+
+    domWindow.AutoCVApplyTiming = sandbox.AutoCVApplyTiming;
 
     vm.runInNewContext(script, sandbox, { filename: 'indeed-auto-apply.js' });
 
@@ -126,5 +131,17 @@ const unknownCards = unknownApi.collectJobCards();
 
 assert.equal(unknownCards.length, 1);
 assert.equal(unknownCards[0].indeedApply, null);
+
+const serpDetailDom = new JSDOM(
+    `<div id="jobsearch-ViewjobPaneWrapper">
+        <button id="indeedApplyButton" data-testid="indeedApplyButton-test">Apply with Indeed</button>
+    </div>`,
+    {
+        url: 'https://uk.indeed.com/jobs?q=fullstack+developer&l=London&vjk=d1484f00c2ca6382',
+    },
+);
+const serpDetailApi = loadIndeedAutoApply(serpDetailDom.window);
+
+assert.equal(serpDetailApi.readJobIdFromUrl(), 'd1484f00c2ca6382');
 
 console.log('Indeed auto-apply offline tests passed.');
