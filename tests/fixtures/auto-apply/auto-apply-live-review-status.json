@@ -114,6 +114,7 @@
       "evidence": "Fail-fast message: 'Glassdoor redirected this search to a regional recommended feed...' Host mismatch .com->.co.uk confirmed. Blocked pending US Glassdoor Chrome session/VPN."
     },
     {
+      "fix_sha": "bd552218",
       "fix_label": "Indeed already-applied skip with re-apply button visible",
       "reloaded_version": "2.25.62",
       "timestamp": "2026-07-13T06:40:00+01:00",
@@ -188,7 +189,8 @@
     "330c0680 Open viewjob page and click Apply when smartapply tab missing",
     "dc02d232 Require matching Glassdoor host for search URL parity",
     "6addace2 Fix Glassdoor card scope and Indeed apply tab hygiene",
-    "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds"
+    "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds",
+    "bd552218 Fix Indeed already-applied skip when re-apply button shows"
   ],
   "retest_blocks": [],
   "open_gaps": [
