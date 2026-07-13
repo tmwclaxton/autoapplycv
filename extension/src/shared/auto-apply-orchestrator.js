@@ -1017,62 +1017,70 @@ async function logSession(level, message) {
     );
 }
 
+const LINKEDIN_SLOW_MESSAGE_TIMEOUT_MS = {
+    LINKEDIN_SELECT_JOB: 45_000,
+    LINKEDIN_OPEN_EASY_APPLY: 45_000,
+    LINKEDIN_CLICK_EASY_APPLY: 45_000,
+    LINKEDIN_WAIT_FOR_JOB_DETAIL: 45_000,
+    LINKEDIN_WAIT_FOR_JOB_DESCRIPTION: 45_000,
+    LINKEDIN_WAIT_FOR_STEP_READY: 35_000,
+    LINKEDIN_FILL_AND_ADVANCE: 45_000,
+    LINKEDIN_ADVANCE_EASY_APPLY: 35_000,
+};
+
+function resolveLinkedInMessageTimeoutMs(type, explicitTimeoutMs = null) {
+    if (typeof explicitTimeoutMs === 'number' && explicitTimeoutMs > 0) {
+        return explicitTimeoutMs;
+    }
+
+    return LINKEDIN_SLOW_MESSAGE_TIMEOUT_MS[type] ?? 20_000;
+}
+
 async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 3;
-    const timeoutMs = options.timeoutMs ?? null;
+    const timeoutMs = resolveLinkedInMessageTimeoutMs(type, options.timeoutMs);
 
-    const sendOnce = async () => {
-        for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-            try {
-                return await sendTabMessage(tabId, { type, ...payload }, 0);
-            } catch (error) {
-                const message =
-                    error instanceof Error ? error.message : String(error);
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            return await sendTabMessage(tabId, { type, ...payload }, 0, {
+                timeoutMs,
+            });
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : String(error);
 
-                if (
-                    attempt < maxAttempts &&
-                    isExtensionMessagingError(message)
-                ) {
-                    invalidateTabFrameCache(tabId);
-                    await logSession(
-                        'warn',
-                        `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
-                    );
-                    await waitForTabContentScript(tabId).catch(() => {});
-                    await sleep(randomDelay(850, 550));
-
-                    continue;
-                }
-
-                throw error;
+            if (
+                /timed out/i.test(message) &&
+                (type === 'LINKEDIN_SELECT_JOB' ||
+                    type === 'LINKEDIN_OPEN_EASY_APPLY' ||
+                    type === 'LINKEDIN_CLICK_EASY_APPLY')
+            ) {
+                return {
+                    success: false,
+                    needsNavigation: type === 'LINKEDIN_SELECT_JOB',
+                    timedOut: true,
+                    error: message,
+                    jobId: payload.jobId,
+                };
             }
-        }
 
-        return null;
-    };
+            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                invalidateTabFrameCache(tabId);
+                await logSession(
+                    'warn',
+                    `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
+                );
+                await waitForTabContentScript(tabId).catch(() => {});
+                await sleep(randomDelay(850, 550));
 
-    if (!timeoutMs) {
-        return sendOnce();
-    }
+                continue;
+            }
 
-    let timeoutId = null;
-
-    try {
-        return await Promise.race([
-            sendOnce(),
-            new Promise((_, reject) => {
-                timeoutId = setTimeout(() => {
-                    reject(
-                        new Error(`LinkedIn tab message timed out: ${type}`),
-                    );
-                }, timeoutMs);
-            }),
-        ]);
-    } finally {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
+            throw error;
         }
     }
+
+    return null;
 }
 
 async function advanceLinkedInEasyApplyStep(
@@ -2140,6 +2148,17 @@ async function openLinkedInJob(tabId, job) {
         return selectResponse;
     }
 
+    if (selectResponse?.timedOut) {
+        await logSession(
+            'warn',
+            `SELECT_JOB timed out for ${job.title} - opening job URL directly.`,
+        );
+        selectResponse = {
+            ...selectResponse,
+            needsNavigation: true,
+        };
+    }
+
     if (!selectResponse?.needsNavigation) {
         throw new Error(selectResponse?.error || 'Could not open job listing.');
     }
@@ -2455,7 +2474,13 @@ async function pauseForUserInput(
     return { session: pausedSession };
 }
 
-async function pauseForCaptchaReview(session, tabId, job, modalState, options = {}) {
+async function pauseForCaptchaReview(
+    session,
+    tabId,
+    job,
+    modalState,
+    options = {},
+) {
     const stage = options.stage === 'viewjob' ? 'viewjob' : 'review';
     const prompt =
         stage === 'viewjob'
@@ -2503,7 +2528,13 @@ async function pauseForCaptchaReview(session, tabId, job, modalState, options = 
         .catch(() => {});
 }
 
-async function waitForIndeedCaptchaResume(session, tabId, job, modalState, options = {}) {
+async function waitForIndeedCaptchaResume(
+    session,
+    tabId,
+    job,
+    modalState,
+    options = {},
+) {
     await pauseForCaptchaReview(session, tabId, job, modalState, options);
     const captchaResume = await waitForAutoApplyResumeWithTimeout(120_000);
 
@@ -2884,10 +2915,34 @@ async function processLinkedInJob(
 
     await wakeAutoApplyTab(tabId).catch(() => {});
 
-    const applyResponse = await sendLinkedInMessage(
+    let applyResponse = await sendLinkedInMessage(
         tabId,
         'LINKEDIN_OPEN_EASY_APPLY',
     );
+
+    if (applyResponse?.timedOut && !applyResponse?.success) {
+        await logSession(
+            'warn',
+            `[easy_apply] ${job.title}: OPEN_EASY_APPLY timed out - checking modal state.`,
+        );
+
+        const modalAfterTimeout = await readLinkedInModalState(tabId, {
+            retries: 6,
+        });
+
+        if (modalAfterTimeout?.open) {
+            applyResponse = {
+                success: true,
+                recoveredAfterTimeout: true,
+            };
+        } else {
+            await wakeAutoApplyTab(tabId).catch(() => {});
+            applyResponse = await sendLinkedInMessage(
+                tabId,
+                'LINKEDIN_OPEN_EASY_APPLY',
+            );
+        }
+    }
 
     if (applyResponse?.alreadyApplied) {
         await acceptLinkedInCookieConsent(tabId).catch(() => {});
@@ -4058,8 +4113,8 @@ async function ensureIndeedContactMatchesProfile(
 
     const expected = resolveExpectedApplicantIdentity(profileData);
     const preticked = String(
-        applyState?.storedApplicant?.fullName
-            || `${applyState?.storedApplicant?.firstName || ''} ${applyState?.storedApplicant?.lastName || ''}`.trim(),
+        applyState?.storedApplicant?.fullName ||
+            `${applyState?.storedApplicant?.firstName || ''} ${applyState?.storedApplicant?.lastName || ''}`.trim(),
     ).trim();
 
     await logSession(
@@ -4080,8 +4135,8 @@ async function ensureIndeedContactMatchesProfile(
 
     if (!openResult?.success) {
         throw new Error(
-            openResult?.error
-                || 'Could not open Indeed contact editor to correct preticked identity.',
+            openResult?.error ||
+                'Could not open Indeed contact editor to correct preticked identity.',
         );
     }
 
@@ -4098,8 +4153,8 @@ async function ensureIndeedContactMatchesProfile(
         const contactUrl = String(contactTab?.url || '');
 
         if (
-            /profile\.indeed\.com\/edit\/contact/i.test(contactUrl)
-            || /\/form\/contact-info/i.test(contactUrl)
+            /profile\.indeed\.com\/edit\/contact/i.test(contactUrl) ||
+            /\/form\/contact-info/i.test(contactUrl)
         ) {
             return true;
         }

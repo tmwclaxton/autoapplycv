@@ -790,7 +790,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const description = await waitForJobDescriptionReady(200, 18_000);
+        const description = await waitForJobDescriptionReady(200, 12_000);
 
         return {
             success: true,
@@ -947,7 +947,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         await clickElement(clickable);
 
-        const detail = await waitForJobDetailPanel(jobId);
+        // Detail + JD readiness are owned by LINKEDIN_WAIT_FOR_JOB_DETAIL after
+        // openLinkedInJob. Keep select fast so the tab message does not stall.
+        const detail = await waitForJobDetailPanel(jobId, 8_000);
 
         if (!detail.ready) {
             return {
@@ -958,13 +960,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const description = await waitForJobDescriptionReady(200, 18_000);
-
         return {
             success: true,
             jobId,
-            jobDescriptionLength: description.length,
-            jobDescriptionReady: description.ready,
+            jobDescriptionLength: 0,
+            jobDescriptionReady: false,
         };
     }
 
