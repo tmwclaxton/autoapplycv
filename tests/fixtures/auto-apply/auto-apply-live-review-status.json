@@ -2,8 +2,8 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T07:55:00+01:00",
-  "campaign_status": "in_progress",
+  "updated_at": "2026-07-13T08:00:00+01:00",
+  "campaign_status": "paused",
   "scenarios_tested_count": 16,
   "jobs_attempted_count": 115,
   "jobs_submitted_count": 2,
@@ -880,5 +880,30 @@
   },
   "extension_version": "2.25.66",
   "live_verify_completed_at": "2026-07-13T07:55:00+01:00",
-  "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail"
+  "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail",
+  "session_wrap": {
+    "wrapped_at": "2026-07-13T08:00:00+01:00",
+    "verdict": "Campaign paused after search-name fix and UK secondary-board retests. No new platform code fixes shipped this session.",
+    "commits_pushed": [
+      "55cf2106 Fix Auto Apply search queries leaking candidate names (sanitize role + exclude nav search from Draft All)",
+      "bf6dd9cc Log CV-Library, Reed, SimplyHired live retests after search fix"
+    ],
+    "shipped_this_session": [
+      "Search role sanitization strips profile name from roleDescription and search URLs",
+      "Job-board nav search inputs excluded from Draft All inventory",
+      "auto-apply-role.test.mjs unit tests"
+    ],
+    "live_retest_summary": {
+      "cvlibrary": "18/18 skipped - Easy Apply cards lack native apply on detail page",
+      "reed": "25 found - Awin hit authentication/login redirect; 0 submits",
+      "simplyhired": "7/7 skipped - Indeed Apply iframe no Continue/Submit advance",
+      "indeed_p0_06": "not retried this wrap (prior blocked: captcha + IPL phone)"
+    },
+    "left_open": [
+      "CV-Library: tighten Easy Apply card queue - skip when detail lacks native apply button",
+      "Reed: detect/skip authentication/login redirect before apply flow stalls",
+      "SimplyHired: Indeed Apply iframe Continue/Submit advance detection",
+      "Indeed UK p0-06 submit verification"
+    ]
+  }
 }
