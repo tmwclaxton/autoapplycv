@@ -46,17 +46,28 @@ export function resolveAutoApplyPauseClarifyingDisplay(pauseContext) {
 /**
  * @param {{ ref?: string|null, label?: string, question?: string }|null|undefined} field
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} [pauseContext]
+ * @param {{ pendingFieldCount?: number }} [options]
  * @returns {string}
  */
-export function resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext = null) {
-    if (isAutoApplyPauseBlockerField(field, pauseContext)) {
-        return '';
-    }
-
-    return dedupeQuestionLabelForDisplay(field?.question || field?.label || '')
+export function resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext = null, options = {}) {
+    const label = dedupeQuestionLabelForDisplay(field?.question || field?.label || '')
         || field?.question
         || field?.label
         || '';
+
+    if (isAutoApplyPauseBlockerField(field, pauseContext)) {
+        const pendingFieldCount = Number(options.pendingFieldCount ?? 1);
+
+        // Single blocker card: question lives in the header only. Multiple cards: show label on
+        // the blocker row too so it is not a blank card beside labelled siblings.
+        if (pendingFieldCount <= 1) {
+            return '';
+        }
+
+        return label;
+    }
+
+    return label;
 }
 
 /**

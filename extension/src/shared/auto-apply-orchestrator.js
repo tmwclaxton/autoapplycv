@@ -12,6 +12,7 @@ import {
     findFieldValidationError,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
+import { tryAnswerScreenerField } from './auto-apply-screener-answer.js';
 import {
     formatAutoApplyFitLogMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
@@ -19,9 +20,15 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
+import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import {
-    sanitizeAutoApplyRoleDescription,
-} from './auto-apply-role.js';
+    clearActiveAutoApplyTiming,
+    persistActiveAutoApplyTiming,
+    resolveDelayMultiplier,
+    resolveSubmitConfirmationPollMs,
+    resolveSubmitConfirmationTimeoutMs,
+    scaleDelayMs,
+} from './auto-apply-timing.js';
 import {
     buildJobSearchUrl,
     CV_LIBRARY_PLATFORM_ID,
@@ -126,8 +133,20 @@ const AUTO_APPLY_DELAY_MS = {
     afterSubmit: 6500,
 };
 
-const SUBMIT_CONFIRMATION_TIMEOUT_MS = 45_000;
-const SUBMIT_CONFIRMATION_POLL_MS = { base: 2000, spread: 1200 };
+/** @type {number} */
+let activeDelayMultiplier = 1;
+
+/**
+ * @param {unknown} timingLevel
+ */
+function configureAutoApplyTiming(timingLevel) {
+    activeDelayMultiplier = resolveDelayMultiplier(timingLevel);
+}
+
+async function resetAutoApplyTiming() {
+    activeDelayMultiplier = 1;
+    await clearActiveAutoApplyTiming();
+}
 
 const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
@@ -520,9 +539,11 @@ async function interruptibleSleep(ms) {
 }
 
 function randomDelay(baseMs, spreadMs = null) {
-    const spread = spreadMs ?? Math.max(700, Math.floor(baseMs * 0.45));
+    const scaledBase = scaleDelayMs(baseMs, activeDelayMultiplier);
+    const spread = spreadMs ?? Math.max(700, Math.floor(scaledBase * 0.45));
+    const scaledSpread = scaleDelayMs(spread, activeDelayMultiplier);
 
-    return baseMs + Math.floor(Math.random() * (spread + 1));
+    return scaledBase + Math.floor(Math.random() * (scaledSpread + 1));
 }
 
 /**
@@ -537,7 +558,13 @@ async function waitForApplicationSubmitConfirmation(
     platform,
     session = null,
 ) {
-    const deadline = Date.now() + SUBMIT_CONFIRMATION_TIMEOUT_MS;
+    const submitConfirmationTimeoutMs = resolveSubmitConfirmationTimeoutMs(
+        activeDelayMultiplier,
+    );
+    const submitConfirmationPollMs = resolveSubmitConfirmationPollMs(
+        activeDelayMultiplier,
+    );
+    const deadline = Date.now() + submitConfirmationTimeoutMs;
 
     while (Date.now() < deadline) {
         if (session && (await shouldStop(session))) {
@@ -677,8 +704,8 @@ async function waitForApplicationSubmitConfirmation(
 
         await sleep(
             randomDelay(
-                SUBMIT_CONFIRMATION_POLL_MS.base,
-                SUBMIT_CONFIRMATION_POLL_MS.spread,
+                submitConfirmationPollMs.base,
+                submitConfirmationPollMs.spread,
             ),
         );
     }
@@ -2142,10 +2169,28 @@ async function savePendingFieldsForTab(tabId, fields) {
         .catch(() => {});
 }
 
-async function enrichDraftResultWithGaps(tabId, draftResult) {
+async function removePendingFieldFromTab(tabId, fieldRef) {
+    const ref = String(fieldRef || '').trim();
+
+    if (!ref) {
+        return;
+    }
+
+    const fields = await loadPendingFieldsForTab(tabId);
+    const next = fields.filter((field) => field?.ref !== ref);
+
+    if (next.length !== fields.length) {
+        await savePendingFieldsForTab(tabId, next);
+    }
+}
+
+async function enrichDraftResultWithGaps(tabId, draftResult, options = {}) {
+    const useStoredPending = options.useStoredPending !== false;
     const pendingFields = draftResult?.pendingFields?.length
         ? draftResult.pendingFields
-        : await loadPendingFieldsForTab(tabId);
+        : useStoredPending
+          ? await loadPendingFieldsForTab(tabId)
+          : [];
 
     let unfilledRequiredFields = draftResult?.unfilledRequiredFields || [];
 
@@ -2157,8 +2202,9 @@ async function enrichDraftResultWithGaps(tabId, draftResult) {
                 { type: 'BUILD_FIELD_SNAPSHOT' },
                 formFrameId,
             );
-            const required = (snapshotResponse?.snapshot?.elements || [])
-                .filter((element) => element.required);
+            const required = (
+                snapshotResponse?.snapshot?.elements || []
+            ).filter((element) => element.required);
             const filterResponse = await sendTabMessage(
                 tabId,
                 {
@@ -2167,8 +2213,9 @@ async function enrichDraftResultWithGaps(tabId, draftResult) {
                 },
                 formFrameId,
             );
-            unfilledRequiredFields = (filterResponse?.elements || [])
-                .map(snapshotElementToDraftField);
+            unfilledRequiredFields = (filterResponse?.elements || []).map(
+                snapshotElementToDraftField,
+            );
         } catch {
             // Best-effort gap detection after Draft All.
         }
@@ -2270,6 +2317,33 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
     }
 }
 
+async function attemptAutoAnswerBlocker(
+    tabId,
+    job,
+    blockerField,
+    profileData,
+    options = {},
+) {
+    if (!blockerField?.ref) {
+        return { applied: false, source: null };
+    }
+
+    const questionMemo = await getQuestionMemoForAutoApply();
+
+    return tryAnswerScreenerField(tabId, blockerField, {
+        job,
+        profileData,
+        sendTabMessage,
+        findBestFormFrameId,
+        clarifyingHint: options.clarifyingHint || null,
+        questionMemo,
+        onLog: (level, message) => logSession(level, message),
+    });
+}
+
+/**
+ * @returns {Promise<{ session: object, autoAnswered: boolean }>}
+ */
 async function pauseForUserInput(
     session,
     tabId,
@@ -2283,6 +2357,39 @@ async function pauseForUserInput(
         tabId,
         normalizeBlockerField(blocker.field),
     );
+    const clarifyingHint = retryContext?.validationError
+        ? `Previous answer "${retryContext.lastAttempt || ''}" was rejected: ${retryContext.validationError}. ` +
+          'Return only the corrected value.'
+        : null;
+    const autoAnswer = await attemptAutoAnswerBlocker(
+        tabId,
+        job,
+        blockerField,
+        profileData,
+        { clarifyingHint },
+    );
+
+    if (autoAnswer.applied) {
+        await removePendingFieldFromTab(tabId, blockerField.ref);
+        const sourceTag =
+            autoAnswer.source === 'llm'
+                ? '-llm'
+                : autoAnswer.source === 'fallback'
+                  ? '-fallback'
+                  : '';
+        const answeredSession = await updateSession((current) =>
+            resumeAutoApplyFromInput(
+                appendAutoApplyLog(
+                    current,
+                    'info',
+                    `[auto-answer${sourceTag}] ${job.title}: filled "${blockerField?.label || blockerField?.question}" without pausing.`,
+                ),
+            ),
+        );
+
+        return { session: answeredSession, autoAnswered: true };
+    }
+
     const clarifyingQuestion = buildAutoApplyPauseQuestion(blockerField, {
         profileData,
         validationError: retryContext?.validationError || null,
@@ -2352,7 +2459,7 @@ async function pauseForUserInput(
         })
         .catch(() => {});
 
-    return pausedSession;
+    return { session: pausedSession, autoAnswered: false };
 }
 
 async function pauseForCaptchaReview(session, tabId, job, modalState) {
@@ -2452,7 +2559,7 @@ async function handleAdvanceValidationRetry(
         );
     }
 
-    await pauseForUserInput(
+    const pauseOutcome = await pauseForUserInput(
         session,
         tabId,
         job,
@@ -2466,6 +2573,10 @@ async function handleAdvanceValidationRetry(
         },
     );
 
+    if (pauseOutcome.autoAnswered) {
+        return { retried: true, session: pauseOutcome.session };
+    }
+
     const resumedSession = await waitForAutoApplyResume();
 
     if (resumedSession.stopRequested) {
@@ -2475,85 +2586,7 @@ async function handleAdvanceValidationRetry(
     return { retried: true, session: resumedSession };
 }
 
-/**
- * @param {number} tabId
- * @param {import('./auto-apply-blockers.js').AutoApplyBlockerField|null|undefined} field
- * @param {object|null|undefined} profileData
- * @returns {Promise<boolean>}
- */
-async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
-    if (!field?.ref) {
-        return false;
-    }
-
-    const question = String(field.question || field.label || '').toLowerCase();
-    const fieldType = String(
-        field.type || field.field_type || '',
-    ).toLowerCase();
-    let answer = null;
-
-    if (
-        fieldType.includes('int') ||
-        fieldType === 'number' ||
-        /how many|years? of|months? of|experience do you/.test(question)
-    ) {
-        const years = profileData?.application_settings?.years_of_experience;
-        answer =
-            years != null && Number.isFinite(Number(years))
-                ? String(years)
-                : '5';
-    } else if (/salary|compensation|pay rate|hourly|annual/.test(question)) {
-        answer = '55000';
-    } else if (
-        /travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(
-            question,
-        )
-    ) {
-        const options = Array.isArray(field.options) ? field.options : [];
-
-        if (options.length > 0) {
-            answer =
-                options.find((option) => /^yes\b/i.test(String(option))) ||
-                options.find((option) => /25%|0%|none/i.test(String(option))) ||
-                options[0];
-        } else {
-            answer = 'Yes';
-        }
-    } else if (
-        (fieldType === 'radio' || fieldType === 'select') &&
-        /education|degree|qualification/.test(question)
-    ) {
-        const options = Array.isArray(field.options) ? field.options : [];
-        answer =
-            options.find((option) =>
-                /bachelor|undergraduate|degree/i.test(String(option)),
-            ) ||
-            options[options.length - 1] ||
-            null;
-    }
-
-    if (!answer) {
-        return false;
-    }
-
-    try {
-        const formFrameId = await findBestFormFrameId(tabId);
-        const result = await sendTabMessage(
-            tabId,
-            {
-                type: 'APPLY_DRAFT_ANSWER',
-                ref: field.ref,
-                label: field.label || field.question,
-                answer: String(answer),
-            },
-            formFrameId,
-        );
-
-        return Boolean(result?.success);
-    } catch {
-        return false;
-    }
-}
+const AUTO_ANSWER_BLOCKER_LIMIT = 8;
 
 async function ensureStepFilledOrPaused(
     tabId,
@@ -2562,10 +2595,13 @@ async function ensureStepFilledOrPaused(
     draftResult,
     session,
     profileData,
+    options = {},
 ) {
+    const useStoredPending = options.useStoredPending !== false;
     const enrichedDraftResult = await enrichDraftResultWithGaps(
         tabId,
         draftResult,
+        { useStoredPending },
     );
     let effectiveModalState = modalState || {};
 
@@ -2600,6 +2636,60 @@ async function ensureStepFilledOrPaused(
         }
     }
 
+    for (let attempt = 0; attempt < AUTO_ANSWER_BLOCKER_LIMIT; attempt += 1) {
+        const blocker = detectUnfilledBlockers(
+            effectiveModalState,
+            enrichedDraftResult,
+            { profileData },
+        );
+
+        if (!blocker.blocked) {
+            return { paused: false, session, profileData };
+        }
+
+        if (!blocker.field) {
+            break;
+        }
+
+        const autoAnswer = await attemptAutoAnswerBlocker(
+            tabId,
+            job,
+            blocker.field,
+            profileData,
+        );
+
+        if (!autoAnswer.applied) {
+            break;
+        }
+
+        await removePendingFieldFromTab(tabId, blocker.field.ref);
+        await logSession(
+            'info',
+            `[auto-answer${autoAnswer.source === 'llm' ? '-llm' : autoAnswer.source === 'fallback' ? '-fallback' : ''}] ${job.title}: filled "${blocker.field.label || blocker.field.question}".`,
+        );
+
+        enrichedDraftResult.pendingFields = (
+            enrichedDraftResult.pendingFields || []
+        ).filter((pending) => pending?.ref !== blocker.field?.ref);
+        enrichedDraftResult.unfilledRequiredFields = (
+            enrichedDraftResult.unfilledRequiredFields || []
+        ).filter((field) => field?.ref !== blocker.field?.ref);
+        enrichedDraftResult.skippedFields = (
+            enrichedDraftResult.skippedFields || []
+        ).filter((field) => field?.ref !== blocker.field?.ref);
+
+        const refreshedDraftResult = await enrichDraftResultWithGaps(
+            tabId,
+            {
+                ...enrichedDraftResult,
+                unfilledRequiredFields: [],
+            },
+            { useStoredPending: false },
+        );
+
+        Object.assign(enrichedDraftResult, refreshedDraftResult);
+    }
+
     const blocker = detectUnfilledBlockers(
         effectiveModalState,
         enrichedDraftResult,
@@ -2607,27 +2697,10 @@ async function ensureStepFilledOrPaused(
     );
 
     if (!blocker.blocked) {
-        return { paused: false, session };
+        return { paused: false, session, profileData };
     }
 
-    if (blocker.field) {
-        const autoFilled = await tryAutoAnswerScreenerField(
-            tabId,
-            blocker.field,
-            profileData,
-        );
-
-        if (autoFilled) {
-            await logSession(
-                'info',
-                `[auto-answer] ${job.title}: filled "${blocker.field.label || blocker.field.question}".`,
-            );
-
-            return { paused: false, session };
-        }
-    }
-
-    await pauseForUserInput(
+    const pauseOutcome = await pauseForUserInput(
         session,
         tabId,
         job,
@@ -2635,13 +2708,29 @@ async function ensureStepFilledOrPaused(
         blocker,
         profileData,
     );
+
+    if (pauseOutcome.autoAnswered) {
+        return { paused: false, session: pauseOutcome.session, profileData };
+    }
+
     const resumedSession = await waitForAutoApplyResume();
 
     if (resumedSession.stopRequested) {
-        return { paused: true, stopped: true, session: resumedSession };
+        return {
+            paused: true,
+            stopped: true,
+            session: resumedSession,
+            profileData,
+        };
     }
 
-    return { paused: true, session: resumedSession };
+    const refreshedProfile = await getProfileForAutoApply();
+
+    return {
+        paused: true,
+        session: resumedSession,
+        profileData: refreshedProfile ?? profileData,
+    };
 }
 
 async function runDraftAllForStep(
@@ -3111,35 +3200,46 @@ async function processLinkedInJob(
                 'LINKEDIN_PREFILL_EASY_APPLY',
             ).catch(() => null);
             await sleep(randomDelay(500, 400));
-        } else {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
-
-            draftResult = await runDraftAllForStep(
-                tabId,
-                job,
-                modalState.stepLabel,
-                runDraftAll,
-                session,
-                LINKEDIN_PLATFORM_ID,
-            );
         }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+
+        draftResult = await runDraftAllForStep(
+            tabId,
+            job,
+            modalState.stepLabel,
+            runDraftAll,
+            session,
+            LINKEDIN_PLATFORM_ID,
+        );
 
         const postDraftModalState = await readLinkedInModalState(tabId, {
             retries: 3,
         });
-        const pauseOutcome = await ensureStepFilledOrPaused(
-            tabId,
-            job,
-            postDraftModalState || modalState,
-            draftResult,
-            session,
-            profileData,
-        );
+        let pauseOutcome = { paused: false, session };
+
+        if (!isResumeStep) {
+            pauseOutcome = await ensureStepFilledOrPaused(
+                tabId,
+                job,
+                postDraftModalState || modalState,
+                draftResult,
+                session,
+                profileData,
+                { useStoredPending: !isReviewStep },
+            );
+        }
 
         session = pauseOutcome.session || session;
+        profileData = pauseOutcome.profileData ?? profileData;
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        if (pauseOutcome.paused) {
+            sameStepCount = 0;
+            continue;
         }
 
         let advanceResponse = await advanceLinkedInEasyApplyStep(tabId, {
@@ -3153,7 +3253,10 @@ async function processLinkedInJob(
             );
         }
 
-        if (advanceResponse?.action === 'submit' || isReviewStep) {
+        if (
+            advanceResponse?.action === 'submit' ||
+            advanceResponse?.submitted
+        ) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked ${advanceResponse?.actionLabel || advanceResponse?.action || 'Submit'}` +
@@ -3188,7 +3291,6 @@ async function processLinkedInJob(
 
         if (advanceResponse?.submitted) {
             submitted = true;
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterSubmit, 2000));
             break;
         }
 
@@ -3200,7 +3302,6 @@ async function processLinkedInJob(
 
             if (postAdvanceVerify?.submitted) {
                 submitted = true;
-                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterSubmit, 2000));
                 break;
             }
         }
@@ -3330,25 +3431,44 @@ async function processLinkedInJob(
     }
 
     if (!submitted) {
-        const verifyResponse = await sendLinkedInMessage(
+        const confirmResult = await waitForApplicationSubmitConfirmation(
             tabId,
-            'LINKEDIN_VERIFY_SUBMITTED',
+            LINKEDIN_PLATFORM_ID,
+            session,
         );
-        submitted = Boolean(verifyResponse?.submitted);
-    }
 
-    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY');
-    await acceptLinkedInCookieConsent(tabId).catch(() => {});
-    await dismissSaveApplicationPrompt(tabId).catch(() => {});
+        if (confirmResult.stopped) {
+            return {
+                outcome: 'stopped',
+                reason: 'user_input_stop',
+                tabId,
+            };
+        }
+
+        submitted = Boolean(confirmResult.submitted);
+    }
 
     if (!submitted) {
         throw new Error('Could not submit LinkedIn Easy Apply application.');
     }
 
     await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
-    await recordAnalyticsEvent(session, 'submitted', job);
+    await updateSession((current) => ({
+        ...current,
+        stats: {
+            ...current.stats,
+            applied: current.stats.applied + 1,
+        },
+    }));
+    await recordAnalyticsEvent(session, 'submitted', job).catch(() => {});
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterSubmit, 2000));
+    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY').catch(
+        () => {},
+    );
+    await acceptLinkedInCookieConsent(tabId).catch(() => {});
+    await dismissSaveApplicationPrompt(tabId).catch(() => {});
 
-    return { outcome: 'applied', tabId };
+    return { outcome: 'applied', tabId, statsApplied: true };
 }
 
 async function waitForIndeedContentScript(tabId, timeoutMs = 45_000) {
@@ -4126,9 +4246,7 @@ async function processIndeedJobInner(
             try {
                 const applyTabState = await chrome.tabs.get(tabId);
 
-                if (
-                    /smartapply\.indeed\.com/i.test(applyTabState?.url || '')
-                ) {
+                if (/smartapply\.indeed\.com/i.test(applyTabState?.url || '')) {
                     break;
                 }
             } catch {
@@ -4276,6 +4394,7 @@ async function processIndeedJobInner(
         );
 
         session = pauseOutcome.session || session;
+        profileData = pauseOutcome.profileData ?? profileData;
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
@@ -5021,6 +5140,7 @@ async function processTotalJobsJob(
         );
 
         session = pauseOutcome.session || session;
+        profileData = pauseOutcome.profileData ?? profileData;
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
@@ -5850,6 +5970,7 @@ async function processReedJob(
         );
 
         session = pauseOutcome.session || session;
+        profileData = pauseOutcome.profileData ?? profileData;
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
@@ -6776,6 +6897,7 @@ async function processGlassdoorJob(
         );
 
         session = pauseOutcome.session || session;
+        profileData = pauseOutcome.profileData ?? profileData;
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
@@ -6974,7 +7096,7 @@ function buildTotalJobsRunnerContext() {
 }
 
 /**
- * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, runDraftAll: Function }} options
+ * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, timingLevel?: number, runDraftAll: Function }} options
  */
 export async function startAutoApply({
     platform,
@@ -6983,6 +7105,7 @@ export async function startAutoApply({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
+    timingLevel = null,
     force = false,
     hostTabId = null,
     hostWindowId = null,
@@ -7026,7 +7149,11 @@ export async function startAutoApply({
             filters,
             fitCheckEnabled,
             minFitScore,
+            timingLevel,
         });
+
+        configureAutoApplyTiming(session.timingLevel);
+        await persistActiveAutoApplyTiming(session.timingLevel);
 
         let hostTab = null;
 
@@ -7091,7 +7218,8 @@ export async function startAutoApply({
         broadcastAutoApplyStatus(session);
 
         const runPromise = (async () => {
-            const loopProfileData = profileData ?? await getProfileForAutoApply();
+            const loopProfileData =
+                profileData ?? (await getProfileForAutoApply());
 
             return runAutoApplyLoop(session, runDraftAll, loopProfileData);
         })()
@@ -7134,6 +7262,8 @@ export async function startAutoApply({
                 if (activeRunPromise === runPromise) {
                     activeRunPromise = null;
                 }
+
+                void resetAutoApplyTiming();
             });
 
         activeRunPromise = runPromise;
@@ -7385,6 +7515,9 @@ async function runAutoApplyLoop(
     runDraftAll,
     profileData = null,
 ) {
+    configureAutoApplyTiming(initialSession.timingLevel);
+    await persistActiveAutoApplyTiming(initialSession.timingLevel);
+
     if (initialSession.platform === INDEED_PLATFORM_ID) {
         return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData);
     }
@@ -7542,7 +7675,9 @@ async function runAutoApplyLoop(
                     const stats = { ...current.stats };
 
                     if (result.outcome === 'applied') {
-                        stats.applied += 1;
+                        if (!result.statsApplied) {
+                            stats.applied += 1;
+                        }
                     } else {
                         stats.skipped += 1;
 
@@ -7673,9 +7808,14 @@ async function runAutoApplyLoop(
 
 /** @type {(() => Promise<object|null>)|null} */
 let profileLoader = null;
+let questionMemoLoader = null;
 
 export function configureAutoApplyProfileLoader(loader) {
     profileLoader = typeof loader === 'function' ? loader : null;
+}
+
+export function configureAutoApplyQuestionMemoLoader(loader) {
+    questionMemoLoader = typeof loader === 'function' ? loader : null;
 }
 
 async function getProfileForAutoApply() {
@@ -7687,6 +7827,20 @@ async function getProfileForAutoApply() {
         return await profileLoader();
     } catch {
         return null;
+    }
+}
+
+async function getQuestionMemoForAutoApply() {
+    if (!questionMemoLoader) {
+        return {};
+    }
+
+    try {
+        const memo = await questionMemoLoader();
+
+        return memo && typeof memo === 'object' ? memo : {};
+    } catch {
+        return {};
     }
 }
 
@@ -7896,6 +8050,8 @@ export async function forceResetAutoApply() {
             sleep(FORCE_RESET_WAIT_MS),
         ]);
     }
+
+    await resetAutoApplyTiming();
 
     await resetAutoApplySession();
 }

@@ -4,6 +4,10 @@
  * Run alongside corpus-autorun-overseer while user is away.
  */
 import { appendFileSync } from 'node:fs';
+import {
+    resolveHeuristicScreenerAnswer,
+    resolveTestModeFallbackAnswer,
+} from '../../extension/src/shared/auto-apply-screener-answer.js';
 
 const BRIDGE = 'http://127.0.0.1:7433';
 const POLL_MS = Number(process.env.BABYSITTER_POLL_MS || 8000);
@@ -48,16 +52,36 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function guessAnswer(question = '', fieldType = '') {
+function guessAnswer(question = '', fieldType = '', field = null) {
+    const blockerField = field || {
+        label: question,
+        question,
+        type: fieldType,
+        field_type: fieldType,
+        options: field?.options ?? null,
+    };
+
+    const heuristic = resolveHeuristicScreenerAnswer(blockerField, null, null);
+
+    if (heuristic) {
+        return heuristic;
+    }
+
+    const fallback = resolveTestModeFallbackAnswer(blockerField, null);
+
+    if (fallback) {
+        return fallback;
+    }
+
     const q = String(question).toLowerCase();
     const type = String(fieldType).toLowerCase();
 
-    if (/year|how many|experience|months?/.test(q) || type.includes('int') || type === 'number') {
-        return '5';
-    }
-
     if (/salary|compensation|pay|rate/.test(q)) {
         return '55000';
+    }
+
+    if (/year|how many|experience|months?/.test(q) || type.includes('int') || type === 'number') {
+        return '2';
     }
 
     if (/percent|%/.test(q)) {
@@ -68,8 +92,8 @@ function guessAnswer(question = '', fieldType = '') {
         return 'Bachelor\'s degree';
     }
 
-    if (/authorized|eligible|right to work|visa|sponsorship|commute|travel|willing|comfortable|cnc|machining/.test(q)) {
-        return 'Yes';
+    if (/authorized|eligible|right to work|visa|sponsorship|commute|travel|willing|comfortable/.test(q)) {
+        return 'No';
     }
 
     return 'Yes';
@@ -105,8 +129,9 @@ async function tryUnblock(session) {
     }
 
     const answer = guessAnswer(
-        pause.questionText || pause.clarifyingQuestion || '',
+        pause.questionText || pause.clarifyingQuestion || pause.blockerField?.label || '',
         pause.blockerField?.field_type || pause.blockerField?.type || '',
+        pause.blockerField || null,
     );
 
     log(`UNBLOCK "${pause.blockerField?.label || pause.questionText || 'field'}" -> "${answer}"`);

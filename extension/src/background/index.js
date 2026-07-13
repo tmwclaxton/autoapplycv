@@ -7,6 +7,7 @@ import {
 } from './auto-apply-blockers.js';
 import {
     configureAutoApplyProfileLoader,
+    configureAutoApplyQuestionMemoLoader,
     clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
     getAutoApplyStatus,
@@ -106,6 +107,7 @@ import { validateCvUpload, validateDocumentUpload } from './upload-validation.js
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
+configureAutoApplyQuestionMemoLoader(loadQuestionMemo);
 void reconcileOrphanedAutoApplySession();
 
 let cachedProfile = null;
@@ -719,6 +721,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     filters: message.filters || null,
                     fitCheckEnabled: message.fitCheckEnabled !== false,
                     minFitScore: message.minFitScore,
+                    timingLevel: message.timingLevel,
                     hostTabId: message.hostTabId ?? null,
                     hostWindowId: message.hostWindowId ?? null,
                     runDraftAll,
@@ -1274,7 +1277,7 @@ async function savePendingFieldAnswer(tabId, field, answer) {
 
         if (validationError && (modalState?.valid === false || fieldHasValidationError(modalState, enrichedField))) {
             const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
-            const pauseContext = await rePauseAutoApplyForValidationRetry({
+            const pauseOutcome = await rePauseAutoApplyForValidationRetry({
                 tabId,
                 job: autoApplySession.pauseContext.job,
                 modalState,
@@ -1284,6 +1287,19 @@ async function savePendingFieldAnswer(tabId, field, answer) {
                 validationAttempt,
             });
 
+            if (pauseOutcome?.autoAnswered) {
+                await resumeAutoApplyFromPause();
+
+                return {
+                    success: true,
+                    applied: true,
+                    fields: await loadPendingFields(tabId),
+                    resumed: true,
+                    validationRetry: true,
+                    autoAnswered: true,
+                };
+            }
+
             return {
                 success: true,
                 applied,
@@ -1291,7 +1307,7 @@ async function savePendingFieldAnswer(tabId, field, answer) {
                 resumed: false,
                 validationRetry: true,
                 maxRetriesReached: validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT,
-                pauseContext,
+                pauseContext: pauseOutcome?.session?.pauseContext || null,
             };
         }
 
@@ -3439,6 +3455,7 @@ initExtensionBridge({
             maxApplications = 2,
             fitCheckEnabled = false,
             minFitScore = 10,
+            timingLevel = null,
             filters = null,
             location = null,
             market = null,
@@ -3459,6 +3476,7 @@ initExtensionBridge({
                 filters: mergedFilters,
                 fitCheckEnabled: fitCheckEnabled === true,
                 minFitScore: Number(minFitScore) || 10,
+                timingLevel,
                 force: force === true,
                 hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
                 hostWindowId: typeof hostWindowId === 'number' ? hostWindowId : null,

@@ -211,8 +211,8 @@ const maxRetryQuestion = buildAutoApplyPauseQuestion(azureField, {
 });
 
 assert(
-    maxRetryQuestion.includes('Maximum retries reached'),
-    'validation retry question should mention max retries at limit',
+    maxRetryQuestion.includes('Auto Apply is stuck on this field'),
+    'validation retry question should mention stuck state at retry limit',
 );
 
 const retryPauseContext = {
@@ -249,7 +249,15 @@ assert(
 );
 assert(
     resolveAutoApplyPendingFieldDisplayLabel(firstPauseContext.blockerField, firstPauseContext) === '',
-    'blocker field card should not duplicate the clarifying question',
+    'blocker field card should not duplicate the clarifying question when it is the only card',
+);
+assert(
+    /notice period/i.test(
+        resolveAutoApplyPendingFieldDisplayLabel(firstPauseContext.blockerField, firstPauseContext, {
+            pendingFieldCount: 3,
+        }),
+    ),
+    'blocker field card should show its label when multiple pending cards are visible',
 );
 
 const locationField = {

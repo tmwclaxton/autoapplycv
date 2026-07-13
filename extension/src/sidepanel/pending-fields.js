@@ -97,7 +97,7 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
                 : `${displayFields.length} questions still need your answers.`;
 
         for (const field of displayFields) {
-            listEl.appendChild(createPendingFieldCard(field, pauseContext));
+            listEl.appendChild(createPendingFieldCard(field, pauseContext, displayFields.length));
         }
 
         if (pauseContext?.blockerField?.ref) {
@@ -110,12 +110,14 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         }
     }
 
-    function createPendingFieldCard(field, pauseContext) {
+    function createPendingFieldCard(field, pauseContext, pendingFieldCount = 1) {
         const card = document.createElement('article');
         card.className = 'pending-field-card postbox-panel';
         card.dataset.ref = field.ref;
 
-        const displayLabel = resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext);
+        const displayLabel = resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext, {
+            pendingFieldCount,
+        });
 
         if (displayLabel) {
             const question = document.createElement('p');

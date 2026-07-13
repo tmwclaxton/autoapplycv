@@ -694,6 +694,7 @@ export function createSimplyHiredOrchestrator(deps) {
             );
 
             session = pauseOutcome.session || session;
+            profileData = pauseOutcome.profileData ?? profileData;
 
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
