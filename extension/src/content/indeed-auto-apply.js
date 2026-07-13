@@ -296,6 +296,61 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return { accepted: false };
     }
 
+    function isTrustworthyIndeedJobId(jobId) {
+        const id = String(jobId || '').toLowerCase();
+
+        if (!/^[a-f0-9]{16}$/.test(id)) {
+            return false;
+        }
+
+        const banned = new Set([
+            '890abcdef0123456',
+            'cdef0123456789ab',
+            '0123456789abcdef',
+            'abcdef0123456789',
+        ]);
+
+        if (banned.has(id)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function readJobIdFromCard(card) {
+        const link = card.querySelector(
+            'a[href*="viewjob"], a[jk], a[data-jk]',
+        );
+        const href = link?.getAttribute('href') || '';
+        const fromHref = href.match(/jk=([a-f0-9]{16})/i)?.[1]?.toLowerCase();
+        const fromAttr = String(
+            link?.getAttribute('data-jk') || link?.getAttribute('jk') || '',
+        )
+            .toLowerCase()
+            .match(/^([a-f0-9]{16})$/)?.[1];
+
+        if (fromHref && fromAttr && fromHref !== fromAttr) {
+            return null;
+        }
+
+        const candidate = fromHref || fromAttr;
+
+        if (candidate && isTrustworthyIndeedJobId(candidate)) {
+            return candidate;
+        }
+
+        const classSource = `${card.className || ''} ${card.id || ''}`;
+        const fromClass = classSource
+            .match(/(?:^|\s)job_([a-f0-9]{16})(?:\s|$)/i)?.[1]
+            ?.toLowerCase();
+
+        if (fromClass && isTrustworthyIndeedJobId(fromClass)) {
+            return fromClass;
+        }
+
+        return null;
+    }
+
     function findJobCardById(jobId) {
         const target = String(jobId).toLowerCase();
 
@@ -510,18 +565,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         ];
 
         for (const card of cardRoots) {
-            const link = card.querySelector(
-                'a[href*="viewjob"], a[jk], a[data-jk]',
-            );
-            const href = link?.getAttribute('href') || '';
-            const jkMatch =
-                href.match(/jk=([a-f0-9]{16})/i) ||
-                String(
-                    link?.getAttribute('data-jk') ||
-                        link?.getAttribute('jk') ||
-                        '',
-                ).match(/^([a-f0-9]{16})$/i);
-            const jobId = jkMatch?.[1]?.toLowerCase();
+            const jobId = readJobIdFromCard(card);
 
             if (!jobId || seen.has(jobId)) {
                 continue;
@@ -570,7 +614,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const match = href.match(/jk=([a-f0-9]{16})/i);
             const jobId = match?.[1]?.toLowerCase();
 
-            if (!jobId || seen.has(jobId)) {
+            if (!jobId || !isTrustworthyIndeedJobId(jobId) || seen.has(jobId)) {
                 continue;
             }
 
@@ -1713,6 +1757,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         isIndeedSearchPage,
         isIndeedViewJobPage,
         readJobIdFromUrl,
+        isTrustworthyIndeedJobId,
         revealJobCardById,
         findJobCardById,
     };

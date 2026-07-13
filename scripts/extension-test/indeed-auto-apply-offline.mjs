@@ -132,6 +132,9 @@ const unknownCards = unknownApi.collectJobCards();
 assert.equal(unknownCards.length, 1);
 assert.equal(unknownCards[0].indeedApply, null);
 
+assert.equal(searchApi.isTrustworthyIndeedJobId('890abcdef0123456'), false);
+assert.equal(searchApi.isTrustworthyIndeedJobId('d1484f00c2ca6382'), true);
+
 const serpDetailDom = new JSDOM(
     `<div id="jobsearch-ViewjobPaneWrapper">
         <button id="indeedApplyButton" data-testid="indeedApplyButton-test">Apply with Indeed</button>
