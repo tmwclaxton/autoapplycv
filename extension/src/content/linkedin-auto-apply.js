@@ -2,7 +2,8 @@
  * LinkedIn Easy Apply DOM helpers (content script global).
  */
 const AutoCVApplyLinkedInAutoApply = (() => {
-    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const sleep = (ms) =>
+        new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function humanDelayMs(minMs, maxMs) {
         const min = Math.min(minMs, maxMs);
@@ -12,6 +13,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     async function humanPause(minMs, maxMs) {
+        if (typeof AutoCVApplyTiming !== 'undefined') {
+            await AutoCVApplyTiming.humanPause(minMs, maxMs);
+
+            return;
+        }
+
         await sleep(humanDelayMs(minMs, maxMs));
     }
 
@@ -47,8 +54,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const fraction = 0.42 + Math.random() * 0.28;
-        const delta = Math.max(80, Math.floor(container.clientHeight * fraction));
-        const target = Math.min(container.scrollTop + delta, container.scrollHeight);
+        const delta = Math.max(
+            80,
+            Math.floor(container.clientHeight * fraction),
+        );
+        const target = Math.min(
+            container.scrollTop + delta,
+            container.scrollHeight,
+        );
         const start = container.scrollTop;
         const total = target - start;
         const steps = 2 + Math.floor(Math.random() * 3);
@@ -85,7 +98,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         };
 
         element.dispatchEvent(new MouseEvent('mouseover', mouseInit));
-        element.dispatchEvent(new MouseEvent('mouseenter', { ...mouseInit, bubbles: false }));
+        element.dispatchEvent(
+            new MouseEvent('mouseenter', { ...mouseInit, bubbles: false }),
+        );
         await humanPause(quick ? 60 : 140, quick ? 150 : 380);
 
         element.focus({ preventScroll: true });
@@ -134,12 +149,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         '.jobs-search-results-list__item',
     ].join(', ');
 
-    const SUBMIT_PATTERN = /\b(submit(?:\s+application)?|send\s+application)\b/i;
+    const SUBMIT_PATTERN =
+        /\b(submit(?:\s+application)?|send\s+application)\b/i;
     const REVIEW_PATTERN = /\b(review|review your application)\b/i;
     const NEXT_PATTERN = /\b(next|continue)\b/i;
-    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 35_000;
+    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 90_000;
     const SUBMIT_POST_CLICK_SETTLE_MS = 3_000;
-    const APPLICATION_SENT_PATTERN = /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent|received)|thanks\s+for\s+applying|you\s+applied|successfully\s+submitted)/i;
+    const APPLICATION_SENT_PATTERN =
+        /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent|received)|thanks\s+for\s+applying|you\s+applied|successfully\s+submitted)/i;
     const STANDALONE_JOB_VIEW_PATTERN = /\/jobs\/view\/(\d+)/;
 
     const APPLY_BUTTON_SELECTORS = [
@@ -170,7 +187,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     ];
 
     function normalize(text) {
-        return String(text || '').replace(/\s+/g, ' ').trim();
+        return String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim();
     }
 
     function isStandaloneJobViewPage() {
@@ -178,14 +197,18 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     function readJobIdFromPageUrl() {
-        const match = (window.location.pathname || '').match(STANDALONE_JOB_VIEW_PATTERN);
+        const match = (window.location.pathname || '').match(
+            STANDALONE_JOB_VIEW_PATTERN,
+        );
 
         return match?.[1] || null;
     }
 
     function isEasyApplyButtonLabel(label) {
-        return /\b(easy\s+apply|linkedin\s+apply)\b/i.test(label)
-            || /^apply\b/i.test(label);
+        return (
+            /\b(easy\s+apply|linkedin\s+apply)\b/i.test(label) ||
+            /^apply\b/i.test(label)
+        );
     }
 
     function isAnchorElement(element) {
@@ -199,18 +222,28 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const href = element.getAttribute('href') || '';
 
-        if (href.includes('openSDUIApplyFlow') || (href.includes('/apply/') && isEasyApplyButtonLabel(element.getAttribute('aria-label') || ''))) {
+        if (
+            href.includes('openSDUIApplyFlow') ||
+            (href.includes('/apply/') &&
+                isEasyApplyButtonLabel(
+                    element.getAttribute('aria-label') || '',
+                ))
+        ) {
             return true;
         }
 
-        const label = normalize(element.textContent || element.getAttribute('aria-label') || '');
+        const label = normalize(
+            element.textContent || element.getAttribute('aria-label') || '',
+        );
 
         return isEasyApplyButtonLabel(label);
     }
 
     function isEasyApplyApplyControl(element) {
-        return element.matches('.jobs-apply-button, a.jobs-apply-button')
-            || isSduiEasyApplyAnchor(element);
+        return (
+            element.matches('.jobs-apply-button, a.jobs-apply-button') ||
+            isSduiEasyApplyAnchor(element)
+        );
     }
 
     function readApplyButtonSearchRoot() {
@@ -236,20 +269,31 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 }
             }
 
-            return document.body instanceof HTMLElement ? document.body : document;
+            return document.body instanceof HTMLElement
+                ? document.body
+                : document;
         }
 
         return readJobDetailRoot();
     }
 
-    function readApplicationSubmittedConfirmation(modal = readEasyApplyModal()) {
+    function readApplicationSubmittedConfirmation(
+        modal = readEasyApplyModal(),
+    ) {
         if (!modal) {
             return null;
         }
 
-        const heading = normalize(readStepSectionTitle(modal) || modal.querySelector('h2')?.textContent || '');
+        const heading = normalize(
+            readStepSectionTitle(modal) ||
+                modal.querySelector('h2')?.textContent ||
+                '',
+        );
 
-        if (/^application sent$/i.test(heading) || /^application submitted$/i.test(heading)) {
+        if (
+            /^application sent$/i.test(heading) ||
+            /^application submitted$/i.test(heading)
+        ) {
             return heading;
         }
 
@@ -270,7 +314,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const style = window.getComputedStyle(element);
 
-        if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) {
+        if (
+            style.display === 'none' ||
+            style.visibility === 'hidden' ||
+            Number(style.opacity) === 0
+        ) {
             return false;
         }
 
@@ -284,8 +332,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return true;
         }
 
-        return (style.position === 'fixed' || style.position === 'absolute')
-            && style.display !== 'none';
+        return (
+            (style.position === 'fixed' || style.position === 'absolute') &&
+            style.display !== 'none'
+        );
     }
 
     function queryVisible(selector, root = document) {
@@ -313,24 +363,30 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return null;
         }
 
-        if (element.matches([
-            'button',
-            'a.jobs-apply-button',
-            'a[aria-label*="Easy Apply"]',
-            'a[href*="openSDUIApplyFlow"]',
-        ].join(', '))) {
+        if (
+            element.matches(
+                [
+                    'button',
+                    'a.jobs-apply-button',
+                    'a[aria-label*="Easy Apply"]',
+                    'a[href*="openSDUIApplyFlow"]',
+                ].join(', '),
+            )
+        ) {
             return element;
         }
 
-        const nestedButton = element.querySelector([
-            'a[aria-label*="Easy Apply"][href*="/apply/"]',
-            'a[href*="/apply/"][href*="openSDUIApplyFlow"]',
-            'button.jobs-apply-button',
-            'button[aria-label*="Easy Apply"]',
-            'button[aria-label*="LinkedIn Apply"]',
-            'button[aria-label*="Apply"]',
-            'a.jobs-apply-button',
-        ].join(', '));
+        const nestedButton = element.querySelector(
+            [
+                'a[aria-label*="Easy Apply"][href*="/apply/"]',
+                'a[href*="/apply/"][href*="openSDUIApplyFlow"]',
+                'button.jobs-apply-button',
+                'button[aria-label*="Easy Apply"]',
+                'button[aria-label*="LinkedIn Apply"]',
+                'button[aria-label*="Apply"]',
+                'a.jobs-apply-button',
+            ].join(', '),
+        );
 
         return nestedButton instanceof HTMLElement ? nestedButton : element;
     }
@@ -341,7 +397,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(anchor.textContent || anchor.getAttribute('aria-label') || '');
+            const label = normalize(
+                anchor.textContent || anchor.getAttribute('aria-label') || '',
+            );
 
             if (!isEasyApplyButtonLabel(label)) {
                 continue;
@@ -349,7 +407,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
             const href = anchor.getAttribute('href') || '';
 
-            if (href.includes('/apply/') || href.includes('openSDUIApplyFlow') || /\beasy\s+apply\b/i.test(label)) {
+            if (
+                href.includes('/apply/') ||
+                href.includes('openSDUIApplyFlow') ||
+                /\beasy\s+apply\b/i.test(label)
+            ) {
                 return anchor;
             }
         }
@@ -371,9 +433,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(button.textContent || button.getAttribute('aria-label') || '');
+            const label = normalize(
+                button.textContent || button.getAttribute('aria-label') || '',
+            );
 
-            if (button.matches('.jobs-apply-button--applied') || (/\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label))) {
+            if (
+                button.matches('.jobs-apply-button--applied') ||
+                (/\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label))
+            ) {
                 continue;
             }
 
@@ -404,15 +471,19 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return null;
         }
 
-        return match.closest([
-            'li.scaffold-layout__list-item',
-            'li.jobs-search-results__list-item',
-            'li[data-occludable-job-id]',
-            'div.job-card-container',
-            'div.job-card-list__entity-lockup',
-            '.jobs-search-results-list__item',
-            'li',
-        ].join(', ')) || match;
+        return (
+            match.closest(
+                [
+                    'li.scaffold-layout__list-item',
+                    'li.jobs-search-results__list-item',
+                    'li[data-occludable-job-id]',
+                    'div.job-card-container',
+                    'div.job-card-list__entity-lockup',
+                    '.jobs-search-results-list__item',
+                    'li',
+                ].join(', '),
+            ) || match
+        );
     }
 
     function findJobCardById(jobId) {
@@ -487,7 +558,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
             await scrollContainerByHumanStep(listRoot);
 
-            if (listRoot.scrollTop + listRoot.clientHeight >= listRoot.scrollHeight - 4) {
+            if (
+                listRoot.scrollTop + listRoot.clientHeight >=
+                listRoot.scrollHeight - 4
+            ) {
                 break;
             }
         }
@@ -504,7 +578,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     function pageReferencesJobId(jobId) {
         const href = window.location.href;
 
-        if (href.includes(`/jobs/view/${jobId}`) || href.includes(`currentJobId=${jobId}`)) {
+        if (
+            href.includes(`/jobs/view/${jobId}`) ||
+            href.includes(`currentJobId=${jobId}`)
+        ) {
             return true;
         }
 
@@ -512,11 +589,18 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             '.jobs-search-results__list-item--active, .job-card-list__entity-lockup--active, .jobs-search-results-list__list-item--active',
         );
 
-        if (activeCard && findJobCardById(jobId) === readJobCardRoot(activeCard)) {
+        if (
+            activeCard &&
+            findJobCardById(jobId) === readJobCardRoot(activeCard)
+        ) {
             return true;
         }
 
-        return Boolean(findJobCardById(jobId)?.classList.contains('jobs-search-results__list-item--active'));
+        return Boolean(
+            findJobCardById(jobId)?.classList.contains(
+                'jobs-search-results__list-item--active',
+            ),
+        );
     }
 
     async function waitForJobDetailPanel(jobId, timeoutMs = 12_000) {
@@ -557,9 +641,15 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { ready: true, button };
         }
 
-        const pageLabel = standaloneJobView ? 'job view page' : 'job detail panel';
+        const pageLabel = standaloneJobView
+            ? 'job view page'
+            : 'job detail panel';
 
-        return { ready: false, button: null, error: `Apply button not found on ${pageLabel}.` };
+        return {
+            ready: false,
+            button: null,
+            error: `Apply button not found on ${pageLabel}.`,
+        };
     }
 
     function readJobDescriptionRoot() {
@@ -597,7 +687,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         for (const selector of selectors) {
             const element = document.querySelector(selector);
-            const text = element?.textContent?.replace(/\s+/g, ' ').trim() || '';
+            const text =
+                element?.textContent?.replace(/\s+/g, ' ').trim() || '';
 
             if (text.length > best.length) {
                 best = text;
@@ -605,8 +696,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         if (best.length < 200) {
-            const pane = document.querySelector('.jobs-details, .jobs-details__main-content, main');
-            const paneText = pane?.textContent?.replace(/\s+/g, ' ').trim() || '';
+            const pane = document.querySelector(
+                '.jobs-details, .jobs-details__main-content, main',
+            );
+            const paneText =
+                pane?.textContent?.replace(/\s+/g, ' ').trim() || '';
 
             if (paneText.length > best.length) {
                 best = paneText;
@@ -638,13 +732,16 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const showMore = document.querySelector(
-            '#job-details .inline-show-more-text__button, '
-            + '.jobs-description .inline-show-more-text__button, '
-            + '.jobs-description__content .inline-show-more-text__button, '
-            + '.jobs-description-content .inline-show-more-text__button',
+            '#job-details .inline-show-more-text__button, ' +
+                '.jobs-description .inline-show-more-text__button, ' +
+                '.jobs-description__content .inline-show-more-text__button, ' +
+                '.jobs-description-content .inline-show-more-text__button',
         );
 
-        if (showMore instanceof HTMLElement && showMore.getAttribute('aria-expanded') !== 'true') {
+        if (
+            showMore instanceof HTMLElement &&
+            showMore.getAttribute('aria-expanded') !== 'true'
+        ) {
             showMore.click();
             await sleep(900);
         }
@@ -652,7 +749,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return { prepared: true, expanded: Boolean(showMore) };
     }
 
-    async function waitForJobDescriptionReady(minLength = 200, timeoutMs = 20_000) {
+    async function waitForJobDescriptionReady(
+        minLength = 200,
+        timeoutMs = 20_000,
+    ) {
         const deadline = Date.now() + timeoutMs;
         let bestLength = 0;
 
@@ -684,7 +784,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return {
                 success: false,
                 jobId,
-                error: detail.error || `Job detail panel did not load for ${jobId}`,
+                error:
+                    detail.error ||
+                    `Job detail panel did not load for ${jobId}`,
             };
         }
 
@@ -727,7 +829,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
     function findCookieConsentAlert() {
         const candidates = [
-            ...document.querySelectorAll('.artdeco-global-alert--cookie_consent'),
+            ...document.querySelectorAll(
+                '.artdeco-global-alert--cookie_consent',
+            ),
             ...document.querySelectorAll('[data-test-global-alert]'),
         ];
         const seen = new Set();
@@ -744,8 +848,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
 
             const text = normalize(alert.textContent || '');
-            const isCookieConsent = alert.classList.contains('artdeco-global-alert--cookie_consent')
-                || /cookie|privacy|respects your privacy/i.test(text);
+            const isCookieConsent =
+                alert.classList.contains(
+                    'artdeco-global-alert--cookie_consent',
+                ) || /cookie|privacy|respects your privacy/i.test(text);
 
             if (isCookieConsent) {
                 return alert;
@@ -762,7 +868,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { accepted: false };
         }
 
-        const acceptButton = alert.querySelector('[data-test-global-alert-action="0"]');
+        const acceptButton = alert.querySelector(
+            '[data-test-global-alert-action="0"]',
+        );
 
         if (acceptButton instanceof HTMLElement) {
             await clickElement(acceptButton, { quick: true });
@@ -795,10 +903,16 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         );
 
         if (listRoot instanceof HTMLElement) {
-            listRoot.scrollTo({ top: listRoot.scrollHeight, behavior: 'smooth' });
+            listRoot.scrollTo({
+                top: listRoot.scrollHeight,
+                behavior: 'smooth',
+            });
         }
 
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+        });
         await humanPause(450, 750);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         await humanPause(320, 680);
@@ -810,25 +924,38 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const card = await revealJobCardById(jobId);
 
         if (!card) {
-            return { success: false, error: `Job card not found: ${jobId}`, needsNavigation: true, jobId };
+            return {
+                success: false,
+                error: `Job card not found: ${jobId}`,
+                needsNavigation: true,
+                jobId,
+            };
         }
 
         await humanPause(420, 980);
 
-        const clickable = card.querySelector([
-            'a[href*="/jobs/view/"]',
-            'a[href*="currentJobId="]',
-            '.job-card-list__title-link',
-            '.job-card-container__clickable',
-            '.job-card-list__entity-lockup',
-        ].join(', ')) || card;
+        const clickable =
+            card.querySelector(
+                [
+                    'a[href*="/jobs/view/"]',
+                    'a[href*="currentJobId="]',
+                    '.job-card-list__title-link',
+                    '.job-card-container__clickable',
+                    '.job-card-list__entity-lockup',
+                ].join(', '),
+            ) || card;
 
         await clickElement(clickable);
 
         const detail = await waitForJobDetailPanel(jobId);
 
         if (!detail.ready) {
-            return { success: false, error: `Job detail panel did not load for ${jobId}`, needsNavigation: true, jobId };
+            return {
+                success: false,
+                error: `Job detail panel did not load for ${jobId}`,
+                needsNavigation: true,
+                jobId,
+            };
         }
 
         const description = await waitForJobDescriptionReady(200, 18_000);
@@ -864,26 +991,40 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            const modalRoot = match.closest('[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]') || match;
+            const modalRoot =
+                match.closest(
+                    '[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]',
+                ) || match;
 
             if (isSaveApplicationDialog(modalRoot)) {
                 continue;
             }
 
-            if (selector.includes('role="dialog"') && !match.querySelector([
-                '.jobs-easy-apply-content',
-                '.jobs-easy-apply-modal__content',
-                '.jobs-easy-apply-footer',
-                'form',
-            ].join(', '))) {
-                const hasEasyApplyText = /\beasy\s+apply\b/i.test(match.textContent || '');
+            if (
+                selector.includes('role="dialog"') &&
+                !match.querySelector(
+                    [
+                        '.jobs-easy-apply-content',
+                        '.jobs-easy-apply-modal__content',
+                        '.jobs-easy-apply-footer',
+                        'form',
+                    ].join(', '),
+                )
+            ) {
+                const hasEasyApplyText = /\beasy\s+apply\b/i.test(
+                    match.textContent || '',
+                );
 
                 if (!hasEasyApplyText) {
                     continue;
                 }
             }
 
-            return match.closest('[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]') || match;
+            return (
+                match.closest(
+                    '[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]',
+                ) || match
+            );
         }
 
         return null;
@@ -900,14 +1041,21 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const label = normalize(button.textContent || button.getAttribute('aria-label'));
+        const label = normalize(
+            button.textContent || button.getAttribute('aria-label'),
+        );
 
         return {
             present: true,
             label,
-            easyApply: isEasyApplyButtonLabel(label) || isEasyApplyApplyControl(button),
-            alreadyApplied: /\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label),
-            disabled: button.disabled || button.getAttribute('aria-disabled') === 'true',
+            easyApply:
+                isEasyApplyButtonLabel(label) ||
+                isEasyApplyApplyControl(button),
+            alreadyApplied:
+                /\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label),
+            disabled:
+                button.disabled ||
+                button.getAttribute('aria-disabled') === 'true',
         };
     }
 
@@ -917,7 +1065,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const titleText = normalize(
-            modal.querySelector('[data-test-dialog-title], h2')?.textContent || '',
+            modal.querySelector('[data-test-dialog-title], h2')?.textContent ||
+                '',
         );
 
         return /save this application/i.test(titleText);
@@ -927,7 +1076,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const candidates = [
             ...document.querySelectorAll('[role="alertdialog"]'),
             ...document.querySelectorAll('.artdeco-modal--layer-confirmation'),
-            ...document.querySelectorAll('[data-test-modal].artdeco-modal--layer-confirmation'),
+            ...document.querySelectorAll(
+                '[data-test-modal].artdeco-modal--layer-confirmation',
+            ),
         ];
         const seen = new Set();
 
@@ -955,10 +1106,17 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { dismissed: false };
         }
 
-        const discardButton = modal.querySelector('[data-test-dialog-secondary-btn]');
-        const discardLabel = discardButton ? normalize(discardButton.textContent) : '';
+        const discardButton = modal.querySelector(
+            '[data-test-dialog-secondary-btn]',
+        );
+        const discardLabel = discardButton
+            ? normalize(discardButton.textContent)
+            : '';
 
-        if (discardButton instanceof HTMLElement && /discard/i.test(discardLabel)) {
+        if (
+            discardButton instanceof HTMLElement &&
+            /discard/i.test(discardLabel)
+        ) {
             await clickElement(discardButton, { quick: true });
             await humanPause(380, 720);
 
@@ -978,9 +1136,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
         }
 
-        const closeButton = modal.querySelector('[data-test-modal-close-btn]')
-            || modal.querySelector('button[aria-label="Dismiss"]')
-            || modal.querySelector('.artdeco-modal__dismiss');
+        const closeButton =
+            modal.querySelector('[data-test-modal-close-btn]') ||
+            modal.querySelector('button[aria-label="Dismiss"]') ||
+            modal.querySelector('.artdeco-modal__dismiss');
 
         if (closeButton instanceof HTMLElement) {
             await clickElement(closeButton, { quick: true });
@@ -1047,11 +1206,19 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const state = readApplyButtonState(button);
 
         if (state.alreadyApplied) {
-            return { success: false, alreadyApplied: true, error: 'Already applied to this job.' };
+            return {
+                success: false,
+                alreadyApplied: true,
+                error: 'Already applied to this job.',
+            };
         }
 
         if (!state.easyApply) {
-            return { success: false, easyApply: false, error: 'Job does not offer Easy Apply.' };
+            return {
+                success: false,
+                easyApply: false,
+                error: 'Job does not offer Easy Apply.',
+            };
         }
 
         if (state.disabled) {
@@ -1072,11 +1239,17 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 error: 'Easy Apply modal did not open.',
                 applyButtonLabel: state.label,
                 saveDialogPresent: Boolean(findSaveApplicationDialog()),
-                blockingDialogCount: document.querySelectorAll('div[role="dialog"], div[role="alertdialog"]').length,
+                blockingDialogCount: document.querySelectorAll(
+                    'div[role="dialog"], div[role="alertdialog"]',
+                ).length,
             };
         }
 
-        return { success: true, easyApply: true, applyButtonLabel: state.label };
+        return {
+            success: true,
+            easyApply: true,
+            applyButtonLabel: state.label,
+        };
     }
 
     async function waitForEasyApplyModal(timeoutMs = 8000) {
@@ -1103,19 +1276,28 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return [];
         }
 
-        const footer = modal.querySelector('.jobs-easy-apply-footer, footer, .artdeco-modal__actionbar') || modal;
+        const footer =
+            modal.querySelector(
+                '.jobs-easy-apply-footer, footer, .artdeco-modal__actionbar',
+            ) || modal;
 
-        return [...footer.querySelectorAll('button')].filter((button) => button instanceof HTMLElement);
+        return [...footer.querySelectorAll('button')].filter(
+            (button) => button instanceof HTMLElement,
+        );
     }
 
     function readButtonLabel(button) {
-        return normalize(button.textContent || button.getAttribute('aria-label') || '');
+        return normalize(
+            button.textContent || button.getAttribute('aria-label') || '',
+        );
     }
 
     function isButtonDisabled(button) {
-        return button.disabled
-            || button.getAttribute('aria-disabled') === 'true'
-            || button.classList.contains('artdeco-button--disabled');
+        return (
+            button.disabled ||
+            button.getAttribute('aria-disabled') === 'true' ||
+            button.classList.contains('artdeco-button--disabled')
+        );
     }
 
     function findPrimaryActionButton(modal = readEasyApplyModal()) {
@@ -1124,8 +1306,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         if (isApplicationSuccessScreen(modal)) {
-            const doneButton = readModalFooterButtons(modal)
-                .find((button) => /^done$/i.test(readButtonLabel(button)));
+            const doneButton = readModalFooterButtons(modal).find((button) =>
+                /^done$/i.test(readButtonLabel(button)),
+            );
 
             if (doneButton) {
                 return {
@@ -1139,11 +1322,21 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const buttons = readModalFooterButtons(modal);
         const candidates = [
-            ...buttons.filter((button) => SUBMIT_PATTERN.test(readButtonLabel(button))),
-            ...buttons.filter((button) => REVIEW_PATTERN.test(readButtonLabel(button))),
-            ...buttons.filter((button) => NEXT_PATTERN.test(readButtonLabel(button))),
-            ...modal.querySelectorAll('button[data-easy-apply-next-button], button[data-live-test-easy-apply-next-button], button[data-live-test-easy-apply-submit-button]'),
-            ...modal.querySelectorAll('.jobs-easy-apply-footer .artdeco-button--primary, .artdeco-modal__actionbar .artdeco-button--primary'),
+            ...buttons.filter((button) =>
+                SUBMIT_PATTERN.test(readButtonLabel(button)),
+            ),
+            ...buttons.filter((button) =>
+                REVIEW_PATTERN.test(readButtonLabel(button)),
+            ),
+            ...buttons.filter((button) =>
+                NEXT_PATTERN.test(readButtonLabel(button)),
+            ),
+            ...modal.querySelectorAll(
+                'button[data-easy-apply-next-button], button[data-live-test-easy-apply-next-button], button[data-live-test-easy-apply-submit-button]',
+            ),
+            ...modal.querySelectorAll(
+                '.jobs-easy-apply-footer .artdeco-button--primary, .artdeco-modal__actionbar .artdeco-button--primary',
+            ),
         ];
 
         const seen = new Set();
@@ -1210,13 +1403,22 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const heading = readStepSectionTitle(modal) || '';
-        const fieldCount = modal.querySelectorAll('input, textarea, select').length;
-        const progress = normalize(modal.querySelector('.artdeco-stepper__indicator, .jpac-form-header')?.textContent);
+        const fieldCount = modal.querySelectorAll(
+            'input, textarea, select',
+        ).length;
+        const progress = normalize(
+            modal.querySelector(
+                '.artdeco-stepper__indicator, .jpac-form-header',
+            )?.textContent,
+        );
         const primary = findPrimaryActionButton(modal);
-        const resumeSelected = typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined'
-            && AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)
-            ? (AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume(modal) ? '1' : '0')
-            : '';
+        const resumeSelected =
+            typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined' &&
+            AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)
+                ? AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume(modal)
+                    ? '1'
+                    : '0'
+                : '';
 
         return `${heading}|${fieldCount}|${progress}|${primary?.action || 'none'}|${primary?.label || ''}|resume:${resumeSelected}`;
     }
@@ -1246,7 +1448,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                     continue;
                 }
 
-                if (node.closest('[hidden], [style*="display: none"], [style*="display:none"]')) {
+                if (
+                    node.closest(
+                        '[hidden], [style*="display: none"], [style*="display:none"]',
+                    )
+                ) {
                     continue;
                 }
 
@@ -1268,12 +1474,17 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const fields = [];
 
-        for (const errorRoot of modal.querySelectorAll('[data-test-form-element-error-messages]')) {
+        for (const errorRoot of modal.querySelectorAll(
+            '[data-test-form-element-error-messages]',
+        )) {
             if (!isElementVisible(errorRoot)) {
                 continue;
             }
 
-            const message = normalize(errorRoot.querySelector('.artdeco-inline-feedback__message')?.textContent || '');
+            const message = normalize(
+                errorRoot.querySelector('.artdeco-inline-feedback__message')
+                    ?.textContent || '',
+            );
 
             if (!message) {
                 continue;
@@ -1294,16 +1505,26 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            const control = formElement.querySelector('input[role="combobox"], select, textarea, input:not([type="hidden"])');
-            const fieldType = control?.getAttribute('role') === 'combobox' || control?.tagName?.toLowerCase() === 'select'
-                ? 'select'
-                : 'text';
+            const control = formElement.querySelector(
+                'input[role="combobox"], select, textarea, input:not([type="hidden"])',
+            );
+            const fieldType =
+                control?.getAttribute('role') === 'combobox' ||
+                control?.tagName?.toLowerCase() === 'select'
+                    ? 'select'
+                    : 'text';
 
             fields.push({
                 label,
                 question: label,
                 field_type: fieldType,
-                dom: control?.id ? { id: control.id, input_id: control.id, role: control.getAttribute('role') || null } : null,
+                dom: control?.id
+                    ? {
+                          id: control.id,
+                          input_id: control.id,
+                          role: control.getAttribute('role') || null,
+                      }
+                    : null,
             });
         }
 
@@ -1316,32 +1537,49 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         return new Promise((resolve, reject) => {
-            AutoCVApplyExtensionContext.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, (response) => {
-                if (response?.error) {
-                    reject(new Error(response.error));
+            AutoCVApplyExtensionContext.safeRuntimeSendCallback(
+                { type: 'GET_CV_DOCUMENT' },
+                (response) => {
+                    if (response?.error) {
+                        reject(new Error(response.error));
 
-                    return;
-                }
+                        return;
+                    }
 
-                resolve(response);
-            });
+                    resolve(response);
+                },
+            );
         });
     }
 
     function prefillContactInfo(profileData) {
         const modal = readEasyApplyModal();
 
-        if (!modal || typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined') {
-            return Promise.resolve({ filled: 0, success: false, skipped: true, errors: [] });
+        if (
+            !modal ||
+            typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined'
+        ) {
+            return Promise.resolve({
+                filled: 0,
+                success: false,
+                skipped: true,
+                errors: [],
+            });
         }
 
-        return AutoCVApplyLinkedInEasyApplyFields.fillContactInfoStep(modal, profileData);
+        return AutoCVApplyLinkedInEasyApplyFields.fillContactInfoStep(
+            modal,
+            profileData,
+        );
     }
 
     async function prefillResumeStep(_profileData) {
         const modal = readEasyApplyModal();
 
-        if (!modal || typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined') {
+        if (
+            !modal ||
+            typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined'
+        ) {
             return { filled: 0, success: false, skipped: true, errors: [] };
         }
 
@@ -1358,8 +1596,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             contact: contactResult,
             resume: resumeResult,
             filled: (contactResult.filled || 0) + (resumeResult.filled || 0),
-            success: (contactResult.success !== false) && (resumeResult.success !== false),
-            errors: [...(contactResult.errors || []), ...(resumeResult.errors || [])],
+            success:
+                contactResult.success !== false &&
+                resumeResult.success !== false,
+            errors: [
+                ...(contactResult.errors || []),
+                ...(resumeResult.errors || []),
+            ],
         };
     }
 
@@ -1378,7 +1621,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const submittedConfirmation = readApplicationSubmittedConfirmation(modal);
+        const submittedConfirmation =
+            readApplicationSubmittedConfirmation(modal);
 
         if (submittedConfirmation) {
             const primary = findPrimaryActionButton(modal);
@@ -1388,8 +1632,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 submitted: true,
                 confirmation: submittedConfirmation,
                 canSubmit: false,
-                canContinue: Boolean(primary && primary.action === 'done' && !primary.disabled),
-                stepLabel: readStepSectionTitle(modal) || normalize(modal.querySelector('h2, h3')?.textContent) || null,
+                canContinue: Boolean(
+                    primary && primary.action === 'done' && !primary.disabled,
+                ),
+                stepLabel:
+                    readStepSectionTitle(modal) ||
+                    normalize(modal.querySelector('h2, h3')?.textContent) ||
+                    null,
                 submitLabel: null,
                 actionLabel: primary?.label || null,
                 action: primary?.action || 'done',
@@ -1407,8 +1656,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             open: true,
             submitted: false,
             canSubmit: primary?.action === 'submit' && !primary.disabled,
-            canContinue: Boolean(primary && primary.action !== 'submit' && !primary.disabled),
-            stepLabel: readStepSectionTitle(modal) || normalize(modal.querySelector('h2, h3')?.textContent) || null,
+            canContinue: Boolean(
+                primary && primary.action !== 'submit' && !primary.disabled,
+            ),
+            stepLabel:
+                readStepSectionTitle(modal) ||
+                normalize(modal.querySelector('h2, h3')?.textContent) ||
+                null,
             submitLabel: primary?.action === 'submit' ? primary.label : null,
             actionLabel: primary?.label || null,
             action: primary?.action || null,
@@ -1423,7 +1677,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
-            const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
+            const spinner = modal.querySelector(
+                '.artdeco-loader, .jobs-loader, [data-test-loader]',
+            );
 
             if (!spinner || !isElementVisible(spinner)) {
                 return true;
@@ -1432,7 +1688,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             await sleep(200);
         }
 
-        const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
+        const spinner = modal.querySelector(
+            '.artdeco-loader, .jobs-loader, [data-test-loader]',
+        );
 
         return !(spinner && isElementVisible(spinner));
     }
@@ -1442,7 +1700,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return false;
         }
 
-        const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
+        const spinner = modal.querySelector(
+            '.artdeco-loader, .jobs-loader, [data-test-loader]',
+        );
 
         return Boolean(spinner && isElementVisible(spinner));
     }
@@ -1452,19 +1712,27 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return false;
         }
 
-        const fieldCount = modal.querySelectorAll('input, textarea, select').length;
+        const fieldCount = modal.querySelectorAll(
+            'input, textarea, select',
+        ).length;
 
         if (fieldCount > 0) {
             return true;
         }
 
-        if (typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined'
-            && AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)) {
+        if (
+            typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined' &&
+            AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)
+        ) {
             return true;
         }
 
-        const progress = modal.querySelector('progress[aria-valuenow], progress[value]');
-        const progressValue = Number(progress?.getAttribute('aria-valuenow') || progress?.value || 0);
+        const progress = modal.querySelector(
+            'progress[aria-valuenow], progress[value]',
+        );
+        const progressValue = Number(
+            progress?.getAttribute('aria-valuenow') || progress?.value || 0,
+        );
 
         if (progressValue > 0) {
             return true;
@@ -1493,7 +1761,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
             await waitForLoadingToSettle(modal, 2_000);
 
-            if (!isEasyApplyStepLoading(modal) && hasEasyApplyStepContent(modal)) {
+            if (
+                !isEasyApplyStepLoading(modal) &&
+                hasEasyApplyStepContent(modal)
+            ) {
                 return {
                     ready: true,
                     stepFingerprint: readStepFingerprint(modal),
@@ -1508,7 +1779,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         return {
             ready: false,
-            zombie: isEasyApplyStepLoading(modal) && !hasEasyApplyStepContent(modal),
+            zombie:
+                isEasyApplyStepLoading(modal) &&
+                !hasEasyApplyStepContent(modal),
             error: isEasyApplyStepLoading(modal)
                 ? 'Easy Apply step is still loading.'
                 : 'Easy Apply step has no fillable content yet.',
@@ -1517,7 +1790,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         };
     }
 
-    async function waitForStepTransition(previousFingerprint, timeoutMs = 10_000) {
+    async function waitForStepTransition(
+        previousFingerprint,
+        timeoutMs = 10_000,
+    ) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
@@ -1544,7 +1820,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             const nextFingerprint = readStepFingerprint(modal);
 
             if (nextFingerprint !== previousFingerprint) {
-                return { transitioned: true, closed: false, stepFingerprint: nextFingerprint };
+                return {
+                    transitioned: true,
+                    closed: false,
+                    stepFingerprint: nextFingerprint,
+                };
             }
         }
 
@@ -1560,26 +1840,36 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        return { transitioned: false, closed: false, stepFingerprint: readStepFingerprint() };
+        return {
+            transitioned: false,
+            closed: false,
+            stepFingerprint: readStepFingerprint(),
+        };
     }
 
-    async function waitForSubmissionConfirmation(timeoutMs = SUBMIT_CONFIRMATION_TIMEOUT_MS) {
+    async function waitForSubmissionConfirmation(
+        timeoutMs = SUBMIT_CONFIRMATION_TIMEOUT_MS,
+    ) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
-            const modal = readEasyApplyModal();
-
-            if (modal) {
-                await waitForLoadingToSettle(modal, 8_000);
-            }
-
             const verify = verifySubmitted();
 
             if (verify.submitted) {
                 return verify;
             }
 
-            await sleep(400);
+            const modal = readEasyApplyModal();
+
+            if (modal) {
+                const remainingMs = Math.max(0, deadline - Date.now());
+                await waitForLoadingToSettle(
+                    modal,
+                    Math.min(2_000, remainingMs),
+                );
+            }
+
+            await sleep(Math.min(400, Math.max(0, deadline - Date.now())));
         }
 
         return verifySubmitted();
@@ -1600,7 +1890,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { success: false, error: 'Easy Apply modal is not open.' };
         }
 
-        const existingConfirmation = readApplicationSubmittedConfirmation(modal);
+        const existingConfirmation =
+            readApplicationSubmittedConfirmation(modal);
 
         if (existingConfirmation) {
             return {
@@ -1624,7 +1915,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                     success: false,
                     action: 'blocked',
                     error: ready.error || 'Easy Apply step is not ready.',
-                    stepFingerprint: ready.stepFingerprint || readStepFingerprint(modal),
+                    stepFingerprint:
+                        ready.stepFingerprint || readStepFingerprint(modal),
                     validationErrors: readModalValidationErrors(modal),
                 };
             }
@@ -1667,7 +1959,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 closed: !readEasyApplyModal(),
                 stepFingerprint: readStepFingerprint(),
                 validationErrors: readModalValidationErrors(),
-                confirmation: verify.confirmation || readApplicationSubmittedConfirmation() || null,
+                confirmation:
+                    verify.confirmation ||
+                    readApplicationSubmittedConfirmation() ||
+                    null,
             };
         }
 
@@ -1698,9 +1993,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 transitioned: true,
                 action: primary.action,
                 submitted: true,
-                stepFingerprint: transition.stepFingerprint || readStepFingerprint(),
+                stepFingerprint:
+                    transition.stepFingerprint || readStepFingerprint(),
                 validationErrors: readModalValidationErrors(),
-                confirmation: transition.confirmation || readApplicationSubmittedConfirmation() || null,
+                confirmation:
+                    transition.confirmation ||
+                    readApplicationSubmittedConfirmation() ||
+                    null,
             };
         }
 
@@ -1709,7 +2008,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             transitioned: transition.transitioned || transition.closed,
             action: primary.action,
             submitted: false,
-            stepFingerprint: transition.stepFingerprint || readStepFingerprint(),
+            stepFingerprint:
+                transition.stepFingerprint || readStepFingerprint(),
             validationErrors: readModalValidationErrors(),
             closed: transition.closed,
         };
@@ -1781,10 +2081,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const toast = queryVisible([
-            '.artdeco-toast-item--success',
-            '[data-test-artdeco-toast-item-type="success"]',
-        ].join(', '));
+        const toast = queryVisible(
+            [
+                '.artdeco-toast-item--success',
+                '[data-test-artdeco-toast-item-type="success"]',
+            ].join(', '),
+        );
 
         if (toast) {
             return {
@@ -1807,11 +2109,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { success: true, closed: true };
         }
 
-        const dismiss = queryVisible([
-            'button[aria-label="Dismiss"]',
-            'button[aria-label="Close"]',
-            '.artdeco-modal__dismiss',
-        ].join(', '), modal);
+        const dismiss = queryVisible(
+            [
+                'button[aria-label="Dismiss"]',
+                'button[aria-label="Close"]',
+                '.artdeco-modal__dismiss',
+            ].join(', '),
+            modal,
+        );
 
         if (dismiss) {
             await clickElement(dismiss, { quick: true });
@@ -1824,7 +2129,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         if (force) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+            document.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'Escape',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
             await sleep(250);
             await dismissSaveApplicationDialog().catch(() => {});
 
@@ -1844,10 +2155,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     async function goToNextSearchPage() {
-        const nextButton = queryVisible([
-            'button[aria-label="View next page"]',
-            'button.artdeco-pagination__button--next',
-        ].join(', '));
+        const nextButton = queryVisible(
+            [
+                'button[aria-label="View next page"]',
+                'button.artdeco-pagination__button--next',
+            ].join(', '),
+        );
 
         if (!nextButton || nextButton.disabled) {
             return { success: false, error: 'No next search results page.' };
@@ -1896,7 +2209,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return null;
         }
 
-        for (const formElement of modal.querySelectorAll('[data-test-form-element]')) {
+        for (const formElement of modal.querySelectorAll(
+            '[data-test-form-element]',
+        )) {
             const labelEl = formElement.querySelector(
                 '[data-test-single-typeahead-entity-form-title], [data-test-text-entity-list-form-title], .fb-dash-form-element__label, label',
             );
@@ -1906,7 +2221,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            return formElement.querySelector('input[role="combobox"], select, textarea, input:not([type="hidden"])');
+            return formElement.querySelector(
+                'input[role="combobox"], select, textarea, input:not([type="hidden"])',
+            );
         }
 
         return null;
@@ -1945,7 +2262,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         return {
             ...state,
-            valid: (state.validationErrors?.length || 0) === 0 && (state.invalidFields?.length || 0) === 0,
+            valid:
+                (state.validationErrors?.length || 0) === 0 &&
+                (state.invalidFields?.length || 0) === 0,
             validationError: state.validationErrors?.[0] || null,
         };
     }
@@ -1967,20 +2286,22 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { dismissed: false };
         }
 
-        const modal = queryVisible([
-            'div[role="alertdialog"]',
-            'div[role="dialog"]',
-        ].join(', '));
+        const modal = queryVisible(
+            ['div[role="alertdialog"]', 'div[role="dialog"]'].join(', '),
+        );
 
         if (!modal) {
             return { dismissed: false };
         }
 
-        const dismiss = queryVisible([
-            'button[aria-label="Dismiss"]',
-            'button[aria-label="Close"]',
-            '.artdeco-modal__dismiss',
-        ].join(', '), modal);
+        const dismiss = queryVisible(
+            [
+                'button[aria-label="Dismiss"]',
+                'button[aria-label="Close"]',
+                '.artdeco-modal__dismiss',
+            ].join(', '),
+            modal,
+        );
 
         if (dismiss) {
             await clickElement(dismiss, { quick: true });
@@ -2021,6 +2342,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         getEasyApplyModalState,
         waitForEasyApplyStepReady,
         clickNextOrSubmit,
+        waitForSubmissionConfirmation,
         verifySubmitted,
         closeEasyApplyModal,
         goToNextSearchPage,
