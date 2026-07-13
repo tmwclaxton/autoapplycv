@@ -1690,6 +1690,22 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return true;
         }
 
+        if (message.type === 'LINKEDIN_RECOVER_EMPTY_SHELL') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ recovered: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            AutoCVApplyLinkedInAutoApply.recoverEmptyEasyApplyShell({
+                waitMs: message.waitMs || 12_000,
+            })
+                .then((result) => sendResponse(result))
+                .catch((error) => sendResponse({ recovered: false, error: error.message }));
+
+            return true;
+        }
+
         if (message.type === 'LINKEDIN_VALIDATE_BLOCKED_FIELD') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
                 sendResponse({ open: false, valid: true, validationError: null });

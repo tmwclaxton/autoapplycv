@@ -1024,6 +1024,7 @@ const LINKEDIN_SLOW_MESSAGE_TIMEOUT_MS = {
     LINKEDIN_WAIT_FOR_JOB_DETAIL: 45_000,
     LINKEDIN_WAIT_FOR_JOB_DESCRIPTION: 45_000,
     LINKEDIN_WAIT_FOR_STEP_READY: 35_000,
+    LINKEDIN_RECOVER_EMPTY_SHELL: 50_000,
     LINKEDIN_FILL_AND_ADVANCE: 45_000,
     LINKEDIN_ADVANCE_EASY_APPLY: 35_000,
 };
@@ -1054,11 +1055,13 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
                 (type === 'LINKEDIN_SELECT_JOB' ||
                     type === 'LINKEDIN_OPEN_EASY_APPLY' ||
                     type === 'LINKEDIN_CLICK_EASY_APPLY' ||
-                    type === 'LINKEDIN_WAIT_FOR_STEP_READY')
+                    type === 'LINKEDIN_WAIT_FOR_STEP_READY' ||
+                    type === 'LINKEDIN_RECOVER_EMPTY_SHELL')
             ) {
                 return {
                     success: false,
                     ready: false,
+                    recovered: false,
                     needsNavigation: type === 'LINKEDIN_SELECT_JOB',
                     timedOut: true,
                     error: message,
@@ -1169,6 +1172,37 @@ async function readLinkedInModalState(tabId, { retries = 3 } = {}) {
     }
 
     return lastState;
+}
+
+function isLinkedInEasyApplyReadyForFill(modalState) {
+    if (!modalState?.open) {
+        return false;
+    }
+
+    if (modalState.submitted) {
+        return true;
+    }
+
+    // Prefer explicit content readiness from the content script.
+    if (modalState.hasContent === true && modalState.loading !== true) {
+        return true;
+    }
+
+    if (modalState.emptyShell === true || modalState.loading === true) {
+        return false;
+    }
+
+    // Legacy / partial state: Review/Submit imply a hydrated step. Next alone
+    // is not enough - LinkedIn shows Next on an empty loader shell.
+    if (
+        modalState.canSubmit ||
+        modalState.action === 'review' ||
+        modalState.action === 'submit'
+    ) {
+        return true;
+    }
+
+    return false;
 }
 
 async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
@@ -2999,22 +3033,20 @@ async function processLinkedInJob(
 
         const openModal = await readLinkedInModalState(tabId, { retries: 5 });
 
-        if (
-            openModal?.open &&
-            (openModal.canContinue ||
-                openModal.canSubmit ||
-                openModal.action === 'next' ||
-                openModal.action === 'review' ||
-                openModal.action === 'submit')
-        ) {
+        if (isLinkedInEasyApplyReadyForFill(openModal)) {
             await logSession(
                 'info',
-                `[linkedin_load] ${job.title}: Easy Apply modal already open - skipping reload thrash.`,
+                `[linkedin_load] ${job.title}: Easy Apply modal already open with fields - skipping reload thrash.`,
             );
             postOpenReady = {
                 ready: true,
                 recoveredFromOpenModal: true,
             };
+        } else if (openModal?.open && openModal.emptyShell !== false) {
+            await logSession(
+                'warn',
+                `[linkedin_load] ${job.title}: Easy Apply shell open but empty - will recover before fill.`,
+            );
         }
     }
 
@@ -3088,14 +3120,7 @@ async function processLinkedInJob(
                 retries: 5,
             });
 
-            if (
-                reloadModal?.open &&
-                (reloadModal.canContinue ||
-                    reloadModal.canSubmit ||
-                    reloadModal.action === 'next' ||
-                    reloadModal.action === 'review' ||
-                    reloadModal.action === 'submit')
-            ) {
+            if (isLinkedInEasyApplyReadyForFill(reloadModal)) {
                 postOpenReady = {
                     ready: true,
                     recoveredFromOpenModal: true,
@@ -3193,6 +3218,45 @@ async function processLinkedInJob(
                     'LINKEDIN_DISMISS_BLOCKING_MODAL',
                 ).catch(() => {});
                 await wakeAutoApplyTab(tabId).catch(() => {});
+
+                if (stepLoadAttempts === 2) {
+                    await logSession(
+                        'warn',
+                        `[linkedin_load] ${job.title}: recovering empty Easy Apply shell (nudge/reopen).`,
+                    );
+
+                    const recovered = await sendLinkedInMessage(
+                        tabId,
+                        'LINKEDIN_RECOVER_EMPTY_SHELL',
+                        { waitMs: 15_000 },
+                        {
+                            maxAttempts: 1,
+                            timeoutMs: 45_000,
+                        },
+                    ).catch((error) => ({
+                        recovered: false,
+                        error:
+                            error instanceof Error
+                                ? error.message
+                                : 'Empty-shell recovery failed.',
+                    }));
+
+                    if (recovered?.recovered || recovered?.ready) {
+                        await logSession(
+                            'info',
+                            `[linkedin_load] ${job.title}: empty shell recovered via ${recovered.method || 'reopen'}.`,
+                        );
+                        stepLoadAttempts = 0;
+                        lastStepFingerprint = null;
+                        continue;
+                    }
+
+                    await logSession(
+                        'warn',
+                        `[linkedin_load] ${job.title}: empty-shell recovery failed - ${recovered?.error || 'still empty'}.`,
+                    );
+                }
+
                 await sleep(randomDelay(1200, 1800));
                 continue;
             }

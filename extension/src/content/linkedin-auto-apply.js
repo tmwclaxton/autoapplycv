@@ -1618,6 +1618,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 stepLabel: null,
                 stepFingerprint: null,
                 validationErrors: [],
+                loading: false,
+                hasContent: false,
+                emptyShell: false,
             };
         }
 
@@ -1645,12 +1648,17 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 actionDisabled: primary?.disabled || false,
                 stepFingerprint: readStepFingerprint(modal),
                 validationErrors: [],
+                loading: false,
+                hasContent: true,
+                emptyShell: false,
             };
         }
 
         const primary = findPrimaryActionButton(modal);
         const validationErrors = readModalValidationErrors(modal);
         const invalidFields = readInvalidFieldsFromModal(modal);
+        const loading = isEasyApplyStepLoading(modal);
+        const hasContent = hasEasyApplyStepContent(modal);
 
         return {
             open: true,
@@ -1670,6 +1678,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             stepFingerprint: readStepFingerprint(modal),
             validationErrors,
             invalidFields,
+            loading,
+            hasContent,
+            // LinkedIn often mounts Next + jobs-loader with an empty form body.
+            emptyShell: !hasContent,
         };
     }
 
@@ -1793,8 +1805,44 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return /review your application/i.test(bodyText);
     }
 
+    async function nudgeEasyApplyModalFocus(modal = readEasyApplyModal()) {
+        if (!modal) {
+            return { nudged: false };
+        }
+
+        const target =
+            modal.querySelector(
+                '.jobs-easy-apply-modal__content, [role="region"], #jobs-apply-header, form',
+            ) || modal;
+
+        try {
+            if (typeof target.focus === 'function') {
+                target.focus({ preventScroll: true });
+            }
+
+            target.dispatchEvent(
+                new MouseEvent('mousedown', {
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            target.dispatchEvent(
+                new MouseEvent('mouseup', { bubbles: true, cancelable: true }),
+            );
+            target.dispatchEvent(
+                new MouseEvent('click', { bubbles: true, cancelable: true }),
+            );
+        } catch {
+            return { nudged: false };
+        }
+
+        return { nudged: true };
+    }
+
     async function waitForEasyApplyStepReady(timeoutMs = 20_000) {
         const deadline = Date.now() + timeoutMs;
+        let nudged = false;
+        let emptySince = null;
 
         while (Date.now() < deadline) {
             const modal = readEasyApplyModal();
@@ -1816,6 +1864,19 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 };
             }
 
+            if (!hasEasyApplyStepContent(modal)) {
+                if (emptySince === null) {
+                    emptySince = Date.now();
+                }
+
+                if (!nudged && Date.now() - emptySince >= 2_000) {
+                    await nudgeEasyApplyModalFocus(modal);
+                    nudged = true;
+                }
+            } else {
+                emptySince = null;
+            }
+
             await sleep(250);
         }
 
@@ -1823,14 +1884,73 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         return {
             ready: false,
-            zombie:
-                isEasyApplyStepLoading(modal) &&
-                !hasEasyApplyStepContent(modal),
+            zombie: Boolean(modal) && !hasEasyApplyStepContent(modal),
             error: isEasyApplyStepLoading(modal)
                 ? 'Easy Apply step is still loading.'
                 : 'Easy Apply step has no fillable content yet.',
             stepFingerprint: readStepFingerprint(modal),
             state: modal ? getEasyApplyModalState() : null,
+        };
+    }
+
+    async function recoverEmptyEasyApplyShell({ waitMs = 12_000 } = {}) {
+        const modal = readEasyApplyModal();
+
+        if (!modal) {
+            return {
+                recovered: false,
+                error: 'Easy Apply modal is not open.',
+            };
+        }
+
+        if (hasEasyApplyStepContent(modal) && !isEasyApplyStepLoading(modal)) {
+            return {
+                recovered: true,
+                method: 'already-ready',
+                ready: true,
+                state: getEasyApplyModalState(),
+            };
+        }
+
+        await nudgeEasyApplyModalFocus(modal);
+        await waitForLoadingToSettle(modal, 3_000);
+
+        let ready = await waitForEasyApplyStepReady(
+            Math.min(Math.max(waitMs, 4_000), 8_000),
+        );
+
+        if (ready.ready) {
+            return {
+                recovered: true,
+                method: 'nudge',
+                ...ready,
+            };
+        }
+
+        await closeEasyApplyModal({ force: true });
+        await sleep(650);
+        await dismissSaveApplicationDialog().catch(() => {});
+
+        const reopen = await clickEasyApply();
+
+        if (!reopen?.success) {
+            return {
+                recovered: false,
+                method: 'reopen',
+                error:
+                    reopen?.error ||
+                    'Could not reopen Easy Apply after empty shell.',
+                reopen,
+            };
+        }
+
+        ready = await waitForEasyApplyStepReady(waitMs);
+
+        return {
+            recovered: Boolean(ready.ready),
+            method: 'reopen',
+            ...ready,
+            reopen,
         };
     }
 
@@ -2385,6 +2505,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         clickEasyApply,
         getEasyApplyModalState,
         waitForEasyApplyStepReady,
+        recoverEmptyEasyApplyShell,
+        nudgeEasyApplyModalFocus,
         clickNextOrSubmit,
         waitForSubmissionConfirmation,
         verifySubmitted,

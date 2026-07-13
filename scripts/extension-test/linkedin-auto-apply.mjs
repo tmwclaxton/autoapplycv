@@ -610,6 +610,68 @@ const cases = [
             );
         },
     },
+    {
+        name: 'detects empty Easy Apply shell with Next and loader as not ready',
+        fn: () => {
+            const emptyShellHtml = `
+                <div data-test-modal="" role="dialog" class="artdeco-modal jobs-easy-apply-modal" style="position:fixed; inset:0; display:block;">
+                  <h2 id="jobs-apply-header">Apply to Oho Group</h2>
+                  <div class="jobs-easy-apply-modal__content">
+                    <div role="region" aria-label="Your job application progress is at 0 percent.">
+                      <progress max="100" value="0" aria-valuenow="0"></progress>
+                      <form>
+                        <div class="ph5"></div>
+                        <footer>
+                          <button data-easy-apply-next-button="" aria-label="Continue to next step" class="artdeco-button artdeco-button--primary" type="button">Next</button>
+                        </footer>
+                      </form>
+                      <div class="jobs-loader" style="width:40px;height:40px;">
+                        <div class="artdeco-loader"><span class="artdeco-loader__bars"></span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            `;
+            const api = loadLinkedInAutoApplyApi(
+                emptyShellHtml,
+                'https://www.linkedin.com/jobs/view/4436226474/',
+            );
+            const state = api.getEasyApplyModalState();
+
+            assert.equal(state.open, true);
+            assert.equal(state.action, 'next');
+            assert.equal(state.canContinue, true);
+            assert.equal(state.hasContent, false);
+            assert.equal(state.emptyShell, true);
+            assert.equal(state.loading, true);
+        },
+    },
+    {
+        name: 'marks contact step with fields as hasContent',
+        fn: () => {
+            const contactHtml = `
+                <div class="jobs-easy-apply-modal" role="dialog" style="position:fixed; inset:0; display:block;">
+                    <h2>Contact info</h2>
+                    <div class="jobs-easy-apply-content">
+                        <label>First name</label>
+                        <input type="text" name="firstName" />
+                        <label>Email</label>
+                        <input type="email" name="email" />
+                    </div>
+                    <footer class="jobs-easy-apply-footer">
+                        <button class="artdeco-button artdeco-button--primary" data-easy-apply-next-button="">Next</button>
+                    </footer>
+                </div>
+            `;
+            const api = loadLinkedInAutoApplyApi(contactHtml);
+            const state = api.getEasyApplyModalState();
+
+            assert.equal(state.open, true);
+            assert.equal(state.hasContent, true);
+            assert.equal(state.emptyShell, false);
+            assert.equal(state.action, 'next');
+        },
+    },
 ];
 
 for (const testCase of cases) {
