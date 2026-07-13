@@ -1068,7 +1068,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
     async function selectJobById(jobId) {
         const target = String(jobId).toLowerCase();
-        const card = await revealJobCardById(target, 6);
+        const card = await revealJobCardById(target, 14);
 
         if (!card) {
             return {
