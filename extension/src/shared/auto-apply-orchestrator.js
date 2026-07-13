@@ -3167,7 +3167,7 @@ async function processLinkedInJob(
         const stepReady = await sendLinkedInMessage(
             tabId,
             'LINKEDIN_WAIT_FOR_STEP_READY',
-            { timeoutMs: 8_000 },
+            { timeoutMs: 20_000 },
         ).catch(() => null);
 
         if (stepReady && stepReady.ready === false) {
@@ -3175,10 +3175,21 @@ async function processLinkedInJob(
 
             await logSession(
                 'warn',
-                `[linkedin_load] ${job.title}: ${stepReady.error || 'Easy Apply step not ready yet.'}`,
+                `[linkedin_load] ${job.title}: ${stepReady.error || 'Easy Apply step not ready yet.'} (attempt ${stepLoadAttempts}/3)`,
             );
 
-            if (stepLoadAttempts >= 1) {
+            if (stepLoadAttempts < 3) {
+                await dismissSaveApplicationPrompt(tabId).catch(() => {});
+                await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_DISMISS_BLOCKING_MODAL',
+                ).catch(() => {});
+                await wakeAutoApplyTab(tabId).catch(() => {});
+                await sleep(randomDelay(1200, 1800));
+                continue;
+            }
+
+            if (stepLoadAttempts >= 3) {
                 await logSession(
                     'warn',
                     `[linkedin_load] ${job.title}: resetting stuck Easy Apply modal.`,

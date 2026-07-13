@@ -1740,12 +1740,30 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const primary = findPrimaryActionButton(modal);
 
-        if (
-            primary?.action === 'submit' ||
-            primary?.action === 'review' ||
-            primary?.action === 'next'
-        ) {
+        if (primary?.action === 'submit' || primary?.action === 'review') {
             return true;
+        }
+
+        // Next alone is not enough: LinkedIn opens an empty shell with Next
+        // while the form is still loading behind artdeco-loader.
+        if (primary?.action === 'next') {
+            const bodyText = normalize(modal.textContent || '');
+
+            if (
+                /\b(first name|last name|email|phone|mobile|city|resume|cv|linkedin profile|years of experience|how many years)\b/i.test(
+                    bodyText,
+                )
+            ) {
+                return true;
+            }
+
+            if (
+                modal.querySelector(
+                    '[data-test-text-entity-list-form-component], .jobs-document-upload-redesign-card, .ui-attachment, input[type="radio"], input[type="checkbox"]',
+                )
+            ) {
+                return true;
+            }
         }
 
         const bodyText = normalize(modal.textContent || '');
