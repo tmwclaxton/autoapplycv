@@ -1380,10 +1380,18 @@ function snapshotElementToDraftField(element) {
 async function collectUnfilledRequiredFields(tabId, formFrameId) {
     try {
         const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const required = (snapshotResponse?.snapshot?.elements || [])
+            .filter((element) => element.required);
+        const filterResponse = await sendTabMessage(
+            tabId,
+            {
+                type: 'FILTER_UNFILLED_REQUIRED_FIELDS',
+                elements: required,
+            },
+            formFrameId,
+        );
 
-        return (snapshotResponse?.snapshot?.elements || [])
-            .filter((element) => element.required)
-            .map(snapshotElementToDraftField);
+        return (filterResponse?.elements || []).map(snapshotElementToDraftField);
     } catch {
         return [];
     }

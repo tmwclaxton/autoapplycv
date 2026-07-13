@@ -485,6 +485,46 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         return null;
     }
 
+    async function syncGenesisFormValidation() {
+        if (typeof AutoCVApplyFormHeuristics?.commitTotaljobsGenesisFormState === 'function') {
+            await AutoCVApplyFormHeuristics.commitTotaljobsGenesisFormState(document);
+        }
+
+        const fields = document.querySelectorAll(
+            '[data-genesis-element="FORM_INPUT"], select[data-genesis-element="FORM_SELECT"], [data-testid^="input-"], [data-testid="select-phoneNumber-code"]',
+        );
+
+        for (const field of fields) {
+            if (!(field instanceof HTMLElement) || field.disabled || field.readOnly) {
+                continue;
+            }
+
+            field.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
+            field.dispatchEvent(new Event('input', { bubbles: true }));
+            field.dispatchEvent(new Event('change', { bubbles: true }));
+            field.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+        }
+
+        await humanPause(200, 400);
+    }
+
+    async function waitForEnabledSubmitButton(timeoutMs = 6000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const button = findSubmitButton();
+
+            if (button) {
+                return button;
+            }
+
+            await syncGenesisFormValidation();
+            await humanPause(280, 520);
+        }
+
+        return findSubmitButton();
+    }
+
     function getTotalJobsApplyState() {
         const verify = verifySubmitted();
 
@@ -593,7 +633,8 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
 
         const validationErrors = readValidationErrors();
         const previousFingerprint = readStepFingerprint();
-        const submitButton = findSubmitButton();
+        await syncGenesisFormValidation();
+        const submitButton = await waitForEnabledSubmitButton();
         const continueButton = findContinueButton();
         const isReview = /review|check your application|summary/i.test(readStepLabel() || '');
 

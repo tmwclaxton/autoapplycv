@@ -2076,6 +2076,10 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        if (isTotaljobsGenesisFormInput(element)) {
+            return false;
+        }
+
         if (getAshbyFieldEntry(element)) {
             const fieldPath = String(element.getAttribute?.('data-field-path') || element.id || '');
             const questionLabel = getAshbyQuestionTitle(element);
@@ -7235,6 +7239,160 @@ const AutoCVApplyFormHeuristics = (() => {
         return Boolean(element.closest('[data-testid="phone-number-field"], [class*="mosaic-provider-module-apply-contact-info"]'));
     }
 
+    function isTotaljobsGenesisHost(doc = document) {
+        return /totaljobs\.com$/i.test(doc?.location?.hostname || '');
+    }
+
+    function isTotaljobsGenesisFormInput(element) {
+        if (!element || !isTotaljobsGenesisHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        if (element.type === 'tel' || isTotaljobsGenesisPhoneInput(element)) {
+            return false;
+        }
+
+        if (element.getAttribute?.('data-genesis-element') === 'FORM_INPUT') {
+            return true;
+        }
+
+        const testId = element.getAttribute?.('data-testid') || '';
+
+        return /^input-(firstName|lastName|email)-/i.test(testId);
+    }
+
+    async function setTotaljobsGenesisFormInputValue(element, value) {
+        const stringValue = String(value ?? '').trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        element.focus();
+        dispatchPointerClick(element);
+
+        let filled = false;
+
+        if (typeof element.select === 'function') {
+            element.select();
+        }
+
+        if (typeof document.execCommand === 'function') {
+            try {
+                filled = document.execCommand('insertText', false, stringValue);
+            } catch {
+                filled = false;
+            }
+        }
+
+        if (!filled) {
+            setNativeValue(element, '');
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            setNativeValue(element, stringValue);
+            element.dispatchEvent(new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+                inputType: 'insertFromPaste',
+                data: stringValue,
+            }));
+            filled = valueMatchesAnswer(element.value, stringValue);
+        }
+
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        const ok = filled || valueMatchesAnswer(element.value, stringValue);
+
+        if (ok) {
+            heuristicsLog('info', 'apply.totaljobs', 'Totaljobs genesis text input filled', {
+                testId: element.getAttribute?.('data-testid') || null,
+                valuePreview: stringValue.slice(0, 80),
+            });
+        }
+
+        return ok;
+    }
+
+    async function commitTotaljobsGenesisFormState(root = document) {
+        const inputs = root.querySelectorAll('[data-genesis-element="FORM_INPUT"]');
+
+        for (const input of inputs) {
+            if (!(input instanceof HTMLInputElement)) {
+                continue;
+            }
+
+            const value = String(input.value || '').trim();
+
+            if (!value) {
+                continue;
+            }
+
+            if (isTotaljobsGenesisPhoneInput(input)) {
+                await setTotaljobsGenesisPhoneInputValue(input, value.startsWith('+') ? value : `+44${value}`);
+                continue;
+            }
+
+            if (isTotaljobsGenesisFormInput(input)) {
+                await setTotaljobsGenesisFormInputValue(input, value);
+            }
+        }
+
+        const countrySelect = root.querySelector('[data-testid="select-phoneNumber-code"]');
+
+        if (countrySelect instanceof HTMLSelectElement && countrySelect.value) {
+            countrySelect.dispatchEvent(new Event('input', { bubbles: true }));
+            countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
+    function isSnapshotElementFilled(element, root = document) {
+        if (!element) {
+            return false;
+        }
+
+        const fieldType = element.field_type || 'text';
+        let target = null;
+
+        if (element.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
+            const entry = AutoCVApplyFieldInventory.getRefEntry?.(element.ref);
+
+            if (entry?.target && isTargetConnected(entry.target)) {
+                target = entry.target;
+            }
+        }
+
+        if (!target && element.dom) {
+            target = resolveTargetFromDom(root, element.dom, fieldType, element.dom?.data_field_path || null);
+        }
+
+        if (!target) {
+            return false;
+        }
+
+        if (fieldType === 'checkbox') {
+            const checkbox = target.type === 'checkbox' ? target : target.querySelector?.('input[type="checkbox"]');
+
+            return Boolean(checkbox?.checked);
+        }
+
+        if (fieldType === 'radio') {
+            const selection = readNativeInputGroupSelection(
+                target.type === 'radio' ? target : target.querySelector?.('input[type="radio"]'),
+                'radio',
+            );
+
+            return Boolean(selection);
+        }
+
+        const actual = readSimpleFieldValue(target, fieldType);
+
+        return Boolean(String(actual ?? '').trim());
+    }
+
+    function filterUnfilledRequiredSnapshotElements(elements, root = document) {
+        return (elements || []).filter((element) => element?.required && !isSnapshotElementFilled(element, root));
+    }
+
     function isTotaljobsGenesisPhoneInput(element) {
         if (!element || element.type !== 'tel') {
             return false;
@@ -7247,10 +7405,21 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function getTotaljobsGenesisPhoneCountrySelect(telInput) {
-        const scope = telInput?.closest?.('[data-genesis-element], form, [data-testid="application-form"]')
-            || telInput?.ownerDocument;
+        let scope = telInput?.parentElement || null;
 
-        return scope?.querySelector?.('[data-testid="select-phoneNumber-code"]') || null;
+        while (scope && scope !== telInput?.ownerDocument?.body) {
+            const select = scope.querySelector?.('[data-testid="select-phoneNumber-code"]');
+
+            if (select) {
+                return select;
+            }
+
+            scope = scope.parentElement;
+        }
+
+        const doc = telInput?.ownerDocument || document;
+
+        return doc.querySelector('[data-testid="select-phoneNumber-code"]');
     }
 
     async function setTotaljobsGenesisPhoneCountrySelect(select, dialCodeDigits) {
@@ -7780,6 +7949,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (isLeverLocationInput(element)) {
             return setLeverLocationValue(element, value);
+        }
+
+        if (isTotaljobsGenesisFormInput(element) && element.type !== 'tel') {
+            return setTotaljobsGenesisFormInputValue(element, value);
         }
 
         const filled = await fillReactTextControl(element, value);
@@ -8826,5 +8999,8 @@ const AutoCVApplyFormHeuristics = (() => {
         setRoleRadioGroupValue,
         valueMatchesAnswer,
         verifyFieldApplied,
+        isSnapshotElementFilled,
+        filterUnfilledRequiredSnapshotElements,
+        commitTotaljobsGenesisFormState,
     };
 })();

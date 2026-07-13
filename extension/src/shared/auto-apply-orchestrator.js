@@ -2154,10 +2154,17 @@ async function enrichDraftResultWithGaps(tabId, draftResult) {
                 { type: 'BUILD_FIELD_SNAPSHOT' },
                 formFrameId,
             );
-            unfilledRequiredFields = (
-                snapshotResponse?.snapshot?.elements || []
-            )
-                .filter((element) => element.required)
+            const required = (snapshotResponse?.snapshot?.elements || [])
+                .filter((element) => element.required);
+            const filterResponse = await sendTabMessage(
+                tabId,
+                {
+                    type: 'FILTER_UNFILLED_REQUIRED_FIELDS',
+                    elements: required,
+                },
+                formFrameId,
+            );
+            unfilledRequiredFields = (filterResponse?.elements || [])
                 .map(snapshotElementToDraftField);
         } catch {
             // Best-effort gap detection after Draft All.

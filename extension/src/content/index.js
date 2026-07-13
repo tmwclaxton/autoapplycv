@@ -1184,6 +1184,19 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'FILTER_UNFILLED_REQUIRED_FIELDS') {
+            const elements = typeof AutoCVApplyFormHeuristics?.filterUnfilledRequiredSnapshotElements === 'function'
+                ? AutoCVApplyFormHeuristics.filterUnfilledRequiredSnapshotElements(
+                    message.elements || [],
+                    document,
+                )
+                : (message.elements || []);
+
+            sendResponse({ elements });
+
+            return;
+        }
+
         if (message.type === 'APPLY_DRAFT_BATCH') {
             const answers = message.answers || [];
             let applied = 0;
