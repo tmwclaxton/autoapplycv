@@ -89,6 +89,61 @@ export function isJobSpecificMemoField(field) {
     return /\bcover letter\b/.test(label);
 }
 
+export function applicationAnswersToMemo(applicationAnswers) {
+    const memo = {};
+
+    if (!Array.isArray(applicationAnswers)) {
+        return memo;
+    }
+
+    for (const entry of applicationAnswers) {
+        const question = String(entry?.question || '').trim();
+        const answer = String(entry?.answer || '').trim();
+
+        if (!question || !answer) {
+            continue;
+        }
+
+        if (isJobSpecificMemoField({ label: question })) {
+            continue;
+        }
+
+        memo[question] = answer;
+    }
+
+    return memo;
+}
+
+export function mergeQuestionMemos(...memos) {
+    return Object.assign({}, ...memos.filter((memo) => memo && typeof memo === 'object'));
+}
+
+/**
+ * @param {{ label?: string, question?: string }|null|undefined} field
+ * @param {object|null|undefined} profileData
+ * @param {Record<string, string>|null|undefined} questionMemo
+ * @returns {string|null}
+ */
+export function resolveSavedApplicationAnswer(field, profileData = null, questionMemo = null) {
+    const label = field?.label || field?.question || '';
+
+    if (!label) {
+        return null;
+    }
+
+    const mergedMemo = mergeQuestionMemos(
+        questionMemo,
+        applicationAnswersToMemo(profileData?.application_answers),
+    );
+    const answer = matchMemoAnswer(mergedMemo, label);
+
+    if (!answer || shouldRejectPhoneAnswerOnField(field, answer)) {
+        return null;
+    }
+
+    return answer;
+}
+
 export function matchMemoAnswer(questionMemo, fieldLabel) {
     if (!questionMemo || typeof questionMemo !== 'object') {
         return null;
