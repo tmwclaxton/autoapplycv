@@ -66,6 +66,17 @@ assert.equal(
 assert.equal(
     resolveHeuristicScreenerAnswer(
         {
+            label: 'What is your current notice period/availability?',
+            type: 'text',
+        },
+        profileData,
+    ),
+    '4 weeks',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
             label: 'Expected annual salary',
             type: 'text',
         },
@@ -97,6 +108,18 @@ const yearsLeakProfile = {
         expected_salary_weekly: '',
     },
 };
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'What is your current notice period/availability?',
+            type: 'text',
+        },
+        yearsLeakProfile,
+    ),
+    '2 weeks',
+    'availability prompt must not use years_of_experience',
+);
 
 assert.equal(
     resolveHeuristicScreenerAnswer(

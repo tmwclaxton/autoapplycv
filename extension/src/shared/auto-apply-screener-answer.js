@@ -20,8 +20,25 @@ function isSalaryScreenerQuestion(label) {
 
     return (
         isSalaryQuestionLabel(label)
-        || /salary|compensation|pay rate|hourly|annual/.test(question)
+        || /salary|compensation|pay rate|hourly|annual|total package/.test(question)
     );
+}
+
+function isNoticePeriodOrAvailabilityQuestion(label) {
+    const question = String(label || '').toLowerCase();
+
+    return /\bnotice period\b/.test(question)
+        || /\bavailability\b/.test(question)
+        || /\bwhen can you start\b/.test(question)
+        || /\bearliest start\b/.test(question);
+}
+
+function resolveNoticePeriodFromSettings(settings = {}) {
+    if (isMeaningfulAnswer(settings.notice_period)) {
+        return String(settings.notice_period).trim();
+    }
+
+    return '2 weeks';
 }
 
 function resolveSalaryFromSettings(settings = {}) {
@@ -47,6 +64,16 @@ function normalizeHeuristicAnswerForField(answer, field) {
     }
 
     if (!isSalaryScreenerQuestion(label)) {
+        if (isNoticePeriodOrAvailabilityQuestion(label)) {
+            if (isNumericField) {
+                const numeric = value.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
+
+                return numeric?.[0] || value;
+            }
+
+            return value;
+        }
+
         if (isNumericField) {
             const numeric = value.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
 
@@ -128,6 +155,17 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     ).toLowerCase();
     const settings = profileData?.application_settings || {};
 
+    if (
+        isNoticePeriodOrAvailabilityQuestion(
+            normalizedField.question || normalizedField.label,
+        )
+    ) {
+        return normalizeHeuristicAnswerForField(
+            resolveNoticePeriodFromSettings(settings),
+            normalizedField,
+        );
+    }
+
     if (isSalaryScreenerQuestion(normalizedField.question || normalizedField.label)) {
         return normalizeHeuristicAnswerForField(
             resolveSalaryFromSettings(settings),
@@ -137,6 +175,9 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
 
     if (
         !isSalaryScreenerQuestion(normalizedField.question || normalizedField.label)
+        && !isNoticePeriodOrAvailabilityQuestion(
+            normalizedField.question || normalizedField.label,
+        )
         && (
             fieldType.includes('int')
             || fieldType === 'number'
@@ -194,10 +235,7 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     }
 
     if (/notice period/.test(question) && isMeaningfulAnswer(settings.notice_period)) {
-        return normalizeHeuristicAnswerForField(
-            settings.notice_period,
-            normalizedField,
-        );
+        return resolveNoticePeriodFromSettings(settings);
     }
 
     return null;
@@ -228,12 +266,17 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
     const options = Array.isArray(field.options) ? field.options : [];
     const label = field.question || field.label || '';
 
+    if (isNoticePeriodOrAvailabilityQuestion(label)) {
+        return resolveNoticePeriodFromSettings(settings);
+    }
+
     if (isSalaryScreenerQuestion(label)) {
         return resolveSalaryFromSettings(settings);
     }
 
     if (
         !isSalaryScreenerQuestion(label)
+        && !isNoticePeriodOrAvailabilityQuestion(label)
         && (
             fieldType.includes('int')
             || fieldType === 'number'
