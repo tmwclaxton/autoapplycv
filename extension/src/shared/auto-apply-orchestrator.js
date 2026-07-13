@@ -2989,6 +2989,34 @@ async function processLinkedInJob(
     ).catch(() => null);
 
     if (!postOpenReady?.ready) {
+        await dismissSaveApplicationPrompt(tabId).catch(() => {});
+        await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_DISMISS_BLOCKING_MODAL',
+        ).catch(() => {});
+
+        const openModal = await readLinkedInModalState(tabId, { retries: 5 });
+
+        if (
+            openModal?.open &&
+            (openModal.canContinue ||
+                openModal.canSubmit ||
+                openModal.action === 'next' ||
+                openModal.action === 'review' ||
+                openModal.action === 'submit')
+        ) {
+            await logSession(
+                'info',
+                `[linkedin_load] ${job.title}: Easy Apply modal already open - skipping reload thrash.`,
+            );
+            postOpenReady = {
+                ready: true,
+                recoveredFromOpenModal: true,
+            };
+        }
+    }
+
+    if (!postOpenReady?.ready) {
         await logSession(
             'warn',
             `[linkedin_load] ${job.title}: Easy Apply form slow to load - reloading job page.`,
@@ -3022,23 +3050,29 @@ async function processLinkedInJob(
             tabId,
             'LINKEDIN_OPEN_EASY_APPLY',
             {},
-            { timeoutMs: 25_000 },
+            { timeoutMs: 45_000 },
         ).catch(() => null);
 
         if (!reopen?.success) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'apply_step_unavailable' },
+            const reopenModal = await readLinkedInModalState(tabId, {
+                retries: 4,
             });
 
-            return {
-                outcome: 'skipped',
-                reason: 'apply_step_unavailable',
-                detail:
-                    reopen?.error ||
-                    postOpenReady?.error ||
-                    'Easy Apply form never loaded.',
-                tabId,
-            };
+            if (!reopenModal?.open) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'apply_step_unavailable' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'apply_step_unavailable',
+                    detail:
+                        reopen?.error ||
+                        postOpenReady?.error ||
+                        'Easy Apply form never loaded.',
+                    tabId,
+                };
+            }
         }
 
         postOpenReady = await sendLinkedInMessage(
@@ -3046,6 +3080,26 @@ async function processLinkedInJob(
             'LINKEDIN_WAIT_FOR_STEP_READY',
             { timeoutMs: 25_000 },
         ).catch(() => null);
+
+        if (!postOpenReady?.ready) {
+            const reloadModal = await readLinkedInModalState(tabId, {
+                retries: 5,
+            });
+
+            if (
+                reloadModal?.open &&
+                (reloadModal.canContinue ||
+                    reloadModal.canSubmit ||
+                    reloadModal.action === 'next' ||
+                    reloadModal.action === 'review' ||
+                    reloadModal.action === 'submit')
+            ) {
+                postOpenReady = {
+                    ready: true,
+                    recoveredFromOpenModal: true,
+                };
+            }
+        }
 
         if (!postOpenReady?.ready) {
             await recordAnalyticsEvent(session, 'skipped', job, {

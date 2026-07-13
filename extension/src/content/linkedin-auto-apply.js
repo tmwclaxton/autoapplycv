@@ -1740,7 +1740,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const primary = findPrimaryActionButton(modal);
 
-        if (primary?.action === 'submit' || primary?.action === 'review') {
+        if (
+            primary?.action === 'submit' ||
+            primary?.action === 'review' ||
+            primary?.action === 'next'
+        ) {
             return true;
         }
 
