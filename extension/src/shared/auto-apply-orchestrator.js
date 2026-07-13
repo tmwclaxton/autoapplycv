@@ -3833,11 +3833,18 @@ async function openIndeedJobInner(tabId, job, session) {
         }
 
         if (selectResponse?.noIndeedApply) {
-            return {
-                success: false,
-                tabId,
-                skipReason: 'no_indeed_apply',
-                error: selectResponse.error,
+            if (job.indeedApply === false) {
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'no_indeed_apply',
+                    error: selectResponse.error,
+                };
+            }
+
+            selectResponse = {
+                ...selectResponse,
+                needsNavigation: true,
             };
         }
 
@@ -3855,7 +3862,7 @@ async function openIndeedJobInner(tabId, job, session) {
         return { success: true, jobId: job.jobId, tabId };
     }
 
-    if (selectResponse?.noIndeedApply) {
+    if (selectResponse?.noIndeedApply && job.indeedApply === false) {
         return {
             success: false,
             tabId,
@@ -3864,7 +3871,10 @@ async function openIndeedJobInner(tabId, job, session) {
         };
     }
 
-    if (!selectResponse?.needsNavigation) {
+    if (
+        !selectResponse?.needsNavigation &&
+        !selectResponse?.noIndeedApply
+    ) {
         return {
             success: false,
             tabId,
@@ -7411,12 +7421,23 @@ async function runIndeedAutoApplyLoop(
         }
 
         if (session.currentIndex >= session.queue.length) {
+            tabId = await returnToIndeedSearch(tabId, session);
+            session = (await updateSession({ tabId })) || session;
+            await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
+                () => {},
+            );
+            await sleep(randomDelay(600, 400));
+
             const nextPage = await sendIndeedMessage(
                 tabId,
                 'INDEED_NEXT_SEARCH_PAGE',
             );
 
             if (!nextPage?.success) {
+                await logSession(
+                    'warn',
+                    `No more Indeed search pages (${nextPage?.error || 'pagination unavailable'}).`,
+                );
                 break;
             }
 

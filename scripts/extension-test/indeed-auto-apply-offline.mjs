@@ -146,5 +146,47 @@ const serpDetailDom = new JSDOM(
 const serpDetailApi = loadIndeedAutoApply(serpDetailDom.window);
 
 assert.equal(serpDetailApi.readJobIdFromUrl(), 'd1484f00c2ca6382');
+assert.equal(
+    serpDetailApi.detailViewMatchesJobId('d1484f00c2ca6382'),
+    true,
+);
+assert.ok(
+    serpDetailDom.window.document.querySelector('#indeedApplyButton'),
+);
+
+const staleExternalDom = new JSDOM(
+    `<div id="jobsearch-ViewjobPaneWrapper">
+        <h2 class="jobTitle"><a href="/viewjob?jk=d1484f00c2ca6382">Target role</a></h2>
+        <a href="https://employer.example/apply">Apply on company site</a>
+    </div>`,
+    {
+        url: 'https://uk.indeed.com/jobs?q=fullstack+developer&l=London&vjk=aaaaaaaaaaaaaaaa',
+    },
+);
+const staleExternalApi = loadIndeedAutoApply(staleExternalDom.window);
+
+assert.equal(
+    staleExternalApi.readExternalApplyMarker(
+        staleExternalDom.window.document.querySelector(
+            '#jobsearch-ViewjobPaneWrapper',
+        ),
+        { jobId: 'd1484f00c2ca6382' },
+    ),
+    null,
+);
+
+const viewjobStickyDom = new JSDOM(
+    `<main class="jobsearch-ViewJobLayout">
+        <div class="jobsearch-StickyPane">
+            <button id="indeedApplyButton" data-testid="indeedApplyButton-test">Apply with Indeed</button>
+        </div>
+    </main>`,
+    { url: 'https://uk.indeed.com/viewjob?jk=d1484f00c2ca6382' },
+);
+const viewjobStickyApi = loadIndeedAutoApply(viewjobStickyDom.window);
+
+assert.ok(
+    viewjobStickyDom.window.document.querySelector('#indeedApplyButton'),
+);
 
 console.log('Indeed auto-apply offline tests passed.');

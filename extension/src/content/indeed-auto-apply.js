@@ -187,6 +187,73 @@ const AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
+    function readJobIdFromDetailView(root = readJobViewRoot()) {
+        if (isIndeedViewJobPage()) {
+            return readJobIdFromUrl();
+        }
+
+        const urlJk = readJobIdFromUrl();
+
+        if (urlJk && isIndeedSearchPage()) {
+            return urlJk;
+        }
+
+        if (!(root instanceof HTMLElement) || root === document) {
+            return urlJk;
+        }
+
+        for (const link of root.querySelectorAll(
+            'a[data-jk], a[jk], a[href*="viewjob?jk="], [data-testid="jobsearch-JobInfoHeader"] a[href*="jk="]',
+        )) {
+            if (!(link instanceof HTMLAnchorElement)) {
+                continue;
+            }
+
+            const dataJk = normalize(
+                link.getAttribute('data-jk') || link.getAttribute('jk') || '',
+            ).toLowerCase();
+
+            if (isTrustworthyIndeedJobId(dataJk)) {
+                return dataJk;
+            }
+
+            const href = link.getAttribute('href') || '';
+            const match = href.match(/jk=([a-f0-9]{16})/i);
+
+            if (match?.[1] && isTrustworthyIndeedJobId(match[1])) {
+                return match[1].toLowerCase();
+            }
+        }
+
+        return urlJk;
+    }
+
+    function detailViewMatchesJobId(jobId, root = readJobViewRoot()) {
+        const target = String(jobId || '').toLowerCase();
+        const detailId = readJobIdFromDetailView(root);
+
+        return Boolean(target && detailId && detailId === target);
+    }
+
+    function readIndeedApplyButtonRoots() {
+        const roots = [];
+        const add = (node) => {
+            if (node instanceof HTMLElement && !roots.includes(node)) {
+                roots.push(node);
+            }
+        };
+
+        add(readJobViewRoot());
+        add(document.querySelector('[id*="mosaic-provider-module-apply"]'));
+        add(
+            document.querySelector(
+                '[class*="jobsearch-ViewJobButtons"], [data-testid="jobsearch-ViewJobButtons"], .jobsearch-StickyPane, .jobsearch-DesktopStickyContainer',
+            ),
+        );
+
+        return roots.length > 0 ? roots : [document];
+    }
+
     async function scrollContainerByHumanStep(container) {
         if (!(container instanceof HTMLElement)) {
             return;
@@ -677,7 +744,6 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readIndeedApplyButton() {
-        const root = readJobViewRoot();
         const selectors = [
             '[data-testid="indeedApplyButton-test"]',
             '#indeedApplyButton',
@@ -686,68 +752,116 @@ const AutoCVApplyIndeedAutoApply = (() => {
             'a[aria-label*="Apply with Indeed"]',
             'button[aria-label*="Apply now"]',
             'a[href*="smartapply.indeed.com"]',
+            'a[href*="indeedapply"]',
         ];
 
-        for (const selector of selectors) {
-            const button = root.querySelector(selector);
+        for (const root of readIndeedApplyButtonRoots()) {
+            for (const selector of selectors) {
+                const button = root.querySelector(selector);
 
-            if (button instanceof HTMLElement && isElementVisible(button)) {
-                return button;
-            }
-        }
-
-        for (const element of root.querySelectorAll(
-            'button, a[role="button"], a',
-        )) {
-            if (
-                !(element instanceof HTMLElement) ||
-                !isElementVisible(element)
-            ) {
-                continue;
+                if (button instanceof HTMLElement && isElementVisible(button)) {
+                    return button;
+                }
             }
 
-            const text = normalize(element.textContent);
-            const label = normalize(element.getAttribute('aria-label') || '');
+            for (const element of root.querySelectorAll(
+                'button, a[role="button"], a',
+            )) {
+                if (
+                    !(element instanceof HTMLElement) ||
+                    !isElementVisible(element)
+                ) {
+                    continue;
+                }
 
-            if (
-                /^apply with indeed$/i.test(text) ||
-                /apply with indeed/i.test(label)
-            ) {
-                return element;
-            }
+                const text = normalize(element.textContent);
+                const label = normalize(element.getAttribute('aria-label') || '');
 
-            if (
-                /^apply now$/i.test(text) &&
-                element.closest('[class*="jobsearch"], [class*="mosaic"], main')
-            ) {
-                return element;
+                if (
+                    /^apply with indeed$/i.test(text) ||
+                    /apply with indeed/i.test(label)
+                ) {
+                    return element;
+                }
+
+                if (
+                    /^apply now$/i.test(text) &&
+                    element.closest(
+                        '[class*="jobsearch"], [class*="mosaic"], main',
+                    )
+                ) {
+                    return element;
+                }
             }
         }
 
         return null;
     }
 
-    function readExternalApplyMarker(root = readJobViewRoot()) {
-        if (root === document) {
-            return null;
+    function isExternalApplyCta(element) {
+        if (!(element instanceof HTMLElement)) {
+            return false;
         }
 
-        for (const element of root.querySelectorAll('a, button')) {
-            if (
-                !(element instanceof HTMLElement) ||
-                !isElementVisible(element)
-            ) {
+        if (
+            element instanceof HTMLButtonElement ||
+            element.getAttribute('role') === 'button'
+        ) {
+            return true;
+        }
+
+        if (element instanceof HTMLAnchorElement) {
+            const href = element.getAttribute('href') || '';
+
+            return (
+                href.length > 0 &&
+                !/smartapply\.indeed\.com|indeedapply/i.test(href)
+            );
+        }
+
+        return false;
+    }
+
+    function readExternalApplyMarker(
+        root = readJobViewRoot(),
+        { jobId = null } = {},
+    ) {
+        const roots =
+            root === document ? [document] : [root, readJobViewRoot()];
+
+        for (const scope of roots) {
+            if (!(scope instanceof HTMLElement)) {
                 continue;
             }
 
-            const text = normalize(element.textContent);
+            for (const element of scope.querySelectorAll('a, button')) {
+                if (
+                    !(element instanceof HTMLElement) ||
+                    !isElementVisible(element) ||
+                    !isExternalApplyCta(element)
+                ) {
+                    continue;
+                }
 
-            if (
-                /^apply on company site$/i.test(text) ||
-                /^apply externally$/i.test(text) ||
-                /apply on employer site/i.test(text)
-            ) {
-                return element;
+                const text = normalize(element.textContent);
+                const label = normalize(element.getAttribute('aria-label') || '');
+
+                if (
+                    /^apply on company site$/i.test(text) ||
+                    /^apply externally$/i.test(text) ||
+                    /apply on company site/i.test(label) ||
+                    /apply on employer site/i.test(text)
+                ) {
+                    if (
+                        jobId &&
+                        isIndeedSearchPage() &&
+                        !detailViewMatchesJobId(jobId, scope)
+                    ) {
+                        continue;
+                    }
+
+                    return element;
+                }
             }
         }
 
@@ -845,7 +959,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const detailPanelReady =
                 onTargetJob ||
                 (isIndeedSearchPage() &&
-                    (readIndeedApplyButton() || readExternalApplyMarker()));
+                    (readIndeedApplyButton() ||
+                        readExternalApplyMarker(readJobViewRoot(), {
+                            jobId: target,
+                        })));
 
             if (detailPanelReady) {
                 if (readAlreadyAppliedMarker()) {
@@ -856,7 +973,16 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     return { success: true, jobId: target };
                 }
 
-                if (readExternalApplyMarker()) {
+                const externalMarker = readExternalApplyMarker(readJobViewRoot(), {
+                    jobId: target,
+                });
+
+                if (
+                    externalMarker &&
+                    (onTargetJob ||
+                        detailViewMatchesJobId(target) ||
+                        scrollPass >= 4)
+                ) {
                     return {
                         success: false,
                         noIndeedApply: true,
@@ -876,7 +1002,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return { success: true, jobId };
         }
 
-        if (readExternalApplyMarker()) {
+        if (readExternalApplyMarker(readJobViewRoot(), { jobId: target })) {
             return {
                 success: false,
                 noIndeedApply: true,
@@ -923,8 +1049,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return {
             success: false,
             error: detailReady.error || `Job detail not ready for jk=${target}`,
-            needsNavigation:
-                !detailReady.noIndeedApply && !detailReady.alreadyApplied,
+            needsNavigation: !detailReady.alreadyApplied,
             noIndeedApply: Boolean(detailReady.noIndeedApply),
             jobUnavailable: Boolean(detailReady.jobUnavailable),
             alreadyApplied: Boolean(detailReady.alreadyApplied),
@@ -1692,18 +1817,77 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     async function goToNextSearchPage() {
-        const nextLink = document.querySelector(
-            'a[aria-label="Next Page"], a[data-testid="pagination-page-next"]',
-        );
+        await acceptCookieConsent();
 
-        if (!(nextLink instanceof HTMLElement)) {
-            return { success: false, error: 'No next search page link found.' };
+        const paginationRoot =
+            document.querySelector(
+                'nav[aria-label="pagination"], [data-testid="pagination"], #pagination, .jobsearch-Pagination',
+            ) || document;
+
+        if (paginationRoot instanceof HTMLElement) {
+            paginationRoot.scrollIntoView({
+                block: 'nearest',
+                behavior: 'smooth',
+            });
+            await humanPause(320, 520);
         }
 
-        await clickElement(nextLink);
-        await humanPause(800, 1300);
+        const nextSelectors = [
+            'a[aria-label="Next Page"]',
+            'a[data-testid="pagination-page-next"]',
+            'a[aria-label="Next"]',
+            'nav[aria-label="pagination"] a[rel="next"]',
+            'a[href*="&start="][aria-label*="Next"]',
+        ];
 
-        return { success: true };
+        for (const selector of nextSelectors) {
+            const nextLink = paginationRoot.querySelector(selector);
+
+            if (nextLink instanceof HTMLElement && isElementVisible(nextLink)) {
+                await clickElement(nextLink);
+                await humanPause(800, 1300);
+
+                return { success: true, method: 'click' };
+            }
+        }
+
+        for (const link of paginationRoot.querySelectorAll('a[href*="start="]')) {
+            if (!(link instanceof HTMLAnchorElement) || !isElementVisible(link)) {
+                continue;
+            }
+
+            const text = normalize(link.textContent);
+            const label = normalize(link.getAttribute('aria-label') || '');
+
+            if (
+                /^next$/i.test(text) ||
+                /next page/i.test(label) ||
+                link.getAttribute('rel') === 'next'
+            ) {
+                await clickElement(link);
+                await humanPause(800, 1300);
+
+                return { success: true, method: 'click_href' };
+            }
+        }
+
+        const currentStart = Number(
+            new URL(window.location.href).searchParams.get('start') || '0',
+        );
+        const nextUrl = new URL(window.location.href);
+
+        nextUrl.searchParams.set('start', String(currentStart + 10));
+        window.location.assign(nextUrl.toString());
+        await humanPause(900, 1400);
+
+        if (
+            Number(new URL(window.location.href).searchParams.get('start') || '0') >
+            currentStart
+        ) {
+            return { success: true, method: 'url' };
+        }
+
+        return { success: false, error: 'No next search page link found.' };
     }
 
     async function scanPageHealth() {
@@ -1758,6 +1942,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
         isIndeedSearchPage,
         isIndeedViewJobPage,
         readJobIdFromUrl,
+        readJobIdFromDetailView,
+        detailViewMatchesJobId,
+        readIndeedApplyButton,
+        readExternalApplyMarker,
         isTrustworthyIndeedJobId,
         revealJobCardById,
         findJobCardById,
