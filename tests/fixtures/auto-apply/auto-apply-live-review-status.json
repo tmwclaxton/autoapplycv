@@ -186,7 +186,7 @@
       "evidence": "Regression root cause: readAlreadyAppliedMarker required absence of Apply with Indeed, so post-submit jobs with re-apply CTA were not skipped. Strong applied-badge signals now win; orchestrator propagates alreadyApplied through open/select/apply paths."
     },
     {
-      "fix_sha": "pending",
+      "fix_sha": "9d70209f",
       "fix_label": "Indeed UK IPL phone paste fill + uk_software persona phone",
       "reloaded_version": "2.25.63",
       "timestamp": "2026-07-13T06:01:00+01:00",
