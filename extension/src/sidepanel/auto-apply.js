@@ -14,6 +14,10 @@ import {
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
+import {
+    describeTimingLevel,
+    normalizeTimingLevel,
+} from './auto-apply-timing.js';
 
 const SETTINGS_STORAGE_KEY = 'autoApplySettings';
 
@@ -30,6 +34,8 @@ const minSalarySelect = document.getElementById('auto-apply-min-salary');
 const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
 const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
+const timingLevelInput = document.getElementById('auto-apply-timing-level');
+const timingValueEl = document.getElementById('auto-apply-timing-value');
 const startBtn = document.getElementById('auto-apply-start-btn');
 const stopBtn = document.getElementById('auto-apply-stop-btn');
 const statusEl = document.getElementById('auto-apply-status');
@@ -164,6 +170,16 @@ function readSearchFilters(platformId = readSelectedPlatform() || LINKEDIN_PLATF
     return buildSearchFiltersForPlatform(platformId, readRawSearchFilters());
 }
 
+function readTimingLevel() {
+    return normalizeTimingLevel(timingLevelInput?.value);
+}
+
+function syncTimingLevelLabel(level = readTimingLevel()) {
+    if (timingValueEl) {
+        timingValueEl.textContent = describeTimingLevel(level);
+    }
+}
+
 function readSettingsFromForm() {
     return {
         platform: readSelectedPlatform() || LINKEDIN_PLATFORM_ID,
@@ -177,6 +193,7 @@ function readSettingsFromForm() {
         market: marketSelect?.value || 'auto',
         fitCheckEnabled: fitEnabledInput.checked,
         minFitScore: readMinFitScore(),
+        timingLevel: readTimingLevel(),
     };
 }
 
@@ -233,6 +250,11 @@ function applySettingsToForm(settings) {
         minFitScoreInput.value = String(Math.max(0, Math.min(100, settings.minFitScore)));
     }
 
+    if (timingLevelInput) {
+        timingLevelInput.value = String(normalizeTimingLevel(settings.timingLevel));
+    }
+
+    syncTimingLevelLabel();
     syncFitGateControls();
     syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
     syncFiltersDetailsOpen();
@@ -387,6 +409,10 @@ function setControlsForSession(session, { stopPending: stopPendingOverride = sto
     minSalarySelect.disabled = controls.formLocked;
     fitEnabledInput.disabled = controls.formLocked;
     maxApplicationsInput.disabled = controls.formLocked;
+
+    if (timingLevelInput) {
+        timingLevelInput.disabled = controls.formLocked;
+    }
 
     if (controls.formLocked) {
         minFitScoreInput.disabled = true;
@@ -628,7 +654,8 @@ function bindSettingsPersistence() {
         fitEnabledInput,
         minFitScoreInput,
         maxApplicationsInput,
-    ];
+        timingLevelInput,
+    ].filter(Boolean);
 
     for (const input of inputs) {
         input.addEventListener('input', () => {
@@ -658,10 +685,22 @@ function bindSettingsPersistence() {
     });
 
     fitEnabledInput.addEventListener('change', syncFitGateControls);
+
+    if (timingLevelInput) {
+        timingLevelInput.addEventListener('input', () => {
+            syncTimingLevelLabel();
+            schedulePersistSettings();
+        });
+        timingLevelInput.addEventListener('change', () => {
+            syncTimingLevelLabel();
+            schedulePersistSettings();
+        });
+    }
 }
 
 export function initAutoApplyPanel({ showMessage }) {
     notifyUser = showMessage;
+    syncTimingLevelLabel();
     bindSettingsPersistence();
     void loadPersistedSettings();
 
@@ -677,6 +716,7 @@ export function initAutoApplyPanel({ showMessage }) {
         const filters = readSearchFilters(platform);
         const fitCheckEnabled = fitEnabledInput.checked;
         const minFitScore = readMinFitScore();
+        const timingLevel = readTimingLevel();
 
         if (!platform) {
             showMessage('Choose a supported job board.', 'error');
@@ -707,6 +747,7 @@ export function initAutoApplyPanel({ showMessage }) {
                 filters,
                 fitCheckEnabled,
                 minFitScore,
+                timingLevel,
                 hostTabId: hostTab?.id ?? null,
                 hostWindowId: hostTab?.windowId ?? null,
             };

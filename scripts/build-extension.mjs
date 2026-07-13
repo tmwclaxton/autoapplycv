@@ -402,6 +402,14 @@ copyFileSync(
     join(DIST, 'auto-apply-session.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/auto-apply-timing.js'),
+    join(DIST, 'auto-apply-timing.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-timing-content.js'),
+    join(DIST, 'auto-apply-timing-content.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-window.js'),
     join(DIST, 'auto-apply-window.js'),
 );
@@ -420,6 +428,10 @@ copyFileSync(
 copyFileSync(
     join(SRC, 'shared/auto-apply-blockers.js'),
     join(DIST, 'auto-apply-blockers.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-screener-answer.js'),
+    join(DIST, 'auto-apply-screener-answer.js'),
 );
 copyFileSync(
     join(SRC, 'shared/auto-apply-analytics.js'),

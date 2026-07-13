@@ -1,3 +1,5 @@
+import { DEFAULT_AUTO_APPLY_TIMING_LEVEL, normalizeTimingLevel } from './auto-apply-timing.js';
+
 const STORAGE_KEY = 'autoApplySession';
 
 /**
@@ -47,6 +49,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {AutoApplySearchFilters|null} filters
  * @property {boolean} fitCheckEnabled
  * @property {number} minFitScore
+ * @property {number} timingLevel
  * @property {{ found: number, applied: number, skipped: number, errors: number, draftAllRuns: number, stepsAdvanced: number, fitSkipped: number }} stats
  * @property {AutoApplyJobEntry[]} queue
  * @property {number} currentIndex
@@ -68,6 +71,7 @@ const STORAGE_KEY = 'autoApplySession';
  *   filters?: AutoApplySearchFilters|null,
  *   fitCheckEnabled?: boolean,
  *   minFitScore?: number,
+ *   timingLevel?: number,
  * }} input
  * @returns {AutoApplySession}
  */
@@ -78,6 +82,7 @@ export function createInitialSession({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
+    timingLevel = DEFAULT_AUTO_APPLY_TIMING_LEVEL,
 }) {
     return {
         status: 'running',
@@ -89,6 +94,7 @@ export function createInitialSession({
         filters: filters || null,
         fitCheckEnabled: fitCheckEnabled !== false,
         minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 10)),
+        timingLevel: normalizeTimingLevel(timingLevel),
         stats: {
             found: 0,
             applied: 0,

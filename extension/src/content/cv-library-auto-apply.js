@@ -16,6 +16,12 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     async function humanPause(minMs, maxMs) {
+        if (typeof AutoCVApplyTiming !== 'undefined') {
+            await AutoCVApplyTiming.humanPause(minMs, maxMs);
+
+            return;
+        }
+
         await sleep(humanDelayMs(minMs, maxMs));
     }
 
