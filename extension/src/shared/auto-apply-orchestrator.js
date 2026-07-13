@@ -12,7 +12,6 @@ import {
     findFieldValidationError,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
-import { tryAnswerScreenerField } from './auto-apply-screener-answer.js';
 import {
     formatAutoApplyFitLogMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
@@ -20,15 +19,6 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
-import {
-    clearActiveAutoApplyTiming,
-    persistActiveAutoApplyTiming,
-    resolveDelayMultiplier,
-    resolveSubmitConfirmationPollMs,
-    resolveSubmitConfirmationTimeoutMs,
-    scaleDelayMs,
-} from './auto-apply-timing.js';
 import {
     buildJobSearchUrl,
     CV_LIBRARY_PLATFORM_ID,
@@ -41,6 +31,8 @@ import {
     normalizeAutoApplyPlatform,
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
+import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
+import { tryAnswerScreenerField } from './auto-apply-screener-answer.js';
 import {
     appendAutoApplyLog,
     buildStoppedSessionState,
@@ -53,6 +45,14 @@ import {
     resumeAutoApplyFromInput,
     saveAutoApplySession,
 } from './auto-apply-session.js';
+import {
+    clearActiveAutoApplyTiming,
+    persistActiveAutoApplyTiming,
+    resolveDelayMultiplier,
+    resolveSubmitConfirmationPollMs,
+    resolveSubmitConfirmationTimeoutMs,
+    scaleDelayMs,
+} from './auto-apply-timing.js';
 import {
     closeAutoApplyWindow,
     createAutoApplyTab,

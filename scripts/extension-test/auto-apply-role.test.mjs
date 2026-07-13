@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { buildJobSearchUrl } from '../../extension/src/shared/auto-apply-platforms.js';
+import { sanitizeAutoApplyRoleDescription } from '../../extension/src/shared/auto-apply-role.js';
 import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
 import { buildLinkedInJobSearchUrl } from '../../extension/src/shared/linkedin-platform.js';
-import { sanitizeAutoApplyRoleDescription } from '../../extension/src/shared/auto-apply-role.js';
 
 const ukSoftwareProfile = {
     profile: {

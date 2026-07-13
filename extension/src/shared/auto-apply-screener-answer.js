@@ -4,8 +4,8 @@ import {
 } from './answer-normalization.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
-import { requestDraftField } from './draft-all-stream.js';
 import { resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
+import { requestDraftField } from './draft-all-stream.js';
 import {
     isMeaningfulAnswer,
     isSalaryQuestionLabel,
