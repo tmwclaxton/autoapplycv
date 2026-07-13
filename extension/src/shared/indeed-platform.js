@@ -128,7 +128,7 @@ export function buildIndeedJobOpenUrl(
 
     const baseHost = resolveIndeedHostFromOptions({ host, location, filters });
 
-    return `https://${baseHost}/viewjob?jk=${jk}`;
+    return `https://${baseHost}/viewjob?jk=${jk}&from=serp`;
 }
 
 /**

@@ -938,6 +938,42 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return { success: true };
     }
 
+    async function waitForIndeedApplyButton(timeoutMs = 20_000, jobId = null) {
+        const deadline = Date.now() + timeoutMs;
+        let prepared = false;
+
+        while (Date.now() < deadline) {
+            if (!prepared) {
+                await prepareJobView({ force: true });
+                prepared = true;
+            }
+
+            const applyButton = readIndeedApplyButton();
+
+            if (applyButton) {
+                return applyButton;
+            }
+
+            const externalMarker = readExternalApplyMarker(readJobViewRoot(), {
+                jobId,
+            });
+
+            if (
+                externalMarker &&
+                (!jobId ||
+                    detailViewMatchesJobId(jobId) ||
+                    isIndeedViewJobPage())
+            ) {
+                return null;
+            }
+
+            await humanPause(650, 1100);
+            await prepareJobView({ light: true });
+        }
+
+        return readIndeedApplyButton();
+    }
+
     async function waitForJobDetailReady(jobId, timeoutMs = 35_000) {
         const deadline = Date.now() + timeoutMs;
         const target = String(jobId).toLowerCase();
@@ -1112,7 +1148,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return { ready: false, length: readJobDescriptionText().length };
     }
 
-    async function clickIndeedApply() {
+    async function clickIndeedApply(jobId = null) {
         if (readAlreadyAppliedMarker()) {
             return {
                 success: false,
@@ -1121,31 +1157,23 @@ const AutoCVApplyIndeedAutoApply = (() => {
             };
         }
 
-        for (let attempt = 0; attempt < 3; attempt += 1) {
-            if (attempt === 0) {
-                await prepareJobView({ force: true });
-            }
+        const applyButton = await waitForIndeedApplyButton(22_000, jobId);
 
-            const applyButton = readIndeedApplyButton();
+        if (applyButton) {
+            await clickElement(applyButton, {
+                skipScroll: isElementMostlyVisible(applyButton),
+            });
+            await humanPause(700, 1100);
 
-            if (applyButton) {
-                await clickElement(applyButton, {
-                    skipScroll: isElementMostlyVisible(applyButton),
-                });
-                await humanPause(700, 1100);
+            return { success: true, easyApply: true };
+        }
 
-                return { success: true, easyApply: true };
-            }
-
-            if (readExternalApplyMarker()) {
-                return {
-                    success: false,
-                    easyApply: false,
-                    error: 'Job uses external apply, not Indeed Apply.',
-                };
-            }
-
-            await humanPause(550, 900);
+        if (readExternalApplyMarker(readJobViewRoot(), { jobId })) {
+            return {
+                success: false,
+                easyApply: false,
+                error: 'Job uses external apply, not Indeed Apply.',
+            };
         }
 
         return {

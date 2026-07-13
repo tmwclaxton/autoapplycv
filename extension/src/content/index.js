@@ -1935,7 +1935,11 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(await AutoCVApplyIndeedAutoApply.clickIndeedApply());
+            sendResponse(
+                await AutoCVApplyIndeedAutoApply.clickIndeedApply(
+                    message.jobId || null,
+                ),
+            );
 
             return;
         }

@@ -52,11 +52,11 @@ assert.match(
 );
 assert.equal(
     buildIndeedJobOpenUrl('5abb1309c5e30555', { filters: { location: 'London' } }),
-    'https://uk.indeed.com/viewjob?jk=5abb1309c5e30555',
+    'https://uk.indeed.com/viewjob?jk=5abb1309c5e30555&from=serp',
 );
 assert.equal(
     buildIndeedJobOpenUrl('5abb1309c5e30555', { filters: { location: 'San Jose CA USA' } }),
-    'https://www.indeed.com/viewjob?jk=5abb1309c5e30555',
+    'https://www.indeed.com/viewjob?jk=5abb1309c5e30555&from=serp',
 );
 assert.ok(isIndeedJobsSearchUrl('https://uk.indeed.com/jobs?q=devops&l=London'));
 assert.ok(urlsMatchIndeedSearch(

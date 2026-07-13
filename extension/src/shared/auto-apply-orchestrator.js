@@ -3902,9 +3902,9 @@ async function openIndeedJobInner(tabId, job, session) {
 
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
     await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', {
-        light: true,
+        force: true,
     }).catch(() => {});
     await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
@@ -4229,7 +4229,9 @@ async function processIndeedJobInner(
         };
     }
 
-    const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
+    const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY', {
+        jobId: job.jobId,
+    });
 
     if (applyResponse?.alreadyApplied) {
         await recordAnalyticsEvent(session, 'skipped', job, {
