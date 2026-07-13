@@ -1,0 +1,600 @@
+{
+  "version": 1,
+  "campaign": "auto-apply-live-quality",
+  "started_at": "2026-07-12T23:35:00+01:00",
+  "updated_at": "2026-07-13T06:30:00.000Z",
+  "campaign_status": "resumed",
+  "scenarios_tested_count": 15,
+  "jobs_attempted_count": 113,
+  "jobs_submitted_count": 1,
+  "audit_report": {
+    "audited_at": "2026-07-13T06:25:00+01:00",
+    "verdict": "User concern valid: 8 extension fix commits each included targeted tests (all pass on re-run 06:22 BST). Campaign bootstrap (persona seeder, live-review runner, start-filters module) was used live but largely UNCOMMITTED until this audit.",
+    "commits_audited": [
+      {"sha": "38fa8989", "tests": ["indeed-apply-detection.test.mjs", "indeed-auto-apply-offline.mjs"], "test_status": "pass"},
+      {"sha": "636490b6", "tests": ["form-frame-messaging.test.mjs", "indeed-orchestrator-apply-flow.test.mjs"], "test_status": "pass"},
+      {"sha": "68703409", "tests": ["indeed-auto-apply-offline.mjs"], "test_status": "pass"},
+      {"sha": "ee78d898", "tests": ["indeed-orchestrator-apply-flow.test.mjs", "indeed-platform.test.mjs"], "test_status": "pass"},
+      {"sha": "330c0680", "tests": ["indeed-orchestrator-apply-flow.test.mjs", "indeed-platform.test.mjs"], "test_status": "pass"},
+      {"sha": "dc02d232", "tests": ["glassdoor-platform.test.mjs"], "test_status": "pass"},
+      {"sha": "6addace2", "tests": ["glassdoor-auto-apply-offline.mjs", "indeed-already-applied-offline.mjs"], "test_status": "pass"},
+      {"sha": "db1806d1", "tests": ["glassdoor-auto-apply-offline.mjs"], "test_status": "pass"}
+    ],
+    "uncommitted_violations": [
+      "auto-apply-start-filters.js + auto-apply-start-filters.test.mjs",
+      "auto-apply-live-review.mjs (live runner used without commit)",
+      "AutoApplyTestPersonasSeeder + AutoApplyTestPersonasSeederTest.php",
+      "test-personas.json + CV fixtures"
+    ],
+    "scenario_pass_audit": {
+      "defensible_pass": ["p0-10", "p0-11"],
+      "downgraded": ["p0-08", "p0-09"],
+      "downgrade_reason": "Marked pass on routing-only but live session timed out (session_status=running) - insufficient MCP completion evidence"
+    }
+  },
+  "test_runs": [
+    {
+      "ran_at": "2026-07-13T06:22:00+01:00",
+      "command": "node --test scripts/extension-test/job-board-market.test.mjs ... indeed-orchestrator-apply-flow.test.mjs indeed-auto-apply-offline.mjs",
+      "exit_code": 0,
+      "summary": "21/21 Node tests pass"
+    },
+    {
+      "ran_at": "2026-07-13T06:22:00+01:00",
+      "command": "sail artisan test --filter=AutoApplyTestPersonasSeeder",
+      "exit_code": 0,
+      "summary": "1/1 PHPUnit pass, 9 assertions"
+    }
+  ],
+  "platform_summary": {
+    "indeed": {
+      "pass": 1,
+      "fail": 1,
+      "blocked": 7
+    },
+    "glassdoor": {
+      "pass": 0,
+      "fail": 1,
+      "blocked": 3
+    },
+    "linkedin": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "totaljobs": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "reed": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "simplyhired": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "cvlibrary": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "orchestrator": {
+      "pass": 0,
+      "fail": 0,
+      "blocked": 0
+    },
+    "offline": {
+      "pass": 1,
+      "fail": 0,
+      "blocked": 0
+    }
+  },
+  "tier_progress": {
+    "P0": "partial_2_of_12",
+    "P1": "in_progress",
+    "P2": "pending",
+    "P3": "pending",
+    "P4": "pending"
+  },
+  "fixes_shipped_overnight": [
+    "38fa8989 Fix Indeed Apply detection on job cards and job pane",
+    "636490b6 Route Indeed Auto Apply through smartapply tab and iframe",
+    "68703409 Treat unmarked Indeed job cards as unknown apply type",
+    "ee78d898 Open Indeed Apply via smartapply URL when popup blocked",
+    "330c0680 Open viewjob page and click Apply when smartapply tab missing",
+    "dc02d232 Require matching Glassdoor host for search URL parity",
+    "6addace2 Fix Glassdoor card scope and Indeed apply tab hygiene",
+    "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds"
+  ],
+  "retest_blocks": [],
+  "open_gaps": [
+    "Glassdoor US Scientist searches geo-redirect to .co.uk countryRedirect - needs US VPN/session (p0-04/p0-05/p0-12 blocked)",
+    "Glassdoor UK also serves Recommended Jobs feed instead of search results (p0-07 fail-fast)",
+    "Indeed DSQF7 filter surfaces many jobs external on detail pane (p0-01 full queue 0/15 apply)",
+    "UK Indeed smartapply phone validation rejects persona formats - blocks submit (p0-06)",
+    "MCP start_auto_apply schema stale (missing market/hostTabId) until Cursor MCP reload",
+    "open_side_panel requires user gesture",
+    "Orphan external-apply tabs accumulate during Indeed queue - closeIndeedAuxiliaryTabs partial",
+    "p0-03 fit gate not exercised - all jobs skipped external before fit scoring",
+    "104 of 116 queue scenarios untested (pending_count=104)"
+  ],
+  "jobs_tested": [],
+  "scenarios_tested": [
+    {
+      "scenario_id": "p0-10",
+      "platform": "offline",
+      "persona_id": "uk_software",
+      "profile_email": "test-uk@autocvapply.test",
+      "result": "pass",
+      "reviewed_at": "2026-07-12T22:38:35.374Z",
+      "offline_checks": []
+    },
+    {
+      "scenario_id": "p0-01",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T02:05:00.000Z",
+      "result": "fail",
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=Scientist&l=San+Jose+CA+USA&sc=0kf:attr(DSQF7)",
+      "jobs_submitted": 0,
+      "jobs_attempted": 15,
+      "skip_reasons": [
+        "external apply only x15 on detail pane",
+        "already_applied x1 (Atum Associate Scientist - submitted in p0-11)"
+      ],
+      "stats": {
+        "found": 15,
+        "skipped": 16,
+        "applied": 0,
+        "errors": 0
+      },
+      "connection_available": true,
+      "session_status": "completed",
+      "accuracy_notes": "Retest complete 2026-07-13T02:05Z: full DSQF7 queue exhausted with stats.applied=0. Atum (only prior Indeed Apply in list) correctly skipped as already applied. All other 15 cards external on detail pane despite DSQF7 filter. Submit path proven separately in p0-11. FAIL - no submit on fresh job this run."
+    },
+    {
+      "scenario_id": "p0-11",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-12T23:38:30.000Z",
+      "result": "pass",
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=Scientist&l=San+Jose+CA+USA&sc=0kf:attr(DSQF7)",
+      "jobs_submitted": 1,
+      "jobs_attempted": 1,
+      "skip_reasons": [],
+      "stats": {
+        "found": 15,
+        "skipped": 0,
+        "errors": 0,
+        "applied": 1,
+        "stepsAdvanced": 3
+      },
+      "connection_available": true,
+      "accuracy_notes": "PASS after 3 fixes: card detection (38fa8989), smartapply tab routing (636490b6), viewjob+Apply-click fallback (330c0680). Atum job: 4 steps, 3 fields drafted, Submit clicked and confirmed. Server-side extension_auto_apply_events id 138 event_type=submitted verified via DB. Note: raw smartapply URLs render empty shell without Apply-button session handoff; expired persona token (401) silently cleared connection mid-run before reseed."
+    },
+    {
+      "scenario_id": "p0-12",
+      "platform": "glassdoor",
+      "reviewed_at": "2026-07-12T23:53:00.000Z",
+      "result": "blocked",
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.glassdoor.com",
+      "search_url_actual": "https://www.glassdoor.com/Job/jobs.htm?sc.keyword0=Scientist&locT=C&locKeyword=San+Jose+CA+USA&applicationType=1",
+      "jobs_submitted": 0,
+      "jobs_attempted": 5,
+      "skip_reasons": [
+        "no_glassdoor_easy_apply x5"
+      ],
+      "stats": {
+        "found": 20,
+        "skipped": 5,
+        "applied": 0
+      },
+      "connection_available": true,
+      "accuracy_notes": "Search URL host correct (.com) after dc02d232 fix, but collected cards are UK software roles (T.H. Baker, Granada Glazing) not Scientist/San Jose. Likely stale-tab recovery or card collector reading wrong DOM. Blocked not pass."
+    },
+    {
+      "scenario_id": "p0-12-retest",
+      "platform": "glassdoor",
+      "reviewed_at": "2026-07-13T01:05:00.000Z",
+      "result": "blocked",
+      "persona_id": "us_scientist",
+      "search_url_expected_host": "www.glassdoor.com",
+      "search_url_actual": "https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=Scientist&locT=C&locKeyword=San+Jose+CA+USA&applicationType=1&countryRedirect=true",
+      "jobs_submitted": 0,
+      "accuracy_notes": "After 6addace2 card scoping returns 0 cards (correct - no job-list-panel on Recommended feed). Root cause: Glassdoor geo-redirects .com to .co.uk countryRedirect. db1806d1 adds fail-fast. Needs US Glassdoor session in Chrome to pass."
+    },
+    {
+      "scenario_id": "p0-06",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T01:12:20.468Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: uk.indeed.com",
+        "Indeed Apply reached on first job (Software Developer Java @ ITC). Draft All ran step 1 contact-info.",
+        "Paused on phone field - validation rejects profile formats tried (+447700900123, 07700900123, 7700900123).",
+        "P0 apply not verified - blocked not false pass. Gap: UK Indeed phone country-code handling."
+      ],
+      "skip_reasons": [],
+      "persona_id": "uk_software",
+      "profile_email": "test-uk@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "uk",
+      "search_url_expected_host": "uk.indeed.com",
+      "search_url_actual": "https://uk.indeed.com/jobs?q=software+engineer&l=London&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 16,
+      "session_status": "paused_for_input",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 1,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 16,
+        "skipped": 0,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-07",
+      "platform": "glassdoor",
+      "reviewed_at": "2026-07-13T01:30:07.054Z",
+      "result": "fail",
+      "accuracy_notes": [
+        "Search host verified: www.glassdoor.co.uk",
+        "Fail-fast: navigated to jobs.htm with London but Glassdoor serves Recommended Jobs For You feed (index.htm title). Search validation correctly rejected mismatched results (6addace2/db1806d1)."
+      ],
+      "skip_reasons": [],
+      "persona_id": "uk_software",
+      "profile_email": "test-uk@autocvapply.test",
+      "market_setting": "uk",
+      "market_resolved": "uk",
+      "search_url_expected_host": "www.glassdoor.co.uk",
+      "search_url_actual": "https://www.glassdoor.co.uk/Job/jobs.htm?sc.keyword0=software+engineer&locT=C&locKeyword=London&applicationType=1",
+      "jobs_submitted": 0,
+      "jobs_attempted": 0,
+      "session_status": "error",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 0,
+        "skipped": 0,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-08",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T01:31:37.445Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: www.indeed.com",
+        "Routing-only, session incomplete (session_status=running), zero submits - downgraded from false pass.",
+        "8 external skips logged; no Indeed Apply submit verified."
+      ],
+      "skip_reasons": [
+        "Skipped Scientist III, Data Scientist, Bioprocess Digital Twin at Thermo Fisher Scientific - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Scientist, Chemistry and Delivery Science at Moderna, Inc. - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Scientist I – Fischer Lab at Dana-Farber Cancer Institute - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Data Scientist - International eKYC, Identity Graph at Socure - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Scientist, Target Discovery & Validation at Alnylam - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Scientist, Cell Biology at Alnylam - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Scientist, Molecular Biology at Solvias AG - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Research Scientist/ Research Engineer at Collinear AI - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
+      ],
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "us",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=Scientist&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 16,
+      "session_status": "running",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 16,
+        "skipped": 8,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-09",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T01:44:11.801Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: www.indeed.com",
+        "Routing-only, session incomplete (session_status=running), zero submits - downgraded from false pass.",
+        "8 external skips logged; no Indeed Apply submit verified."
+      ],
+      "skip_reasons": [
+        "Skipped Senior Software Engineer at Collective - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Software Engineer at Adobe - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Fullstack Software Engineer at Collective - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer II (Data Warehouse) at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer II (Data Warehouse) at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Software Engineer, Data Pipeline at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer at Siemens - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer (Technical Leadership) at Meta - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
+      ],
+      "persona_id": "uk_software",
+      "profile_email": "test-uk@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=software+engineer&l=San+Jose+CA+USA&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 16,
+      "session_status": "running",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 16,
+        "skipped": 8,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-02",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T01:56:20.306Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: www.indeed.com",
+        "David/P0 repro requires submit verification - host-only is insufficient.",
+        "No submit; 4 skips with auditable reasons logged.",
+        "P0 apply not verified - marking blocked rather than false pass."
+      ],
+      "skip_reasons": [
+        "Skipped Entry-Level Scientist (Q-NEXT) at SLAC National Accelerator Laboratory - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Data Scientist at Hewlett Packard Enterprise - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Data Scientist at Hewlett Packard Enterprise - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Scientist, R&D at Natera - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
+      ],
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "us",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=Scientist&l=San+Jose%2C+CA&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 15,
+      "session_status": "running",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 15,
+        "skipped": 4,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-03",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T02:08:29.376Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: www.indeed.com",
+        "No submit; 8 skips with auditable reasons logged.",
+        "P0 apply not verified - marking blocked rather than false pass."
+      ],
+      "skip_reasons": [
+        "Skipped Entry-Level Scientist (Q-NEXT) at SLAC National Accelerator Laboratory - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Data Scientist at Hewlett Packard Enterprise - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Data Scientist at Hewlett Packard Enterprise - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Scientist, R&D at Natera - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Research Engineer, Text Data Research - MSL FAIR at Meta - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Research Engineer - Video Search at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Machine Learning Engineer, End‑to‑End Autonomous Driving at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Research Scientist, Electronic Design Automation - New College Grad 2026 at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
+      ],
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=Scientist&l=San+Jose+CA+USA&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 15,
+      "session_status": "running",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 15,
+        "skipped": 8,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-04",
+      "platform": "glassdoor",
+      "reviewed_at": "2026-07-13T02:20:53.875Z",
+      "result": "blocked",
+      "blocked_reason": "country_redirect_feed",
+      "accuracy_notes": [
+        "Search URL host correct (.com) but session errors on collection - Glassdoor geo-redirects to .co.uk Recommended feed (same root cause as p0-12). db1806d1 fail-fast. Blocked not pass."
+      ],
+      "skip_reasons": [],
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.glassdoor.com",
+      "search_url_actual": "https://www.glassdoor.com/Job/jobs.htm?sc.keyword0=Scientist&locT=C&locKeyword=San+Jose+CA+USA&applicationType=1",
+      "jobs_submitted": 0,
+      "jobs_attempted": 0,
+      "session_status": "error",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 0,
+        "skipped": 0,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "p0-05",
+      "platform": "glassdoor",
+      "reviewed_at": "2026-07-13T02:22:04.517Z",
+      "result": "blocked",
+      "blocked_reason": "country_redirect_feed",
+      "accuracy_notes": [
+        "Explicit market=us Glassdoor Scientist search - same countryRedirect block as p0-04/p0-12. Fit gate not reached. Blocked pending US Glassdoor session."
+      ],
+      "skip_reasons": [],
+      "persona_id": "us_scientist",
+      "profile_email": "test-us-scientist@autocvapply.test",
+      "market_setting": "us",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.glassdoor.com",
+      "search_url_actual": "https://www.glassdoor.com/Job/jobs.htm?sc.keyword0=Scientist&locT=C&locKeyword=San+Jose+CA+USA&applicationType=1",
+      "jobs_submitted": 0,
+      "jobs_attempted": 0,
+      "session_status": "error",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 0,
+        "skipped": 0,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 1
+    },
+    {
+      "scenario_id": "indeed-01",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T02:35:02.178Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: uk.indeed.com"
+      ],
+      "skip_reasons": [],
+      "persona_id": "uk_software",
+      "profile_email": "test-uk@autocvapply.test",
+      "market_setting": "auto",
+      "market_resolved": "uk",
+      "search_url_expected_host": "uk.indeed.com",
+      "search_url_actual": "https://uk.indeed.com/jobs?q=software+engineer&l=London&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 16,
+      "session_status": "paused_for_input",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 1,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 16,
+        "skipped": 0,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 2
+    },
+    {
+      "scenario_id": "indeed-03",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T02:47:51.426Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "accuracy_notes": [
+        "Search host verified: www.indeed.com",
+        "No submit; 8 skips with auditable reasons logged."
+      ],
+      "skip_reasons": [
+        "Skipped Senior Software Engineer at Collective - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Fullstack Software Engineer at Collective - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer, Full Stack at Thinking Machines - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer II (Data Warehouse) at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Software Engineer, Data Pipeline at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Software Engineer, Data Pipeline at Amplitude - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer at Siemens - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Software Engineer (Technical Leadership) at Meta - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
+      ],
+      "persona_id": "us_engineer",
+      "profile_email": "test-us@autocvapply.test",
+      "market_setting": "us",
+      "market_resolved": "us",
+      "search_url_expected_host": "www.indeed.com",
+      "search_url_actual": "https://www.indeed.com/jobs?q=software+engineer&l=San+Francisco&sc=0kf%3Aattr%28DSQF7%29",
+      "jobs_submitted": 0,
+      "jobs_attempted": 16,
+      "session_status": "running",
+      "stats": {
+        "applied": 0,
+        "draftAllRuns": 0,
+        "errors": 0,
+        "fitSkipped": 0,
+        "found": 16,
+        "skipped": 8,
+        "stepsAdvanced": 0
+      },
+      "connection_available": true,
+      "accurate_mode": true,
+      "max_applications_used": 2
+    }
+  ],
+  "bridge_connected": true,
+  "final_wrap": null,
+  "extension_version": "2.25.61"
+}
