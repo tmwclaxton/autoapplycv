@@ -308,6 +308,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
             'cdef0123456789ab',
             '0123456789abcdef',
             'abcdef0123456789',
+            '0f1e2d3c4b5a6978',
         ]);
 
         if (banned.has(id)) {
