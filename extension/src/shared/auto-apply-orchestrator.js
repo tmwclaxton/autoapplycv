@@ -4552,6 +4552,53 @@ async function processIndeedJobInner(
                 'info',
                 `[review] ${job.title}: attempting submit.`,
             );
+
+            if (applyState.captchaPresent || applyState.submitDisabled) {
+                const reviewGate = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_APPLY_STATE',
+                });
+
+                if (
+                    reviewGate?.captchaPresent ||
+                    applyState.captchaPresent
+                ) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+                    );
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
+                        tabId,
+                        job,
+                        reviewGate || applyState,
+                    );
+
+                    if (captchaOutcome.stopped) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'user_input_stop',
+                            tabId,
+                        };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'captcha_required',
+                            tabId,
+                        };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
+                }
+            }
         }
 
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {

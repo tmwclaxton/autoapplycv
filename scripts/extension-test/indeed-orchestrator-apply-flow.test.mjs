@@ -42,6 +42,11 @@ assert.match(
     /advanceResponse\?\.error\?\.includes\('captcha'\)[\s\S]*?waitForIndeedCaptchaResume\([\s\S]*?applyState,/,
     'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
 );
+assert.match(
+    processIndeedJobBlock,
+    /\[review\].*attempting submit[\s\S]*?captchaPresent[\s\S]*?waitForIndeedCaptchaResume/,
+    'Indeed review should pause for captcha before FILL_AND_ADVANCE when captchaPresent',
+);
 assert.doesNotMatch(
     processIndeedJobBlock,
     /tryAnswerScreenerField|attemptAutoAnswerBlocker/,

@@ -1265,21 +1265,31 @@ const AutoCVApplyIndeedAutoApply = (() => {
         }
 
         for (const iframe of document.querySelectorAll(
-            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"]',
+            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"], iframe[title*="recaptcha challenge" i]',
         )) {
             if (
-                iframe instanceof HTMLElement &&
-                isElementMostlyVisible(iframe)
+                !(iframe instanceof HTMLElement) ||
+                !isElementMostlyVisible(iframe)
+            ) {
+                continue;
+            }
+
+            const title = (iframe.getAttribute('title') || '').toLowerCase();
+            const src = (iframe.getAttribute('src') || '').toLowerCase();
+
+            // Challenge / bframe widgets block submit. Tiny anchor badges alone do not.
+            if (
+                title.includes('challenge') ||
+                src.includes('/bframe') ||
+                Boolean(
+                    iframe.closest('#captcha-wrapper, [data-testid="captcha"]'),
+                )
             ) {
                 return true;
             }
         }
 
-        const responseField = document.querySelector(
-            'textarea.g-recaptcha-response',
-        );
-
-        return Boolean(responseField?.value?.trim());
+        return false;
     }
 
     function readIndeedSecurityCheckpoint() {
@@ -1666,12 +1676,34 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const onReviewStep = isIndeedReviewStep();
 
         if (onReviewStep) {
+            // Captcha must fail fast: force-clicking a disabled Submit waits up to
+            // 30s for confirmation and times out the 20s tab message channel.
+            if (readIndeedCaptchaPresent()) {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    error: 'Submit blocked by captcha on Indeed review step.',
+                    validationErrors: readValidationErrors(),
+                    stepFingerprint: previousFingerprint,
+                };
+            }
+
             let submitButton = findSubmitButton({
                 includeDisabled: true,
                 reviewOnly: true,
             });
 
             for (let attempt = 0; attempt < 10; attempt += 1) {
+                if (readIndeedCaptchaPresent()) {
+                    return {
+                        success: false,
+                        action: 'blocked',
+                        error: 'Submit blocked by captcha on Indeed review step.',
+                        validationErrors: readValidationErrors(),
+                        stepFingerprint: previousFingerprint,
+                    };
+                }
+
                 submitButton = findSubmitButton({
                     includeDisabled: true,
                     reviewOnly: true,
@@ -1711,29 +1743,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
-            if (submitButton) {
-                await clickElement(submitButton, {
-                    skipScroll: true,
-                    force: true,
-                });
-                const forcedVerify = await waitForSubmissionConfirmation();
-
-                if (forcedVerify.submitted) {
-                    return {
-                        success: true,
-                        action: 'submit',
-                        submitted: true,
-                        transitioned: true,
-                        stepFingerprint: readStepFingerprint(),
-                        validationErrors: readValidationErrors(),
-                        confirmation: forcedVerify.confirmation,
-                    };
-                }
-            }
-
-            const captchaPresent = readIndeedCaptchaPresent();
-
-            if (captchaPresent) {
+            if (readIndeedCaptchaPresent()) {
                 return {
                     success: false,
                     action: 'blocked',
