@@ -155,6 +155,14 @@ const EASY_APPLY_MAX_STEPS = 10;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
 const DRAFT_ALL_STEP_TIMEOUT_MS = 90_000;
 
+function resolveDraftAllStepTimeoutMs(fieldCount = 0) {
+    if (fieldCount <= 6) {
+        return DRAFT_ALL_STEP_TIMEOUT_MS;
+    }
+
+    return Math.min(300_000, 60_000 + fieldCount * 12_000);
+}
+
 function buildSessionSearchOptions(session) {
     return {
         easyApplyOnly: true,
@@ -2803,10 +2811,23 @@ async function runDraftAllForStep(
         }
     }
 
+    let draftAllTimeoutMs = DRAFT_ALL_STEP_TIMEOUT_MS;
+
+    try {
+        const inventory = await collectFieldsFromTab(tabId);
+        const fieldCount = Number(
+            inventory?.fields?.length || inventory?.elements?.length || 0,
+        );
+
+        draftAllTimeoutMs = resolveDraftAllStepTimeoutMs(fieldCount);
+    } catch {
+        // Keep default timeout when inventory is unavailable.
+    }
+
     const draftResult = await Promise.race([
         runDraftAll(tabId),
         (async () => {
-            const deadline = Date.now() + DRAFT_ALL_STEP_TIMEOUT_MS;
+            const deadline = Date.now() + draftAllTimeoutMs;
 
             while (Date.now() < deadline) {
                 if (await shouldStop(session)) {
@@ -2820,7 +2841,7 @@ async function runDraftAllForStep(
             }
 
             return {
-                error: `Draft All timed out after ${Math.round(DRAFT_ALL_STEP_TIMEOUT_MS / 1000)}s`,
+                error: `Draft All timed out after ${Math.round(draftAllTimeoutMs / 1000)}s`,
                 timedOut: true,
             };
         })(),
