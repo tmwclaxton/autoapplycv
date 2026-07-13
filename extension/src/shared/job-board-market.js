@@ -332,6 +332,28 @@ export function isCountryOnlyLocation(location) {
 }
 
 /**
+ * Resolve market from an explicit session override or location inference.
+ *
+ * @param {{ market?: string|null, location?: string|null }} [options]
+ * @returns {JobBoardMarket}
+ */
+export function resolveSessionMarket({ market = 'auto', location = null } = {}) {
+    const explicit = String(market || 'auto')
+        .trim()
+        .toLowerCase();
+
+    if (explicit === 'auto') {
+        return resolveJobBoardMarket(location);
+    }
+
+    if (explicit === 'uk' || explicit === 'us' || explicit === 'ca' || explicit === 'au') {
+        return explicit;
+    }
+
+    return resolveJobBoardMarket(location);
+}
+
+/**
  * @param {JobBoardMarket|string|null|undefined} market
  * @returns {string}
  */

@@ -645,8 +645,11 @@ server.tool(
         fitCheckEnabled: z.boolean().optional().describe('When true, skip low ATS-fit jobs.'),
         minFitScore: z.number().int().optional().describe('Minimum ATS score when fit check is enabled.'),
         location: z.string().optional().describe('Location filter for Indeed or LinkedIn search.'),
+        market: z.enum(['auto', 'uk', 'us', 'ca', 'au']).optional().describe('Explicit job-board market override (Indeed, Glassdoor, SimplyHired). Defaults to auto from location.'),
         workType: z.string().optional().describe('LinkedIn work type filter, e.g. remote.'),
         force: z.boolean().optional().describe('Force-start even if a prior session is still marked running.'),
+        hostTabId: z.number().int().optional().describe('Chrome tab id for the sidepanel/job-board host window.'),
+        hostWindowId: z.number().int().optional().describe('Chrome window id for the Auto Apply host window.'),
     },
     async ({
         platform = 'indeed',
@@ -655,13 +658,20 @@ server.tool(
         fitCheckEnabled = false,
         minFitScore = 10,
         location,
+        market,
         workType,
         force = false,
+        hostTabId,
+        hostWindowId,
     }) => {
         const filters = {};
 
         if (location) {
             filters.location = location;
+        }
+
+        if (market) {
+            filters.market = market;
         }
 
         if (workType) {
@@ -676,6 +686,8 @@ server.tool(
             minFitScore,
             filters: Object.keys(filters).length > 0 ? filters : null,
             force,
+            hostTabId,
+            hostWindowId,
         }, 180000);
 
         return {

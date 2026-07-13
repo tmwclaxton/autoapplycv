@@ -10,13 +10,13 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { buildGlassdoorJobSearchUrl } from '../../extension/src/shared/glassdoor-platform.js';
-import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
 import { buildJobSearchUrl } from '../../extension/src/shared/auto-apply-platforms.js';
 import {
     buildScenarioStartFilters,
     resolveAccurateMaxApplications,
 } from '../../extension/src/shared/auto-apply-start-filters.js';
+import { buildGlassdoorJobSearchUrl } from '../../extension/src/shared/glassdoor-platform.js';
+import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
 import { resolveSessionMarket } from '../../extension/src/shared/job-board-market.js';
 
 const ROOT = join(import.meta.dirname, '../..');

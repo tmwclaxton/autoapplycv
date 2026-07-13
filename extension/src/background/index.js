@@ -21,8 +21,8 @@ import {
     stopAutoApplyForSidePanelClosed,
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
-import { initExtensionBridge } from './bridge-client.js';
 import { mergeAutoApplyStartFilters } from './auto-apply-start-filters.js';
+import { initExtensionBridge } from './bridge-client.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import {
     clearConnection,

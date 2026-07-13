@@ -9,13 +9,18 @@ import {
     AUTO_APPLY_PLATFORM_LIST,
     LINKEDIN_PLATFORM_ID,
     buildSearchFiltersForPlatform,
+    getMarketsForPlatform,
     normalizeAutoApplyPlatform,
+    platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
 const SETTINGS_STORAGE_KEY = 'autoApplySettings';
 
 const platformSelect = document.getElementById('auto-apply-platform');
+const marketFieldEl = document.getElementById('auto-apply-market-field');
+const marketSelect = document.getElementById('auto-apply-market');
+const locationHintEl = document.getElementById('auto-apply-location-hint');
 const roleInput = document.getElementById('auto-apply-role');
 const locationInput = document.getElementById('auto-apply-location');
 const workTypeSelect = document.getElementById('auto-apply-work-type');
@@ -79,6 +84,38 @@ function readSelectedPlatform() {
     return normalizeAutoApplyPlatform(platformSelect.value);
 }
 
+function syncMarketField(platformId = readSelectedPlatform() || LINKEDIN_PLATFORM_ID) {
+    const markets = getMarketsForPlatform(platformId);
+    const supportsMarket = platformSupportsMarketSelector(platformId);
+
+    if (!marketFieldEl || !marketSelect) {
+        return;
+    }
+
+    marketFieldEl.hidden = !supportsMarket;
+
+    if (locationHintEl) {
+        locationHintEl.hidden = !supportsMarket;
+    }
+
+    if (!supportsMarket) {
+        return;
+    }
+
+    const previousValue = marketSelect.value || 'auto';
+    marketSelect.innerHTML = '';
+
+    for (const optionDef of markets || []) {
+        const option = document.createElement('option');
+        option.value = optionDef.value;
+        option.textContent = optionDef.label;
+        marketSelect.appendChild(option);
+    }
+
+    const hasPrevious = Array.from(marketSelect.options).some((option) => option.value === previousValue);
+    marketSelect.value = hasPrevious ? previousValue : 'auto';
+}
+
 function readMinFitScore() {
     const parsed = Number.parseInt(minFitScoreInput.value, 10);
 
@@ -114,6 +151,12 @@ function readRawSearchFilters() {
         filters.minSalaryUk = minSalarySelect.value;
     }
 
+    const platformId = readSelectedPlatform() || LINKEDIN_PLATFORM_ID;
+
+    if (platformSupportsMarketSelector(platformId) && marketSelect?.value) {
+        filters.market = marketSelect.value;
+    }
+
     return Object.keys(filters).length ? filters : null;
 }
 
@@ -131,6 +174,7 @@ function readSettingsFromForm() {
         experience: experienceSelect.value,
         datePosted: datePostedSelect.value,
         minSalaryUk: minSalarySelect.value,
+        market: marketSelect?.value || 'auto',
         fitCheckEnabled: fitEnabledInput.checked,
         minFitScore: readMinFitScore(),
     };
@@ -177,6 +221,10 @@ function applySettingsToForm(settings) {
         minSalarySelect.value = settings.minSalaryUk;
     }
 
+    if (typeof settings.market === 'string' && marketSelect) {
+        marketSelect.value = settings.market;
+    }
+
     if (typeof settings.fitCheckEnabled === 'boolean') {
         fitEnabledInput.checked = settings.fitCheckEnabled;
     }
@@ -186,12 +234,14 @@ function applySettingsToForm(settings) {
     }
 
     syncFitGateControls();
+    syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
     syncFiltersDetailsOpen();
 }
 
 async function loadPersistedSettings() {
     const { [SETTINGS_STORAGE_KEY]: settings } = await chrome.storage.local.get([SETTINGS_STORAGE_KEY]);
     renderPlatformOptions(settings?.platform);
+    syncMarketField(settings?.platform || readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
     applySettingsToForm(settings);
 }
 
@@ -214,6 +264,7 @@ function syncFitGateControls() {
 function hasActiveSearchFilters() {
     return Boolean(
         locationInput.value.trim()
+        || (marketSelect?.value && marketSelect.value !== 'auto')
         || workTypeSelect.value
         || experienceSelect.value
         || datePostedSelect.value
@@ -567,6 +618,7 @@ function expandActivityPanelForRun() {
 function bindSettingsPersistence() {
     const inputs = [
         platformSelect,
+        marketSelect,
         roleInput,
         locationInput,
         workTypeSelect,
@@ -582,7 +634,7 @@ function bindSettingsPersistence() {
         input.addEventListener('input', () => {
             schedulePersistSettings();
 
-            if (input === locationInput || input === workTypeSelect || input === experienceSelect
+            if (input === locationInput || input === marketSelect || input === workTypeSelect || input === experienceSelect
                 || input === datePostedSelect || input === minSalarySelect) {
                 syncFiltersDetailsOpen();
             }
@@ -590,12 +642,20 @@ function bindSettingsPersistence() {
         input.addEventListener('change', () => {
             schedulePersistSettings();
 
-            if (input === locationInput || input === workTypeSelect || input === experienceSelect
+            if (input === platformSelect) {
+                syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
+            }
+
+            if (input === locationInput || input === marketSelect || input === workTypeSelect || input === experienceSelect
                 || input === datePostedSelect || input === minSalarySelect) {
                 syncFiltersDetailsOpen();
             }
         });
     }
+
+    platformSelect.addEventListener('change', () => {
+        syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
+    });
 
     fitEnabledInput.addEventListener('change', syncFitGateControls);
 }

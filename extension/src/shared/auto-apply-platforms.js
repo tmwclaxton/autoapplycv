@@ -129,6 +129,14 @@ export function buildSearchFiltersForPlatform(platformId, rawFilters) {
         filters.location = location;
     }
 
+    if (platformId === INDEED_PLATFORM_ID || platformId === GLASSDOOR_PLATFORM_ID || platformId === SIMPLYHIRED_PLATFORM_ID) {
+        const market = String(rawFilters.market || '').trim().toLowerCase();
+
+        if (market) {
+            filters.market = market;
+        }
+    }
+
     if (platformId === LINKEDIN_PLATFORM_ID) {
         if (rawFilters.workType) {
             filters.workType = rawFilters.workType;
@@ -148,6 +156,51 @@ export function buildSearchFiltersForPlatform(platformId, rawFilters) {
     }
 
     return Object.keys(filters).length ? filters : null;
+}
+
+/** @type {Record<string, Array<{ value: string, label: string }>>} */
+export const PLATFORM_MARKETS = {
+    [INDEED_PLATFORM_ID]: [
+        { value: 'auto', label: 'Auto (from location)' },
+        { value: 'uk', label: 'United Kingdom' },
+        { value: 'us', label: 'United States' },
+        { value: 'ca', label: 'Canada' },
+        { value: 'au', label: 'Australia' },
+    ],
+    [GLASSDOOR_PLATFORM_ID]: [
+        { value: 'auto', label: 'Auto (from location)' },
+        { value: 'uk', label: 'United Kingdom' },
+        { value: 'us', label: 'United States' },
+        { value: 'ca', label: 'Canada' },
+    ],
+    [SIMPLYHIRED_PLATFORM_ID]: [
+        { value: 'auto', label: 'Auto (from location)' },
+        { value: 'uk', label: 'United Kingdom' },
+        { value: 'us', label: 'United States' },
+        { value: 'ca', label: 'Canada' },
+    ],
+};
+
+/**
+ * @param {string|null|undefined} platformId
+ * @returns {Array<{ value: string, label: string }>|null}
+ */
+export function getMarketsForPlatform(platformId) {
+    const normalized = normalizeAutoApplyPlatform(platformId);
+
+    if (!normalized) {
+        return null;
+    }
+
+    return PLATFORM_MARKETS[normalized] || null;
+}
+
+/**
+ * @param {string|null|undefined} platformId
+ * @returns {boolean}
+ */
+export function platformSupportsMarketSelector(platformId) {
+    return getMarketsForPlatform(platformId) !== null;
 }
 
 /**

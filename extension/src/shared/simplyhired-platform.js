@@ -1,5 +1,5 @@
 import {
-    resolveJobBoardMarket,
+    resolveSessionMarket,
     resolveSimplyHiredHost,
 } from './job-board-market.js';
 
@@ -8,6 +8,7 @@ export const SIMPLYHIRED_PLATFORM_ID = 'simplyhired';
 /**
  * @typedef {Object} SimplyHiredSearchFilters
  * @property {string} [location]
+ * @property {string} [market]
  */
 
 /**
@@ -40,7 +41,12 @@ export function resolveSimplyHiredHostFromOptions({
 
     const locationText = String(location || filters?.location || '').trim();
 
-    return resolveSimplyHiredHost(resolveJobBoardMarket(locationText));
+    return resolveSimplyHiredHost(
+        resolveSessionMarket({
+            market: filters?.market,
+            location: locationText,
+        }),
+    );
 }
 
 /**

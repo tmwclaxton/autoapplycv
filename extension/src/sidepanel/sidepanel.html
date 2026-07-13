@@ -143,6 +143,13 @@
                                 </div>
                             </div>
 
+                            <div id="auto-apply-market-field" class="auto-apply-field" hidden>
+                                <label class="postbox-label" for="auto-apply-market">Market</label>
+                                <select id="auto-apply-market" class="postbox-input postbox-input-compact">
+                                    <option value="auto">Auto (from location)</option>
+                                </select>
+                            </div>
+
                             <div class="auto-apply-field">
                                 <label class="postbox-label" for="auto-apply-role">Role</label>
                                 <textarea
@@ -164,6 +171,9 @@
                                             type="text"
                                             placeholder="United Kingdom, London…"
                                         />
+                                        <p id="auto-apply-location-hint" class="auto-apply-field-hint" hidden>
+                                            Auto picks the job site from your location text. Override Market if results land on the wrong country site.
+                                        </p>
                                     </div>
 
                                     <div class="auto-apply-field-grid">
