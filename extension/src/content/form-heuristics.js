@@ -7339,17 +7339,46 @@ const AutoCVApplyFormHeuristics = (() => {
         element.focus();
         dispatchPointerClick(element);
 
-        const filled = await fillReactTextControl(element, formatted);
+        const commitIndeedPhoneValue = async (candidate) => {
+            setNativeValue(element, '');
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            setNativeValue(element, candidate);
+            element.dispatchEvent(new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+                inputType: 'insertFromPaste',
+                data: candidate,
+            }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            await pauseMs(80);
+        };
 
-        if (filled) {
+        await commitIndeedPhoneValue(formatted);
+
+        if (!valueMatchesAnswer(element.value, formatted) && !valueMatchesAnswer(element.value, parts.nationalDigits)) {
+            await fillReactTextControl(element, formatted);
+        }
+
+        if (!valueMatchesAnswer(element.value, formatted) && !valueMatchesAnswer(element.value, parts.nationalDigits)) {
+            await commitIndeedPhoneValue(parts.nationalDigits);
+        }
+
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        const readback = element.value || '';
+        const ok = valueMatchesAnswer(readback, formatted)
+            || valueMatchesAnswer(readback, parts.nationalDigits)
+            || valueMatchesAnswer(readback, value);
+
+        if (ok) {
             heuristicsLog('info', 'apply.phone', 'Indeed IPL phone input filled', {
-                valuePreview: formatted.slice(0, 80),
+                valuePreview: readback.slice(0, 80),
                 iso: parts.iso,
                 dialCodeDigits: parts.dialCodeDigits,
             });
         }
 
-        return filled && valueMatchesAnswer(element.value, formatted);
+        return ok;
     }
 
     function isReactPhoneCountrySelect(element) {

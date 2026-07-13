@@ -52,7 +52,7 @@ class CvFormattedTextBuilderTest extends TestCase
             'full_name' => 'James Mitchell',
             'headline' => 'Senior Laravel Developer',
             'email' => 'test-uk@autocvapply.test',
-            'phone' => '+447700900123',
+            'phone' => '+447837370669',
             'location' => 'London, United Kingdom',
             'summary' => 'Backend engineer specialising in Laravel APIs.',
             'skills' => ['PHP', 'Laravel'],

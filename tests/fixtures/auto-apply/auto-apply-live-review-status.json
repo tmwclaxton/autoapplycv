@@ -2,8 +2,8 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T06:40:00+01:00",
-  "campaign_status": "resumed",
+  "updated_at": "2026-07-13T07:00:00+01:00",
+  "campaign_status": "final_wrap",
   "scenarios_tested_count": 15,
   "jobs_attempted_count": 113,
   "jobs_submitted_count": 1,
@@ -11,14 +11,67 @@
     "audited_at": "2026-07-13T06:25:00+01:00",
     "verdict": "User concern valid: 8 extension fix commits each included targeted tests (all pass on re-run 06:22 BST). Campaign bootstrap (persona seeder, live-review runner, start-filters module) was used live but largely UNCOMMITTED until this audit.",
     "commits_audited": [
-      {"sha": "38fa8989", "tests": ["indeed-apply-detection.test.mjs", "indeed-auto-apply-offline.mjs"], "test_status": "pass"},
-      {"sha": "636490b6", "tests": ["form-frame-messaging.test.mjs", "indeed-orchestrator-apply-flow.test.mjs"], "test_status": "pass"},
-      {"sha": "68703409", "tests": ["indeed-auto-apply-offline.mjs"], "test_status": "pass"},
-      {"sha": "ee78d898", "tests": ["indeed-orchestrator-apply-flow.test.mjs", "indeed-platform.test.mjs"], "test_status": "pass"},
-      {"sha": "330c0680", "tests": ["indeed-orchestrator-apply-flow.test.mjs", "indeed-platform.test.mjs"], "test_status": "pass"},
-      {"sha": "dc02d232", "tests": ["glassdoor-platform.test.mjs"], "test_status": "pass"},
-      {"sha": "6addace2", "tests": ["glassdoor-auto-apply-offline.mjs", "indeed-already-applied-offline.mjs"], "test_status": "pass"},
-      {"sha": "db1806d1", "tests": ["glassdoor-auto-apply-offline.mjs"], "test_status": "pass"}
+      {
+        "sha": "38fa8989",
+        "tests": [
+          "indeed-apply-detection.test.mjs",
+          "indeed-auto-apply-offline.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "636490b6",
+        "tests": [
+          "form-frame-messaging.test.mjs",
+          "indeed-orchestrator-apply-flow.test.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "68703409",
+        "tests": [
+          "indeed-auto-apply-offline.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "ee78d898",
+        "tests": [
+          "indeed-orchestrator-apply-flow.test.mjs",
+          "indeed-platform.test.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "330c0680",
+        "tests": [
+          "indeed-orchestrator-apply-flow.test.mjs",
+          "indeed-platform.test.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "dc02d232",
+        "tests": [
+          "glassdoor-platform.test.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "6addace2",
+        "tests": [
+          "glassdoor-auto-apply-offline.mjs",
+          "indeed-already-applied-offline.mjs"
+        ],
+        "test_status": "pass"
+      },
+      {
+        "sha": "db1806d1",
+        "tests": [
+          "glassdoor-auto-apply-offline.mjs"
+        ],
+        "test_status": "pass"
+      }
     ],
     "uncommitted_violations": [
       "auto-apply-start-filters.js + auto-apply-start-filters.test.mjs",
@@ -27,8 +80,14 @@
       "test-personas.json + CV fixtures"
     ],
     "scenario_pass_audit": {
-      "defensible_pass": ["p0-10", "p0-11"],
-      "downgraded": ["p0-08", "p0-09"],
+      "defensible_pass": [
+        "p0-10",
+        "p0-11"
+      ],
+      "downgraded": [
+        "p0-08",
+        "p0-09"
+      ],
       "downgrade_reason": "Marked pass on routing-only but live session timed out (session_status=running) - insufficient MCP completion evidence",
       "live_verify_2026_07_13": "Fix 1-2 pass with build-reload+MCP evidence. Fix 3 partial (Atum already-applied skip not reproduced). Fix 4 blocked (countryRedirect). p0-11 smartapply routing re-confirmed live."
     }
@@ -125,9 +184,30 @@
         "node --test scripts/extension-test/indeed-already-applied-offline.mjs pass (re-apply button + card badge cases)"
       ],
       "evidence": "Regression root cause: readAlreadyAppliedMarker required absence of Apply with Indeed, so post-submit jobs with re-apply CTA were not skipped. Strong applied-badge signals now win; orchestrator propagates alreadyApplied through open/select/apply paths."
+    },
+    {
+      "fix_sha": "pending",
+      "fix_label": "Indeed UK IPL phone paste fill + uk_software persona phone",
+      "reloaded_version": "2.25.63",
+      "timestamp": "2026-07-13T06:01:00+01:00",
+      "result": "partial",
+      "mcp_steps": [
+        "set_token uk_software (test-uk@autocvapply.test)",
+        "smartapply tab 1443888950 contact-info-module",
+        "start_draft_all -> James Mitchell +447837370669 filled; logs show 7837-370669",
+        "read_field_values phone=7837370669; read_form_validation still 'Add a valid phone number'",
+        "INDEED_APPLY_STATE captchaPresent=true",
+        "save_fixture https-smartapply-indeed-com-beta-indeedapply-form-contact-info-module"
+      ],
+      "evidence": "Phone heuristics commit formatted GB national (7837-370669) per offline test; live IPL readback strips dash and Indeed validation still fails. captchaPresent on contact-info likely blocks step advance. Persona phone moved from Ofcom drama 07700900xxx to +447837370669."
     }
   ],
   "platform_summary": {
+    "offline": {
+      "pass": 1,
+      "fail": 0,
+      "blocked": 0
+    },
     "indeed": {
       "pass": 1,
       "fail": 1,
@@ -136,42 +216,7 @@
     "glassdoor": {
       "pass": 0,
       "fail": 1,
-      "blocked": 3
-    },
-    "linkedin": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "totaljobs": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "reed": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "simplyhired": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "cvlibrary": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "orchestrator": {
-      "pass": 0,
-      "fail": 0,
-      "blocked": 0
-    },
-    "offline": {
-      "pass": 1,
-      "fail": 0,
-      "blocked": 0
+      "blocked": 4
     }
   },
   "tier_progress": {
@@ -190,14 +235,15 @@
     "dc02d232 Require matching Glassdoor host for search URL parity",
     "6addace2 Fix Glassdoor card scope and Indeed apply tab hygiene",
     "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds",
-    "bd552218 Fix Indeed already-applied skip when re-apply button shows"
+    "bd552218 Fix Indeed already-applied skip when re-apply button shows",
+    "v2.25.63 Indeed UK IPL phone paste fill; uk_software persona phone +447837370669"
   ],
   "retest_blocks": [],
   "open_gaps": [
     "Glassdoor US Scientist searches geo-redirect to .co.uk countryRedirect - needs US VPN/session (p0-04/p0-05/p0-12 blocked)",
     "Glassdoor UK also serves Recommended Jobs feed instead of search results (p0-07 fail-fast)",
     "Indeed DSQF7 filter surfaces many jobs external on detail pane (p0-01 full queue 0/15 apply)",
-    "UK Indeed smartapply phone validation rejects persona formats - blocks submit (p0-06)",
+    "UK Indeed smartapply contact-info: captchaPresent=true and IPL phone validation still fails after v2.25.63 (p0-06)",
     "MCP start_auto_apply schema stale (missing market/hostTabId) until Cursor MCP reload",
     "open_side_panel requires user gesture",
     "Orphan external-apply tabs accumulate during Indeed queue - closeIndeedAuxiliaryTabs partial",
@@ -382,7 +428,7 @@
       "skip_reasons": [
         "Skipped Scientist III, Data Scientist, Bioprocess Digital Twin at Thermo Fisher Scientific - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Senior Scientist, Chemistry and Delivery Science at Moderna, Inc. - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
-        "Skipped Scientist I – Fischer Lab at Dana-Farber Cancer Institute - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Scientist I \u2013 Fischer Lab at Dana-Farber Cancer Institute - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Senior Data Scientist - International eKYC, Identity Graph at Socure - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Scientist, Target Discovery & Validation at Alnylam - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Senior Scientist, Cell Biology at Alnylam - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
@@ -512,7 +558,7 @@
         "Skipped Scientist, R&D at Natera - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Research Engineer, Text Data Research - MSL FAIR at Meta - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Senior Research Engineer - Video Search at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
-        "Skipped Senior Machine Learning Engineer, End‑to‑End Autonomous Driving at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+        "Skipped Senior Machine Learning Engineer, End\u2011to\u2011End Autonomous Driving at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
         "Skipped Research Scientist, Electronic Design Automation - New College Grad 2026 at NVIDIA - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply."
       ],
       "persona_id": "us_scientist",
@@ -677,7 +723,60 @@
     }
   ],
   "bridge_connected": true,
-  "final_wrap": null,
+  "final_wrap": {
+    "status": "complete",
+    "completed_at": "2026-07-13T07:00:00+01:00",
+    "scenarios_tested_count": 15,
+    "queue_total": 116,
+    "queue_pending": 104,
+    "jobs_submitted_count": 1,
+    "p0_defensible_pass_count": 2,
+    "p0_total": 12,
+    "p0_pass_ids": [
+      "p0-10",
+      "p0-11"
+    ],
+    "fixes_shipped_overnight": [
+      "38fa8989 Fix Indeed Apply detection on job cards and job pane",
+      "636490b6 Route Indeed Auto Apply through smartapply tab and iframe",
+      "68703409 Treat unmarked Indeed job cards as unknown apply type",
+      "ee78d898 Open Indeed Apply via smartapply URL when popup blocked",
+      "330c0680 Open viewjob page and click Apply when smartapply tab missing",
+      "dc02d232 Require matching Glassdoor host for search URL parity",
+      "6addace2 Fix Glassdoor card scope and Indeed apply tab hygiene",
+      "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds",
+      "bd552218 Fix Indeed already-applied skip when re-apply button shows"
+    ],
+    "open_gaps": [
+      "Glassdoor US Scientist searches geo-redirect to .co.uk countryRedirect - needs US VPN/session (p0-04/p0-05/p0-12 blocked)",
+      "Glassdoor UK also serves Recommended Jobs feed instead of search results (p0-07 fail-fast)",
+      "Indeed DSQF7 filter surfaces many jobs external on detail pane (p0-01 full queue 0/15 apply)",
+      "UK Indeed smartapply phone validation rejects persona formats - blocks submit (p0-06)",
+      "MCP start_auto_apply schema stale (missing market/hostTabId) until Cursor MCP reload",
+      "open_side_panel requires user gesture",
+      "Orphan external-apply tabs accumulate during Indeed queue - closeIndeedAuxiliaryTabs partial",
+      "p0-03 fit gate not exercised - all jobs skipped external before fit scoring",
+      "104 of 116 queue scenarios untested (pending_count=104)"
+    ],
+    "platform_summary": {
+      "offline": {
+        "pass": 1,
+        "fail": 0,
+        "blocked": 0
+      },
+      "indeed": {
+        "pass": 1,
+        "fail": 1,
+        "blocked": 7
+      },
+      "glassdoor": {
+        "pass": 0,
+        "fail": 1,
+        "blocked": 4
+      }
+    },
+    "verdict": "Campaign final wrap at 07:00 London. 15/116 queue scenarios tested; defensible P0 2/12 pass (p0-10 offline, p0-11 live submit); 1 job submitted. Routing-only runs do not count as pass."
+  },
   "extension_version": "2.25.62",
   "live_verify_completed_at": "2026-07-13T06:36:00+01:00",
   "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail"
