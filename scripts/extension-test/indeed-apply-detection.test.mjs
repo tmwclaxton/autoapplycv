@@ -70,6 +70,7 @@ function cardHasIndeedApplyFromHtml(html, cardSelector = '.job_seen_beacon') {
     const cardHasExternalApply = () => {
         for (const element of card.querySelectorAll('a, button, span')) {
             const text = normalize(element.textContent);
+
             if (/^apply on company site$/i.test(text)) {
                 return true;
             }

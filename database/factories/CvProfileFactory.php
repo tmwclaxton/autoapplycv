@@ -63,4 +63,62 @@ class CvProfileFactory extends Factory
             'parsing_complete' => false,
         ];
     }
+
+    public function uk(): static
+    {
+        return $this->state(fn () => [
+            'location' => 'London, United Kingdom',
+            'city' => 'London',
+            'postcode' => 'EC1A 1BB',
+            'country' => 'United Kingdom',
+            'application_settings' => ApplicationSettings::merge([
+                'phone_country_code' => '+44',
+                'expected_salary_yearly' => '65000',
+            ]),
+        ]);
+    }
+
+    public function us(): static
+    {
+        return $this->state(fn () => [
+            'location' => 'San Francisco, CA',
+            'city' => 'San Francisco',
+            'postcode' => '94107',
+            'country' => 'United States',
+            'application_settings' => ApplicationSettings::merge([
+                'phone_country_code' => '+1',
+                'expected_salary_yearly' => '165000',
+                'notice_period' => '2 weeks',
+            ]),
+        ]);
+    }
+
+    public function ca(): static
+    {
+        return $this->state(fn () => [
+            'location' => 'Toronto, ON',
+            'city' => 'Toronto',
+            'postcode' => 'M5H 2N2',
+            'country' => 'Canada',
+            'application_settings' => ApplicationSettings::merge([
+                'phone_country_code' => '+1',
+                'expected_salary_yearly' => '95000',
+            ]),
+        ]);
+    }
+
+    public function au(): static
+    {
+        return $this->state(fn () => [
+            'location' => 'Sydney, Australia',
+            'city' => 'Sydney',
+            'postcode' => '2000',
+            'country' => 'Australia',
+            'application_settings' => ApplicationSettings::merge([
+                'phone_country_code' => '+61',
+                'expected_salary_yearly' => '130000',
+                'notice_period' => '4 weeks',
+            ]),
+        ]);
+    }
 }
