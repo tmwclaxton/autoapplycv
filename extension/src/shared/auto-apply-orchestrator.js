@@ -4537,7 +4537,7 @@ async function processIndeedJobInner(
                 session,
                 tabId,
                 job,
-                postAdvanceState || applyState,
+                applyState,
             );
             const captchaResume =
                 await waitForAutoApplyResumeWithTimeout(120_000);

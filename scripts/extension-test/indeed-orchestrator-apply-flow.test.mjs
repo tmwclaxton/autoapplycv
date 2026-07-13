@@ -37,6 +37,11 @@ assert.doesNotMatch(
     /smartapply\.indeed\.com\/beta/,
     'Indeed apply should not navigate to raw smartapply URLs (session handoff breaks)',
 );
+assert.match(
+    processIndeedJobBlock,
+    /advanceResponse\?\.error\?\.includes\('captcha'\)[\s\S]*?pauseForCaptchaReview\([\s\S]*?applyState,/,
+    'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
+);
 
 const sendIndeedMessageBlock = orchestrator.match(
     /async function sendIndeedMessage\([\s\S]*?^async function sendTotalJobsMessage/m,
