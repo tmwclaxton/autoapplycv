@@ -2,7 +2,7 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T07:16:00+01:00",
+  "updated_at": "2026-07-13T07:55:00+01:00",
   "campaign_status": "in_progress",
   "scenarios_tested_count": 16,
   "jobs_attempted_count": 115,
@@ -267,7 +267,8 @@
     "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds",
     "bd552218 Fix Indeed already-applied skip when re-apply button shows",
     "v2.25.63 Indeed UK IPL phone paste fill; uk_software persona phone +447837370669",
-    "v2.25.64 Totaljobs Genesis phone paste fill (+44 select + national digits)"
+    "v2.25.64 Totaljobs Genesis phone paste fill (+44 select + national digits)",
+    "55cf2106 Fix Auto Apply search queries leaking candidate names (sanitize role + exclude nav search from Draft All)"
   ],
   "retest_blocks": [],
   "open_gaps": [
@@ -279,6 +280,9 @@
     "open_side_panel requires user gesture",
     "Orphan external-apply tabs accumulate during Indeed queue - closeIndeedAuxiliaryTabs partial",
     "p0-03 fit gate not exercised - all jobs skipped external before fit scoring",
+    "CV-Library Easy Apply filter marks cards but detail pages lack native apply button (cvl-01: 18/18 external skip)",
+    "Reed Easy Apply jobs redirect to login for some listings (reed-01 stuck on Awin auth)",
+    "SimplyHired Quick Apply routes to Indeed Apply iframe; advance fails without Continue/Submit (sh-01: 7/7 skip)",
     "104 of 116 queue scenarios untested (pending_count=104)"
   ],
   "jobs_tested": [],
@@ -751,6 +755,72 @@
       "connection_available": true,
       "accurate_mode": true,
       "max_applications_used": 2
+    },
+    {
+      "scenario_id": "cvl-01-retest",
+      "platform": "cvlibrary",
+      "reviewed_at": "2026-07-13T07:48:37.700Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "persona_id": "uk_software",
+      "role": "software engineer",
+      "location": "London",
+      "search_url_actual": "https://www.cv-library.co.uk/software-engineer-jobs-in-london",
+      "jobs_submitted": 0,
+      "jobs_attempted": 18,
+      "stats": { "found": 18, "skipped": 18, "applied": 0 },
+      "accuracy_notes": [
+        "Search role clean (software engineer) - no profile name in URL after 55cf2106.",
+        "All 18 Easy Apply-filtered cards opened detail pages without CV-Library native apply button; skipped as external."
+      ]
+    },
+    {
+      "scenario_id": "reed-01-retest",
+      "platform": "reed",
+      "reviewed_at": "2026-07-13T07:50:00.000Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "persona_id": "uk_software",
+      "role": "software engineer",
+      "location": "London",
+      "search_url_actual": "https://www.reed.co.uk/jobs/software-engineer-jobs-in-london?filterEasilyApply=true",
+      "jobs_submitted": 0,
+      "jobs_attempted": 2,
+      "stats": { "found": 25, "skipped": 1, "applied": 0 },
+      "accuracy_notes": [
+        "Search role clean with filterEasilyApply=true.",
+        "FDM Group skipped external. Awin Senior Software Engineer opened Reed login redirect; stale-tab recovery then session stop."
+      ]
+    },
+    {
+      "scenario_id": "sh-01-retest",
+      "platform": "simplyhired",
+      "reviewed_at": "2026-07-13T07:54:00.000Z",
+      "result": "blocked",
+      "blocked_reason": "no_submit_verified",
+      "persona_id": "uk_software",
+      "role": "software engineer",
+      "location": "London",
+      "search_url_actual": "https://www.simplyhired.co.uk/search?q=software+engineer&l=London",
+      "jobs_submitted": 0,
+      "jobs_attempted": 7,
+      "stats": { "found": 7, "skipped": 7, "applied": 0, "draftAllRuns": 3 },
+      "accuracy_notes": [
+        "Search q=software+engineer clean (no name leak).",
+        "7 Quick Apply jobs: 1 external on detail, 3 Indeed Apply iframe could not advance (no Continue/Submit), 3 job detail not ready after stale-tab recovery."
+      ]
+    },
+    {
+      "scenario_id": "search-fix-verify",
+      "platform": "indeed",
+      "reviewed_at": "2026-07-13T06:44:05.419Z",
+      "result": "pass",
+      "persona_id": "uk_software",
+      "fix_label": "55cf2106 search role sanitization",
+      "input_role": "Senior Laravel Developer, James Mitchell",
+      "session_role": "Senior Laravel Developer",
+      "search_url_actual": "https://uk.indeed.com/jobs?q=Senior+Laravel+Developer&l=London&sc=0kf%3Aattr%28DSQF7%29",
+      "accuracy_notes": "Polluted role input stripped James Mitchell before navigation; q= param has role only."
     }
   ],
   "bridge_connected": true,
@@ -808,7 +878,7 @@
     },
     "verdict": "Campaign final wrap at 07:00 London. 15/116 queue scenarios tested; defensible P0 2/12 pass (p0-10 offline, p0-11 live submit); 1 job submitted. Routing-only runs do not count as pass."
   },
-  "extension_version": "2.25.64",
-  "live_verify_completed_at": "2026-07-13T06:36:00+01:00",
+  "extension_version": "2.25.66",
+  "live_verify_completed_at": "2026-07-13T07:55:00+01:00",
   "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail"
 }
