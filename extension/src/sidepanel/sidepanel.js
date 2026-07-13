@@ -695,6 +695,8 @@ async function init() {
                     profileName.textContent = profileData.profile.full_name;
                 }
 
+                autoApplyPanel?.syncSearchDefaultsFromProfile?.(profileData);
+
                 renderSubscription(profileData?.subscription);
             },
         });
@@ -739,6 +741,8 @@ async function init() {
         if (profileData?.profile?.full_name) {
             profileName.textContent = profileData.profile.full_name;
         }
+
+        autoApplyPanel?.syncSearchDefaultsFromProfile?.(profileData);
 
         renderSubscription(profileData?.subscription);
 

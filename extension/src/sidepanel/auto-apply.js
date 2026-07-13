@@ -13,6 +13,10 @@ import {
     normalizeAutoApplyPlatform,
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
+import {
+    resolveProfileSearchLocation,
+    shouldUseProfileSearchLocation,
+} from './auto-apply-start-filters.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
     describeTimingLevel,
@@ -302,6 +306,33 @@ function syncFiltersDetailsOpen() {
     if (hasActiveSearchFilters()) {
         filtersDetailsEl.open = true;
     }
+}
+
+/**
+ * Prefill Auto Apply search fields from the signed-in profile.
+ *
+ * @param {object|null|undefined} profileData
+ */
+export function syncSearchDefaultsFromProfile(profileData) {
+    const profileLocation = resolveProfileSearchLocation(profileData);
+    const currentLocation = locationInput.value.trim();
+
+    if (profileLocation && shouldUseProfileSearchLocation(currentLocation, profileData)) {
+        locationInput.value = profileLocation;
+
+        if (marketSelect?.value && marketSelect.value !== 'auto') {
+            marketSelect.value = 'auto';
+        }
+    }
+
+    const headline = String(profileData?.profile?.headline || '').trim();
+
+    if (!roleInput.value.trim() && headline) {
+        roleInput.value = headline;
+    }
+
+    syncFiltersDetailsOpen();
+    schedulePersistSettings();
 }
 
 function formatStats(session) {
@@ -881,5 +912,6 @@ export function initAutoApplyPanel({ showMessage }) {
     return {
         refreshStatus,
         resetAutoApplyUiOnPanelHidden,
+        syncSearchDefaultsFromProfile,
     };
 }

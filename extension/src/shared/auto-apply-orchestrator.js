@@ -31,6 +31,7 @@ import {
     normalizeAutoApplyPlatform,
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
+import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { tryAnswerScreenerField } from './auto-apply-screener-answer.js';
 import {
@@ -7150,11 +7151,16 @@ export async function startAutoApply({
             );
         }
 
+        const resolvedFilters = resolveAutoApplySearchFilters({
+            filters,
+            profileData,
+        });
+
         let session = createInitialSession({
             platform,
             roleDescription: trimmedRole,
             maxApplications,
-            filters,
+            filters: resolvedFilters,
             fitCheckEnabled,
             minFitScore,
             timingLevel,

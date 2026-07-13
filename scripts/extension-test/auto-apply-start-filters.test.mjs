@@ -4,8 +4,53 @@ import {
     buildScenarioStartFilters,
     mergeAutoApplyStartFilters,
     resolveAccurateMaxApplications,
+    resolveAutoApplySearchFilters,
+    resolveProfileSearchLocation,
+    shouldUseProfileSearchLocation,
 } from '../../extension/src/shared/auto-apply-start-filters.js';
 import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
+
+const tobyProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        headline: 'Senior Software Engineer',
+        location: 'London, United Kingdom',
+        city: 'London',
+        country: 'United Kingdom',
+    },
+};
+
+assert.equal(resolveProfileSearchLocation(tobyProfile), 'London, United Kingdom');
+assert.equal(shouldUseProfileSearchLocation('', tobyProfile), true);
+assert.equal(shouldUseProfileSearchLocation('San Jose, CA', tobyProfile), true);
+assert.equal(shouldUseProfileSearchLocation('Manchester', tobyProfile), false);
+
+assert.deepEqual(
+    resolveAutoApplySearchFilters({
+        filters: { location: 'San Jose, CA', market: 'us' },
+        profileData: tobyProfile,
+    }),
+    {
+        location: 'London, United Kingdom',
+        market: 'auto',
+    },
+);
+
+assert.deepEqual(
+    resolveAutoApplySearchFilters({
+        filters: { location: 'Manchester' },
+        profileData: tobyProfile,
+    }),
+    { location: 'Manchester' },
+);
+
+assert.deepEqual(
+    resolveAutoApplySearchFilters({
+        filters: null,
+        profileData: tobyProfile,
+    }),
+    { location: 'London, United Kingdom' },
+);
 
 assert.deepEqual(
     mergeAutoApplyStartFilters({

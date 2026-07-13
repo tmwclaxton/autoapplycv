@@ -2,6 +2,93 @@
  * Merge Auto Apply search filters from bridge/MCP params and scenario payloads.
  */
 
+import { resolveConciseLocationValue } from './pending-fields.js';
+import { resolveJobBoardMarket } from './job-board-market.js';
+
+/**
+ * @param {object|null|undefined} profileData
+ * @returns {string}
+ */
+export function resolveProfileSearchLocation(profileData) {
+    return String(resolveConciseLocationValue(profileData) || '').trim();
+}
+
+/**
+ * @param {string|null|undefined} filterLocation
+ * @param {object|null|undefined} profileData
+ * @returns {boolean}
+ */
+function searchLocationMatchesProfileMarket(filterLocation, profileData) {
+    const profileLocation = resolveProfileSearchLocation(profileData);
+    const trimmedFilter = String(filterLocation || '').trim();
+
+    if (!trimmedFilter || !profileLocation) {
+        return true;
+    }
+
+    return resolveJobBoardMarket(trimmedFilter) === resolveJobBoardMarket(profileLocation);
+}
+
+/**
+ * @param {string|null|undefined} filterLocation
+ * @param {object|null|undefined} profileData
+ * @returns {boolean}
+ */
+export function shouldUseProfileSearchLocation(filterLocation, profileData) {
+    const profileLocation = resolveProfileSearchLocation(profileData);
+
+    if (!profileLocation) {
+        return false;
+    }
+
+    const trimmedFilter = String(filterLocation || '').trim();
+
+    if (!trimmedFilter) {
+        return true;
+    }
+
+    return !searchLocationMatchesProfileMarket(trimmedFilter, profileData);
+}
+
+/**
+ * Apply profile location to Auto Apply search filters when missing or market-mismatched.
+ *
+ * @param {{ filters?: Record<string, unknown>|null, location?: string|null, market?: string|null, profileData?: object|null }} [options]
+ * @returns {Record<string, string>|null}
+ */
+export function resolveAutoApplySearchFilters({
+    filters = null,
+    location = null,
+    market = null,
+    profileData = null,
+} = {}) {
+    /** @type {Record<string, string>} */
+    const merged = mergeAutoApplyStartFilters({ filters, location, market }) || {};
+    const profileLocation = resolveProfileSearchLocation(profileData);
+
+    if (!profileLocation) {
+        return Object.keys(merged).length ? merged : null;
+    }
+
+    const filterLocation = String(merged.location || '').trim();
+
+    if (shouldUseProfileSearchLocation(filterLocation, profileData)) {
+        merged.location = profileLocation;
+
+        const explicitMarket = String(merged.market || '').trim().toLowerCase();
+
+        if (explicitMarket && explicitMarket !== 'auto') {
+            const profileMarket = resolveJobBoardMarket(profileLocation);
+
+            if (explicitMarket !== profileMarket) {
+                merged.market = 'auto';
+            }
+        }
+    }
+
+    return Object.keys(merged).length ? merged : null;
+}
+
 /**
  * @param {{ filters?: Record<string, unknown>|null, location?: string|null, market?: string|null }} [options]
  * @returns {Record<string, string>|null}
