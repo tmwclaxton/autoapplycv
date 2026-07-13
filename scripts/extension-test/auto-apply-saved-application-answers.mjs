@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 import {
     applicationAnswersToMemo,
     matchMemoAnswer,
     mergeQuestionMemos,
     resolveSavedApplicationAnswer,
 } from '../../extension/src/shared/draft-all-optimizations.js';
-import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 
 const profileData = {
     application_settings: {
