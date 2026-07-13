@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
     isIdentityProfilePath,
+    indeedStoredIdentityConflictsWithProfile,
+    normalizePersonNameForCompare,
+    resolveExpectedApplicantIdentity,
     resolveIdentityProfileAnswer,
     resolveProfileMappingForLabel,
 } from '../../extension/src/shared/pending-fields.js';
@@ -209,5 +212,38 @@ const usApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerForTa
 assert.equal(usApplied, true, 'Indeed phone should apply US dial code separately from national number');
 assert.equal(usPhoneInput.value, '2025550123', `unexpected US phone value: ${usPhoneInput?.value}`);
 assert.equal(usCombobox.getAttribute('data-value'), 'US', 'Indeed phone country combobox should switch to US');
+
+const signedInProfile = {
+    profile: {
+        full_name: 'Alex Applicant',
+        email: 'signed-in@example.test',
+        phone: '+44 7700000000',
+    },
+};
+
+assert.equal(normalizePersonNameForCompare('Alex  Applicant'), 'alex applicant');
+assert.deepEqual(resolveExpectedApplicantIdentity(signedInProfile), {
+    fullName: 'Alex Applicant',
+    firstName: 'Alex',
+    lastName: 'Applicant',
+    email: 'signed-in@example.test',
+    phone: '+44 7700000000',
+});
+assert.equal(
+    indeedStoredIdentityConflictsWithProfile(
+        { fullName: 'Sam Pretick', firstName: 'Sam', lastName: 'Pretick', email: 'signed-in@example.test' },
+        signedInProfile,
+    ),
+    true,
+    'Preticked name must conflict with signed-in profile even when Indeed email matches',
+);
+assert.equal(
+    indeedStoredIdentityConflictsWithProfile(
+        { fullName: 'Alex Applicant', firstName: 'Alex', lastName: 'Applicant', email: 'signed-in@example.test' },
+        signedInProfile,
+    ),
+    false,
+    'Matching signed-in identity must not conflict',
+);
 
 console.log('Indeed apply contact-info module tests passed.');

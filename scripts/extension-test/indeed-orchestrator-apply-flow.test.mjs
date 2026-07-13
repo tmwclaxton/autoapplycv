@@ -43,9 +43,14 @@ assert.match(
     'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
 );
 assert.match(
-    processIndeedJobBlock,
-    /\[review\].*attempting submit[\s\S]*?captchaPresent[\s\S]*?submitDisabled[\s\S]*?waitForIndeedCaptchaResume/,
-    'Indeed review should pause for captcha/disabled Submit before FILL_AND_ADVANCE',
+    orchestrator,
+    /ensureIndeedContactMatchesProfile[\s\S]*?INDEED_OPEN_CONTACT_INFO/,
+    'Indeed apply must open contact-info when preticked identity conflicts with API profile',
+);
+assert.match(
+    orchestrator,
+    /indeedStoredIdentityConflictsWithProfile/,
+    'Indeed apply must use shared identity-conflict helper against preticked Indeed draft',
 );
 assert.doesNotMatch(
     processIndeedJobBlock,

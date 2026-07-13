@@ -1615,6 +1615,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const validationErrors = readValidationErrors();
         const invalidFields = readInvalidFields();
         const captchaPresent = readIndeedCaptchaPresent();
+        const storedApplicant = readIndeedStoredApplicantIdentity();
 
         return {
             open: true,
@@ -1625,6 +1626,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
             submitDisabled: Boolean(submitButton?.disabled),
             isReviewStep: onReviewStep,
             captchaPresent,
+            storedApplicant,
             stepLabel: readStepLabel(),
             stepFingerprint: readStepFingerprint(),
             validationErrors,
@@ -1635,6 +1637,209 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     : continueButton
                       ? normalize(continueButton.textContent)
                       : null,
+        };
+    }
+
+    function unescapeJsonStringFragment(value) {
+        try {
+            return JSON.parse(`"${String(value || '')}"`);
+        } catch {
+            return String(value || '')
+                .replace(/\\u0026/g, '&')
+                .replace(/\\"/g, '"')
+                .replace(/\\\\/g, '\\');
+        }
+    }
+
+    function decodeIndeedEmbeddedJsonSlice(slice) {
+        return String(slice || '')
+            .replace(/\\"/g, '"')
+            .replace(/\\\//g, '/')
+            .replace(/\\n/g, ' ');
+    }
+
+    /**
+     * Read Indeed's applicant identity for conflict checks.
+     * Prefer live contact inputs and apply formFields over stale draftData /
+     * jobSeekerProfile (those blobs often lag after Draft All overwrites contact).
+     */
+    function readIndeedStoredApplicantIdentity() {
+        const liveFirst = document.querySelector('input[name="names-first-name"]');
+        const liveLast = document.querySelector('input[name="names-last-name"]');
+        const liveFirstValue = String(liveFirst?.value || '').trim();
+        const liveLastValue = String(liveLast?.value || '').trim();
+
+        if (liveFirstValue || liveLastValue) {
+            return {
+                email: '',
+                fullName: `${liveFirstValue} ${liveLastValue}`.trim(),
+                firstName: liveFirstValue,
+                lastName: liveLastValue,
+                source: 'liveContactInputs',
+            };
+        }
+
+        const html = String(document.documentElement?.innerHTML || '');
+
+        if (!html) {
+            return null;
+        }
+
+        let email = '';
+        let fullName = '';
+        let firstName = '';
+        let lastName = '';
+        let source = null;
+
+        // formFields first: current apply answers after Draft All. draftData /
+        // jobSeekerProfile often stay stale for the rest of the apply session.
+        const markers = ['formFields', 'draftData', 'jobSeekerProfile'];
+
+        for (const marker of markers) {
+            const idx = html.indexOf(marker);
+
+            if (idx < 0) {
+                continue;
+            }
+
+            const decoded = decodeIndeedEmbeddedJsonSlice(
+                html.slice(Math.max(0, idx - 24), idx + 2800),
+            );
+
+            if (marker === 'formFields' && !fullName) {
+                const formNameMatch = decoded.match(
+                    /"formFields"\s*:\s*\{\s*"name"\s*:\s*\{\s*"initialValue"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*"([^"]*)"/,
+                );
+
+                if (formNameMatch) {
+                    fullName = formNameMatch[2] || formNameMatch[1];
+                    source = 'formFields.name';
+                }
+
+                const formFirst = decoded.match(
+                    /"firstName"\s*:\s*\{\s*"initialValue"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*"([^"]*)"/,
+                );
+                const formLast = decoded.match(
+                    /"lastName"\s*:\s*\{\s*"initialValue"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*"([^"]*)"/,
+                );
+
+                if (formFirst) {
+                    firstName = formFirst[2] || formFirst[1] || firstName;
+                }
+
+                if (formLast) {
+                    lastName = formLast[2] || formLast[1] || lastName;
+                }
+
+                if (!fullName && (firstName || lastName)) {
+                    fullName = `${firstName} ${lastName}`.trim();
+                }
+
+                const formEmail = decoded.match(
+                    /"email"\s*:\s*\{\s*"initialValue"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*"([^"]*)"/,
+                );
+
+                if (formEmail?.[2] || formEmail?.[1]) {
+                    email = formEmail[2] || formEmail[1];
+                }
+            }
+
+            if (marker === 'draftData' && !fullName) {
+                const draftMatch = decoded.match(
+                    /"draftData"\s*:\s*\{\s*"email"\s*:\s*"([^"]*)"\s*,\s*"name"\s*:\s*"([^"]*)"\s*,\s*"firstName"\s*:\s*"([^"]*)"\s*,\s*"lastName"\s*:\s*"([^"]*)"/,
+                );
+
+                if (draftMatch) {
+                    email = draftMatch[1] || email;
+                    fullName = draftMatch[2];
+                    firstName = draftMatch[3];
+                    lastName = draftMatch[4];
+                    source = 'draftData';
+                }
+            }
+
+            if (marker === 'jobSeekerProfile' && !fullName) {
+                const seekerMatch = decoded.match(
+                    /"jobSeekerProfile"\s*:\s*\{[\s\S]{0,1200}?"name"\s*:\s*\{\s*"full"\s*:\s*"([^"]*)"\s*,\s*"first"\s*:\s*"([^"]*)"\s*,\s*"last"\s*:\s*"([^"]*)"/,
+                );
+
+                if (seekerMatch) {
+                    fullName = seekerMatch[1];
+                    firstName = seekerMatch[2];
+                    lastName = seekerMatch[3];
+                    source = source || 'jobSeekerProfile';
+                }
+
+                const seekerEmail = decoded.match(
+                    /"jobSeekerProfile"\s*:\s*\{[\s\S]{0,400}?"email"\s*:\s*\{\s*"address"\s*:\s*"([^"]*)"/,
+                );
+
+                if (seekerEmail?.[1] && !email) {
+                    email = seekerEmail[1];
+                }
+            }
+        }
+
+        if (!fullName && !email) {
+            return null;
+        }
+
+        return {
+            email,
+            fullName,
+            firstName,
+            lastName,
+            source,
+        };
+    }
+
+    function openIndeedContactInfoStep() {
+        const current = String(window.location.href || '');
+        const profileContactUrl = 'https://profile.indeed.com/edit/contact';
+
+        if (/profile\.indeed\.com\/edit\/contact/i.test(current)) {
+            return {
+                success: true,
+                alreadyOnContact: true,
+                url: current,
+            };
+        }
+
+        if (/\/form\/contact-info/i.test(current)) {
+            return {
+                success: true,
+                alreadyOnContact: true,
+                url: current,
+            };
+        }
+
+        // Prefer mid-apply contact so Draft All can overwrite formFields (what Apply
+        // submits). Profile editor alone does not refresh stale apply draftData.
+        if (/smartapply\.indeed\.com\/.*\/form\//i.test(current)) {
+            const applyContactUrl = current.replace(
+                /\/form\/[^/?#]+/i,
+                '/form/contact-info-module',
+            );
+
+            if (applyContactUrl !== current) {
+                window.location.assign(applyContactUrl);
+
+                return {
+                    success: true,
+                    navigated: true,
+                    url: applyContactUrl,
+                    reason: 'indeed_apply_contact_mismatch',
+                };
+            }
+        }
+
+        window.location.assign(profileContactUrl);
+
+        return {
+            success: true,
+            navigated: true,
+            url: profileContactUrl,
+            reason: 'indeed_account_identity_mismatch',
         };
     }
 
@@ -2072,6 +2277,8 @@ const AutoCVApplyIndeedAutoApply = (() => {
         verifySubmitted,
         goToNextSearchPage,
         scanPageHealth,
+        openIndeedContactInfoStep,
+        readIndeedStoredApplicantIdentity,
         isIndeedApplyFlowPage,
         isIndeedSearchPage,
         isIndeedViewJobPage,

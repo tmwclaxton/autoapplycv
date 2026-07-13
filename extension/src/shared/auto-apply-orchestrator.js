@@ -85,8 +85,10 @@ import {
 } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
 import {
+    indeedStoredIdentityConflictsWithProfile,
     mergePendingFields,
     pendingFieldsStorageKey,
+    resolveExpectedApplicantIdentity,
 } from './pending-fields.js';
 import { runReedAutoApplyLoop } from './reed-auto-apply-runner.js';
 import {
@@ -4026,6 +4028,131 @@ async function evaluateIndeedJobFit(tabId, job, session) {
     return { proceed: true, score: scoreResult.score };
 }
 
+async function ensureIndeedContactMatchesProfile(
+    tabId,
+    job,
+    applyState,
+    profileData,
+) {
+    const tab = await chrome.tabs.get(tabId).catch(() => null);
+    const tabUrl = String(tab?.url || '');
+
+    if (/profile\.indeed\.com\/edit\/contact/i.test(tabUrl)) {
+        return false;
+    }
+
+    if (
+        !indeedStoredIdentityConflictsWithProfile(
+            applyState?.storedApplicant,
+            profileData,
+        )
+    ) {
+        return false;
+    }
+
+    const fingerprint = String(applyState?.stepFingerprint || '');
+
+    if (/contact-info/i.test(fingerprint)) {
+        return false;
+    }
+
+    const expected = resolveExpectedApplicantIdentity(profileData);
+    const preticked = String(
+        applyState?.storedApplicant?.fullName
+            || `${applyState?.storedApplicant?.firstName || ''} ${applyState?.storedApplicant?.lastName || ''}`.trim(),
+    ).trim();
+
+    await logSession(
+        'warn',
+        `[identity] ${job.title}: Indeed preticked "${preticked}" does not match profile "${expected.fullName}" - opening Indeed profile contact editor to overwrite.`,
+    );
+
+    if (/smartapply\.indeed\.com/i.test(tabUrl)) {
+        await chrome.storage.session.set({
+            indeedIdentityFixReturnUrl: tabUrl,
+            indeedIdentityFixReturnTabId: tabId,
+        });
+    }
+
+    const openResult = await sendIndeedApplyFlowMessage(tabId, {
+        type: 'INDEED_OPEN_CONTACT_INFO',
+    });
+
+    if (!openResult?.success) {
+        throw new Error(
+            openResult?.error
+                || 'Could not open Indeed contact editor to correct preticked identity.',
+        );
+    }
+
+    if (openResult.navigated) {
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId).catch(() => {});
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
+    }
+
+    const contactDeadline = Date.now() + 25_000;
+
+    while (Date.now() < contactDeadline) {
+        const contactTab = await chrome.tabs.get(tabId).catch(() => null);
+        const contactUrl = String(contactTab?.url || '');
+
+        if (
+            /profile\.indeed\.com\/edit\/contact/i.test(contactUrl)
+            || /\/form\/contact-info/i.test(contactUrl)
+        ) {
+            return true;
+        }
+
+        await sleep(500);
+    }
+
+    throw new Error(
+        'Timed out waiting for Indeed contact editor after identity mismatch.',
+    );
+}
+
+async function finishIndeedIdentityProfileFix(tabId, runDraftAll) {
+    const tab = await chrome.tabs.get(tabId).catch(() => null);
+    const tabUrl = String(tab?.url || '');
+
+    if (!/profile\.indeed\.com\/edit\/contact/i.test(tabUrl)) {
+        return false;
+    }
+
+    if (typeof runDraftAll === 'function') {
+        await runDraftAll(tabId, {});
+    }
+
+    await sendTabMessage(tabId, {
+        type: 'BRIDGE_CLICK_TEXT',
+        text: 'Save',
+    }).catch(() => {});
+
+    await sleep(1500);
+    await waitForTabLoadComplete(tabId).catch(() => {});
+
+    const stored = await chrome.storage.session.get([
+        'indeedIdentityFixReturnUrl',
+        'indeedIdentityFixReturnTabId',
+    ]);
+    const returnUrl = stored.indeedIdentityFixReturnUrl;
+
+    await chrome.storage.session.remove([
+        'indeedIdentityFixReturnUrl',
+        'indeedIdentityFixReturnTabId',
+    ]);
+
+    if (returnUrl) {
+        await chrome.tabs.update(tabId, { url: returnUrl });
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId).catch(() => {});
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
+    }
+
+    return true;
+}
+
 async function processIndeedJob(
     tabId,
     job,
@@ -4517,6 +4644,33 @@ async function processIndeedJobInner(
             `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Indeed Apply'}` +
                 (applyState.isReviewStep ? ' (review)' : ''),
         );
+
+        if (
+            await ensureIndeedContactMatchesProfile(
+                tabId,
+                job,
+                applyState,
+                profileData,
+            )
+        ) {
+            sameStepCount = 0;
+            lastStepFingerprint = null;
+            continue;
+        }
+
+        const activeTab = await chrome.tabs.get(tabId).catch(() => null);
+        const activeUrl = String(activeTab?.url || '');
+
+        if (/profile\.indeed\.com\/edit\/contact/i.test(activeUrl)) {
+            await logSession(
+                'info',
+                `[identity] ${job.title}: overwriting Indeed account contact with API profile, then returning to apply.`,
+            );
+            await finishIndeedIdentityProfileFix(tabId, runDraftAll);
+            sameStepCount = 0;
+            lastStepFingerprint = null;
+            continue;
+        }
 
         if (!applyState.isReviewStep) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));

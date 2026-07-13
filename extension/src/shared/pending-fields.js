@@ -2645,6 +2645,64 @@ export function isIdentityProfilePath(path) {
     return IDENTITY_PROFILE_PATHS.has(path);
 }
 
+/**
+ * Normalize a personal name for equality checks (case/punctuation insensitive).
+ *
+ * @param {unknown} value
+ * @returns {string}
+ */
+export function normalizePersonNameForCompare(value) {
+    return String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim()
+        .replace(/\s+/g, ' ');
+}
+
+/**
+ * @param {object|null|undefined} profileData
+ * @returns {{ fullName: string, firstName: string, lastName: string, email: string, phone: string }}
+ */
+export function resolveExpectedApplicantIdentity(profileData) {
+    const fullName = String(readProfileValue(profileData, 'full_name') || '').trim();
+    const split = splitFullName(fullName);
+
+    return {
+        fullName,
+        firstName: split.first,
+        lastName: split.last,
+        email: String(readProfileValue(profileData, 'email') || '').trim(),
+        phone: String(readProfileValue(profileData, 'phone') || '').trim(),
+    };
+}
+
+/**
+ * True when Indeed's preticked draft / job-seeker name differs from the signed-in API profile.
+ * Forces overwrite whenever preticked identity does not match authenticated /api/profile data.
+ *
+ * @param {{ fullName?: string, firstName?: string, lastName?: string, email?: string }|null|undefined} storedIdentity
+ * @param {object|null|undefined} profileData
+ * @returns {boolean}
+ */
+export function indeedStoredIdentityConflictsWithProfile(storedIdentity, profileData) {
+    if (!storedIdentity || !profileData) {
+        return false;
+    }
+
+    const expected = resolveExpectedApplicantIdentity(profileData);
+    const storedFull = String(
+        storedIdentity.fullName
+            || `${storedIdentity.firstName || ''} ${storedIdentity.lastName || ''}`.trim(),
+    ).trim();
+
+    if (!expected.fullName || !storedFull) {
+        return false;
+    }
+
+    return normalizePersonNameForCompare(expected.fullName)
+        !== normalizePersonNameForCompare(storedFull);
+}
+
 export function isPreferenceProfilePath(path) {
     return PREFERENCE_PROFILE_PATHS.has(path);
 }

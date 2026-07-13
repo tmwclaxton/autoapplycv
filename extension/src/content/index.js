@@ -1953,6 +1953,18 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'INDEED_OPEN_CONTACT_INFO') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyIndeedAutoApply.openIndeedContactInfoStep());
+
+            return;
+        }
+
         if (message.type === 'INDEED_FILL_AND_ADVANCE') {
             if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
