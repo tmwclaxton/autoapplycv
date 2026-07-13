@@ -418,6 +418,60 @@ const AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
+    const INDEED_EASY_APPLY_TEXT = /\b(easily apply|apply with indeed)\b/i;
+
+    function isIndeedAppliedLabel(text, ariaLabel = '') {
+        const label = normalize(ariaLabel);
+        const value = normalize(text);
+
+        if (!/\bapplied\b/i.test(`${value} ${label}`)) {
+            return false;
+        }
+
+        if (INDEED_EASY_APPLY_TEXT.test(value) || INDEED_EASY_APPLY_TEXT.test(label)) {
+            return false;
+        }
+
+        if (/\byou(?:'ve)? applied\b/i.test(label) || /\byou applied on\b/i.test(label)) {
+            return true;
+        }
+
+        if (/^applied$/i.test(value)) {
+            return true;
+        }
+
+        if (/\balready applied\b/i.test(label)) {
+            return true;
+        }
+
+        return /\bapplication sent\b/i.test(label);
+    }
+
+    function readCardAlreadyApplied(card, cardText = normalize(card?.textContent)) {
+        if (!(card instanceof HTMLElement)) {
+            return false;
+        }
+
+        for (const element of card.querySelectorAll(
+            'button, a, span, [data-testid*="applied"], [class*="applied"]',
+        )) {
+            if (!(element instanceof HTMLElement)) {
+                continue;
+            }
+
+            if (
+                isIndeedAppliedLabel(
+                    element.textContent,
+                    element.getAttribute('aria-label') || '',
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return isIndeedAppliedLabel(cardText);
+    }
+
     function readIndeedApplyFromCard(card, cardText) {
         if (cardHasExternalApply(card, cardText)) {
             return false;
@@ -477,7 +531,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 ) || 'Unknown company';
 
             const cardText = normalize(card.textContent);
-            const alreadyApplied = /\bapplied\b/i.test(cardText);
+            const alreadyApplied = readCardAlreadyApplied(card, cardText);
             const indeedApply = readIndeedApplyFromCard(card, cardText);
 
             jobs.push({
@@ -515,6 +569,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const indeedApply = cardRoot
                 ? readIndeedApplyFromCard(cardRoot, cardText)
                 : null;
+            const alreadyApplied = cardRoot
+                ? readCardAlreadyApplied(cardRoot, cardText)
+                : false;
 
             jobs.push({
                 jobId,
@@ -522,7 +579,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 company: 'Unknown company',
                 indeedApply,
                 easyApply: indeedApply !== false,
-                alreadyApplied: false,
+                alreadyApplied,
                 url: href.startsWith('http')
                     ? href.split('&')[0]
                     : `${window.location.origin}/viewjob?jk=${jobId}`,
@@ -643,33 +700,31 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return false;
         }
 
-        const rootText = normalize(root.textContent);
-
-        if (
-            /\byou applied\b|\byou've applied\b|\balready applied\b|\bapplication sent\b/i.test(
-                rootText,
-            )
-        ) {
-            return !readIndeedApplyButton();
-        }
-
-        for (const element of root.querySelectorAll('button, a, span')) {
+        for (const element of root.querySelectorAll(
+            'button, a, span, [data-testid*="applied"], [class*="applied"]',
+        )) {
             if (!(element instanceof HTMLElement)) {
                 continue;
             }
 
-            const text = normalize(element.textContent);
-            const label = normalize(element.getAttribute('aria-label') || '');
-
             if (
-                /^applied$/i.test(text) ||
-                /\byou applied\b/i.test(label) ||
-                /\balready applied\b/i.test(label)
+                isIndeedAppliedLabel(
+                    element.textContent,
+                    element.getAttribute('aria-label') || '',
+                )
             ) {
-                if (!readIndeedApplyButton()) {
-                    return true;
-                }
+                return true;
             }
+        }
+
+        const rootText = normalize(root.textContent);
+
+        if (
+            /\byou applied on\b|\byou've applied\b|\balready applied\b|\bapplication sent\b/i.test(
+                rootText,
+            )
+        ) {
+            return !readIndeedApplyButton();
         }
 
         return false;
@@ -808,9 +863,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return {
             success: false,
             error: detailReady.error || `Job detail not ready for jk=${target}`,
-            needsNavigation: !detailReady.noIndeedApply,
+            needsNavigation:
+                !detailReady.noIndeedApply && !detailReady.alreadyApplied,
             noIndeedApply: Boolean(detailReady.noIndeedApply),
             jobUnavailable: Boolean(detailReady.jobUnavailable),
+            alreadyApplied: Boolean(detailReady.alreadyApplied),
             jobId: target,
         };
     }
@@ -871,6 +928,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     async function clickIndeedApply() {
+        if (readAlreadyAppliedMarker()) {
+            return {
+                success: false,
+                alreadyApplied: true,
+                error: 'Already applied to this job.',
+            };
+        }
+
         for (let attempt = 0; attempt < 3; attempt += 1) {
             if (attempt === 0) {
                 await prepareJobView({ force: true });
@@ -1615,7 +1680,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
         prepareJobView,
         collectJobCards,
         readIndeedApplyFromCard,
+        readCardAlreadyApplied,
         readAlreadyAppliedMarker,
+        isIndeedAppliedLabel,
         selectJobById,
         waitForJobDetailReady,
         readJobDescriptionText,

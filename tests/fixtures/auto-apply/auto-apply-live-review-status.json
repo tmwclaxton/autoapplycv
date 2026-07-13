@@ -2,7 +2,7 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T06:30:00.000Z",
+  "updated_at": "2026-07-13T06:40:00+01:00",
   "campaign_status": "resumed",
   "scenarios_tested_count": 15,
   "jobs_attempted_count": 113,
@@ -29,7 +29,8 @@
     "scenario_pass_audit": {
       "defensible_pass": ["p0-10", "p0-11"],
       "downgraded": ["p0-08", "p0-09"],
-      "downgrade_reason": "Marked pass on routing-only but live session timed out (session_status=running) - insufficient MCP completion evidence"
+      "downgrade_reason": "Marked pass on routing-only but live session timed out (session_status=running) - insufficient MCP completion evidence",
+      "live_verify_2026_07_13": "Fix 1-2 pass with build-reload+MCP evidence. Fix 3 partial (Atum already-applied skip not reproduced). Fix 4 blocked (countryRedirect). p0-11 smartapply routing re-confirmed live."
     }
   },
   "test_runs": [
@@ -44,6 +45,85 @@
       "command": "sail artisan test --filter=AutoApplyTestPersonasSeeder",
       "exit_code": 0,
       "summary": "1/1 PHPUnit pass, 9 assertions"
+    },
+    {
+      "ran_at": "2026-07-13T06:28:00+01:00",
+      "command": "npm run extension:build-reload && MCP live verify (Indeed Scientist DSQF7 + Atum + Glassdoor US)",
+      "exit_code": 0,
+      "live_evidence": true,
+      "summary": "Extension reloaded v2.25.61; 4 fix areas live-tested via bridge MCP"
+    }
+  ],
+  "live_verify_runs": [
+    {
+      "fix_sha": "636490b6,330c0680",
+      "fix_label": "Smartapply tab routing + viewjob fallback",
+      "reloaded_version": "2.25.61",
+      "timestamp": "2026-07-13T06:29:00+01:00",
+      "result": "pass",
+      "mcp_steps": [
+        "npm run extension:build-reload",
+        "extension_status (v2.25.61, tokenSet=true)",
+        "start_auto_apply indeed Scientist San Jose DSQF7 maxApplications=1",
+        "list_tabs -> smartapply tab 1443888950",
+        "indeed_tab_message INDEED_APPLY_STATE on smartapply tab -> open=true stepFingerprint=contact-info-module",
+        "get_field_inventory -> 4 fields (first name, last name, phone)",
+        "read_field_values -> Toby/Claxton filled fill_rate=0.75"
+      ],
+      "evidence": "smartapply.indeed.com/beta/indeedapply/form/contact-info-module reachable; iframe messaging and field inventory work"
+    },
+    {
+      "fix_sha": "38fa8989,68703409",
+      "fix_label": "Card detection / unknown apply type",
+      "reloaded_version": "2.25.61",
+      "timestamp": "2026-07-13T06:29:30+01:00",
+      "result": "pass",
+      "mcp_steps": [
+        "indeed_tab_message INDEED_COLLECT_JOB_CARDS -> 16 jobs, indeedApply=null on cards",
+        "INDEED_SELECT_JOB e59feb873fcdffbe (Intuit) -> noIndeedApply external skip",
+        "start_auto_apply Scientist queue -> 3+ external skips with auditable reasons, no false card-level skip"
+      ],
+      "evidence": "External jobs skipped on detail pane with reason 'Job uses external apply, not Indeed Apply'; unmarked cards not false-skipped at collection"
+    },
+    {
+      "fix_sha": "6addace2",
+      "fix_label": "Already-applied skip + tab hygiene",
+      "reloaded_version": "2.25.61",
+      "timestamp": "2026-07-13T06:32:00+01:00",
+      "result": "partial",
+      "mcp_steps": [
+        "INDEED_COLLECT_JOB_CARDS -> f8f954020280cd41 alreadyApplied=true",
+        "start_auto_apply Atum search -> opened Gene Synthesis Research Associate I, did NOT skip as already_applied",
+        "list_tabs during Scientist run -> 0 then 1 smartapply tab (no viewjob accumulation)"
+      ],
+      "evidence": "Card-level alreadyApplied flag detected; Atum re-apply did not skip (regression vs p0-01 claim). Tab hygiene OK during run (1 smartapply). 3 stale aux tabs from prior overnight runs remain."
+    },
+    {
+      "fix_sha": "dc02d232,db1806d1,6addace2",
+      "fix_label": "Glassdoor host + countryRedirect fail-fast",
+      "reloaded_version": "2.25.61",
+      "timestamp": "2026-07-13T06:34:00+01:00",
+      "result": "blocked",
+      "mcp_steps": [
+        "navigate_tab glassdoor.com Scientist San Jose search",
+        "list_tabs -> redirected to glassdoor.co.uk/Job/index.htm?countryRedirect=true",
+        "glassdoor_tab_message GLASSDOOR_COLLECT_JOB_CARDS -> jobs=[]",
+        "glassdoor_tab_message GLASSDOOR_PREPARE_JOB_SEARCH -> fail-fast error countryRedirect",
+        "start_auto_apply glassdoor Scientist -> completed 0 applied (US session unavailable)"
+      ],
+      "evidence": "Fail-fast message: 'Glassdoor redirected this search to a regional recommended feed...' Host mismatch .com->.co.uk confirmed. Blocked pending US Glassdoor Chrome session/VPN."
+    },
+    {
+      "fix_label": "Indeed already-applied skip with re-apply button visible",
+      "reloaded_version": "2.25.62",
+      "timestamp": "2026-07-13T06:40:00+01:00",
+      "result": "pass",
+      "mcp_steps": [
+        "viewjob d1484f00c2ca6382 (Atum Associate Scientist Bioproduction) -> INDEED_WAIT_FOR_JOB_DETAIL alreadyApplied=true",
+        "INDEED_OPEN_APPLY on same tab -> alreadyApplied=true, no smartapply navigation",
+        "node --test scripts/extension-test/indeed-already-applied-offline.mjs pass (re-apply button + card badge cases)"
+      ],
+      "evidence": "Regression root cause: readAlreadyAppliedMarker required absence of Apply with Indeed, so post-submit jobs with re-apply CTA were not skipped. Strong applied-badge signals now win; orchestrator propagates alreadyApplied through open/select/apply paths."
     }
   ],
   "platform_summary": {
@@ -596,5 +676,7 @@
   ],
   "bridge_connected": true,
   "final_wrap": null,
-  "extension_version": "2.25.61"
+  "extension_version": "2.25.62",
+  "live_verify_completed_at": "2026-07-13T06:36:00+01:00",
+  "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail"
 }

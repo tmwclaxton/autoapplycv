@@ -320,6 +320,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             fit_score_failed: 'could not score fit',
             apply_step_unavailable: 'apply form could not advance',
             apply_submit_failed: 'application could not be submitted',
+            already_applied: 'already applied on Indeed',
         }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
 
@@ -3628,6 +3629,15 @@ async function openIndeedJobInner(tabId, job, session) {
             return { success: true, jobId: job.jobId, tabId };
         }
 
+        if (selectResponse?.alreadyApplied) {
+            return {
+                success: false,
+                tabId,
+                skipReason: 'already_applied',
+                error: selectResponse.error || 'Already applied to this job.',
+            };
+        }
+
         if (selectResponse?.noIndeedApply) {
             return {
                 success: false,
@@ -3701,6 +3711,15 @@ async function openIndeedJobInner(tabId, job, session) {
         'INDEED_WAIT_FOR_JOB_DETAIL',
         { jobId: job.jobId },
     );
+
+    if (readyResponse?.alreadyApplied) {
+        return {
+            success: false,
+            tabId,
+            skipReason: 'already_applied',
+            error: readyResponse.error || 'Already applied to this job.',
+        };
+    }
 
     if (!readyResponse?.success) {
         return {
@@ -3924,6 +3943,14 @@ async function processIndeedJobInner(
         return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
     }
 
+    if (job.alreadyApplied) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return { outcome: 'skipped', reason: 'already_applied', tabId };
+    }
+
     await logSession('info', `Opening ${job.title} at ${job.company}`);
     await recordAnalyticsEvent(session, 'job_opened', job);
 
@@ -3997,6 +4024,18 @@ async function processIndeedJobInner(
     }
 
     const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
+
+    if (applyResponse?.alreadyApplied) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'already_applied',
+            tabId: searchTabId,
+        };
+    }
 
     if (applyResponse?.easyApply === false) {
         await recordAnalyticsEvent(session, 'skipped', job, {
