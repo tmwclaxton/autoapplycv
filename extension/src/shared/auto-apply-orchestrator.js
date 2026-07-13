@@ -3688,7 +3688,7 @@ async function appendUniqueIndeedJobs(tabId, session) {
         (job) =>
             !existingIds.has(job.jobId) &&
             !batchSeen.has(job.jobId) &&
-            job.indeedApply !== false &&
+            job.indeedApply === true &&
             !job.alreadyApplied &&
             job.title !== 'Unknown role' &&
             (batchSeen.add(job.jobId), true),
@@ -3743,18 +3743,13 @@ async function openIndeedJobInner(tabId, job, session) {
         }
 
         if (selectResponse?.noIndeedApply) {
-            if (job.indeedApply === false) {
-                return {
-                    success: false,
-                    tabId,
-                    skipReason: 'no_indeed_apply',
-                    error: selectResponse.error,
-                };
-            }
-
-            selectResponse = {
-                ...selectResponse,
-                needsNavigation: true,
+            return {
+                success: false,
+                tabId,
+                skipReason: 'no_indeed_apply',
+                error:
+                    selectResponse.error ||
+                    'Job uses external apply, not Indeed Apply.',
             };
         }
 
@@ -3772,19 +3767,18 @@ async function openIndeedJobInner(tabId, job, session) {
         return { success: true, jobId: job.jobId, tabId };
     }
 
-    if (selectResponse?.noIndeedApply && job.indeedApply === false) {
+    if (selectResponse?.noIndeedApply) {
         return {
             success: false,
             tabId,
             skipReason: 'no_indeed_apply',
-            error: selectResponse.error,
+            error:
+                selectResponse.error ||
+                'Job uses external apply, not Indeed Apply.',
         };
     }
 
-    if (
-        !selectResponse?.needsNavigation &&
-        !selectResponse?.noIndeedApply
-    ) {
+    if (!selectResponse?.needsNavigation) {
         return {
             success: false,
             tabId,

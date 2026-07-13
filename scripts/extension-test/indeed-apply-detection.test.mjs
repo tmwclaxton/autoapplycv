@@ -113,4 +113,60 @@ assert.equal(
     false,
 );
 
+/**
+ * Unknown cards (no Easily apply badge and no external CTA) must not be treated as
+ * Indeed Apply - otherwise Auto Apply wastes time opening company-site jobs that
+ * only appeared because Indeed's DSQF7 filter is leaky.
+ */
+function toQueuedIndeedJob(indeedApply) {
+    return {
+        indeedApply,
+        easyApply: indeedApply === true,
+    };
+}
+
+assert.deepEqual(toQueuedIndeedJob(true), {
+    indeedApply: true,
+    easyApply: true,
+});
+assert.deepEqual(toQueuedIndeedJob(false), {
+    indeedApply: false,
+    easyApply: false,
+});
+assert.deepEqual(toQueuedIndeedJob(null), {
+    indeedApply: null,
+    easyApply: false,
+});
+
+function shouldForceDirectJobOpen({ noIndeedApply, needsNavigation }) {
+    if (noIndeedApply) {
+        return false;
+    }
+
+    return Boolean(needsNavigation);
+}
+
+assert.equal(
+    shouldForceDirectJobOpen({ noIndeedApply: true, needsNavigation: true }),
+    false,
+);
+assert.equal(
+    shouldForceDirectJobOpen({ noIndeedApply: false, needsNavigation: true }),
+    true,
+);
+
+function selectJobNeedsNavigation({ alreadyApplied = false, noIndeedApply = false }) {
+    return !alreadyApplied && !noIndeedApply;
+}
+
+assert.equal(
+    selectJobNeedsNavigation({ noIndeedApply: true }),
+    false,
+);
+assert.equal(
+    selectJobNeedsNavigation({ alreadyApplied: true }),
+    false,
+);
+assert.equal(selectJobNeedsNavigation({}), true);
+
 console.log('indeed-apply-detection tests passed.');

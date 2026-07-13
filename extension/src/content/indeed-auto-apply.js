@@ -666,7 +666,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 title,
                 company,
                 indeedApply,
-                easyApply: indeedApply !== false,
+                easyApply: indeedApply === true,
                 alreadyApplied,
                 url: `${window.location.origin}/viewjob?jk=${jobId}`,
             });
@@ -705,7 +705,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 title: normalize(link.textContent) || 'Unknown role',
                 company: 'Unknown company',
                 indeedApply,
-                easyApply: indeedApply !== false,
+                easyApply: indeedApply === true,
                 alreadyApplied,
                 url: href.startsWith('http')
                     ? href.split('&')[0]
@@ -1095,13 +1095,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return { success: true, jobId: target };
         }
 
+        const noIndeedApply = Boolean(detailReady.noIndeedApply);
+        const alreadyApplied = Boolean(detailReady.alreadyApplied);
+
         return {
             success: false,
             error: detailReady.error || `Job detail not ready for jk=${target}`,
-            needsNavigation: !detailReady.alreadyApplied,
-            noIndeedApply: Boolean(detailReady.noIndeedApply),
+            // Confirmed external/already-applied panels must not force viewjob navigation.
+            needsNavigation: !alreadyApplied && !noIndeedApply,
+            noIndeedApply,
             jobUnavailable: Boolean(detailReady.jobUnavailable),
-            alreadyApplied: Boolean(detailReady.alreadyApplied),
+            alreadyApplied,
             jobId: target,
         };
     }
