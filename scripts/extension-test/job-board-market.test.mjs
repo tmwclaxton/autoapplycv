@@ -5,6 +5,7 @@ import {
     resolveGlassdoorHost,
     resolveIndeedHost,
     resolveJobBoardMarket,
+    resolveSessionMarket,
     resolveSimplyHiredHost,
 } from '../../extension/src/shared/job-board-market.js';
 
@@ -45,5 +46,20 @@ assert.equal(resolveSimplyHiredHost('us'), 'www.simplyhired.com');
 assert.equal(isCountryOnlyLocation('United States'), true);
 assert.equal(isCountryOnlyLocation('United Kingdom'), true);
 assert.equal(isCountryOnlyLocation('San Jose, CA'), false);
+
+assert.equal(
+    resolveSessionMarket({ market: 'us', location: '' }),
+    'us',
+    'explicit US beats empty location default',
+);
+assert.equal(
+    resolveSessionMarket({ market: 'auto', location: 'San Jose CA USA' }),
+    'us',
+);
+assert.equal(
+    resolveSessionMarket({ market: 'uk', location: 'San Jose CA USA' }),
+    'uk',
+    'explicit UK beats US-looking location',
+);
 
 console.log('job-board-market tests passed.');

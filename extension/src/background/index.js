@@ -22,6 +22,7 @@ import {
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import { initExtensionBridge } from './bridge-client.js';
+import { mergeAutoApplyStartFilters } from './auto-apply-start-filters.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import {
     clearConnection,
@@ -3431,20 +3432,28 @@ initExtensionBridge({
             fitCheckEnabled = false,
             minFitScore = 10,
             filters = null,
+            location = null,
+            market = null,
             force = false,
+            hostTabId = null,
+            hostWindowId = null,
         }) => {
             if (!roleDescription || !String(roleDescription).trim()) {
                 throw new Error('roleDescription is required.');
             }
 
+            const mergedFilters = mergeAutoApplyStartFilters({ filters, location, market });
+
             const session = await startAutoApply({
                 platform,
                 roleDescription: String(roleDescription).trim(),
                 maxApplications: Math.max(1, Number(maxApplications) || 2),
-                filters,
+                filters: mergedFilters,
                 fitCheckEnabled: fitCheckEnabled === true,
                 minFitScore: Number(minFitScore) || 10,
                 force: force === true,
+                hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
+                hostWindowId: typeof hostWindowId === 'number' ? hostWindowId : null,
                 runDraftAll,
             });
 

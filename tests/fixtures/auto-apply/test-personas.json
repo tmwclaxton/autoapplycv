@@ -1,0 +1,321 @@
+{
+  "version": 1,
+  "domain": "@autocvapply.test",
+  "credit_grant": 50000,
+  "personas": {
+    "uk_software": {
+      "email": "test-uk@autocvapply.test",
+      "name": "James Mitchell",
+      "market": "uk",
+      "default_role": "software engineer",
+      "default_location": "London",
+      "cv_filename": "uk-software-james-mitchell.pdf",
+      "source_persona": "senior_laravel_dev",
+      "profile": {
+        "full_name": "James Mitchell",
+        "headline": "Senior Laravel Developer",
+        "phone": "+447700900123",
+        "location": "London, United Kingdom",
+        "city": "London",
+        "postcode": "EC1A 1BB",
+        "country": "United Kingdom",
+        "linkedin_url": "https://linkedin.com/in/james-mitchell-test",
+        "website_url": "https://jamesmitchell.dev",
+        "summary": "Backend engineer specialising in Laravel APIs, Vue frontends, and PostgreSQL at scale.",
+        "skills": ["PHP", "Laravel", "Vue", "PostgreSQL", "Redis", "Docker"],
+        "experience": [
+          {
+            "title": "Senior Software Engineer",
+            "company": "Riverbank Systems",
+            "location": "London",
+            "start_date": "2021-03",
+            "end_date": "Present",
+            "is_current": true,
+            "highlights": [
+              "Led migration of monolith to Laravel microservices serving 40k daily users",
+              "Built internal admin tooling with Vue 3 and Inertia"
+            ],
+            "technologies": ["Laravel", "Vue", "PostgreSQL"]
+          }
+        ],
+        "education": [
+          {
+            "degree": "BSc Computer Science",
+            "institution": "University of Bristol",
+            "end_date": "2018"
+          }
+        ],
+        "structured_data": {
+          "social_links": {
+            "github": "https://github.com/james-mitchell-test",
+            "linkedin": "https://linkedin.com/in/james-mitchell-test"
+          },
+          "languages": [{ "language": "English", "proficiency": "Native" }],
+          "certifications": [],
+          "projects": []
+        },
+        "application_settings": {
+          "phone_country_code": "+44",
+          "years_of_experience": "7",
+          "expected_salary_yearly": "65000",
+          "visa_sponsorship": "no",
+          "legally_authorized": "yes",
+          "willing_to_relocate": "no",
+          "notice_period": "1 month"
+        },
+        "raw_cv_text": "James Mitchell\nSenior Laravel Developer\nLondon, United Kingdom\n\nExperience\nSenior Software Engineer - Riverbank Systems (2021-Present)",
+        "formatted_cv_text": "James Mitchell\nSenior Laravel Developer\nLondon, United Kingdom\n\nSummary\nBackend engineer specialising in Laravel APIs and Vue frontends.\n\nExperience\nSenior Software Engineer - Riverbank Systems (2021-Present)\nPHP Developer - Coastal Digital (2018-2021)"
+      }
+    },
+    "us_scientist": {
+      "email": "test-us-scientist@autocvapply.test",
+      "name": "Elena Vargas",
+      "market": "us",
+      "default_role": "Scientist",
+      "default_location": "San Jose, CA",
+      "cv_filename": "us-scientist-elena-vargas.pdf",
+      "profile": {
+        "full_name": "Elena Vargas",
+        "headline": "Research Scientist",
+        "phone": "+14085550123",
+        "location": "San Jose, CA",
+        "city": "San Jose",
+        "postcode": "95110",
+        "country": "United States",
+        "linkedin_url": "https://linkedin.com/in/elena-vargas-test",
+        "website_url": null,
+        "summary": "Research scientist with expertise in assay development, data analysis, and cross-functional lab leadership.",
+        "skills": ["Assay development", "Python", "Statistics", "Cell culture", "ELISA", "Flow cytometry"],
+        "experience": [
+          {
+            "title": "Research Scientist",
+            "company": "Bay Area Biologics",
+            "location": "San Jose, CA",
+            "start_date": "2020-06",
+            "end_date": "Present",
+            "is_current": true,
+            "highlights": [
+              "Developed high-throughput screening assays for antibody discovery",
+              "Partnered with automation team to reduce sample processing time by 30%"
+            ],
+            "technologies": ["Python", "R", "LIMS"]
+          }
+        ],
+        "education": [
+          {
+            "degree": "PhD Molecular Biology",
+            "institution": "UC San Diego",
+            "end_date": "2019"
+          }
+        ],
+        "structured_data": {
+          "social_links": {
+            "linkedin": "https://linkedin.com/in/elena-vargas-test"
+          },
+          "languages": [{ "language": "English", "proficiency": "Native" }, { "language": "Spanish", "proficiency": "Professional" }],
+          "certifications": [],
+          "projects": []
+        },
+        "application_settings": {
+          "phone_country_code": "+1",
+          "years_of_experience": "6",
+          "expected_salary_yearly": "125000",
+          "visa_sponsorship": "no",
+          "legally_authorized": "yes",
+          "willing_to_relocate": "no",
+          "notice_period": "2 weeks"
+        },
+        "raw_cv_text": "Elena Vargas\nResearch Scientist\nSan Jose, CA\n\nExperience\nResearch Scientist - Bay Area Biologics (2020-Present)",
+        "formatted_cv_text": "Elena Vargas\nResearch Scientist\nSan Jose, CA\n\nSummary\nResearch scientist focused on assay development and lab automation.\n\nExperience\nResearch Scientist - Bay Area Biologics (2020-Present)"
+      }
+    },
+    "us_engineer": {
+      "email": "test-us@autocvapply.test",
+      "name": "Alex Kim",
+      "market": "us",
+      "default_role": "Software Engineer",
+      "default_location": "San Francisco, CA",
+      "cv_filename": "us-engineer-alex-kim.pdf",
+      "profile": {
+        "full_name": "Alex Kim",
+        "headline": "Software Engineer",
+        "phone": "+14155550199",
+        "location": "San Francisco, CA",
+        "city": "San Francisco",
+        "postcode": "94107",
+        "country": "United States",
+        "linkedin_url": "https://linkedin.com/in/alex-kim-test",
+        "website_url": "https://alexkim.dev",
+        "summary": "Full-stack engineer building reliable SaaS products with TypeScript, React, and Go.",
+        "skills": ["TypeScript", "React", "Go", "PostgreSQL", "AWS", "Kubernetes"],
+        "experience": [
+          {
+            "title": "Software Engineer",
+            "company": "Northline SaaS",
+            "location": "San Francisco, CA",
+            "start_date": "2019-01",
+            "end_date": "Present",
+            "is_current": true,
+            "highlights": [
+              "Shipped billing and usage metering platform serving 2k B2B customers",
+              "Reduced p95 API latency by 40% through query tuning and caching"
+            ],
+            "technologies": ["TypeScript", "React", "Go"]
+          }
+        ],
+        "education": [
+          {
+            "degree": "BS Computer Science",
+            "institution": "UC Berkeley",
+            "end_date": "2018"
+          }
+        ],
+        "structured_data": {
+          "social_links": {
+            "github": "https://github.com/alex-kim-test",
+            "linkedin": "https://linkedin.com/in/alex-kim-test"
+          },
+          "languages": [{ "language": "English", "proficiency": "Native" }],
+          "certifications": [],
+          "projects": []
+        },
+        "application_settings": {
+          "phone_country_code": "+1",
+          "years_of_experience": "6",
+          "expected_salary_yearly": "165000",
+          "visa_sponsorship": "no",
+          "legally_authorized": "yes",
+          "willing_to_relocate": "yes",
+          "notice_period": "2 weeks"
+        },
+        "raw_cv_text": "Alex Kim\nSoftware Engineer\nSan Francisco, CA",
+        "formatted_cv_text": "Alex Kim\nSoftware Engineer\nSan Francisco, CA\n\nExperience\nSoftware Engineer - Northline SaaS (2019-Present)"
+      }
+    },
+    "ca_scientist": {
+      "email": "test-ca@autocvapply.test",
+      "name": "Marc Dubois",
+      "market": "ca",
+      "default_role": "Laboratory Scientist",
+      "default_location": "Toronto, ON",
+      "cv_filename": "ca-scientist-marc-dubois.pdf",
+      "profile": {
+        "full_name": "Marc Dubois",
+        "headline": "Laboratory Scientist",
+        "phone": "+14165550188",
+        "location": "Toronto, ON",
+        "city": "Toronto",
+        "postcode": "M5H 2N2",
+        "country": "Canada",
+        "linkedin_url": "https://linkedin.com/in/marc-dubois-test",
+        "website_url": null,
+        "summary": "Laboratory scientist with QC experience in regulated pharmaceutical environments.",
+        "skills": ["HPLC", "GC-MS", "GMP", "SOP authoring", "Stability studies"],
+        "experience": [
+          {
+            "title": "Laboratory Scientist",
+            "company": "Great Lakes Pharma",
+            "location": "Toronto, ON",
+            "start_date": "2018-09",
+            "end_date": "Present",
+            "is_current": true,
+            "highlights": [
+              "Led method validation for release testing of small-molecule APIs",
+              "Authored SOP updates for ISO-aligned lab operations"
+            ],
+            "technologies": ["LIMS", "Excel", "HPLC"]
+          }
+        ],
+        "education": [
+          {
+            "degree": "MSc Chemistry",
+            "institution": "University of Toronto",
+            "end_date": "2018"
+          }
+        ],
+        "structured_data": {
+          "social_links": {
+            "linkedin": "https://linkedin.com/in/marc-dubois-test"
+          },
+          "languages": [{ "language": "English", "proficiency": "Native" }, { "language": "French", "proficiency": "Professional" }],
+          "certifications": [],
+          "projects": []
+        },
+        "application_settings": {
+          "phone_country_code": "+1",
+          "years_of_experience": "7",
+          "expected_salary_yearly": "95000",
+          "visa_sponsorship": "no",
+          "legally_authorized": "yes",
+          "willing_to_relocate": "no",
+          "notice_period": "2 weeks"
+        },
+        "raw_cv_text": "Marc Dubois\nLaboratory Scientist\nToronto, ON",
+        "formatted_cv_text": "Marc Dubois\nLaboratory Scientist\nToronto, ON\n\nExperience\nLaboratory Scientist - Great Lakes Pharma (2018-Present)"
+      }
+    },
+    "au_engineer": {
+      "email": "test-au@autocvapply.test",
+      "name": "Sam Taylor",
+      "market": "au",
+      "default_role": "Software Engineer",
+      "default_location": "Sydney",
+      "cv_filename": "au-engineer-sam-taylor.pdf",
+      "profile": {
+        "full_name": "Sam Taylor",
+        "headline": "Software Engineer",
+        "phone": "+61491570156",
+        "location": "Sydney, Australia",
+        "city": "Sydney",
+        "postcode": "2000",
+        "country": "Australia",
+        "linkedin_url": "https://linkedin.com/in/sam-taylor-test",
+        "website_url": "https://samtaylor.dev",
+        "summary": "Software engineer building cloud-native services for fintech and logistics platforms.",
+        "skills": ["Java", "Kotlin", "AWS", "Terraform", "PostgreSQL", "React"],
+        "experience": [
+          {
+            "title": "Software Engineer",
+            "company": "Harbour Payments",
+            "location": "Sydney",
+            "start_date": "2020-02",
+            "end_date": "Present",
+            "is_current": true,
+            "highlights": [
+              "Built payment reconciliation services processing 500k events daily",
+              "Introduced Terraform modules for multi-account AWS deployments"
+            ],
+            "technologies": ["Java", "AWS", "Terraform"]
+          }
+        ],
+        "education": [
+          {
+            "degree": "BE Software Engineering",
+            "institution": "UNSW Sydney",
+            "end_date": "2019"
+          }
+        ],
+        "structured_data": {
+          "social_links": {
+            "github": "https://github.com/sam-taylor-test",
+            "linkedin": "https://linkedin.com/in/sam-taylor-test"
+          },
+          "languages": [{ "language": "English", "proficiency": "Native" }],
+          "certifications": [],
+          "projects": []
+        },
+        "application_settings": {
+          "phone_country_code": "+61",
+          "years_of_experience": "5",
+          "expected_salary_yearly": "130000",
+          "visa_sponsorship": "no",
+          "legally_authorized": "yes",
+          "willing_to_relocate": "yes",
+          "notice_period": "4 weeks"
+        },
+        "raw_cv_text": "Sam Taylor\nSoftware Engineer\nSydney, Australia",
+        "formatted_cv_text": "Sam Taylor\nSoftware Engineer\nSydney, Australia\n\nExperience\nSoftware Engineer - Harbour Payments (2020-Present)"
+      }
+    }
+  }
+}
