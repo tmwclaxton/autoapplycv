@@ -3684,15 +3684,21 @@ async function appendUniqueIndeedJobs(tabId, session) {
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
-    const freshJobs = jobs.filter(
-        (job) =>
-            !existingIds.has(job.jobId) &&
-            !batchSeen.has(job.jobId) &&
-            job.indeedApply === true &&
-            !job.alreadyApplied &&
-            job.title !== 'Unknown role' &&
-            (batchSeen.add(job.jobId), true),
-    );
+    const freshJobs = jobs
+        .filter(
+            (job) =>
+                !existingIds.has(job.jobId) &&
+                !batchSeen.has(job.jobId) &&
+                job.indeedApply !== false &&
+                !job.alreadyApplied &&
+                job.title !== 'Unknown role' &&
+                (batchSeen.add(job.jobId), true),
+        )
+        // Prefer cards that showed an explicit Easily apply badge.
+        .sort(
+            (a, b) =>
+                Number(b.indeedApply === true) - Number(a.indeedApply === true),
+        );
 
     if (freshJobs.length === 0) {
         return session;

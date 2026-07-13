@@ -91,24 +91,37 @@ function cardHasIndeedApplyFromHtml(html, cardSelector = '.job_seen_beacon') {
 }
 
 const dsqf7MixedCardsHtml = `
-<div class="job_seen_beacon">
-  <a href="/viewjob?jk=abc1234567890abcd"><span>Indeed Apply role</span></a>
+<div class="cardOutline">
+  <div class="job_seen_beacon">
+    <a href="/viewjob?jk=abc1234567890abcd"><span>Indeed Apply role</span></a>
+  </div>
   <span data-testid="indeedApply">Easily apply</span>
 </div>
-<div class="job_seen_beacon">
-  <a href="/viewjob?jk=def1234567890abcd"><span>External role</span></a>
+<div class="cardOutline">
+  <div class="job_seen_beacon">
+    <a href="/viewjob?jk=def1234567890abcd"><span>External role</span></a>
+  </div>
   <span>Apply on company site</span>
 </div>
 `;
 
 assert.equal(
-    cardHasIndeedApplyFromHtml(dsqf7MixedCardsHtml, '.job_seen_beacon:first-child'),
+    cardHasIndeedApplyFromHtml(dsqf7MixedCardsHtml, '.cardOutline:first-child'),
     true,
 );
 assert.equal(
     cardHasIndeedApplyFromHtml(
         dsqf7MixedCardsHtml,
-        '.job_seen_beacon:last-child',
+        '.cardOutline:last-child',
+    ),
+    false,
+);
+
+// Inner beacon alone misses outer Easily apply badge - regression for nested cards.
+assert.equal(
+    cardHasIndeedApplyFromHtml(
+        dsqf7MixedCardsHtml,
+        '.cardOutline:first-child .job_seen_beacon',
     ),
     false,
 );

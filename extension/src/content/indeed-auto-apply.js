@@ -550,6 +550,16 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return true;
         }
 
+        for (const element of card.querySelectorAll('div, span')) {
+            if (!(element instanceof HTMLElement)) {
+                continue;
+            }
+
+            if (/^easily apply$/i.test(normalize(element.textContent))) {
+                return true;
+            }
+        }
+
         return (
             /\beasily apply\b/i.test(cardText) ||
             /\bapply with indeed\b/i.test(cardText)
@@ -657,9 +667,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     )?.textContent,
                 ) || 'Unknown company';
 
-            const cardText = normalize(card.textContent);
-            const alreadyApplied = readCardAlreadyApplied(card, cardText);
-            const indeedApply = readIndeedApplyFromCard(card, cardText);
+            // "Easily apply" often sits on the outer cardOutline, outside the inner
+            // job_seen_beacon/slider_item that we match first for job id extraction.
+            const badgeRoot =
+                card.closest('div.cardOutline') ||
+                card.closest(
+                    'div.slider_item, div[data-testid="slider_item"], li[data-testid="job-card"]',
+                ) ||
+                card;
+            const cardText = normalize(badgeRoot.textContent);
+            const alreadyApplied = readCardAlreadyApplied(badgeRoot, cardText);
+            const indeedApply = readIndeedApplyFromCard(badgeRoot, cardText);
 
             jobs.push({
                 jobId,
