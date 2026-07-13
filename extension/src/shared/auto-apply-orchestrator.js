@@ -2511,34 +2511,41 @@ async function pauseForUserInput(
     return { session: pausedSession, autoAnswered: false };
 }
 
-async function pauseForCaptchaReview(session, tabId, job, modalState) {
+async function pauseForCaptchaReview(session, tabId, job, modalState, options = {}) {
+    const stage = options.stage === 'viewjob' ? 'viewjob' : 'review';
+    const prompt =
+        stage === 'viewjob'
+            ? 'Solve the Indeed security check in the browser, then resume Auto Apply.'
+            : 'Solve the captcha on the review step, then resume Auto Apply.';
+
     const pauseContext = {
         job: {
             jobId: job.jobId,
             title: job.title,
             company: job.company,
         },
-        stepFingerprint: modalState?.stepFingerprint || 'review-module',
+        stepFingerprint:
+            modalState?.stepFingerprint ||
+            (stage === 'viewjob' ? 'viewjob-security-check' : 'review-module'),
         tabId,
         blockerField: null,
-        clarifyingQuestion:
-            'Solve the captcha on the review step, then resume Auto Apply.',
-        questionText:
-            'Solve the captcha on the review step, then resume Auto Apply.',
-        resumeAt: 'fill_and_advance',
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: stage === 'viewjob' ? 'open_job' : 'fill_and_advance',
         validationAttempt: 0,
         lastAttempt: null,
         validationError: null,
         captcha: true,
     };
 
+    const logMessage =
+        stage === 'viewjob'
+            ? `[paused] ${job.title}: solve Indeed security check in the browser, then resume in Assist.`
+            : `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`;
+
     await updateSession((current) =>
         pauseAutoApplyForInput(
-            appendAutoApplyLog(
-                current,
-                'warn',
-                `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`,
-            ),
+            appendAutoApplyLog(current, 'warn', logMessage),
             pauseContext,
         ),
     );
@@ -2550,6 +2557,23 @@ async function pauseForCaptchaReview(session, tabId, job, modalState) {
             reason: 'captcha',
         })
         .catch(() => {});
+}
+
+async function waitForIndeedCaptchaResume(session, tabId, job, modalState, options = {}) {
+    await pauseForCaptchaReview(session, tabId, job, modalState, options);
+    const captchaResume = await waitForAutoApplyResumeWithTimeout(120_000);
+
+    if (captchaResume.stopRequested) {
+        return { stopped: true, session: captchaResume };
+    }
+
+    if (captchaResume.status === 'paused_for_input') {
+        await resumeAutoApplyFromPauseSilently();
+
+        return { timedOut: true, session: captchaResume };
+    }
+
+    return { resumed: true, session: captchaResume };
 }
 
 /**
@@ -3933,6 +3957,18 @@ async function openIndeedJobInner(tabId, job, session) {
         };
     }
 
+    if (readyResponse?.captcha) {
+        return {
+            success: false,
+            tabId,
+            captcha: true,
+            skipReason: 'captcha_required',
+            error:
+                readyResponse.error ||
+                'Indeed security check - solve captcha manually.',
+        };
+    }
+
     if (!readyResponse?.success) {
         return {
             success: false,
@@ -4171,6 +4207,67 @@ async function processIndeedJobInner(
     const openResult = await openIndeedJob(tabId, job, session);
     tabId = openResult.tabId || tabId;
 
+    if (!openResult.success && openResult.captcha) {
+        await logSession(
+            'warn',
+            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist (2 min timeout).`,
+        );
+
+        const captchaOutcome = await waitForIndeedCaptchaResume(
+            session,
+            tabId,
+            job,
+            null,
+            { stage: 'viewjob' },
+        );
+
+        session = captchaOutcome.session || session;
+
+        if (captchaOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        if (captchaOutcome.timedOut) {
+            await logSession(
+                'warn',
+                `[captcha] ${job.title}: timed out waiting for security check - skipping job.`,
+            );
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'captcha_required' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'captcha_required',
+                tabId,
+            };
+        }
+
+        const retryOpen = await openIndeedJob(tabId, job, session);
+        tabId = retryOpen.tabId || tabId;
+
+        if (!retryOpen.success) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: retryOpen.captcha
+                        ? 'captcha_required'
+                        : retryOpen.skipReason || 'job_unavailable',
+                },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: retryOpen.captcha
+                    ? 'captcha_required'
+                    : retryOpen.skipReason || 'job_unavailable',
+                detail: retryOpen.error || '',
+                tabId,
+            };
+        }
+
+        Object.assign(openResult, retryOpen);
+    }
+
     if (!openResult.success) {
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: openResult.skipReason || 'job_unavailable' },
@@ -4207,7 +4304,42 @@ async function processIndeedJobInner(
 
     const health = await sendIndeedMessage(tabId, 'INDEED_SCAN_PAGE_HEALTH');
 
-    if (health && health.ok === false) {
+    if (health?.captcha) {
+        await logSession(
+            'warn',
+            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist (2 min timeout).`,
+        );
+
+        const captchaOutcome = await waitForIndeedCaptchaResume(
+            session,
+            tabId,
+            job,
+            null,
+            { stage: 'viewjob' },
+        );
+
+        session = captchaOutcome.session || session;
+
+        if (captchaOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        if (captchaOutcome.timedOut) {
+            await logSession(
+                'warn',
+                `[captcha] ${job.title}: timed out waiting for security check - skipping job.`,
+            );
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'captcha_required' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'captcha_required',
+                tabId,
+            };
+        }
+    } else if (health && health.ok === false) {
         throw new Error(
             health.primary?.message ||
                 health.blocking?.[0]?.message ||
@@ -4251,6 +4383,64 @@ async function processIndeedJobInner(
             reason: 'already_applied',
             tabId: searchTabId,
         };
+    }
+
+    if (applyResponse?.captcha) {
+        await logSession(
+            'warn',
+            `[captcha] ${job.title}: Indeed security check before apply - solve in browser, then resume in Assist (2 min timeout).`,
+        );
+
+        const captchaOutcome = await waitForIndeedCaptchaResume(
+            session,
+            tabId,
+            job,
+            null,
+            { stage: 'viewjob' },
+        );
+
+        session = captchaOutcome.session || session;
+
+        if (captchaOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        if (captchaOutcome.timedOut) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'captcha_required' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'captcha_required',
+                tabId,
+            };
+        }
+
+        const retryApply = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY', {
+            jobId: job.jobId,
+        });
+
+        if (!retryApply?.success) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: retryApply?.captcha
+                        ? 'captcha_required'
+                        : 'no_indeed_apply',
+                },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: retryApply?.captcha
+                    ? 'captcha_required'
+                    : 'no_indeed_apply',
+                detail: retryApply?.error || '',
+                tabId,
+            };
+        }
+
+        Object.assign(applyResponse, retryApply);
     }
 
     if (applyResponse?.easyApply === false) {
@@ -4541,25 +4731,22 @@ async function processIndeedJobInner(
                 'warn',
                 `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
             );
-            await pauseForCaptchaReview(
+            const captchaOutcome = await waitForIndeedCaptchaResume(
                 session,
                 tabId,
                 job,
                 applyState,
             );
-            const captchaResume =
-                await waitForAutoApplyResumeWithTimeout(120_000);
 
-            if (captchaResume.stopRequested) {
+            if (captchaOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
 
-            if (captchaResume.status === 'paused_for_input') {
+            if (captchaOutcome.timedOut) {
                 await logSession(
                     'warn',
                     `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
                 );
-                await resumeAutoApplyFromPauseSilently();
 
                 return {
                     outcome: 'skipped',
@@ -4568,7 +4755,7 @@ async function processIndeedJobInner(
                 };
             }
 
-            session = captchaResume;
+            session = captchaOutcome.session || session;
             sameStepCount = 0;
             continue;
         }

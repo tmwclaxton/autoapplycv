@@ -39,8 +39,13 @@ assert.doesNotMatch(
 );
 assert.match(
     processIndeedJobBlock,
-    /advanceResponse\?\.error\?\.includes\('captcha'\)[\s\S]*?pauseForCaptchaReview\([\s\S]*?applyState,/,
+    /advanceResponse\?\.error\?\.includes\('captcha'\)[\s\S]*?waitForIndeedCaptchaResume\([\s\S]*?applyState,/,
     'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
+);
+assert.match(
+    processIndeedJobBlock,
+    /openResult\.captcha[\s\S]*?waitForIndeedCaptchaResume/,
+    'Indeed viewjob security check should pause before skipping the job',
 );
 
 const pauseForCaptchaReviewBlock = orchestrator.match(

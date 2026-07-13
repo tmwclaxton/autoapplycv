@@ -133,6 +133,7 @@ assert.equal(unknownCards.length, 1);
 assert.equal(unknownCards[0].indeedApply, null);
 
 assert.equal(searchApi.isTrustworthyIndeedJobId('890abcdef0123456'), false);
+assert.equal(searchApi.isTrustworthyIndeedJobId('456789abcdef0123'), false);
 assert.equal(searchApi.isTrustworthyIndeedJobId('d1484f00c2ca6382'), true);
 
 const serpDetailDom = new JSDOM(
@@ -188,5 +189,17 @@ const viewjobStickyApi = loadIndeedAutoApply(viewjobStickyDom.window);
 assert.ok(
     viewjobStickyDom.window.document.querySelector('#indeedApplyButton'),
 );
+
+const securityCheckDom = new JSDOM(
+    `<html><head><title>Security Check - Indeed.com</title></head>
+    <body><iframe src="https://www.google.com/recaptcha/enterprise/anchor"></iframe></body></html>`,
+    { url: 'https://uk.indeed.com/viewjob?jk=d1484f00c2ca6382' },
+);
+const securityCheckApi = loadIndeedAutoApply(securityCheckDom.window);
+const securityHealth = await securityCheckApi.scanPageHealth();
+
+assert.equal(securityHealth.ok, false);
+assert.equal(securityHealth.captcha, true);
+assert.equal(securityHealth.primary?.code, 'captcha');
 
 console.log('Indeed auto-apply offline tests passed.');

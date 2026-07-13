@@ -372,6 +372,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         const banned = new Set([
             '890abcdef0123456',
+            '456789abcdef0123',
             'cdef0123456789ab',
             '0123456789abcdef',
             'abcdef0123456789',
@@ -948,6 +949,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 prepared = true;
             }
 
+            if (readIndeedSecurityCheckpoint()) {
+                return null;
+            }
+
             const applyButton = readIndeedApplyButton();
 
             if (applyButton) {
@@ -989,6 +994,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
             }
 
             scrollPass += 1;
+
+            if (readIndeedSecurityCheckpoint()) {
+                return {
+                    success: false,
+                    captcha: true,
+                    error: 'Indeed security check - solve captcha manually.',
+                };
+            }
 
             const currentJk = readJobIdFromUrl();
             const onTargetJob = currentJk === target;
@@ -1168,6 +1181,14 @@ const AutoCVApplyIndeedAutoApply = (() => {
             return { success: true, easyApply: true };
         }
 
+        if (readIndeedSecurityCheckpoint()) {
+            return {
+                success: false,
+                captcha: true,
+                error: 'Indeed security check - solve captcha manually.',
+            };
+        }
+
         if (readExternalApplyMarker(readJobViewRoot(), { jobId })) {
             return {
                 success: false,
@@ -1237,6 +1258,25 @@ const AutoCVApplyIndeedAutoApply = (() => {
         );
 
         return Boolean(responseField?.value?.trim());
+    }
+
+    function readIndeedSecurityCheckpoint() {
+        const title = normalize(document.title);
+        const bodyText = normalize(document.body?.textContent);
+
+        if (/security check/i.test(title)) {
+            return true;
+        }
+
+        if (
+            /humans only|mistakenly blocked|security protections may|verify you are human|unusual traffic/i.test(
+                bodyText,
+            )
+        ) {
+            return true;
+        }
+
+        return readIndeedCaptchaPresent();
     }
 
     function readContinueButton() {
@@ -1939,6 +1979,32 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 primary: {
                     code: 'login_required',
                     message: 'Indeed sign-in required.',
+                },
+            };
+        }
+
+        if (readIndeedSecurityCheckpoint()) {
+            return {
+                ok: false,
+                captcha: true,
+                issues: [
+                    {
+                        code: 'captcha',
+                        message:
+                            'Indeed security check - solve captcha manually.',
+                    },
+                ],
+                blocking: [
+                    {
+                        code: 'captcha',
+                        message:
+                            'Indeed security check - solve captcha manually.',
+                    },
+                ],
+                primary: {
+                    code: 'captcha',
+                    message:
+                        'Indeed security check - solve captcha manually.',
                 },
             };
         }
