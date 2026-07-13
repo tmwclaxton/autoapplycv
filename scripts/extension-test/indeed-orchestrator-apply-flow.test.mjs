@@ -38,4 +38,21 @@ assert.doesNotMatch(
     'Indeed apply should not navigate to raw smartapply URLs (session handoff breaks)',
 );
 
+const sendIndeedMessageBlock = orchestrator.match(
+    /async function sendIndeedMessage\([\s\S]*?^async function sendTotalJobsMessage/m,
+)?.[0];
+
+assert.ok(sendIndeedMessageBlock, 'sendIndeedMessage block should exist');
+assert.match(
+    sendIndeedMessageBlock,
+    /waitForIndeedContentScript/,
+    'Indeed stale tab recovery should wait for the content script',
+);
+const waitIndex = sendIndeedMessageBlock.indexOf('waitForIndeedContentScript');
+const reloadIndex = sendIndeedMessageBlock.indexOf('chrome.tabs.reload');
+assert.ok(
+    waitIndex !== -1 && reloadIndex !== -1 && waitIndex < reloadIndex,
+    'Indeed stale tab recovery should wait before reloading the tab',
+);
+
 console.log('indeed-orchestrator-apply-flow tests passed.');

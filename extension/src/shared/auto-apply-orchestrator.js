@@ -1168,9 +1168,7 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                     `[indeed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
                 );
 
-                try {
-                    await chrome.tabs.reload(tabId);
-                    await waitForTabLoadComplete(tabId);
+                const resumeIndeedTab = async () => {
                     await waitForIndeedContentScript(tabId);
                     await sleep(
                         randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
@@ -1180,8 +1178,18 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                         { type: 'INDEED_ACCEPT_COOKIE_CONSENT' },
                         0,
                     ).catch(() => {});
+                };
+
+                try {
+                    await resumeIndeedTab();
                 } catch {
-                    // Fall through to retry send on next loop iteration.
+                    try {
+                        await chrome.tabs.reload(tabId);
+                        await waitForTabLoadComplete(tabId);
+                        await resumeIndeedTab();
+                    } catch {
+                        // Fall through to retry send on next loop iteration.
+                    }
                 }
 
                 continue;
