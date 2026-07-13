@@ -9,10 +9,18 @@ export function scoreFrame(count, isFormHost) {
 }
 
 const FRAME_CACHE_TTL_MS = 60_000;
+const FRAME_PROBE_TIMEOUT_MS = 4_000;
+const SNAPSHOT_TIMEOUT_MS = 45_000;
 const tabFrameCache = new Map();
 
 export function invalidateTabFrameCache(tabId) {
-    tabFrameCache.delete(tabId);
+    if (typeof tabId === 'number') {
+        tabFrameCache.delete(tabId);
+
+        return;
+    }
+
+    tabFrameCache.clear();
 }
 
 function readCachedFrameId(tabId) {
@@ -38,8 +46,29 @@ function cacheFrameId(tabId, frameId) {
     });
 }
 
-export async function sendTabMessage(tabId, message, frameId = 0) {
-    return chrome.tabs.sendMessage(tabId, message, { frameId });
+export async function sendTabMessage(tabId, message, frameId = 0, { timeoutMs = 20_000 } = {}) {
+    const sendPromise = chrome.tabs.sendMessage(tabId, message, { frameId });
+
+    if (!timeoutMs || timeoutMs <= 0) {
+        return sendPromise;
+    }
+
+    let timeoutId = null;
+
+    try {
+        return await Promise.race([
+            sendPromise,
+            new Promise((_, reject) => {
+                timeoutId = setTimeout(() => {
+                    reject(new Error(`Tab message timed out after ${timeoutMs}ms (${message?.type || 'unknown'})`));
+                }, timeoutMs);
+            }),
+        ]);
+    } finally {
+        if (timeoutId !== null) {
+            clearTimeout(timeoutId);
+        }
+    }
 }
 
 function isFinishedIndeedApplyUrl(url) {
@@ -220,7 +249,9 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
 
     if (!force) {
         try {
-            const mainFrame = await sendTabMessage(tabId, { type: 'COUNT_DRAFTABLE_FIELDS' }, 0);
+            const mainFrame = await sendTabMessage(tabId, { type: 'COUNT_DRAFTABLE_FIELDS' }, 0, {
+                timeoutMs: FRAME_PROBE_TIMEOUT_MS,
+            });
 
             logDebug('background', 'frame.discovery', 'Main frame probe result', {
                 frameId: 0,
@@ -246,7 +277,9 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
     const scoredFrames = await Promise.all(
         frameIds.map(async (frameId) => {
             try {
-                const response = await sendTabMessage(tabId, { type: 'COUNT_DRAFTABLE_FIELDS' }, frameId);
+                const response = await sendTabMessage(tabId, { type: 'COUNT_DRAFTABLE_FIELDS' }, frameId, {
+                    timeoutMs: FRAME_PROBE_TIMEOUT_MS,
+                });
 
                 if (!response?.success) {
                     logDebug('background', 'frame.discovery', 'Frame probe unsuccessful', { frameId }, tabId);
@@ -288,10 +321,17 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
         }
     }
 
-    cacheFrameId(tabId, bestFrameId);
+    // Never cache a failed probe as frame 0 - that traps Draft All / inventory on dead frames.
+    if (bestScore >= 0) {
+        cacheFrameId(tabId, bestFrameId);
+    } else {
+        invalidateTabFrameCache(tabId);
+    }
+
     logInfo('background', 'frame.discovery', 'Best frame selected after scoring', {
         bestFrameId,
         bestScore,
+        cached: bestScore >= 0,
     }, tabId);
 
     return bestFrameId;
@@ -332,10 +372,18 @@ export async function collectFieldsFromTab(tabId, frameId) {
 export async function collectSnapshotFromTab(tabId, frameId, profilePayload = null) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
 
-    return sendTabMessage(tabId, {
-        type: 'BUILD_FIELD_SNAPSHOT',
-        profilePayload,
-    }, resolvedFrameId);
+    try {
+        return await sendTabMessage(tabId, {
+            type: 'BUILD_FIELD_SNAPSHOT',
+            profilePayload,
+        }, resolvedFrameId, {
+            timeoutMs: SNAPSHOT_TIMEOUT_MS,
+        });
+    } catch (error) {
+        invalidateTabFrameCache(tabId);
+
+        throw error;
+    }
 }
 
 export async function clickInventoryRefOnTab(tabId, ref, frameId) {

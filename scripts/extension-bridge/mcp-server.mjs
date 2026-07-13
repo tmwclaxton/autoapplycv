@@ -592,6 +592,43 @@ server.tool(
 );
 
 server.tool(
+    'cancel_draft_all',
+    'Force-cancel a stuck Draft All run (clears the already-running lock and form-frame cache).',
+    {
+        reason: z.string().optional().describe('Optional cancel reason for debug logs.'),
+    },
+    async ({ reason }) => {
+        const result = await runCommand('cancel_draft_all', { reason }, 15000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'reload_tab',
+    'Hard-reload a tab so content scripts reinject after extension reload or a stuck frame probe.',
+    {
+        tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
+    },
+    async ({ tabId, windowId }) => {
+        const result = await runCommand('reload_tab', { tabId, windowId }, 30000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
     'read_field_values',
     'Read live DOM .value / checked state for input/textarea/select controls so Draft All can be verified against the actual page.',
     {

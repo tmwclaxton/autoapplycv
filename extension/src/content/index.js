@@ -375,16 +375,13 @@ async function ensureProfileLoaded() {
 }
 
 async function countDraftableFieldsInDocument() {
-    const profileData = await ensureProfileLoaded();
-
-    if (!profileData?.profile) {
-        return { success: false, count: 0, isFormHost: false };
-    }
-
+    // Avoid GET_PROFILE during frame probing. Background findBestFormFrameId probes every
+    // frame in parallel while Draft All holds the run lock; nested profile messaging can stall
+    // chrome.tabs.sendMessage and leave Draft All stuck as "already running".
     const settings = getAutofillSettings();
     const count = AutoCVApplyFormHeuristics.countDraftableFields(
         document,
-        profileData.profile,
+        profile?.profile || {},
         settings,
         {},
     );

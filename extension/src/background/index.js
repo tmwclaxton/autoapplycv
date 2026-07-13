@@ -406,6 +406,16 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 let draftAllRunning = false;
+let draftAllRunToken = 0;
+
+function cancelDraftAll(reason = 'cancelled') {
+    draftAllRunToken += 1;
+    draftAllRunning = false;
+    invalidateTabFrameCache();
+    logWarn('background', 'draft-all.cancel', 'Draft All cancelled', { reason });
+
+    return { success: true, cancelled: true, reason };
+}
 const savedCoverLetterSourceKeys = new Set();
 let sidePanelPort = null;
 
@@ -677,6 +687,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
 
         return true;
+    }
+
+    if (message.type === 'CANCEL_DRAFT_ALL' || message.type === 'RESET_DRAFT_ALL') {
+        sendResponse(cancelDraftAll(message.reason || message.type));
+
+        return false;
     }
 
     if (message.type === 'FORM_CONTENT_SIGNATURE_CHANGED') {
@@ -2023,6 +2039,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
     }
 
     draftAllRunning = true;
+    const runToken = ++draftAllRunToken;
     const perf = createPerfTimer({ logInfo, logDebug, tabId });
     perf.start('draft-all.total');
 
@@ -2476,7 +2493,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         return { error: error instanceof Error ? error.message : 'Draft-all failed.' };
     } finally {
-        draftAllRunning = false;
+        if (runToken === draftAllRunToken) {
+            draftAllRunning = false;
+        }
     }
 }
 
@@ -3377,6 +3396,37 @@ initExtensionBridge({
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return runDraftAll(resolvedTabId);
+        },
+        cancel_draft_all: async ({ reason = 'bridge_cancel' } = {}) => cancelDraftAll(reason),
+        reload_tab: async ({ tabId, windowId } = {}) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            invalidateTabFrameCache(resolvedTabId);
+            await chrome.tabs.reload(resolvedTabId);
+
+            return { success: true, tabId: resolvedTabId };
+        },
+        discard_tab: async ({ tabId, windowId } = {}) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            invalidateTabFrameCache(resolvedTabId);
+
+            if (typeof chrome.tabs.discard === 'function') {
+                await chrome.tabs.discard(resolvedTabId);
+            }
+
+            await chrome.tabs.reload(resolvedTabId);
+
+            return { success: true, tabId: resolvedTabId, discarded: true };
+        },
+        duplicate_tab: async ({ tabId, windowId } = {}) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            const tab = await chrome.tabs.duplicate(resolvedTabId);
+
+            return {
+                success: true,
+                tabId: tab?.id ?? null,
+                sourceTabId: resolvedTabId,
+                url: tab?.url ?? null,
+            };
         },
         indeed_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {

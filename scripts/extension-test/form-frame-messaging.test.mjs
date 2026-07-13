@@ -5,7 +5,12 @@ import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const { computeApplyDraftBatchTimeoutMs, pickIndeedApplyTabId } = await import(
+const {
+    computeApplyDraftBatchTimeoutMs,
+    invalidateTabFrameCache,
+    pickIndeedApplyTabId,
+    scoreFrame,
+} = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js')).href
 );
 
@@ -24,6 +29,18 @@ test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     );
 
     assert.equal(largeBatch, 300_000);
+});
+
+test('scoreFrame prefers form hosts and ignores invalid counts', () => {
+    assert.equal(scoreFrame(null, true), -1);
+    assert.equal(scoreFrame(3, false), 3);
+    assert.equal(scoreFrame(2, true), 1_000_002);
+});
+
+test('invalidateTabFrameCache clears all entries when tabId omitted', () => {
+    assert.equal(typeof invalidateTabFrameCache, 'function');
+    invalidateTabFrameCache();
+    invalidateTabFrameCache(123);
 });
 
 test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {

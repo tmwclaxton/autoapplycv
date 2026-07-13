@@ -101,6 +101,40 @@ assert.equal(
     '50000',
 );
 
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'What is your current/last salary?',
+            type: 'text',
+        },
+        {
+            application_settings: {
+                expected_salary_yearly: '2',
+                expected_salary_monthly: '3400',
+            },
+        },
+    ),
+    '40800',
+    'corrupt yearly=2 must not beat monthly salary (annualized)',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'What is your desired base salary for your next role?',
+            type: 'text',
+        },
+        {
+            application_settings: {
+                expected_salary_yearly: '2',
+                expected_salary_monthly: '3400',
+            },
+        },
+    ),
+    '40800',
+    'desired salary must also ignore corrupt yearly=2',
+);
+
 const yearsLeakProfile = {
     application_settings: {
         years_of_experience: '2',

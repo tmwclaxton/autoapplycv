@@ -56,13 +56,60 @@ function resolveNoticePeriodFromSettings(settings = {}, field = null) {
     return '2 weeks';
 }
 
+function parsePositiveSalaryNumber(value) {
+    const match = String(value ?? '').replace(/,/g, '').match(/\d+(?:\.\d+)?/);
+
+    if (!match) {
+        return null;
+    }
+
+    const amount = Number(match[0]);
+
+    return Number.isFinite(amount) && amount > 0 ? amount : null;
+}
+
+/**
+ * Reject profile salary corruption such as yearly="2" (years-of-experience leak).
+ * Accept monthly-scale (>=500) and yearly-scale (>=10000) amounts.
+ */
+function isPlausibleProfileSalaryAnswer(answer) {
+    const amount = parsePositiveSalaryNumber(answer);
+
+    return amount != null && amount >= 500;
+}
+
+/**
+ * Prefer plausible yearly figures. Profile corruption like yearly="2" must not win over monthly.
+ * Monthly/weekly values are annualized because Indeed CGI-style salary asks are annual.
+ */
 function resolveSalaryFromSettings(settings = {}) {
-    return (
-        settings.expected_salary_yearly
-        || settings.expected_salary_monthly
-        || settings.expected_salary_weekly
-        || '55000'
-    );
+    const yearly = parsePositiveSalaryNumber(settings.expected_salary_yearly);
+
+    if (yearly != null && yearly >= 10_000) {
+        return String(Math.round(yearly));
+    }
+
+    const monthly = parsePositiveSalaryNumber(settings.expected_salary_monthly);
+
+    if (monthly != null && monthly >= 500) {
+        return String(Math.round(monthly * 12));
+    }
+
+    const weekly = parsePositiveSalaryNumber(settings.expected_salary_weekly);
+
+    if (weekly != null && weekly >= 100) {
+        return String(Math.round(weekly * 52));
+    }
+
+    return '55000';
+}
+
+function shouldUseProfileSalaryAnswer(answer, label) {
+    if (!isSalaryScreenerQuestion(label)) {
+        return true;
+    }
+
+    return isPlausibleProfileSalaryAnswer(answer);
 }
 
 function normalizeHeuristicAnswerForField(answer, field) {
@@ -130,8 +177,12 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     };
 
     const identityAnswer = resolveIdentityProfileAnswer(normalizedField, profileData);
+    const salaryLabel = normalizedField.question || normalizedField.label;
 
-    if (isMeaningfulAnswer(identityAnswer)) {
+    if (
+        isMeaningfulAnswer(identityAnswer)
+        && shouldUseProfileSalaryAnswer(identityAnswer, salaryLabel)
+    ) {
         return normalizeHeuristicAnswerForField(identityAnswer, normalizedField);
     }
 
@@ -140,7 +191,10 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         profileData,
     );
 
-    if (isMeaningfulAnswer(preferenceAnswer)) {
+    if (
+        isMeaningfulAnswer(preferenceAnswer)
+        && shouldUseProfileSalaryAnswer(preferenceAnswer, salaryLabel)
+    ) {
         return normalizeHeuristicAnswerForField(preferenceAnswer, normalizedField);
     }
 
@@ -153,7 +207,10 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     if (mapping?.path) {
         const profileValue = readProfileValue(profileData, mapping.path);
 
-        if (isMeaningfulAnswer(profileValue)) {
+        if (
+            isMeaningfulAnswer(profileValue)
+            && shouldUseProfileSalaryAnswer(profileValue, salaryLabel)
+        ) {
             return normalizeHeuristicAnswerForField(profileValue, normalizedField);
         }
     }
@@ -164,7 +221,10 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         questionMemo,
     );
 
-    if (isMeaningfulAnswer(savedAnswer)) {
+    if (
+        isMeaningfulAnswer(savedAnswer)
+        && shouldUseProfileSalaryAnswer(savedAnswer, salaryLabel)
+    ) {
         return normalizeHeuristicAnswerForField(savedAnswer, normalizedField);
     }
 
