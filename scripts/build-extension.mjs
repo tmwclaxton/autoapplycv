@@ -386,6 +386,10 @@ copyFileSync(
     join(DIST, 'auto-apply-fit.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/auto-apply-role.js'),
+    join(DIST, 'auto-apply-role.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-start-filters.js'),
     join(DIST, 'auto-apply-start-filters.js'),
 );

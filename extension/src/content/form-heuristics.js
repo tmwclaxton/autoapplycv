@@ -98,6 +98,98 @@ const AutoCVApplyFormHeuristics = (() => {
         return testId === 'keyword-search-input' || testId === 'location-search-input';
     }
 
+    function isIndeedJobsSearchPage(doc = document) {
+        try {
+            const { hostname, pathname } = doc.location || {};
+
+            if (hostname?.includes('smartapply.indeed.com')) {
+                return false;
+            }
+
+            return /(^|\.)indeed\.(com|co\.uk)$/i.test(hostname || '')
+                && /\/jobs\b/i.test(pathname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Job-board keyword/location search chrome on results pages - not application questions.
+     */
+    function isJobBoardNavSearchInput(element) {
+        if (!element || element.tagName?.toLowerCase() !== 'input') {
+            return false;
+        }
+
+        if (isGlassdoorNavSearchInput(element)) {
+            return true;
+        }
+
+        const doc = element.ownerDocument || document;
+        const hostname = doc.location?.hostname || '';
+        const pathname = doc.location?.pathname || '';
+
+        if (/linkedin\.com$/i.test(hostname) && /\/jobs\/search/i.test(pathname)) {
+            if (
+                element.closest?.('.jobs-search-box')
+                || element.classList?.contains('jobs-search-box__text-input')
+                || element.classList?.contains('jobs-search-global-typeahead__input')
+                || element.hasAttribute?.('data-job-search-box-keywords-input-trigger')
+                || element.hasAttribute?.('data-job-search-box-location-input-trigger')
+            ) {
+                return true;
+            }
+        }
+
+        if (isIndeedJobsSearchPage(doc)) {
+            const id = String(element.id || '').toLowerCase();
+            const name = String(element.name || '').toLowerCase();
+            const testId = String(element.getAttribute?.('data-testid') || '').toLowerCase();
+
+            if (
+                id === 'text-input-what'
+                || id === 'text-input-where'
+                || testId.includes('what')
+                || testId.includes('where')
+                || (name === 'q' && element.closest?.('form'))
+            ) {
+                return true;
+            }
+        }
+
+        if (/totaljobs\.com$/i.test(hostname)) {
+            if (element.closest?.('#app-searchBar, [data-atx-component="searchBar"], .header-searchbar-container')) {
+                return true;
+            }
+        }
+
+        if (/reed\.co\.uk$/i.test(hostname) && /\/jobs\b/i.test(pathname)) {
+            const testId = String(element.getAttribute?.('data-qa') || '').toLowerCase();
+
+            if (
+                testId === 'searchkeywords'
+                || testId === 'searchlocation'
+                || element.closest?.('[data-qa="searchbox"], [data-qa="search-form"], form[action*="/jobs/"]')
+            ) {
+                return true;
+            }
+        }
+
+        if (/(^|\.)cv-library\.co\.uk$/i.test(hostname) && /\/jobs\b/i.test(pathname)) {
+            if (element.closest?.('#keywords, .search-form, [data-qa="search-keywords"], header form')) {
+                return true;
+            }
+        }
+
+        if (/simplyhired\.(com|co\.uk)$/i.test(hostname) && /\/search\b/i.test(pathname)) {
+            if (element.closest?.('#qc-start, .SearchBox, form[action*="/search"]')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function isIndeedApplyPage(root = document) {
         const doc = root.ownerDocument || root.defaultView?.document || (root.nodeType === 9 ? root : document);
 
@@ -8040,7 +8132,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
-            if (isGlassdoorNavSearchInput(element)) {
+            if (isJobBoardNavSearchInput(element)) {
                 return false;
             }
 
@@ -8286,7 +8378,7 @@ const AutoCVApplyFormHeuristics = (() => {
         const leverSurveyControl = isLeverDeferredSurveyControl(element);
         const chosenSelect = isChosenEnhancedSelect(element);
 
-        if (isSiteSearchChrome(element)) {
+        if (isSiteSearchChrome(element) || isJobBoardNavSearchInput(element)) {
             return false;
         }
 

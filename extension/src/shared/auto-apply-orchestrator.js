@@ -20,6 +20,9 @@ import {
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
 import {
+    sanitizeAutoApplyRoleDescription,
+} from './auto-apply-role.js';
+import {
     buildJobSearchUrl,
     CV_LIBRARY_PLATFORM_ID,
     GLASSDOOR_PLATFORM_ID,
@@ -7004,7 +7007,11 @@ export async function startAutoApply({
 
         platform = normalizedPlatform;
 
-        const trimmedRole = String(roleDescription || '').trim();
+        const profileData = await getProfileForAutoApply();
+        const trimmedRole = sanitizeAutoApplyRoleDescription(
+            String(roleDescription || '').trim(),
+            profileData,
+        );
 
         if (!trimmedRole) {
             throw new Error(
@@ -7084,9 +7091,9 @@ export async function startAutoApply({
         broadcastAutoApplyStatus(session);
 
         const runPromise = (async () => {
-            const profileData = await getProfileForAutoApply();
+            const loopProfileData = profileData ?? await getProfileForAutoApply();
 
-            return runAutoApplyLoop(session, runDraftAll, profileData);
+            return runAutoApplyLoop(session, runDraftAll, loopProfileData);
         })()
             .catch(async (error) => {
                 const failedSession = await updateSession((current) => {
