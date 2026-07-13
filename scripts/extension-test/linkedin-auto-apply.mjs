@@ -622,6 +622,7 @@ const cases = [
                       <form>
                         <div class="ph5"></div>
                         <footer>
+                          <p>Submitting this application won't change your LinkedIn profile.</p>
                           <button data-easy-apply-next-button="" aria-label="Continue to next step" class="artdeco-button artdeco-button--primary" type="button">Next</button>
                         </footer>
                       </form>

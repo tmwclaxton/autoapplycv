@@ -1780,11 +1780,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         // Next alone is not enough: LinkedIn opens an empty shell with Next
         // while the form is still loading behind artdeco-loader.
+        // Footers say "won't change your LinkedIn profile" - never scan full
+        // modal textContent for field labels.
         if (primary?.action === 'next') {
-            const bodyText = normalize(modal.textContent || '');
+            const formBody =
+                modal.querySelector('form .ph5') ||
+                modal.querySelector(
+                    '.jobs-easy-apply-content, [data-test-form-element]',
+                ) ||
+                null;
+            const bodyText = normalize(formBody?.textContent || '');
 
             if (
-                /\b(first name|last name|email|phone|mobile|city|resume|cv|linkedin profile|years of experience|how many years)\b/i.test(
+                bodyText &&
+                /\b(first name|last name|email|phone|mobile|city|resume|cv|years of experience|how many years)\b/i.test(
                     bodyText,
                 )
             ) {
@@ -1800,9 +1809,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
         }
 
-        const bodyText = normalize(modal.textContent || '');
+        const reviewRoot =
+            modal.querySelector(
+                '.jobs-easy-apply-content, form .ph5, .artdeco-modal__content',
+            ) || modal;
+        const reviewText = normalize(reviewRoot.textContent || '');
 
-        return /review your application/i.test(bodyText);
+        return /review your application/i.test(reviewText);
     }
 
     async function nudgeEasyApplyModalFocus(modal = readEasyApplyModal()) {
