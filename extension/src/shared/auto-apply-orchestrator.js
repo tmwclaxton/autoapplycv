@@ -3198,6 +3198,89 @@ async function processLinkedInJob(
             }
 
             if (stepLoadAttempts >= 3) {
+                const stuckModal = await readLinkedInModalState(tabId, {
+                    retries: 3,
+                });
+
+                if (stuckModal?.open) {
+                    const prompt =
+                        'LinkedIn Easy Apply opened but the form content never loaded. Click into the Easy Apply modal (or close and reopen it), wait until fields appear, then resume Auto Apply in Assist.';
+
+                    await logSession(
+                        'warn',
+                        `[paused] ${job.title}: Easy Apply form shell empty after 3 waits - user intervention needed.`,
+                    );
+
+                    await updateSession((current) =>
+                        pauseAutoApplyForInput(
+                            appendAutoApplyLog(
+                                current,
+                                'warn',
+                                `[paused] ${job.title}: Easy Apply form never finished loading. Interact with the LinkedIn modal, then resume.`,
+                            ),
+                            {
+                                job: {
+                                    jobId: job.jobId,
+                                    title: job.title,
+                                    company: job.company,
+                                },
+                                stepFingerprint:
+                                    stuckModal.stepFingerprint ||
+                                    'easy-apply-empty-shell',
+                                tabId,
+                                blockerField: null,
+                                clarifyingQuestion: prompt,
+                                questionText: prompt,
+                                resumeAt: 'fill_and_advance',
+                                validationAttempt: 0,
+                                lastAttempt: null,
+                                validationError: null,
+                                captcha: false,
+                                easyApplyEmptyShell: true,
+                            },
+                        ),
+                    );
+
+                    chrome.runtime
+                        .sendMessage({
+                            type: 'AUTO_APPLY_PAUSED',
+                            reason: 'easy_apply_empty_shell',
+                            job,
+                        })
+                        .catch(() => {});
+
+                    const resumeWait =
+                        await waitForAutoApplyResumeWithTimeout(180_000);
+
+                    if (resumeWait.stopRequested) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'stop_requested',
+                            tabId,
+                        };
+                    }
+
+                    if (resumeWait.status === 'paused_for_input') {
+                        await resumeAutoApplyFromPauseSilently();
+                        await recordAnalyticsEvent(session, 'skipped', job, {
+                            metadata: {
+                                reason: 'easy_apply_empty_shell',
+                            },
+                        });
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'easy_apply_empty_shell',
+                            detail: 'Easy Apply form shell never loaded fields.',
+                            tabId,
+                        };
+                    }
+
+                    stepLoadAttempts = 0;
+                    lastStepFingerprint = null;
+                    continue;
+                }
+
                 await logSession(
                     'warn',
                     `[linkedin_load] ${job.title}: resetting stuck Easy Apply modal.`,
