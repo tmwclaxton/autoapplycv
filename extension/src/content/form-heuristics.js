@@ -7235,6 +7235,98 @@ const AutoCVApplyFormHeuristics = (() => {
         return Boolean(element.closest('[data-testid="phone-number-field"], [class*="mosaic-provider-module-apply-contact-info"]'));
     }
 
+    function isTotaljobsGenesisPhoneInput(element) {
+        if (!element || element.type !== 'tel') {
+            return false;
+        }
+
+        const testId = element.getAttribute?.('data-testid') || '';
+        const id = element.id || '';
+
+        return testId === 'input-phoneNumber-main' || id === 'input-main-phoneNumber';
+    }
+
+    function getTotaljobsGenesisPhoneCountrySelect(telInput) {
+        const scope = telInput?.closest?.('[data-genesis-element], form, [data-testid="application-form"]')
+            || telInput?.ownerDocument;
+
+        return scope?.querySelector?.('[data-testid="select-phoneNumber-code"]') || null;
+    }
+
+    async function setTotaljobsGenesisPhoneCountrySelect(select, dialCodeDigits) {
+        if (!select || !dialCodeDigits) {
+            return true;
+        }
+
+        const dialValue = `+${dialCodeDigits}`;
+        const match = findSelectOptionMatch(Array.from(select.options), dialValue);
+
+        if (!match) {
+            heuristicsLog('warn', 'apply.phone', 'Totaljobs country select option not found', {
+                dialValue,
+            });
+
+            return false;
+        }
+
+        if (select.value === match.value) {
+            return true;
+        }
+
+        select.value = match.value;
+        select.dispatchEvent(new Event('input', { bubbles: true }));
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        await pauseMs(80);
+
+        return select.value === match.value;
+    }
+
+    async function setTotaljobsGenesisPhoneInputValue(element, value) {
+        const parts = parseIndeedPhoneParts(value);
+
+        if (!parts.nationalDigits) {
+            return false;
+        }
+
+        const countrySelect = getTotaljobsGenesisPhoneCountrySelect(element);
+
+        if (countrySelect && parts.dialCodeDigits) {
+            const countrySet = await setTotaljobsGenesisPhoneCountrySelect(countrySelect, parts.dialCodeDigits);
+
+            if (!countrySet) {
+                heuristicsLog('warn', 'apply.phone', 'Totaljobs country select not set before national fill', {
+                    dialCodeDigits: parts.dialCodeDigits,
+                });
+            }
+        }
+
+        const national = parts.nationalDigits;
+
+        element.focus();
+        dispatchPointerClick(element);
+        setNativeValue(element, '');
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+
+        const filled = fillTextControlInstant(element, national);
+
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        const readbackDigits = normalizePhoneDigits(element.value || '');
+        const expectedDigits = normalizePhoneDigits(national);
+        const ok = filled
+            || readbackDigits === expectedDigits
+            || readbackDigits.endsWith(expectedDigits);
+
+        if (ok) {
+            heuristicsLog('info', 'apply.phone', 'Totaljobs genesis phone input filled', {
+                valuePreview: String(element.value || '').slice(0, 80),
+                dialCodeDigits: parts.dialCodeDigits,
+            });
+        }
+
+        return ok;
+    }
+
     function getIndeedPhoneCountryCombobox(telInput) {
         const field = telInput?.closest?.('[data-testid="phone-number-field"]');
 
@@ -7625,6 +7717,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (element.type === 'tel' && isIndeedApplyPhoneInput(element)) {
             return setIndeedApplyPhoneInputValue(element, value);
+        }
+
+        if (element.type === 'tel' && isTotaljobsGenesisPhoneInput(element)) {
+            return setTotaljobsGenesisPhoneInputValue(element, value);
         }
 
         if (element.type === 'tel' && isReactPhoneNumberInput(element)) {

@@ -2,11 +2,11 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T07:00:00+01:00",
-  "campaign_status": "final_wrap",
-  "scenarios_tested_count": 15,
-  "jobs_attempted_count": 113,
-  "jobs_submitted_count": 1,
+  "updated_at": "2026-07-13T07:16:00+01:00",
+  "campaign_status": "in_progress",
+  "scenarios_tested_count": 16,
+  "jobs_attempted_count": 115,
+  "jobs_submitted_count": 2,
   "audit_report": {
     "audited_at": "2026-07-13T06:25:00+01:00",
     "verdict": "User concern valid: 8 extension fix commits each included targeted tests (all pass on re-run 06:22 BST). Campaign bootstrap (persona seeder, live-review runner, start-filters module) was used live but largely UNCOMMITTED until this audit.",
@@ -186,6 +186,36 @@
       "evidence": "Regression root cause: readAlreadyAppliedMarker required absence of Apply with Indeed, so post-submit jobs with re-apply CTA were not skipped. Strong applied-badge signals now win; orchestrator propagates alreadyApplied through open/select/apply paths."
     },
     {
+      "fix_sha": "pending",
+      "fix_label": "Totaljobs Genesis phone paste fill (split +44 select + national digits)",
+      "reloaded_version": "2.25.64",
+      "timestamp": "2026-07-13T07:15:00+01:00",
+      "result": "partial",
+      "mcp_steps": [
+        "npm run extension:build-reload -> v2.25.64",
+        "totaljobs smart-apply NSD AI Software Engineer tab 1443889029",
+        "start_draft_all -> phone 7837370669 + country +44; read_form_validation no errors",
+        "submit-button still disabled (CV attached); auto_apply paused false-positive on first name"
+      ],
+      "evidence": "Char-by-char tel fill truncated to 78373706 before fix; v2.25.64 paste fill sets full national number. Submit not verified - Send application disabled and orchestrator pauses on pre-filled first name."
+    },
+    {
+      "fix_sha": "live-session",
+      "fix_label": "LinkedIn Easy Apply uk_software London submit",
+      "reloaded_version": "2.25.63",
+      "timestamp": "2026-07-13T07:08:00+01:00",
+      "result": "pass",
+      "mcp_steps": [
+        "LINKEDIN_OPEN_EASY_APPLY DrinkAbility Full Stack Developer Whisky Industry 4438672500",
+        "start_draft_all -> email/phone/resume filled",
+        "read_form_validation no errors",
+        "LINKEDIN_ADVANCE_EASY_APPLY -> submitted=true confirmation sent to DrinkAbility",
+        "LINKEDIN_VERIFY_SUBMITTED -> submitted=true",
+        "save_fixture post-apply-next-best-action"
+      ],
+      "evidence": "1 LinkedIn submit verified this session. Primer Front End job reached Review but submit click failed (tab drift)."
+    },
+    {
       "fix_sha": "9d70209f",
       "fix_label": "Indeed UK IPL phone paste fill + uk_software persona phone",
       "reloaded_version": "2.25.63",
@@ -236,7 +266,8 @@
     "6addace2 Fix Glassdoor card scope and Indeed apply tab hygiene",
     "db1806d1 Fail Glassdoor Auto Apply on country redirect feeds",
     "bd552218 Fix Indeed already-applied skip when re-apply button shows",
-    "v2.25.63 Indeed UK IPL phone paste fill; uk_software persona phone +447837370669"
+    "v2.25.63 Indeed UK IPL phone paste fill; uk_software persona phone +447837370669",
+    "v2.25.64 Totaljobs Genesis phone paste fill (+44 select + national digits)"
   ],
   "retest_blocks": [],
   "open_gaps": [
@@ -777,7 +808,7 @@
     },
     "verdict": "Campaign final wrap at 07:00 London. 15/116 queue scenarios tested; defensible P0 2/12 pass (p0-10 offline, p0-11 live submit); 1 job submitted. Routing-only runs do not count as pass."
   },
-  "extension_version": "2.25.62",
+  "extension_version": "2.25.64",
   "live_verify_completed_at": "2026-07-13T06:36:00+01:00",
   "live_verify_discipline": "edit -> npm run extension:build-reload -> extension_status -> MCP scenario -> log pass/fail"
 }
