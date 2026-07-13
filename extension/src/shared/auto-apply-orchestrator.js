@@ -4560,7 +4560,9 @@ async function processIndeedJobInner(
 
                 if (
                     reviewGate?.captchaPresent ||
-                    applyState.captchaPresent
+                    applyState.captchaPresent ||
+                    reviewGate?.submitDisabled ||
+                    applyState.submitDisabled
                 ) {
                     await logSession(
                         'warn',

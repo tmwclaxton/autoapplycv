@@ -44,8 +44,8 @@ assert.match(
 );
 assert.match(
     processIndeedJobBlock,
-    /\[review\].*attempting submit[\s\S]*?captchaPresent[\s\S]*?waitForIndeedCaptchaResume/,
-    'Indeed review should pause for captcha before FILL_AND_ADVANCE when captchaPresent',
+    /\[review\].*attempting submit[\s\S]*?captchaPresent[\s\S]*?submitDisabled[\s\S]*?waitForIndeedCaptchaResume/,
+    'Indeed review should pause for captcha/disabled Submit before FILL_AND_ADVANCE',
 );
 assert.doesNotMatch(
     processIndeedJobBlock,

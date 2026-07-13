@@ -1250,27 +1250,32 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readIndeedCaptchaPresent() {
+        // Explicit Indeed apply captcha hosts. Prefer existence over "mostly
+        // visible" - the challenge iframe often has zero layout until expanded,
+        // but Submit stays disabled until the user completes it.
         for (const selector of [
             '[data-testid="captcha"]',
             '#captcha-wrapper',
         ]) {
             const element = document.querySelector(selector);
 
-            if (
-                element instanceof HTMLElement &&
-                isElementMostlyVisible(element)
-            ) {
-                return true;
+            if (!(element instanceof HTMLElement)) {
+                continue;
             }
+
+            const style = window.getComputedStyle(element);
+
+            if (style.display === 'none' || style.visibility === 'hidden') {
+                continue;
+            }
+
+            return true;
         }
 
         for (const iframe of document.querySelectorAll(
             'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"], iframe[title*="recaptcha challenge" i]',
         )) {
-            if (
-                !(iframe instanceof HTMLElement) ||
-                !isElementMostlyVisible(iframe)
-            ) {
+            if (!(iframe instanceof HTMLElement)) {
                 continue;
             }
 
@@ -1278,12 +1283,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
             const src = (iframe.getAttribute('src') || '').toLowerCase();
 
             // Challenge / bframe widgets block submit. Tiny anchor badges alone do not.
+            if (title.includes('challenge') || src.includes('/bframe')) {
+                return true;
+            }
+
             if (
-                title.includes('challenge') ||
-                src.includes('/bframe') ||
-                Boolean(
-                    iframe.closest('#captcha-wrapper, [data-testid="captcha"]'),
-                )
+                iframe.closest('#captcha-wrapper, [data-testid="captcha"]') &&
+                isElementMostlyVisible(iframe)
             ) {
                 return true;
             }
@@ -1757,10 +1763,12 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 submitButton?.disabled ||
                 submitButton?.getAttribute('aria-disabled') === 'true'
             ) {
+                // Disabled Submit on review is almost always captcha/security gated
+                // on smartapply - surface captcha so Auto Apply pauses + alerts.
                 return {
                     success: false,
                     action: 'blocked',
-                    error: 'Submit button is disabled on Indeed review step.',
+                    error: 'Submit blocked by captcha on Indeed review step.',
                     validationErrors: readValidationErrors(),
                     stepFingerprint: previousFingerprint,
                 };
