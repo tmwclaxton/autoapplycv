@@ -78,7 +78,12 @@ test('buildDraftAllApplyPlan routes prior employer contact fields to pending sid
             { id: 0, ref: 'f1', label: 'Supervisor phone', field_type: 'tel', context: 'Previous employment' },
             { id: 1, ref: 'f2', label: 'Why this role?', field_type: 'textarea' },
         ],
-        profileData,
+        profileData: {
+            full_name: 'Toby Claxton',
+            application_settings: {
+                phone_country_code: '+44',
+            },
+        },
         questionMemo: {},
     });
 
@@ -267,6 +272,201 @@ test('partitionDraftAllBatchAnswers keeps identity answers over null LLM output'
     assert.equal(toApply[0].answer, 'Toby');
     assert.equal(toApply[1].answer, 'Grounded answer.');
     assert.equal(pending.length, 0);
+});
+
+test('buildDraftAllApplyPlan applies CGI-style Indeed screener heuristics before LLM', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'What is your current notice period/availability?',
+                field_type: 'text',
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Please indicate where you heard about CGI',
+                field_type: 'text',
+            },
+            {
+                id: 2,
+                ref: 'f2',
+                label: "If 'Yes' please indicate clearance level (BS, SC, DV, CTC etc.) or N/A if not applicable.",
+                field_type: 'text',
+            },
+            { id: 3, ref: 'f3', label: 'Why do you want this role?', field_type: 'textarea' },
+        ],
+        profileData: {
+            ...profileData,
+            application_settings: {
+                ...profileData.application_settings,
+                notice_period: '2',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'screener'), true);
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+    );
+
+    assert.equal(answersByRef.get('f0'), '2 weeks');
+    assert.equal(answersByRef.get('f1'), 'Indeed');
+    assert.equal(answersByRef.get('f2'), 'N/A');
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f3');
+});
+
+test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners deterministically', () => {
+    const ukProfile = {
+        ...profileData,
+        country: 'United Kingdom',
+        profile: {
+            ...profileData.profile,
+            country: 'United Kingdom',
+        },
+        application_settings: {
+            ...profileData.application_settings,
+            notice_period: '2',
+            years_of_experience: '2',
+            legally_authorized: 'yes',
+            visa_sponsorship: 'no',
+            expected_salary_yearly: '40800',
+        },
+        application_answers: [
+            { question: 'What is your current/last salary?', answer: '40800' },
+            { question: 'What is your current total package (e.g. Salary + Benefits)', answer: '40800' },
+            { question: 'In the past five years, have you spent 28 or more consecutive days outside the UK?', answer: 'No' },
+            { question: 'What is your desired base salary for your next role?', answer: '40800' },
+        ],
+    };
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { ref: 'f0', label: 'What is your current notice period/availability?', field_type: 'text' },
+            {
+                ref: 'f1',
+                label: 'Do you require a work permit to live and work in the UK?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            { ref: 'f2', label: 'What is your current/last salary?', field_type: 'text' },
+            { ref: 'f3', label: 'What is your current total package (e.g. Salary + Benefits)', field_type: 'text' },
+            {
+                ref: 'f4',
+                label: 'In the past five years, have you spent 28 or more consecutive days outside the UK?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            { ref: 'f5', label: 'What is your desired base salary for your next role?', field_type: 'text' },
+            {
+                ref: 'f6',
+                label: 'Do you hold a Current level of Security Clearance?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                ref: 'f7',
+                label: "If 'Yes' please indicate clearance level (BS, SC, DV, CTC etc.) or N/A if not applicable.",
+                field_type: 'text',
+            },
+            { ref: 'f8', label: 'Please indicate where you heard about CGI', field_type: 'text' },
+            {
+                ref: 'f9',
+                label: 'If you were referred via a CGI employee, please provide their name and staff number if you have it or N/A if not applicable.',
+                field_type: 'text',
+            },
+        ],
+        profileData: ukProfile,
+        questionMemo: {},
+    });
+
+    const answersByRef = new Map();
+
+    for (const stage of plan.applyStages) {
+        for (const answer of stage.answers) {
+            answersByRef.set(answer.ref, answer.answer);
+        }
+    }
+
+    assert.equal(answersByRef.get('f0'), '2 weeks');
+    assert.equal(answersByRef.get('f1'), 'No');
+    assert.equal(answersByRef.get('f2'), '40800');
+    assert.equal(answersByRef.get('f6'), 'No');
+    assert.equal(answersByRef.get('f7'), 'N/A');
+    assert.equal(answersByRef.get('f8'), 'Indeed');
+    assert.equal(answersByRef.get('f9'), 'N/A');
+    assert.equal(plan.llmFields.length, 0);
+    assert.equal(plan.pendingFields.length, 0);
+});
+
+test('buildDraftAllApplyPlan applies Indeed questions-module screener heuristics before LLM', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'What percentage of time are you willing to travel for work?',
+                field_type: 'radio',
+                options: ['0%', '25%', '50%', '75%', '100%'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'How many years of software development experience do you have?',
+                field_type: 'text',
+                dom: { id: 'number-input-:r1l:' },
+            },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'How many years of Go experience do you have?',
+                field_type: 'text',
+                dom: { id: 'number-input-:r1o:' },
+            },
+            {
+                id: 3,
+                ref: 'f3',
+                label: 'What is the highest level of education you have completed?',
+                field_type: 'select',
+                options: ['None', 'GCSE or equivalent', 'A-Level or equivalent'],
+            },
+            { id: 4, ref: 'f4', label: 'Why do you want this role?', field_type: 'textarea' },
+        ],
+        profileData: {
+            ...profileData,
+            application_settings: {
+                ...profileData.application_settings,
+                years_of_experience: '5',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'screener'), true);
+    const screener = plan.applyStages.find((stage) => stage.type === 'screener');
+    assert.equal(screener.answers.length, 4);
+    assert.equal(
+        screener.answers.find((answer) => answer.ref === 'f0')?.answer,
+        '0%',
+    );
+    assert.equal(
+        screener.answers.find((answer) => answer.ref === 'f1')?.answer,
+        '5',
+    );
+    assert.equal(
+        screener.answers.find((answer) => answer.ref === 'f2')?.answer,
+        '5',
+    );
+    assert.equal(
+        screener.answers.find((answer) => answer.ref === 'f3')?.answer,
+        'A-Level or equivalent',
+    );
+    assert.equal(plan.llmFields.length, 1);
+    assert.equal(plan.llmFields[0].ref, 'f4');
 });
 
 test('cover letter question memo does not auto-apply across jobs', () => {

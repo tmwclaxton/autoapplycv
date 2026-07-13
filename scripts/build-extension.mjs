@@ -293,9 +293,17 @@ copyFileSync(
     join(SRC, 'shared/draft-all/consent-fields.js'),
     join(DIST, 'draft-all/consent-fields.js'),
 );
-copyFileSync(
-    join(SRC, 'shared/draft-all/pipeline.js'),
+writeFileSync(
     join(DIST, 'draft-all-pipeline.js'),
+    readFileSync(join(SRC, 'shared/draft-all/pipeline.js'), 'utf8')
+        .replace(
+            "from './consent-fields.js'",
+            "from './draft-all/consent-fields.js'",
+        )
+        .replace(
+            "from '../auto-apply-screener-answer.js'",
+            "from './auto-apply-screener-answer.js'",
+        ),
 );
 copyFileSync(
     join(SRC, 'shared/pending-fields.js'),

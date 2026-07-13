@@ -3,7 +3,7 @@ import {
     findExactChoiceOptionMatch,
     normalizeFieldAnswerForQuestion,
 } from './answer-normalization.js';
-import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
+import { isMeaningfulAnswer, isMeaningfulFieldAnswer } from './draft-all/answer-utils.js';
 import {
     isAgreementCheckboxField,
     isElectronicSignatureField,
@@ -14,7 +14,7 @@ import { normalizeQuestionLabel } from './draft-all-optimizations.js';
 
 export { isMarketingOrFutureConsentField } from './draft-all/consent-fields.js';
 
-export { isMeaningfulAnswer } from './draft-all/answer-utils.js';
+export { isMeaningfulAnswer, isMeaningfulFieldAnswer } from './draft-all/answer-utils.js';
 
 function looksLikePhoneAnswer(answer) {
     const compact = String(answer || '').trim().replace(/\s+/g, '');
@@ -1835,7 +1835,7 @@ export function isProfileMappingMismatch(field, mapping) {
 
 const NAMED_WORK_AUTH_COUNTRIES = [
     ['united states', 'usa', 'u.s.', 'u.s.a', 'america', 'us'],
-    ['united kingdom', 'u.k.', 'britain', 'england', 'scotland', 'wales'],
+    ['united kingdom', 'u.k.', 'uk', 'britain', 'england', 'scotland', 'wales'],
     ['germany', 'deutschland'],
     ['france'],
     ['canada'],
@@ -1853,6 +1853,14 @@ function haystackMentionsWorkAuthCountry(haystack, aliases) {
     for (const alias of aliases) {
         if (alias === 'us') {
             if (/\b(?:the |in )?us\b/.test(haystack)) {
+                return true;
+            }
+
+            continue;
+        }
+
+        if (alias === 'uk') {
+            if (/\b(?:the )?uk\b/.test(haystack)) {
                 return true;
             }
 
@@ -1914,9 +1922,20 @@ function profileMatchesWorkAuthCountryAliases(profileCountry, aliases) {
     );
 }
 
+function isWorkPermitRequirementQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    return /\b(require|requiring|need)\b/.test(normalized)
+        && /\b(work permit|visa)\b/.test(normalized);
+}
+
 function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
+    const label = field?.label || field?.question || '';
     const profileInCountry = profileMatchesWorkAuthCountryAliases(profileCountry, aliases);
-    const yesNoAnswer = profileInCountry ? 'Yes' : 'No';
+    const authorizedAnswer = profileInCountry ? 'Yes' : 'No';
+    const yesNoAnswer = isWorkPermitRequirementQuestion(label)
+        ? (authorizedAnswer === 'Yes' ? 'No' : 'Yes')
+        : authorizedAnswer;
 
     if (field?.field_type === 'radio' || field?.field_type === 'select' || field?.dom?.role === 'combobox') {
         return yesNoAnswer;
@@ -3156,6 +3175,17 @@ export function partitionScreeningTrapFields(fields, profileData) {
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
 
+        if (
+            isSecurityClearanceQuestionLabel(label)
+            && !profileInUnitedStates(profileData)
+            && (field?.field_type === 'radio' || field?.field_type === 'select')
+            && Array.isArray(field?.options)
+            && field.options.some((option) => /^no\b/i.test(String(option)))
+        ) {
+            remainingFields.push(field);
+            continue;
+        }
+
         if (isEmployerScreeningTrapLabel(label)
             || (isSecurityClearanceQuestionLabel(label) && !profileInUnitedStates(profileData))
             || (isItarEligibilityQuestionLabel(label) && !profileInUnitedStates(profileData))
@@ -3314,7 +3344,7 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             }
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer)) {
+        if (isMeaningfulFieldAnswer(field, resolvedAnswer)) {
             if (isVideoOrPortfolioUrlQuestionLabel(field.label || field.question || '')
                 && !looksLikeUrlAnswer(resolvedAnswer)) {
                 pending.push(createPendingField(

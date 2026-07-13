@@ -4,6 +4,7 @@ import {
     resolveHeuristicScreenerAnswer,
     resolveTestModeFallbackAnswer,
 } from '../../extension/src/shared/auto-apply-screener-answer.js';
+import { resolvePreferenceProfileAnswer } from '../../extension/src/shared/pending-fields.js';
 
 const profileData = {
     application_settings: {
@@ -246,6 +247,96 @@ assert.equal(
         profileData,
     ),
     'No',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'What is your current notice period/availability?',
+            type: 'text',
+        },
+        {
+            application_settings: {
+                notice_period: '2',
+                years_of_experience: '2',
+            },
+        },
+    ),
+    '2 weeks',
+    'profile notice_period "2" should expand to weeks on Indeed text screeners',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: "If 'Yes' please indicate clearance level (BS, SC, DV, CTC etc.) or N/A if not applicable.",
+            type: 'text',
+        },
+        profileData,
+    ),
+    'N/A',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Please indicate where you heard about CGI',
+            type: 'text',
+        },
+        profileData,
+    ),
+    'Indeed',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'If you were referred via a CGI employee, please provide their name and staff number if you have it or N/A if not applicable.',
+            type: 'text',
+        },
+        profileData,
+    ),
+    'N/A',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you require a work permit to live and work in the UK?',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        {
+            country: 'United Kingdom',
+            profile: { country: 'United Kingdom' },
+            application_settings: {
+                legally_authorized: 'yes',
+                visa_sponsorship: 'no',
+            },
+        },
+    ),
+    'No',
+    'work permit requirement questions must invert UK authorization',
+);
+
+assert.equal(
+    resolvePreferenceProfileAnswer(
+        {
+            label: 'Do you require a work permit to live and work in the UK?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        {
+            country: 'United Kingdom',
+            profile: { country: 'United Kingdom' },
+            application_settings: {
+                legally_authorized: 'yes',
+                visa_sponsorship: 'no',
+            },
+        },
+    ),
+    'No',
+    'Draft All preference stage must not answer Yes to UK work permit requirement',
 );
 
 console.log('auto-apply screener answer tests passed');

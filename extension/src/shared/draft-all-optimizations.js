@@ -127,7 +127,7 @@ export function mergeQuestionMemos(...memos) {
 export function resolveSavedApplicationAnswer(field, profileData = null, questionMemo = null) {
     const label = field?.label || field?.question || '';
 
-    if (!label) {
+    if (!label || isJobSpecificMemoField(field)) {
         return null;
     }
 
@@ -452,7 +452,9 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
         const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, {
             profileYears,
             fieldType,
+            domId: field?.dom?.id || field?.dom?.input_id || answer.dom?.id || null,
             options: fieldOptions,
+            fallbackNoticePeriod: '2 weeks',
         });
 
         if (!field) {

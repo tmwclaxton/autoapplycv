@@ -8,11 +8,12 @@
  *
  * Profile mapping and preference partitions remain in ../pending-fields.js for now.
  */
+import { partitionScreenerHeuristicFields } from '../auto-apply-screener-answer.js';
 import {
     partitionAgreementCheckboxFields,
     partitionElectronicSignatureFields,
     partitionMarketingConsentFields,
-} from './draft-all/consent-fields.js';
+} from './consent-fields.js';
 import { compactFieldsForDraft, partitionFieldsByQuestionMemo } from './draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
@@ -79,6 +80,13 @@ export function buildDraftAllApplyPlan({
     const preferencePartition = partitionPreferenceProfileFields(remainingFields, profileData);
     remainingFields = preferencePartition.remainingFields;
 
+    const screenerPartition = partitionScreenerHeuristicFields(
+        remainingFields,
+        profileData,
+        questionMemo,
+    );
+    remainingFields = screenerPartition.remainingFields;
+
     const agreementPartition = partitionAgreementCheckboxFields(remainingFields);
     remainingFields = agreementPartition.remainingFields;
 
@@ -116,6 +124,10 @@ export function buildDraftAllApplyPlan({
 
     if (preferencePartition.preferenceAnswers.length > 0) {
         applyStages.push({ type: 'preference', answers: preferencePartition.preferenceAnswers });
+    }
+
+    if (screenerPartition.screenerAnswers.length > 0) {
+        applyStages.push({ type: 'screener', answers: screenerPartition.screenerAnswers });
     }
 
     if (agreementPartition.agreementAnswers.length > 0) {

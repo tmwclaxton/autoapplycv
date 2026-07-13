@@ -10,6 +10,54 @@ const AGE_STATEMENT_PATTERN = /(?:^(?:i am|i'm)\s*(\d{1,3})\b|\b(\d{1,3})\s*(?:y
 const OVER_AGE_QUESTION_PATTERN = /\b(?:over|above|at least|older than)\s+(?:the\s+)?age\s+of\s+(\d{1,3})\b|\b(\d{1,3})\s*\+\s*(?:years?\s+old)?\b/i;
 export const CHOICE_FIELD_TYPES = new Set(['select', 'radio', 'checkbox']);
 
+export function isNoticePeriodStyleQuestion(label) {
+    const text = String(label || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+    if (!text) {
+        return false;
+    }
+
+    if (/\bnotice period\b/.test(text)) {
+        return true;
+    }
+
+    return /\bavailability\b/.test(text)
+        && /\b(notice|start|available)\b/.test(text);
+}
+
+function isNumericNoticePeriodField(options = {}) {
+    const fieldType = String(options.fieldType || '').toLowerCase();
+    const domId = String(options.domId || '').toLowerCase();
+
+    return fieldType.includes('int')
+        || fieldType === 'number'
+        || domId.includes('numeric');
+}
+
+export function normalizeNoticePeriodAnswer(label, answer, options = {}) {
+    const text = String(answer ?? '').trim();
+
+    if (!isNoticePeriodStyleQuestion(label) || text === '') {
+        return text;
+    }
+
+    if (isNumericNoticePeriodField(options) && /^\d+$/.test(text)) {
+        return text;
+    }
+
+    const profileYears = String(options.profileYears ?? '').trim();
+
+    if (profileYears !== '' && text === profileYears && /^\d+$/.test(text)) {
+        return String(options.fallbackNoticePeriod || '2 weeks').trim();
+    }
+
+    if (/^\d{1,2}$/.test(text)) {
+        return `${text} weeks`;
+    }
+
+    return text;
+}
+
 export function isYearsExperienceQuestion(label) {
     const text = String(label || '').replace(/\s+/g, ' ').trim();
 
@@ -288,6 +336,10 @@ export function resolveDeterministicChoiceAnswer(label, answer, field) {
 export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
     if (isYearsExperienceQuestion(label)) {
         return normalizeYearsExperienceAnswer(answer, options);
+    }
+
+    if (isNoticePeriodStyleQuestion(label)) {
+        return normalizeNoticePeriodAnswer(label, answer, options);
     }
 
     const trimmed = String(answer ?? '').trim();

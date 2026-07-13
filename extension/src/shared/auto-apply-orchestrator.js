@@ -33,7 +33,6 @@ import {
 } from './auto-apply-platforms.js';
 import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
-import { tryAnswerScreenerField } from './auto-apply-screener-answer.js';
 import {
     appendAutoApplyLog,
     buildStoppedSessionState,
@@ -2366,32 +2365,8 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
     }
 }
 
-async function attemptAutoAnswerBlocker(
-    tabId,
-    job,
-    blockerField,
-    profileData,
-    options = {},
-) {
-    if (!blockerField?.ref) {
-        return { applied: false, source: null };
-    }
-
-    const questionMemo = await getQuestionMemoForAutoApply();
-
-    return tryAnswerScreenerField(tabId, blockerField, {
-        job,
-        profileData,
-        sendTabMessage,
-        findBestFormFrameId,
-        clarifyingHint: options.clarifyingHint || null,
-        questionMemo,
-        onLog: (level, message) => logSession(level, message),
-    });
-}
-
 /**
- * @returns {Promise<{ session: object, autoAnswered: boolean }>}
+ * @returns {Promise<{ session: object }>}
  */
 async function pauseForUserInput(
     session,
@@ -2406,39 +2381,6 @@ async function pauseForUserInput(
         tabId,
         normalizeBlockerField(blocker.field),
     );
-    const clarifyingHint = retryContext?.validationError
-        ? `Previous answer "${retryContext.lastAttempt || ''}" was rejected: ${retryContext.validationError}. ` +
-          'Return only the corrected value.'
-        : null;
-    const autoAnswer = await attemptAutoAnswerBlocker(
-        tabId,
-        job,
-        blockerField,
-        profileData,
-        { clarifyingHint },
-    );
-
-    if (autoAnswer.applied) {
-        await removePendingFieldFromTab(tabId, blockerField.ref);
-        const sourceTag =
-            autoAnswer.source === 'llm'
-                ? '-llm'
-                : autoAnswer.source === 'fallback'
-                  ? '-fallback'
-                  : '';
-        const answeredSession = await updateSession((current) =>
-            resumeAutoApplyFromInput(
-                appendAutoApplyLog(
-                    current,
-                    'info',
-                    `[auto-answer${sourceTag}] ${job.title}: filled "${blockerField?.label || blockerField?.question}" without pausing.`,
-                ),
-            ),
-        );
-
-        return { session: answeredSession, autoAnswered: true };
-    }
-
     const clarifyingQuestion = buildAutoApplyPauseQuestion(blockerField, {
         profileData,
         validationError: retryContext?.validationError || null,
@@ -2508,7 +2450,7 @@ async function pauseForUserInput(
         })
         .catch(() => {});
 
-    return { session: pausedSession, autoAnswered: false };
+    return { session: pausedSession };
 }
 
 async function pauseForCaptchaReview(session, tabId, job, modalState, options = {}) {
@@ -2654,10 +2596,6 @@ async function handleAdvanceValidationRetry(
         },
     );
 
-    if (pauseOutcome.autoAnswered) {
-        return { retried: true, session: pauseOutcome.session };
-    }
-
     const resumedSession = await waitForAutoApplyResume();
 
     if (resumedSession.stopRequested) {
@@ -2666,8 +2604,6 @@ async function handleAdvanceValidationRetry(
 
     return { retried: true, session: resumedSession };
 }
-
-const AUTO_ANSWER_BLOCKER_LIMIT = 8;
 
 async function ensureStepFilledOrPaused(
     tabId,
@@ -2717,60 +2653,6 @@ async function ensureStepFilledOrPaused(
         }
     }
 
-    for (let attempt = 0; attempt < AUTO_ANSWER_BLOCKER_LIMIT; attempt += 1) {
-        const blocker = detectUnfilledBlockers(
-            effectiveModalState,
-            enrichedDraftResult,
-            { profileData },
-        );
-
-        if (!blocker.blocked) {
-            return { paused: false, session, profileData };
-        }
-
-        if (!blocker.field) {
-            break;
-        }
-
-        const autoAnswer = await attemptAutoAnswerBlocker(
-            tabId,
-            job,
-            blocker.field,
-            profileData,
-        );
-
-        if (!autoAnswer.applied) {
-            break;
-        }
-
-        await removePendingFieldFromTab(tabId, blocker.field.ref);
-        await logSession(
-            'info',
-            `[auto-answer${autoAnswer.source === 'llm' ? '-llm' : autoAnswer.source === 'fallback' ? '-fallback' : ''}] ${job.title}: filled "${blocker.field.label || blocker.field.question}".`,
-        );
-
-        enrichedDraftResult.pendingFields = (
-            enrichedDraftResult.pendingFields || []
-        ).filter((pending) => pending?.ref !== blocker.field?.ref);
-        enrichedDraftResult.unfilledRequiredFields = (
-            enrichedDraftResult.unfilledRequiredFields || []
-        ).filter((field) => field?.ref !== blocker.field?.ref);
-        enrichedDraftResult.skippedFields = (
-            enrichedDraftResult.skippedFields || []
-        ).filter((field) => field?.ref !== blocker.field?.ref);
-
-        const refreshedDraftResult = await enrichDraftResultWithGaps(
-            tabId,
-            {
-                ...enrichedDraftResult,
-                unfilledRequiredFields: [],
-            },
-            { useStoredPending: false },
-        );
-
-        Object.assign(enrichedDraftResult, refreshedDraftResult);
-    }
-
     const blocker = detectUnfilledBlockers(
         effectiveModalState,
         enrichedDraftResult,
@@ -2789,10 +2671,6 @@ async function ensureStepFilledOrPaused(
         blocker,
         profileData,
     );
-
-    if (pauseOutcome.autoAnswered) {
-        return { paused: false, session: pauseOutcome.session, profileData };
-    }
 
     const resumedSession = await waitForAutoApplyResume();
 
@@ -4640,40 +4518,40 @@ async function processIndeedJobInner(
                 (applyState.isReviewStep ? ' (review)' : ''),
         );
 
-        if (applyState.isReviewStep) {
+        if (!applyState.isReviewStep) {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+
+            const draftResult = await runDraftAllForStep(
+                tabId,
+                job,
+                applyState.stepLabel,
+                runDraftAll,
+                session,
+                INDEED_PLATFORM_ID,
+            );
+            const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            });
+            const pauseOutcome = await ensureStepFilledOrPaused(
+                tabId,
+                job,
+                postDraftState || applyState,
+                draftResult,
+                session,
+                profileData,
+            );
+
+            session = pauseOutcome.session || session;
+            profileData = pauseOutcome.profileData ?? profileData;
+
+            if (pauseOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+        } else {
             await logSession(
                 'info',
-                `[review] ${job.title}: reached review step.`,
+                `[review] ${job.title}: attempting submit.`,
             );
-        }
-
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
-
-        const draftResult = await runDraftAllForStep(
-            tabId,
-            job,
-            applyState.stepLabel,
-            runDraftAll,
-            session,
-            INDEED_PLATFORM_ID,
-        );
-        const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
-            type: 'INDEED_APPLY_STATE',
-        });
-        const pauseOutcome = await ensureStepFilledOrPaused(
-            tabId,
-            job,
-            postDraftState || applyState,
-            draftResult,
-            session,
-            profileData,
-        );
-
-        session = pauseOutcome.session || session;
-        profileData = pauseOutcome.profileData ?? profileData;
-
-        if (pauseOutcome.stopped) {
-            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {

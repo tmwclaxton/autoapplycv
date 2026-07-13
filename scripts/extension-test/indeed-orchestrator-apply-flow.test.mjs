@@ -42,10 +42,20 @@ assert.match(
     /advanceResponse\?\.error\?\.includes\('captcha'\)[\s\S]*?waitForIndeedCaptchaResume\([\s\S]*?applyState,/,
     'Indeed captcha pause should use in-scope applyState (not postAdvanceState)',
 );
+assert.doesNotMatch(
+    processIndeedJobBlock,
+    /tryAnswerScreenerField|attemptAutoAnswerBlocker/,
+    'Indeed apply loop should not fill fields inline - Draft All owns filling',
+);
 assert.match(
     processIndeedJobBlock,
-    /openResult\.captcha[\s\S]*?waitForIndeedCaptchaResume/,
-    'Indeed viewjob security check should pause before skipping the job',
+    /if \(!applyState\.isReviewStep\)[\s\S]*?runDraftAllForStep/,
+    'Indeed apply should run Draft All only on non-review form steps',
+);
+assert.match(
+    processIndeedJobBlock,
+    /INDEED_FILL_AND_ADVANCE/,
+    'Indeed apply should advance via content-script navigation only',
 );
 
 const pauseForCaptchaReviewBlock = orchestrator.match(

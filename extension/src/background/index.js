@@ -1287,19 +1287,6 @@ async function savePendingFieldAnswer(tabId, field, answer) {
                 validationAttempt,
             });
 
-            if (pauseOutcome?.autoAnswered) {
-                await resumeAutoApplyFromPause();
-
-                return {
-                    success: true,
-                    applied: true,
-                    fields: await loadPendingFields(tabId),
-                    resumed: true,
-                    validationRetry: true,
-                    autoAnswered: true,
-                };
-            }
-
             return {
                 success: true,
                 applied,
@@ -2109,6 +2096,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             reference: (count) => `Applying ${count} reference field(s)…`,
             identity: (count) => `Applying ${count} profile field(s)…`,
             preference: (count) => `Applying ${count} preference field(s)…`,
+            screener: (count) => `Applying ${count} employer screener answer(s)…`,
             agreement: (count) => `Applying ${count} agreement checkbox(es)…`,
             signature: (count) => `Applying ${count} electronic signature field(s)…`,
             eeo: (count) => `Applying ${count} voluntary EEO field(s)…`,
@@ -2147,6 +2135,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         ? 'apply.eeo'
                         : stage.type === 'preference'
                             ? 'apply.preference'
+                            : stage.type === 'screener'
+                                ? 'apply.screener'
                     : stage.type === 'agreement'
                         ? 'apply.agreement'
                         : stage.type === 'signature'
@@ -2171,6 +2161,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         ? 'draft-all.eeo'
                         : stage.type === 'preference'
                             ? 'draft-all.preference'
+                            : stage.type === 'screener'
+                                ? 'draft-all.screener'
                         : stage.type === 'agreement'
                             ? 'draft-all.agreement'
                             : stage.type === 'signature'

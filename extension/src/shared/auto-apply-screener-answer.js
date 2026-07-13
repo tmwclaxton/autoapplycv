@@ -1,13 +1,15 @@
 import {
     filterMeaningfulChoiceOptions,
     normalizeFieldAnswerForQuestion,
+    normalizeNoticePeriodAnswer,
 } from './answer-normalization.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
-import { resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
+import { isJobSpecificMemoField, resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
 import { requestDraftField } from './draft-all-stream.js';
 import {
     isMeaningfulAnswer,
+    isMeaningfulFieldAnswer,
     isSalaryQuestionLabel,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
@@ -33,9 +35,22 @@ function isNoticePeriodOrAvailabilityQuestion(label) {
         || /\bearliest start\b/.test(question);
 }
 
-function resolveNoticePeriodFromSettings(settings = {}) {
+function resolveNoticePeriodFromSettings(settings = {}, field = null) {
+    const profileYears = settings.years_of_experience ?? null;
+    const domId = field?.dom?.id || field?.dom?.input_id || null;
+    const fieldType = field?.type || field?.field_type || 'text';
+
     if (isMeaningfulAnswer(settings.notice_period)) {
-        return String(settings.notice_period).trim();
+        return normalizeNoticePeriodAnswer(
+            'notice period',
+            String(settings.notice_period).trim(),
+            {
+                fieldType,
+                domId,
+                profileYears,
+                fallbackNoticePeriod: '2 weeks',
+            },
+        );
     }
 
     return '2 weeks';
@@ -57,7 +72,8 @@ function normalizeHeuristicAnswerForField(answer, field) {
     const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
     const isNumericField = fieldType.includes('int') ||
         fieldType === 'number' ||
-        domId.includes('numeric');
+        domId.includes('numeric') ||
+        domId.includes('number-input');
 
     if (!value) {
         return value;
@@ -71,7 +87,12 @@ function normalizeHeuristicAnswerForField(answer, field) {
                 return numeric?.[0] || value;
             }
 
-            return value;
+            return normalizeNoticePeriodAnswer(label, value, {
+                fieldType: field?.type || field?.field_type,
+                domId: field?.dom?.id || field?.dom?.input_id,
+                profileYears: null,
+                fallbackNoticePeriod: '2 weeks',
+            });
         }
 
         if (isNumericField) {
@@ -153,6 +174,9 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     const fieldType = String(
         normalizedField.type || normalizedField.field_type || '',
     ).toLowerCase();
+    const domId = String(
+        normalizedField.dom?.id || normalizedField.dom?.input_id || '',
+    ).toLowerCase();
     const settings = profileData?.application_settings || {};
 
     if (
@@ -161,7 +185,7 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         )
     ) {
         return normalizeHeuristicAnswerForField(
-            resolveNoticePeriodFromSettings(settings),
+            resolveNoticePeriodFromSettings(settings, normalizedField),
             normalizedField,
         );
     }
@@ -181,6 +205,8 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         && (
             fieldType.includes('int')
             || fieldType === 'number'
+            || domId.includes('numeric')
+            || domId.includes('number-input')
             || /how many|years? of|months? of|experience do you/.test(question)
         )
     ) {
@@ -198,7 +224,7 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     }
 
     if (
-        /travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(
+        /travel|willing|authorized|eligible|right to work|visa|sponsorship|work permit|commute|relocate/.test(
             question,
         )
     ) {
@@ -208,9 +234,10 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
 
         if (options.length > 0) {
             const preferred =
+                options.find((option) => /0%|none/i.test(String(option))) ||
                 options.find((option) => /^no\b/i.test(String(option))) ||
                 options.find((option) => /^yes\b/i.test(String(option))) ||
-                options.find((option) => /25%|0%|none/i.test(String(option))) ||
+                options.find((option) => /25%/i.test(String(option))) ||
                 options[0];
 
             return preferred != null ? String(preferred) : null;
@@ -235,10 +262,102 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     }
 
     if (/notice period/.test(question) && isMeaningfulAnswer(settings.notice_period)) {
-        return resolveNoticePeriodFromSettings(settings);
+        return resolveNoticePeriodFromSettings(settings, normalizedField);
+    }
+
+    if (
+        /clearance level|\b(bs|sc|dv|ctc)\b.*not applicable|not applicable.*clearance/i.test(
+            question,
+        )
+    ) {
+        return 'N/A';
+    }
+
+    if (/where (?:did you )?(?:you )?hear(?:d)? about|how did you hear about/i.test(question)) {
+        return 'Indeed';
+    }
+
+    if (/referred via|employee referral|staff number/i.test(question)) {
+        return 'N/A';
+    }
+
+    if (
+        (fieldType === 'radio' || fieldType === 'select') &&
+        /security clearance|hold a current level of security/i.test(question)
+    ) {
+        const options = Array.isArray(normalizedField.options)
+            ? normalizedField.options
+            : [];
+
+        if (options.length > 0) {
+            return (
+                options.find((option) => /^no\b/i.test(String(option))) ||
+                options[options.length - 1]
+            );
+        }
+
+        return 'No';
+    }
+
+    if (
+        /spent (?:more than )?28|28 or more consecutive days outside/i.test(question)
+    ) {
+        const options = Array.isArray(normalizedField.options)
+            ? normalizedField.options
+            : [];
+
+        if (options.length > 0) {
+            return (
+                options.find((option) => /^no\b/i.test(String(option))) ||
+                options[0]
+            );
+        }
+
+        return 'No';
     }
 
     return null;
+}
+
+/**
+ * Apply deterministic employer screener heuristics before NanoGPT on Draft All.
+ *
+ * @param {Array<object>} fields
+ * @param {object|null|undefined} profileData
+ * @param {Record<string, string>|null|undefined} [questionMemo]
+ */
+export function partitionScreenerHeuristicFields(
+    fields,
+    profileData = null,
+    questionMemo = null,
+) {
+    void questionMemo;
+    const screenerAnswers = [];
+    const remainingFields = [];
+
+    for (const field of fields || []) {
+        if (isJobSpecificMemoField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const answer = resolveHeuristicScreenerAnswer(field, profileData, null);
+
+        if (isMeaningfulFieldAnswer(field, answer)) {
+            screenerAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer,
+            });
+        } else {
+            remainingFields.push(field);
+        }
+    }
+
+    return { screenerAnswers, remainingFields };
 }
 
 /**
@@ -262,12 +381,13 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
 
     const question = String(field.question || field.label || '').toLowerCase();
     const fieldType = String(field.type || field.field_type || '').toLowerCase();
+    const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
     const settings = profileData?.application_settings || {};
     const options = Array.isArray(field.options) ? field.options : [];
     const label = field.question || field.label || '';
 
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
-        return resolveNoticePeriodFromSettings(settings);
+        return resolveNoticePeriodFromSettings(settings, field);
     }
 
     if (isSalaryScreenerQuestion(label)) {
@@ -280,6 +400,8 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
         && (
             fieldType.includes('int')
             || fieldType === 'number'
+            || domId.includes('numeric')
+            || domId.includes('number-input')
             || /how many|years? of|months? of|experience do you/.test(question)
         )
     ) {
@@ -297,12 +419,13 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
     }
 
     if (
-        /travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(
+        /travel|willing|authorized|eligible|right to work|visa|sponsorship|work permit|commute|relocate/.test(
             question,
         )
     ) {
         if (options.length > 0) {
             const preferred =
+                options.find((option) => /0%|none/i.test(String(option))) ||
                 options.find((option) => /^no\b/i.test(String(option))) ||
                 options.find((option) => /^yes\b/i.test(String(option))) ||
                 options[0];
@@ -390,10 +513,13 @@ export async function resolveLlmScreenerAnswer(
 
 function normalizeScreenerAnswer(field, answer, profileData) {
     const label = field?.label || field?.question || '';
+    const settings = profileData?.application_settings || {};
     const normalized = normalizeFieldAnswerForQuestion(label, answer, {
-        profileYears: profileData?.application_settings?.years_of_experience,
+        profileYears: settings.years_of_experience,
         fieldType: field?.type || field?.field_type,
+        domId: field?.dom?.id || field?.dom?.input_id || null,
         options: field?.options,
+        fallbackNoticePeriod: resolveNoticePeriodFromSettings(settings, field),
     });
 
     return String(normalized ?? '').trim();
@@ -451,7 +577,7 @@ export async function tryAnswerScreenerField(tabId, field, context) {
 
     answer = normalizeScreenerAnswer(field, answer, profileData);
 
-    if (!isMeaningfulAnswer(answer)) {
+    if (!isMeaningfulFieldAnswer(field, answer)) {
         return { applied: false, source: null };
     }
 

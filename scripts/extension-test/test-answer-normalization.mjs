@@ -70,5 +70,24 @@ assert(
     capitalizeFreeTextAnswer('yes, I can start immediately. notice period is two weeks.') === 'Yes, I can start immediately. Notice period is two weeks.',
     'sentence boundaries should capitalize the next word',
 );
+assert(
+    normalizeFieldAnswerForQuestion(
+        'What is your current notice period/availability?',
+        '2',
+        { fieldType: 'text', profileYears: '2' },
+    ) === '2 weeks',
+    'bare notice period digits should expand to weeks on text fields',
+);
+assert(
+    normalizeFieldAnswerForQuestion(
+        'What is your current notice period?',
+        '4',
+        {
+            fieldType: 'text',
+            domId: 'single-line-text-form-component-formElement-numeric',
+        },
+    ) === '4',
+    'numeric notice period fields should stay bare digits',
+);
 
 console.log('answer-normalization tests passed');
