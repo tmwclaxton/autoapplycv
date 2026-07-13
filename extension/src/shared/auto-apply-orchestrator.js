@@ -1203,6 +1203,38 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
     throw new Error('Indeed tab messaging failed.');
 }
 
+async function sendIndeedMessageWithTimeout(
+    tabId,
+    type,
+    payload = {},
+    timeoutMs = 20_000,
+) {
+    try {
+        return await Promise.race([
+            sendIndeedMessage(tabId, type, payload),
+            new Promise((_, reject) => {
+                setTimeout(
+                    () => reject(new Error(`${type} timed out`)),
+                    timeoutMs,
+                );
+            }),
+        ]);
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        if (type === 'INDEED_SELECT_JOB' && /timed out/i.test(message)) {
+            return {
+                success: false,
+                needsNavigation: true,
+                error: message,
+                jobId: payload.jobId,
+            };
+        }
+
+        throw error;
+    }
+}
+
 async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 2;
 
@@ -3760,9 +3792,11 @@ async function openIndeedJobInner(tabId, job, session) {
     let selectResponse = null;
 
     for (let attempt = 0; attempt < 2; attempt += 1) {
-        selectResponse = await sendIndeedMessage(tabId, 'INDEED_SELECT_JOB', {
-            jobId: job.jobId,
-        });
+        selectResponse = await sendIndeedMessageWithTimeout(
+            tabId,
+            'INDEED_SELECT_JOB',
+            { jobId: job.jobId },
+        );
 
         if (selectResponse?.success) {
             return { success: true, jobId: job.jobId, tabId };

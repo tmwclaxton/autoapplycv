@@ -393,7 +393,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
-    async function revealJobCardById(jobId) {
+    async function revealJobCardById(jobId, maxScrollAttempts = 14) {
         let card = findJobCardById(jobId);
 
         if (card) {
@@ -411,7 +411,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         listRoot.scrollTop = 0;
         await humanPause(240, 480);
 
-        for (let attempt = 0; attempt < 14; attempt += 1) {
+        for (let attempt = 0; attempt < maxScrollAttempts; attempt += 1) {
             card = findJobCardById(jobId);
 
             if (card) {
@@ -892,7 +892,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
     async function selectJobById(jobId) {
         const target = String(jobId).toLowerCase();
-        const card = await revealJobCardById(target);
+        const card = await revealJobCardById(target, 6);
 
         if (!card) {
             return {
@@ -903,7 +903,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
             };
         }
 
-        await humanPause(420, 900);
+        await humanPause(320, 620);
 
         const clickable =
             card.querySelector(
@@ -911,9 +911,9 @@ const AutoCVApplyIndeedAutoApply = (() => {
             ) || card;
 
         await clickElement(clickable);
-        await humanPause(550, 900);
+        await humanPause(450, 750);
 
-        const detailReady = await waitForJobDetailReady(target, 18_000);
+        const detailReady = await waitForJobDetailReady(target, 10_000);
 
         if (detailReady.success) {
             return { success: true, jobId: target };
