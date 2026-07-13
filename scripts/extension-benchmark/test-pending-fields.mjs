@@ -417,6 +417,29 @@ assert(
     'concise location should combine unique city, region, and country parts',
 );
 
+const mismatchedUkResidence = {
+    profile: {
+        city: 'London',
+        location: 'Wycombe, England',
+        postcode: 'HP124AD',
+        country: 'England',
+        structured_data: {
+            state_region: 'England',
+            address_line_1: null,
+        },
+    },
+};
+
+assert(
+    resolveConciseLocationValue(mismatchedUkResidence, { preferCity: true }) === 'Wycombe',
+    'preferCity should use residential location when city disagrees with postcode home',
+);
+
+assert(
+    resolveConciseLocationValue(mismatchedUkResidence) === 'London, England',
+    'non-city location string can keep job-search city for search filters',
+);
+
 assert(
     isCityLocationQuestionLabel('location (city)'),
     'clean Greenhouse location (city) labels should be treated as city fields',

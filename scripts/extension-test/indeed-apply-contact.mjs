@@ -52,6 +52,66 @@ assert.equal(resolveIdentityProfileAnswer(postcodeField, profileData), 'HP13 6DX
 assert.equal(resolveIdentityProfileAnswer(addressField, profileData), '12 Example Street');
 assert.equal(resolveIdentityProfileAnswer(localityField, profileData), 'High Wycombe');
 
+// Mismatched job-search city vs residential location/postcode must stay coherent.
+const mismatchedProfile = {
+    profile: {
+        city: 'London',
+        location: 'Wycombe, England',
+        postcode: 'HP124AD',
+        country: 'England',
+        structured_data: {
+            address_line_1: null,
+            state_region: 'England',
+        },
+    },
+};
+
+assert.equal(
+    resolveIdentityProfileAnswer(localityField, mismatchedProfile),
+    'Wycombe',
+    'city should prefer residential location over mismatched London job-search city',
+);
+assert.equal(
+    resolveIdentityProfileAnswer(postcodeField, mismatchedProfile),
+    'HP12 4AD',
+    'UK postcode should be spaced for Indeed location',
+);
+assert.equal(
+    resolveIdentityProfileAnswer(addressField, mismatchedProfile),
+    '',
+    'missing street must not fall back to city/country text',
+);
+
+const cityCountryAsStreetProfile = {
+    profile: {
+        city: 'London',
+        location: 'London, England',
+        postcode: 'EC1A 1BB',
+        structured_data: {
+            address_line_1: 'London, England',
+        },
+    },
+};
+assert.equal(
+    resolveIdentityProfileAnswer(addressField, cityCountryAsStreetProfile),
+    '',
+    'city/country-only address_line_1 must be rejected for street fields',
+);
+
+const coherentWycombeProfile = {
+    profile: {
+        city: 'High Wycombe',
+        location: 'Wycombe, England',
+        postcode: 'HP12 4AD',
+        structured_data: {
+            address_line_1: '343 W Wycombe Rd',
+        },
+    },
+};
+assert.equal(resolveIdentityProfileAnswer(addressField, coherentWycombeProfile), '343 W Wycombe Rd');
+assert.equal(resolveIdentityProfileAnswer(localityField, coherentWycombeProfile), 'High Wycombe');
+assert.equal(resolveIdentityProfileAnswer(postcodeField, coherentWycombeProfile), 'HP12 4AD');
+
 const fillCases = [
     [postcodeField.question, 'HP13 6DX', 'location-fields-postal-code-input'],
     [addressField.question, '12 Example Street', 'location-fields-address-input'],

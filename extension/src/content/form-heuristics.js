@@ -2115,6 +2115,20 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        // Indeed location postal/street fields: instant fill avoids autocomplete truncation
+        // and APPLY_DRAFT_ANSWER timeouts from char-by-char typing.
+        if (isIndeedApplyPage(element.ownerDocument || document) && isIndeedIdentityField(element)) {
+            const name = String(element.getAttribute?.('name') || element.name || '');
+            const testId = String(element.getAttribute?.('data-testid') || '');
+
+            if (name === 'location-postal-code'
+                || name === 'location-address'
+                || testId === 'location-fields-postal-code-input'
+                || testId === 'location-fields-address-input') {
+                return false;
+            }
+        }
+
         if (isRecruiteeApplyHost(element.ownerDocument || document)) {
             const name = String(element.getAttribute?.('name') || element.name || '');
             const id = String(element.id || element.getAttribute?.('id') || '');

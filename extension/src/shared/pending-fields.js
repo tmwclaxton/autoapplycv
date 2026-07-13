@@ -1757,8 +1757,74 @@ export function dedupeLocationParts(value) {
     return deduped.join(', ');
 }
 
-export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
+/**
+ * City/country strings (e.g. "London, England") are not street addresses.
+ * Using them as street-address fill corrupts Indeed location steps and validation.
+ */
+export function looksLikeCityCountryLocationOnly(value) {
+    const text = String(value || '').trim();
+
+    if (!text || /\d/.test(text)) {
+        return false;
+    }
+
+    if (/\b(?:street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|drive|dr\.?|close|way|court|place|gardens|terrace|crescent|boulevard|blvd\.?|house|flat|apartment|apt\.?|unit|suite)\b/i.test(text)) {
+        return false;
+    }
+
+    const parts = text
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+
+    if (parts.length < 2 || parts.length > 3) {
+        return false;
+    }
+
+    return parts.every((part) => /^[A-Za-z][A-Za-z\s.'.-]{1,40}$/.test(part));
+}
+
+export function formatUkPostcodeForApply(value) {
+    const compact = String(value || '')
+        .toUpperCase()
+        .replace(/\s+/g, '');
+
+    if (!/^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/.test(compact)) {
+        return String(value || '').trim();
+    }
+
+    return `${compact.slice(0, -3)} ${compact.slice(-3)}`;
+}
+
+/**
+ * Prefer residential city from location when it disagrees with a job-search city
+ * (e.g. city=London + location=Wycombe + postcode=HP12...).
+ */
+export function resolveResidenceCityValue(profileData) {
     const city = String(readProfileValue(profileData, 'city') || '').trim();
+    const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
+    const locationCity = String(location.split(',')[0] || '').trim();
+    const postcode = String(readProfileValue(profileData, 'postcode') || '').trim();
+
+    if (locationCity && city) {
+        const cityKey = city.toLowerCase();
+        const locationKey = locationCity.toLowerCase();
+        const overlapping = cityKey === locationKey
+            || cityKey.includes(locationKey)
+            || locationKey.includes(cityKey);
+
+        if (!overlapping && postcode) {
+            return locationCity;
+        }
+    }
+
+    return city || locationCity;
+}
+
+export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
+    const city = preferCity
+        ? resolveResidenceCityValue(profileData)
+        : String(readProfileValue(profileData, 'city') || '').trim();
     const region = String(readProfileValue(profileData, 'structured_data.state_region') || '').trim();
     const country = String(readProfileValue(profileData, 'country') || '').trim();
     const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
@@ -2661,18 +2727,31 @@ function profileValueForApply(mapping, profileData, field = null) {
             : dialCountry;
     }
 
-    if (mapping.path === 'city' || mapping.path === 'location') {
-        return resolveConciseLocationValue(profileData, { preferCity: mapping.path === 'city' });
+    if (mapping.path === 'city') {
+        return resolveResidenceCityValue(profileData);
+    }
+
+    if (mapping.path === 'location') {
+        return resolveConciseLocationValue(profileData);
+    }
+
+    if (mapping.path === 'postcode') {
+        if (!isMeaningfulAnswer(value)) {
+            return '';
+        }
+
+        return formatUkPostcodeForApply(value);
     }
 
     if (mapping.path === 'structured_data.address_line_1') {
         const address = String(value || '').trim();
 
-        if (address) {
-            return address;
+        // Never fill street address with city/country location text.
+        if (!address || looksLikeCityCountryLocationOnly(address)) {
+            return '';
         }
 
-        return resolveConciseLocationValue(profileData);
+        return address;
     }
 
     if (!isMeaningfulAnswer(value)) {
