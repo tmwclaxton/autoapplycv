@@ -16,14 +16,14 @@ const {
     scaleDelayRange,
 } = await import(pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-timing.js')).href);
 
-test('normalizeTimingLevel defaults to stealth and clamps range', () => {
+test('normalizeTimingLevel defaults to careful timing and clamps range', () => {
     assert.equal(normalizeTimingLevel(undefined), DEFAULT_AUTO_APPLY_TIMING_LEVEL);
     assert.equal(normalizeTimingLevel('3'), 3);
     assert.equal(normalizeTimingLevel(99), 5);
     assert.equal(normalizeTimingLevel(0), 1);
 });
 
-test('resolveDelayMultiplier maps speed to stealth tiers', () => {
+test('resolveDelayMultiplier maps speed to careful timing tiers', () => {
     assert.equal(resolveDelayMultiplier(1), 0.25);
     assert.equal(resolveDelayMultiplier(3), 0.55);
     assert.equal(resolveDelayMultiplier(5), 1);
@@ -45,10 +45,10 @@ test('scaleDelayRange keeps min <= max after scaling', () => {
 test('describeTimingLevel returns user-facing labels', () => {
     assert.equal(describeTimingLevel(1), 'Speed');
     assert.equal(describeTimingLevel(3), 'Balanced');
-    assert.equal(describeTimingLevel(5), 'Stealth');
+    assert.equal(describeTimingLevel(5), 'Careful timing');
 });
 
-test('submit confirmation timing scales with stealth multiplier', () => {
+test('submit confirmation timing scales with careful timing multiplier', () => {
     assert.equal(resolveSubmitConfirmationTimeoutMs(1), 90_000);
     assert.equal(resolveSubmitConfirmationTimeoutMs(0.25), 45_000);
     assert.equal(resolveSubmitConfirmationTimeoutMs(0.55), 63_000);

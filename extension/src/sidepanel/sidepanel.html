@@ -243,7 +243,7 @@
                                     <div class="auto-apply-timing-bar">
                                         <div class="auto-apply-timing-header">
                                             <span class="postbox-label">Timing</span>
-                                            <span id="auto-apply-timing-value" class="auto-apply-timing-value">Stealth</span>
+                                            <span id="auto-apply-timing-value" class="auto-apply-timing-value">Careful timing</span>
                                         </div>
                                         <div class="auto-apply-timing-slider-row">
                                             <span class="auto-apply-timing-end-label">Speed</span>
@@ -255,14 +255,19 @@
                                                 max="5"
                                                 step="1"
                                                 value="5"
-                                                aria-label="Auto Apply timing between speed and stealth"
+                                                aria-label="Auto Apply timing between speed and careful timing"
                                             />
-                                            <span class="auto-apply-timing-end-label">Stealth</span>
+                                            <span class="auto-apply-timing-end-label">Careful timing</span>
                                         </div>
-                                        <p class="postbox-hint auto-apply-inline-hint">Faster timing is less human-like and may cause validation issues on some boards.</p>
+                                        <p class="postbox-hint auto-apply-inline-hint">Faster timing is less human-like. Slower timing is more human-like but does not prevent platform detection.</p>
                                     </div>
                                 </div>
                             </details>
+
+                            <div id="auto-apply-preflight" class="auto-apply-preflight postbox-panel" hidden>
+                                <h2 class="auto-apply-preflight-title">Preflight</h2>
+                                <ul id="auto-apply-preflight-lines" class="auto-apply-preflight-lines postbox-hint"></ul>
+                            </div>
 
                             <div class="auto-apply-actions btn-row">
                                 <button type="button" class="postbox-btn" id="auto-apply-start-btn">Start</button>
@@ -270,6 +275,11 @@
                             </div>
 
                             <div id="auto-apply-status" class="status-line auto-apply-status">Ready. Set a role and start.</div>
+                            <div id="auto-apply-intervention" class="auto-apply-intervention postbox-panel" hidden>
+                                <strong id="auto-apply-intervention-headline" class="auto-apply-intervention-headline"></strong>
+                                <p id="auto-apply-intervention-detail" class="postbox-hint auto-apply-intervention-detail"></p>
+                                <p id="auto-apply-intervention-next" class="postbox-hint auto-apply-intervention-next"></p>
+                            </div>
                             <div id="auto-apply-pause-banner" class="auto-apply-pause-banner postbox-panel" hidden>
                                 <strong>Paused</strong>
                                 <p id="auto-apply-pause-message" class="postbox-hint auto-apply-pause-message"></p>

@@ -24,13 +24,39 @@ class YearsExperienceAnswerNormalizer
             && preg_match('/\b(how many|with|in|using|have|do you)\b/i', $text) === 1;
     }
 
-    public static function normalize(string $answer, ?string $profileYears = null): string
+    public static function isSkillSpecificYearsExperienceQuestion(string $label): bool
+    {
+        return self::isYearsExperienceQuestion($label)
+            && ! self::isGenericTotalExperienceQuestion($label);
+    }
+
+    public static function isGenericTotalExperienceQuestion(string $label): bool
+    {
+        $normalized = mb_strtolower(trim(preg_replace('/\s+/u', ' ', $label) ?? ''));
+
+        if ($normalized === '') {
+            return false;
+        }
+
+        foreach (['years of experience', 'experience years', 'total years of experience', 'overall years of experience'] as $keyword) {
+            if (str_contains($normalized, $keyword)) {
+                return true;
+            }
+        }
+
+        return preg_match('/\bhow many years of (?:overall |total )?experience\b/i', $label) === 1
+            && ! preg_match('/\bwith\b/i', $label);
+    }
+
+    public static function normalize(string $answer, ?string $profileYears = null, ?string $questionLabel = null): string
     {
         $raw = trim($answer);
         $profileYears = $profileYears !== null ? trim($profileYears) : '';
+        $allowProfileFallback = $questionLabel === null
+            || ! self::isSkillSpecificYearsExperienceQuestion($questionLabel);
 
         if ($raw === '') {
-            if (preg_match('/^\d+$/', $profileYears) === 1) {
+            if ($allowProfileFallback && preg_match('/^\d+$/', $profileYears) === 1) {
                 return self::clampYearsInteger($profileYears) ?? $profileYears;
             }
 
@@ -49,7 +75,7 @@ class YearsExperienceAnswerNormalizer
             return self::clampYearsInteger($embeddedMatch[1]) ?? $embeddedMatch[1];
         }
 
-        if (preg_match('/^\d+$/', $profileYears) === 1) {
+        if ($allowProfileFallback && preg_match('/^\d+$/', $profileYears) === 1) {
             return self::clampYearsInteger($profileYears) ?? $profileYears;
         }
 

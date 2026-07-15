@@ -11,6 +11,12 @@ class ProfileAnswerGrounding
      */
     public static function questionNeedsGrounding(array $question): bool
     {
+        $label = trim($question['label'] ?? '');
+
+        if ($label !== '' && YearsExperienceAnswerNormalizer::isYearsExperienceQuestion($label)) {
+            return false;
+        }
+
         $options = $question['options'] ?? null;
 
         if (is_array($options) && $options !== []) {

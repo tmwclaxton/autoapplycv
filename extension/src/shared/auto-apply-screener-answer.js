@@ -8,9 +8,11 @@ import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import { isJobSpecificMemoField, resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
 import { requestDraftField } from './draft-all-stream.js';
 import {
+    isGenericTotalExperienceQuestionLabel,
     isMeaningfulAnswer,
     isMeaningfulFieldAnswer,
     isSalaryQuestionLabel,
+    isSkillSpecificYearsExperienceQuestionLabel,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
@@ -102,6 +104,37 @@ function resolveSalaryFromSettings(settings = {}) {
     }
 
     return '55000';
+}
+
+function isNumericExperienceField(fieldType, domId, label) {
+    const question = String(label || '').toLowerCase();
+
+    return fieldType.includes('int')
+        || fieldType === 'number'
+        || domId.includes('numeric')
+        || domId.includes('number-input')
+        || /\bhow many\b/.test(question);
+}
+
+function resolveGenericTotalExperienceFromSettings(settings = {}) {
+    const years = settings.years_of_experience;
+
+    if (years != null && Number.isFinite(Number(years))) {
+        return String(years);
+    }
+
+    return null;
+}
+
+/**
+ * Open-ended employer screeners should reach NanoGPT via llmFields, not regex guesses.
+ */
+function shouldDeferScreenerQuestionToLlm(label) {
+    if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+        return true;
+    }
+
+    return false;
 }
 
 function shouldUseProfileSalaryAnswer(answer, label) {
@@ -228,9 +261,6 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         return normalizeHeuristicAnswerForField(savedAnswer, normalizedField);
     }
 
-    const question = String(
-        normalizedField.question || normalizedField.label || '',
-    ).toLowerCase();
     const fieldType = String(
         normalizedField.type || normalizedField.field_type || '',
     ).toLowerCase();
@@ -238,19 +268,20 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         normalizedField.dom?.id || normalizedField.dom?.input_id || '',
     ).toLowerCase();
     const settings = profileData?.application_settings || {};
+    const label = normalizedField.question || normalizedField.label;
 
-    if (
-        isNoticePeriodOrAvailabilityQuestion(
-            normalizedField.question || normalizedField.label,
-        )
-    ) {
+    if (shouldDeferScreenerQuestionToLlm(label)) {
+        return null;
+    }
+
+    if (isNoticePeriodOrAvailabilityQuestion(label)) {
         return normalizeHeuristicAnswerForField(
             resolveNoticePeriodFromSettings(settings, normalizedField),
             normalizedField,
         );
     }
 
-    if (isSalaryScreenerQuestion(normalizedField.question || normalizedField.label)) {
+    if (isSalaryScreenerQuestion(label)) {
         return normalizeHeuristicAnswerForField(
             resolveSalaryFromSettings(settings),
             normalizedField,
@@ -258,122 +289,14 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
     }
 
     if (
-        !isSalaryScreenerQuestion(normalizedField.question || normalizedField.label)
-        && !isNoticePeriodOrAvailabilityQuestion(
-            normalizedField.question || normalizedField.label,
-        )
-        && (
-            fieldType.includes('int')
-            || fieldType === 'number'
-            || domId.includes('numeric')
-            || domId.includes('number-input')
-            || /how many|years? of|months? of|experience do you/.test(question)
-        )
+        isGenericTotalExperienceQuestionLabel(label)
+        && isNumericExperienceField(fieldType, domId, label)
     ) {
-        const years = settings.years_of_experience;
+        const totalYears = resolveGenericTotalExperienceFromSettings(settings);
 
-        if (years != null && Number.isFinite(Number(years))) {
-            return String(years);
+        if (isMeaningfulAnswer(totalYears)) {
+            return totalYears;
         }
-
-        if (/\bssis\b|mainframe|cobol|fortran|as\/400/i.test(question)) {
-            return '0';
-        }
-
-        return '5';
-    }
-
-    if (
-        /travel|willing|authorized|eligible|right to work|visa|sponsorship|work permit|commute|relocate/.test(
-            question,
-        )
-    ) {
-        const options = Array.isArray(normalizedField.options)
-            ? normalizedField.options
-            : [];
-
-        if (options.length > 0) {
-            const preferred =
-                options.find((option) => /0%|none/i.test(String(option))) ||
-                options.find((option) => /^no\b/i.test(String(option))) ||
-                options.find((option) => /^yes\b/i.test(String(option))) ||
-                options.find((option) => /25%/i.test(String(option))) ||
-                options[0];
-
-            return preferred != null ? String(preferred) : null;
-        }
-
-        return settings.visa_sponsorship === 'yes' ? 'Yes' : 'No';
-    }
-
-    if (
-        (fieldType === 'radio' || fieldType === 'select') &&
-        /education|degree|qualification/.test(question)
-    ) {
-        const options = Array.isArray(normalizedField.options)
-            ? normalizedField.options
-            : [];
-        const match =
-            options.find((option) =>
-                /bachelor|undergraduate|degree/i.test(String(option)),
-            ) || options[options.length - 1];
-
-        return match != null ? String(match) : null;
-    }
-
-    if (/notice period/.test(question) && isMeaningfulAnswer(settings.notice_period)) {
-        return resolveNoticePeriodFromSettings(settings, normalizedField);
-    }
-
-    if (
-        /clearance level|\b(bs|sc|dv|ctc)\b.*not applicable|not applicable.*clearance/i.test(
-            question,
-        )
-    ) {
-        return 'N/A';
-    }
-
-    if (/where (?:did you )?(?:you )?hear(?:d)? about|how did you hear about/i.test(question)) {
-        return 'Indeed';
-    }
-
-    if (/referred via|employee referral|staff number/i.test(question)) {
-        return 'N/A';
-    }
-
-    if (
-        (fieldType === 'radio' || fieldType === 'select') &&
-        /security clearance|hold a current level of security/i.test(question)
-    ) {
-        const options = Array.isArray(normalizedField.options)
-            ? normalizedField.options
-            : [];
-
-        if (options.length > 0) {
-            return (
-                options.find((option) => /^no\b/i.test(String(option))) ||
-                options[options.length - 1]
-            );
-        }
-
-        return 'No';
-    }
-
-    if (
-        /spent (?:more than )?28|28 or more consecutive days outside/i.test(question)
-    ) {
-        const options = Array.isArray(normalizedField.options)
-            ? normalizedField.options
-            : [];
-
-        if (options.length > 0) {
-            return (
-                options.find((option) => /^no\b/i.test(String(option))) ||
-                options[0]
-            );
-        }
-
-        return 'No';
     }
 
     return null;
@@ -439,12 +362,15 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
         return null;
     }
 
-    const question = String(field.question || field.label || '').toLowerCase();
     const fieldType = String(field.type || field.field_type || '').toLowerCase();
     const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
     const settings = profileData?.application_settings || {};
     const options = Array.isArray(field.options) ? field.options : [];
     const label = field.question || field.label || '';
+
+    if (shouldDeferScreenerQuestionToLlm(label)) {
+        return null;
+    }
 
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
         return resolveNoticePeriodFromSettings(settings, field);
@@ -455,68 +381,28 @@ export function resolveTestModeFallbackAnswer(field, profileData = null) {
     }
 
     if (
-        !isSalaryScreenerQuestion(label)
-        && !isNoticePeriodOrAvailabilityQuestion(label)
-        && (
-            fieldType.includes('int')
-            || fieldType === 'number'
-            || domId.includes('numeric')
-            || domId.includes('number-input')
-            || /how many|years? of|months? of|experience do you/.test(question)
-        )
+        isGenericTotalExperienceQuestionLabel(label)
+        && isNumericExperienceField(fieldType, domId, label)
     ) {
-        const years = settings.years_of_experience;
-
-        if (years != null && Number.isFinite(Number(years))) {
-            return String(years);
-        }
-
-        if (/\bssis\b|mainframe|cobol|fortran|as\/400/i.test(question)) {
-            return '0';
-        }
-
-        return '2';
+        return resolveGenericTotalExperienceFromSettings(settings) || '2';
     }
 
-    if (
-        /travel|willing|authorized|eligible|right to work|visa|sponsorship|work permit|commute|relocate/.test(
-            question,
-        )
-    ) {
-        if (options.length > 0) {
-            const preferred =
-                options.find((option) => /0%|none/i.test(String(option))) ||
-                options.find((option) => /^no\b/i.test(String(option))) ||
-                options.find((option) => /^yes\b/i.test(String(option))) ||
-                options[0];
+    const preferenceAnswer = resolvePreferenceProfileAnswer(
+        {
+            label,
+            question: label,
+            field_type: field.type || field.field_type || 'text',
+            options,
+            dom: field.dom || null,
+        },
+        profileData,
+    );
 
-            return preferred != null ? String(preferred) : 'No';
-        }
-
-        return settings.visa_sponsorship === 'yes' ? 'Yes' : 'No';
+    if (isMeaningfulAnswer(preferenceAnswer)) {
+        return String(preferenceAnswer).trim();
     }
 
-    if (
-        (fieldType === 'radio' || fieldType === 'select' || fieldType === 'checkbox') &&
-        options.length > 0
-    ) {
-        const preferred =
-            options.find((option) => /^no\b/i.test(String(option))) ||
-            options.find((option) => /^yes\b/i.test(String(option))) ||
-            options[0];
-
-        return preferred != null ? String(preferred) : null;
-    }
-
-    if (fieldType === 'textarea' || /describe|explain|why|tell us|cover letter/.test(question)) {
-        return 'I have relevant hands-on experience that aligns with this role and am happy to discuss specifics in an interview.';
-    }
-
-    if (fieldType === 'text' || fieldType === 'email' || fieldType === 'tel') {
-        return 'Yes';
-    }
-
-    return 'Yes';
+    return null;
 }
 
 /**

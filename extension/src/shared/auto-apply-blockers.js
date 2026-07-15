@@ -1,8 +1,10 @@
 import {
     dedupeQuestionLabelForDisplay,
     isMeaningfulAnswer,
+    isSkillSpecificYearsExperienceQuestionLabel,
     readProfileValue,
     resolveProfileMappingForLabel,
+    shouldPromptUserForMissingDraftAnswer,
 } from './pending-fields.js';
 
 /**
@@ -300,6 +302,29 @@ function pickValidationBlocker(modalState, candidates, profileData) {
     };
 }
 
+function shouldPauseForUnfilledField(field, profileData) {
+    const normalized = normalizeBlockerField(field);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (isSkillSpecificYearsExperienceQuestionLabel(normalized.label || normalized.question)) {
+        return false;
+    }
+
+    return shouldPromptUserForMissingDraftAnswer(
+        {
+            label: normalized.label,
+            question: normalized.question,
+            field_type: normalized.type,
+            options: normalized.options,
+            dom: normalized.dom,
+        },
+        profileData,
+    );
+}
+
 /**
  * @param {object|null|undefined} modalState
  * @param {object|null|undefined} draftResult
@@ -334,7 +359,7 @@ export function detectUnfilledBlockers(modalState, draftResult = {}, options = {
     for (const pending of pendingFields) {
         const field = normalizeBlockerField(pending);
 
-        if (!field) {
+        if (!field || !shouldPauseForUnfilledField(field, profileData)) {
             continue;
         }
 
@@ -350,7 +375,7 @@ export function detectUnfilledBlockers(modalState, draftResult = {}, options = {
     for (const unfilled of unfilledRequiredFields) {
         const field = normalizeBlockerField(unfilled);
 
-        if (!field) {
+        if (!field || !shouldPauseForUnfilledField(field, profileData)) {
             continue;
         }
 

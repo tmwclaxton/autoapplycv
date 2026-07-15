@@ -2,6 +2,11 @@
  * LinkedIn Easy Apply DOM helpers (content script global).
  */
 const AutoCVApplyLinkedInAutoApply = (() => {
+    // Keep in sync with extension/src/shared/linkedin-step-readiness.js
+    const LINKEDIN_STEP_READY_TIMEOUT_MS = 20_000;
+    const LINKEDIN_EMPTY_SHELL_FAIL_FAST_MS = 6_000;
+    const LINKEDIN_EMPTY_SHELL_RECOVERY_WAIT_MS = 12_000;
+
     const sleep = (ms) =>
         new Promise((resolve) => window.setTimeout(resolve, ms));
 
@@ -1423,6 +1428,27 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return `${heading}|${fieldCount}|${progress}|${primary?.action || 'none'}|${primary?.label || ''}|resume:${resumeSelected}`;
     }
 
+    // Keep in sync with extension/src/shared/linkedin-step-readiness.js
+    function readStableStepKey(modal = readEasyApplyModal()) {
+        if (!modal) {
+            return null;
+        }
+
+        const heading = (readStepSectionTitle(modal) || '').trim().toLowerCase();
+        const fingerprint = readStepFingerprint(modal);
+        const resumeFlag = fingerprint.match(/resume:([01])/)?.[1];
+
+        if (resumeFlag != null || /^resume$/i.test(heading)) {
+            return `resume:${resumeFlag ?? '?'}`;
+        }
+
+        if (heading) {
+            return heading;
+        }
+
+        return fingerprint.split('|')[0]?.trim().toLowerCase() || null;
+    }
+
     function readModalValidationErrors(modal = readEasyApplyModal()) {
         if (!modal) {
             return [];
@@ -1852,7 +1878,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return { nudged: true };
     }
 
-    async function waitForEasyApplyStepReady(timeoutMs = 20_000) {
+    async function waitForEasyApplyStepReady(
+        timeoutMs = LINKEDIN_STEP_READY_TIMEOUT_MS,
+    ) {
         const deadline = Date.now() + timeoutMs;
         let nudged = false;
         let emptySince = null;
@@ -1891,7 +1919,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 // seconds - fail fast so orchestrator can reopen/skip.
                 if (
                     isEasyApplyStepLoading(modal) &&
-                    Date.now() - emptySince >= 6_000
+                    Date.now() - emptySince >= LINKEDIN_EMPTY_SHELL_FAIL_FAST_MS
                 ) {
                     return {
                         ready: false,
@@ -1921,7 +1949,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         };
     }
 
-    async function recoverEmptyEasyApplyShell({ waitMs = 12_000 } = {}) {
+    async function recoverEmptyEasyApplyShell({
+        waitMs = LINKEDIN_EMPTY_SHELL_RECOVERY_WAIT_MS,
+    } = {}) {
         const modal = readEasyApplyModal();
 
         if (!modal) {
@@ -1985,8 +2015,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     async function waitForStepTransition(
         previousFingerprint,
         timeoutMs = 10_000,
+        previousStableKey = null,
     ) {
         const deadline = Date.now() + timeoutMs;
+        const baselineKey =
+            previousStableKey ||
+            (previousFingerprint ? String(previousFingerprint).split('|')[0]?.toLowerCase() : null);
 
         while (Date.now() < deadline) {
             await sleep(250);
@@ -2003,6 +2037,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                     closed: false,
                     submitted: true,
                     stepFingerprint: readStepFingerprint(modal),
+                    stableStepKey: readStableStepKey(modal),
                     confirmation: readApplicationSubmittedConfirmation(modal),
                 };
             }
@@ -2010,12 +2045,23 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             await waitForLoadingToSettle(modal, 1000);
 
             const nextFingerprint = readStepFingerprint(modal);
+            const nextStableKey = readStableStepKey(modal);
 
-            if (nextFingerprint !== previousFingerprint) {
+            if (baselineKey && nextStableKey && nextStableKey !== baselineKey) {
                 return {
                     transitioned: true,
                     closed: false,
                     stepFingerprint: nextFingerprint,
+                    stableStepKey: nextStableKey,
+                };
+            }
+
+            if (!baselineKey && nextFingerprint !== previousFingerprint) {
+                return {
+                    transitioned: true,
+                    closed: false,
+                    stepFingerprint: nextFingerprint,
+                    stableStepKey: nextStableKey,
                 };
             }
         }
@@ -2114,8 +2160,19 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
         }
 
+        if (
+            typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined' &&
+            AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal) &&
+            !AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume(modal)
+        ) {
+            await prefillResumeStep(null);
+            await sleep(500);
+            modal = readEasyApplyModal() || modal;
+        }
+
         const validationErrors = readModalValidationErrors(modal);
         const previousFingerprint = readStepFingerprint(modal);
+        const previousStableKey = readStableStepKey(modal);
         const primary = findPrimaryActionButton(modal);
 
         if (!primary) {
@@ -2177,7 +2234,16 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        const transition = await waitForStepTransition(previousFingerprint);
+        const resumeStep =
+            typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined' &&
+            AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal);
+        const transition = await waitForStepTransition(
+            previousFingerprint,
+            resumeStep ? 15_000 : 10_000,
+            previousStableKey,
+        );
+        const postStableKey =
+            transition.stableStepKey || readStableStepKey(readEasyApplyModal());
 
         if (transition.submitted) {
             return {
@@ -2187,6 +2253,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 submitted: true,
                 stepFingerprint:
                     transition.stepFingerprint || readStepFingerprint(),
+                stableStepKey: postStableKey,
                 validationErrors: readModalValidationErrors(),
                 confirmation:
                     transition.confirmation ||
@@ -2195,13 +2262,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
+        const stableAdvanced = Boolean(
+            previousStableKey &&
+                postStableKey &&
+                postStableKey !== previousStableKey,
+        );
+
         return {
             success: true,
-            transitioned: transition.transitioned || transition.closed,
+            transitioned: stableAdvanced || transition.closed,
             action: primary.action,
             submitted: false,
             stepFingerprint:
                 transition.stepFingerprint || readStepFingerprint(),
+            stableStepKey: postStableKey,
             validationErrors: readModalValidationErrors(),
             closed: transition.closed,
         };
@@ -2428,6 +2502,62 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         element.dispatchEvent(new EventConstructor(type, { bubbles: true }));
     }
 
+    function readControlValidationError(control) {
+        if (!control) {
+            return null;
+        }
+
+        const formElement = control.closest('[data-test-form-element]');
+        const errorRoot = formElement?.querySelector(
+            '[data-test-form-element-error-messages]',
+        );
+
+        if (!errorRoot || !isElementVisible(errorRoot)) {
+            return null;
+        }
+
+        const message = normalize(
+            errorRoot.querySelector('.artdeco-inline-feedback__message')
+                ?.textContent || '',
+        );
+
+        return message || null;
+    }
+
+    function blockedFieldMatchesInvalidField({ label, dom } = {}, invalidField) {
+        const domId = dom?.id || dom?.input_id || null;
+        const invalidDomId = invalidField?.dom?.id || invalidField?.dom?.input_id || null;
+
+        if (domId && invalidDomId && domId === invalidDomId) {
+            return true;
+        }
+
+        const normalizedLabel = normalize(label || '');
+        const invalidLabel = normalize(
+            invalidField?.label || invalidField?.question || '',
+        );
+
+        if (!normalizedLabel || !invalidLabel) {
+            return false;
+        }
+
+        return normalizedLabel === invalidLabel
+            || normalizedLabel.includes(invalidLabel)
+            || invalidLabel.includes(normalizedLabel);
+    }
+
+    function findBlockedFieldValidationError(state, { label, dom } = {}) {
+        for (const invalidField of state?.invalidFields || []) {
+            if (!blockedFieldMatchesInvalidField({ label, dom }, invalidField)) {
+                continue;
+            }
+
+            return state.validationErrors?.[0] || 'Please enter a valid answer.';
+        }
+
+        return null;
+    }
+
     async function validateBlockedFieldAfterFill({ label, dom } = {}) {
         const modal = readEasyApplyModal();
 
@@ -2451,13 +2581,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         const state = getEasyApplyModalState();
+        const validationError = control
+            ? readControlValidationError(control)
+            : findBlockedFieldValidationError(state, { label, dom });
 
         return {
             ...state,
-            valid:
-                (state.validationErrors?.length || 0) === 0 &&
-                (state.invalidFields?.length || 0) === 0,
-            validationError: state.validationErrors?.[0] || null,
+            valid: !validationError,
+            validationError,
         };
     }
 

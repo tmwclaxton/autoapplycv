@@ -4,7 +4,12 @@ import {
     resolveHeuristicScreenerAnswer,
     resolveTestModeFallbackAnswer,
 } from '../../extension/src/shared/auto-apply-screener-answer.js';
-import { resolvePreferenceProfileAnswer } from '../../extension/src/shared/pending-fields.js';
+import {
+    resolveLocalCommuteComfortAnswer,
+    resolveLocalHybridComfortAnswer,
+    resolvePreferenceProfileAnswer,
+    resolveProfileMappingForLabel,
+} from '../../extension/src/shared/pending-fields.js';
 
 const profileData = {
     application_settings: {
@@ -16,6 +21,64 @@ const profileData = {
     },
 };
 
+const localCommuteField = {
+    label: "Are you comfortable commuting to this job's location?",
+    field_type: 'radio',
+    options: ['Yes', 'No'],
+};
+
+assert.equal(
+    resolveLocalCommuteComfortAnswer(localCommuteField, profileData),
+    'Yes',
+    'local commute comfort uses profile mapping policy, not screener regex',
+);
+
+assert.equal(
+    resolvePreferenceProfileAnswer(localCommuteField, profileData),
+    'Yes',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            ...localCommuteField,
+            type: 'radio',
+        },
+        profileData,
+    ),
+    'Yes',
+);
+
+assert.equal(
+    resolveLocalCommuteComfortAnswer(localCommuteField, {
+        application_settings: { affirm_local_commute: 'no' },
+    }),
+    '',
+    'affirm_local_commute=no must not auto-answer',
+);
+
+assert.equal(
+    resolveProfileMappingForLabel(localCommuteField.label, profileData)?.path,
+    'application_settings.affirm_local_commute',
+    'commute comfort must win over generic location keyword',
+);
+
+const hybridField = {
+    label: 'Are you comfortable working in a hybrid setting?',
+    field_type: 'radio',
+    options: ['Yes', 'No'],
+};
+
+assert.equal(
+    resolveLocalHybridComfortAnswer(hybridField, profileData),
+    'Yes',
+);
+
+assert.equal(
+    resolvePreferenceProfileAnswer(hybridField, profileData),
+    'Yes',
+);
+
 assert.equal(
     resolveHeuristicScreenerAnswer(
         {
@@ -24,7 +87,8 @@ assert.equal(
         },
         profileData,
     ),
-    '7',
+    null,
+    'skill-specific years questions must defer to NanoGPT',
 );
 
 assert.equal(
@@ -257,18 +321,20 @@ assert.equal(
         },
         profileData,
     ),
-    'I have relevant hands-on experience that aligns with this role and am happy to discuss specifics in an interview.',
+    null,
+    'open-ended textarea questions must defer to NanoGPT in test mode',
 );
 
 assert.equal(
-    resolveTestModeFallbackAnswer(
+    resolveHeuristicScreenerAnswer(
         {
             label: 'How many years of work experience do you have with SSIS?',
             type: 'text',
         },
         { application_settings: {} },
     ),
-    '0',
+    null,
+    'skill-specific years without saved answer must defer to NanoGPT',
 );
 
 assert.equal(
@@ -308,7 +374,7 @@ assert.equal(
         },
         profileData,
     ),
-    'N/A',
+    null,
 );
 
 assert.equal(
@@ -319,7 +385,8 @@ assert.equal(
         },
         profileData,
     ),
-    'Indeed',
+    null,
+    'source-of-hire questions must defer to NanoGPT',
 );
 
 assert.equal(
@@ -330,7 +397,7 @@ assert.equal(
         },
         profileData,
     ),
-    'N/A',
+    null,
 );
 
 assert.equal(

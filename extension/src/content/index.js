@@ -1722,30 +1722,22 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'LINKEDIN_PREFILL_CONTACT') {
+        if (message.type === 'LINKEDIN_ENSURE_RESUME_STEP') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
-                sendResponse({ filled: 0, success: false, skipped: true, errors: [] });
+                sendResponse({
+                    filled: 0,
+                    success: false,
+                    skipped: true,
+                    resumeSelected: false,
+                    errors: ['LinkedIn auto-apply helpers unavailable.'],
+                });
 
                 return;
             }
 
             const profileData = await ensureProfileLoaded();
 
-            sendResponse(await AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData));
-
-            return;
-        }
-
-        if (message.type === 'LINKEDIN_PREFILL_EASY_APPLY') {
-            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
-                sendResponse({ filled: 0, success: false, skipped: true, errors: [] });
-
-                return;
-            }
-
-            const profileData = await ensureProfileLoaded();
-
-            sendResponse(await AutoCVApplyLinkedInAutoApply.prefillEasyApplyStep(profileData));
+            sendResponse(await AutoCVApplyLinkedInAutoApply.prefillResumeStep(profileData));
 
             return;
         }
@@ -1756,21 +1748,6 @@ const contentMessageListener = (message, sender, sendResponse) => {
 
                 return;
             }
-
-            sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
-
-            return;
-        }
-
-        if (message.type === 'LINKEDIN_FILL_AND_ADVANCE') {
-            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
-                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
-
-                return;
-            }
-
-            const profileData = await ensureProfileLoaded();
-            await AutoCVApplyLinkedInAutoApply.prefillEasyApplyStep(profileData);
 
             sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
 

@@ -631,121 +631,6 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
         };
     }
 
-    function normalizeSettingValue(value) {
-        const normalized = normalize(value).toLowerCase();
-
-        if (['yes', 'y', 'true', '1'].includes(normalized)) {
-            return 'yes';
-        }
-
-        if (['no', 'n', 'false', '0'].includes(normalized)) {
-            return 'no';
-        }
-
-        return normalized;
-    }
-
-    function matchOptionForSetting(options, desiredValue) {
-        const desired = normalizeSettingValue(desiredValue);
-
-        if (!desired) {
-            return null;
-        }
-
-        const validOptions = options.filter((option) => !isPlaceholderSelectOption(option));
-
-        return validOptions.find((option) => {
-            const text = normalize(option.textContent).toLowerCase();
-            const value = normalize(option.value).toLowerCase();
-
-            if (desired === 'yes') {
-                return text === 'yes' || value === 'yes' || text.startsWith('yes');
-            }
-
-            if (desired === 'no') {
-                return text === 'no' || value === 'no' || text.startsWith('no');
-            }
-
-            return text.includes(desired) || value.includes(desired) || desired.includes(text);
-        }) || null;
-    }
-
-    function fillSelectByLabelWithSetting(modal, labelPattern, desiredValue) {
-        const select = findSelectByLabel(modal, labelPattern);
-
-        if (!select) {
-            return false;
-        }
-
-        if (!isSelectPlaceholder(select)) {
-            return true;
-        }
-
-        const match = matchOptionForSetting(Array.from(select.options), desiredValue);
-
-        if (!match) {
-            return false;
-        }
-
-        return setSelectOption(select, match);
-    }
-
-    function fillScreeningFieldsFromSettings(modal, profileData) {
-        const settings = profileData?.application_settings || {};
-        const mappings = [
-            [/years.*experience|experience.*years/i, settings.years_of_experience || '2'],
-            [/authorized.*work|legally.*authorized|right to work|eligible to work/i, settings.legally_authorized || 'yes'],
-            [/visa|sponsorship/i, settings.visa_sponsorship || 'no'],
-            [/relocate|relocation/i, settings.willing_to_relocate || 'yes'],
-            [/driver/i, settings.drivers_license || 'yes'],
-        ];
-
-        let filled = 0;
-
-        for (const [pattern, value] of mappings) {
-            if (fillSelectByLabelWithSetting(modal, pattern, value)) {
-                filled += 1;
-            }
-
-            const input = findInputByLabel(modal, pattern);
-
-            if (input && !normalize(input.value) && value) {
-                if (setTextInputValue(input, value)) {
-                    filled += 1;
-                }
-            }
-        }
-
-        for (const fieldset of modal.querySelectorAll('fieldset')) {
-            const legend = normalize(fieldset.querySelector('legend, .fb-dash-form-element__label')?.textContent || '');
-
-            if (!legend) {
-                continue;
-            }
-
-            for (const [pattern, value] of mappings) {
-                if (!pattern.test(legend)) {
-                    continue;
-                }
-
-                const desired = normalizeSettingValue(value);
-                const radios = [...fieldset.querySelectorAll('input[type="radio"]')];
-                const match = radios.find((radio) => {
-                    const label = normalize(radio.labels?.[0]?.textContent || radio.getAttribute('aria-label') || '');
-
-                    return label.toLowerCase().startsWith(desired);
-                });
-
-                if (match && !match.checked) {
-                    match.click();
-                    filled += 1;
-                }
-            }
-        }
-
-        return filled;
-    }
-
     function isVisibleErrorNode(node) {
         if (!node) {
             return false;
@@ -815,8 +700,6 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
 
             errors = readContactValidationErrors(modal);
         }
-
-        filled += fillScreeningFieldsFromSettings(modal, profileData);
 
         const emailSelect = findSelectByLabel(modal, /\bemail\b/i);
         const countrySelect = findSelectByLabel(modal, /phone\s+country\s+code|country\s+code/i);

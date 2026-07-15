@@ -2,6 +2,11 @@
  * Normalize draft and user answers to the shape employer forms expect.
  */
 
+import {
+    isGenericTotalExperienceQuestionLabel,
+    isSkillSpecificYearsExperienceQuestionLabel,
+} from './pending-fields.js';
+
 const YEARS_INTEGER_PATTERN = /^\d+$/;
 const YEARS_WITH_UNIT_PATTERN = /^(\d+)\s*\+?\s*(?:years?|yrs?)\b/i;
 const EMBEDDED_YEARS_PATTERN = /\b(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i;
@@ -335,7 +340,12 @@ export function resolveDeterministicChoiceAnswer(label, answer, field) {
 
 export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
     if (isYearsExperienceQuestion(label)) {
-        return normalizeYearsExperienceAnswer(answer, options);
+        const yearsOptions = isSkillSpecificYearsExperienceQuestionLabel(label)
+            || !isGenericTotalExperienceQuestionLabel(label)
+            ? { ...options, profileYears: null, fallback: '' }
+            : options;
+
+        return normalizeYearsExperienceAnswer(answer, yearsOptions);
     }
 
     if (isNoticePeriodStyleQuestion(label)) {

@@ -1346,3 +1346,41 @@ body {
 .auto-apply-pause-message {
     margin: 0;
 }
+
+.auto-apply-preflight {
+    margin-top: 10px;
+    padding: 12px;
+}
+
+.auto-apply-preflight-title {
+    margin: 0 0 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.auto-apply-preflight-lines {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.auto-apply-intervention {
+    margin-top: 10px;
+    padding: 12px;
+    border-left: 4px solid var(--postbox-navy);
+}
+
+.auto-apply-intervention-headline {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--postbox-navy);
+}
+
+.auto-apply-intervention-detail,
+.auto-apply-intervention-next {
+    margin: 0 0 4px;
+}
+
+.auto-apply-intervention-next {
+    font-weight: 600;
+}

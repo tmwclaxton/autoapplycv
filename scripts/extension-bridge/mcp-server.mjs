@@ -681,6 +681,7 @@ server.tool(
         maxApplications: z.number().int().min(1).max(50).optional().describe('Stop after this many successful applications. Default 2.'),
         fitCheckEnabled: z.boolean().optional().describe('When true, skip low ATS-fit jobs.'),
         minFitScore: z.number().int().optional().describe('Minimum ATS score when fit check is enabled.'),
+        timingLevel: z.number().int().min(1).max(5).optional().describe('Timing level 1=Speed through 5=Careful timing. Default 5.'),
         location: z.string().optional().describe('Location filter for Indeed or LinkedIn search.'),
         market: z.enum(['auto', 'uk', 'us', 'ca', 'au']).optional().describe('Explicit job-board market override (Indeed, Glassdoor, SimplyHired). Defaults to auto from location.'),
         workType: z.string().optional().describe('LinkedIn work type filter, e.g. remote.'),
@@ -694,6 +695,7 @@ server.tool(
         maxApplications = 2,
         fitCheckEnabled = false,
         minFitScore = 10,
+        timingLevel,
         location,
         market,
         workType,
@@ -721,6 +723,7 @@ server.tool(
             maxApplications,
             fitCheckEnabled,
             minFitScore,
+            timingLevel: typeof timingLevel === 'number' ? timingLevel : undefined,
             filters: Object.keys(filters).length > 0 ? filters : null,
             force,
             hostTabId,
@@ -820,7 +823,7 @@ server.tool(
 
 server.tool(
     'linkedin_tab_message',
-    'Send a LinkedIn content-script message (LINKEDIN_EASY_APPLY_STATE, LINKEDIN_EXPORT_EASY_APPLY_MODAL, LINKEDIN_FILL_AND_ADVANCE, etc.).',
+    'Send a LinkedIn content-script message (LINKEDIN_EASY_APPLY_STATE, LINKEDIN_EXPORT_EASY_APPLY_MODAL, LINKEDIN_ADVANCE_EASY_APPLY, etc.).',
     {
         tabId: z.number().int().optional(),
         windowId: windowIdSchema,

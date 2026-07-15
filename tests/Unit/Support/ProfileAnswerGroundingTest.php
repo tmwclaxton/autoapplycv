@@ -30,6 +30,46 @@ class ProfileAnswerGroundingTest extends TestCase
         ]));
     }
 
+    public function test_skill_years_question_does_not_need_grounding(): void
+    {
+        $this->assertFalse(ProfileAnswerGrounding::questionNeedsGrounding([
+            'label' => 'How many years of work experience do you have with C++?',
+            'field_type' => 'text',
+        ]));
+    }
+
+    public function test_enforce_grounded_answers_keeps_skill_years_integer(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'skills' => ['PHP', 'Laravel'],
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Acme Corp',
+                    'start_date' => '2020-01',
+                    'end_date' => 'Present',
+                    'highlights' => ['Built Laravel APIs for internal tools'],
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
+        ]);
+
+        $questions = [[
+            'label' => 'How many years of work experience do you have with C++?',
+            'ref' => 'cpp-years',
+            'field_type' => 'text',
+        ]];
+
+        $enforced = ProfileAnswerGrounding::enforceGroundedAnswers($profile, $questions, [[
+            'label' => 'How many years of work experience do you have with C++?',
+            'ref' => 'cpp-years',
+            'answer' => '5',
+        ]]);
+
+        $this->assertSame('5', $enforced[0]['answer'] ?? null);
+    }
+
     public function test_enforce_grounded_answers_rejects_invented_employer(): void
     {
         $user = User::factory()->create();

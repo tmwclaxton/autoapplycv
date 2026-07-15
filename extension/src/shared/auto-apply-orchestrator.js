@@ -20,6 +20,11 @@ import {
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
 import {
+    appendAutoApplyJobOutcome,
+    AUTO_APPLY_OUTCOME,
+    resolveStructuredJobProcessOutcome,
+} from './auto-apply-outcomes.js';
+import {
     buildJobSearchUrl,
     CV_LIBRARY_PLATFORM_ID,
     GLASSDOOR_PLATFORM_ID,
@@ -64,6 +69,7 @@ import {
 import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
 import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
+import { DRAFT_ALL_STEP_TIMEOUT_MS, resolveDraftAllStepTimeoutMs } from './draft-all-step-timeout.js';
 import {
     invalidateTabFrameCache,
     resolveIndeedApplyTabId,
@@ -84,6 +90,10 @@ import {
     urlsMatchIndeedSearch,
 } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
+import {
+    linkedInStepDidAdvance,
+    readLinkedInStableStepKey,
+} from './linkedin-step-readiness.js';
 import {
     indeedStoredIdentityConflictsWithProfile,
     mergePendingFields,
@@ -154,16 +164,6 @@ const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
 const EASY_APPLY_MAX_STEPS = 10;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
-const DRAFT_ALL_STEP_TIMEOUT_MS = 90_000;
-
-function resolveDraftAllStepTimeoutMs(fieldCount = 0) {
-    if (fieldCount <= 6) {
-        return DRAFT_ALL_STEP_TIMEOUT_MS;
-    }
-
-    return Math.min(300_000, 60_000 + fieldCount * 12_000);
-}
-
 function buildSessionSearchOptions(session) {
     return {
         easyApplyOnly: true,
@@ -868,19 +868,6 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
     }
 
     if (!windowId && !tabId) {
-        const sidePanelOpen = resolveSidePanelOpen(
-            await chrome.storage.session.get([
-                'sidePanelOpen',
-                'sidePanelLastHeartbeatAt',
-            ]),
-        );
-
-        if (sidePanelOpen) {
-            throw new Error(
-                'Open a job board tab in the browser window where AutoCVApply is open, then press Start again.',
-            );
-        }
-
         const created = await createAutoApplyWindow(url);
         await rememberAutoApplyWindow(created.windowId, created.tabId, {
             usesDedicatedWindow: true,
@@ -1025,7 +1012,7 @@ const LINKEDIN_SLOW_MESSAGE_TIMEOUT_MS = {
     LINKEDIN_WAIT_FOR_JOB_DESCRIPTION: 45_000,
     LINKEDIN_WAIT_FOR_STEP_READY: 35_000,
     LINKEDIN_RECOVER_EMPTY_SHELL: 50_000,
-    LINKEDIN_FILL_AND_ADVANCE: 45_000,
+    LINKEDIN_ENSURE_RESUME_STEP: 25_000,
     LINKEDIN_ADVANCE_EASY_APPLY: 35_000,
 };
 
@@ -1088,14 +1075,11 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
     return null;
 }
 
-async function advanceLinkedInEasyApplyStep(
-    tabId,
-    { skipPrefill = false } = {},
-) {
-    const advanceType = skipPrefill
-        ? 'LINKEDIN_ADVANCE_EASY_APPLY'
-        : 'LINKEDIN_FILL_AND_ADVANCE';
-    let advanceResponse = await sendLinkedInMessage(tabId, advanceType);
+async function advanceLinkedInEasyApplyStep(tabId) {
+    let advanceResponse = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_ADVANCE_EASY_APPLY',
+    );
 
     if (
         advanceResponse?.success ||
@@ -1109,7 +1093,7 @@ async function advanceLinkedInEasyApplyStep(
     const modalState = await readLinkedInModalState(tabId, { retries: 4 });
 
     if (modalState?.open) {
-        return sendLinkedInMessage(tabId, advanceType);
+        return sendLinkedInMessage(tabId, 'LINKEDIN_ADVANCE_EASY_APPLY');
     }
 
     const reopenResponse = await sendLinkedInMessage(
@@ -1119,7 +1103,10 @@ async function advanceLinkedInEasyApplyStep(
 
     if (reopenResponse?.success && !reopenResponse?.alreadyApplied) {
         await sleep(randomDelay(900, 500));
-        advanceResponse = await sendLinkedInMessage(tabId, advanceType);
+        advanceResponse = await sendLinkedInMessage(
+            tabId,
+            'LINKEDIN_ADVANCE_EASY_APPLY',
+        );
     }
 
     return advanceResponse;
@@ -2549,6 +2536,76 @@ async function pauseForCaptchaReview(
         .catch(() => {});
 }
 
+async function pauseForIdentityConfirm(
+    session,
+    tabId,
+    job,
+    applyState,
+    profileData,
+) {
+    const expected = resolveExpectedApplicantIdentity(profileData);
+    const preticked = String(
+        applyState?.storedApplicant?.fullName ||
+            `${applyState?.storedApplicant?.firstName || ''} ${applyState?.storedApplicant?.lastName || ''}`.trim(),
+    ).trim();
+    const prompt =
+        `Indeed shows "${preticked}" but your signed-in profile is "${expected.fullName}". ` +
+        'Tap Resume in Assist to update the job board contact with your profile.';
+
+    const pauseContext = {
+        job: {
+            jobId: job.jobId,
+            title: job.title,
+            company: job.company,
+        },
+        stepFingerprint: applyState?.stepFingerprint || 'identity-confirm',
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: 'identity_confirm',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        identityConfirm: true,
+    };
+
+    await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                `[identity] ${job.title}: confirm updating Indeed contact to match signed-in profile.`,
+            ),
+            pauseContext,
+        ),
+    );
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'identity_confirm',
+        })
+        .catch(() => {});
+}
+
+async function waitForIdentityConfirmResume(_session) {
+    const resumed = await waitForAutoApplyResumeWithTimeout(300_000);
+
+    if (resumed.stopRequested) {
+        return { stopped: true, session: resumed };
+    }
+
+    if (resumed.status === 'paused_for_input') {
+        await resumeAutoApplyFromPauseSilently();
+
+        return { timedOut: true, session: resumed };
+    }
+
+    return { resumed: true, session: resumed };
+}
+
 async function waitForIndeedCaptchaResume(
     session,
     tabId,
@@ -2752,28 +2809,11 @@ async function runDraftAllForStep(
     stepLabel,
     runDraftAll,
     session,
-    platform = LINKEDIN_PLATFORM_ID,
 ) {
     invalidateTabFrameCache(tabId);
     await sendTabMessage(tabId, { type: 'RELOAD_CONTENT_PROFILE' }, 0).catch(
         () => {},
     );
-
-    if (platform === LINKEDIN_PLATFORM_ID) {
-        const contactPrefill = await sendLinkedInMessage(
-            tabId,
-            'LINKEDIN_PREFILL_CONTACT',
-        ).catch(() => null);
-        const contactFilled = Number(contactPrefill?.filled || 0);
-
-        if (contactFilled > 0) {
-            await updateSession((current) => ({
-                ...current,
-                fieldsFilledCount:
-                    (current.fieldsFilledCount || 0) + contactFilled,
-            }));
-        }
-    }
 
     let draftAllTimeoutMs = DRAFT_ALL_STEP_TIMEOUT_MS;
 
@@ -3164,6 +3204,7 @@ async function processLinkedInJob(
     let submitted = false;
     let guard = 0;
     let lastStepFingerprint = null;
+    let lastStepKey = null;
     let sameStepCount = 0;
     let stepLoadAttempts = 0;
 
@@ -3445,6 +3486,10 @@ async function processLinkedInJob(
             lastStepFingerprint = modalState.stepFingerprint;
         }
 
+        if (lastStepKey === null) {
+            lastStepKey = readLinkedInStableStepKey(modalState);
+        }
+
         await logSession(
             'info',
             `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}` +
@@ -3458,26 +3503,41 @@ async function processLinkedInJob(
             );
         }
 
-        let draftResult = { fieldsFilled: 0, pendingFields: [] };
-
-        if (isReviewStep || isResumeStep) {
-            await sendLinkedInMessage(
+        if (isResumeStep) {
+            const resumeResult = await sendLinkedInMessage(
                 tabId,
-                'LINKEDIN_PREFILL_EASY_APPLY',
+                'LINKEDIN_ENSURE_RESUME_STEP',
             ).catch(() => null);
-            await sleep(randomDelay(500, 400));
+
+            if (resumeResult?.resumeSelected) {
+                const resumeFilled = Number(resumeResult.filled || 0);
+
+                if (resumeFilled > 0) {
+                    await updateSession((current) => ({
+                        ...current,
+                        fieldsFilledCount:
+                            (current.fieldsFilledCount || 0) + resumeFilled,
+                    }));
+                }
+            } else if (!resumeResult?.skipped) {
+                await logSession(
+                    'warn',
+                    `[resume] ${job.title}: ${resumeResult?.errors?.[0] || 'Could not select a resume on LinkedIn.'}`,
+                );
+            }
         }
 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
-        draftResult = await runDraftAllForStep(
-            tabId,
-            job,
-            modalState.stepLabel,
-            runDraftAll,
-            session,
-            LINKEDIN_PLATFORM_ID,
-        );
+        const draftResult = isResumeStep
+            ? { fieldsFilled: 0, success: true, skipped: true }
+            : await runDraftAllForStep(
+                  tabId,
+                  job,
+                  modalState.stepLabel,
+                  runDraftAll,
+                  session,
+              );
 
         const postDraftModalState = await readLinkedInModalState(tabId, {
             retries: 3,
@@ -3508,9 +3568,9 @@ async function processLinkedInJob(
             continue;
         }
 
-        let advanceResponse = await advanceLinkedInEasyApplyStep(tabId, {
-            skipPrefill: isReviewStep || isResumeStep,
-        });
+        await wakeAutoApplyTab(tabId).catch(() => {});
+
+        let advanceResponse = await advanceLinkedInEasyApplyStep(tabId);
 
         if (advanceResponse?.validationErrors?.length) {
             await logSession(
@@ -3613,13 +3673,24 @@ async function processLinkedInJob(
             );
         }
 
-        if (
-            advanceResponse?.transitioned &&
-            advanceResponse?.stepFingerprint &&
-            advanceResponse.stepFingerprint !== lastStepFingerprint
-        ) {
+        const postAdvanceModalState = await readLinkedInModalState(tabId, {
+            retries: 3,
+        });
+        const stepAdvanced = linkedInStepDidAdvance(
+            modalState,
+            postAdvanceModalState || advanceResponse,
+        );
+
+        if (stepAdvanced) {
             sameStepCount = 0;
-            lastStepFingerprint = advanceResponse.stepFingerprint;
+            lastStepFingerprint =
+                postAdvanceModalState?.stepFingerprint ||
+                advanceResponse?.stepFingerprint ||
+                lastStepFingerprint;
+            lastStepKey =
+                readLinkedInStableStepKey(postAdvanceModalState) ||
+                advanceResponse?.stableStepKey ||
+                lastStepKey;
 
             await recordAnalyticsEvent(session, 'step_advanced', job, {
                 metadata: {
@@ -3641,21 +3712,7 @@ async function processLinkedInJob(
                 `[advance] ${job.title}: clicked ${advanceResponse?.action || 'next'} without step transition.`,
             );
 
-            const postAdvanceFingerprint =
-                advanceResponse?.stepFingerprint ||
-                (await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE'))
-                    ?.stepFingerprint ||
-                lastStepFingerprint;
-
-            if (
-                postAdvanceFingerprint &&
-                postAdvanceFingerprint === lastStepFingerprint
-            ) {
-                sameStepCount += 1;
-            } else {
-                sameStepCount = 0;
-                lastStepFingerprint = postAdvanceFingerprint;
-            }
+            sameStepCount += 1;
 
             if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
                 const debugExport = await sendLinkedInMessage(
@@ -3664,7 +3721,8 @@ async function processLinkedInJob(
                 ).catch(() => null);
                 const debugFingerprint =
                     debugExport?.diagnostics?.stepFingerprint ||
-                    postAdvanceFingerprint ||
+                    postAdvanceModalState?.stepFingerprint ||
+                    lastStepFingerprint ||
                     'unknown';
                 const debugHtmlLength = debugExport?.html?.length || 0;
 
@@ -3674,6 +3732,27 @@ async function processLinkedInJob(
                         `errors=${(debugExport?.diagnostics?.errors || advanceResponse?.validationErrors || []).slice(0, 2).join('; ') || 'none'}`,
                 );
 
+                throw new Error(
+                    `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" ` +
+                        `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
+                        (advanceResponse?.validationErrors?.[0] ||
+                            modalState.actionLabel ||
+                            'No progress after repeated attempts.'),
+                );
+            }
+        } else if (
+            advanceResponse?.transitioned &&
+            !stepAdvanced &&
+            !advanceResponse?.closed
+        ) {
+            await logSession(
+                'warn',
+                `[advance] ${job.title}: loader noise without step change on ${modalState.stepLabel || 'step'}.`,
+            );
+
+            sameStepCount += 1;
+
+            if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
                 throw new Error(
                     `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" ` +
                         `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
@@ -4321,6 +4400,7 @@ async function evaluateIndeedJobFit(tabId, job, session) {
 }
 
 async function ensureIndeedContactMatchesProfile(
+    session,
     tabId,
     job,
     applyState,
@@ -4356,8 +4436,21 @@ async function ensureIndeedContactMatchesProfile(
 
     await logSession(
         'warn',
-        `[identity] ${job.title}: Indeed preticked "${preticked}" does not match profile "${expected.fullName}" - opening Indeed profile contact editor to overwrite.`,
+        `[identity] ${job.title}: Indeed preticked "${preticked}" does not match profile "${expected.fullName}" - confirm before updating contact.`,
     );
+
+    await pauseForIdentityConfirm(session, tabId, job, applyState, profileData);
+    const confirmWait = await waitForIdentityConfirmResume(session);
+
+    if (confirmWait.stopped) {
+        throw new Error('Auto Apply stopped before Indeed identity update.');
+    }
+
+    if (confirmWait.timedOut) {
+        throw new Error(
+            'Timed out waiting for confirmation to update Indeed contact.',
+        );
+    }
 
     if (/smartapply\.indeed\.com/i.test(tabUrl)) {
         await chrome.storage.session.set({
@@ -4939,6 +5032,7 @@ async function processIndeedJobInner(
 
         if (
             await ensureIndeedContactMatchesProfile(
+                session,
                 tabId,
                 job,
                 applyState,
@@ -4973,7 +5067,6 @@ async function processIndeedJobInner(
                 applyState.stepLabel,
                 runDraftAll,
                 session,
-                INDEED_PLATFORM_ID,
             );
             const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
                 type: 'INDEED_APPLY_STATE',
@@ -5770,7 +5863,6 @@ async function processTotalJobsJob(
             applyState.stepLabel,
             runDraftAll,
             session,
-            TOTALJOBS_PLATFORM_ID,
         );
         const postDraftState = await sendTotalJobsMessage(
             tabId,
@@ -6598,7 +6690,6 @@ async function processReedJob(
                   applyState.stepLabel,
                   runDraftAll,
                   session,
-                  REED_PLATFORM_ID,
               );
 
         if (draftResult?.stopped) {
@@ -7528,7 +7619,6 @@ async function processGlassdoorJob(
             applyState.stepLabel,
             runDraftAll,
             session,
-            GLASSDOOR_PLATFORM_ID,
         );
         const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
             type: 'INDEED_APPLY_STATE',
@@ -7824,6 +7914,21 @@ export async function startAutoApply({
         }
 
         if (hostTab) {
+            try {
+                const hostTabDetails = await chrome.tabs.get(hostTab.tabId);
+
+                if (
+                    !hostTabDetails?.url
+                    || !urlBelongsToPlatform(hostTabDetails.url, platform)
+                ) {
+                    hostTab = null;
+                }
+            } catch {
+                hostTab = null;
+            }
+        }
+
+        if (hostTab) {
             session = {
                 ...session,
                 tabId: hostTab.tabId,
@@ -7844,16 +7949,18 @@ export async function startAutoApply({
             );
 
             if (sidePanelOpen) {
-                throw new Error(
-                    'Open a job board tab in the browser window where AutoCVApply is open, then press Start again.',
+                session = appendAutoApplyLog(
+                    session,
+                    'info',
+                    'No job board tab in the Assist window - running Auto Apply in a background window.',
+                );
+            } else {
+                session = appendAutoApplyLog(
+                    session,
+                    'info',
+                    `Starting Auto Apply on ${platform}.`,
                 );
             }
-
-            session = appendAutoApplyLog(
-                session,
-                'info',
-                `Starting Auto Apply on ${platform}.`,
-            );
         }
 
         const analyticsSessionId = await startAutoApplyAnalyticsSession({
@@ -8082,9 +8189,17 @@ async function runIndeedAutoApplyLoop(
                         result.outcome === 'applied' ? 'success' : 'info',
                         formatJobOutcomeLogMessage(job, result),
                     );
+                    const structured = resolveStructuredJobProcessOutcome(result);
+                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
+                        jobId: job.jobId,
+                        title: job.title,
+                        company: job.company,
+                        outcome: structured.outcome,
+                        reason: structured.reason,
+                    });
 
                     return {
-                        ...withLog,
+                        ...withOutcome,
                         stats,
                         currentIndex: current.currentIndex + 1,
                     };
@@ -8115,9 +8230,16 @@ async function runIndeedAutoApplyLoop(
                         'error',
                         `${job.title}: ${error.message}`,
                     );
+                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
+                        jobId: job.jobId,
+                        title: job.title,
+                        company: job.company,
+                        outcome: AUTO_APPLY_OUTCOME.ERROR,
+                        reason: error.message || 'job_failed',
+                    });
 
                     return {
-                        ...withLog,
+                        ...withOutcome,
                         stats,
                         currentIndex: current.currentIndex + 1,
                         lastError: isExtensionMessagingError(error.message)
@@ -8356,9 +8478,17 @@ async function runAutoApplyLoop(
                         result.outcome === 'applied' ? 'success' : 'info',
                         formatJobOutcomeLogMessage(job, result),
                     );
+                    const structured = resolveStructuredJobProcessOutcome(result);
+                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
+                        jobId: job.jobId,
+                        title: job.title,
+                        company: job.company,
+                        outcome: structured.outcome,
+                        reason: structured.reason,
+                    });
 
                     return {
-                        ...withLog,
+                        ...withOutcome,
                         stats,
                         currentIndex: current.currentIndex + 1,
                     };
@@ -8391,9 +8521,16 @@ async function runAutoApplyLoop(
                         'error',
                         `${job.title}: ${error.message}`,
                     );
+                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
+                        jobId: job.jobId,
+                        title: job.title,
+                        company: job.company,
+                        outcome: AUTO_APPLY_OUTCOME.ERROR,
+                        reason: error.message || 'job_failed',
+                    });
 
                     return {
-                        ...withLog,
+                        ...withOutcome,
                         stats,
                         currentIndex: current.currentIndex + 1,
                         lastError: isExtensionMessagingError(error.message)

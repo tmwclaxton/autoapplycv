@@ -194,6 +194,36 @@ assert(
     'fieldsMatchBlocker should match azure field by label',
 );
 
+const cField = normalizeBlockerField({
+    ref: 'f1',
+    label: 'How many years of work experience do you have with C (programming language)?',
+    dom: { id: 'numeric-c' },
+});
+
+const siblingNumericModal = {
+    valid: false,
+    validationError: 'Enter a whole number between 0 and 99',
+    validationErrors: ['Enter a whole number between 0 and 99'],
+    invalidFields: [{
+        label: 'How many years of work experience do you have with embedded systems?',
+        question: 'How many years of work experience do you have with embedded systems?',
+        dom: { id: 'numeric-embedded' },
+    }],
+};
+
+assert(
+    !fieldHasValidationError(siblingNumericModal, cField),
+    'filled C field should not inherit another numeric field validation error',
+);
+assert(
+    findFieldValidationError(siblingNumericModal, cField) === null,
+    'findFieldValidationError should stay null when only a sibling field is invalid',
+);
+assert(
+    fieldHasValidationError(siblingNumericModal, normalizeBlockerField(siblingNumericModal.invalidFields[0])),
+    'embedded systems field should still report validation error',
+);
+
 const retryQuestion = buildAutoApplyValidationRetryQuestion(azureField, {
     validationError: 'Enter a whole number between 0 and 99',
     lastAttempt: '1 year of azure',
@@ -285,6 +315,29 @@ assert(
     buildAutoApplyPauseBannerMessage(locationPauseContext).includes('Location (city)'),
     'location pause banner should reference field label only',
 );
+
+const captchaPauseContext = {
+    captcha: true,
+    clarifyingQuestion: 'Solve the security check in the browser tab.',
+    questionText: 'Solve the security check in the browser tab.',
+};
+
+assert(
+    buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('Security check'),
+    'captcha pause banner should mention security check',
+);
+
+const identityPauseContext = {
+    identityConfirm: true,
+    clarifyingQuestion: 'Confirm updating Indeed contact.',
+    questionText: 'Confirm updating Indeed contact.',
+};
+
+assert(
+    buildAutoApplyPauseBannerMessage(identityPauseContext).includes('Indeed contact'),
+    'identity pause banner should mention Indeed contact confirmation',
+);
+
 assert(
     resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext) === '',
     'pending fields card should not duplicate the clarifying question during Auto Apply pause',

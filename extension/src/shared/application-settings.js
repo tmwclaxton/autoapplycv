@@ -7,6 +7,8 @@ export function mapApplicationSettingsForAssist(settings) {
         expected_salary_yearly: '',
         visa_sponsorship: 'no',
         legally_authorized: 'yes',
+        affirm_local_commute: 'yes',
+        affirm_local_hybrid: 'yes',
         willing_to_relocate: 'yes',
         drivers_license: 'yes',
         ...(settings && typeof settings === 'object' ? settings : {}),

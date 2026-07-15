@@ -2,7 +2,6 @@ import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
-    fieldHasValidationError,
     findFieldValidationError,
 } from './auto-apply-blockers.js';
 import {
@@ -44,6 +43,7 @@ import {
     logWarn,
 } from './debug-log.js';
 import { filterMarketingConsentPendingFields } from './draft-all/consent-fields.js';
+import { retryEmptyDraftBatchAnswers } from './draft-all/empty-batch-retry.js';
 import {
     buildMechanicalInventoryFields,
     canUseMechanicalInventory,
@@ -1285,11 +1285,11 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         && autoApplySession.pauseContext?.blockerField?.ref === enrichedField.ref
     ) {
         const modalState = await validateBlockedFieldOnTab(tabId, enrichedField);
+        const validationError = modalState
+            ? findFieldValidationError(modalState, enrichedField)
+            : null;
 
-        const validationError = modalState?.validationError
-            || (modalState ? findFieldValidationError(modalState, enrichedField) : null);
-
-        if (validationError && (modalState?.valid === false || fieldHasValidationError(modalState, enrichedField))) {
+        if (validationError) {
             const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
             const pauseOutcome = await rePauseAutoApplyForValidationRetry({
                 tabId,
@@ -2288,11 +2288,46 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 const batchNumber = event.batch_index + 1;
                 const draftPhase = `draft.batch-${batchNumber}`;
                 const applyPhase = `apply.batch-${batchNumber}`;
-                const { toApply, pending: batchPending } = partitionDraftAllBatchAnswers(
+                let { toApply, pending: batchPending } = partitionDraftAllBatchAnswers(
                     event.answers,
                     fieldsByRef,
                     profileData,
                 );
+
+                const retriedBatch = await retryEmptyDraftBatchAnswers({
+                    batchAnswers: event.answers,
+                    partitionResult: { toApply, pending: batchPending },
+                    fieldsByRef,
+                    job,
+                    settings,
+                    profileData,
+                    requestDraftField,
+                    onFieldRetried: ({ ref, answer, error }) => {
+                        logDebug('background', 'draft-all.retry', 'Per-field draft retry', {
+                            batchIndex: event.batch_index,
+                            ref,
+                            answerPreview: typeof answer === 'string' ? answer.slice(0, 80) : answer,
+                            error: error || null,
+                        }, tabId);
+                    },
+                });
+
+                toApply = retriedBatch.toApply;
+                batchPending = retriedBatch.pending;
+
+                if (retriedBatch.retriedCount > 0) {
+                    logInfo('background', 'draft-all.retry', 'Retried empty batch answers per field', {
+                        batchIndex: event.batch_index,
+                        retriedCount: retriedBatch.retriedCount,
+                        applyCount: toApply.length,
+                    }, tabId);
+                }
+
+                for (const subscription of retriedBatch.subscriptions) {
+                    if (subscription && cachedProfile) {
+                        cachedProfile.subscription = subscription;
+                    }
+                }
 
                 pendingFields = mergePendingFields(pendingFields, batchPending);
 

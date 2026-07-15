@@ -4,6 +4,10 @@ import {
 } from './auto-apply-activity-ui.js';
 import { resolveAutoApplyControlsState } from './auto-apply-controls-ui.js';
 import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
+import {
+    buildAutoApplyInterventionSummary,
+    buildAutoApplyPreflightLines,
+} from './auto-apply-intervention.js';
 import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
 import {
     AUTO_APPLY_PLATFORM_LIST,
@@ -43,6 +47,12 @@ const timingValueEl = document.getElementById('auto-apply-timing-value');
 const startBtn = document.getElementById('auto-apply-start-btn');
 const stopBtn = document.getElementById('auto-apply-stop-btn');
 const statusEl = document.getElementById('auto-apply-status');
+const preflightEl = document.getElementById('auto-apply-preflight');
+const preflightLinesEl = document.getElementById('auto-apply-preflight-lines');
+const interventionEl = document.getElementById('auto-apply-intervention');
+const interventionHeadlineEl = document.getElementById('auto-apply-intervention-headline');
+const interventionDetailEl = document.getElementById('auto-apply-intervention-detail');
+const interventionNextEl = document.getElementById('auto-apply-intervention-next');
 const pauseBannerEl = document.getElementById('auto-apply-pause-banner');
 const pauseMessageEl = document.getElementById('auto-apply-pause-message');
 const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
@@ -64,6 +74,8 @@ let notifyUser = null;
 let lastRenderedSession = null;
 /** @type {ReturnType<typeof setTimeout>|null} */
 let saveSettingsTimer = null;
+/** @type {object|null} */
+let cachedProfileData = null;
 let automationRunning = false;
 
 function extensionContext() {
@@ -314,6 +326,7 @@ function syncFiltersDetailsOpen() {
  * @param {object|null|undefined} profileData
  */
 export function syncSearchDefaultsFromProfile(profileData) {
+    cachedProfileData = profileData || null;
     const profileLocation = resolveProfileSearchLocation(profileData);
     const currentLocation = locationInput.value.trim();
 
@@ -333,6 +346,7 @@ export function syncSearchDefaultsFromProfile(profileData) {
 
     syncFiltersDetailsOpen();
     schedulePersistSettings();
+    renderPreflightSummary(profileData);
 }
 
 function formatStats(session) {
@@ -350,6 +364,68 @@ function formatStats(session) {
     parts.push(`Errors ${stats.errors}`);
 
     return parts.join(' · ');
+}
+
+function renderPreflightSummary(profileData = cachedProfileData) {
+    if (!preflightEl || !preflightLinesEl) {
+        return;
+    }
+
+    if (!profileData || automationRunning) {
+        preflightEl.hidden = true;
+        preflightLinesEl.innerHTML = '';
+
+        return;
+    }
+
+    const platform = readSelectedPlatform() || LINKEDIN_PLATFORM_ID;
+    const lines = buildAutoApplyPreflightLines(profileData, {
+        platform,
+        roleDescription: roleInput.value.trim() || 'Not set',
+        maxApplications: Number.parseInt(maxApplicationsInput.value, 10) || 3,
+        location: locationInput.value.trim(),
+        fitCheckEnabled: fitEnabledInput.checked,
+        minFitScore: readMinFitScore(),
+        timingLevel: readTimingLevel(),
+    });
+
+    preflightLinesEl.innerHTML = '';
+
+    for (const line of lines) {
+        const item = document.createElement('li');
+        item.textContent = line;
+        preflightLinesEl.appendChild(item);
+    }
+
+    preflightEl.hidden = false;
+}
+
+function renderInterventionSummary(session) {
+    if (
+        !interventionEl
+        || !interventionHeadlineEl
+        || !interventionDetailEl
+        || !interventionNextEl
+    ) {
+        return;
+    }
+
+    const summary = buildAutoApplyInterventionSummary(session);
+
+    if (!summary) {
+        interventionEl.hidden = true;
+        interventionHeadlineEl.textContent = '';
+        interventionDetailEl.textContent = '';
+        interventionNextEl.textContent = '';
+
+        return;
+    }
+
+    interventionEl.hidden = false;
+    interventionHeadlineEl.textContent = summary.headline;
+    interventionDetailEl.textContent = summary.detail || '';
+    interventionNextEl.textContent = summary.nextAction || '';
+    interventionNextEl.hidden = !summary.nextAction;
 }
 
 function renderPauseBanner(session) {
@@ -373,6 +449,7 @@ function renderPauseBanner(session) {
 function renderStatusLine(session) {
     if (!session) {
         statusEl.textContent = 'Ready. Choose a platform and role description.';
+        renderInterventionSummary(null);
 
         return;
     }
@@ -380,7 +457,11 @@ function renderStatusLine(session) {
     const labels = {
         idle: 'Idle',
         running: session.stopRequested ? 'Stopping…' : 'Running',
-        paused_for_input: 'Paused - waiting for your answer in Assist',
+        paused_for_input: session.pauseContext?.captcha
+            ? 'Paused - security check in job tab'
+            : session.pauseContext?.identityConfirm
+                ? 'Paused - confirm Indeed contact update'
+                : 'Paused - waiting for your answer in Assist',
         stopped: 'Stopped',
         completed: 'Completed',
         error: 'Error',
@@ -391,6 +472,8 @@ function renderStatusLine(session) {
     if (session.lastError) {
         statusEl.textContent += ` - ${session.lastError}`;
     }
+
+    renderInterventionSummary(session);
 }
 
 function renderLog(session) {
@@ -477,6 +560,7 @@ function renderCleanState() {
     resetActivityPanelVisibility();
     renderStatusLine(null);
     renderPauseBanner(null);
+    renderPreflightSummary();
     statsEl.textContent = '';
     renderLog(null);
     renderActivityVisibility(null);
@@ -522,6 +606,14 @@ function renderSession(session) {
 
     renderStatusLine(session);
     renderPauseBanner(session);
+
+    if (session && isActiveAutoApplyStatus(session.status)) {
+        if (preflightEl) {
+            preflightEl.hidden = true;
+        }
+    } else {
+        renderPreflightSummary();
+    }
 
     if (shouldShowAutoApplyActivityControls(session)) {
         statsEl.textContent = formatStats(session);
@@ -691,6 +783,7 @@ function bindSettingsPersistence() {
     for (const input of inputs) {
         input.addEventListener('input', () => {
             schedulePersistSettings();
+            renderPreflightSummary();
 
             if (input === locationInput || input === marketSelect || input === workTypeSelect || input === experienceSelect
                 || input === datePostedSelect || input === minSalarySelect) {
@@ -699,6 +792,7 @@ function bindSettingsPersistence() {
         });
         input.addEventListener('change', () => {
             schedulePersistSettings();
+            renderPreflightSummary();
 
             if (input === platformSelect) {
                 syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
@@ -721,10 +815,12 @@ function bindSettingsPersistence() {
         timingLevelInput.addEventListener('input', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
+            renderPreflightSummary();
         });
         timingLevelInput.addEventListener('change', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
+            renderPreflightSummary();
         });
     }
 }

@@ -31,10 +31,12 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {object|null} blockerField
  * @property {string} clarifyingQuestion
  * @property {string} questionText
- * @property {'fill_and_advance'} resumeAt
+ * @property {'fill_and_advance'|'identity_confirm'|'captcha_review'} resumeAt
  * @property {number} [validationAttempt]
  * @property {string|null} [lastAttempt]
  * @property {string|null} [validationError]
+ * @property {boolean} [captcha]
+ * @property {boolean} [identityConfirm]
  */
 
 /**
@@ -61,6 +63,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {number|null} analyticsSessionId
  * @property {number} fieldsFilledCount
  * @property {AutoApplyPauseContext|null} pauseContext
+ * @property {Array<{ jobId: string, title: string, company: string, outcome: string, reason: string|null, stepFingerprint?: string|null, ts: number }>} [jobOutcomes]
  */
 
 /**
@@ -114,6 +117,7 @@ export function createInitialSession({
         analyticsSessionId: null,
         fieldsFilledCount: 0,
         pauseContext: null,
+        jobOutcomes: [],
     };
 }
 

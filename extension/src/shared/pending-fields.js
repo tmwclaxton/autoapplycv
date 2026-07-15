@@ -185,6 +185,8 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
     { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'immigration sponsorship', 'require sponsorship'] },
     { path: 'application_settings.legally_authorized', label: 'Legally authorized to work', dashboard_tab: 'preferences', dashboard_anchor: 'field-legally-authorized', keywords: ['legally authorized', 'right to work', 'eligible to work', 'work permit', 'authorized to work', 'authorised to work'] },
+    { path: 'application_settings.affirm_local_commute', label: 'Commute to job location', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-commute', keywords: ['comfortable commuting', 'commuting to this job', 'commute to this job', 'willing to commute'] },
+    { path: 'application_settings.affirm_local_hybrid', label: 'Hybrid work setting', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-hybrid', keywords: ['comfortable working in a hybrid', 'hybrid setting', 'work in a hybrid'] },
     { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
     { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
     { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
@@ -217,6 +219,8 @@ const IDENTITY_PROFILE_PATHS = new Set([
 const PREFERENCE_PROFILE_PATHS = new Set([
     'application_settings.visa_sponsorship',
     'application_settings.legally_authorized',
+    'application_settings.affirm_local_commute',
+    'application_settings.affirm_local_hybrid',
     'application_settings.willing_to_relocate',
     'application_settings.drivers_license',
     'application_settings.years_of_experience',
@@ -1558,7 +1562,7 @@ export function isProfileGeneralQuestion(field, profileData = null) {
         return true;
     }
 
-    if (isYearsExperienceQuestionLabel(label)) {
+    if (isYearsExperienceQuestionLabel(label) && isGenericTotalExperienceQuestionLabel(label)) {
         return true;
     }
 
@@ -1896,6 +1900,13 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
+    if (
+        mapping?.path === 'application_settings.years_of_experience'
+        && isSkillSpecificYearsExperienceQuestionLabel(label)
+    ) {
+        return true;
+    }
+
     return false;
 }
 
@@ -2119,6 +2130,22 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
 
     if (isVisaSponsorshipQuestionLabel(label)) {
         return profileMappingByPath('application_settings.visa_sponsorship');
+    }
+
+    const affirmCommuteEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_commute',
+    );
+
+    if (affirmCommuteEntry && mappingMatchesLabel(affirmCommuteEntry, normalized)) {
+        return affirmCommuteEntry;
+    }
+
+    const affirmHybridEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_hybrid',
+    );
+
+    if (affirmHybridEntry && mappingMatchesLabel(affirmHybridEntry, normalized)) {
+        return affirmHybridEntry;
     }
 
     if (isCityLocationQuestionLabel(label)) {
@@ -2573,8 +2600,22 @@ export function shouldPromptUserForField(field, profileData) {
  * only for profile-general gaps (language, work auth, reusable skill facts). Application-specific
  * motivation essays stay with the LLM or remain empty - never the sidebar.
  */
+function isEducationLevelConfirmationLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    return /completed the following level of education|have you completed.*\bdegree\b/.test(normalized);
+}
+
 export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
+
+    if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+        return false;
+    }
+
+    if (isEducationLevelConfirmationLabel(label)) {
+        return false;
+    }
 
     if (isHoursCommitmentQuestionLabel(label)) {
         return false;
@@ -2720,8 +2761,34 @@ export function resolveIdentityProfileAnswer(field, profileData) {
         return '';
     }
 
+    const label = field.label || field.question || '';
+    const affirmCommuteEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_commute',
+    );
+    const normalizedLabel = normalizeLabelForMapping(label);
+
+    if (
+        affirmCommuteEntry
+        && normalizedLabel
+        && mappingMatchesLabel(affirmCommuteEntry, normalizedLabel)
+    ) {
+        return '';
+    }
+
+    const affirmHybridEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_hybrid',
+    );
+
+    if (
+        affirmHybridEntry
+        && normalizedLabel
+        && mappingMatchesLabel(affirmHybridEntry, normalizedLabel)
+    ) {
+        return '';
+    }
+
     const mapping = resolveProfileMappingForLabel(
-        field.label || field.question || '',
+        label,
         profileData,
         field.dom || null,
     );
@@ -3037,6 +3104,116 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
     return '';
 }
 
+function shouldAffirmLocalCommuteComfort(profileData) {
+    const raw = readProfileValue(profileData, 'application_settings.affirm_local_commute');
+
+    if (raw === false || raw === 'no' || raw === '0') {
+        return false;
+    }
+
+    return true;
+}
+
+function resolveAffirmLocalCommuteMapping(label) {
+    const normalized = normalizeLabelForMapping(label);
+
+    if (!normalized) {
+        return null;
+    }
+
+    const mapping = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_commute',
+    );
+
+    if (!mapping || !mappingMatchesLabel(mapping, normalized)) {
+        return null;
+    }
+
+    return mapping;
+}
+
+/** Affirm Yes on generic local commute comfort gates during Auto Apply (not city-specific onsite gates). */
+export function resolveLocalCommuteComfortAnswer(field, profileData) {
+    if (!shouldAffirmLocalCommuteComfort(profileData)) {
+        return '';
+    }
+
+    const label = field?.label || field?.question || '';
+
+    if (!resolveAffirmLocalCommuteMapping(label)) {
+        return '';
+    }
+
+    if (isOnSiteCommuteQuestionLabel(label)) {
+        return '';
+    }
+
+    if (resolveOfficeCommuteDeclineAnswer(field, profileData)) {
+        return '';
+    }
+
+    if (!fieldHasYesNoOptions(field)) {
+        return '';
+    }
+
+    return 'Yes';
+}
+
+function shouldAffirmLocalHybridWork(profileData) {
+    const raw = readProfileValue(profileData, 'application_settings.affirm_local_hybrid');
+
+    if (raw === false || raw === 'no' || raw === '0') {
+        return false;
+    }
+
+    return true;
+}
+
+function resolveAffirmLocalHybridMapping(label) {
+    const normalized = normalizeLabelForMapping(label);
+
+    if (!normalized) {
+        return null;
+    }
+
+    const mapping = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_hybrid',
+    );
+
+    if (!mapping || !mappingMatchesLabel(mapping, normalized)) {
+        return null;
+    }
+
+    return mapping;
+}
+
+/** Affirm Yes on generic hybrid comfort gates for local Auto Apply searches. */
+export function resolveLocalHybridComfortAnswer(field, profileData) {
+    if (!shouldAffirmLocalHybridWork(profileData)) {
+        return '';
+    }
+
+    const label = field?.label || field?.question || '';
+
+    if (!resolveAffirmLocalHybridMapping(label)) {
+        return '';
+    }
+
+    if (isOnSiteCommuteQuestionLabel(label)) {
+        return '';
+    }
+
+    if (resolveOfficeCommuteDeclineAnswer(field, profileData)) {
+        return '';
+    }
+
+    if (!fieldHasYesNoOptions(field)) {
+        return '';
+    }
+
+    return 'Yes';
+}
+
 export function resolvePreferenceProfileAnswer(field, profileData) {
     if (isThirdPartyContactField(field)) {
         return '';
@@ -3088,6 +3265,18 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     if (isMeaningfulAnswer(officeCommuteDecline)) {
         return officeCommuteDecline;
+    }
+
+    const localCommuteComfort = resolveLocalCommuteComfortAnswer(field, profileData);
+
+    if (isMeaningfulAnswer(localCommuteComfort)) {
+        return localCommuteComfort;
+    }
+
+    const localHybridComfort = resolveLocalHybridComfortAnswer(field, profileData);
+
+    if (isMeaningfulAnswer(localHybridComfort)) {
+        return localHybridComfort;
     }
 
     const mapping = resolveProfileMappingForLabel(

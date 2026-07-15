@@ -28,4 +28,23 @@ class YearsExperienceAnswerNormalizerTest extends TestCase
         $this->assertSame('99', YearsExperienceAnswerNormalizer::normalize('120 years'));
         $this->assertSame('6', YearsExperienceAnswerNormalizer::normalize('', '6'));
     }
+
+    #[Test]
+    public function it_does_not_fall_back_to_profile_years_for_skill_specific_questions(): void
+    {
+        $label = 'How many years of work experience do you have with C++?';
+
+        $this->assertTrue(YearsExperienceAnswerNormalizer::isSkillSpecificYearsExperienceQuestion($label));
+        $this->assertSame('', YearsExperienceAnswerNormalizer::normalize('', '2', $label));
+        $this->assertSame('4', YearsExperienceAnswerNormalizer::normalize('4 years', '2', $label));
+    }
+
+    #[Test]
+    public function it_still_falls_back_to_profile_years_for_total_experience_questions(): void
+    {
+        $label = 'How many years of experience do you have?';
+
+        $this->assertTrue(YearsExperienceAnswerNormalizer::isGenericTotalExperienceQuestion($label));
+        $this->assertSame('6', YearsExperienceAnswerNormalizer::normalize('', '6', $label));
+    }
 }

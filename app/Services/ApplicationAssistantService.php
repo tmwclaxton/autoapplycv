@@ -127,6 +127,7 @@ class ApplicationAssistantService
                 $answer = YearsExperienceAnswerNormalizer::normalize(
                     $answer,
                     is_string($profileYears) || is_numeric($profileYears) ? (string) $profileYears : null,
+                    $question['label'],
                 );
             }
 

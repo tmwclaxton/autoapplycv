@@ -16,7 +16,7 @@ const TIMING_LEVEL_LABELS = {
     2: 'Fast',
     3: 'Balanced',
     4: 'Careful',
-    5: 'Stealth',
+    5: 'Careful timing',
 };
 
 const MIN_SCALED_DELAY_MS = 40;

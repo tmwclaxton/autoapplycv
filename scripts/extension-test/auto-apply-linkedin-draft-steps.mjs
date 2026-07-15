@@ -9,14 +9,33 @@ const orchestratorSource = readFileSync(
     join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js'),
     'utf8',
 );
+const contentSource = readFileSync(
+    join(ROOT, 'extension/src/content/index.js'),
+    'utf8',
+);
 
 const linkedInJobBody = orchestratorSource.match(
     /async function processLinkedInJob\([\s\S]*?^}/m,
 )?.[0] || '';
 
 assert(
-    linkedInJobBody.includes('draftResult = await runDraftAllForStep('),
+    linkedInJobBody.includes('const draftResult = await runDraftAllForStep('),
     'LinkedIn job flow should call runDraftAllForStep',
+);
+
+assert(
+    !linkedInJobBody.includes('LINKEDIN_PREFILL_CONTACT'),
+    'LinkedIn orchestrator must not prefill contact outside Draft All',
+);
+
+assert(
+    !linkedInJobBody.includes('LINKEDIN_PREFILL_EASY_APPLY'),
+    'LinkedIn orchestrator must not prefill Easy Apply outside Draft All',
+);
+
+assert(
+    !linkedInJobBody.includes('LINKEDIN_FILL_AND_ADVANCE'),
+    'LinkedIn advance must navigate only (no fill-and-advance)',
 );
 
 assert(
@@ -24,12 +43,6 @@ assert(
         linkedInJobBody,
     ),
     'Draft All should not be in an else branch that skips review/resume steps',
-);
-
-assert.match(
-    linkedInJobBody,
-    /if \(isReviewStep \|\| isResumeStep\) \{[\s\S]*?LINKEDIN_PREFILL_EASY_APPLY[\s\S]*?\}\s*await sleep\(randomDelay\(AUTO_APPLY_DELAY_MS\.beforeDraftAll[\s\S]*?draftResult = await runDraftAllForStep/,
-    'resume/review prefill should run before Draft All',
 );
 
 assert(
@@ -54,6 +67,26 @@ assert.match(
 assert(
     !/advanceResponse\?\.action === 'submit' \|\| isReviewStep/.test(linkedInJobBody),
     'review steps with a Next button should not be treated as submit attempts',
+);
+
+assert(
+    !contentSource.includes('LINKEDIN_PREFILL_CONTACT'),
+    'content script must not expose LinkedIn prefill contact message',
+);
+
+assert(
+    !contentSource.includes('LINKEDIN_FILL_AND_ADVANCE'),
+    'content script must not expose LinkedIn fill-and-advance message',
+);
+
+assert(
+    orchestratorSource.includes('LINKEDIN_ENSURE_RESUME_STEP'),
+    'LinkedIn resume selection should run before Draft All on resume steps',
+);
+
+assert(
+    !orchestratorSource.includes('advanceType'),
+    'LinkedIn advance helper must not reference removed advanceType variable',
 );
 
 console.log('auto-apply linkedin draft step tests passed');

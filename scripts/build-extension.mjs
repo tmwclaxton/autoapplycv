@@ -293,6 +293,10 @@ copyFileSync(
     join(SRC, 'shared/draft-all/consent-fields.js'),
     join(DIST, 'draft-all/consent-fields.js'),
 );
+copyFileSync(
+    join(SRC, 'shared/draft-all/empty-batch-retry.js'),
+    join(DIST, 'draft-all/empty-batch-retry.js'),
+);
 writeFileSync(
     join(DIST, 'draft-all-pipeline.js'),
     readFileSync(join(SRC, 'shared/draft-all/pipeline.js'), 'utf8')
@@ -432,6 +436,22 @@ copyFileSync(
 copyFileSync(
     join(SRC, 'shared/auto-apply-pause-ui.js'),
     join(DIST, 'auto-apply-pause-ui.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-intervention.js'),
+    join(DIST, 'auto-apply-intervention.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-outcomes.js'),
+    join(DIST, 'auto-apply-outcomes.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/draft-all-step-timeout.js'),
+    join(DIST, 'draft-all-step-timeout.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/linkedin-step-readiness.js'),
+    join(DIST, 'linkedin-step-readiness.js'),
 );
 copyFileSync(
     join(SRC, 'shared/auto-apply-blockers.js'),
