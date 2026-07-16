@@ -145,7 +145,7 @@ const contactInfoHtml = `
         <li role="option" data-testid="country-select-GB">United Kingdom<span>+44</span></li>
         <li role="option" data-testid="country-select-US">United States<span>+1</span></li>
       </ul>
-      <input name="phone" type="tel" value="7837-370669" aria-label="Type phone number" />
+      <input name="phone" type="tel" value="7837370669" aria-label="Type phone number" />
     </div>
     <button data-testid="continue-button">Continue</button>
   </div>
@@ -173,8 +173,38 @@ const phoneApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerFo
     '+447837370669',
 );
 assert.equal(phoneApplied, true, 'Indeed phone should accept E.164 and format national digits');
-assert.equal(phoneInput.value, '7837-370669', `unexpected phone value: ${phoneInput?.value}`);
+assert.equal(phoneInput.value, '7837370669', `unexpected phone value: ${phoneInput?.value}`);
 assert.equal(countryCombobox?.getAttribute('data-value'), 'GB', 'Indeed phone country combobox should match profile dial code');
+
+const {
+    isPhoneCountryDialOptionsField,
+    resolvePhoneCountryListboxAnswer,
+} = await import('../../extension/src/shared/pending-fields.js');
+const countryField = {
+    field_type: 'select',
+    question: 'phone number',
+    options: [
+        'United States+1',
+        'United Kingdom+44',
+        'Ireland+353',
+        'France+33',
+        'Germany+49',
+        'Spain+34',
+        'Italy+39',
+        'Netherlands+31',
+        'Australia+61',
+        'Canada+1',
+    ],
+    dom: { role: 'combobox' },
+};
+assert.equal(isPhoneCountryDialOptionsField(countryField), true);
+assert.equal(
+    resolvePhoneCountryListboxAnswer(
+        { application_settings: { phone_country_code: '+44' }, profile: { phone: '7837370669' } },
+        countryField,
+    ),
+    'United Kingdom+44',
+);
 
 const usPhoneInput = contactWindow.document.createElement('input');
 usPhoneInput.name = 'phone';

@@ -2428,7 +2428,7 @@ function resolvePhoneDialCodeForApply(profileData) {
 /**
  * Recruitee/Workable country listboxes usually label options by country name, not bare +44.
  */
-export function resolvePhoneCountryListboxAnswer(profileData) {
+export function resolvePhoneCountryListboxAnswer(profileData, field = null) {
     const dial = resolvePhoneDialCodeForApply(profileData);
     const digits = dial.replace(/\D/g, '');
 
@@ -2436,7 +2436,27 @@ export function resolvePhoneCountryListboxAnswer(profileData) {
         return '';
     }
 
-    return PHONE_DIAL_TO_COUNTRY_NAME[digits] || dial;
+    const countryName = PHONE_DIAL_TO_COUNTRY_NAME[digits] || '';
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    if (options.length > 0) {
+        const dialToken = `+${digits}`;
+        const byDial = options.find((option) => String(option || '').includes(dialToken));
+
+        if (byDial) {
+            return String(byDial);
+        }
+
+        if (countryName) {
+            const byName = options.find((option) => countryOptionMatchesProfile(option, countryName));
+
+            if (byName) {
+                return String(byName);
+            }
+        }
+    }
+
+    return countryName || dial;
 }
 
 function normalizeCountryNameForApply(value) {
@@ -2761,6 +2781,10 @@ export function resolveIdentityProfileAnswer(field, profileData) {
         return '';
     }
 
+    if (isPhoneCountryDialOptionsField(field)) {
+        return resolvePhoneCountryListboxAnswer(profileData, field);
+    }
+
     const label = field.label || field.question || '';
     const affirmCommuteEntry = PROFILE_FIELD_MAPPINGS.find(
         (entry) => entry.path === 'application_settings.affirm_local_commute',
@@ -2824,7 +2848,7 @@ function profileValueForApply(mapping, profileData, field = null) {
     }
 
     if (mapping.path === '_phone_country_dial') {
-        return resolvePhoneCountryListboxAnswer(profileData);
+        return resolvePhoneCountryListboxAnswer(profileData, field);
     }
 
     if (mapping.path === '_phone_national') {
@@ -2960,6 +2984,37 @@ export function isReactPhoneInputCompanionCountryField(field) {
     const domId = String(field?.dom?.id || '');
 
     return /^country-select-input-/i.test(domId) && /phone/i.test(domId);
+}
+
+/**
+ * Indeed / Smart Apply country dial comboboxes list options like "United Kingdom+44".
+ *
+ * @param {{ field_type?: string, options?: string[]|null, dom?: { role?: string|null }|null }|null|undefined} field
+ * @returns {boolean}
+ */
+export function isPhoneCountryDialOptionsField(field) {
+    if (!field) {
+        return false;
+    }
+
+    const options = Array.isArray(field.options) ? field.options : [];
+
+    if (options.length < 8) {
+        return false;
+    }
+
+    const dialLikeCount = options.filter((option) => /\+\d{1,4}\b/.test(String(option || ''))).length;
+
+    if (dialLikeCount < Math.min(8, Math.floor(options.length * 0.4))) {
+        return false;
+    }
+
+    const fieldType = String(field.field_type || '').toLowerCase();
+    const role = String(field.dom?.role || '').toLowerCase();
+
+    return fieldType === 'select'
+        || fieldType === 'combobox'
+        || role === 'combobox';
 }
 
 export function partitionIdentityProfileFields(fields, profileData) {

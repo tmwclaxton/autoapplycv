@@ -202,4 +202,47 @@ assert.equal(securityHealth.ok, false);
 assert.equal(securityHealth.captcha, true);
 assert.equal(securityHealth.primary?.code, 'captcha');
 
+const cloudflareDom = new JSDOM(
+    `<html><head><title>Just a moment...</title></head>
+    <body><div id="challenge-running">Checking your browser before accessing uk.indeed.com</div></body></html>`,
+    { url: 'https://uk.indeed.com/jobs?q=python' },
+);
+const cloudflareApi = loadIndeedAutoApply(cloudflareDom.window);
+const cloudflareHealth = await cloudflareApi.scanPageHealth();
+
+assert.equal(cloudflareHealth.ok, false);
+assert.equal(cloudflareHealth.captcha, true);
+assert.equal(cloudflareHealth.primary?.code, 'captcha');
+
+const preloadDom = new JSDOM(
+    `<html><body><button>Continue</button></body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/preloadresumeapply',
+    },
+);
+const preloadApi = loadIndeedAutoApply(preloadDom.window);
+const preloadState = preloadApi.getIndeedApplyState();
+
+assert.equal(
+    preloadState.open,
+    false,
+    'Hidden SERP preload shell must not look like an open apply form',
+);
+
+const interventionContinueDom = new JSDOM(
+    `<html><body>
+      <button type="button">Yes, I still want to apply</button>
+    </body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/intervention',
+    },
+);
+const interventionContinueApi = loadIndeedAutoApply(
+    interventionContinueDom.window,
+);
+const interventionState = interventionContinueApi.getIndeedApplyState();
+
+assert.equal(interventionState.open, true);
+assert.equal(interventionState.canContinue, true);
+
 console.log('Indeed auto-apply offline tests passed.');

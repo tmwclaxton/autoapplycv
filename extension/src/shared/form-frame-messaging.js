@@ -77,10 +77,15 @@ function isFinishedIndeedApplyUrl(url) {
     );
 }
 
-function isIndeedApplyUrl(url) {
+/** Hidden SERP preload shell - not a real apply form. */
+export function isIndeedApplyPreloadUrl(url) {
+    return /preloadresumeapply/i.test(String(url || ''));
+}
+
+export function isIndeedApplyUrl(url) {
     const value = String(url || '');
 
-    if (isFinishedIndeedApplyUrl(value)) {
+    if (isFinishedIndeedApplyUrl(value) || isIndeedApplyPreloadUrl(value)) {
         return false;
     }
 
@@ -180,11 +185,21 @@ export async function resolveIndeedApplyTabId(
 
 export async function findIndeedApplyFrameId(tabId) {
     const frames = await chrome.webNavigation.getAllFrames({ tabId });
+
+    if (!Array.isArray(frames)) {
+        return 0;
+    }
+
     /** @type {{ frameId: number, urlScore: number }[]} */
     const candidates = [];
 
     for (const frame of frames) {
         const url = frame.url || '';
+
+        if (isIndeedApplyPreloadUrl(url) || !isIndeedApplyUrl(url)) {
+            continue;
+        }
+
         let urlScore = 0;
 
         if (/smartapply\.indeed\.com/i.test(url)) {
@@ -197,6 +212,10 @@ export async function findIndeedApplyFrameId(tabId) {
 
         if (/indeedapply/i.test(url)) {
             urlScore += 50;
+        }
+
+        if (/\/form\//i.test(url)) {
+            urlScore += 25;
         }
 
         if (urlScore > 0) {
@@ -218,7 +237,8 @@ export async function findIndeedApplyFrameId(tabId) {
         }
     }
 
-    return candidates[0]?.frameId ?? 0;
+    // Do not fall back to a non-open smartapply shell (e.g. stale iframe).
+    return 0;
 }
 
 export async function sendIndeedApplyFlowMessage(tabId, message) {
@@ -239,6 +259,11 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
     }
 
     const frames = await chrome.webNavigation.getAllFrames({ tabId });
+
+    if (!Array.isArray(frames)) {
+        return 0;
+    }
+
     const frameIds = frames.map((frame) => frame.frameId);
 
     logDebug('background', 'frame.discovery', 'Probing frames for draftable fields', {

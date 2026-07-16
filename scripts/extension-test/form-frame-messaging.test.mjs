@@ -8,6 +8,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const {
     computeApplyDraftBatchTimeoutMs,
     invalidateTabFrameCache,
+    isIndeedApplyPreloadUrl,
+    isIndeedApplyUrl,
     pickIndeedApplyTabId,
     scoreFrame,
 } = await import(
@@ -41,6 +43,41 @@ test('invalidateTabFrameCache clears all entries when tabId omitted', () => {
     assert.equal(typeof invalidateTabFrameCache, 'function');
     invalidateTabFrameCache();
     invalidateTabFrameCache(123);
+});
+
+test('isIndeedApplyUrl ignores SERP preloadresumeapply shell', () => {
+    assert.equal(
+        isIndeedApplyPreloadUrl(
+            'https://smartapply.indeed.com/beta/indeedapply/preloadresumeapply',
+        ),
+        true,
+    );
+    assert.equal(
+        isIndeedApplyUrl(
+            'https://smartapply.indeed.com/beta/indeedapply/preloadresumeapply',
+        ),
+        false,
+    );
+    assert.equal(
+        isIndeedApplyUrl(
+            'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/questions/1',
+        ),
+        true,
+    );
+});
+
+test('findIndeedApplyFrameId source guards null getAllFrames', async () => {
+    const source = await import('node:fs').then((fs) =>
+        fs.readFileSync(
+            join(ROOT, 'extension/src/shared/form-frame-messaging.js'),
+            'utf8',
+        ),
+    );
+
+    assert.match(
+        source,
+        /if \(!Array\.isArray\(frames\)\) \{\s*return 0;\s*\}/,
+    );
 });
 
 test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {
@@ -81,5 +118,17 @@ test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () =
             },
         ]),
         303,
+    );
+
+    // Preload iframe/tab must not steal the apply-tab pick from the SERP host.
+    assert.equal(
+        pickIndeedApplyTabId(hostTabId, [
+            { id: hostTabId, url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd' },
+            {
+                id: 404,
+                url: 'https://smartapply.indeed.com/beta/indeedapply/preloadresumeapply',
+            },
+        ]),
+        hostTabId,
     );
 });

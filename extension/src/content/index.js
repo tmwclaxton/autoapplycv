@@ -1886,6 +1886,19 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
+            const health = await AutoCVApplyIndeedAutoApply.scanPageHealth();
+
+            if (health?.captcha) {
+                sendResponse({
+                    success: false,
+                    captcha: true,
+                    jobs: [],
+                    error: 'Indeed security check - solve captcha manually.',
+                });
+
+                return;
+            }
+
             sendResponse({
                 success: true,
                 jobs: AutoCVApplyIndeedAutoApply.collectJobCards(),

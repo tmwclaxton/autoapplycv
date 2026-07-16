@@ -45,6 +45,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function isIndeedApplyFlowPage() {
+        const href = window.location.href || '';
+
+        // SERP keeps a hidden smartapply preload iframe; that is not an apply form.
+        if (/preloadresumeapply/i.test(href)) {
+            return false;
+        }
+
         const host = window.location.hostname;
 
         if (/smartapply\.indeed\.com|apply\.indeed\.com/i.test(host)) {
@@ -57,7 +64,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         return (
             /indeedapply/i.test(window.location.pathname) ||
-            /indeedapply/i.test(window.location.href)
+            /indeedapply/i.test(href)
         );
     }
 
@@ -1192,7 +1199,34 @@ const AutoCVApplyIndeedAutoApply = (() => {
             };
         }
 
-        const applyButton = await waitForIndeedApplyButton(22_000, jobId);
+        if (readIndeedSecurityCheckpoint()) {
+            return {
+                success: false,
+                captcha: true,
+                error: 'Indeed security check - solve captcha manually.',
+            };
+        }
+
+        // Stay under the ~20s tab-message budget. Poll for Apply while also
+        // aborting early on Cloudflare / security checkpoints.
+        const deadline = Date.now() + 12_000;
+        let applyButton = null;
+
+        while (Date.now() < deadline) {
+            if (readIndeedSecurityCheckpoint()) {
+                return {
+                    success: false,
+                    captcha: true,
+                    error: 'Indeed security check - solve captcha manually.',
+                };
+            }
+
+            applyButton = await waitForIndeedApplyButton(1_200, jobId);
+
+            if (applyButton) {
+                break;
+            }
+        }
 
         if (applyButton) {
             await clickElement(applyButton, {
@@ -1302,12 +1336,24 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const title = normalize(document.title);
         const bodyText = normalize(document.body?.textContent);
 
-        if (/security check/i.test(title)) {
+        if (
+            /security check|just a moment|attention required|cf-browser-verification/i.test(
+                title,
+            )
+        ) {
             return true;
         }
 
         if (
-            /humans only|mistakenly blocked|security protections may|verify you are human|unusual traffic/i.test(
+            document.querySelector(
+                '#challenge-running, #challenge-stage, #cf-challenge-running, .cf-browser-verification, #challenge-form',
+            )
+        ) {
+            return true;
+        }
+
+        if (
+            /humans only|mistakenly blocked|security protections may|verify you are human|unusual traffic|checking your browser|enable javascript and cookies/i.test(
                 bodyText,
             )
         ) {
@@ -1354,16 +1400,13 @@ const AutoCVApplyIndeedAutoApply = (() => {
                         candidate.textContent,
                 );
 
-                if (
-                    /^(continue|save and continue|next|review)$/i.test(label) ||
-                    /\b(continue|next)\b/i.test(label)
-                ) {
+                if (isIndeedContinueLabel(label)) {
                     return candidate;
                 }
             }
 
             for (const button of scope.querySelectorAll(
-                'button, [role="button"], input[type="button"]',
+                'button, [role="button"], input[type="button"], a[role="button"]',
             )) {
                 if (!(button instanceof HTMLElement) || button.disabled) {
                     continue;
@@ -1387,16 +1430,36 @@ const AutoCVApplyIndeedAutoApply = (() => {
                         button.textContent,
                 );
 
-                if (
-                    /^(continue|save and continue|next)$/i.test(label) ||
-                    /\bcontinue\b/i.test(label)
-                ) {
+                if (isIndeedContinueLabel(label)) {
                     return button;
                 }
             }
         }
 
         return null;
+    }
+
+    function isIndeedContinueLabel(label) {
+        if (!label) {
+            return false;
+        }
+
+        if (
+            /^(continue|save and continue|next|review)$/i.test(label) ||
+            /\b(continue|next)\b/i.test(label)
+        ) {
+            return true;
+        }
+
+        // Qualification / intervention soft-gate CTAs.
+        return (
+            /\b(apply anyway|keep applying|still want to apply|continue applying|continue to apply)\b/i.test(
+                label,
+            ) ||
+            /^yes[,.]?\s*(i\s+)?(still\s+)?(want to\s+)?(continue|apply)\b/i.test(
+                label,
+            )
+        );
     }
 
     function findSubmitButton({
@@ -1930,7 +1993,19 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 await clickElement(submitButton, {
                     skipScroll: isElementMostlyVisible(submitButton),
                 });
-                const verify = await waitForSubmissionConfirmation();
+                // Keep under the 20s tab-message budget so captcha/disabled
+                // Submit cannot hang Auto Apply until channel timeout.
+                const verify = await waitForSubmissionConfirmation(8_000);
+
+                if (!verify.submitted && readIndeedCaptchaPresent()) {
+                    return {
+                        success: false,
+                        action: 'blocked',
+                        error: 'Submit blocked by captcha on Indeed review step.',
+                        validationErrors: readValidationErrors(),
+                        stepFingerprint: readStepFingerprint(),
+                    };
+                }
 
                 return {
                     success: true,

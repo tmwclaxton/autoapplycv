@@ -636,6 +636,17 @@ async function waitForApplicationSubmitConfirmation(
                     confirmation: state.confirmation || null,
                 };
             }
+
+            if (
+                platform === INDEED_PLATFORM_ID
+                && state?.isReviewStep
+                && (state.captchaPresent || state.submitDisabled)
+            ) {
+                return {
+                    submitted: false,
+                    captcha: true,
+                };
+            }
         } else if (platform === TOTALJOBS_PLATFORM_ID) {
             const verify = await sendTotalJobsMessage(
                 tabId,
@@ -974,6 +985,8 @@ function sanitizeSessionForBroadcast(session) {
                   validationAttempt: session.pauseContext.validationAttempt,
                   lastAttempt: session.pauseContext.lastAttempt,
                   validationError: session.pauseContext.validationError,
+                  captcha: Boolean(session.pauseContext.captcha),
+                  identityConfirm: Boolean(session.pauseContext.identityConfirm),
               }
             : null,
     };
@@ -2482,6 +2495,58 @@ async function pauseForUserInput(
     return { session: pausedSession };
 }
 
+async function openAssistSidePanelForCaptcha(tabId) {
+    if (!tabId) {
+        return;
+    }
+
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        await chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
+        await chrome.tabs.update(tabId, { active: true }).catch(() => {});
+
+        if (chrome.sidePanel?.open) {
+            await chrome.sidePanel.open({
+                tabId,
+                windowId: tab.windowId,
+            });
+        }
+    } catch {
+        // Side panel may already be open or the API may reject without a gesture.
+    }
+}
+
+/**
+ * Cloudflare / bot interstitials often block content scripts, so also read the tab title.
+ *
+ * @param {number} tabId
+ * @returns {Promise<boolean>}
+ */
+async function tabTitleLooksLikeCaptchaChallenge(tabId) {
+    if (!tabId) {
+        return false;
+    }
+
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const title = String(tab?.title || '');
+
+        return /just a moment|security check|attention required|cf-browser-verification|verify you are human/i.test(
+            title,
+        );
+    } catch {
+        return false;
+    }
+}
+
+function buildIndeedSearchCaptchaJob() {
+    return {
+        jobId: 'indeed-search-security',
+        title: 'Indeed search',
+        company: 'Indeed',
+    };
+}
+
 async function pauseForCaptchaReview(
     session,
     tabId,
@@ -2489,11 +2554,27 @@ async function pauseForCaptchaReview(
     modalState,
     options = {},
 ) {
-    const stage = options.stage === 'viewjob' ? 'viewjob' : 'review';
+    const stage =
+        options.stage === 'viewjob'
+            ? 'viewjob'
+            : options.stage === 'search'
+                ? 'search'
+                : 'review';
     const prompt =
+        'CAPTCHA detected - solve in the browser, then resume Auto Apply.';
+    const stepFingerprint =
+        modalState?.stepFingerprint
+        || (stage === 'viewjob'
+            ? 'viewjob-security-check'
+            : stage === 'search'
+                ? 'search-security-check'
+                : 'review-module');
+    const resumeAt =
         stage === 'viewjob'
-            ? 'Solve the Indeed security check in the browser, then resume Auto Apply.'
-            : 'Solve the captcha on the review step, then resume Auto Apply.';
+            ? 'open_job'
+            : stage === 'search'
+                ? 'open_job'
+                : 'fill_and_advance';
 
     const pauseContext = {
         job: {
@@ -2501,14 +2582,12 @@ async function pauseForCaptchaReview(
             title: job.title,
             company: job.company,
         },
-        stepFingerprint:
-            modalState?.stepFingerprint ||
-            (stage === 'viewjob' ? 'viewjob-security-check' : 'review-module'),
+        stepFingerprint,
         tabId,
         blockerField: null,
         clarifyingQuestion: prompt,
         questionText: prompt,
-        resumeAt: stage === 'viewjob' ? 'open_job' : 'fill_and_advance',
+        resumeAt,
         validationAttempt: 0,
         lastAttempt: null,
         validationError: null,
@@ -2516,9 +2595,11 @@ async function pauseForCaptchaReview(
     };
 
     const logMessage =
-        stage === 'viewjob'
-            ? `[paused] ${job.title}: solve Indeed security check in the browser, then resume in Assist.`
-            : `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`;
+        stage === 'search'
+            ? `[paused] CAPTCHA detected on Indeed search - solve in browser, then resume in Assist.`
+            : stage === 'viewjob'
+                ? `[paused] ${job.title}: CAPTCHA detected on job page - solve in browser, then resume in Assist.`
+                : `[paused] ${job.title}: CAPTCHA detected on review step - solve in browser, then resume in Assist.`;
 
     await updateSession((current) =>
         pauseAutoApplyForInput(
@@ -2526,6 +2607,8 @@ async function pauseForCaptchaReview(
             pauseContext,
         ),
     );
+
+    await openAssistSidePanelForCaptcha(tabId);
 
     chrome.runtime
         .sendMessage({
@@ -2614,7 +2697,8 @@ async function waitForIndeedCaptchaResume(
     options = {},
 ) {
     await pauseForCaptchaReview(session, tabId, job, modalState, options);
-    const captchaResume = await waitForAutoApplyResumeWithTimeout(120_000);
+    // Give the user time to hear the ping and solve the challenge.
+    const captchaResume = await waitForAutoApplyResumeWithTimeout(180_000);
 
     if (captchaResume.stopRequested) {
         return { stopped: true, session: captchaResume };
@@ -4022,6 +4106,19 @@ async function collectIndeedJobsFromTab(tabId) {
     let lastError = 'Could not read Indeed job cards.';
 
     while (Date.now() < deadline) {
+        if (await tabTitleLooksLikeCaptchaChallenge(tabId)) {
+            return { captcha: true, jobs: [] };
+        }
+
+        const health = await sendIndeedMessage(
+            tabId,
+            'INDEED_SCAN_PAGE_HEALTH',
+        ).catch(() => null);
+
+        if (health?.captcha) {
+            return { captcha: true, jobs: [] };
+        }
+
         await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
             () => {},
         );
@@ -4031,6 +4128,10 @@ async function collectIndeedJobsFromTab(tabId) {
             'INDEED_COLLECT_JOB_CARDS',
         );
 
+        if (response?.captcha) {
+            return { captcha: true, jobs: [] };
+        }
+
         if (!response?.success) {
             lastError = response?.error || lastError;
             await sleep(1500);
@@ -4039,7 +4140,7 @@ async function collectIndeedJobsFromTab(tabId) {
         }
 
         if ((response.jobs?.length || 0) > 0) {
-            return response.jobs;
+            return { captcha: false, jobs: response.jobs };
         }
 
         await sleep(1500);
@@ -4049,10 +4150,16 @@ async function collectIndeedJobsFromTab(tabId) {
 }
 
 async function appendUniqueIndeedJobs(tabId, session) {
-    const jobs = await collectIndeedJobsFromTab(tabId);
+    const collected = await collectIndeedJobsFromTab(tabId);
+
+    if (collected?.captcha) {
+        return { session, captcha: true };
+    }
+
+    const jobs = collected?.jobs || [];
 
     if (jobs.length === 0) {
-        return session;
+        return { session, captcha: false };
     }
 
     const existingIds = new Set(session.queue.map((job) => job.jobId));
@@ -4074,19 +4181,62 @@ async function appendUniqueIndeedJobs(tabId, session) {
         );
 
     if (freshJobs.length === 0) {
-        return session;
+        return { session, captcha: false };
     }
 
-    return (
-        updateSession((current) => ({
+    const nextSession =
+        (await updateSession((current) => ({
             ...current,
             queue: [...current.queue, ...freshJobs],
             stats: {
                 ...current.stats,
                 found: current.stats.found + freshJobs.length,
             },
-        })) || session
-    );
+        }))) || session;
+
+    return { session: nextSession, captcha: false };
+}
+
+async function appendUniqueIndeedJobsWithCaptchaPause(tabId, session) {
+    let workingSession = session;
+    let appendResult = await appendUniqueIndeedJobs(tabId, workingSession);
+
+    while (appendResult.captcha) {
+        await logSession(
+            'warn',
+            '[captcha] Indeed security check on search page - solve in browser, then resume in Assist (3 min timeout).',
+        );
+
+        const captchaOutcome = await waitForIndeedCaptchaResume(
+            workingSession,
+            tabId,
+            buildIndeedSearchCaptchaJob(),
+            { stepFingerprint: 'search-security-check' },
+            { stage: 'search' },
+        );
+
+        workingSession = captchaOutcome.session || workingSession;
+
+        if (captchaOutcome.stopped) {
+            return { session: workingSession, stopped: true };
+        }
+
+        if (captchaOutcome.timedOut) {
+            await logSession(
+                'warn',
+                '[captcha] Timed out waiting for Indeed search security check.',
+            );
+
+            return { session: workingSession, captchaTimedOut: true };
+        }
+
+        appendResult = await appendUniqueIndeedJobs(tabId, workingSession);
+    }
+
+    return {
+        session: appendResult.session || workingSession,
+        captcha: false,
+    };
 }
 
 async function openIndeedJob(tabId, job, session) {
@@ -5146,56 +5296,15 @@ async function processIndeedJobInner(
             type: 'INDEED_FILL_AND_ADVANCE',
         });
 
-        if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
-            await logSession(
-                'info',
-                `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
-            );
+        const advanceBlockedByCaptcha =
+            Boolean(advanceResponse?.error?.includes('captcha'))
+            || (advanceResponse?.action === 'blocked'
+                && (applyState?.captchaPresent || applyState?.submitDisabled));
 
-            if (!advanceResponse?.submitted) {
-                const confirmResult =
-                    await waitForApplicationSubmitConfirmation(
-                        tabId,
-                        INDEED_PLATFORM_ID,
-                        session,
-                    );
-
-                if (confirmResult.stopped) {
-                    return {
-                        outcome: 'stopped',
-                        reason: 'user_input_stop',
-                        tabId,
-                    };
-                }
-
-                if (confirmResult.submitted) {
-                    submitted = true;
-                    break;
-                }
-            }
-        } else if (advanceResponse?.action === 'continue') {
-            await logSession(
-                'info',
-                `[advance] ${job.title}: continued to next step.`,
-            );
-        }
-
-        if (advanceResponse?.validationErrors?.length) {
+        if (advanceBlockedByCaptcha) {
             await logSession(
                 'warn',
-                `[validation] ${job.title}: ${advanceResponse.validationErrors.slice(0, 3).join('; ')}`,
-            );
-        }
-
-        if (advanceResponse?.submitted) {
-            submitted = true;
-            break;
-        }
-
-        if (advanceResponse?.error?.includes('captcha')) {
-            await logSession(
-                'warn',
-                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (3 min timeout).`,
             );
             const captchaOutcome = await waitForIndeedCaptchaResume(
                 session,
@@ -5224,6 +5333,90 @@ async function processIndeedJobInner(
             session = captchaOutcome.session || session;
             sameStepCount = 0;
             continue;
+        }
+
+        if (advanceResponse?.action === 'submit') {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
+            );
+
+            if (!advanceResponse?.submitted) {
+                const confirmResult =
+                    await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        INDEED_PLATFORM_ID,
+                        session,
+                    );
+
+                if (confirmResult.stopped) {
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
+                }
+
+                if (confirmResult.captcha) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - solve in browser, then resume in Assist (3 min timeout).`,
+                    );
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
+                        tabId,
+                        job,
+                        applyState,
+                    );
+
+                    if (captchaOutcome.stopped) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'user_input_stop',
+                            tabId,
+                        };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'captcha_required',
+                            tabId,
+                        };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
+                }
+
+                if (confirmResult.submitted) {
+                    submitted = true;
+                    break;
+                }
+            }
+        } else if (advanceResponse?.action === 'continue') {
+            await logSession(
+                'info',
+                `[advance] ${job.title}: continued to next step.`,
+            );
+        }
+
+        if (advanceResponse?.validationErrors?.length) {
+            await logSession(
+                'warn',
+                `[validation] ${job.title}: ${advanceResponse.validationErrors.slice(0, 3).join('; ')}`,
+            );
+        }
+
+        if (advanceResponse?.submitted) {
+            submitted = true;
+            break;
         }
 
         if (
@@ -8068,8 +8261,26 @@ async function runIndeedAutoApplyLoop(
     markWatchdogProgress(session);
     await logSession('info', 'Collecting Indeed job listings…');
 
-    session = await appendUniqueIndeedJobs(tabId, session);
-    markWatchdogProgress(session);
+    {
+        const collectOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
+            tabId,
+            session,
+        );
+        session = collectOutcome.session || session;
+        markWatchdogProgress(session);
+
+        if (collectOutcome.stopped) {
+            await finalizeStoppedSession();
+
+            return;
+        }
+
+        if (collectOutcome.captchaTimedOut && !session.queue.length) {
+            throw new Error(
+                'Indeed security check blocked job collection. Solve the CAPTCHA in the Auto Apply window, then start again.',
+            );
+        }
+    }
 
     if (!session.queue.length) {
         throw new Error(
@@ -8119,8 +8330,28 @@ async function runIndeedAutoApplyLoop(
             }
 
             await logSession('info', 'Loading next page of Indeed results…');
-            session = await appendUniqueIndeedJobs(tabId, session);
-            markWatchdogProgress(session);
+            {
+                const pageOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
+                    tabId,
+                    session,
+                );
+                session = pageOutcome.session || session;
+                markWatchdogProgress(session);
+
+                if (pageOutcome.stopped) {
+                    await finalizeStoppedSession();
+
+                    return;
+                }
+
+                if (pageOutcome.captchaTimedOut) {
+                    await logSession(
+                        'warn',
+                        'Indeed security check blocked the next search page - stopping collection.',
+                    );
+                    break;
+                }
+            }
 
             if (session.currentIndex >= session.queue.length) {
                 break;

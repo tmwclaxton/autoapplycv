@@ -330,8 +330,17 @@ const AutoCVApplyFormHeuristics = (() => {
             return { iso: '', dialCodeDigits: '', nationalDigits: '' };
         }
 
-        const e164 = normalized.startsWith('+') ? normalized : `+${digits}`;
-        const dialCodeDigits = extractDialCodeFromPhoneValue(e164);
+        // National-only values (no leading +) must not be treated as E.164 -
+        // otherwise 7837… is misread as dial code 7 (Russia) and UK country never sets.
+        if (!normalized.startsWith('+')) {
+            return {
+                iso: '',
+                dialCodeDigits: '',
+                nationalDigits: digits.replace(/^0+/, ''),
+            };
+        }
+
+        const dialCodeDigits = extractDialCodeFromPhoneValue(normalized);
         const iso = resolveIsoFromDialCodeDigits(dialCodeDigits);
         let nationalDigits = dialCodeDigits && digits.startsWith(dialCodeDigits)
             ? digits.slice(dialCodeDigits.length)
@@ -7664,14 +7673,10 @@ const AutoCVApplyFormHeuristics = (() => {
     function formatIndeedNationalPhoneDigits(digits, iso = '') {
         const normalized = String(digits || '').replace(/\D/g, '');
 
-        if (iso === 'GB' && normalized.length === 10) {
-            return `${normalized.slice(0, 4)}-${normalized.slice(4)}`;
-        }
-
+        // UK Smart Apply validates national digits only. Hyphenated masks like
+        // 7837-370669 fail with "Add a valid phone number to continue."
         if (iso === 'GB' && normalized.length === 11 && normalized.startsWith('0')) {
-            const national = normalized.slice(1);
-
-            return `${national.slice(0, 4)}-${national.slice(4)}`;
+            return normalized.slice(1);
         }
 
         return normalized;
