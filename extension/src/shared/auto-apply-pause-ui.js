@@ -89,7 +89,7 @@ export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
  */
 export function buildAutoApplyPauseBannerMessage(pauseContext) {
     if (pauseContext?.captcha) {
-        return 'Security check detected. Solve it in the job tab, then tap Resume in Assist. Stop still works if you want to cancel this run.';
+        return 'CAPTCHA detected - solve in the browser, then resume in Assist. Stop still works if you want to cancel this run.';
     }
 
     if (pauseContext?.identityConfirm) {

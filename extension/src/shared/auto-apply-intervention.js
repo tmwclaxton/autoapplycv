@@ -11,7 +11,7 @@ function resolvePauseNextAction(pauseContext) {
     }
 
     if (pauseContext.captcha) {
-        return 'Solve the security check in the browser tab, then tap Resume in Assist.';
+        return 'CAPTCHA detected - solve in the browser, then resume in Assist.';
     }
 
     if (pauseContext.identityConfirm) {

@@ -145,8 +145,8 @@ assert(pendingOnly.reason === 'required_empty', 'pending missing_answer should m
 const noMapping = detectUnfilledBlockers({}, {
     pendingFields: [{
         ref: 'f-screen',
-        label: 'Are you authorized to work in the US?',
-        question: 'Are you authorized to work in the US?',
+        label: 'Do you have a security clearance?',
+        question: 'Do you have a security clearance?',
         field_type: 'select',
         options: ['Yes', 'No'],
         reason: 'missing_profile_data',
@@ -323,8 +323,8 @@ const captchaPauseContext = {
 };
 
 assert(
-    buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('Security check'),
-    'captcha pause banner should mention security check',
+    buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('CAPTCHA detected'),
+    'captcha pause banner should mention CAPTCHA detected',
 );
 
 const identityPauseContext = {

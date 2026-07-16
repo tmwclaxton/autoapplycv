@@ -66,7 +66,7 @@ session = pauseAutoApplyForInput(session, {
 const captchaSummary = buildAutoApplyInterventionSummary(session);
 
 assert.equal(captchaSummary?.headline, 'Paused on Engineer');
-assert.match(captchaSummary?.nextAction || '', /security check/i);
+assert.match(captchaSummary?.nextAction || '', /CAPTCHA detected/i);
 
 const structured = resolveStructuredJobProcessOutcome({
     outcome: 'skipped',

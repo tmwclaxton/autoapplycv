@@ -1353,6 +1353,8 @@ function sanitizeAutoApplySessionResponse(session) {
                 clarifyingQuestion: session.pauseContext.clarifyingQuestion,
                 questionText: session.pauseContext.questionText,
                 resumeAt: session.pauseContext.resumeAt,
+                captcha: Boolean(session.pauseContext.captcha),
+                identityConfirm: Boolean(session.pauseContext.identityConfirm),
             }
             : null,
     };

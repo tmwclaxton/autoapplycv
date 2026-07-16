@@ -1,6 +1,12 @@
 import { initAssistChat } from './assist.js';
 import { initAutoApplyPanel } from './auto-apply.js';
 import {
+    buildCaptchaAlertKey,
+    isCaptchaAutoApplyPause,
+    playCaptchaAlertSound,
+    shouldPlayCaptchaAlert,
+} from './auto-apply-captcha-alert.js';
+import {
     DEFAULT_LOGIN_ENDPOINT,
     normalizeLoginEndpoint,
     parseConnectionInput,
@@ -13,6 +19,8 @@ import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
+
+const CAPTCHA_ALERT_STORAGE_KEY = 'autoApplyLastCaptchaAlertKey';
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');
@@ -177,6 +185,55 @@ function playAutoApplyPauseSound() {
     } catch {
         // Audio may be blocked until user interaction.
     }
+}
+
+/**
+ * Loud CAPTCHA ping once per pause key (Web Audio beeps + mp3).
+ *
+ * @param {object|null|undefined} pauseContext
+ * @param {string|null|undefined} [reason]
+ */
+async function maybePlayCaptchaAlert(pauseContext, reason = null) {
+    if (!isCaptchaAutoApplyPause(pauseContext, reason)) {
+        return;
+    }
+
+    const alertKey = buildCaptchaAlertKey(pauseContext);
+
+    if (!alertKey) {
+        return;
+    }
+
+    let lastAlertKey = null;
+
+    try {
+        const stored = await chrome.storage.session.get(CAPTCHA_ALERT_STORAGE_KEY);
+        lastAlertKey = stored?.[CAPTCHA_ALERT_STORAGE_KEY] || null;
+    } catch {
+        lastAlertKey = null;
+    }
+
+    if (!shouldPlayCaptchaAlert(alertKey, lastAlertKey)) {
+        return;
+    }
+
+    try {
+        await chrome.storage.session.set({
+            [CAPTCHA_ALERT_STORAGE_KEY]: alertKey,
+        });
+    } catch {
+        // Best-effort dedupe only.
+    }
+
+    playCaptchaAlertSound({
+        getSoundUrl: () => {
+            try {
+                return chrome.runtime.getURL('sound/ping.mp3');
+            } catch {
+                return null;
+            }
+        },
+    });
 }
 
 function setupTabs() {
@@ -617,7 +674,13 @@ chrome.runtime.onMessage.addListener((message) => {
 
     if (message.type === 'AUTO_APPLY_PAUSED' && message.pauseContext) {
         currentAutoApplyPauseContext = message.pauseContext;
-        playAutoApplyPauseSound();
+
+        if (isCaptchaAutoApplyPause(message.pauseContext, message.reason)) {
+            void maybePlayCaptchaAlert(message.pauseContext, message.reason);
+        } else {
+            playAutoApplyPauseSound();
+        }
+
         switchToTab('assist');
         assistChat?.handleAutoApplyPaused?.(message.pauseContext);
 
@@ -655,6 +718,7 @@ async function restoreAutoApplyPauseUi() {
     }
 
     currentAutoApplyPauseContext = response.session.pauseContext;
+    await maybePlayCaptchaAlert(response.session.pauseContext);
     assistChat?.handleAutoApplyPaused?.(response.session.pauseContext);
 
     if (pendingFieldsPanel?.refreshPendingFields) {

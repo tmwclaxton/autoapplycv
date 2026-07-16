@@ -438,6 +438,10 @@ copyFileSync(
     join(DIST, 'auto-apply-pause-ui.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/auto-apply-captcha-alert.js'),
+    join(DIST, 'auto-apply-captcha-alert.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-intervention.js'),
     join(DIST, 'auto-apply-intervention.js'),
 );
