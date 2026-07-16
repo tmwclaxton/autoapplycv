@@ -1199,6 +1199,17 @@ const AutoCVApplyIndeedAutoApply = (() => {
             };
         }
 
+        // Apply click often navigates into smartapply and drops the original
+        // message response. Retries must treat an open apply flow as success
+        // instead of looking for a viewjob Apply button that is gone.
+        if (isIndeedApplyFlowPage()) {
+            return {
+                success: true,
+                easyApply: true,
+                alreadyOpen: true,
+            };
+        }
+
         if (readIndeedSecurityCheckpoint()) {
             return {
                 success: false,

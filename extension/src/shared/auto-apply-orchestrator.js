@@ -1205,6 +1205,25 @@ function isLinkedInEasyApplyReadyForFill(modalState) {
     return false;
 }
 
+function isIndeedSmartApplyTabUrl(url) {
+    const value = String(url || '');
+
+    return (
+        /smartapply\.indeed\.com/i.test(value) &&
+        !/preloadresumeapply/i.test(value)
+    );
+}
+
+async function readIndeedTabUrl(tabId) {
+    try {
+        const tab = await chrome.tabs.get(tabId);
+
+        return tab?.url || '';
+    } catch {
+        return '';
+    }
+}
+
 async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 2;
 
@@ -1222,6 +1241,20 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                     `[indeed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
                 );
 
+                const onSmartApply = isIndeedSmartApplyTabUrl(
+                    await readIndeedTabUrl(tabId),
+                );
+
+                // OPEN_APPLY frequently navigates into smartapply and closes the
+                // message channel. Do not reload the apply form away.
+                if (onSmartApply && type === 'INDEED_OPEN_APPLY') {
+                    return {
+                        success: true,
+                        easyApply: true,
+                        alreadyOpen: true,
+                    };
+                }
+
                 const resumeIndeedTab = async () => {
                     await waitForIndeedContentScript(tabId);
                     await sleep(
@@ -1237,12 +1270,14 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                 try {
                     await resumeIndeedTab();
                 } catch {
-                    try {
-                        await chrome.tabs.reload(tabId);
-                        await waitForTabLoadComplete(tabId);
-                        await resumeIndeedTab();
-                    } catch {
-                        // Fall through to retry send on next loop iteration.
+                    if (!onSmartApply) {
+                        try {
+                            await chrome.tabs.reload(tabId);
+                            await waitForTabLoadComplete(tabId);
+                            await resumeIndeedTab();
+                        } catch {
+                            // Fall through to retry send on next loop iteration.
+                        }
                     }
                 }
 
@@ -4909,9 +4944,42 @@ async function processIndeedJobInner(
         };
     }
 
-    const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY', {
-        jobId: job.jobId,
-    });
+    let applyResponse = null;
+
+    try {
+        applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY', {
+            jobId: job.jobId,
+        });
+    } catch {
+        // Apply navigation tears down the content script before sendResponse.
+        applyResponse = null;
+    }
+
+    // When the Apply click navigates into smartapply, the original message often
+    // dies. Probe the tab URL before treating the job as non-Indeed-Apply.
+    const shouldProbeSmartApply =
+        !applyResponse?.success &&
+        applyResponse?.easyApply !== false &&
+        !applyResponse?.alreadyApplied &&
+        !applyResponse?.captcha;
+
+    if (shouldProbeSmartApply) {
+        if (!isIndeedSmartApplyTabUrl(await readIndeedTabUrl(tabId))) {
+            tabId = await resolveIndeedApplyTabId(tabId, {
+                windowId: session?.windowId ?? null,
+                timeoutMs: 2_500,
+            }).catch(() => tabId);
+        }
+
+        if (isIndeedSmartApplyTabUrl(await readIndeedTabUrl(tabId))) {
+            applyResponse = {
+                ...(applyResponse || {}),
+                success: true,
+                easyApply: true,
+                alreadyOpen: true,
+            };
+        }
+    }
 
     if (applyResponse?.alreadyApplied) {
         await recordAnalyticsEvent(session, 'skipped', job, {

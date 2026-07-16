@@ -229,6 +229,21 @@ assert.equal(
     'Hidden SERP preload shell must not look like an open apply form',
 );
 
+const alreadyOpenApplyDom = new JSDOM(
+    `<html><body><button data-testid="continue-button">Continue</button></body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/contact-info-module',
+    },
+);
+const alreadyOpenApplyApi = loadIndeedAutoApply(alreadyOpenApplyDom.window);
+const alreadyOpenApply = await alreadyOpenApplyApi.clickIndeedApply(
+    'd1484f00c2ca6382',
+);
+
+assert.equal(alreadyOpenApply.success, true);
+assert.equal(alreadyOpenApply.easyApply, true);
+assert.equal(alreadyOpenApply.alreadyOpen, true);
+
 const interventionContinueDom = new JSDOM(
     `<html><body>
       <button type="button">Yes, I still want to apply</button>
