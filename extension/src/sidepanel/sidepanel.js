@@ -37,7 +37,7 @@ const jobContextEl = document.getElementById('job-context');
 const answerQuestionsBtn = document.getElementById('answer-questions-btn');
 const answerQuestionsStatus = document.getElementById('answer-questions-status');
 
-const ANSWER_QUESTIONS_LABEL = 'Answer Questions on Page';
+const ANSWER_QUESTIONS_LABEL = 'Answer All Questions on Web Page';
 let answerQuestionsRunning = false;
 
 const aiTabs = new Set(['ats', 'cover']);
@@ -108,7 +108,7 @@ function setAnswerQuestionsRunning(running, statusText = '') {
             : ANSWER_QUESTIONS_LABEL;
     }
 
-    setAnswerQuestionsStatus(running ? (statusText || 'Answering questions on the page…') : statusText);
+    setAnswerQuestionsStatus(running ? (statusText || 'Answering all questions on the web page…') : statusText);
 }
 
 async function startAnswerQuestionsOnPage() {
@@ -116,8 +116,8 @@ async function startAnswerQuestionsOnPage() {
         return;
     }
 
-    setAnswerQuestionsRunning(true, 'Answering questions on the page…');
-    sidepanelLog.logInfo('draft-all.start', 'Answer Questions on Page clicked', {});
+    setAnswerQuestionsRunning(true, 'Answering all questions on the web page…');
+    sidepanelLog.logInfo('draft-all.start', 'Answer All Questions on Web Page clicked', {});
 
     try {
         const response = await chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' });

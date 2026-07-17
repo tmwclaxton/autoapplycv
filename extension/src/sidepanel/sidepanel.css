@@ -109,6 +109,14 @@ body {
     padding: 0 16px 12px;
 }
 
+#answer-questions-btn {
+    background: #a50d25;
+}
+
+#answer-questions-btn:hover:not(:disabled) {
+    background: #8f0b20;
+}
+
 .shell-answer-questions-status {
     margin: 8px 0 0;
 }
