@@ -107,6 +107,41 @@ export function isReedHostname(hostname) {
 }
 
 /**
+ * True when the tab is on Reed's Auth0 login / authentication wall.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isReedLoginUrl(url) {
+    try {
+        const parsed = new URL(String(url || ''));
+        const host = parsed.hostname.toLowerCase();
+        const path = parsed.pathname.toLowerCase();
+        const href = parsed.href.toLowerCase();
+
+        if (host === 'secure.reed.co.uk') {
+            return true;
+        }
+
+        if (isReedHostname(host)) {
+            return (
+                /\/authentication\/login/i.test(path)
+                || /\/account\/login/i.test(path)
+                || /\/signin\/?$/i.test(path)
+            );
+        }
+
+        if (/auth0\.com$/i.test(host) && href.includes('reed')) {
+            return true;
+        }
+
+        return false;
+    } catch {
+        return false;
+    }
+}
+
+/**
  * @param {string} url
  * @returns {boolean}
  */

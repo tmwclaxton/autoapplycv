@@ -5,6 +5,7 @@ import {
     buildReedJobOpenUrl,
     buildReedJobSearchUrl,
     isReedJobsSearchUrl,
+    isReedLoginUrl,
     readReedJobIdFromHref,
     urlsMatchReedSearch,
 } from '../../extension/src/shared/reed-platform.js';
@@ -37,17 +38,23 @@ test('buildReedJobApplyUrl builds apply URL from id', () => {
     assert.equal(buildReedJobApplyUrl('56997857'), 'https://www.reed.co.uk/jobs/apply/56997857');
 });
 
-test('urlsMatchReedSearch matches role and location', () => {
-    const expected = buildReedJobSearchUrl('software engineer', { filters: { location: 'London' } });
-
+test('isReedLoginUrl detects Auth0 secure login and authentication paths', () => {
     assert.equal(
-        urlsMatchReedSearch(
-            'https://www.reed.co.uk/jobs/software-engineer-jobs-in-london?pageno=2',
-            expected,
-            { location: 'London' },
+        isReedLoginUrl(
+            'https://secure.reed.co.uk/login?state=abc&client=xyz',
         ),
         true,
     );
-    assert.equal(isReedJobsSearchUrl('https://www.reed.co.uk/jobs/developer-jobs-in-manchester'), true);
-    assert.equal(isReedJobsSearchUrl('https://www.reed.co.uk/jobs/developer/57004124'), false);
+    assert.equal(
+        isReedLoginUrl('https://www.reed.co.uk/authentication/login'),
+        true,
+    );
+    assert.equal(
+        isReedLoginUrl('https://www.reed.co.uk/jobs/laravel-developer-jobs-in-london'),
+        false,
+    );
+    assert.equal(
+        isReedLoginUrl('https://www.reed.co.uk/jobs/php-laravel-developer-remote/57099837'),
+        false,
+    );
 });

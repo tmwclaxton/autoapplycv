@@ -104,6 +104,7 @@ import { runReedAutoApplyLoop } from './reed-auto-apply-runner.js';
 import {
     buildReedJobOpenUrl,
     isReedJobsSearchUrl,
+    isReedLoginUrl,
     urlsMatchReedSearch,
 } from './reed-platform.js';
 import {
@@ -353,6 +354,8 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             apply_step_unavailable: 'apply form could not advance',
             apply_submit_failed: 'application could not be submitted',
             already_applied: 'already applied on Indeed',
+            login_required: 'sign-in required on job board',
+            captcha_required: 'CAPTCHA / security check',
         }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
 
@@ -1377,6 +1380,21 @@ async function sendReedMessage(tabId, type, payload = {}, options = {}) {
                 error instanceof Error ? error.message : String(error);
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                try {
+                    const tab = await chrome.tabs.get(tabId);
+
+                    if (isReedLoginUrl(tab?.url || '')) {
+                        throw new Error('Reed sign-in required to apply.');
+                    }
+                } catch (loginError) {
+                    if (
+                        loginError instanceof Error
+                        && /sign-in required/i.test(loginError.message)
+                    ) {
+                        throw loginError;
+                    }
+                }
+
                 invalidateTabFrameCache(tabId);
                 await logSession(
                     'warn',
@@ -2652,6 +2670,78 @@ async function pauseForCaptchaReview(
             reason: 'captcha',
         })
         .catch(() => {});
+}
+
+async function pauseForLoginRequired(session, tabId, job, platformLabel = 'Reed') {
+    const prompt =
+        `${platformLabel} sign-in required - log in in the Auto Apply window, then resume Auto Apply.`;
+
+    const pauseContext = {
+        job: {
+            jobId: job?.jobId || null,
+            title: job?.title || platformLabel,
+            company: job?.company || '',
+        },
+        stepFingerprint: 'login-required',
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: 'open_job',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        captcha: false,
+        loginRequired: true,
+    };
+
+    await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                `[paused] ${job?.title || platformLabel}: sign-in required - log in, then resume in Assist.`,
+            ),
+            pauseContext,
+        ),
+    );
+
+    await openAssistSidePanelForCaptcha(tabId);
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'login',
+        })
+        .catch(() => {});
+}
+
+async function waitForLoginRequiredResume(session, tabId, job, platformLabel = 'Reed') {
+    await pauseForLoginRequired(session, tabId, job, platformLabel);
+    const loginResume = await waitForAutoApplyResumeWithTimeout(300_000);
+
+    if (loginResume.stopRequested) {
+        return { stopped: true, session: loginResume };
+    }
+
+    if (loginResume.status === 'paused_for_input') {
+        await resumeAutoApplyFromPauseSilently();
+
+        return { timedOut: true, session: loginResume };
+    }
+
+    return { resumed: true, session: loginResume };
+}
+
+async function readTabUrl(tabId) {
+    try {
+        const tab = await chrome.tabs.get(tabId);
+
+        return tab?.url || '';
+    } catch {
+        return '';
+    }
 }
 
 async function pauseForIdentityConfirm(
@@ -6783,7 +6873,46 @@ async function processReedJob(
         };
     }
 
-    const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH');
+    const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH').catch(
+        async (error) => {
+            const message =
+                error instanceof Error ? error.message : String(error);
+
+            if (/sign-in required/i.test(message) || isReedLoginUrl(await readTabUrl(tabId))) {
+                return {
+                    ok: false,
+                    primary: { code: 'login_required', message: 'Reed sign-in required to apply.' },
+                };
+            }
+
+            throw error;
+        },
+    );
+
+    if (health?.primary?.code === 'login_required'
+        || health?.blocking?.[0]?.code === 'login_required'
+        || isReedLoginUrl(await readTabUrl(tabId))) {
+        const loginWait = await waitForLoginRequiredResume(
+            session,
+            tabId,
+            job,
+            'Reed',
+        );
+
+        if (loginWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (loginWait.timedOut || isReedLoginUrl(await readTabUrl(tabId))) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'login_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'login_required', tabId };
+        }
+
+        return { outcome: 'retry', reason: 'login_resumed', tabId };
+    }
 
     if (health && health.ok === false) {
         throw new Error(
@@ -6802,11 +6931,28 @@ async function processReedJob(
             const message =
                 error instanceof Error ? error.message : String(error);
 
+            if (/sign-in required/i.test(message) || isReedLoginUrl(await readTabUrl(tabId))) {
+                return {
+                    success: false,
+                    loginRequired: true,
+                    error: 'Reed sign-in required to apply.',
+                };
+            }
+
             if (!isExtensionMessagingError(message)) {
                 throw error;
             }
 
             await waitForTabLoadComplete(tabId);
+
+            if (isReedLoginUrl(await readTabUrl(tabId))) {
+                return {
+                    success: false,
+                    loginRequired: true,
+                    error: 'Reed sign-in required to apply.',
+                };
+            }
+
             await waitForReedContentScript(tabId);
 
             const fallbackState = await sendReedMessage(
@@ -6821,6 +6967,33 @@ async function processReedJob(
             return null;
         },
     );
+
+    if (
+        applyResponse?.loginRequired
+        || /sign-in required/i.test(applyResponse?.error || '')
+        || isReedLoginUrl(await readTabUrl(tabId))
+    ) {
+        const loginWait = await waitForLoginRequiredResume(
+            session,
+            tabId,
+            job,
+            'Reed',
+        );
+
+        if (loginWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (loginWait.timedOut || isReedLoginUrl(await readTabUrl(tabId))) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'login_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'login_required', tabId };
+        }
+
+        return { outcome: 'retry', reason: 'login_resumed', tabId };
+    }
 
     if (applyResponse?.reedApply === false) {
         await recordAnalyticsEvent(session, 'skipped', job, {

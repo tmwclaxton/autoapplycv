@@ -14,6 +14,8 @@ const {
 
 assert.equal(isCaptchaAutoApplyPause({ captcha: true }), true);
 assert.equal(isCaptchaAutoApplyPause({}, 'captcha'), true);
+assert.equal(isCaptchaAutoApplyPause({ loginRequired: true }), true);
+assert.equal(isCaptchaAutoApplyPause({}, 'login'), true);
 assert.equal(isCaptchaAutoApplyPause({ identityConfirm: true }), false);
 
 const key = buildCaptchaAlertKey({

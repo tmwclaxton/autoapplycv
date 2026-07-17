@@ -459,6 +459,8 @@ function renderStatusLine(session) {
         running: session.stopRequested ? 'Stopping…' : 'Running',
         paused_for_input: session.pauseContext?.captcha
             ? 'Paused - CAPTCHA detected (solve in browser)'
+            : session.pauseContext?.loginRequired
+                ? 'Paused - sign in on the job board, then resume'
             : session.pauseContext?.identityConfirm
                 ? 'Paused - confirm Indeed contact update'
                 : 'Paused - waiting for your answer in Assist',

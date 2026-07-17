@@ -110,6 +110,16 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
                 return;
             }
 
+            if (result.outcome === 'retry') {
+                markWatchdogProgress(session);
+                await logSession(
+                    'info',
+                    `[login] Signed in - retrying ${job.title} at ${job.company}.`,
+                );
+
+                continue;
+            }
+
             session = await updateSession((current) => {
                 const stats = { ...current.stats };
 

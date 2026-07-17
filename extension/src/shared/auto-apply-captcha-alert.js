@@ -9,7 +9,10 @@
  * @returns {boolean}
  */
 export function isCaptchaAutoApplyPause(pauseContext, reason = null) {
-    return Boolean(pauseContext?.captcha) || reason === 'captcha';
+    return Boolean(pauseContext?.captcha)
+        || Boolean(pauseContext?.loginRequired)
+        || reason === 'captcha'
+        || reason === 'login';
 }
 
 /**
@@ -27,7 +30,7 @@ export function buildCaptchaAlertKey(pauseContext) {
         pauseContext.job?.jobId || '',
         pauseContext.stepFingerprint || '',
         pauseContext.tabId || '',
-        'captcha',
+        pauseContext.loginRequired ? 'login' : 'captcha',
     ].join('|');
 }
 

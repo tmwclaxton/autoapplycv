@@ -478,6 +478,19 @@ const AutoCVApplyReedAutoApply = (() => {
         const deadline = Date.now() + 12_000;
 
         while (Date.now() < deadline) {
+            const href = String(window.location.href || '');
+
+            if (
+                /^https:\/\/secure\.reed\.co\.uk\//i.test(href)
+                || /\/authentication\/login/i.test(href)
+            ) {
+                return {
+                    success: false,
+                    loginRequired: true,
+                    error: 'Reed sign-in required to apply.',
+                };
+            }
+
             if (isReedApplyModalOpen()) {
                 return { success: true, reedApply: true, navigating: false };
             }
@@ -970,6 +983,20 @@ const AutoCVApplyReedAutoApply = (() => {
                 issues: [{ code: 'session_expired', message: 'Reed session expired - refresh required.' }],
                 blocking: [{ code: 'session_expired', message: 'Reed session expired - refresh required.' }],
                 primary: { code: 'session_expired', message: 'Reed session expired - refresh required.' },
+            };
+        }
+
+        const href = String(window.location.href || '');
+        const onSecureLogin = /^https:\/\/secure\.reed\.co\.uk\//i.test(href)
+            || /\/authentication\/login/i.test(href)
+            || /signin_email|Sign in - reed/i.test(document.title || '');
+
+        if (onSecureLogin) {
+            return {
+                ok: false,
+                issues: [{ code: 'login_required', message: 'Reed sign-in required to apply.' }],
+                blocking: [{ code: 'login_required', message: 'Reed sign-in required to apply.' }],
+                primary: { code: 'login_required', message: 'Reed sign-in required to apply.' },
             };
         }
 
