@@ -28,16 +28,24 @@ export function isUsableSidePanelHostTab(tab) {
 }
 
 /**
- * Pick the tab Auto Apply should reuse when the side panel is open.
+ * Pick the tab/window Auto Apply should reuse when the side panel is open.
+ * Prefers an injectable host tab; otherwise binds to the side panel window alone
+ * so navigation can open a job-board tab in that same window.
  *
  * @param {{
  *   sidePanelOpen?: boolean,
  *   hostTab?: chrome.tabs.Tab|null,
  *   activeTabInWindow?: chrome.tabs.Tab|null,
+ *   windowId?: number|null,
  * }} input
- * @returns {{ tabId: number, windowId: number }|null}
+ * @returns {{ tabId: number|null, windowId: number }|null}
  */
-export function pickSidePanelHostTab({ sidePanelOpen, hostTab, activeTabInWindow }) {
+export function pickSidePanelHostTab({
+    sidePanelOpen,
+    hostTab,
+    activeTabInWindow,
+    windowId = null,
+}) {
     if (!sidePanelOpen) {
         return null;
     }
@@ -56,6 +64,21 @@ export function pickSidePanelHostTab({ sidePanelOpen, hostTab, activeTabInWindow
         };
     }
 
+    const resolvedWindowId = typeof windowId === 'number'
+        ? windowId
+        : (typeof hostTab?.windowId === 'number'
+            ? hostTab.windowId
+            : (typeof activeTabInWindow?.windowId === 'number'
+                ? activeTabInWindow.windowId
+                : null));
+
+    if (typeof resolvedWindowId === 'number') {
+        return {
+            tabId: null,
+            windowId: resolvedWindowId,
+        };
+    }
+
     return null;
 }
 
@@ -63,7 +86,7 @@ export function pickSidePanelHostTab({ sidePanelOpen, hostTab, activeTabInWindow
  * Resolve the side panel host tab from explicit tab/window hints (e.g. side panel heartbeat or Start click).
  *
  * @param {{ tabId?: number|null, windowId?: number|null }} hint
- * @returns {Promise<{ tabId: number, windowId: number }|null>}
+ * @returns {Promise<{ tabId: number|null, windowId: number }|null>}
  */
 export async function resolveSidePanelHostFromHint({ tabId = null, windowId = null } = {}) {
     /** @type {chrome.tabs.Tab|null} */
@@ -94,12 +117,13 @@ export async function resolveSidePanelHostFromHint({ tabId = null, windowId = nu
         sidePanelOpen: true,
         hostTab,
         activeTabInWindow,
+        windowId: resolvedWindowId,
     });
 }
 
 /**
  * @param {Record<string, unknown>} storage
- * @returns {Promise<{ tabId: number, windowId: number }|null>}
+ * @returns {Promise<{ tabId: number|null, windowId: number }|null>}
  */
 export async function resolveSidePanelHostTab(storage = null) {
     const sessionStorage = storage || await chrome.storage.session.get([
@@ -140,6 +164,7 @@ export async function resolveSidePanelHostTab(storage = null) {
         sidePanelOpen: true,
         hostTab,
         activeTabInWindow,
+        windowId: typeof hostWindowId === 'number' ? hostWindowId : null,
     });
 }
 

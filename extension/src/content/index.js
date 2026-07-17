@@ -898,23 +898,26 @@ async function init() {
     }
 }
 
-async function isSidePanelOpen() {
+async function getFieldHighlightVisibility() {
     if (!ensureExtensionContextOrTeardown()) {
-        return false;
+        return { sidePanelOpen: false, paintFieldHighlights: false };
     }
 
     const ctx = extensionContext();
 
     if (!ctx) {
-        return false;
+        return { sidePanelOpen: false, paintFieldHighlights: false };
     }
 
     try {
         const response = await ctx.safeRuntimeSend({ type: 'GET_SIDE_PANEL_STATE' });
 
-        return response?.sidePanelOpen === true;
+        return {
+            sidePanelOpen: response?.sidePanelOpen === true,
+            paintFieldHighlights: response?.paintFieldHighlights === true,
+        };
     } catch {
-        return false;
+        return { sidePanelOpen: false, paintFieldHighlights: false };
     }
 }
 
@@ -946,7 +949,7 @@ async function isAuthenticated() {
     }
 }
 
-function scheduleOverlayRefresh(sidePanelOpen = undefined, { urgent = false } = {}) {
+function scheduleOverlayRefresh(paintFieldHighlights = undefined, { urgent = false } = {}) {
     if (!ensureExtensionContextOrTeardown()) {
         return;
     }
@@ -956,24 +959,24 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined, { urgent = false } = 
         return;
     }
 
-    if (typeof sidePanelOpen === 'boolean') {
-        pendingSidePanelOpen = sidePanelOpen;
+    if (typeof paintFieldHighlights === 'boolean') {
+        pendingSidePanelOpen = paintFieldHighlights;
     }
 
     if (overlayRefreshTimer) {
         clearTimeout(overlayRefreshTimer);
     }
 
-    // Sidepanel-open / Easy Apply mount should paint ASAP; other refreshes can debounce.
-    // Do not wipe outlines on panel-close here - form hosts keep highlights (fda4e581 gate).
-    const delayMs = urgent || sidePanelOpen === true ? 40 : (sidePanelOpen === false ? 0 : 350);
+    // Paint ASAP when allowed; clear immediately when the side panel closes or
+    // this tab is outside the side panel host window.
+    const delayMs = urgent || paintFieldHighlights === true ? 40 : (paintFieldHighlights === false ? 0 : 350);
 
     overlayRefreshTimer = setTimeout(() => {
-        const explicitSidePanelOpen = pendingSidePanelOpen;
+        const explicitPaint = pendingSidePanelOpen;
         pendingSidePanelOpen = undefined;
         overlayRefreshTimer = null;
         removeLegacyFillOverlay();
-        void refreshFieldHighlights(explicitSidePanelOpen);
+        void refreshFieldHighlights(explicitPaint);
     }, delayMs);
 }
 
@@ -1012,7 +1015,7 @@ function resolveFieldHighlightRoot() {
     return document;
 }
 
-async function runFieldHighlightRefresh(explicitSidePanelOpen) {
+async function runFieldHighlightRefresh(explicitPaintFieldHighlights) {
     if (typeof AutoCVApplyFieldHighlighter === 'undefined') {
         return;
     }
@@ -1024,6 +1027,17 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
     }
 
     try {
+        const paintFieldHighlights = typeof explicitPaintFieldHighlights === 'boolean'
+            ? explicitPaintFieldHighlights
+            : (await getFieldHighlightVisibility()).paintFieldHighlights;
+
+        // Outlines only while the side panel is open on this tab's Chrome window.
+        if (!paintFieldHighlights) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
         const authenticated = await isAuthenticated();
 
         if (!authenticated) {
@@ -1059,20 +1073,9 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             {},
             { includeFilled: true },
         );
-        // Original fda4e581 gate: paint when the sidepanel is open OR the page is a
-        // form host with draftable fields. Requiring sidepanel-only (v2.25.140) meant
-        // outlines never appeared when presence/heartbeat lagged - the portal-bar era
-        // still painted on real application forms. Easy Apply modal open is enough
-        // even when every contact field is already filled.
         const easyApplyOpen = typeof AutoCVApplyLinkedInAutoApply !== 'undefined'
             && typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal === 'function'
             && Boolean(AutoCVApplyLinkedInAutoApply.readEasyApplyModal());
-        const isFormHost = count > 0
-            || easyApplyOpen
-            || (root === document && AutoCVApplyFormHeuristics.frameHasApplicationForm(document));
-        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
-            ? explicitSidePanelOpen
-            : await isSidePanelOpen();
 
         // Empty Easy Apply shell: keep retrying until contact fields hydrate.
         if (count === 0 && easyApplyOpen) {
@@ -1085,7 +1088,7 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             return;
         }
 
-        if (count === 0 || (!sidePanelOpen && !isFormHost)) {
+        if (count === 0) {
             AutoCVApplyFieldHighlighter.clearHighlights();
 
             return;
@@ -1101,8 +1104,7 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
         AutoCVApplyFieldHighlighter.applyHighlights(root, profileData.profile, settings, {});
         contentLog('info', 'highlight.apply', 'Painted field outlines', {
             count,
-            sidePanelOpen,
-            isFormHost,
+            paintFieldHighlights,
             easyApplyOpen,
             rootTag: root === document ? 'document' : (root.tagName || '').toLowerCase(),
         });
@@ -2879,11 +2881,11 @@ contentMessageListener = (message, sender, sendResponse) => {
                 AutoCVApplyFieldHighlighter.clearHighlights();
             }
 
-            const sidePanelOpen = typeof message.sidePanelOpen === 'boolean'
-                ? message.sidePanelOpen
-                : true;
+            const paintFieldHighlights = typeof message.paintFieldHighlights === 'boolean'
+                ? message.paintFieldHighlights
+                : (typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : true);
 
-            void refreshFieldHighlights(sidePanelOpen)
+            void refreshFieldHighlights(paintFieldHighlights)
                 .then(() => sendResponse({ success: true }))
                 .catch(() => sendResponse({ success: false }));
 
@@ -2892,9 +2894,16 @@ contentMessageListener = (message, sender, sendResponse) => {
 
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             if (!isAutoApplyBurstActive()) {
-                scheduleOverlayRefresh(
-                    typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,
-                );
+                const paintFieldHighlights = typeof message.paintFieldHighlights === 'boolean'
+                    ? message.paintFieldHighlights
+                    : (typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined);
+
+                if (paintFieldHighlights === false
+                    && typeof AutoCVApplyFieldHighlighter !== 'undefined') {
+                    AutoCVApplyFieldHighlighter.clearHighlights();
+                }
+
+                scheduleOverlayRefresh(paintFieldHighlights);
             }
 
             sendResponse({ success: true });

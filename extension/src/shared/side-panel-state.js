@@ -24,9 +24,55 @@ export function resolveSidePanelOpen({ sidePanelOpen, sidePanelLastHeartbeatAt }
     return isSidePanelOpenFromStorage(sidePanelLastHeartbeatAt);
 }
 
-export function buildSidePanelVisibilityMessage(storage = {}) {
+/**
+ * Field outlines only paint when the side panel is open and the tab lives in
+ * the same Chrome window as the side panel host.
+ *
+ * @param {{
+ *   sidePanelOpen?: boolean,
+ *   tabWindowId?: number|null,
+ *   hostWindowId?: number|null,
+ * }} input
+ */
+export function shouldPaintFieldHighlights({
+    sidePanelOpen = false,
+    tabWindowId = null,
+    hostWindowId = null,
+} = {}) {
+    if (!sidePanelOpen) {
+        return false;
+    }
+
+    if (typeof hostWindowId !== 'number' || typeof tabWindowId !== 'number') {
+        return false;
+    }
+
+    return tabWindowId === hostWindowId;
+}
+
+/**
+ * @param {Record<string, unknown>} storage
+ * @param {{ tabWindowId?: number|null, hostWindowId?: number|null }} [options]
+ */
+export function buildSidePanelVisibilityMessage(storage = {}, {
+    tabWindowId = null,
+    hostWindowId = null,
+} = {}) {
+    const sidePanelOpen = resolveSidePanelOpen(storage);
+    const resolvedHostWindowId = typeof hostWindowId === 'number'
+        ? hostWindowId
+        : (typeof storage.sidePanelHostWindowId === 'number'
+            ? storage.sidePanelHostWindowId
+            : null);
+
     return {
         type: 'AUTOFILL_VISIBILITY_CHANGED',
-        sidePanelOpen: resolveSidePanelOpen(storage),
+        sidePanelOpen,
+        hostWindowId: resolvedHostWindowId,
+        paintFieldHighlights: shouldPaintFieldHighlights({
+            sidePanelOpen,
+            tabWindowId,
+            hostWindowId: resolvedHostWindowId,
+        }),
     };
 }

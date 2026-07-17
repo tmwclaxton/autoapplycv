@@ -1,5 +1,6 @@
 /**
- * Dedicated Chrome window for Auto Apply so job navigation does not hijack the user's main window.
+ * Chrome window helpers for Auto Apply navigation.
+ * Prefer the side-panel host window; only create a dedicated window when no host exists.
  */
 
 /** @param {number|null|undefined} windowId */

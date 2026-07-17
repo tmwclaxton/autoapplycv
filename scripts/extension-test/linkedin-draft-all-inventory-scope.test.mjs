@@ -241,20 +241,22 @@ test('resolveHighlightRoot finds LinkedIn search-results JobDetails_* pane', () 
     );
 });
 
-test('content script restores form-host highlight gate and sidepanel-open fast path', () => {
+test('content script paints outlines only when side panel host window allows it', () => {
     const contentJs = readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8');
 
     assert.match(contentJs, /resolveHighlightRoot/);
     assert.match(contentJs, /queuedHighlightSidePanelOpen/);
-    assert.match(contentJs, /urgent \|\| sidePanelOpen === true \? 40/);
-    assert.match(contentJs, /\(!sidePanelOpen && !isFormHost\)/);
+    assert.match(contentJs, /urgent \|\| paintFieldHighlights === true \? 40/);
+    assert.match(contentJs, /getFieldHighlightVisibility/);
+    assert.match(contentJs, /paintFieldHighlights/);
+    assert.match(contentJs, /Outlines only while the side panel is open on this tab's Chrome window/);
     assert.match(contentJs, /Painted field outlines/);
     assert.match(contentJs, /includeFilled:\s*true/);
     assert.match(contentJs, /easyApplyOpen/);
     assert.match(contentJs, /scheduleEasyApplyHighlightRefresh/);
     assert.match(contentJs, /noteEasyApplyHighlightState/);
     assert.match(contentJs, /Easy Apply open but no fields yet; retrying/);
-    assert.doesNotMatch(contentJs, /Clear outlines immediately when the sidepanel closes/);
+    assert.doesNotMatch(contentJs, /\(!sidePanelOpen && !isFormHost\)/);
 });
 
 test('LinkedIn Easy Apply contact fixture outlines filled email/phone fields', () => {

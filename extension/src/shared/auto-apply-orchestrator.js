@@ -843,9 +843,10 @@ async function resolveSidePanelHostForAutoApply() {
 async function openUrlInAutoApplyWindow(url, tabId = null) {
     let windowId = await resolveAutoApplyWindowId();
     const session = await loadAutoApplySession();
-    const preferVisibleTab = session?.usesDedicatedWindow === false;
+    const preferHostWindow = session?.usesDedicatedWindow === false;
+    const preferVisibleTab = preferHostWindow;
 
-    if (!windowId && session?.usesDedicatedWindow === false) {
+    if (!windowId && preferHostWindow) {
         windowId = session.windowId ?? null;
         tabId = tabId ?? session.tabId ?? null;
 
@@ -854,12 +855,12 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         }
     }
 
-    if (!windowId && !tabId) {
-        const hostTab = await resolveSidePanelHostForAutoApply();
+    if (!windowId) {
+        const hostBinding = await resolveSidePanelHostForAutoApply();
 
-        if (hostTab) {
-            tabId = hostTab.tabId;
-            windowId = hostTab.windowId;
+        if (hostBinding) {
+            tabId = tabId ?? hostBinding.tabId ?? null;
+            windowId = hostBinding.windowId;
             await rememberAutoApplyWindow(windowId, tabId, {
                 usesDedicatedWindow: false,
             });
@@ -881,6 +882,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         }
     }
 
+    // Dedicated background window only when no side-panel host window is available.
     if (!windowId && !tabId) {
         const created = await createAutoApplyWindow(url);
         await rememberAutoApplyWindow(created.windowId, created.tabId, {
@@ -8527,71 +8529,77 @@ export async function startAutoApply({
         configureAutoApplyTiming(session.timingLevel);
         await persistActiveAutoApplyTiming(session.timingLevel);
 
-        let hostTab = null;
+        let hostBinding = null;
 
         if (typeof hostTabId === 'number' || typeof hostWindowId === 'number') {
-            hostTab = await resolveSidePanelHostFromHint({
+            hostBinding = await resolveSidePanelHostFromHint({
                 tabId: hostTabId,
                 windowId: hostWindowId,
             });
 
-            if (hostTab) {
-                await rememberSidePanelHostTab(hostTab);
+            if (hostBinding) {
+                await rememberSidePanelHostTab({
+                    tabId: typeof hostBinding.tabId === 'number' ? hostBinding.tabId : undefined,
+                    windowId: hostBinding.windowId,
+                });
             }
         }
 
-        if (!hostTab) {
-            hostTab = await resolveSidePanelHostForAutoApply();
+        if (!hostBinding) {
+            hostBinding = await resolveSidePanelHostForAutoApply();
         }
 
-        if (hostTab) {
-            try {
-                const hostTabDetails = await chrome.tabs.get(hostTab.tabId);
+        let sessionTabId = null;
+        let sessionWindowId = null;
 
-                if (
-                    !hostTabDetails?.url
-                    || !urlBelongsToPlatform(hostTabDetails.url, platform)
-                ) {
-                    hostTab = null;
+        if (hostBinding) {
+            sessionWindowId = hostBinding.windowId;
+
+            if (typeof hostBinding.tabId === 'number') {
+                try {
+                    const hostTabDetails = await chrome.tabs.get(hostBinding.tabId);
+
+                    if (
+                        hostTabDetails?.url
+                        && urlBelongsToPlatform(hostTabDetails.url, platform)
+                    ) {
+                        sessionTabId = hostBinding.tabId;
+                    }
+
+                    if (typeof hostTabDetails?.windowId === 'number') {
+                        sessionWindowId = hostTabDetails.windowId;
+                    }
+                } catch {
+                    // Keep the host window; openUrlInAutoApplyWindow will create a tab.
                 }
-            } catch {
-                hostTab = null;
+            }
+
+            if (sessionWindowId && !(await isAutoApplyWindowOpen(sessionWindowId))) {
+                sessionWindowId = null;
+                sessionTabId = null;
             }
         }
 
-        if (hostTab) {
+        if (sessionWindowId) {
             session = {
                 ...session,
-                tabId: hostTab.tabId,
-                windowId: hostTab.windowId,
+                tabId: sessionTabId,
+                windowId: sessionWindowId,
                 usesDedicatedWindow: false,
             };
             session = appendAutoApplyLog(
                 session,
                 'info',
-                `Starting Auto Apply on ${platform} using the browser tab where AutoCVApply is open.`,
+                sessionTabId
+                    ? `Starting Auto Apply on ${platform} using the browser tab where AutoCVApply is open.`
+                    : `Starting Auto Apply on ${platform} in the browser window where AutoCVApply is open.`,
             );
         } else {
-            const sidePanelOpen = resolveSidePanelOpen(
-                await chrome.storage.session.get([
-                    'sidePanelOpen',
-                    'sidePanelLastHeartbeatAt',
-                ]),
+            session = appendAutoApplyLog(
+                session,
+                'info',
+                `Starting Auto Apply on ${platform}.`,
             );
-
-            if (sidePanelOpen) {
-                session = appendAutoApplyLog(
-                    session,
-                    'info',
-                    'No job board tab in the Assist window - running Auto Apply in a background window.',
-                );
-            } else {
-                session = appendAutoApplyLog(
-                    session,
-                    'info',
-                    `Starting Auto Apply on ${platform}.`,
-                );
-            }
         }
 
         const analyticsSessionId = await startAutoApplyAnalyticsSession({

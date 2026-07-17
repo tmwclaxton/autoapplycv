@@ -100,10 +100,12 @@ import {
     clearSidePanelHostTab,
     isInjectableBrowserTabUrl,
     rememberSidePanelHostTab,
+    SIDE_PANEL_HOST_WINDOW_ID_KEY,
 } from './side-panel-host-tab.js';
 import {
     buildSidePanelVisibilityMessage,
     resolveSidePanelOpen,
+    shouldPaintFieldHighlights,
 } from './side-panel-state.js';
 import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 
@@ -330,10 +332,9 @@ function configureSidePanel() {
     chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
 
     chrome.sidePanel.onOpened?.addListener((info) => {
-        recordSidePanelHeartbeat().catch(() => {});
-        rememberSidePanelHostTab({
-            tabId: info.tabId,
-            windowId: info.windowId,
+        recordSidePanelHeartbeat({
+            tabId: typeof info?.tabId === 'number' ? info.tabId : null,
+            windowId: typeof info?.windowId === 'number' ? info.windowId : null,
         }).catch(() => {});
     });
 
@@ -429,8 +430,22 @@ async function notifyTabOverlayVisibility(tabId) {
         return;
     }
 
-    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
-    const message = buildSidePanelVisibilityMessage(storage);
+    const storage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+        SIDE_PANEL_HOST_WINDOW_ID_KEY,
+    ]);
+
+    let tabWindowId = null;
+
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        tabWindowId = typeof tab?.windowId === 'number' ? tab.windowId : null;
+    } catch {
+        return;
+    }
+
+    const message = buildSidePanelVisibilityMessage(storage, { tabWindowId });
 
     chrome.tabs.sendMessage(tabId, message).catch(() => {});
 }
@@ -446,9 +461,15 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
                 return;
             }
 
-            const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+            const storage = await chrome.storage.session.get([
+                'sidePanelOpen',
+                'sidePanelLastHeartbeatAt',
+                SIDE_PANEL_HOST_WINDOW_ID_KEY,
+            ]);
+            const hostWindowId = storage[SIDE_PANEL_HOST_WINDOW_ID_KEY];
+            const inHostWindow = typeof hostWindowId !== 'number' || hostWindowId === tab.windowId;
 
-            if (resolveSidePanelOpen(storage)) {
+            if (resolveSidePanelOpen(storage) && inHostWindow) {
                 await ensureActiveTabContentScriptForHighlights(tabId);
             }
 
@@ -461,11 +482,20 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 
 chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
     void (async () => {
-        const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+        const storage = await chrome.storage.session.get([
+            'sidePanelOpen',
+            'sidePanelLastHeartbeatAt',
+            SIDE_PANEL_HOST_WINDOW_ID_KEY,
+        ]);
 
         if (resolveSidePanelOpen(storage)) {
-            await rememberSidePanelHostTab({ tabId, windowId });
-            await ensureActiveTabContentScriptForHighlights(tabId);
+            const hostWindowId = storage[SIDE_PANEL_HOST_WINDOW_ID_KEY];
+
+            // Keep the side panel host window stable; only track tab switches inside it.
+            if (typeof hostWindowId !== 'number' || hostWindowId === windowId) {
+                await rememberSidePanelHostTab({ tabId, windowId });
+                await ensureActiveTabContentScriptForHighlights(tabId);
+            }
         }
 
         await notifyTabOverlayVisibility(tabId);
@@ -854,9 +884,27 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_SIDE_PANEL_STATE') {
-        chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt'], (result) => {
+        chrome.storage.session.get([
+            'sidePanelOpen',
+            'sidePanelLastHeartbeatAt',
+            SIDE_PANEL_HOST_WINDOW_ID_KEY,
+        ], (result) => {
+            const sidePanelOpen = resolveSidePanelOpen(result);
+            const hostWindowId = typeof result[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
+                ? result[SIDE_PANEL_HOST_WINDOW_ID_KEY]
+                : null;
+            const tabWindowId = typeof sender.tab?.windowId === 'number'
+                ? sender.tab.windowId
+                : null;
+
             sendResponse({
-                sidePanelOpen: resolveSidePanelOpen(result),
+                sidePanelOpen,
+                hostWindowId,
+                paintFieldHighlights: shouldPaintFieldHighlights({
+                    sidePanelOpen,
+                    tabWindowId,
+                    hostWindowId,
+                }),
             });
         });
 
@@ -1016,11 +1064,25 @@ async function resolveActiveTabId(preferredTabId, preferredWindowId) {
     return tab.id;
 }
 
-async function getSidePanelStateResponse() {
-    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+async function getSidePanelStateResponse(tabWindowId = null) {
+    const storage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+        SIDE_PANEL_HOST_WINDOW_ID_KEY,
+    ]);
+    const sidePanelOpen = resolveSidePanelOpen(storage);
+    const hostWindowId = typeof storage[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
+        ? storage[SIDE_PANEL_HOST_WINDOW_ID_KEY]
+        : null;
 
     return {
-        sidePanelOpen: resolveSidePanelOpen(storage),
+        sidePanelOpen,
+        hostWindowId,
+        paintFieldHighlights: shouldPaintFieldHighlights({
+            sidePanelOpen,
+            tabWindowId,
+            hostWindowId,
+        }),
     };
 }
 
@@ -1732,7 +1794,22 @@ async function refreshFieldHighlightsForTab(tabId) {
 
     try {
         await ensureTabContentScript(tabId);
-        await sendTabMessage(tabId, { type: 'REFRESH_FIELD_HIGHLIGHTS', sidePanelOpen: true }, 0, {
+
+        const storage = await chrome.storage.session.get([
+            'sidePanelOpen',
+            'sidePanelLastHeartbeatAt',
+            SIDE_PANEL_HOST_WINDOW_ID_KEY,
+        ]);
+        const tab = await chrome.tabs.get(tabId);
+        const message = buildSidePanelVisibilityMessage(storage, {
+            tabWindowId: typeof tab?.windowId === 'number' ? tab.windowId : null,
+        });
+
+        await sendTabMessage(tabId, {
+            type: 'REFRESH_FIELD_HIGHLIGHTS',
+            sidePanelOpen: message.sidePanelOpen,
+            paintFieldHighlights: message.paintFieldHighlights,
+        }, 0, {
             timeoutMs: 5_000,
         });
     } catch {
@@ -3027,14 +3104,21 @@ async function markSidePanelClosed() {
 }
 
 async function broadcastAutofillVisibility() {
-    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
-    const message = buildSidePanelVisibilityMessage(storage);
+    const storage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+        SIDE_PANEL_HOST_WINDOW_ID_KEY,
+    ]);
     const tabs = await chrome.tabs.query({});
 
     await Promise.all(tabs.map((tab) => {
         if (!tab.id) {
             return Promise.resolve();
         }
+
+        const message = buildSidePanelVisibilityMessage(storage, {
+            tabWindowId: typeof tab.windowId === 'number' ? tab.windowId : null,
+        });
 
         return chrome.tabs.sendMessage(tab.id, message).catch(() => {});
     }));

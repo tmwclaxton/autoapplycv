@@ -91,7 +91,15 @@ function verifyStructuralContracts() {
     );
     assert(
         !orchestrator.includes('Open a job board tab in the browser window where AutoCVApply is open'),
-        'Auto Apply should fall back to a background window instead of blocking start',
+        'Auto Apply should not block start when the Assist window has no job board tab',
+    );
+    assert(
+        orchestrator.includes('in the browser window where AutoCVApply is open'),
+        'Auto Apply should prefer the side panel host window when the active tab is not on the job board',
+    );
+    assert(
+        !orchestrator.includes('No job board tab in the Assist window - running Auto Apply in a background window.'),
+        'Auto Apply must not open a background window when a valid host window exists',
     );
     assert(
         orchestrator.includes('resolveDraftAllStepTimeoutMs'),

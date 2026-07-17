@@ -48,6 +48,17 @@ test('pickSidePanelHostTab returns null when side panel is closed', () => {
     );
 });
 
+test('pickSidePanelHostTab binds to host window when no injectable tab exists', () => {
+    const picked = pickSidePanelHostTab({
+        sidePanelOpen: true,
+        hostTab: { id: 12, windowId: 3, url: 'chrome://newtab' },
+        activeTabInWindow: { id: 99, windowId: 3, url: 'chrome://extensions' },
+        windowId: 3,
+    });
+
+    assert.deepEqual(picked, { tabId: null, windowId: 3 });
+});
+
 test('isUsableSidePanelHostTab rejects extension pages', () => {
     assert.equal(isUsableSidePanelHostTab({ id: 1, windowId: 1, url: 'chrome-extension://abc/sidepanel.html' }), false);
 });
@@ -110,4 +121,33 @@ test('resolveSidePanelHostFromHint falls back to active tab in hinted window', a
     const picked = await resolveSidePanelHostFromHint({ windowId: 3 });
 
     assert.deepEqual(picked, { tabId: 99, windowId: 3 });
+});
+
+test('resolveSidePanelHostFromHint keeps host window for non-job-board dashboard tabs', async () => {
+    globalThis.chrome = {
+        tabs: {
+            async get(tabId) {
+                if (tabId !== 12) {
+                    throw new Error('missing tab');
+                }
+
+                return { id: 12, windowId: 7, url: 'https://autocvapply.com/dashboard' };
+            },
+            async query({ active, windowId }) {
+                if (!active || windowId !== 7) {
+                    return [];
+                }
+
+                return [{ id: 12, windowId: 7, url: 'https://autocvapply.com/dashboard' }];
+            },
+        },
+    };
+
+    const { resolveSidePanelHostFromHint } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/side-panel-host-tab.js')).href + `?hint-dashboard=${Date.now()}`
+    );
+
+    const picked = await resolveSidePanelHostFromHint({ tabId: 12, windowId: 7 });
+
+    assert.deepEqual(picked, { tabId: 12, windowId: 7 });
 });
