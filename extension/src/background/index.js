@@ -2962,12 +2962,23 @@ async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) 
         await rememberSidePanelHostTab({ tabId, windowId });
     }
 
+    // Always ensure the active tab has a content script (post-reload tabs miss injection).
+    const highlightTabId = typeof tabId === 'number' ? tabId : null;
+    await ensureActiveTabContentScriptForHighlights(highlightTabId);
+
     if (wasOpen !== true) {
-        // Inject content script if missing (post-reload tabs), then paint highlights.
-        await ensureActiveTabContentScriptForHighlights(
-            typeof tabId === 'number' ? tabId : null,
-        );
+        // First open: paint every tab (portal-bar era notified on sidebar visibility change).
         await broadcastAutofillVisibility();
+    } else if (typeof highlightTabId === 'number') {
+        // Subsequent heartbeats: keep the host tab outlines alive (same job as the old
+        // portal-bar overlay refresh loop when the sidebar stayed open).
+        await notifyTabOverlayVisibility(highlightTabId);
+    } else {
+        const activeTabId = await resolveActiveTabId().catch(() => null);
+
+        if (typeof activeTabId === 'number') {
+            await notifyTabOverlayVisibility(activeTabId);
+        }
     }
 }
 

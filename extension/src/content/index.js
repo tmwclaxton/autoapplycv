@@ -807,16 +807,12 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         pendingSidePanelOpen = sidePanelOpen;
     }
 
-    // Clear outlines immediately when the sidepanel closes - do not wait on debounce.
-    if (sidePanelOpen === false && typeof AutoCVApplyFieldHighlighter !== 'undefined') {
-        AutoCVApplyFieldHighlighter.clearHighlights();
-    }
-
     if (overlayRefreshTimer) {
         clearTimeout(overlayRefreshTimer);
     }
 
     // Sidepanel-open should paint highlights ASAP; mutation/focus refreshes can debounce.
+    // Do not wipe outlines on panel-close here - form hosts keep highlights (fda4e581 gate).
     const delayMs = sidePanelOpen === true ? 40 : (sidePanelOpen === false ? 0 : 350);
 
     overlayRefreshTimer = setTimeout(() => {
@@ -875,16 +871,6 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
     }
 
     try {
-        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
-            ? explicitSidePanelOpen
-            : await isSidePanelOpen();
-
-        if (!sidePanelOpen) {
-            AutoCVApplyFieldHighlighter.clearHighlights();
-
-            return;
-        }
-
         const authenticated = await isAuthenticated();
 
         if (!authenticated) {
@@ -917,14 +903,29 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             settings,
             {},
         );
+        // Original fda4e581 gate: paint when the sidepanel is open OR the page is a
+        // form host with draftable fields. Requiring sidepanel-only (v2.25.140) meant
+        // outlines never appeared when presence/heartbeat lagged - the portal-bar era
+        // still painted on real application forms.
+        const isFormHost = count > 0
+            || (root === document && AutoCVApplyFormHeuristics.frameHasApplicationForm(document));
+        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
+            ? explicitSidePanelOpen
+            : await isSidePanelOpen();
 
-        if (count === 0) {
+        if (count === 0 || (!sidePanelOpen && !isFormHost)) {
             AutoCVApplyFieldHighlighter.clearHighlights();
 
             return;
         }
 
         AutoCVApplyFieldHighlighter.applyHighlights(root, profileData.profile, settings, {});
+        contentLog('info', 'highlight.apply', 'Painted field outlines', {
+            count,
+            sidePanelOpen,
+            isFormHost,
+            rootTag: root === document ? 'document' : (root.tagName || '').toLowerCase(),
+        });
     } catch {
         AutoCVApplyFieldHighlighter.clearHighlights();
     }

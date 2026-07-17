@@ -210,13 +210,46 @@ test('resolveHighlightRoot matches inventory scope on LinkedIn SERP and Easy App
     assert.match(modalRoot.className || '', /jobs-easy-apply-modal/);
 });
 
-test('content script paints highlights from resolveHighlightRoot when sidepanel opens', () => {
+test('resolveHighlightRoot finds LinkedIn search-results JobDetails_* pane', () => {
+    const html = `<!doctype html>
+<html>
+<body>
+  <aside id="JobsSearchFilters">
+    <label><input type="checkbox" name="f_AL" value="true"> Easy Apply</label>
+  </aside>
+  <div id="job-results-list"><ul><li>Engineer</li></ul></div>
+  <div id="search-results-detail-pane">
+    <a aria-label="Easy Apply to this job" href="#">Easy Apply</a>
+    <div id="JobDetails_AboutTheJob_123">About the job</div>
+    <div id="JobDetails_AboutTheCompany_123">About the company</div>
+  </div>
+</body>
+</html>`;
+    const win = loadInventoryWindow(
+        html,
+        'https://www.linkedin.com/jobs/search-results/?currentJobId=123',
+        { withLinkedIn: true },
+    );
+    const root = win.AutoCVApplyFieldInventory.resolveHighlightRoot();
+
+    assert.ok(root, 'search-results JobDetails pane should be highlight root');
+    assert.equal(root.id, 'search-results-detail-pane');
+    assert.equal(
+        root.contains(win.document.querySelector('#JobsSearchFilters')),
+        false,
+        'highlight root must not include SERP filters',
+    );
+});
+
+test('content script restores form-host highlight gate and sidepanel-open fast path', () => {
     const contentJs = readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8');
 
     assert.match(contentJs, /resolveHighlightRoot/);
     assert.match(contentJs, /queuedHighlightSidePanelOpen/);
     assert.match(contentJs, /sidePanelOpen === true \? 40/);
-    assert.match(contentJs, /Clear outlines immediately when the sidepanel closes/);
+    assert.match(contentJs, /\(!sidePanelOpen && !isFormHost\)/);
+    assert.match(contentJs, /Painted field outlines/);
+    assert.doesNotMatch(contentJs, /Clear outlines immediately when the sidepanel closes/);
 });
 
 test('non-LinkedIn pages still inventory the full document', () => {

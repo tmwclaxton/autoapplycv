@@ -190,6 +190,11 @@ export const LINKEDIN_JOB_DETAIL_INVENTORY_SELECTORS = [
     '.jobs-details',
     '.job-view-layout',
     '#job-details',
+    // LinkedIn 2026 /jobs/search-results/ two-pane UI (hashed classes)
+    '[id^="JobDetails_AboutTheJob_"]',
+    '[componentkey^="JobDetails_AboutTheJob_"]',
+    '[id^="JobDetails_"]',
+    '[componentkey^="JobDetails_"]',
 ];
 
 /**

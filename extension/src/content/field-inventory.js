@@ -570,6 +570,40 @@ const AutoCVApplyFieldInventory = (() => {
         }
     }
 
+    /**
+     * New LinkedIn /jobs/search-results/ UI uses hashed classes + JobDetails_* ids
+     * instead of .jobs-search__job-details. Walk up to the pane that owns those sections.
+     */
+    function resolveLinkedInJobDetailsPaneFromSection(section) {
+        if (!(section instanceof Element)) {
+            return null;
+        }
+
+        let node = section;
+
+        for (let depth = 0; depth < 10 && node; depth += 1) {
+            const parent = node.parentElement;
+
+            if (!parent) {
+                break;
+            }
+
+            const detailCount = parent.querySelectorAll('[id^="JobDetails_"]').length;
+
+            if (detailCount >= 2) {
+                return parent;
+            }
+
+            if (parent.querySelector?.('[aria-label*="Easy Apply"], [aria-label*="easy apply"]')) {
+                return parent;
+            }
+
+            node = parent;
+        }
+
+        return section;
+    }
+
     function resolveLinkedInJobDetailInventoryRoot() {
         const selectors = [
             '.jobs-search__job-details--container',
@@ -578,14 +612,25 @@ const AutoCVApplyFieldInventory = (() => {
             '.jobs-details',
             '.job-view-layout',
             '#job-details',
+            // LinkedIn 2026 search-results two-pane UI
+            '[id^="JobDetails_AboutTheJob_"]',
+            '[componentkey^="JobDetails_AboutTheJob_"]',
+            '[id^="JobDetails_"]',
+            '[componentkey^="JobDetails_"]',
         ];
 
         for (const selector of selectors) {
             const element = document.querySelector(selector);
 
-            if (element) {
-                return element;
+            if (!element) {
+                continue;
             }
+
+            if (/JobDetails_/i.test(selector)) {
+                return resolveLinkedInJobDetailsPaneFromSection(element) || element;
+            }
+
+            return element;
         }
 
         return null;
