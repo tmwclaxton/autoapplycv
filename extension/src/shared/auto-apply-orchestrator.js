@@ -3812,22 +3812,31 @@ async function processLinkedInJob(
 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
-        const draftResult = isResumeStep
-            ? { fieldsFilled: 0, success: true, skipped: true }
-            : await runDraftAllForStep(
-                  tabId,
-                  job,
-                  modalState.stepLabel,
-                  runDraftAll,
-                  session,
-              );
+        const draftResult =
+            isResumeStep || isReviewStep
+                ? {
+                      pendingFields: [],
+                      filledFields: [],
+                      skippedFields: [],
+                      failedFields: [],
+                      fieldsFilled: 0,
+                      success: true,
+                      skipped: true,
+                  }
+                : await runDraftAllForStep(
+                      tabId,
+                      job,
+                      modalState.stepLabel,
+                      runDraftAll,
+                      session,
+                  );
 
         const postDraftModalState = await readLinkedInModalState(tabId, {
             retries: 3,
         });
         let pauseOutcome = { paused: false, session };
 
-        if (!isResumeStep) {
+        if (!isResumeStep && !isReviewStep) {
             pauseOutcome = await ensureStepFilledOrPaused(
                 tabId,
                 job,
