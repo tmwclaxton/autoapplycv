@@ -338,10 +338,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-+|-+$/g, '');
 
-        if (
-            /countryRedirect=true/i.test(window.location.href) ||
-            /Recommended Jobs For You/i.test(document.title || '')
-        ) {
+        if (/countryRedirect=true/i.test(window.location.href)) {
             return false;
         }
 
@@ -349,10 +346,26 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         const locationSlug = slug(expectedLocation);
         const pathSlug = slug(path);
         const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(path);
+        const queryKeywordMatched =
+            Boolean(keywordSlug) && slug(currentKeyword) === keywordSlug;
+        const queryLocationMatched =
+            !locationSlug || slug(currentLocation) === locationSlug;
+
+        // Query params already match even if Glassdoor keeps the Recommended title.
+        if (queryKeywordMatched && queryLocationMatched) {
+            return true;
+        }
+
+        if (
+            /Recommended Jobs For You/i.test(document.title || '') &&
+            !seoSearch
+        ) {
+            return false;
+        }
 
         if (expectedKeyword) {
             const keywordMatched =
-                slug(currentKeyword) === keywordSlug ||
+                queryKeywordMatched ||
                 (seoSearch && pathSlug.includes(keywordSlug));
 
             if (!keywordMatched) {
@@ -362,7 +375,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
         if (expectedLocation) {
             const locationMatched =
-                slug(currentLocation) === locationSlug ||
+                queryLocationMatched ||
                 (seoSearch && pathSlug.includes(locationSlug));
 
             if (!locationMatched) {
