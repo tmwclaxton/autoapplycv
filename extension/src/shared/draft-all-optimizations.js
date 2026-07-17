@@ -22,6 +22,38 @@ const ATS_URL_PATTERNS = [
 
 const MIN_SINGLE_PAGE_FIELD_COUNT = 5;
 const MIN_INFERRED_JOB_TEXT_LENGTH = 200;
+/** Matches DraftAllApplicationRequest / InventoryApplicationRequest max:64. */
+const MAX_API_FIELD_OPTIONS = 64;
+const PREFERRED_OPTION_PATTERN = /^(reed|indeed|linkedin|totaljobs|glassdoor|cv.?library|other|yes|no)$/i;
+
+/**
+ * Cap choice options for API validation while keeping common board/yes-no answers.
+ *
+ * @param {unknown} options
+ * @returns {unknown}
+ */
+export function truncateOptionsForApi(options) {
+    if (!Array.isArray(options) || options.length <= MAX_API_FIELD_OPTIONS) {
+        return options;
+    }
+
+    const preferred = [];
+    const rest = [];
+
+    for (const option of options) {
+        const label = typeof option === 'string'
+            ? option
+            : String(option?.label ?? option?.value ?? option ?? '').trim();
+
+        if (PREFERRED_OPTION_PATTERN.test(label)) {
+            preferred.push(option);
+        } else {
+            rest.push(option);
+        }
+    }
+
+    return [...preferred, ...rest].slice(0, MAX_API_FIELD_OPTIONS);
+}
 
 function formatCompanySlug(slug) {
     if (!slug || typeof slug !== 'string') {
@@ -238,7 +270,7 @@ export function compactSnapshotForInventory(snapshot) {
             question: element.question,
             field_type: element.field_type,
             max_chars: element.max_chars,
-            options: element.options,
+            options: truncateOptionsForApi(element.options),
             required: element.required,
             context: element.context,
         })),
@@ -281,7 +313,7 @@ export function compactFieldsForDraft(fields) {
         }
 
         if (CHOICE_FIELD_TYPES.has(fieldType) && Array.isArray(field.options) && field.options.length > 0) {
-            compact.options = field.options;
+            compact.options = truncateOptionsForApi(field.options);
         }
 
         if (field.dom && typeof field.dom === 'object') {
