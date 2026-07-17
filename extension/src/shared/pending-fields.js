@@ -2098,6 +2098,49 @@ function isWorkPermitRequirementQuestion(label) {
         && /\b(work permit|visa)\b/.test(normalized);
 }
 
+/**
+ * Reed (and similar) RTW screens offer visa-status statements, not Yes/No.
+ * Prefer a real option so Draft All never tries to select literal "Yes".
+ */
+function pickWorkAuthStatusOption(field, authorized) {
+    const options = Array.isArray(field?.options)
+        ? field.options.map((option) => String(option || '').replace(/\s+/g, ' ').trim()).filter(Boolean)
+        : [];
+
+    if (options.length < 3) {
+        return '';
+    }
+
+    if (authorized) {
+        const preferredPatterns = [
+            /uk\/?irish citizen/i,
+            /british citizen/i,
+            /\bcitizen\b/i,
+            /settled status|pre-settled status/i,
+            /indefinite leave to remain/i,
+            /right of abode/i,
+        ];
+
+        for (const pattern of preferredPatterns) {
+            const match = options.find((option) => pattern.test(option));
+
+            if (match) {
+                return match;
+            }
+        }
+
+        return '';
+    }
+
+    const noRight = options.find((option) => (
+        /do not have the right to work/i.test(option)
+        || /no right to work/i.test(option)
+        || /not (?:currently )?authori[sz]ed/i.test(option)
+    ));
+
+    return noRight || '';
+}
+
 function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
     const label = field?.label || field?.question || '';
     const profileInCountry = profileMatchesWorkAuthCountryAliases(profileCountry, aliases);
@@ -2105,12 +2148,31 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
     const yesNoAnswer = isWorkPermitRequirementQuestion(label)
         ? (authorizedAnswer === 'Yes' ? 'No' : 'Yes')
         : authorizedAnswer;
+    const isChoiceField = field?.field_type === 'radio'
+        || field?.field_type === 'select'
+        || field?.field_type === 'checkbox'
+        || field?.dom?.role === 'combobox';
 
-    if (field?.field_type === 'radio' || field?.field_type === 'select' || field?.dom?.role === 'combobox') {
+    if (!isChoiceField) {
+        return '';
+    }
+
+    if (fieldHasYesNoOptions(field)) {
         return yesNoAnswer;
     }
 
-    return '';
+    const statusOption = pickWorkAuthStatusOption(field, yesNoAnswer === 'Yes');
+
+    if (statusOption) {
+        return statusOption;
+    }
+
+    // Multi-option status lists without a safe match must not emit bare Yes/No.
+    if (Array.isArray(field?.options) && field.options.length >= 3) {
+        return '';
+    }
+
+    return yesNoAnswer;
 }
 
 function resolveCountrySpecificWorkAuthAnswer(field, profileData) {

@@ -185,6 +185,42 @@ test('buildDraftAllApplyPlan answers country-specific US work auth from profile 
     assert.equal(plan.skipsLlm, true);
 });
 
+test('buildDraftAllApplyPlan maps UK right-to-work status dropdowns to citizen option not Yes', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Do you have the right to work in the UK? Which of the following statements applies to you?',
+                field_type: 'select',
+                options: [
+                    'I am a UK/Irish Citizen',
+                    'I am an EU/EEA/Swiss Citizen and have settled Status or Pre-Settled Status',
+                    'I have a Skilled Worker Visa',
+                    'I do not have the Right to Work in the UK',
+                ],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            country: 'United Kingdom',
+            application_settings: {
+                ...profileData.application_settings,
+                legally_authorized: 'yes',
+            },
+        },
+        questionMemo: {},
+    });
+
+    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+    assert.ok(preference, 'Expected preference stage for UK RTW status dropdown');
+    assert.equal(preference.answers.length, 1);
+    assert.equal(preference.answers[0].ref, 'f0');
+    assert.equal(preference.answers[0].answer, 'I am a UK/Irish Citizen');
+    assert.notEqual(preference.answers[0].answer, 'Yes');
+    assert.equal(plan.llmFields.length, 0);
+});
+
 test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
