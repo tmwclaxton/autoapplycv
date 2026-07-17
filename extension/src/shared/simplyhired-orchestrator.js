@@ -51,14 +51,41 @@ export function createSimplyHiredOrchestrator(deps) {
         waitForApplicationSubmitConfirmation,
     } = deps;
 
+    const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
+        SIMPLYHIRED_SELECT_JOB: 25_000,
+        SIMPLYHIRED_PREPARE_JOB_SEARCH: 45_000,
+        SIMPLYHIRED_COLLECT_JOB_CARDS: 45_000,
+        SIMPLYHIRED_WAIT_FOR_JOB_DETAIL: 45_000,
+        SIMPLYHIRED_WAIT_FOR_JOB_DESCRIPTION: 45_000,
+        SIMPLYHIRED_OPEN_APPLY: 60_000,
+    };
+
+    function resolveSimplyHiredMessageTimeoutMs(type, explicitTimeoutMs = null) {
+        if (typeof explicitTimeoutMs === 'number' && explicitTimeoutMs > 0) {
+            return explicitTimeoutMs;
+        }
+
+        return SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS[type] ?? 20_000;
+    }
+
     async function sendSimplyHiredMessage(tabId, type, payload = {}, options = {}) {
         const maxAttempts = options.maxAttempts ?? 3;
+        const timeoutMs = resolveSimplyHiredMessageTimeoutMs(type, options.timeoutMs);
 
         for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
             try {
-                return await sendTabMessage(tabId, { type, ...payload }, 0);
+                return await sendTabMessage(tabId, { type, ...payload }, 0, { timeoutMs });
             } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
+
+                if (type === 'SIMPLYHIRED_SELECT_JOB' && /timed out/i.test(message)) {
+                    return {
+                        success: false,
+                        needsNavigation: true,
+                        error: message,
+                        jobId: payload.jobId,
+                    };
+                }
 
                 if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                     invalidateTabFrameCache(tabId);
@@ -284,9 +311,16 @@ export function createSimplyHiredOrchestrator(deps) {
 
         let selectResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SELECT_JOB', { jobId: job.jobId });
 
-        if (!selectResponse?.success) {
+        if (!selectResponse?.success || selectResponse?.needsNavigation) {
+            if (selectResponse?.error && /timed out/i.test(String(selectResponse.error))) {
+                await logSession(
+                    'info',
+                    `SELECT_JOB timed out for ${job.title} - opening job URL directly.`,
+                );
+            }
+
             const jobUrl = buildSimplyHiredJobOpenUrl(job.jobId, {
-                path: job.path,
+                path: selectResponse?.path || job.path,
                 url: job.url,
                 filters: session.filters,
                 location: session.filters?.location,

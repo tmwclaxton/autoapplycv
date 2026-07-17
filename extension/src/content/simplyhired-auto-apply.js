@@ -399,22 +399,36 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
     }
 
     async function selectJobById(jobId) {
-        const match = findJobCardById(jobId);
+        const targetId = String(jobId || '').trim();
+        const match = findJobCardById(targetId);
 
         if (!match?.item) {
-            return { success: false, error: `SimplyHired job card not found for id ${jobId}.` };
+            return {
+                success: false,
+                error: `SimplyHired job card not found for id ${targetId}.`,
+                needsNavigation: true,
+                jobId: targetId,
+            };
         }
 
-        const clickTarget = readJobCardTitleLink(match.item)
-            || match.item;
+        const titleLink = readJobCardTitleLink(match.item);
+        const href = titleLink?.getAttribute('href') || '';
+        const path = href.startsWith('/')
+            ? href.split('?')[0]
+            : (targetId ? `/job/${targetId}` : null);
 
-        await clickElement(clickTarget);
-        await humanPause(700, 1100);
-
-        return { success: true, jobId };
+        // Do not click SERP title links: full /job navigations unload the content
+        // script mid-handler and surface as SELECT_JOB tab-message timeouts.
+        // Orchestrator opens the job URL directly (same pattern as Reed/Totaljobs).
+        return {
+            success: false,
+            needsNavigation: true,
+            jobId: targetId,
+            path,
+        };
     }
 
-    async function waitForJobDetailReady(jobId, timeoutMs = 20_000) {
+    async function waitForJobDetailReady(jobId, timeoutMs = 35_000) {
         const targetId = String(jobId || '').trim();
         const deadline = Date.now() + timeoutMs;
 

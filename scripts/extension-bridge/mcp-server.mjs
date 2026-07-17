@@ -905,6 +905,9 @@ server.tool(
     {
         tabId: z.number().int().optional(),
         type: z.string().describe('SimplyHired message type, e.g. SIMPLYHIRED_OPEN_APPLY.'),
+        jobId: z.string().optional().describe('Job id for SELECT_JOB / WAIT_FOR_JOB_DETAIL.'),
+        minLength: z.number().int().optional().describe('Min description length for WAIT_FOR_JOB_DESCRIPTION.'),
+        light: z.boolean().optional().describe('Light prepare flag for PREPARE_JOB_VIEW.'),
     },
     async ({ tabId, type, ...messageParams }) => {
         const result = await runCommand('simplyhired_tab_message', { tabId, type, ...messageParams }, 60000);
