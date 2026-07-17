@@ -103,17 +103,45 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         return true;
     }
 
-    async function acceptCookieConsent() {
-        const button = document.querySelector('#onetrust-accept-btn-handler, button[data-testid="accept-cookies"]');
+    function cookieConsentRootSelector() {
+        return '#onetrust-banner-sdk, #onetrust-consent-sdk, #ccmgt_explicit_preferences, [aria-label="cookieconsent"], [data-testid="cookie-banner"]';
+    }
 
-        if (!(button instanceof HTMLElement)) {
-            return { accepted: false };
+    async function acceptCookieConsent() {
+        const selectors = [
+            '#ccmgt_explicit_accept',
+            '#onetrust-accept-btn-handler',
+            'button[data-testid="accept-cookies"]',
+            'button[data-testid="accept-all-cookies"]',
+        ];
+
+        for (const selector of selectors) {
+            const button = document.querySelector(selector);
+
+            if (button instanceof HTMLElement && isElementVisible(button)) {
+                await clickElement(button, { quick: true });
+                await humanPause(400, 700);
+
+                return { accepted: true };
+            }
         }
 
-        await clickElement(button, { quick: true });
-        await humanPause(400, 700);
+        for (const button of document.querySelectorAll('button')) {
+            if (!(button instanceof HTMLElement) || !isElementVisible(button)) {
+                continue;
+            }
 
-        return { accepted: true };
+            const label = normalize(button.getAttribute('aria-label') || button.textContent);
+
+            if (/^(accept all|accept all cookies|accept cookies|allow all|agree and close)$/i.test(label)) {
+                await clickElement(button, { quick: true });
+                await humanPause(400, 700);
+
+                return { accepted: true };
+            }
+        }
+
+        return { accepted: false };
     }
 
     function readJobCardsFromDocument() {
@@ -389,7 +417,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         const candidates = document.querySelectorAll('[data-testid="application-step-title"], h1, h2');
 
         for (const heading of candidates) {
-            if (heading.closest('#onetrust-banner-sdk, #onetrust-consent-sdk, [data-testid="cookie-banner"]')) {
+            if (heading.closest(cookieConsentRootSelector())) {
                 continue;
             }
 
@@ -447,7 +475,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
                     continue;
                 }
 
-                if (button.closest('#onetrust-banner-sdk, #onetrust-consent-sdk, header, [data-testid="cookie-banner"]')) {
+                if (button.closest(`${cookieConsentRootSelector()}, header`)) {
                     continue;
                 }
 

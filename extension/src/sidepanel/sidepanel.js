@@ -1,11 +1,11 @@
 import { initAssistChat } from './assist.js';
-import { initAutoApplyPanel } from './auto-apply.js';
 import {
     buildCaptchaAlertKey,
     isCaptchaAutoApplyPause,
     playCaptchaAlertSound,
     shouldPlayCaptchaAlert,
 } from './auto-apply-captcha-alert.js';
+import { initAutoApplyPanel } from './auto-apply.js';
 import {
     DEFAULT_LOGIN_ENDPOINT,
     normalizeLoginEndpoint,
