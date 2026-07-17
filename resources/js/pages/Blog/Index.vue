@@ -121,7 +121,7 @@ function formatDate(date: string): string {
         <div v-else class="postbox-panel mt-8 p-10 text-center">
             <p class="text-lg font-medium text-postbox-navy">No posts yet.</p>
             <p class="mt-2 text-sm text-muted-foreground">
-                New articles publish on the 1st and 15th of each month.
+                New articles publish every Monday.
             </p>
         </div>
 

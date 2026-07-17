@@ -932,7 +932,7 @@ The extension authenticates with Laravel Sanctum bearer tokens.
 
 ## Deployment
 
-Production runs in Docker (`DockerfileProd`) with Nginx, PHP-FPM, and a queue worker. Pushes to `main` build a GHCR image and deploy via GitHub Actions.
+Production runs in Docker (`DockerfileProd`) with Nginx, PHP-FPM, a queue worker, and `schedule:work` (via supervisord). Pushes to `main` build a GHCR image and deploy via GitHub Actions. The Laravel scheduler must keep running for weekly `blog:generate` (Mondays 09:00 app timezone / UTC) and the worker heartbeat job.
 
 CV extraction and Draft All use `deepseek/deepseek-v4-flash:throughput` by default (`config/cv.php`). To override the model in production, set `NANOGPT_CV_MODEL` in the server `.env` at `/opt/autocvapply/.env`; remove that key to use the config default after deploy.
 
