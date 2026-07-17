@@ -34,6 +34,15 @@ test('sidepanel wires Answer All Questions on Web Page to START_DRAFT_ALL', () =
     assert.match(sidepanelJs, /ANSWER_QUESTIONS_LABEL\s*=\s*'Answer All Questions on Web Page'/);
 });
 
+test('sidepanel maps missing content-script errors to a refresh hint', () => {
+    assert.match(sidepanelJs, /formatContentScriptUserError/);
+    assert.match(sidepanelJs, /form-frame-messaging\.js/);
+});
+
+test('manifest allows scripting injection for post-reload tabs', () => {
+    assert.ok(manifest.permissions?.includes('scripting'));
+});
+
 test('Answer All Questions on Web Page uses a darker red than the default postbox button', () => {
     assert.match(sidepanelCss, /#answer-questions-btn\s*\{[^}]*background:\s*#a50d25/s);
 });

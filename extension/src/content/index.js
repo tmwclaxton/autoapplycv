@@ -939,6 +939,12 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'PING_CONTENT_SCRIPT') {
+            sendResponse({ success: true, ready: true });
+
+            return;
+        }
+
         if (message.type === 'AUTO_APPLY_ACTIVE') {
             setContentObserversPaused(message.active === true);
             sendResponse({ success: true });

@@ -18,6 +18,7 @@ import {
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
+import { formatContentScriptUserError } from './form-frame-messaging.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const CAPTCHA_ALERT_STORAGE_KEY = 'autoApplyLastCaptchaAlertKey';
@@ -126,7 +127,7 @@ async function startAnswerQuestionsOnPage() {
 
         if (response?.error) {
             setAnswerQuestionsRunning(false, '');
-            showMessage(response.error, 'error');
+            showMessage(formatContentScriptUserError(response.error), 'error');
 
             return;
         }
@@ -140,7 +141,7 @@ async function startAnswerQuestionsOnPage() {
         }
     } catch (error) {
         setAnswerQuestionsRunning(false, '');
-        showMessage(error?.message || 'Failed to answer questions on the page.', 'error');
+        showMessage(formatContentScriptUserError(error), 'error');
     }
 }
 

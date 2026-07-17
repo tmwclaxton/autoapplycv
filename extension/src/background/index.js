@@ -71,8 +71,10 @@ import {
     applyDraftBatchToTab,
     clickInventoryRefOnTab,
     collectSnapshotFromTab,
+    ensureTabContentScript,
     fetchPagePayloadForJobContext,
     findBestFormFrameId,
+    formatContentScriptUserError,
     invalidateTabFrameCache,
     scanFormValidationOnTab,
     sendTabMessage,
@@ -682,7 +684,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then(sendResponse)
             .catch((err) => {
                 logDraftError('draft-all.start', 'Draft All failed to start', err, sender.tab?.id);
-                sendResponse({ error: err.message });
+                sendResponse({ error: formatContentScriptUserError(err) });
             });
 
         return true;
@@ -2063,6 +2065,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
     perf.start('draft-all.total');
 
     try {
+        const contentScript = await ensureTabContentScript(tabId);
+
         const [tab, settings] = await Promise.all([
             chrome.tabs.get(tabId),
             buildAutofillSettings(),
@@ -2074,6 +2078,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             title: tab.title,
             settings,
             e2eMock: Boolean(e2eOptions?.fields?.length),
+            contentScriptInjected: contentScript.injected,
         }, tabId);
 
         const resolved = e2eOptions?.fields?.length
@@ -2545,7 +2550,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
     } catch (error) {
         logDraftError('draft-all.error', 'Draft All unhandled error', error, tabId);
 
-        return { error: error instanceof Error ? error.message : 'Draft-all failed.' };
+        return { error: formatContentScriptUserError(error) };
     } finally {
         if (runToken === draftAllRunToken) {
             draftAllRunning = false;
@@ -3244,6 +3249,7 @@ initExtensionBridge({
         },
         get_field_inventory: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             let profilePayload = null;
 
             try {

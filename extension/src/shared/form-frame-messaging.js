@@ -1,4 +1,5 @@
 import { logDebug, logInfo } from './debug-log.js';
+import { isInjectableBrowserTabUrl } from './side-panel-host-tab.js';
 
 export function scoreFrame(count, isFormHost) {
     if (typeof count !== 'number') {
@@ -12,6 +13,148 @@ const FRAME_CACHE_TTL_MS = 60_000;
 const FRAME_PROBE_TIMEOUT_MS = 4_000;
 const SNAPSHOT_TIMEOUT_MS = 45_000;
 const tabFrameCache = new Map();
+
+/** Shown when the tab has no content script (common after extension reload). */
+export const CONTENT_SCRIPT_MISSING_USER_MESSAGE =
+    'Refresh this page, then try again. After the extension reloads, open tabs need a refresh before Answer All Questions can run.';
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+export function isMissingContentScriptError(message) {
+    const text = String(message || '');
+
+    return (
+        text.includes('Receiving end does not exist')
+        || text.includes('Could not establish connection')
+    );
+}
+
+/**
+ * Map Chrome messaging failures to a user-facing reload hint.
+ * Passes through already-friendly ensureTabContentScript errors unchanged.
+ */
+export function formatContentScriptUserError(error) {
+    const message = error instanceof Error
+        ? error.message
+        : String(error || 'Failed to talk to this page.');
+
+    if (message.includes('Refresh this page')) {
+        return message;
+    }
+
+    if (isMissingContentScriptError(message)) {
+        return CONTENT_SCRIPT_MISSING_USER_MESSAGE;
+    }
+
+    return message;
+}
+
+async function pingTabContentScript(tabId) {
+    return sendTabMessage(tabId, { type: 'PING_CONTENT_SCRIPT' }, 0, {
+        timeoutMs: 1_500,
+    });
+}
+
+/**
+ * Inject manifest content_scripts into an existing tab (e.g. after extension reload).
+ */
+export async function injectManifestContentScripts(tabId) {
+    if (typeof chrome?.scripting?.executeScript !== 'function') {
+        throw new Error('chrome.scripting.executeScript is unavailable.');
+    }
+
+    const tab = await chrome.tabs.get(tabId);
+    const url = tab?.url || '';
+
+    if (!isInjectableBrowserTabUrl(url)) {
+        throw new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE);
+    }
+
+    if (/autocvapply\.com/i.test(url)) {
+        throw new Error('AutoCVApply cannot run on this page.');
+    }
+
+    const manifest = chrome.runtime.getManifest();
+    const groups = Array.isArray(manifest.content_scripts) ? manifest.content_scripts : [];
+
+    for (const group of groups) {
+        const files = Array.isArray(group.js) ? group.js.filter(Boolean) : [];
+
+        if (files.length === 0) {
+            continue;
+        }
+
+        await chrome.scripting.executeScript({
+            target: {
+                tabId,
+                allFrames: group.all_frames === true,
+            },
+            files,
+        });
+    }
+}
+
+/**
+ * Ensure the tab can receive messages. After extension reload, existing tabs have no
+ * content script until refresh or programmatic injection.
+ */
+export async function ensureTabContentScript(tabId, { timeoutMs = 8_000 } = {}) {
+    try {
+        await pingTabContentScript(tabId);
+
+        return { ready: true, injected: false };
+    } catch (error) {
+        if (!isMissingContentScriptError(error instanceof Error ? error.message : error)) {
+            throw error;
+        }
+    }
+
+    let injected = false;
+
+    try {
+        await injectManifestContentScripts(tabId);
+        injected = true;
+        logInfo('background', 'content-script.inject', 'Injected content scripts into tab', {
+            tabId,
+        }, tabId);
+    } catch (injectError) {
+        const injectMessage = injectError instanceof Error ? injectError.message : String(injectError);
+
+        if (
+            injectMessage === CONTENT_SCRIPT_MISSING_USER_MESSAGE
+            || injectMessage.includes('AutoCVApply cannot run')
+        ) {
+            throw injectError instanceof Error ? injectError : new Error(injectMessage);
+        }
+
+        logDebug('background', 'content-script.inject', 'Programmatic injection failed', {
+            tabId,
+            error: injectMessage,
+        }, tabId);
+    }
+
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            await pingTabContentScript(tabId);
+
+            return { ready: true, injected };
+        } catch (error) {
+            if (!isMissingContentScriptError(error instanceof Error ? error.message : error)) {
+                throw error;
+            }
+
+            await sleep(300);
+        }
+    }
+
+    throw new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE);
+}
 
 export function invalidateTabFrameCache(tabId) {
     if (typeof tabId === 'number') {

@@ -6,15 +6,31 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const {
+    CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     computeApplyDraftBatchTimeoutMs,
+    formatContentScriptUserError,
     invalidateTabFrameCache,
     isIndeedApplyPreloadUrl,
     isIndeedApplyUrl,
+    isMissingContentScriptError,
     pickIndeedApplyTabId,
     scoreFrame,
 } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js')).href
 );
+
+test('formatContentScriptUserError maps Chrome receiving-end errors to refresh hint', () => {
+    assert.equal(isMissingContentScriptError('Could not establish connection. Receiving end does not exist.'), true);
+    assert.equal(
+        formatContentScriptUserError('Could not establish connection. Receiving end does not exist.'),
+        CONTENT_SCRIPT_MISSING_USER_MESSAGE,
+    );
+    assert.equal(
+        formatContentScriptUserError(new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE)),
+        CONTENT_SCRIPT_MISSING_USER_MESSAGE,
+    );
+    assert.equal(formatContentScriptUserError('Draft-all is already running on this tab.'), 'Draft-all is already running on this tab.');
+});
 
 test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     assert.equal(computeApplyDraftBatchTimeoutMs([]), 45_000);
@@ -78,6 +94,23 @@ test('findIndeedApplyFrameId source guards null getAllFrames', async () => {
         source,
         /if \(!Array\.isArray\(frames\)\) \{\s*return 0;\s*\}/,
     );
+});
+
+test('ensureTabContentScript injects or asks for refresh after extension reload', async () => {
+    const source = await import('node:fs').then((fs) =>
+        fs.readFileSync(
+            join(ROOT, 'extension/src/shared/form-frame-messaging.js'),
+            'utf8',
+        ),
+    );
+    const background = await import('node:fs').then((fs) =>
+        fs.readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8'),
+    );
+
+    assert.match(source, /export async function ensureTabContentScript/);
+    assert.match(source, /injectManifestContentScripts/);
+    assert.match(source, /PING_CONTENT_SCRIPT/);
+    assert.match(background, /ensureTabContentScript\(tabId\)/);
 });
 
 test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {
