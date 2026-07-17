@@ -1437,6 +1437,19 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
         } catch (error) {
             const message =
                 error instanceof Error ? error.message : String(error);
+            const tabUrl = await readIndeedTabUrl(tabId);
+            const onSmartApply = isIndeedSmartApplyTabUrl(tabUrl);
+
+            // Glassdoor Easy Apply navigates into Indeed SmartApply and closes
+            // the message channel / times out. Do not reload the apply form away.
+            if (onSmartApply && type === 'GLASSDOOR_OPEN_APPLY') {
+                return {
+                    success: true,
+                    easyApply: true,
+                    navigating: true,
+                    smartApply: true,
+                };
+            }
 
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
@@ -1444,6 +1457,11 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
                     'warn',
                     `[glassdoor_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
                 );
+
+                if (onSmartApply) {
+                    await waitForTabLoadComplete(tabId).catch(() => {});
+                    continue;
+                }
 
                 try {
                     await waitForGlassdoorContentScript(tabId);
@@ -7831,10 +7849,27 @@ async function processGlassdoorJob(
         };
     }
 
-    const applyResponse = await sendGlassdoorMessage(
-        tabId,
-        'GLASSDOOR_OPEN_APPLY',
-    );
+    let applyResponse;
+
+    try {
+        applyResponse = await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_OPEN_APPLY',
+        );
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        if (isIndeedSmartApplyTabUrl(await readIndeedTabUrl(tabId))) {
+            applyResponse = {
+                success: true,
+                easyApply: true,
+                navigating: true,
+                smartApply: true,
+            };
+        } else {
+            throw new Error(message);
+        }
+    }
 
     if (applyResponse?.easyApply === false) {
         await recordAnalyticsEvent(session, 'skipped', job, {
@@ -7857,8 +7892,44 @@ async function processGlassdoorJob(
         };
     }
 
+    await waitForTabLoadComplete(tabId).catch(() => {});
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
     invalidateTabFrameCache(tabId);
+
+    if (isIndeedSmartApplyTabUrl(await readIndeedTabUrl(tabId))) {
+        try {
+            const tab = await chrome.tabs.get(tabId);
+            const title = String(tab?.title || '');
+
+            if (/just a moment|attention required|security check/i.test(title)) {
+                const captchaWait = await waitForIndeedCaptchaResume(
+                    session,
+                    tabId,
+                    job,
+                    { stepFingerprint: 'glassdoor-smartapply-security' },
+                    { stage: 'viewjob' },
+                );
+
+                if (captchaWait.stopped) {
+                    return { outcome: 'stopped', reason: 'user_stop', tabId };
+                }
+
+                if (captchaWait.timedOut) {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'captcha_required' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
+                        tabId,
+                    };
+                }
+            }
+        } catch {
+            // Continue into Indeed apply flow wait below.
+        }
+    }
 
     const iframeDeadline = Date.now() + 30_000;
 
@@ -9336,7 +9407,8 @@ function isExtensionMessagingError(message) {
         text.includes('message channel closed') ||
         text.includes('back/forward cache') ||
         text.includes('Extension context invalidated') ||
-        text.includes('Receiving end does not exist')
+        text.includes('Receiving end does not exist') ||
+        /Tab message timed out after \d+ms/i.test(text)
     );
 }
 
