@@ -683,9 +683,7 @@ const AutoCVApplyReedAutoApply = (() => {
         const modal = document.querySelector('[data-qa="apply-job-modal"]');
 
         if (modal instanceof HTMLElement) {
-            const modalSubmit = modal.querySelector(
-                '[data-qa="submit-application-btn"], button[type="submit"].btn-primary, button.btn-primary[type="submit"]',
-            );
+            const modalSubmit = modal.querySelector('[data-qa="submit-application-btn"]');
 
             if (modalSubmit instanceof HTMLElement && !modalSubmit.disabled && isElementVisible(modalSubmit)) {
                 return modalSubmit;
@@ -706,8 +704,14 @@ const AutoCVApplyReedAutoApply = (() => {
                     || button.textContent,
                 );
 
-                if (/^(submit|send application|submit application|continue|next|save and continue|apply|apply now)$/i.test(label)
-                    || button.matches('button[type="submit"]')) {
+                // Reed screening Continue is often button[type=submit].btn-primary - never
+                // treat Continue/Next as the application Submit control.
+                if (/^(continue|next|save and continue|back)$/i.test(label)) {
+                    continue;
+                }
+
+                if (/^(submit|send application|submit application)$/i.test(label)
+                    || button.matches('[data-qa="submit-application-btn"]')) {
                     return button;
                 }
             }
