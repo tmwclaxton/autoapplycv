@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
     buildSimplyHiredJobOpenUrl,
     buildSimplyHiredJobSearchUrl,
+    isSimplyHiredIndeedHandoffUrl,
     isSimplyHiredJobsSearchUrl,
     readSimplyHiredJobIdFromHref,
     urlsMatchSimplyHiredSearch,
@@ -31,6 +32,23 @@ test('buildSimplyHiredJobOpenUrl builds UK job URL', () => {
     assert.equal(
         buildSimplyHiredJobOpenUrl('SH123', { path: '/job/SH123', filters: { location: 'London' } }),
         'https://www.simplyhired.co.uk/job/SH123',
+    );
+});
+
+test('isSimplyHiredIndeedHandoffUrl detects Indeed viewjob handoff', () => {
+    assert.equal(
+        isSimplyHiredIndeedHandoffUrl(
+            'https://uk.indeed.com/job/automation-systems-engineer-plc-hmi-scada-9ae70084aa39ffb3',
+        ),
+        true,
+    );
+    assert.equal(
+        isSimplyHiredIndeedHandoffUrl('https://smartapply.indeed.com/beta/indeedapply/form/resume'),
+        true,
+    );
+    assert.equal(
+        isSimplyHiredIndeedHandoffUrl('https://www.simplyhired.co.uk/job/abc'),
+        false,
     );
 });
 

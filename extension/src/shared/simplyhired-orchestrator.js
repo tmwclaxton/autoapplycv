@@ -1,5 +1,7 @@
 import {
     buildSimplyHiredJobOpenUrl,
+    isCloudflareChallengeUrl,
+    isSimplyHiredIndeedHandoffUrl,
     isSimplyHiredJobsSearchUrl,
     SIMPLYHIRED_PLATFORM_ID,
     urlsMatchSimplyHiredSearch,
@@ -180,10 +182,26 @@ export function createSimplyHiredOrchestrator(deps) {
         return tabId;
     }
 
+    async function readTabUrl(tabId) {
+        try {
+            const tab = await chrome.tabs.get(tabId);
+
+            return tab?.url || '';
+        } catch {
+            return '';
+        }
+    }
+
     async function waitForSimplyHiredContentScript(tabId, timeoutMs = 45_000) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
+            const currentUrl = await readTabUrl(tabId);
+
+            if (isSimplyHiredIndeedHandoffUrl(currentUrl) || isCloudflareChallengeUrl(currentUrl)) {
+                throw new Error(`SimplyHired navigated away to ${currentUrl}`);
+            }
+
             try {
                 await sendTabMessage(tabId, { type: 'SIMPLYHIRED_SCAN_PAGE_HEALTH' }, 0);
 
@@ -330,7 +348,70 @@ export function createSimplyHiredOrchestrator(deps) {
 
             tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
             await waitForTabLoadComplete(tabId);
-            await waitForSimplyHiredContentScript(tabId);
+
+            const landedUrl = await readTabUrl(tabId);
+            let landedTitle = '';
+
+            try {
+                landedTitle = String((await chrome.tabs.get(tabId))?.title || '');
+            } catch {
+                landedTitle = '';
+            }
+
+            if (isCloudflareChallengeUrl(landedUrl) || /just a moment/i.test(landedTitle)) {
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'captcha_required',
+                    error: 'Cloudflare/Indeed security check blocked job open.',
+                };
+            }
+
+            if (isSimplyHiredIndeedHandoffUrl(landedUrl)) {
+                await logSession(
+                    'info',
+                    `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
+                );
+
+                return {
+                    success: true,
+                    jobId: job.jobId,
+                    tabId,
+                    navigated: true,
+                    indeedHandoff: true,
+                    landedUrl,
+                };
+            }
+
+            try {
+                await waitForSimplyHiredContentScript(tabId, 12_000);
+            } catch (error) {
+                const afterWaitUrl = await readTabUrl(tabId);
+
+                if (isSimplyHiredIndeedHandoffUrl(afterWaitUrl)) {
+                    await logSession(
+                        'info',
+                        `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
+                    );
+
+                    return {
+                        success: true,
+                        jobId: job.jobId,
+                        tabId,
+                        navigated: true,
+                        indeedHandoff: true,
+                        landedUrl: afterWaitUrl,
+                    };
+                }
+
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'job_unavailable',
+                    error: error instanceof Error ? error.message : String(error),
+                };
+            }
+
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT').catch(() => {});
@@ -505,69 +586,141 @@ export function createSimplyHiredOrchestrator(deps) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
-        const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
+        if (!openResult.indeedHandoff) {
+            const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
 
-        if (health && health.ok === false) {
-            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
+            if (health && health.ok === false) {
+                throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
+            }
+
+            await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+            const applyAvailability = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_CHECK_APPLY_AVAILABILITY');
+
+            if (applyAvailability?.quickApply === false || !applyAvailability?.hasApplyButton) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'no_simplyhired_apply' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'no_simplyhired_apply',
+                    detail: applyAvailability?.externalApply
+                        ? 'Job uses external apply, not Quick Apply.'
+                        : 'SimplyHired Quick Apply button not found on job page.',
+                    tabId,
+                };
+            }
+
+            const fitSession = await loadAutoApplySession();
+            const fitResult = await evaluateSimplyHiredJobFit(tabId, job, fitSession || session);
+
+            if (!fitResult.proceed) {
+                return {
+                    outcome: 'skipped',
+                    reason: fitResult.reason || 'low_fit_score',
+                    tabId,
+                    atsScore: fitResult.score,
+                    fitReason: fitResult.fitReason || '',
+                };
+            }
+
+            const applyResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_OPEN_APPLY');
+
+            if (applyResponse?.quickApply === false) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'no_simplyhired_apply' },
+                });
+
+                return { outcome: 'skipped', reason: 'no_simplyhired_apply', tabId };
+            }
+
+            if (!applyResponse?.success) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'no_simplyhired_apply' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'no_simplyhired_apply',
+                    detail: applyResponse?.error || '',
+                    tabId,
+                };
+            }
+
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
+            invalidateTabFrameCache(tabId);
+        } else {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+            invalidateTabFrameCache(tabId);
+
+            const openApplyDeadline = Date.now() + 25_000;
+            let indeedApplyOpened = false;
+
+            while (Date.now() < openApplyDeadline) {
+                const currentUrl = await readTabUrl(tabId);
+                let currentTitle = '';
+
+                try {
+                    currentTitle = String((await chrome.tabs.get(tabId))?.title || '');
+                } catch {
+                    currentTitle = '';
+                }
+
+                if (
+                    isCloudflareChallengeUrl(currentUrl)
+                    || /just a moment/i.test(currentTitle)
+                ) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: clear the Indeed/Cloudflare security check in the browser.`,
+                    );
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
+                        detail: 'Indeed security check blocked SimplyHired Quick Apply handoff.',
+                        tabId,
+                    };
+                }
+
+                const applyResponse = await sendTabMessage(
+                    tabId,
+                    { type: 'INDEED_OPEN_APPLY' },
+                    0,
+                    { timeoutMs: 25_000 },
+                ).catch(() => null);
+
+                if (applyResponse?.success || applyResponse?.alreadyApplied) {
+                    indeedApplyOpened = true;
+                    break;
+                }
+
+                const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+                if (state?.open || state?.submitted) {
+                    indeedApplyOpened = true;
+                    break;
+                }
+
+                await sleep(800);
+            }
+
+            if (!indeedApplyOpened) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'no_simplyhired_apply' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'no_simplyhired_apply',
+                    detail: 'Indeed Apply did not open after SimplyHired handoff.',
+                    tabId,
+                };
+            }
+
+            invalidateTabFrameCache(tabId);
         }
-
-        await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-
-        const applyAvailability = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_CHECK_APPLY_AVAILABILITY');
-
-        if (applyAvailability?.quickApply === false || !applyAvailability?.hasApplyButton) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'no_simplyhired_apply' },
-            });
-
-            return {
-                outcome: 'skipped',
-                reason: 'no_simplyhired_apply',
-                detail: applyAvailability?.externalApply
-                    ? 'Job uses external apply, not Quick Apply.'
-                    : 'SimplyHired Quick Apply button not found on job page.',
-                tabId,
-            };
-        }
-
-        const fitSession = await loadAutoApplySession();
-        const fitResult = await evaluateSimplyHiredJobFit(tabId, job, fitSession || session);
-
-        if (!fitResult.proceed) {
-            return {
-                outcome: 'skipped',
-                reason: fitResult.reason || 'low_fit_score',
-                tabId,
-                atsScore: fitResult.score,
-                fitReason: fitResult.fitReason || '',
-            };
-        }
-
-        const applyResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_OPEN_APPLY');
-
-        if (applyResponse?.quickApply === false) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'no_simplyhired_apply' },
-            });
-
-            return { outcome: 'skipped', reason: 'no_simplyhired_apply', tabId };
-        }
-
-        if (!applyResponse?.success) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'no_simplyhired_apply' },
-            });
-
-            return {
-                outcome: 'skipped',
-                reason: 'no_simplyhired_apply',
-                detail: applyResponse?.error || '',
-                tabId,
-            };
-        }
-
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
-        invalidateTabFrameCache(tabId);
 
         const iframeDeadline = Date.now() + 30_000;
 

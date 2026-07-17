@@ -22,6 +22,38 @@ export function isSimplyHiredHostname(hostname) {
 }
 
 /**
+ * SimplyHired Quick Apply often redirects the tab onto Indeed viewjob / smartapply.
+ *
+ * @param {string|null|undefined} url
+ * @returns {boolean}
+ */
+export function isSimplyHiredIndeedHandoffUrl(url) {
+    try {
+        const parsed = new URL(String(url || ''));
+
+        if (!/indeed\.com$/i.test(parsed.hostname)) {
+            return false;
+        }
+
+        return /\/(?:viewjob|job\/|pagead\/|rc\/clk)|smartapply\.indeed\.com|indeedapply/i.test(
+            `${parsed.hostname}${parsed.pathname}${parsed.search}`,
+        );
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * @param {string|null|undefined} url
+ * @returns {boolean}
+ */
+export function isCloudflareChallengeUrl(url) {
+    const value = String(url || '');
+
+    return /challenges\.cloudflare\.com|cdn-cgi\/challenge/i.test(value);
+}
+
+/**
  * @param {{ host?: string|null, location?: string|null, filters?: SimplyHiredSearchFilters|null }} [options]
  * @returns {string}
  */
