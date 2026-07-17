@@ -620,7 +620,8 @@ const AutoCVApplyReedAutoApply = (() => {
                     continue;
                 }
 
-                if (button.closest('.modal, nav, header')) {
+                // Reed Easy Apply lives in a Bootstrap modal - do not skip .modal.
+                if (button.closest('nav, header')) {
                     continue;
                 }
 
@@ -648,8 +649,11 @@ const AutoCVApplyReedAutoApply = (() => {
             return modalSubmit;
         }
 
-        if (isReedApplySubmitPage()) {
-            const applyBtn = document.querySelector('button[data-qa="apply-btn"]:not(.redirectApply)');
+        // Review/submit CTA is often apply-btn inside the Easy Apply modal.
+        if (isReedApplyModalOpen() || isReedApplySubmitPage()) {
+            const applyBtn = document.querySelector(
+                '[data-qa="apply-job-modal"] button[data-qa="apply-btn"]:not(.redirectApply), button[data-qa="apply-btn"]:not(.redirectApply)',
+            );
 
             if (applyBtn instanceof HTMLElement && !applyBtn.disabled && isElementVisible(applyBtn)) {
                 return applyBtn;
@@ -659,10 +663,10 @@ const AutoCVApplyReedAutoApply = (() => {
         const scopes = [readApplyRoot(), document];
 
         for (const scope of scopes) {
-            for (const testId of ['submit-button', 'submit-application-button', 'send-application-button', 'apply-button']) {
+            for (const testId of ['submit-button', 'submit-application-button', 'send-application-button', 'apply-button', 'apply-btn']) {
                 const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
 
-                if (byTestId instanceof HTMLElement && !byTestId.disabled) {
+                if (byTestId instanceof HTMLElement && !byTestId.disabled && !byTestId.classList.contains('redirectApply')) {
                     return byTestId;
                 }
             }
@@ -672,18 +676,21 @@ const AutoCVApplyReedAutoApply = (() => {
                     continue;
                 }
 
-                if (button.matches('[data-qa="apply-btn"]') && !isReedApplySubmitPage()) {
+                if (button.matches('[data-qa="apply-btn"].redirectApply')) {
                     continue;
                 }
 
-                if (button.closest('.modal, nav, header')) {
+                // Reed Easy Apply lives in a Bootstrap modal - do not skip .modal.
+                if (button.closest('nav, header')) {
                     continue;
                 }
 
                 const label = normalize(button.getAttribute('aria-label') || button.textContent);
 
                 if (/^(submit|send application|submit application)$/i.test(label)
-                    || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))) {
+                    || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))
+                    || ((isReedApplyModalOpen() || isReedApplySubmitPage())
+                        && /^(apply|apply now)$/i.test(label))) {
                     return button;
                 }
             }
