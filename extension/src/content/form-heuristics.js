@@ -2120,6 +2120,212 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    /**
+     * Reed Easy Apply screening Yes/No (and similar) questions use a Bootstrap-style
+     * custom dropdown: button[data-qa=dropdown-toggle] + role=menuitem options.
+     * There is no native <select> or role=combobox for inventory to find.
+     */
+    function isReedDropdownRoot(element) {
+        if (!element || !isReedApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        return element.matches?.('[data-qa="dropdown"]')
+            || Boolean(element.closest?.('[data-qa="dropdown"]'));
+    }
+
+    function isReedDropdownToggle(element) {
+        if (!element || element.tagName?.toLowerCase() !== 'button') {
+            return false;
+        }
+
+        if (!isReedApplyHost(element.ownerDocument || document)) {
+            return false;
+        }
+
+        if (element.getAttribute('data-qa') === 'dropdown-toggle') {
+            return true;
+        }
+
+        return Boolean(
+            element.closest('[data-qa="dropdown"]')
+            && element.matches('button.dropdown-toggle, button[aria-haspopup="true"]'),
+        );
+    }
+
+    function getReedDropdownRoot(element) {
+        if (!element) {
+            return null;
+        }
+
+        if (element.matches?.('[data-qa="dropdown"]')) {
+            return element;
+        }
+
+        return element.closest?.('[data-qa="dropdown"]') || null;
+    }
+
+    function readReedDropdownValue(dropdownOrToggle) {
+        const dropdown = getReedDropdownRoot(dropdownOrToggle);
+
+        if (!dropdown) {
+            return '';
+        }
+
+        const toggle = dropdown.querySelector('[data-qa="dropdown-toggle"], button.dropdown-toggle');
+        const selectedSpan = toggle?.querySelector('span');
+        const selected = String(selectedSpan?.textContent || '').replace(/\s+/g, ' ').trim();
+
+        if (selected && !/^select an option$/i.test(selected)) {
+            return selected;
+        }
+
+        const aria = String(toggle?.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+
+        if (aria && !/^select an option$/i.test(aria)) {
+            return aria;
+        }
+
+        return '';
+    }
+
+    function isReedDropdownAnswered(dropdownOrToggle) {
+        return readReedDropdownValue(dropdownOrToggle).length > 0;
+    }
+
+    function getReedDropdownQuestionLabel(dropdown) {
+        if (!dropdown) {
+            return '';
+        }
+
+        const doc = dropdown.ownerDocument || document;
+        const id = String(dropdown.id || '').trim();
+
+        if (id) {
+            const wrapper = doc.getElementById(`question-wrapper-${id}`);
+            const title = normalize(
+                wrapper?.querySelector?.('[class*="questions_title"]')?.textContent || '',
+            );
+
+            if (title.length >= 2 && !/^answer the question$/i.test(title)) {
+                return title.slice(0, 200);
+            }
+        }
+
+        return getReedQuestionLabel(dropdown);
+    }
+
+    function collectReedDropdownOptionLabels(dropdown) {
+        return Array.from(
+            dropdown.querySelectorAll('[role="menuitem"], [data-qa="dropdown-item"]'),
+        )
+            .map((item) => String(item.textContent || '').replace(/\s+/g, ' ').trim())
+            .filter((text) => text.length > 0);
+    }
+
+    function collectReedDropdownFields(root) {
+        const fields = [];
+        const seen = new Set();
+        const doc = root.ownerDocument || root;
+
+        if (!isReedApplyHost(doc)) {
+            return fields;
+        }
+
+        for (const dropdown of root.querySelectorAll('[data-qa="dropdown"]')) {
+            const toggle = dropdown.querySelector('[data-qa="dropdown-toggle"], button.dropdown-toggle');
+
+            if (!toggle || !isVisible(toggle)) {
+                continue;
+            }
+
+            const label = getReedDropdownQuestionLabel(dropdown);
+
+            if (label.length < 3) {
+                continue;
+            }
+
+            const key = String(dropdown.id || label);
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+
+            const optionLabels = collectReedDropdownOptionLabels(dropdown);
+
+            fields.push({
+                dropdown,
+                toggle,
+                label,
+                optionLabels,
+            });
+        }
+
+        return fields;
+    }
+
+    async function setReedDropdownValue(dropdownOrToggle, answer) {
+        const dropdown = getReedDropdownRoot(dropdownOrToggle);
+
+        if (!dropdown || !answer) {
+            return false;
+        }
+
+        const stringValue = String(answer).trim();
+        const current = readReedDropdownValue(dropdown);
+
+        if (current && optionMatchesAnswer(current, stringValue)) {
+            return true;
+        }
+
+        const toggle = dropdown.querySelector('[data-qa="dropdown-toggle"], button.dropdown-toggle');
+
+        if (!toggle) {
+            return false;
+        }
+
+        if (toggle.getAttribute('aria-expanded') !== 'true') {
+            toggle.scrollIntoView?.({ block: 'center', inline: 'nearest' });
+            nativeClick(toggle);
+            await pauseMs(80);
+        }
+
+        const items = Array.from(
+            dropdown.querySelectorAll('[role="menuitem"], [data-qa="dropdown-item"]'),
+        );
+
+        for (const item of items) {
+            const optionText = String(item.textContent || '').replace(/\s+/g, ' ').trim();
+
+            if (!optionMatchesAnswer(optionText, stringValue)) {
+                continue;
+            }
+
+            item.scrollIntoView?.({ block: 'center', inline: 'nearest' });
+            nativeClick(item);
+            await pauseMs(80);
+
+            const selectedSpan = toggle.querySelector('span');
+
+            if (selectedSpan && !String(selectedSpan.textContent || '').trim()) {
+                selectedSpan.textContent = optionText;
+            }
+
+            if (!toggle.getAttribute('aria-label') || /^select an option$/i.test(toggle.getAttribute('aria-label'))) {
+                toggle.setAttribute('aria-label', optionText);
+            }
+
+            toggle.setAttribute('aria-expanded', 'false');
+            clearValidationState(toggle);
+
+            return optionMatchesAnswer(readReedDropdownValue(dropdown) || optionText, stringValue);
+        }
+
+        return false;
+    }
+
     function isAshbyYesNoAnswered(buttons, dataFieldPath = null, root = document) {
         const anchor = Array.isArray(buttons) ? buttons[0] : buttons;
 
@@ -8360,6 +8566,23 @@ const AutoCVApplyFormHeuristics = (() => {
         return score >= 2;
     }
 
+    function isReedApplyScreeningForm(root = document) {
+        try {
+            if (!/(?:^|\.)reed\.co\.uk$/i.test(root.location?.hostname || '')) {
+                return false;
+            }
+        } catch {
+            return false;
+        }
+
+        return Boolean(root.querySelector(
+            '[data-qa="apply-job-modal"] [data-qa="screening-questions-container"], '
+            + '[data-qa="apply-job-modal"] [class*="screening-questions_container"], '
+            + '[data-qa="screening-questions-container"] [id^="question-wrapper-"], '
+            + '.screening-questions_container__PaYsQ [id^="question-wrapper-"]',
+        ));
+    }
+
     function frameHasApplicationForm(root = document) {
         if (isMicro1ApplicationQuestionStep(root)) {
             return true;
@@ -8370,6 +8593,10 @@ const AutoCVApplyFormHeuristics = (() => {
                 || Boolean(root.querySelector(
                     '[data-testid^="location-fields"], .ia-Questions-item, [data-testid^="input-q_"], [class*="mosaic-provider-module-apply"], #applicant\\.name, [id*="applicant.name"], [id^="input-applicant"]',
                 ));
+        }
+
+        if (isReedApplyScreeningForm(root)) {
+            return true;
         }
 
         const inputs = collectFillableElements(root);
@@ -8573,6 +8800,30 @@ const AutoCVApplyFormHeuristics = (() => {
                 max_chars: undefined,
                 options: optionLabels,
             }, buttons, buttons);
+
+            id += 1;
+        }
+
+        for (const { toggle, label, optionLabels } of collectReedDropdownFields(root)) {
+            const identity = draftableIdentityKey(toggle, label);
+
+            if (label.length < 3 || seen.has(identity)) {
+                continue;
+            }
+
+            if (!includeFilled && isReedDropdownAnswered(toggle)) {
+                continue;
+            }
+
+            seen.add(identity);
+
+            callback({
+                id,
+                label,
+                field_type: 'select',
+                max_chars: undefined,
+                options: optionLabels.length > 0 ? optionLabels : undefined,
+            }, toggle);
 
             id += 1;
         }
@@ -8840,6 +9091,16 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        for (const { toggle, label: reedLabel } of collectReedDropdownFields(root)) {
+            if (!labelsMatch(reedLabel, normalizedTarget)) {
+                continue;
+            }
+
+            if (await setReedDropdownValue(toggle, answer)) {
+                return true;
+            }
+        }
+
         for (const { radios, label: groupLabel } of collectRoleRadioGroups(root)) {
             if (!labelsMatch(groupLabel, normalizedTarget)) {
                 continue;
@@ -9059,6 +9320,8 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         } else if (isPhoneCountryListboxButton(target)) {
             applied = await setPhoneCountryListboxValue(target, resolvedAnswer);
+        } else if (isReedDropdownToggle(target) || isReedDropdownRoot(target)) {
+            applied = await setReedDropdownValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'radiogroup') {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
@@ -9095,6 +9358,10 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (Array.isArray(target) && target[0]?.tagName?.toLowerCase() === 'button') {
+            return applied;
+        }
+
+        if (isReedDropdownToggle(target) || isReedDropdownRoot(target)) {
             return applied;
         }
 
