@@ -38,3 +38,16 @@ test('Reed findSubmitButton must not treat Continue type=submit as Submit', () =
         'Must not treat generic type=submit primary buttons as Submit (Reed Continue uses that)',
     );
 });
+
+test('Reed Continue that closes the modal is treated as submit pending confirmation', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+    const continueHandler = source.slice(
+        source.indexOf('if (continueButton)'),
+        source.indexOf('return {\n            success: false,\n            action: \'blocked\''),
+    );
+
+    assert.ok(continueHandler.includes('verifyAfterContinue'));
+    assert.ok(continueHandler.includes('!isReedApplyModalOpen()'));
+    assert.ok(continueHandler.includes("action: 'submit'"));
+    assert.ok(continueHandler.includes('pendingConfirmation: true'));
+});

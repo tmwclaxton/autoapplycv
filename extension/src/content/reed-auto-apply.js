@@ -845,12 +845,22 @@ const AutoCVApplyReedAutoApply = (() => {
             return true;
         }
 
-        const applyButton = document.querySelector('button[data-qa="apply-btn"]');
+        for (const applyButton of document.querySelectorAll(
+            'button[data-qa="apply-btn"], [data-qa="apply-btn"], button[data-qa*="applied"]',
+        )) {
+            if (!(applyButton instanceof HTMLElement)) {
+                continue;
+            }
 
-        if (applyButton instanceof HTMLElement
-            && applyButton.disabled
-            && /\bapplied\b/i.test(normalize(applyButton.textContent))) {
-            return true;
+            const label = normalize(applyButton.textContent || applyButton.getAttribute('aria-label') || '');
+
+            if (/^(applied|you applied|already applied)$/i.test(label) || /\byou applied\b/i.test(label)) {
+                return true;
+            }
+
+            if (applyButton.disabled && /\bapplied\b/i.test(label)) {
+                return true;
+            }
         }
 
         return false;
@@ -958,6 +968,37 @@ const AutoCVApplyReedAutoApply = (() => {
         if (continueButton) {
             await clickElement(continueButton);
             await humanPause(650, 1100);
+
+            // Reed screening Continue is often type=submit. On the final step that
+            // posts the application and closes the modal - treat as submit so the
+            // orchestrator waits for confirmation instead of counting a failed continue.
+            const verifyAfterContinue = verifySubmitted();
+
+            if (verifyAfterContinue.submitted) {
+                return {
+                    success: true,
+                    action: 'submit',
+                    submitted: true,
+                    pendingConfirmation: false,
+                    transitioned: true,
+                    stepFingerprint: 'submitted',
+                    validationErrors: [],
+                    confirmation: verifyAfterContinue.confirmation,
+                };
+            }
+
+            if (!isReedApplyModalOpen()) {
+                return {
+                    success: true,
+                    action: 'submit',
+                    submitted: false,
+                    pendingConfirmation: true,
+                    transitioned: true,
+                    stepFingerprint: readStepFingerprint(),
+                    validationErrors: readValidationErrors(),
+                    confirmation: null,
+                };
+            }
 
             let nextFingerprint = readStepFingerprint();
             let transitioned = nextFingerprint !== previousFingerprint;
