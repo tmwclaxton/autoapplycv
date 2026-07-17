@@ -39,6 +39,20 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
             && /^\/job\/apply\/\d+/i.test(window.location.pathname);
     }
 
+    function isCvLibraryConfirmPage() {
+        return isCvLibraryHostname()
+            && /^\/job\/apply\/\d+\/confirm\/?$/i.test(window.location.pathname);
+    }
+
+    function isPreviouslyAppliedStepLabel(label = readStepLabel()) {
+        return /you previously applied|already applied for this/i.test(String(label || ''));
+    }
+
+    function matchesSubmissionConfirmation(text) {
+        return /(?:application (?:has been )?sent|application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|application complete|^success!?$)/i
+            .test(String(text || '').trim());
+    }
+
     function isCvLibraryLoginPage() {
         return isCvLibraryHostname()
             && /^\/login$/i.test(window.location.pathname);
@@ -631,6 +645,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
             return {
                 open: false,
                 submitted: true,
+                alreadyApplied: false,
                 canContinue: false,
                 canSubmit: false,
                 stepLabel: 'Application submitted',
@@ -646,6 +661,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
             return {
                 open: false,
                 submitted: verify.submitted,
+                alreadyApplied: false,
                 canContinue: false,
                 canSubmit: false,
                 stepLabel: null,
@@ -659,13 +675,15 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         const continueButton = findContinueButton();
         const validationErrors = readValidationErrors();
         const label = readStepLabel();
+        const alreadyApplied = isPreviouslyAppliedStepLabel(label);
         const isReviewStep = /review|check your application|summary|your details/i.test(label || '')
             || Boolean(document.querySelector('[data-qa="application-review-summary"]'));
 
         return {
             open: true,
             submitted: false,
-            canContinue: Boolean(continueButton) && !isReviewStep,
+            alreadyApplied,
+            canContinue: Boolean(continueButton) && !isReviewStep && !alreadyApplied,
             canSubmit: Boolean(submitButton) || isReviewStep,
             hasSubmitButton: Boolean(submitButton),
             stepLabel: label,
@@ -677,18 +695,19 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function readAppliedConfirmationText() {
+        if (matchesSubmissionConfirmation(document.title)) {
+            return [normalize(document.title)];
+        }
+
         const markers = document.querySelectorAll(
             '[data-qa="applied-label"], [data-qa*="application-submitted"], [role="alert"], .alert, h1, h2',
         );
 
         for (const node of markers) {
             const text = normalize(node.textContent || '');
-            const match = text.match(
-                /(?:application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|application complete)/i,
-            );
 
-            if (match) {
-                return match;
+            if (matchesSubmissionConfirmation(text)) {
+                return [text];
             }
         }
 
@@ -696,6 +715,13 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function verifySubmitted() {
+        if (isCvLibraryConfirmPage()) {
+            return {
+                submitted: true,
+                confirmation: 'CV-Library application submitted',
+            };
+        }
+
         if (document.querySelector('[data-qa="applied-label"], [data-qa*="application-submitted"]')) {
             return {
                 submitted: true,

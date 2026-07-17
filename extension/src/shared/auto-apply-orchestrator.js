@@ -353,7 +353,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             fit_score_failed: 'could not score fit',
             apply_step_unavailable: 'apply form could not advance',
             apply_submit_failed: 'application could not be submitted',
-            already_applied: 'already applied on Indeed',
+            already_applied: 'already applied',
             login_required: 'sign-in required on job board',
             captcha_required: 'CAPTCHA / security check',
         }[reason] || String(reason || 'skipped').replace(/_/g, ' ');

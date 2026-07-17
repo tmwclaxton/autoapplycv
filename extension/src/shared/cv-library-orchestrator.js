@@ -613,6 +613,21 @@ export function createCvLibraryOrchestrator(deps) {
             return { outcome: 'applied', tabId };
         }
 
+        const preFillState = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_APPLY_STATE').catch(() => null);
+
+        if (preFillState?.alreadyApplied) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'already_applied' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'already_applied',
+                detail: preFillState.stepLabel || 'Already applied on CV-Library.',
+                tabId,
+            };
+        }
+
         let submitted = false;
         let guard = 0;
         let lastStepFingerprint = null;
@@ -626,6 +641,19 @@ export function createCvLibraryOrchestrator(deps) {
             if (applyState?.submitted) {
                 submitted = true;
                 break;
+            }
+
+            if (applyState?.alreadyApplied) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'already_applied' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'already_applied',
+                    detail: applyState.stepLabel || 'Already applied on CV-Library.',
+                    tabId,
+                };
             }
 
             if (!applyState?.open) {
