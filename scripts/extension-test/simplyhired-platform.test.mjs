@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
     buildSimplyHiredJobOpenUrl,
@@ -61,6 +62,29 @@ test('SimplyHired Cloudflare title on Indeed job URL counts as handoff/captcha',
     assert.equal(isSimplyHiredIndeedHandoffUrl(url), true);
     assert.equal(captcha, true);
     assert.equal(indeedHandoff, true);
+});
+
+test('SimplyHired review captcha pauses for resume instead of skip-burning', () => {
+    const source = readFileSync(
+        new URL('../../extension/src/shared/simplyhired-orchestrator.js', import.meta.url),
+        'utf8',
+    );
+
+    assert.match(
+        source,
+        /waitForIndeedCaptchaResume/,
+        'SimplyHired orchestrator should wait for captcha resume',
+    );
+    assert.match(
+        source,
+        /captchaPresent[\s\S]*?waitForIndeedCaptchaResume[\s\S]*?stage:\s*'review'/,
+        'Review captchaPresent should pause via waitForIndeedCaptchaResume',
+    );
+    assert.doesNotMatch(
+        source,
+        /captcha on review step - skipping job/,
+        'Review captcha must not skip immediately without a pause',
+    );
 });
 
 test('urlsMatchSimplyHiredSearch matches role and location', () => {

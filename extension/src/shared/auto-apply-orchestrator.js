@@ -9606,4 +9606,5 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     appendAutoApplyLog,
     waitForApplicationSubmitConfirmation,
     pauseForCaptchaReview,
+    waitForIndeedCaptchaResume,
 });

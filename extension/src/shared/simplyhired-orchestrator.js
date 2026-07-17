@@ -52,6 +52,7 @@ export function createSimplyHiredOrchestrator(deps) {
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
         pauseForCaptchaReview,
+        waitForIndeedCaptchaResume,
     } = deps;
 
     const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
@@ -1041,6 +1042,43 @@ export function createSimplyHiredOrchestrator(deps) {
             );
 
             if (applyState.isReviewStep) {
+                if (
+                    (applyState.captchaPresent || applyState.submitDisabled)
+                    && typeof waitForIndeedCaptchaResume === 'function'
+                ) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
+                    );
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
+                        tabId,
+                        job,
+                        applyState,
+                        { stage: 'review' },
+                    );
+
+                    if (captchaOutcome.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+                        await recordAnalyticsEvent(session, 'skipped', job, {
+                            metadata: { reason: 'captcha_required' },
+                        });
+
+                        return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
+                }
+
                 await logSession('info', `[review] ${job.title}: attempting submit.`);
                 const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
 
@@ -1072,13 +1110,41 @@ export function createSimplyHiredOrchestrator(deps) {
                 if (!submitted) {
                     const reviewState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
 
-                    if (advanceResponse?.error?.includes('captcha') || reviewState?.captchaPresent) {
-                        await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
-                        await recordAnalyticsEvent(session, 'skipped', job, {
-                            metadata: { reason: 'captcha_required' },
-                        });
+                    if (
+                        (advanceResponse?.error?.includes('captcha') || reviewState?.captchaPresent)
+                        && typeof waitForIndeedCaptchaResume === 'function'
+                    ) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
+                        );
+                        const captchaOutcome = await waitForIndeedCaptchaResume(
+                            session,
+                            tabId,
+                            job,
+                            reviewState || applyState,
+                            { stage: 'review' },
+                        );
 
-                        return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                        if (captchaOutcome.stopped) {
+                            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                        }
+
+                        if (captchaOutcome.timedOut) {
+                            await logSession(
+                                'warn',
+                                `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                            );
+                            await recordAnalyticsEvent(session, 'skipped', job, {
+                                metadata: { reason: 'captcha_required' },
+                            });
+
+                            return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                        }
+
+                        session = captchaOutcome.session || session;
+                        sameStepCount = 0;
+                        continue;
                     }
 
                     await recordAnalyticsEvent(session, 'skipped', job, {
@@ -1156,13 +1222,41 @@ export function createSimplyHiredOrchestrator(deps) {
                 break;
             }
 
-            if (advanceResponse?.error?.includes('captcha')) {
-                await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
-                await recordAnalyticsEvent(session, 'skipped', job, {
-                    metadata: { reason: 'captcha_required' },
-                });
+            if (
+                advanceResponse?.error?.includes('captcha')
+                && typeof waitForIndeedCaptchaResume === 'function'
+            ) {
+                await logSession(
+                    'warn',
+                    `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
+                );
+                const captchaOutcome = await waitForIndeedCaptchaResume(
+                    session,
+                    tabId,
+                    job,
+                    applyState,
+                    { stage: 'review' },
+                );
 
-                return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                if (captchaOutcome.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (captchaOutcome.timedOut) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                    );
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'captcha_required' },
+                    });
+
+                    return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                }
+
+                session = captchaOutcome.session || session;
+                sameStepCount = 0;
+                continue;
             }
 
             if (!advanceResponse?.success) {
