@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import {
     ArrowRight,
     Bot,
+    FileText,
     FileUp,
     MessageCircle,
     ShieldCheck,
@@ -187,6 +188,77 @@ defineProps<{
                         dashes, common AI words and tropes, and generic filler -
                         while keeping the speed of automation and grounding
                         every answer in your profile and CV.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-12">
+            <p class="postbox-label mb-2">Cover letters</p>
+            <h2
+                class="text-xl font-bold tracking-tight text-balance text-postbox-navy sm:text-2xl"
+            >
+                Styled letters, ready when you apply.
+            </h2>
+            <p
+                class="mt-3 max-w-2xl text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base"
+            >
+                Generate a tailored cover letter from the extension during Auto
+                Apply, or from the Cover tab. Pick a design and font on your
+                dashboard - including Random - then preview before it attaches.
+            </p>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <FileText class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        On the fly
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Styled PDFs generated in the extension during Auto Apply
+                        and from the Cover tab - grounded in your profile and
+                        the job posting.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <Stamp class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Design and font
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Choose a layout and typeface in Cover letter settings,
+                        or set either to Random so each letter picks a fresh
+                        look.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <Sparkles class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Live preview
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        See the result on your dashboard before Auto Apply or
+                        the Cover tab attaches it to an application.
                     </p>
                 </div>
             </div>

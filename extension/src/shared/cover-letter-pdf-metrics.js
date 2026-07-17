@@ -88,8 +88,10 @@ export function wrapPdfTextToWidth(text, maxWidth, fontSize, metricsKey = 'helve
             }
 
             let chunk = '';
+
             for (const char of word) {
                 const next = chunk + char;
+
                 if (chunk && measurePdfTextWidth(next, fontSize, metricsKey) > widthLimit) {
                     lines.push(chunk);
                     chunk = char;
@@ -97,6 +99,7 @@ export function wrapPdfTextToWidth(text, maxWidth, fontSize, metricsKey = 'helve
                     chunk = next;
                 }
             }
+
             current = chunk;
         }
 

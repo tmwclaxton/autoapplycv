@@ -49,6 +49,16 @@ class MarketingPagesTest extends TestCase
         );
     }
 
+    public function test_welcome_page_includes_cover_letter_section(): void
+    {
+        $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));
+
+        $this->assertStringContainsString('Cover letters', $source);
+        $this->assertStringContainsString('Styled letters, ready when you apply.', $source);
+        $this->assertStringContainsString('Cover letter settings', $source);
+        $this->assertStringContainsString('Live preview', $source);
+    }
+
     public function test_platform_badges_include_logo_urls_for_listed_boards(): void
     {
         $site = (string) file_get_contents(resource_path('js/lib/site.ts'));

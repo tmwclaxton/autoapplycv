@@ -71,7 +71,9 @@ function createSandbox() {
             querySelectorAll: () => [],
             createElement: () => ({
                 style: {},
-                classList: { add() {}, remove() {}, contains() { return false; } },
+                classList: { add() {}, remove() {}, contains() {
+ return false; 
+} },
                 setAttribute() {},
                 appendChild() {},
             }),

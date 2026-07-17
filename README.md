@@ -52,6 +52,7 @@
 - [How it works](#how-it-works)
 - [Job board Auto Apply](#job-board-auto-apply)
 - [Features](#features)
+- [Cover letters](#cover-letters)
 - [Supported platforms](#supported-platforms)
 - [Postbox design](#postbox-design)
 - [Pricing](#pricing)
@@ -200,11 +201,16 @@ On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All s
 | **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
 | **Application Assistant** | Draft field | Single-field AI answer on demand |
 | **Application Assistant** | Answer quality | Rubric scoring on AI drafts - human tone, profile grounding, banned AI phrases, no em dashes |
-| **Documents** | Cover letter | Job-specific letter from your profile + posting |
+| **Documents** | Cover letter | Styled, job-specific PDF from your profile + posting (extension Auto Apply + Cover tab) |
 | **Documents** | Tailored resume | Role-matched resume draft |
 | **Documents** | ATS score | Keyword and compatibility feedback against the job description |
+| **Dashboard** | Cover letter settings | Design + font preferences (including Random) with live preview |
 | **Dashboard** | Usage & billing | Monthly autofill allowance, extension connection, GoCardless subscriptions (UK) |
 | **Analytics** | Public aggregate stats | Daily totals across all users - no personal application history exposed |
+
+### Cover letters
+
+AutoCVApply generates **styled cover letters** on the fly in the extension during Auto Apply and from the Cover tab. On the dashboard, open **Cover letter settings** to pick a design and font (or Random for either), preview the result live, and use those preferences whenever a letter is attached.
 
 ### Human-sounding AI drafts
 

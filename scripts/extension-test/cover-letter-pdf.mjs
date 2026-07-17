@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import { measurePdfRenderedWidth, measurePdfTextWidth } from '../../extension/src/shared/cover-letter-pdf-metrics.js';
 import {
     buildContactLine,
     buildCoverLetterPdfBytes,
@@ -9,7 +10,6 @@ import {
     layoutCoverLetterLines,
     stripLeadingCoverLetterLetterhead,
 } from '../../extension/src/shared/cover-letter-pdf.js';
-import { measurePdfRenderedWidth, measurePdfTextWidth } from '../../extension/src/shared/cover-letter-pdf-metrics.js';
 
 function parsePdfTextOps(pdf) {
     const ops = [];
