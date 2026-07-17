@@ -449,7 +449,13 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
                 }
             }
 
-            if (isSimplyHiredJobPage() && readJobIdFromUrl() === targetId) {
+            // Do not treat a bare /job URL as ready: SERP "Quick Apply" badges often
+            // land on shells with no Apply control (or Cloudflare/Indeed interstitial).
+            if (
+                isSimplyHiredJobPage()
+                && readJobIdFromUrl() === targetId
+                && (readApplyButton() || readExternalApplyMarker() || hasIndeedApplyIframe())
+            ) {
                 return { success: true, jobId: targetId };
             }
 
