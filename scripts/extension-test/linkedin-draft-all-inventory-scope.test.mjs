@@ -246,11 +246,14 @@ test('content script restores form-host highlight gate and sidepanel-open fast p
 
     assert.match(contentJs, /resolveHighlightRoot/);
     assert.match(contentJs, /queuedHighlightSidePanelOpen/);
-    assert.match(contentJs, /sidePanelOpen === true \? 40/);
+    assert.match(contentJs, /urgent \|\| sidePanelOpen === true \? 40/);
     assert.match(contentJs, /\(!sidePanelOpen && !isFormHost\)/);
     assert.match(contentJs, /Painted field outlines/);
     assert.match(contentJs, /includeFilled:\s*true/);
     assert.match(contentJs, /easyApplyOpen/);
+    assert.match(contentJs, /scheduleEasyApplyHighlightRefresh/);
+    assert.match(contentJs, /noteEasyApplyHighlightState/);
+    assert.match(contentJs, /Easy Apply open but no fields yet; retrying/);
     assert.doesNotMatch(contentJs, /Clear outlines immediately when the sidepanel closes/);
 });
 

@@ -1726,6 +1726,7 @@ async function refreshFieldHighlightsForTab(tabId) {
     }
 
     try {
+        await ensureTabContentScript(tabId);
         await sendTabMessage(tabId, { type: 'REFRESH_FIELD_HIGHLIGHTS', sidePanelOpen: true }, 0, {
             timeoutMs: 5_000,
         });
@@ -3615,6 +3616,7 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },

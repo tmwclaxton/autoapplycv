@@ -21,8 +21,17 @@ const {
 
 test('formatContentScriptUserError maps Chrome receiving-end errors to refresh hint', () => {
     assert.equal(isMissingContentScriptError('Could not establish connection. Receiving end does not exist.'), true);
+    assert.equal(isMissingContentScriptError('Extension context unavailable.'), true);
     assert.equal(
         formatContentScriptUserError('Could not establish connection. Receiving end does not exist.'),
+        CONTENT_SCRIPT_MISSING_USER_MESSAGE,
+    );
+    assert.equal(
+        formatContentScriptUserError('Extension context unavailable.'),
+        CONTENT_SCRIPT_MISSING_USER_MESSAGE,
+    );
+    assert.equal(
+        formatContentScriptUserError(new Error('Extension context invalidated.')),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
@@ -109,11 +118,18 @@ test('ensureTabContentScript injects or asks for refresh after extension reload'
     const background = await import('node:fs').then((fs) =>
         fs.readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8'),
     );
+    const content = await import('node:fs').then((fs) =>
+        fs.readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8'),
+    );
 
     assert.match(source, /export async function ensureTabContentScript/);
     assert.match(source, /injectManifestContentScripts/);
     assert.match(source, /PING_CONTENT_SCRIPT/);
+    assert.match(source, /isDeadContentScriptError/);
+    assert.match(source, /response\?\.error && isMissingContentScriptError/);
+    assert.match(source, /extension context \(unavailable\|invalidated\)/i);
     assert.match(background, /ensureTabContentScript\(tabId\)/);
+    assert.match(content, /removeListener\(contentMessageListener\)/);
 });
 
 test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {

@@ -24,12 +24,19 @@ function sleep(ms) {
     });
 }
 
+export function isDeadContentScriptError(message) {
+    const text = String(message || '');
+
+    return /extension context (unavailable|invalidated)/i.test(text);
+}
+
 export function isMissingContentScriptError(message) {
     const text = String(message || '');
 
     return (
         text.includes('Receiving end does not exist')
         || text.includes('Could not establish connection')
+        || isDeadContentScriptError(text)
     );
 }
 
@@ -46,7 +53,7 @@ export function formatContentScriptUserError(error) {
         return message;
     }
 
-    if (isMissingContentScriptError(message)) {
+    if (isMissingContentScriptError(message) || isDeadContentScriptError(message)) {
         return CONTENT_SCRIPT_MISSING_USER_MESSAGE;
     }
 
@@ -54,9 +61,25 @@ export function formatContentScriptUserError(error) {
 }
 
 async function pingTabContentScript(tabId) {
-    return sendTabMessage(tabId, { type: 'PING_CONTENT_SCRIPT' }, 0, {
+    const response = await sendTabMessage(tabId, { type: 'PING_CONTENT_SCRIPT' }, 0, {
         timeoutMs: 1_500,
     });
+
+    // Zombie content scripts (post chrome.runtime.reload) still receive messages and
+    // reply with context-unavailable - treat that as missing so we reinject.
+    if (response?.error && isMissingContentScriptError(response.error)) {
+        throw new Error(String(response.error));
+    }
+
+    if (response?.success !== true && response?.ready !== true) {
+        throw new Error(
+            response?.error
+                ? String(response.error)
+                : 'Content script ping failed.',
+        );
+    }
+
+    return response;
 }
 
 /**

@@ -12,6 +12,9 @@ let cachedAuthenticated = false;
 let pendingSidePanelOpen = undefined;
 let lastMutationRefreshAt = 0;
 let lastFormContentSignature = '';
+let lastEasyApplyHighlightKey = '';
+let easyApplyHighlightRetryTimer = null;
+let easyApplyHighlightRetryCount = 0;
 let mutationObserver = null;
 let overlayRefreshIntervalId = null;
 let formContentSignatureNotifyTimer = null;
@@ -21,6 +24,10 @@ let onVisibilityChangeRefresh = null;
 let autoApplyBurstDepth = 0;
 let autoApplyBurstCooldownUntil = 0;
 let contentObserversPaused = false;
+/** Assigned after the message handler is created; teardown removes it when context dies. */
+let contentMessageListener = null;
+const EASY_APPLY_HIGHLIGHT_RETRY_MAX = 8;
+const EASY_APPLY_HIGHLIGHT_RETRY_MS = 250;
 
 function extensionContext() {
     return typeof AutoCVApplyExtensionContext !== 'undefined'
@@ -34,7 +41,26 @@ function isExtensionContextValid() {
     return ctx ? ctx.isExtensionContextValid() : false;
 }
 
+let contentScriptTornDown = false;
+
 function teardownContentScriptOnInvalidContext() {
+    if (contentScriptTornDown) {
+        return;
+    }
+
+    contentScriptTornDown = true;
+
+    // Stop answering messages so ensureTabContentScript can reinject a live script.
+    if (contentMessageListener) {
+        try {
+            chrome.runtime.onMessage.removeListener(contentMessageListener);
+        } catch {
+            // Runtime may already be gone.
+        }
+
+        contentMessageListener = null;
+    }
+
     if (overlayRefreshTimer) {
         clearTimeout(overlayRefreshTimer);
         overlayRefreshTimer = null;
@@ -50,7 +76,14 @@ function teardownContentScriptOnInvalidContext() {
         formContentSignatureNotifyTimer = null;
     }
 
+    if (easyApplyHighlightRetryTimer) {
+        clearTimeout(easyApplyHighlightRetryTimer);
+        easyApplyHighlightRetryTimer = null;
+    }
+
     pendingFormContentSignature = '';
+    lastEasyApplyHighlightKey = '';
+    easyApplyHighlightRetryCount = 0;
 
     if (mutationObserver) {
         mutationObserver.disconnect();
@@ -120,15 +153,106 @@ function setContentObserversPaused(paused) {
 
 extensionContext()?.onContextInvalidated?.(teardownContentScriptOnInvalidContext);
 
-function computeFormContentSignature() {
-    if (typeof AutoCVApplyFormContentSignature !== 'undefined') {
-        return AutoCVApplyFormContentSignature.computeFormContentSignature(document);
+function readEasyApplyHighlightKey() {
+    if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+        return '';
     }
 
-    const heading = document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 80) || '';
-    const form = document.querySelector('form');
+    try {
+        if (typeof AutoCVApplyLinkedInAutoApply.getEasyApplyModalState === 'function') {
+            const state = AutoCVApplyLinkedInAutoApply.getEasyApplyModalState();
 
-    return `${heading}|${form?.querySelectorAll('input, textarea, select').length || 0}|${form?.textContent?.length || 0}`;
+            if (state?.open) {
+                return [
+                    'open',
+                    state.stepFingerprint || state.stepLabel || '',
+                    state.hasContent ? 'content' : 'empty',
+                ].join('|');
+            }
+        }
+
+        if (typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal === 'function'
+            && AutoCVApplyLinkedInAutoApply.readEasyApplyModal()) {
+            return 'open';
+        }
+    } catch {
+        // LinkedIn helpers unavailable mid-reload.
+    }
+
+    return '';
+}
+
+function computeFormContentSignature() {
+    const easyApplyKey = readEasyApplyHighlightKey();
+    let base = '';
+
+    if (typeof AutoCVApplyFormContentSignature !== 'undefined') {
+        base = AutoCVApplyFormContentSignature.computeFormContentSignature(document);
+    } else {
+        const heading = document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 80) || '';
+        const form = document.querySelector('form');
+
+        base = `${heading}|${form?.querySelectorAll('input, textarea, select').length || 0}|${form?.textContent?.length || 0}`;
+    }
+
+    return easyApplyKey ? `${base}|ea:${easyApplyKey}` : base;
+}
+
+/**
+ * Easy Apply modal mounts as an empty shell, then contact fields hydrate.
+ * Force a fast highlight pass when the modal appears or its step changes.
+ */
+function scheduleEasyApplyHighlightRefresh(reason = 'modal') {
+    if (!ensureExtensionContextOrTeardown()) {
+        return;
+    }
+
+    contentLog('info', 'highlight.easy-apply', 'Scheduling Easy Apply outline refresh', { reason });
+    // Urgent: bypass Auto Apply burst cooldown so outlines paint as soon as the modal mounts.
+    scheduleOverlayRefresh(undefined, { urgent: true });
+}
+
+function scheduleEasyApplyHighlightRetry() {
+    if (easyApplyHighlightRetryCount >= EASY_APPLY_HIGHLIGHT_RETRY_MAX) {
+        return;
+    }
+
+    if (easyApplyHighlightRetryTimer) {
+        return;
+    }
+
+    easyApplyHighlightRetryCount += 1;
+    easyApplyHighlightRetryTimer = setTimeout(() => {
+        easyApplyHighlightRetryTimer = null;
+        scheduleEasyApplyHighlightRefresh(`retry-${easyApplyHighlightRetryCount}`);
+    }, EASY_APPLY_HIGHLIGHT_RETRY_MS);
+}
+
+function noteEasyApplyHighlightState() {
+    const easyApplyKey = readEasyApplyHighlightKey();
+
+    if (easyApplyKey === lastEasyApplyHighlightKey) {
+        return false;
+    }
+
+    const wasOpen = Boolean(lastEasyApplyHighlightKey);
+    lastEasyApplyHighlightKey = easyApplyKey;
+
+    if (!easyApplyKey) {
+        easyApplyHighlightRetryCount = 0;
+
+        if (easyApplyHighlightRetryTimer) {
+            clearTimeout(easyApplyHighlightRetryTimer);
+            easyApplyHighlightRetryTimer = null;
+        }
+
+        return wasOpen;
+    }
+
+    easyApplyHighlightRetryCount = 0;
+    scheduleEasyApplyHighlightRefresh(wasOpen ? 'step-change' : 'modal-open');
+
+    return true;
 }
 
 function notifyFormContentSignatureChanged(signature) {
@@ -724,6 +848,14 @@ async function init() {
             return;
         }
 
+        // Easy Apply open / step change always wins over the 800ms mutation throttle.
+        if (noteEasyApplyHighlightState()) {
+            lastMutationRefreshAt = Date.now();
+            lastFormContentSignature = computeFormContentSignature();
+
+            return;
+        }
+
         const now = Date.now();
         const signature = computeFormContentSignature();
         const signatureChanged = signature !== lastFormContentSignature;
@@ -742,6 +874,7 @@ async function init() {
     });
 
     lastFormContentSignature = computeFormContentSignature();
+    lastEasyApplyHighlightKey = readEasyApplyHighlightKey();
 
     mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
 
@@ -798,8 +931,13 @@ async function isAuthenticated() {
     }
 }
 
-function scheduleOverlayRefresh(sidePanelOpen = undefined) {
-    if (isAutoApplyBurstActive() || !ensureExtensionContextOrTeardown()) {
+function scheduleOverlayRefresh(sidePanelOpen = undefined, { urgent = false } = {}) {
+    if (!ensureExtensionContextOrTeardown()) {
+        return;
+    }
+
+    // Easy Apply modal-open must paint even during Auto Apply burst / cooldown.
+    if (!urgent && isAutoApplyBurstActive()) {
         return;
     }
 
@@ -811,9 +949,9 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         clearTimeout(overlayRefreshTimer);
     }
 
-    // Sidepanel-open should paint highlights ASAP; mutation/focus refreshes can debounce.
+    // Sidepanel-open / Easy Apply mount should paint ASAP; other refreshes can debounce.
     // Do not wipe outlines on panel-close here - form hosts keep highlights (fda4e581 gate).
-    const delayMs = sidePanelOpen === true ? 40 : (sidePanelOpen === false ? 0 : 350);
+    const delayMs = urgent || sidePanelOpen === true ? 40 : (sidePanelOpen === false ? 0 : 350);
 
     overlayRefreshTimer = setTimeout(() => {
         const explicitSidePanelOpen = pendingSidePanelOpen;
@@ -921,10 +1059,28 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             ? explicitSidePanelOpen
             : await isSidePanelOpen();
 
+        // Empty Easy Apply shell: keep retrying until contact fields hydrate.
+        if (count === 0 && easyApplyOpen) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+            scheduleEasyApplyHighlightRetry();
+            contentLog('debug', 'highlight.easy-apply', 'Easy Apply open but no fields yet; retrying', {
+                retry: easyApplyHighlightRetryCount,
+            });
+
+            return;
+        }
+
         if (count === 0 || (!sidePanelOpen && !isFormHost)) {
             AutoCVApplyFieldHighlighter.clearHighlights();
 
             return;
+        }
+
+        easyApplyHighlightRetryCount = 0;
+
+        if (easyApplyHighlightRetryTimer) {
+            clearTimeout(easyApplyHighlightRetryTimer);
+            easyApplyHighlightRetryTimer = null;
         }
 
         AutoCVApplyFieldHighlighter.applyHighlights(root, profileData.profile, settings, {});
@@ -981,7 +1137,7 @@ async function collectDraftContext(injectedProfile = null) {
     };
 }
 
-const contentMessageListener = (message, sender, sendResponse) => {
+contentMessageListener = (message, sender, sendResponse) => {
     (async () => {
         const linkedInBurst = typeof message.type === 'string' && message.type.startsWith('LINKEDIN_');
 
@@ -1513,7 +1669,14 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(await AutoCVApplyLinkedInAutoApply.clickEasyApply());
+            const clickResult = await AutoCVApplyLinkedInAutoApply.clickEasyApply();
+
+            if (clickResult?.success) {
+                lastEasyApplyHighlightKey = '';
+                noteEasyApplyHighlightState();
+            }
+
+            sendResponse(clickResult);
 
             return;
         }

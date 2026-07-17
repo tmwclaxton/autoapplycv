@@ -12,10 +12,19 @@ const AutoCVApplyFieldHighlighter = (() => {
 
         const style = document.createElement('style');
         style.id = 'autocvapply-field-highlight-styles';
+        // box-shadow + border survive LinkedIn/Artdeco styles that clip or reset outline.
         style.textContent = `
-            .${HIGHLIGHT_CLASS} {
+            .${HIGHLIGHT_CLASS},
+            select.${HIGHLIGHT_CLASS},
+            input.${HIGHLIGHT_CLASS},
+            textarea.${HIGHLIGHT_CLASS},
+            [role="combobox"].${HIGHLIGHT_CLASS},
+            .artdeco-text-input--input.${HIGHLIGHT_CLASS},
+            .fb-dash-form-element__select-dropdown.${HIGHLIGHT_CLASS} {
                 outline: 2px solid #c8102e !important;
-                outline-offset: 1px !important;
+                outline-offset: 2px !important;
+                border-color: #c8102e !important;
+                box-shadow: 0 0 0 2px #c8102e !important;
             }
         `;
         (document.head || document.documentElement).appendChild(style);
