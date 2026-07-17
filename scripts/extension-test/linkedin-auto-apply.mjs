@@ -12,11 +12,14 @@ import {
     buildLinkedInJobOpenUrl,
     buildLinkedInJobSearchUrl,
     isLinkedInJobViewUrl,
+    isLinkedInJobsApplySurfaceUrl,
     isLinkedInJobsSearchUrl,
     jobCardHasEasyApply,
     jobCardIsAlreadyApplied,
+    LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
     parseLinkedInJobCards,
     readJobIdFromCard,
+    resolveLinkedInDraftAllGuard,
 } from '../../extension/src/shared/linkedin-platform.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -145,8 +148,51 @@ const cases = [
                 true,
             );
             assert.equal(
+                isLinkedInJobsSearchUrl(
+                    'https://www.linkedin.com/jobs/search-results/?currentJobId=1',
+                ),
+                true,
+            );
+            assert.equal(
                 isLinkedInJobsSearchUrl('https://www.linkedin.com/feed/'),
                 false,
+            );
+        },
+    },
+    {
+        name: 'Draft All requires open Easy Apply on LinkedIn jobs surfaces',
+        fn: () => {
+            const searchResultsUrl =
+                'https://www.linkedin.com/jobs/search-results/?currentJobId=4440534304';
+
+            assert.equal(isLinkedInJobsApplySurfaceUrl(searchResultsUrl), true);
+            assert.equal(
+                isLinkedInJobsApplySurfaceUrl(
+                    'https://www.linkedin.com/jobs/view/4440534304/',
+                ),
+                true,
+            );
+            assert.equal(
+                isLinkedInJobsApplySurfaceUrl('https://www.linkedin.com/feed/'),
+                false,
+            );
+            assert.equal(
+                resolveLinkedInDraftAllGuard(searchResultsUrl, { open: false }),
+                LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
+            );
+            assert.equal(
+                resolveLinkedInDraftAllGuard(searchResultsUrl, null),
+                LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
+            );
+            assert.equal(
+                resolveLinkedInDraftAllGuard(searchResultsUrl, { open: true }),
+                null,
+            );
+            assert.equal(
+                resolveLinkedInDraftAllGuard('https://boards.greenhouse.io/x', {
+                    open: false,
+                }),
+                null,
             );
         },
     },

@@ -888,7 +888,11 @@ async function collectDraftContext(injectedProfile = null) {
         profile = injectedProfile;
     }
 
-    const profileData = await ensureProfileLoaded();
+    // Prefer an injected profile from the background so snapshot collection does not
+    // nest a GET_PROFILE round-trip while BUILD_FIELD_SNAPSHOT is in flight.
+    const profileData = injectedProfile?.profile
+        ? injectedProfile
+        : await ensureProfileLoaded();
 
     if (!profileData?.profile) {
         contentLog('warn', 'snapshot.collect', 'Profile not loaded for snapshot', {});

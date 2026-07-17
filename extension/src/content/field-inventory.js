@@ -542,6 +542,18 @@ const AutoCVApplyFieldInventory = (() => {
         return elements;
     }
 
+    function resolveLinkedInEasyApplyInventoryRoot() {
+        if (typeof AutoCVApplyLinkedInAutoApply?.readEasyApplyModal !== 'function') {
+            return null;
+        }
+
+        try {
+            return AutoCVApplyLinkedInAutoApply.readEasyApplyModal() || null;
+        } catch {
+            return null;
+        }
+    }
+
     function buildSnapshotAllFrames(root, profile, settings, memo = {}) {
         resetRegistry();
 
@@ -553,6 +565,18 @@ const AutoCVApplyFieldInventory = (() => {
         };
 
         const jobPostingLocation = getJobPostingLocationFromPage(document);
+        const easyApplyModal = resolveLinkedInEasyApplyInventoryRoot();
+
+        // When Easy Apply is open, only inventory the modal - never SERP filters / tracker frames.
+        if (easyApplyModal) {
+            appendSnapshotFromRoot(easyApplyModal, profile, settings, memo, merged, jobPostingLocation);
+            inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames scoped to Easy Apply modal', {
+                elementCount: merged.elements.length,
+                controlCount: merged.controls.length,
+            });
+
+            return merged;
+        }
 
         AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
             appendSnapshotFromRoot(doc, profile, settings, memo, merged, jobPostingLocation);

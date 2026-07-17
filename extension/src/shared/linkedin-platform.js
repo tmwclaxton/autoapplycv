@@ -172,6 +172,40 @@ export function isLinkedInJobViewUrl(url) {
 }
 
 /**
+ * LinkedIn jobs search or job-view surfaces where Draft All must target Easy Apply.
+ * Includes /jobs/search/ and /jobs/search-results/.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isLinkedInJobsApplySurfaceUrl(url) {
+    return isLinkedInJobsSearchUrl(url) || isLinkedInJobViewUrl(url);
+}
+
+export const LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY =
+    'Open Easy Apply first. Draft All fills LinkedIn Easy Apply questions only - not the jobs search page.';
+
+/**
+ * Fail fast when Draft All is pressed on LinkedIn jobs search/view without an open Easy Apply modal.
+ * Avoids harvesting SERP filters across many tracker frames for tens of seconds.
+ *
+ * @param {string|null|undefined} url
+ * @param {{ open?: boolean }|null|undefined} modalState
+ * @returns {string|null} Error message, or null when Draft All may proceed.
+ */
+export function resolveLinkedInDraftAllGuard(url, modalState) {
+    if (!isLinkedInJobsApplySurfaceUrl(url || '')) {
+        return null;
+    }
+
+    if (modalState?.open) {
+        return null;
+    }
+
+    return LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY;
+}
+
+/**
  * Prefer the standalone job view page when search cards are unavailable; otherwise keep split-view context.
  *
  * @param {string} jobId
