@@ -33,9 +33,15 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
     }
 
     function isGlassdoorSearchPage() {
+        if (!isGlassdoorHostname()) {
+            return false;
+        }
+
+        const path = window.location.pathname;
+
         return (
-            isGlassdoorHostname() &&
-            /^\/Job\/(jobs|index)\.htm$/i.test(window.location.pathname)
+            /^\/Job\/(jobs|index)\.htm$/i.test(path) ||
+            /^\/Job\/.+-jobs-SRCH_/i.test(path)
         );
     }
 
@@ -198,6 +204,9 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             document.querySelector('[data-test="job-list-panel"]') ||
             document.querySelector('[data-test="job-results"]') ||
             document.querySelector('[data-test="serp-job-list"]') ||
+            document.querySelector('ul[aria-label="Jobs List"]') ||
+            document.querySelector('[class*="JobsList_jobsList"]') ||
+            document.querySelector('[class*="JobsList_wrapper"]') ||
             null
         );
     }
@@ -207,11 +216,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             return [];
         }
 
-        const root = readJobSearchRoot();
-
-        if (!root) {
-            return [];
-        }
+        const root = readJobSearchRoot() || document;
 
         const jobs = [];
         const seen = new Set();
@@ -262,15 +267,70 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         return readJobCardsFromDocument();
     }
 
-    async function prepareJobSearch(options = {}) {
-        dismissLoginOverlay();
-        await acceptCookieConsent();
+    function setNativeInputValue(input, value) {
+        if (!(input instanceof HTMLInputElement)) {
+            return false;
+        }
 
-        const expectedKeyword = String(options.expectedKeyword || '').trim();
-        const expectedLocation = String(options.expectedLocation || '').trim();
+        const prototype = Object.getPrototypeOf(input);
+        const descriptor =
+            Object.getOwnPropertyDescriptor(prototype, 'value') ||
+            Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+
+        if (descriptor?.set) {
+            descriptor.set.call(input, value);
+        } else {
+            input.value = value;
+        }
+
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return true;
+    }
+
+    async function fillAndSubmitJobSearch(keyword, location) {
+        const keywordInput =
+            document.querySelector('[data-test="keyword-search-input"]') ||
+            document.querySelector('#searchBar-jobTitle') ||
+            document.querySelector('#sc\\.keyword');
+        const locationInput =
+            document.querySelector('[data-test="location-search-input"]') ||
+            document.querySelector('#sc\\.location');
+        const searchButton = document.querySelector(
+            '[data-test="search-button"]',
+        );
+
+        if (
+            !(keywordInput instanceof HTMLInputElement) ||
+            !(searchButton instanceof HTMLElement)
+        ) {
+            return { success: false, error: 'Glassdoor search form not found.' };
+        }
+
+        if (keyword) {
+            keywordInput.focus();
+            setNativeInputValue(keywordInput, keyword);
+            await humanPause(200, 400);
+        }
+
+        if (location && locationInput instanceof HTMLInputElement) {
+            locationInput.focus();
+            setNativeInputValue(locationInput, location);
+            await humanPause(200, 400);
+        }
+
+        await clickElement(searchButton, { quick: true });
+        await humanPause(1200, 2000);
+
+        return { success: true };
+    }
+
+    function evaluateSearchMatch(expectedKeyword, expectedLocation) {
         const params = new URLSearchParams(window.location.search);
         const currentKeyword = String(params.get('sc.keyword0') || '').trim();
         const currentLocation = String(params.get('locKeyword') || '').trim();
+        const path = String(window.location.pathname || '');
         const slug = (text) =>
             String(text || '')
                 .trim()
@@ -278,45 +338,88 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-+|-+$/g, '');
 
-        let searchMatched = true;
-
         if (
             /countryRedirect=true/i.test(window.location.href) ||
             /Recommended Jobs For You/i.test(document.title || '')
         ) {
-            searchMatched = false;
+            return false;
         }
 
-        if (expectedKeyword && slug(currentKeyword) !== slug(expectedKeyword)) {
-            searchMatched = false;
+        const keywordSlug = slug(expectedKeyword);
+        const locationSlug = slug(expectedLocation);
+        const pathSlug = slug(path);
+        const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(path);
+
+        if (expectedKeyword) {
+            const keywordMatched =
+                slug(currentKeyword) === keywordSlug ||
+                (seoSearch && pathSlug.includes(keywordSlug));
+
+            if (!keywordMatched) {
+                return false;
+            }
         }
 
-        if (
-            expectedLocation &&
-            slug(currentLocation) !== slug(expectedLocation)
-        ) {
-            searchMatched = false;
+        if (expectedLocation) {
+            const locationMatched =
+                slug(currentLocation) === locationSlug ||
+                (seoSearch && pathSlug.includes(locationSlug));
+
+            if (!locationMatched) {
+                return false;
+            }
         }
 
-        const searchRoot = readJobSearchRoot();
-        const cardCount = searchRoot
-            ? searchRoot.querySelectorAll('[data-test="jobListing"]').length
-            : 0;
+        return true;
+    }
+
+    async function prepareJobSearch(options = {}) {
+        dismissLoginOverlay();
+        await acceptCookieConsent();
+
+        const expectedKeyword = String(options.expectedKeyword || '').trim();
+        const expectedLocation = String(options.expectedLocation || '').trim();
+
+        let searchMatched = evaluateSearchMatch(
+            expectedKeyword,
+            expectedLocation,
+        );
+
+        const cardCount = (
+            readJobSearchRoot() || document
+        ).querySelectorAll('[data-test="jobListing"]').length;
 
         if (cardCount >= 3 && searchMatched) {
             return { success: true, skipped: true, searchMatched: true };
         }
 
-        if (cardCount >= 3 && !searchMatched) {
-            return {
-                success: false,
-                skipped: false,
-                searchMatched: false,
-                error: 'Glassdoor search results do not match the expected role or location.',
-            };
-        }
-
         if (!searchMatched && (expectedKeyword || expectedLocation)) {
+            const submitted = await fillAndSubmitJobSearch(
+                expectedKeyword,
+                expectedLocation,
+            );
+
+            if (submitted.success) {
+                const deadline = Date.now() + 12_000;
+
+                while (Date.now() < deadline) {
+                    searchMatched = evaluateSearchMatch(
+                        expectedKeyword,
+                        expectedLocation,
+                    );
+
+                    if (searchMatched) {
+                        return {
+                            success: true,
+                            searchMatched: true,
+                            submitted: true,
+                        };
+                    }
+
+                    await humanPause(400, 700);
+                }
+            }
+
             return {
                 success: false,
                 searchMatched: false,

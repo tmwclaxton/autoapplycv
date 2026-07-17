@@ -112,7 +112,8 @@ export function isGlassdoorJobsSearchUrl(url) {
 
         return (
             isGlassdoorHostname(parsed.hostname) &&
-            /^\/Job\/(jobs|index)\.htm$/i.test(parsed.pathname)
+            (/^\/Job\/(jobs|index)\.htm$/i.test(parsed.pathname) ||
+                /^\/Job\/.+-jobs-SRCH_/i.test(parsed.pathname))
         );
     } catch {
         return false;
@@ -208,10 +209,14 @@ export function urlsMatchGlassdoorSearch(
 
         const currentKeyword = current.searchParams.get('sc.keyword0') || '';
         const expectedKeyword = expected.searchParams.get('sc.keyword0') || '';
+        const currentPathSlug = slugifyGlassdoorSegment(current.pathname);
+        const expectedKeywordSlug = slugifyGlassdoorSegment(expectedKeyword);
+        const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(current.pathname);
 
         if (
-            slugifyGlassdoorSegment(currentKeyword) !==
-            slugifyGlassdoorSegment(expectedKeyword)
+            expectedKeywordSlug &&
+            slugifyGlassdoorSegment(currentKeyword) !== expectedKeywordSlug &&
+            !(seoSearch && currentPathSlug.includes(expectedKeywordSlug))
         ) {
             return false;
         }
@@ -220,11 +225,12 @@ export function urlsMatchGlassdoorSearch(
         const expectedLocation =
             expected.searchParams.get('locKeyword') ||
             String(filters?.location || '').trim();
+        const expectedLocationSlug = slugifyGlassdoorSegment(expectedLocation);
 
         if (
-            expectedLocation &&
-            slugifyGlassdoorSegment(currentLocation) !==
-                slugifyGlassdoorSegment(expectedLocation)
+            expectedLocationSlug &&
+            slugifyGlassdoorSegment(currentLocation) !== expectedLocationSlug &&
+            !(seoSearch && currentPathSlug.includes(expectedLocationSlug))
         ) {
             return false;
         }

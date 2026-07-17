@@ -60,7 +60,7 @@ describe('glassdoor-platform', () => {
         assert.equal(isGlassdoorHostname('www.indeed.com'), false);
     });
 
-    it('isGlassdoorJobsSearchUrl matches jobs.htm and index.htm search pages', () => {
+    it('isGlassdoorJobsSearchUrl matches jobs.htm, index.htm, and SEO SRCH pages', () => {
         assert.equal(
             isGlassdoorJobsSearchUrl('https://www.glassdoor.com/Job/jobs.htm?sc.keyword0=engineer'),
             true,
@@ -70,8 +70,29 @@ describe('glassdoor-platform', () => {
             true,
         );
         assert.equal(
+            isGlassdoorJobsSearchUrl(
+                'https://www.glassdoor.co.uk/Job/united-kingdom-software-engineer-jobs-SRCH_IL.0,14_IN2_KO15,33.htm',
+            ),
+            true,
+        );
+        assert.equal(
             isGlassdoorJobsSearchUrl('https://www.glassdoor.com/job-listing/job.htm?jl=1'),
             false,
+        );
+    });
+
+    it('urlsMatchGlassdoorSearch accepts SEO SRCH paths with keyword and location slugs', () => {
+        const expected = buildGlassdoorJobSearchUrl('software engineer', {
+            filters: { location: 'United Kingdom' },
+        });
+
+        assert.equal(
+            urlsMatchGlassdoorSearch(
+                'https://www.glassdoor.co.uk/Job/united-kingdom-software-engineer-jobs-SRCH_IL.0,14_IN2_KO15,33.htm',
+                expected,
+                { location: 'United Kingdom' },
+            ),
+            true,
         );
     });
 
