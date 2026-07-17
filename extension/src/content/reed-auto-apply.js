@@ -972,32 +972,50 @@ const AutoCVApplyReedAutoApply = (() => {
             // Reed screening Continue is often type=submit. On the final step that
             // posts the application and closes the modal - treat as submit so the
             // orchestrator waits for confirmation instead of counting a failed continue.
-            const verifyAfterContinue = verifySubmitted();
+            const resolveContinueAsSubmit = () => {
+                const verifyAfterContinue = verifySubmitted();
 
-            if (verifyAfterContinue.submitted) {
-                return {
-                    success: true,
-                    action: 'submit',
-                    submitted: true,
-                    pendingConfirmation: false,
-                    transitioned: true,
-                    stepFingerprint: 'submitted',
-                    validationErrors: [],
-                    confirmation: verifyAfterContinue.confirmation,
-                };
+                if (verifyAfterContinue.submitted) {
+                    return {
+                        success: true,
+                        action: 'submit',
+                        submitted: true,
+                        pendingConfirmation: false,
+                        transitioned: true,
+                        stepFingerprint: 'submitted',
+                        validationErrors: [],
+                        confirmation: verifyAfterContinue.confirmation,
+                    };
+                }
+
+                if (!isReedApplyModalOpen()) {
+                    return {
+                        success: true,
+                        action: 'submit',
+                        submitted: false,
+                        pendingConfirmation: true,
+                        transitioned: true,
+                        stepFingerprint: readStepFingerprint(),
+                        validationErrors: readValidationErrors(),
+                        confirmation: null,
+                    };
+                }
+
+                return null;
+            };
+
+            let continueAsSubmit = resolveContinueAsSubmit();
+
+            if (continueAsSubmit) {
+                return continueAsSubmit;
             }
 
-            if (!isReedApplyModalOpen()) {
-                return {
-                    success: true,
-                    action: 'submit',
-                    submitted: false,
-                    pendingConfirmation: true,
-                    transitioned: true,
-                    stepFingerprint: readStepFingerprint(),
-                    validationErrors: readValidationErrors(),
-                    confirmation: null,
-                };
+            // Modal close can lag the Continue click by a beat.
+            await humanPause(500, 900);
+            continueAsSubmit = resolveContinueAsSubmit();
+
+            if (continueAsSubmit) {
+                return continueAsSubmit;
             }
 
             let nextFingerprint = readStepFingerprint();

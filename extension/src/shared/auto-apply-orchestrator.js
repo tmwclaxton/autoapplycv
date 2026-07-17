@@ -7081,12 +7081,32 @@ async function processReedJob(
         }
 
         if (!applyState?.open) {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: Reed modal closed - confirming submission…`,
+            );
+
             const closedVerify = await sendReedMessage(
                 tabId,
                 'REED_VERIFY_SUBMITTED',
             );
 
             if (closedVerify?.submitted) {
+                submitted = true;
+                break;
+            }
+
+            const confirmResult = await waitForApplicationSubmitConfirmation(
+                tabId,
+                REED_PLATFORM_ID,
+                session,
+            );
+
+            if (confirmResult.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (confirmResult.submitted) {
                 submitted = true;
             }
 
