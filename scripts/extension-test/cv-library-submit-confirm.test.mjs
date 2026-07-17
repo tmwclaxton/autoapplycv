@@ -11,17 +11,17 @@ const ORCHESTRATOR = join(ROOT, 'extension/src/shared/cv-library-orchestrator.js
 test('CV-Library verifies confirm URL and Application sent / Success copy', () => {
     const source = readFileSync(SOURCE, 'utf8');
 
-    assert.match(source, /isCvLibraryConfirmPage/);
-    assert.match(source, /job\\\/apply\\\/\\d\+\\\/confirm/);
-    assert.match(source, /application \(?:has been \)?sent/);
-    assert.match(source, /\^success!\?\$/);
-    assert.match(source, /isPreviouslyAppliedStepLabel/);
-    assert.match(source, /alreadyApplied/);
+    assert.ok(source.includes('isCvLibraryConfirmPage'));
+    assert.ok(source.includes('/job\\/apply\\/\\d+\\/confirm'));
+    assert.ok(source.includes('application (?:has been )?sent'));
+    assert.ok(source.includes('^success!?$'));
+    assert.ok(source.includes('isPreviouslyAppliedStepLabel'));
+    assert.ok(source.includes('alreadyApplied'));
 });
 
 test('CV-Library orchestrator skips previously applied apply steps', () => {
     const source = readFileSync(ORCHESTRATOR, 'utf8');
 
-    assert.match(source, /alreadyApplied/);
-    assert.match(source, /reason: 'already_applied'/);
+    assert.ok(source.includes('alreadyApplied'));
+    assert.ok(source.includes("reason: 'already_applied'"));
 });
