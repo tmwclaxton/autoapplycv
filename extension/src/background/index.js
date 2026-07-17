@@ -1355,6 +1355,7 @@ function sanitizeAutoApplySessionResponse(session) {
                 resumeAt: session.pauseContext.resumeAt,
                 captcha: Boolean(session.pauseContext.captcha),
                 identityConfirm: Boolean(session.pauseContext.identityConfirm),
+                loginRequired: Boolean(session.pauseContext.loginRequired),
             }
             : null,
     };

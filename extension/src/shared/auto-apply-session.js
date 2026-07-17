@@ -37,6 +37,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string|null} [validationError]
  * @property {boolean} [captcha]
  * @property {boolean} [identityConfirm]
+ * @property {boolean} [loginRequired]
  */
 
 /**

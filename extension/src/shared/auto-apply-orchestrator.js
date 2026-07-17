@@ -990,6 +990,7 @@ function sanitizeSessionForBroadcast(session) {
                   validationError: session.pauseContext.validationError,
                   captcha: Boolean(session.pauseContext.captcha),
                   identityConfirm: Boolean(session.pauseContext.identityConfirm),
+                  loginRequired: Boolean(session.pauseContext.loginRequired),
               }
             : null,
     };
