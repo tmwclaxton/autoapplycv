@@ -543,14 +543,71 @@ const AutoCVApplyFieldInventory = (() => {
     }
 
     function resolveLinkedInEasyApplyInventoryRoot() {
-        if (typeof AutoCVApplyLinkedInAutoApply?.readEasyApplyModal !== 'function') {
+        const linkedInApi = typeof AutoCVApplyLinkedInAutoApply !== 'undefined'
+            ? AutoCVApplyLinkedInAutoApply
+            : (typeof window !== 'undefined' ? window.AutoCVApplyLinkedInAutoApply : null);
+
+        if (typeof linkedInApi?.readEasyApplyModal !== 'function') {
             return null;
         }
 
         try {
-            return AutoCVApplyLinkedInAutoApply.readEasyApplyModal() || null;
+            return linkedInApi.readEasyApplyModal() || null;
         } catch {
             return null;
+        }
+    }
+
+    function isLinkedInJobsApplySurfaceLocation() {
+        try {
+            const host = window.location.hostname.replace(/^www\./, '');
+            const path = window.location.pathname || '';
+
+            return host === 'linkedin.com'
+                && (path.startsWith('/jobs/search') || path.startsWith('/jobs/view/'));
+        } catch {
+            return false;
+        }
+    }
+
+    function resolveLinkedInJobDetailInventoryRoot() {
+        const selectors = [
+            '.jobs-search__job-details--container',
+            '.jobs-search__job-details',
+            '.jobs-details__main-content',
+            '.jobs-details',
+            '.job-view-layout',
+            '#job-details',
+        ];
+
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+
+            if (element) {
+                return element;
+            }
+        }
+
+        return null;
+    }
+
+    function appendSnapshotFromRootIncludingSameOriginFrames(root, profile, settings, memo, merged, jobPostingLocation) {
+        appendSnapshotFromRoot(root, profile, settings, memo, merged, jobPostingLocation);
+
+        if (!root || typeof root.querySelectorAll !== 'function') {
+            return;
+        }
+
+        for (const iframe of root.querySelectorAll('iframe')) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow?.document;
+
+                if (doc) {
+                    appendSnapshotFromRoot(doc, profile, settings, memo, merged, jobPostingLocation);
+                }
+            } catch {
+                // Cross-origin iframe - skip.
+            }
         }
     }
 
@@ -573,6 +630,35 @@ const AutoCVApplyFieldInventory = (() => {
             inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames scoped to Easy Apply modal', {
                 elementCount: merged.elements.length,
                 controlCount: merged.controls.length,
+            });
+
+            return merged;
+        }
+
+        // LinkedIn jobs SERP/view without modal: job detail / apply regions only.
+        // Never walk the full document + tracker iframes (that was ~45s of filter checkboxes).
+        if (isLinkedInJobsApplySurfaceLocation()) {
+            const jobDetailRoot = resolveLinkedInJobDetailInventoryRoot();
+
+            if (jobDetailRoot) {
+                appendSnapshotFromRootIncludingSameOriginFrames(
+                    jobDetailRoot,
+                    profile,
+                    settings,
+                    memo,
+                    merged,
+                    jobPostingLocation,
+                );
+                inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames scoped to LinkedIn job detail', {
+                    elementCount: merged.elements.length,
+                    controlCount: merged.controls.length,
+                });
+
+                return merged;
+            }
+
+            inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames skipped LinkedIn SERP without job detail', {
+                elementCount: 0,
             });
 
             return merged;

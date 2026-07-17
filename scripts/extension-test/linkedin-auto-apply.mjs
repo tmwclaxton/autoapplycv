@@ -16,10 +16,10 @@ import {
     isLinkedInJobsSearchUrl,
     jobCardHasEasyApply,
     jobCardIsAlreadyApplied,
-    LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
     parseLinkedInJobCards,
+    queryLinkedInJobDetailInventoryRoot,
     readJobIdFromCard,
-    resolveLinkedInDraftAllGuard,
+    resolveLinkedInDraftAllInventoryMode,
 } from '../../extension/src/shared/linkedin-platform.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -160,7 +160,7 @@ const cases = [
         },
     },
     {
-        name: 'Draft All requires open Easy Apply on LinkedIn jobs surfaces',
+        name: 'Draft All inventories LinkedIn jobs without requiring Easy Apply',
         fn: () => {
             const searchResultsUrl =
                 'https://www.linkedin.com/jobs/search-results/?currentJobId=4440534304';
@@ -177,22 +177,58 @@ const cases = [
                 false,
             );
             assert.equal(
-                resolveLinkedInDraftAllGuard(searchResultsUrl, { open: false }),
-                LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
-            );
-            assert.equal(
-                resolveLinkedInDraftAllGuard(searchResultsUrl, null),
-                LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY,
-            );
-            assert.equal(
-                resolveLinkedInDraftAllGuard(searchResultsUrl, { open: true }),
-                null,
-            );
-            assert.equal(
-                resolveLinkedInDraftAllGuard('https://boards.greenhouse.io/x', {
-                    open: false,
+                resolveLinkedInDraftAllInventoryMode(searchResultsUrl, {
+                    easyApplyOpen: true,
                 }),
+                'easy_apply_modal',
+            );
+            assert.equal(
+                resolveLinkedInDraftAllInventoryMode(searchResultsUrl, {
+                    easyApplyOpen: false,
+                    hasJobDetailRoot: true,
+                }),
+                'job_detail',
+            );
+            assert.equal(
+                resolveLinkedInDraftAllInventoryMode(searchResultsUrl, {
+                    easyApplyOpen: false,
+                    hasJobDetailRoot: false,
+                }),
+                'linkedin_jobs_empty',
+            );
+            assert.equal(
+                resolveLinkedInDraftAllInventoryMode(
+                    'https://boards.greenhouse.io/x',
+                    { easyApplyOpen: false, hasJobDetailRoot: false },
+                ),
+                'full',
+            );
+
+            const serpDom = new JSDOM(`<!doctype html><html><body>
+                <aside class="search-reusables__filter-list">
+                    <label><input type="checkbox" name="f_AL"> Easy Apply</label>
+                    <label><input type="checkbox" name="f_WT"> Remote</label>
+                </aside>
+                <div class="jobs-search__job-details">
+                    <button type="button">Easy Apply</button>
+                    <div id="job-details"><p>Role description</p></div>
+                </div>
+            </body></html>`).window.document;
+
+            const detailRoot = queryLinkedInJobDetailInventoryRoot(serpDom);
+            assert.ok(detailRoot, 'expected job detail root on SERP');
+            assert.equal(
+                detailRoot.classList.contains('jobs-search__job-details'),
+                true,
+            );
+            assert.equal(
+                detailRoot.querySelector('input[type="checkbox"]'),
                 null,
+                'job detail scope must exclude SERP filter checkboxes',
+            );
+            assert.ok(
+                serpDom.querySelectorAll('aside input[type="checkbox"]').length >= 2,
+                'fixture should include SERP filters outside detail scope',
             );
         },
     },

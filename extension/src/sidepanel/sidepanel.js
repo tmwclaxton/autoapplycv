@@ -116,6 +116,8 @@ async function startAnswerQuestionsOnPage() {
         return;
     }
 
+    // Stay on the current sidepanel tab - Answer All fills the active browser page.
+    // Do not switch to Auto Apply (that is a separate navigator feature).
     setAnswerQuestionsRunning(true, 'Answering all questions on the web page…');
     sidepanelLog.logInfo('draft-all.start', 'Answer All Questions on Web Page clicked', {});
 

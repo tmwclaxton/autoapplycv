@@ -78,10 +78,7 @@ import {
     sendTabMessage,
     validateBlockedFieldOnTab,
 } from './form-frame-messaging.js';
-import {
-    isLinkedInJobsApplySurfaceUrl,
-    resolveLinkedInDraftAllGuard,
-} from './linkedin-platform.js';
+import { isLinkedInJobsApplySurfaceUrl } from './linkedin-platform.js';
 import {
     buildPendingFieldsFromUnfilledSnapshot,
     enrichFieldsWithJobPostingLocation,
@@ -1748,8 +1745,9 @@ async function prefetchSnapshotForTab(tabId, tab) {
         return;
     }
 
-    // LinkedIn SERP/job-view without Easy Apply is not a Draft All target - skip the
-    // expensive multi-frame snapshot that hangs on tracker iframes for ~45s.
+    // LinkedIn jobs SERP/view without Easy Apply: skip prefetch. Live Draft All scopes
+    // inventory to the job detail pane (or returns empty quickly) instead of hanging on
+    // tracker iframes / filter checkboxes for ~45s.
     if (isLinkedInJobsApplySurfaceUrl(tab.url || pageUrl)) {
         const modalState = await sendTabMessage(tabId, { type: 'LINKEDIN_EASY_APPLY_STATE' }, 0, {
             timeoutMs: 2_000,
@@ -1965,7 +1963,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     const formFrameId = initialCollect.formFrameId;
 
     if (!initialCollect.snapshot?.elements?.length) {
-        return { error: 'No empty fields found to draft.' };
+        return { error: 'No application questions found on this page.' };
     }
 
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -1986,7 +1984,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         const fields = inventoryFieldsToDraftShape(mechanicalFields);
 
         if (fields.length === 0) {
-            return { error: 'No empty fields found to draft.' };
+            return { error: 'No application questions found on this page.' };
         }
 
         return { fields, job, formFrameId, inventorySource: 'mechanical' };
@@ -2046,7 +2044,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     );
 
     if (fields.length === 0) {
-        return { error: 'No empty fields found to draft.' };
+        return { error: 'No application questions found on this page.' };
     }
 
     return { fields, job, formFrameId, inventorySource: inventory.source || 'llm' };
@@ -2077,31 +2075,6 @@ async function runDraftAll(tabId, e2eOptions = null) {
             settings,
             e2eMock: Boolean(e2eOptions?.fields?.length),
         }, tabId);
-
-        if (!e2eOptions?.fields?.length && isLinkedInJobsApplySurfaceUrl(tab.url || '')) {
-            perf.start('linkedin.easy-apply-guard');
-            const modalState = await sendTabMessage(tabId, { type: 'LINKEDIN_EASY_APPLY_STATE' }, 0, {
-                timeoutMs: 3_000,
-            }).catch((error) => {
-                logDebug('background', 'draft-all.linkedin-guard', 'Easy Apply state check failed', {
-                    error: error instanceof Error ? error.message : error,
-                }, tabId);
-
-                return null;
-            });
-            perf.end('linkedin.easy-apply-guard');
-
-            const guardError = resolveLinkedInDraftAllGuard(tab.url, modalState);
-
-            if (guardError) {
-                logWarn('background', 'draft-all.linkedin-guard', 'Draft All blocked without Easy Apply modal', {
-                    url: tab.url,
-                    modalOpen: Boolean(modalState?.open),
-                }, tabId);
-
-                return { error: guardError };
-            }
-        }
 
         const resolved = e2eOptions?.fields?.length
             ? {

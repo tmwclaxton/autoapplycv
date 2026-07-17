@@ -172,7 +172,7 @@ export function isLinkedInJobViewUrl(url) {
 }
 
 /**
- * LinkedIn jobs search or job-view surfaces where Draft All must target Easy Apply.
+ * LinkedIn jobs search or job-view surfaces where Draft All should avoid SERP filter harvest.
  * Includes /jobs/search/ and /jobs/search-results/.
  *
  * @param {string} url
@@ -182,27 +182,67 @@ export function isLinkedInJobsApplySurfaceUrl(url) {
     return isLinkedInJobsSearchUrl(url) || isLinkedInJobViewUrl(url);
 }
 
-export const LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY =
-    'Open Easy Apply first. Draft All fills LinkedIn Easy Apply questions only - not the jobs search page.';
+/** Job detail / apply form regions - never the left SERP filter rail. */
+export const LINKEDIN_JOB_DETAIL_INVENTORY_SELECTORS = [
+    '.jobs-search__job-details--container',
+    '.jobs-search__job-details',
+    '.jobs-details__main-content',
+    '.jobs-details',
+    '.job-view-layout',
+    '#job-details',
+];
 
 /**
- * Fail fast when Draft All is pressed on LinkedIn jobs search/view without an open Easy Apply modal.
- * Avoids harvesting SERP filters across many tracker frames for tens of seconds.
+ * @typedef {'full'|'easy_apply_modal'|'job_detail'|'linkedin_jobs_empty'} LinkedInDraftAllInventoryMode
+ */
+
+/**
+ * Decide how Draft All should inventory a LinkedIn page.
+ * - Easy Apply open → modal only (fast, correct)
+ * - Modal closed on jobs SERP/view → job detail pane only (skip filter rails / tracker frames)
+ * - No detail pane → empty snapshot (caller shows "no questions"), never a hard Easy Apply redirect
  *
  * @param {string|null|undefined} url
- * @param {{ open?: boolean }|null|undefined} modalState
- * @returns {string|null} Error message, or null when Draft All may proceed.
+ * @param {{ easyApplyOpen?: boolean, hasJobDetailRoot?: boolean }} [options]
+ * @returns {LinkedInDraftAllInventoryMode}
  */
-export function resolveLinkedInDraftAllGuard(url, modalState) {
+export function resolveLinkedInDraftAllInventoryMode(url, {
+    easyApplyOpen = false,
+    hasJobDetailRoot = false,
+} = {}) {
     if (!isLinkedInJobsApplySurfaceUrl(url || '')) {
+        return 'full';
+    }
+
+    if (easyApplyOpen) {
+        return 'easy_apply_modal';
+    }
+
+    if (hasJobDetailRoot) {
+        return 'job_detail';
+    }
+
+    return 'linkedin_jobs_empty';
+}
+
+/**
+ * @param {ParentNode|null|undefined} rootDocument
+ * @returns {Element|null}
+ */
+export function queryLinkedInJobDetailInventoryRoot(rootDocument) {
+    if (!rootDocument || typeof rootDocument.querySelector !== 'function') {
         return null;
     }
 
-    if (modalState?.open) {
-        return null;
+    for (const selector of LINKEDIN_JOB_DETAIL_INVENTORY_SELECTORS) {
+        const element = rootDocument.querySelector(selector);
+
+        if (element) {
+            return element;
+        }
     }
 
-    return LINKEDIN_DRAFT_ALL_REQUIRES_EASY_APPLY;
+    return null;
 }
 
 /**
