@@ -65,9 +65,22 @@ export function createCvLibraryOrchestrator(deps) {
                     invalidateTabFrameCache(tabId);
                     await logSession('warn', `[cvlibrary_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
 
+                    let onApplyFlow = false;
+
                     try {
-                        await chrome.tabs.reload(tabId);
-                        await waitForTabLoadComplete(tabId);
+                        const tab = await chrome.tabs.get(tabId);
+                        onApplyFlow = /\/job\/apply\//i.test(tab?.url || '');
+                    } catch {
+                        onApplyFlow = false;
+                    }
+
+                    try {
+                        // Never reload an open apply form - that drops Submit controls mid-step.
+                        if (!onApplyFlow) {
+                            await chrome.tabs.reload(tabId);
+                            await waitForTabLoadComplete(tabId);
+                        }
+
                         await waitForCvLibraryContentScript(tabId);
                         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                         await sendTabMessage(tabId, { type: 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});

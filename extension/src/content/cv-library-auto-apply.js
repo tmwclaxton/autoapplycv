@@ -586,18 +586,22 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function findSubmitButton() {
-        const scope = readApplyRoot();
+        const scope = readApplyRoot() || document;
 
         for (const testId of ['submit-button-apply', 'submit-application-button', 'submit-button', 'send-application-button']) {
             const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
 
-            if (byTestId instanceof HTMLElement && !byTestId.disabled) {
+            if (byTestId instanceof HTMLElement && !byTestId.disabled && isElementVisible(byTestId)) {
                 return byTestId;
             }
         }
 
-        for (const button of scope.querySelectorAll('button, [role="button"]')) {
+        for (const button of scope.querySelectorAll('button, [role="button"], input[type="submit"], a')) {
             if (!(button instanceof HTMLElement) || button.disabled) {
+                continue;
+            }
+
+            if (!(button instanceof HTMLInputElement) && !isElementVisible(button)) {
                 continue;
             }
 
@@ -605,9 +609,13 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(button.getAttribute('aria-label') || button.textContent);
+            const label = normalize(
+                button.getAttribute('aria-label')
+                || button.getAttribute('value')
+                || button.textContent,
+            );
 
-            if (/^(submit|submit application|send application)$/i.test(label)
+            if (/^(submit|submit application|send application|re-apply for this job)$/i.test(label)
                 || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))) {
                 return button;
             }
