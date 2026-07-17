@@ -545,8 +545,19 @@ const AutoCVApplyReedAutoApply = (() => {
     }
 
     function readStepLabel() {
-        if (isReedApplyModalOpen()) {
-            return 'Application review';
+        const modal = document.querySelector('[data-qa="apply-job-modal"]');
+
+        if (modal instanceof HTMLElement) {
+            const modalTitle = modal.querySelector('h3, h2, [data-qa="application-step-title"]');
+            const title = normalize(modalTitle?.textContent);
+
+            if (title) {
+                return title;
+            }
+
+            if (modal.querySelector('[data-qa="screening-questions-container"], .screening-questions_container__PaYsQ')) {
+                return 'Application questions';
+            }
         }
 
         const applyTitle = document.querySelector('[data-qa="application-step-title"], [data-qa="application-form-title"]');
@@ -641,19 +652,48 @@ const AutoCVApplyReedAutoApply = (() => {
     }
 
     function findSubmitButton() {
-        const modalSubmit = document.querySelector(
-            '[data-qa="apply-job-modal"] [data-qa="submit-application-btn"], button[data-qa="submit-application-btn"]',
-        );
+        const modal = document.querySelector('[data-qa="apply-job-modal"]');
+
+        if (modal instanceof HTMLElement) {
+            const modalSubmit = modal.querySelector(
+                '[data-qa="submit-application-btn"], button[type="submit"].btn-primary, button.btn-primary[type="submit"]',
+            );
+
+            if (modalSubmit instanceof HTMLElement && !modalSubmit.disabled && isElementVisible(modalSubmit)) {
+                return modalSubmit;
+            }
+
+            for (const button of modal.querySelectorAll('button, [role="button"], input[type="submit"]')) {
+                if (!(button instanceof HTMLElement) || button.disabled || !isElementVisible(button)) {
+                    continue;
+                }
+
+                if (button.closest('header, .modal-header')) {
+                    continue;
+                }
+
+                const label = normalize(
+                    button.getAttribute('aria-label')
+                    || button.getAttribute('value')
+                    || button.textContent,
+                );
+
+                if (/^(submit|send application|submit application|continue|next|save and continue|apply|apply now)$/i.test(label)
+                    || button.matches('button[type="submit"]')) {
+                    return button;
+                }
+            }
+        }
+
+        const modalSubmit = document.querySelector('button[data-qa="submit-application-btn"]');
 
         if (modalSubmit instanceof HTMLElement && !modalSubmit.disabled) {
             return modalSubmit;
         }
 
-        // Review/submit CTA is often apply-btn inside the Easy Apply modal.
-        if (isReedApplyModalOpen() || isReedApplySubmitPage()) {
-            const applyBtn = document.querySelector(
-                '[data-qa="apply-job-modal"] button[data-qa="apply-btn"]:not(.redirectApply), button[data-qa="apply-btn"]:not(.redirectApply)',
-            );
+        // Full-page apply route only - never the job-detail Apply now control.
+        if (isReedApplySubmitPage()) {
+            const applyBtn = document.querySelector('button[data-qa="apply-btn"]:not(.redirectApply)');
 
             if (applyBtn instanceof HTMLElement && !applyBtn.disabled && isElementVisible(applyBtn)) {
                 return applyBtn;
@@ -663,7 +703,7 @@ const AutoCVApplyReedAutoApply = (() => {
         const scopes = [readApplyRoot(), document];
 
         for (const scope of scopes) {
-            for (const testId of ['submit-button', 'submit-application-button', 'send-application-button', 'apply-button', 'apply-btn']) {
+            for (const testId of ['submit-button', 'submit-application-button', 'send-application-button', 'apply-button']) {
                 const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
 
                 if (byTestId instanceof HTMLElement && !byTestId.disabled && !byTestId.classList.contains('redirectApply')) {
@@ -676,7 +716,7 @@ const AutoCVApplyReedAutoApply = (() => {
                     continue;
                 }
 
-                if (button.matches('[data-qa="apply-btn"].redirectApply')) {
+                if (button.matches('[data-qa="apply-btn"]')) {
                     continue;
                 }
 
@@ -688,9 +728,7 @@ const AutoCVApplyReedAutoApply = (() => {
                 const label = normalize(button.getAttribute('aria-label') || button.textContent);
 
                 if (/^(submit|send application|submit application)$/i.test(label)
-                    || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))
-                    || ((isReedApplyModalOpen() || isReedApplySubmitPage())
-                        && /^(apply|apply now)$/i.test(label))) {
+                    || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))) {
                     return button;
                 }
             }
@@ -737,16 +775,15 @@ const AutoCVApplyReedAutoApply = (() => {
         const continueButton = findContinueButton();
         const validationErrors = readValidationErrors();
         const label = readStepLabel();
-        const isReviewStep = isReedApplyModalOpen()
-            || /review|check your application|summary/i.test(label || '')
+        const isReviewStep = /review|check your application|summary/i.test(label || '')
             || Boolean(document.querySelector('[data-qa="application-review-summary"]'));
 
         return {
             open: true,
             submitted: false,
             canContinue: Boolean(continueButton) && !isReviewStep,
-            canSubmit: Boolean(submitButton) || isReviewStep || Boolean(readApplyButton()),
-            hasSubmitButton: Boolean(submitButton) || Boolean(readApplyButton()),
+            canSubmit: Boolean(submitButton) || isReviewStep,
+            hasSubmitButton: Boolean(submitButton),
             stepLabel: label,
             actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
             stepFingerprint: readStepFingerprint(),
@@ -864,8 +901,8 @@ const AutoCVApplyReedAutoApply = (() => {
         const previousFingerprint = readStepFingerprint();
         const submitButton = findSubmitButton();
         const continueButton = findContinueButton();
-        const isReview = isReedApplyModalOpen()
-            || /review|check your application|summary/i.test(readStepLabel() || '');
+        const stepLabel = readStepLabel() || '';
+        const isReview = /review|check your application|summary/i.test(stepLabel);
 
         if (submitButton && (isReview || !continueButton)) {
             await clickElement(submitButton);
