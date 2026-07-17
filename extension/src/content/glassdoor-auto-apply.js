@@ -734,19 +734,28 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
 
     function scanPageHealth() {
         const bodyText = normalize(document.body?.textContent);
+        const title = normalize(document.title);
 
         if (
-            /humans only|mistakenly blocked|security protections may/i.test(
+            /^security$/i.test(title) ||
+            /humans only|mistakenly blocked|security protections may|verify you are human/i.test(
                 bodyText,
             )
         ) {
             return {
                 ok: false,
+                captcha: true,
                 primary: {
+                    code: 'captcha_required',
                     message:
-                        'Glassdoor blocked automated access. Sign in manually and retry.',
+                        'Glassdoor security check - solve in the browser, then resume Auto Apply.',
                 },
-                blocking: ['Glassdoor bot protection page'],
+                blocking: [
+                    {
+                        code: 'captcha_required',
+                        message: 'Glassdoor security check',
+                    },
+                ],
             };
         }
 

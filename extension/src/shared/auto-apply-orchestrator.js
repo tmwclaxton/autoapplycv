@@ -7439,6 +7439,18 @@ async function collectGlassdoorJobsFromTab(tabId, session) {
     let lastError = 'Could not read Glassdoor job cards.';
 
     while (Date.now() < deadline) {
+        const health = await sendGlassdoorMessage(
+            tabId,
+            'GLASSDOOR_SCAN_PAGE_HEALTH',
+        ).catch(() => null);
+
+        if (health?.captcha || health?.primary?.code === 'captcha_required') {
+            throw new Error(
+                health.primary?.message ||
+                    'Glassdoor security check - solve in the browser, then start Auto Apply again.',
+            );
+        }
+
         const prepared = await sendGlassdoorMessage(
             tabId,
             'GLASSDOOR_PREPARE_JOB_SEARCH',
