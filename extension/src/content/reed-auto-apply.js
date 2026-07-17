@@ -69,12 +69,14 @@ var AutoCVApplyReedAutoApply = (() => {
 
         const path = window.location.pathname;
 
+        // Job detail with an Apply button is NOT the apply flow - the Easy Apply
+        // modal (or /jobs/apply route) must be open. Treating Apply-ready JD pages
+        // as open made Draft All / advance run before the modal existed.
         return /^\/jobs\/apply\/\d+/i.test(path)
             || /^\/jobs\/application\/\d+/i.test(path)
             || /\/\d+\/apply$/i.test(path)
             || Boolean(document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]'))
-            || isReedApplyModalOpen()
-            || ((isReedJobPage() || (isReedSearchPage() && readJobIdFromUrl())) && Boolean(readApplyButton()));
+            || isReedApplyModalOpen();
     }
 
     function isReedApplyModalOpen() {
@@ -92,6 +94,67 @@ var AutoCVApplyReedAutoApply = (() => {
             || modal.classList.contains('show')
             || modal.classList.contains('d-block')
             || modal.getAttribute('aria-hidden') === 'false';
+    }
+
+    /**
+     * Reed's first Easy Apply step is often a profile + CV summary with
+     * "Submit application" and no inventoriable inputs (About you / current CV).
+     */
+    function isReedApplicationSummaryStep() {
+        const modal = document.querySelector('[data-qa="apply-job-modal"]');
+
+        if (!(modal instanceof HTMLElement) || !isReedApplyModalOpen()) {
+            return false;
+        }
+
+        const hasSubmit = Boolean(modal.querySelector('[data-qa="submit-application-btn"]'));
+        const hasScreening = Boolean(modal.querySelector(
+            '[data-qa="screening-questions-container"], '
+            + '[class*="screening-questions_container"], '
+            + '[id^="question-wrapper-"]',
+        ));
+
+        if (!hasSubmit || hasScreening) {
+            return false;
+        }
+
+        return Boolean(modal.querySelector(
+            '[data-qa="about-you-edit-btn"], '
+            + '[data-qa="cv-name-card"], '
+            + '[data-qa="UpdateCvBtn"], '
+            + '[class*="about-you_card"]',
+        ));
+    }
+
+    function hasReedApplyStepControls() {
+        return Boolean(findSubmitButton() || findContinueButton())
+            || Boolean(document.querySelector(
+                '[data-qa="apply-job-modal"] [data-qa="screening-questions-container"], '
+                + '[data-qa="apply-job-modal"] [id^="question-wrapper-"], '
+                + '[data-qa="application-form"] input, '
+                + '[data-qa="application-form"] textarea, '
+                + '[data-qa="application-form"] select',
+            ));
+    }
+
+    async function waitForApplyModalContent(timeoutMs = 12_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            if (!isReedApplyModalOpen()
+                && !document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]')) {
+                await humanPause(350, 550);
+                continue;
+            }
+
+            if (hasReedApplyStepControls() || isReedApplicationSummaryStep()) {
+                return true;
+            }
+
+            await humanPause(350, 550);
+        }
+
+        return hasReedApplyStepControls() || isReedApplicationSummaryStep() || isReedApplyModalOpen();
     }
 
     function isEasyApplyHostPage() {
@@ -459,12 +522,15 @@ var AutoCVApplyReedAutoApply = (() => {
             };
         }
 
-        if (isReedApplyModalOpen()) {
-            return { success: true, reedApply: true, alreadyOpen: true };
-        }
+        if (isReedApplyModalOpen() || document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]')) {
+            const contentReady = await waitForApplyModalContent(8_000);
 
-        if (document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]')) {
-            return { success: true, reedApply: true, alreadyOpen: true };
+            return {
+                success: contentReady || isReedApplyModalOpen(),
+                reedApply: true,
+                alreadyOpen: true,
+                contentReady,
+            };
         }
 
         const applyButton = readApplyButton();
@@ -491,12 +557,16 @@ var AutoCVApplyReedAutoApply = (() => {
                 };
             }
 
-            if (isReedApplyModalOpen()) {
-                return { success: true, reedApply: true, navigating: false };
-            }
+            if (isReedApplyModalOpen()
+                || document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]')) {
+                const contentReady = await waitForApplyModalContent(8_000);
 
-            if (document.querySelector('[data-qa="application-form"], form[data-qa="application-form"]')) {
-                return { success: true, reedApply: true, navigating: false };
+                return {
+                    success: true,
+                    reedApply: true,
+                    navigating: false,
+                    contentReady,
+                };
             }
 
             await humanPause(350, 550);
@@ -807,27 +877,53 @@ var AutoCVApplyReedAutoApply = (() => {
         const continueButton = findContinueButton();
         const validationErrors = readValidationErrors();
         const label = readStepLabel();
-        const isReviewStep = /review|check your application|summary/i.test(label || '')
+        const summaryStep = isReedApplicationSummaryStep();
+        const isReviewStep = summaryStep
+            || /review|check your application|summary/i.test(label || '')
             || Boolean(document.querySelector('[data-qa="application-review-summary"]'));
 
         return {
             open: true,
+            modalOpen: isReedApplyModalOpen(),
             submitted: false,
             canContinue: Boolean(continueButton) && !isReviewStep,
             canSubmit: Boolean(submitButton) || isReviewStep,
             hasSubmitButton: Boolean(submitButton),
-            stepLabel: label,
+            stepLabel: label || (summaryStep ? 'Application' : null),
             actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
             stepFingerprint: readStepFingerprint(),
             validationErrors,
             isReviewStep,
+            contentReady: hasReedApplyStepControls() || summaryStep,
         };
     }
 
     function readAppliedConfirmationText() {
-        const body = normalize(document.body?.textContent || '');
+        // Prefer applied UI chrome over full body text - job descriptions can
+        // contain phrases like "successfully applied" that are not confirmations.
+        const markerRoots = [
+            document.querySelector('[class*="job-applied-card"]'),
+            document.querySelector('[data-qa="applied-btn"], [data-qa*="applied-label"], [data-qa="job-applied"]'),
+            document.querySelector('[data-qa="job-actions"], [data-qa="apply-section"], .job-actions'),
+            document.querySelector('[data-qa="apply-job-modal"]'),
+            document.querySelector('main, [role="main"]'),
+        ].filter((node) => node instanceof HTMLElement);
 
-        return body.match(/(?:application (?:has been )?submitted|thank you for applying|we received your application|successfully applied|your application has been sent|you have applied|you applied|application complete|application submitted|already applied)/i);
+        const pattern = /(?:application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|you applied(?: for this job)?|application complete|application submitted|already applied)/i;
+
+        for (const root of markerRoots) {
+            const match = normalize(root.textContent).match(pattern);
+
+            if (match) {
+                return match;
+            }
+        }
+
+        if (isReedApplySuccessPage()) {
+            return normalize(document.body?.textContent || '').match(pattern);
+        }
+
+        return null;
     }
 
     function hasAppliedUiMarker() {
@@ -835,7 +931,7 @@ var AutoCVApplyReedAutoApply = (() => {
             return true;
         }
 
-        if (document.querySelector('[data-qa="applied-btn"], [data-qa*="applied-label"], [data-qa="job-applied"]')) {
+        if (document.querySelector('[data-qa="applied-btn"], [data-qa*="applied-label"], [data-qa="job-applied"], [class*="job-applied-card"]')) {
             return true;
         }
 
@@ -944,7 +1040,8 @@ var AutoCVApplyReedAutoApply = (() => {
         const submitButton = findSubmitButton();
         const continueButton = findContinueButton();
         const stepLabel = readStepLabel() || '';
-        const isReview = /review|check your application|summary/i.test(stepLabel);
+        const isReview = isReedApplicationSummaryStep()
+            || /review|check your application|summary/i.test(stepLabel);
 
         if (submitButton && (isReview || !continueButton)) {
             await clickElement(submitButton);
@@ -1204,6 +1301,8 @@ var AutoCVApplyReedAutoApply = (() => {
         goToNextSearchPage,
         scanPageHealth,
         isReedApplyFlowPage,
+        isReedApplicationSummaryStep,
+        isReedApplyModalOpen,
         isReedSearchPage,
         isReedJobPage,
         isEasyApplyHostPage,

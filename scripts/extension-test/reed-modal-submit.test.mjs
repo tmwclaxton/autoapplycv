@@ -51,3 +51,49 @@ test('Reed Continue that closes the modal is treated as submit pending confirmat
     assert.ok(continueHandler.includes("action: 'submit'"));
     assert.ok(continueHandler.includes('pendingConfirmation: true'));
 });
+
+test('Reed apply flow open requires modal, not merely Apply button on JD', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+    const flowStart = source.indexOf('function isReedApplyFlowPage()');
+    const flowEnd = source.indexOf('function isReedApplyModalOpen()', flowStart);
+    const flowBody = source.slice(flowStart, flowEnd);
+
+    assert.ok(flowBody.includes('isReedApplyModalOpen()'));
+    assert.ok(
+        !flowBody.includes('Boolean(readApplyButton())'),
+        'Job-detail Apply button alone must not count as apply-flow open',
+    );
+});
+
+test('Reed Application summary (About you + CV + Submit) is a review/submit step', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+
+    assert.ok(source.includes('function isReedApplicationSummaryStep()'));
+    assert.ok(source.includes('[data-qa="submit-application-btn"]'));
+    assert.ok(source.includes('[data-qa="about-you-edit-btn"]'));
+    assert.ok(source.includes('[data-qa="cv-name-card"]'));
+    assert.ok(source.includes('waitForApplyModalContent'));
+
+    const stateStart = source.indexOf('function getReedApplyState()');
+    const stateBody = source.slice(stateStart, stateStart + 2500);
+
+    assert.ok(stateBody.includes('isReedApplicationSummaryStep()'));
+    assert.ok(stateBody.includes('modalOpen:'));
+    assert.ok(stateBody.includes('contentReady:'));
+});
+
+test('Reed Application summary fixture has Submit and no inventoriable inputs', () => {
+    const html = readFileSync(
+        join(ROOT, 'tests/fixtures/form-extraction/html/reed-application-summary-submit.html'),
+        'utf8',
+    );
+
+    assert.ok(html.includes('data-qa="apply-job-modal"'));
+    assert.ok(html.includes('data-qa="submit-application-btn"'));
+    assert.ok(html.includes('data-qa="about-you-edit-btn"'));
+    assert.ok(html.includes('data-qa="cv-name-card"'));
+    assert.ok(!html.includes('screening-questions-container'));
+    assert.ok(!html.includes('<input'));
+    assert.ok(!html.includes('<textarea'));
+    assert.ok(!html.includes('<select'));
+});

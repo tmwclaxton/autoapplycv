@@ -1374,6 +1374,13 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
 
 async function sendReedMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 2;
+    // Submit/Continue often navigates Reed away from the job page and kills the
+    // content-script port. Reloading destroys confirmation state and leaves Auto
+    // Apply on a location SERP with no modal - never reload for these types.
+    const noReloadOnMessagingError = new Set([
+        'REED_FILL_AND_ADVANCE',
+        'REED_VERIFY_SUBMITTED',
+    ]);
 
     for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
         try {
@@ -1396,6 +1403,10 @@ async function sendReedMessage(tabId, type, payload = {}, options = {}) {
                     ) {
                         throw loginError;
                     }
+                }
+
+                if (noReloadOnMessagingError.has(type)) {
+                    throw error;
                 }
 
                 invalidateTabFrameCache(tabId);
@@ -4106,11 +4117,20 @@ async function waitForReedApplyFlowOpen(tabId, timeoutMs = 30_000) {
             () => null,
         );
 
-        if (state?.open) {
+        if (state?.submitted) {
             return true;
         }
 
-        if (state?.submitted) {
+        // Require a real modal/form with controls - not merely open:true from a
+        // job-detail Apply button (legacy false positive).
+        if (
+            state?.open
+            && (state.modalOpen
+                || state.contentReady
+                || state.canContinue
+                || state.canSubmit
+                || state.isReviewStep)
+        ) {
             return true;
         }
 
@@ -7152,7 +7172,13 @@ async function processReedJob(
             randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400),
         );
 
-        const draftResult = applyState.isReviewStep
+        // Application summary (About you + CV + Submit) has no inventoriable
+        // fields - skip Draft All and advance straight to Submit.
+        const skipDraft =
+            applyState.isReviewStep
+            || (applyState.canSubmit && !applyState.canContinue);
+
+        const draftResult = skipDraft
             ? {
                   pendingFields: [],
                   filledFields: [],
