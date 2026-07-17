@@ -1,7 +1,7 @@
 /**
  * Indeed Apply DOM helpers for Auto Apply (content script global).
  */
-const AutoCVApplyIndeedAutoApply = (() => {
+var AutoCVApplyIndeedAutoApply = (() => {
     const sleep = (ms) =>
         new Promise((resolve) => window.setTimeout(resolve, ms));
 
@@ -2369,3 +2369,11 @@ const AutoCVApplyIndeedAutoApply = (() => {
         findJobCardById,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyIndeedAutoApply = AutoCVApplyIndeedAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyIndeedAutoApply = AutoCVApplyIndeedAutoApply;
+}

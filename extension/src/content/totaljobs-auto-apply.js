@@ -1,7 +1,7 @@
 /**
  * Totaljobs Apply DOM helpers for Auto Apply (content script global).
  */
-const AutoCVApplyTotalJobsAutoApply = (() => {
+var AutoCVApplyTotalJobsAutoApply = (() => {
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
@@ -810,3 +810,11 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         findJobCardById,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyTotalJobsAutoApply = AutoCVApplyTotalJobsAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyTotalJobsAutoApply = AutoCVApplyTotalJobsAutoApply;
+}

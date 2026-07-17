@@ -30,6 +30,8 @@ class CvProfile extends Model
         'extra_context',
         'application_settings',
         'application_answers',
+        'cover_letter_design',
+        'cover_letter_font',
         'raw_cv_text',
         'formatted_cv_text',
         'parsing_complete',

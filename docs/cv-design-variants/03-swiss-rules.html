@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV Variant 03 - Swiss Rules</title>
+  <link rel="stylesheet" href="shared/fonts.css" />
+  <style>
+    :root { --ink: #111111; --muted: #555; --line: #111; --paper: #fff; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: #ececec; color: var(--ink); }
+    .page { width: 210mm; min-height: 297mm; margin: 24px auto; background: var(--paper); padding: 40px 44px; box-shadow: 0 8px 28px rgba(0,0,0,.08); }
+    .top { display: grid; grid-template-columns: 1.4fr .8fr; gap: 24px; padding-bottom: 18px; border-bottom: 2px solid var(--line); }
+    .name { font-family: var(--font-display); font-weight: 700; font-size: 48px; letter-spacing: -0.045em; line-height: .95; }
+    .headline { font-family: var(--font-display); font-weight: 500; font-size: 15px; margin-top: 14px; letter-spacing: .04em; text-transform: uppercase; }
+    .contact { font-size: 11.5px; line-height: 1.55; text-align: right; color: var(--muted); align-self: end; }
+    .section { margin-top: 22px; display: grid; grid-template-columns: 28mm 1fr; gap: 18px; padding-top: 18px; border-top: 1px solid #ccc; }
+    .section:first-of-type { border-top: 0; padding-top: 0; }
+    .section__title { font-family: var(--font-display); font-weight: 600; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+    .summary { font-size: 13px; line-height: 1.55; color: var(--muted); }
+    .skills { list-style: none; display: flex; flex-wrap: wrap; gap: 0 14px; font-size: 12.5px; }
+    .skills li { position: relative; }
+    .skills li:not(:last-child)::after { content: '/'; margin-left: 14px; color: #aaa; }
+    .role { margin-bottom: 14px; }
+    .role__title { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    .role__meta { font-size: 11.5px; color: var(--muted); margin-top: 2px; letter-spacing: .02em; }
+    .role__sep { margin: 0 6px; }
+    .role__highlights { margin: 7px 0 0 16px; font-size: 12.5px; line-height: 1.45; }
+    .edu__degree { font-family: var(--font-display); font-weight: 600; font-size: 14px; }
+    .edu__meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    @media print { body { background: #fff; } .page { margin: 0; box-shadow: none; } }
+  </style>
+  
+</head>
+<body>
+  <main class="page" aria-label="CV preview Swiss Rules">
+
+    <header class="top">
+      <div>
+        <h1 class="name">James Mitchell</h1>
+        <p class="headline">Senior Laravel Developer</p>
+      </div>
+      <p class="contact">james.mitchell@example.com<br />+44 7837 370669<br />London, United Kingdom<br />linkedin.com/in/james-mitchell<br />jamesmitchell.dev</p>
+    </header>
+    <section class="section"><h2 class="section__title">Profile</h2><p class="summary">Backend engineer specialising in Laravel APIs, Vue frontends, and PostgreSQL at scale. Comfortable owning delivery from schema design through production observability.</p></section>
+    <section class="section"><h2 class="section__title">Skills</h2><ul class="skills"><li>PHP</li><li>Laravel</li><li>Vue</li><li>PostgreSQL</li><li>Redis</li><li>Docker</li><li>AWS</li><li>Inertia</li></ul></section>
+    <section class="section"><h2 class="section__title">Work</h2><div>
+      <article class="role">
+        <header class="role__head">
+          <h3 class="role__title">Senior Software Engineer</h3>
+          <p class="role__meta"><span class="role__company">Riverbank Systems</span><span class="role__sep">·</span><span>London</span><span class="role__sep">·</span><span class="role__dates">Mar 2021 - Present</span></p>
+        </header>
+        <ul class="role__highlights">
+          <li>Led migration of monolith to Laravel microservices serving 40k daily users</li><li>Built internal admin tooling with Vue 3 and Inertia</li><li>Cut p95 API latency 35% via query redesign and Redis caching</li>
+        </ul>
+      </article>
+      <article class="role">
+        <header class="role__head">
+          <h3 class="role__title">PHP Developer</h3>
+          <p class="role__meta"><span class="role__company">Coastal Digital</span><span class="role__sep">·</span><span>Bristol</span><span class="role__sep">·</span><span class="role__dates">Jul 2018 - Feb 2021</span></p>
+        </header>
+        <ul class="role__highlights">
+          <li>Shipped client portals and payment flows on Laravel and MySQL</li><li>Introduced CI, code review, and staging environments for a 6-person team</li>
+        </ul>
+      </article></div></section>
+    <section class="section"><h2 class="section__title">Study</h2><div>
+      <article class="edu">
+        <h3 class="edu__degree">BSc Computer Science</h3>
+        <p class="edu__meta">University of Bristol · 2015 - 2018</p>
+      </article></div></section>
+  </main>
+</body>
+</html>

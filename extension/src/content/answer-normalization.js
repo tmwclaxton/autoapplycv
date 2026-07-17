@@ -1,7 +1,7 @@
 /**
  * Content-script global for answer normalization (mirrors shared/answer-normalization.js).
  */
-const AutoCVApplyAnswerNormalization = (() => {
+var AutoCVApplyAnswerNormalization = (() => {
     const YEARS_INTEGER_PATTERN = /^\d+$/;
     const YEARS_WITH_UNIT_PATTERN = /^(\d+)\s*\+?\s*(?:years?|yrs?)\b/i;
     const EMBEDDED_YEARS_PATTERN = /\b(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i;
@@ -284,3 +284,11 @@ const AutoCVApplyAnswerNormalization = (() => {
         normalizeFieldAnswerForQuestion,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyAnswerNormalization = AutoCVApplyAnswerNormalization;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyAnswerNormalization = AutoCVApplyAnswerNormalization;
+}

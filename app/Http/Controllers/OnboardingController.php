@@ -7,6 +7,7 @@ use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
 use App\Support\AiAssistCosts;
+use App\Support\CoverLetterDesignSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -43,11 +44,19 @@ class OnboardingController extends Controller
             return redirect()->route('onboarding');
         }
 
+        $coverLetterSettings = CoverLetterDesignSettings::normalize(
+            $cvProfile->cover_letter_design,
+            $cvProfile->cover_letter_font,
+        );
+        $cvProfile->cover_letter_design = $coverLetterSettings['cover_letter_design'];
+        $cvProfile->cover_letter_font = $coverLetterSettings['cover_letter_font'];
+
         return Inertia::render('Dashboard', [
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
             'extensionUsage' => $this->aiTokens->extensionUsageSummary($user),
             'aiAssist' => AiAssistCosts::forFrontend(),
+            'coverLetterDesignOptions' => CoverLetterDesignSettings::optionsForFrontend(),
             ...$this->documentPageProps($user),
         ]);
     }

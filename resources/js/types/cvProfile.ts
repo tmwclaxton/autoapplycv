@@ -166,6 +166,8 @@ export interface CvProfile {
     extra_context: string | null;
     application_settings: ApplicationSettings;
     application_answers: ApplicationAnswer[];
+    cover_letter_design: string;
+    cover_letter_font: string;
     parsing_complete: boolean;
 }
 
@@ -309,6 +311,8 @@ export function createEmptyProfile(): CvProfile {
         extra_context: null,
         application_settings: defaultApplicationSettings(),
         application_answers: [],
+        cover_letter_design: 'teal-masthead',
+        cover_letter_font: 'clash-display',
         parsing_complete: false,
     };
 }
@@ -406,6 +410,16 @@ export function normalizeCvProfile(
         application_answers: normalizeApplicationAnswers(
             input.application_answers,
         ),
+        cover_letter_design:
+            typeof input.cover_letter_design === 'string' &&
+            input.cover_letter_design !== ''
+                ? input.cover_letter_design
+                : base.cover_letter_design,
+        cover_letter_font:
+            typeof input.cover_letter_font === 'string' &&
+            input.cover_letter_font !== ''
+                ? input.cover_letter_font
+                : base.cover_letter_font,
     };
 }
 

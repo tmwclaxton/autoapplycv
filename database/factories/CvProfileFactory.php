@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\CvProfile;
 use App\Models\User;
 use App\Support\ApplicationSettings;
+use App\Support\CoverLetterDesignSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -60,6 +61,8 @@ class CvProfileFactory extends Factory
             'postcode' => fake()->postcode(),
             'country' => 'United Kingdom',
             'application_answers' => [],
+            'cover_letter_design' => CoverLetterDesignSettings::defaultDesign(),
+            'cover_letter_font' => CoverLetterDesignSettings::defaultFont(),
             'parsing_complete' => false,
         ];
     }

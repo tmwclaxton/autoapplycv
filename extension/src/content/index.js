@@ -1,7 +1,20 @@
 /**
  * AutoCVApply Content Script
  * Scans application forms mechanically, then Draft All uses AI for all answers (profile context in prompt).
+ *
+ * Wrapped so chrome.scripting.executeScript can reinject after extension reload without
+ * redeclaring top-level bindings or double-registering listeners while still live.
  */
+(function AutoCVApplyContentScriptMain() {
+if (typeof globalThis.__autocvapplyContentIsLive === 'function') {
+    try {
+        if (globalThis.__autocvapplyContentIsLive()) {
+            return;
+        }
+    } catch {
+        // Previous generation unavailable - continue boot.
+    }
+}
 
 let profile = null;
 let overlayRefreshTimer = null;
@@ -103,6 +116,8 @@ function teardownContentScriptOnInvalidContext() {
     if (typeof AutoCVApplyFieldHighlighter !== 'undefined') {
         AutoCVApplyFieldHighlighter.clearHighlights();
     }
+
+    globalThis.__autocvapplyContentIsLive = () => false;
 }
 
 function ensureExtensionContextOrTeardown() {
@@ -2908,8 +2923,11 @@ if (extensionContext()?.safeOnMessageAddListener(contentMessageListener) !== tru
     }
 }
 
+globalThis.__autocvapplyContentIsLive = () => !contentScriptTornDown && isExtensionContextValid();
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
     init();
 }
+})();

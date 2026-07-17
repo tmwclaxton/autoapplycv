@@ -30,6 +30,7 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
+import { buildDraftCoverLetterText } from './cover-letter-draft.js';
 import { buildCoverLetterPdfBytes, buildCoverLetterPdfFileName } from './cover-letter-pdf.js';
 import {
     clearLogs,
@@ -550,7 +551,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_COVER_LETTER_DOCUMENT') {
-        getCoverLetterDocument(message.job || null).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        getCoverLetterDocument(message.job || null, {
+            text: typeof message.text === 'string' ? message.text : null,
+            persist: message.persist !== false,
+            forceProfile: message.forceProfile !== false,
+        }).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -2779,38 +2784,6 @@ async function getCvDocument() {
     return cachedCvDocument;
 }
 
-function buildDraftCoverLetterText(profileData, job = {}) {
-    const profile = profileData?.profile || profileData || {};
-    const name = String(profile.full_name || 'Applicant').trim();
-    const headline = String(profile.headline || profile.title || '').trim();
-    const summary = String(profile.summary || profile.bio || '').trim();
-    const company = job?.company && job.company !== 'Unknown company' ? job.company : 'your organisation';
-    const title = String(job?.title || 'this role').trim();
-    const paragraphs = [
-        'Dear Hiring Manager,',
-        '',
-        `I am writing to apply for the ${title} position at ${company}.`,
-    ];
-
-    if (headline) {
-        paragraphs.push(headline.endsWith('.') ? headline : `${headline}.`);
-    }
-
-    if (summary) {
-        paragraphs.push(summary.split('\n').map((line) => line.trim()).filter(Boolean)[0]?.slice(0, 400) || '');
-    }
-
-    paragraphs.push(
-        '',
-        'Thank you for considering my application. I would welcome the opportunity to discuss how my experience fits your team.',
-        '',
-        'Yours sincerely,',
-        name,
-    );
-
-    return paragraphs.filter((line, index, lines) => !(line === '' && lines[index - 1] === '')).join('\n');
-}
-
 function coverLetterSourceKey(job = {}) {
     const link = String(job?.link || '').trim().toLowerCase();
 
@@ -2875,21 +2848,43 @@ async function persistCoverLetterDocument({ job = null, bytes = null, text = nul
     }
 }
 
-async function getCoverLetterDocument(job = null) {
+async function getCoverLetterDocument(job = null, {
+    text = null,
+    persist = true,
+    forceProfile = true,
+} = {}) {
+    if (forceProfile) {
+        invalidateProfileCache();
+    }
+
     const profileData = await getProfile();
-    const text = buildDraftCoverLetterText(profileData, job || {});
-    const bytes = buildCoverLetterPdfBytes(text, { profile: profileData, job: job || {} });
+    const profile = profileData?.profile || profileData || {};
+    const letterText = typeof text === 'string' && text.trim() !== ''
+        ? text.trim()
+        : buildDraftCoverLetterText(profileData, job || {});
+    const design = profile.cover_letter_design ?? profileData?.cover_letter_design;
+    const font = profile.cover_letter_font ?? profileData?.cover_letter_font;
+    const bytes = buildCoverLetterPdfBytes(letterText, {
+        profile,
+        job: job || {},
+        design,
+        font,
+    });
     const fileName = buildCoverLetterPdfFileName({
         jobTitle: job?.title || null,
         company: job?.company || null,
     });
 
-    void persistCoverLetterDocument({ job, bytes, fileName });
+    if (persist) {
+        void persistCoverLetterDocument({ job, bytes, fileName });
+    }
 
     return {
         base64: `data:application/pdf;base64,${arrayBufferToBase64(bytes)}`,
         fileName,
         mimeType: 'application/pdf',
+        design,
+        font,
     };
 }
 

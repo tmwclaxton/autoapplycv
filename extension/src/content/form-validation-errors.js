@@ -1,7 +1,7 @@
 /**
  * Generic form validation error detection for job application pages.
  */
-const AutoCVApplyFormValidation = (() => {
+var AutoCVApplyFormValidation = (() => {
     const TEXT_ERROR_PATTERNS = [
         /your form needs corrections/i,
         /missing entry for required field/i,
@@ -566,3 +566,11 @@ const AutoCVApplyFormValidation = (() => {
         validateBlockedField,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyFormValidation = AutoCVApplyFormValidation;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyFormValidation = AutoCVApplyFormValidation;
+}

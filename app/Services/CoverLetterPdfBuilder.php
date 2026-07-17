@@ -2,6 +2,11 @@
 
 namespace App\Services;
 
+use App\Support\CoverLetterBodyText;
+use App\Support\CoverLetterContactHtml;
+use App\Support\CoverLetterDesignSettings;
+use App\Support\CoverLetterPdfFontMetrics;
+
 class CoverLetterPdfBuilder
 {
     private const PDF_WIDTH = 612;
@@ -22,7 +27,7 @@ class CoverLetterPdfBuilder
 
     private const FONT_SANS_BOLD = 'F1';
 
-    private const SIZE_NAME = 12;
+    private const SIZE_NAME = 18;
 
     private const SIZE_CONTACT = 10;
 
@@ -49,24 +54,64 @@ class CoverLetterPdfBuilder
             throw new \InvalidArgumentException('Nothing to save yet.');
         }
 
-        $pageItems = $this->paginateLayoutItems($this->buildStyledLayoutItems($normalized, $profile, $job, $options));
-        $pageContents = array_map(fn (array $items): string => $this->buildPageContentStream($items), $pageItems);
+        $normalized = CoverLetterBodyText::stripLeadingLetterhead($normalized, $profile);
 
-        return $this->renderPdf($pageContents);
+        if ($normalized === '') {
+            throw new \InvalidArgumentException('Nothing to save yet.');
+        }
+
+        $resolved = CoverLetterDesignSettings::resolveForGeneration(
+            isset($options['design']) ? (string) $options['design'] : null,
+            isset($options['font']) ? (string) $options['font'] : null,
+        );
+        $serif = CoverLetterDesignSettings::fontDefinition($resolved['cover_letter_font'])['pdf_base'] === 'times';
+        $accent = CoverLetterDesignSettings::accentRgb($resolved['cover_letter_design']);
+
+        $pageItems = $this->paginateLayoutItems($this->buildStyledLayoutItems(
+            $normalized,
+            $profile,
+            $job,
+            $options,
+            $resolved['cover_letter_design'],
+            $accent,
+            $serif,
+        ));
+        $pagePayloads = array_map(
+            fn (array $items): array => $this->buildPageContentStream($items),
+            $pageItems,
+        );
+
+        return $this->renderPdf($pagePayloads, $serif, $resolved);
     }
 
     /**
      * @param  array<string, mixed>|null  $profile
      * @param  array<string, mixed>|null  $job
      * @param  array<string, mixed>  $options
+     * @param  array{0: float, 1: float, 2: float}  $accent
      * @return array<int, array<string, mixed>>
      */
-    private function buildStyledLayoutItems(string $text, ?array $profile, ?array $job, array $options = []): array
-    {
+    private function buildStyledLayoutItems(
+        string $text,
+        ?array $profile,
+        ?array $job,
+        array $options,
+        string $design,
+        array $accent,
+        bool $serif,
+    ): array {
         $includeDate = (bool) ($options['include_date'] ?? true);
         $items = [];
+        $marginLeft = self::MARGIN_LEFT;
+        $contentWidth = self::PDF_WIDTH - self::MARGIN_LEFT - self::MARGIN_RIGHT;
         $y = self::PDF_HEIGHT - self::MARGIN_TOP;
         $contentBottom = self::MARGIN_BOTTOM;
+        $ink = [0.102, 0.102, 0.18];
+        $muted = [0.42, 0.42, 0.45];
+        $onAccent = [1.0, 1.0, 1.0];
+        $nameFont = self::FONT_SANS_BOLD;
+        $metaFont = self::FONT_SANS;
+        $bodyFont = $serif ? self::FONT_BODY : self::FONT_SANS;
 
         $pushGap = function (int $amount) use (&$y): void {
             $y -= $amount;
@@ -79,50 +124,282 @@ class CoverLetterPdfBuilder
             }
         };
 
-        $pushText = function (array $config) use (&$y, &$items, $ensureSpace): void {
+        $pushText = function (array $config) use (&$y, &$items, $ensureSpace, &$marginLeft, &$contentWidth, $serif): void {
             $leading = (float) ($config['leading'] ?? self::BODY_LEADING);
-            $ensureSpace($leading);
-            $items[] = [
-                'type' => 'text',
-                'text' => (string) $config['text'],
-                'font' => (string) ($config['font'] ?? self::FONT_BODY),
-                'size' => (float) ($config['size'] ?? self::SIZE_BODY),
-                'color' => $config['color'] ?? [0.102, 0.102, 0.18],
-                'align' => (string) ($config['align'] ?? 'left'),
-                'y' => $y,
-            ];
-            $y -= $leading;
+            $font = (string) ($config['font'] ?? self::FONT_BODY);
+            $size = (float) ($config['size'] ?? self::SIZE_BODY);
+            $widthLimit = isset($config['maxWidth']) ? (float) $config['maxWidth'] : $contentWidth;
+            $metricsKey = $this->metricsKeyForPdfFont($font, $serif);
+            $wrap = (bool) ($config['wrap'] ?? true);
+            $justify = (bool) ($config['justify'] ?? false);
+            $align = (string) ($config['align'] ?? 'left');
+            $x = (float) ($config['x'] ?? $marginLeft);
+            $color = $config['color'] ?? [0.102, 0.102, 0.18];
+            $providedLinks = $config['linkMatches'] ?? null;
+            $text = (string) ($config['text'] ?? '');
+            $wrapped = $wrap
+                ? CoverLetterPdfFontMetrics::wrapToWidth($text, $widthLimit, $size, $metricsKey)
+                : [$text];
+
+            foreach ($wrapped as $lineIndex => $line) {
+                $isLastLine = $lineIndex === count($wrapped) - 1;
+                $lineAlign = $justify && ! $isLastLine && str_contains($line, ' ')
+                    ? 'justify'
+                    : ($align === 'justify' ? 'left' : $align);
+                $ensureSpace($leading);
+                $matches = is_array($providedLinks) && count($wrapped) === 1
+                    ? $providedLinks
+                    : CoverLetterContactHtml::findLinkMatches($line);
+
+                $items[] = [
+                    'type' => 'text',
+                    'text' => $line,
+                    'font' => $font,
+                    'size' => $size,
+                    'color' => $color,
+                    'align' => $lineAlign,
+                    'x' => $x,
+                    'y' => $y,
+                    'maxWidth' => $widthLimit,
+                    'metricsKey' => $metricsKey,
+                    'linkMatches' => $matches,
+                ];
+                $y -= $leading;
+            }
         };
 
         $fullName = trim((string) ($profile['full_name'] ?? ''));
         $headline = trim((string) ($profile['headline'] ?? ''));
-        $contactLine = $this->buildContactLine($profile);
+        $contactParts = CoverLetterContactHtml::contactParts($profile);
+        $contactLine = implode(' | ', array_map(
+            fn (array $part): string => $part['value'],
+            $contactParts,
+        ));
+        $contactLinks = $this->contactLineLinkMatches($contactParts);
+        $bandDesigns = ['teal-masthead', 'mono-bold', 'ocean-wash', 'slate-bands'];
+
+        if ($design === 'ink-sidebar') {
+            $rail = 150.0;
+            $sideX = 18.0;
+            $sideWidth = $rail - ($sideX * 2);
+            $items[] = [
+                'type' => 'rect',
+                'x' => 0,
+                'y' => 0,
+                'w' => $rail,
+                'h' => self::PDF_HEIGHT,
+                'color' => $accent,
+            ];
+            $marginLeft = $rail + 28;
+            $contentWidth = self::PDF_WIDTH - $marginLeft - self::MARGIN_RIGHT;
+            $sideY = self::PDF_HEIGHT - 56;
+
+            $pushSidebarText = function (
+                string $text,
+                string $font,
+                float $size,
+                array $color,
+                float $leading,
+                ?string $href = null,
+            ) use (&$items, &$sideY, $sideX, $sideWidth, $serif): void {
+                $metricsKey = $this->metricsKeyForPdfFont($font, $serif);
+
+                foreach (CoverLetterPdfFontMetrics::wrapToWidth($text, $sideWidth, $size, $metricsKey) as $line) {
+                    $items[] = [
+                        'type' => 'text',
+                        'text' => $line,
+                        'font' => $font,
+                        'size' => $size,
+                        'color' => $color,
+                        'align' => 'left',
+                        'x' => $sideX,
+                        'y' => $sideY,
+                        'maxWidth' => $sideWidth,
+                        'metricsKey' => $metricsKey,
+                        'linkMatches' => $href !== null
+                            ? [['start' => 0, 'end' => strlen($line), 'href' => $href]]
+                            : [],
+                    ];
+                    $sideY -= $leading;
+                }
+            };
+
+            if ($fullName !== '') {
+                $pushSidebarText($fullName, $nameFont, 14, $onAccent, 16);
+                $sideY -= 2;
+            }
+
+            if ($headline !== '') {
+                $pushSidebarText($headline, $metaFont, 9, [0.85, 0.85, 0.88], 12);
+                $sideY -= 4;
+            }
+
+            foreach ($contactParts as $part) {
+                $pushSidebarText(
+                    $part['value'],
+                    $metaFont,
+                    8.5,
+                    [0.82, 0.82, 0.86],
+                    11,
+                    $part['href'],
+                );
+                $sideY -= 2;
+            }
+
+            $y = self::PDF_HEIGHT - 56;
+            $fullName = '';
+            $headline = '';
+            $contactLine = '';
+            $contactLinks = [];
+        } elseif ($design === 'forest-rail') {
+            $items[] = [
+                'type' => 'rect',
+                'x' => 0,
+                'y' => 0,
+                'w' => 12,
+                'h' => self::PDF_HEIGHT,
+                'color' => $accent,
+            ];
+            $marginLeft = 56;
+            $contentWidth = self::PDF_WIDTH - $marginLeft - self::MARGIN_RIGHT;
+        } elseif ($design === 'geometric-mark' && $fullName !== '') {
+            $mark = $this->monogram($fullName);
+            $items[] = [
+                'type' => 'rect',
+                'x' => $marginLeft,
+                'y' => self::PDF_HEIGHT - self::MARGIN_TOP - 36,
+                'w' => 40,
+                'h' => 40,
+                'color' => $accent,
+                'stroke' => true,
+            ];
+            $items[] = [
+                'type' => 'text',
+                'text' => $mark,
+                'font' => $nameFont,
+                'size' => 14,
+                'color' => $accent,
+                'align' => 'left',
+                'x' => $marginLeft + 8,
+                'y' => self::PDF_HEIGHT - self::MARGIN_TOP - 12,
+                'maxWidth' => 36.0,
+                'metricsKey' => $this->metricsKeyForPdfFont($nameFont, $serif),
+            ];
+            $marginLeft += 52;
+            $contentWidth = self::PDF_WIDTH - $marginLeft - self::MARGIN_RIGHT;
+        } elseif (in_array($design, $bandDesigns, true)) {
+            $bandHeight = $design === 'slate-bands' ? 96.0 : 108.0;
+            $items[] = [
+                'type' => 'rect',
+                'x' => 0,
+                'y' => self::PDF_HEIGHT - $bandHeight,
+                'w' => self::PDF_WIDTH,
+                'h' => $bandHeight,
+                'color' => $design === 'slate-bands' ? [0.886, 0.910, 0.941] : $accent,
+            ];
+            $y = self::PDF_HEIGHT - 34;
+            $nameColor = $design === 'slate-bands' ? $ink : $onAccent;
+            $metaColor = $design === 'slate-bands' ? $muted : [0.92, 0.92, 0.94];
+
+            if ($fullName !== '') {
+                $pushText([
+                    'text' => $fullName,
+                    'font' => $nameFont,
+                    'size' => self::SIZE_NAME,
+                    'color' => $nameColor,
+                    'leading' => 22,
+                    'x' => $marginLeft,
+                ]);
+            }
+
+            if ($headline !== '') {
+                $pushText([
+                    'text' => $headline,
+                    'font' => $metaFont,
+                    'size' => self::SIZE_CONTACT,
+                    'color' => $metaColor,
+                    'leading' => 14,
+                    'x' => $marginLeft,
+                ]);
+            }
+
+            if ($contactLine !== '') {
+                $pushText([
+                    'text' => $contactLine,
+                    'font' => $metaFont,
+                    'size' => 9,
+                    'color' => $metaColor,
+                    'leading' => 12,
+                    'x' => $marginLeft,
+                    'linkMatches' => $contactLinks,
+                ]);
+            }
+
+            $y = self::PDF_HEIGHT - $bandHeight - 24;
+            $fullName = '';
+            $headline = '';
+            $contactLine = '';
+            $contactLinks = [];
+        } elseif ($design === 'asymmetric-split') {
+            $items[] = [
+                'type' => 'rect',
+                'x' => $marginLeft,
+                'y' => self::PDF_HEIGHT - self::MARGIN_TOP - 52,
+                'w' => $contentWidth,
+                'h' => 2.5,
+                'color' => $accent,
+            ];
+        } elseif ($design === 'swiss-rules') {
+            $items[] = [
+                'type' => 'rect',
+                'x' => $marginLeft,
+                'y' => self::PDF_HEIGHT - self::MARGIN_TOP - 58,
+                'w' => $contentWidth,
+                'h' => 0.8,
+                'color' => $accent,
+            ];
+        } elseif ($design === 'coral-timeline') {
+            $items[] = [
+                'type' => 'rect',
+                'x' => $marginLeft - 18,
+                'y' => self::MARGIN_BOTTOM,
+                'w' => 2,
+                'h' => self::PDF_HEIGHT - self::MARGIN_TOP - self::MARGIN_BOTTOM,
+                'color' => [0.94, 0.82, 0.78],
+            ];
+        }
 
         if ($fullName !== '') {
             $pushText([
                 'text' => $fullName,
-                'font' => self::FONT_SANS_BOLD,
-                'size' => self::SIZE_NAME,
-                'leading' => 16,
+                'font' => $nameFont,
+                'size' => $design === 'swiss-rules' ? 22 : self::SIZE_NAME,
+                'color' => $design === 'forest-rail' ? $accent : $ink,
+                'leading' => 22,
+                'x' => $marginLeft,
             ]);
         }
 
         if ($headline !== '') {
             $pushText([
                 'text' => $headline,
-                'font' => self::FONT_SANS,
+                'font' => $metaFont,
                 'size' => self::SIZE_CONTACT,
+                'color' => in_array($design, ['coral-timeline', 'asymmetric-split'], true) ? $accent : $muted,
                 'leading' => 14,
+                'x' => $marginLeft,
             ]);
         }
 
         if ($contactLine !== '') {
             $pushText([
                 'text' => $contactLine,
-                'font' => self::FONT_SANS,
+                'font' => $metaFont,
                 'size' => self::SIZE_CONTACT,
-                'color' => [0.42, 0.42, 0.45],
+                'color' => $muted,
                 'leading' => 14,
+                'x' => $marginLeft,
+                'linkMatches' => $contactLinks,
             ]);
         }
 
@@ -130,12 +407,43 @@ class CoverLetterPdfBuilder
             $pushGap(10);
         }
 
+        $jobTitle = trim((string) ($job['title'] ?? ''));
+        $company = trim((string) ($job['company'] ?? ''));
+
+        if ($jobTitle !== '' || $company !== '') {
+            $meta = trim(implode(' · ', array_filter([$jobTitle, $company])));
+            $pushText([
+                'text' => strtoupper($meta),
+                'font' => $metaFont,
+                'size' => 9,
+                'color' => $muted,
+                'leading' => 12,
+                'x' => $marginLeft,
+            ]);
+            $pushGap(6);
+        }
+
         if ($includeDate) {
+            $dateColor = $design === 'coral-timeline' ? $accent : $ink;
+
+            if ($design === 'coral-timeline') {
+                $items[] = [
+                    'type' => 'rect',
+                    'x' => $marginLeft - 22,
+                    'y' => $y - 3,
+                    'w' => 8,
+                    'h' => 8,
+                    'color' => $accent,
+                ];
+            }
+
             $pushText([
                 'text' => now()->format('j F Y'),
-                'font' => self::FONT_SANS,
+                'font' => $metaFont,
                 'size' => self::SIZE_META,
+                'color' => $dateColor,
                 'leading' => 14,
+                'x' => $marginLeft,
             ]);
 
             $pushGap(self::HEADER_GAP_BEFORE_BODY);
@@ -152,14 +460,16 @@ class CoverLetterPdfBuilder
                 continue;
             }
 
-            foreach ($this->layoutCoverLetterLines($paragraph) as $line) {
-                $pushText([
-                    'text' => $line,
-                    'font' => self::FONT_BODY,
-                    'size' => self::SIZE_BODY,
-                    'leading' => self::BODY_LEADING,
-                ]);
-            }
+            $pushText([
+                'text' => $paragraph,
+                'font' => $bodyFont,
+                'size' => self::SIZE_BODY,
+                'color' => $ink,
+                'leading' => self::BODY_LEADING,
+                'x' => $marginLeft,
+                'maxWidth' => $contentWidth,
+                'justify' => $this->isJustifiableBodyParagraph($paragraph),
+            ]);
 
             if ($index < count($paragraphs) - 1) {
                 $pushGap(self::PARAGRAPH_GAP);
@@ -169,90 +479,94 @@ class CoverLetterPdfBuilder
         return $items;
     }
 
-    /**
-     * @param  array<string, mixed>|null  $profile
-     */
-    private function buildContactLine(?array $profile): string
+    private function metricsKeyForPdfFont(string $pdfFont, bool $serif): string
     {
-        if ($profile === null) {
-            return '';
+        if ($pdfFont === self::FONT_SANS_BOLD) {
+            return $serif ? 'times-bold' : 'helvetica-bold';
         }
 
-        $parts = array_values(array_filter([
-            trim((string) ($profile['email'] ?? '')),
-            trim((string) ($profile['phone'] ?? '')),
-            trim((string) ($profile['location'] ?? $profile['city'] ?? '')),
-        ], fn (string $value): bool => $value !== ''));
+        return $serif ? 'times-roman' : 'helvetica';
+    }
 
-        return implode(' | ', $parts);
+    private function monogram(string $fullName): string
+    {
+        $parts = preg_split('/\s+/', trim($fullName)) ?: [];
+        $letters = '';
+
+        foreach (array_slice($parts, 0, 2) as $part) {
+            $letters .= strtoupper(substr((string) $part, 0, 1));
+        }
+
+        return $letters !== '' ? $letters : 'CL';
+    }
+
+    private function looksLikeGreeting(string $line): bool
+    {
+        return (bool) preg_match('/^(dear\b|to whom it may concern\b|hi\b|hello\b)/i', trim($line));
+    }
+
+    private function looksLikeSignOff(string $line): bool
+    {
+        return (bool) preg_match(
+            '/^\s*(yours\s+(sincerely|faithfully)|kind\s+regards|best\s+regards|warm\s+regards|regards|sincerely)\s*,?\s*$/i',
+            trim($line),
+        );
+    }
+
+    private function isJustifiableBodyParagraph(string $paragraph): bool
+    {
+        $firstLine = trim(explode("\n", $paragraph)[0] ?? '');
+
+        if ($firstLine === '' || $this->looksLikeGreeting($firstLine) || $this->looksLikeSignOff($firstLine)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * @return array<int, string>
+     * @param  list<array{label: string, value: string, href: string|null}>  $parts
+     * @return list<array{start: int, end: int, href: string}>
      */
-    private function layoutCoverLetterLines(string $text, int $maxChars = 78): array
+    private function contactLineLinkMatches(array $parts): array
     {
-        $lines = [];
+        $matches = [];
+        $offset = 0;
+        $sep = ' | ';
 
-        foreach (explode("\n", str_replace("\r\n", "\n", $text)) as $paragraph) {
-            if (trim($paragraph) === '') {
-                $lines[] = '';
+        foreach ($parts as $index => $part) {
+            $value = $part['value'];
 
-                continue;
+            if (is_string($part['href']) && $part['href'] !== '') {
+                $matches[] = [
+                    'start' => $offset,
+                    'end' => $offset + strlen($value),
+                    'href' => $part['href'],
+                ];
             }
 
-            foreach ($this->wrapParagraphLine($paragraph, $maxChars) as $wrapped) {
-                $lines[] = $wrapped;
+            $offset += strlen($value);
+
+            if ($index < count($parts) - 1) {
+                $offset += strlen($sep);
             }
         }
 
-        return $lines;
+        return $matches;
     }
 
-    /**
-     * @return array<int, string>
-     */
-    private function wrapParagraphLine(string $line, int $maxChars): array
+    private function estimateTextWidth(string $text, float $fontSize, string $metricsKey = 'helvetica'): float
     {
-        if (strlen($line) <= $maxChars) {
-            return [$line];
-        }
+        return CoverLetterPdfFontMetrics::measureWidth($text, $fontSize, $metricsKey);
+    }
 
-        $words = preg_split('/\s+/', $line) ?: [];
-        $lines = [];
-        $current = '';
-
-        foreach ($words as $word) {
-            $candidate = $current !== '' ? "{$current} {$word}" : $word;
-
-            if (strlen($candidate) <= $maxChars) {
-                $current = $candidate;
-
-                continue;
-            }
-
-            if ($current !== '') {
-                $lines[] = $current;
-            }
-
-            if (strlen($word) > $maxChars) {
-                for ($index = 0; $index < strlen($word); $index += $maxChars) {
-                    $lines[] = substr($word, $index, $maxChars);
-                }
-
-                $current = '';
-
-                continue;
-            }
-
-            $current = $word;
-        }
-
-        if ($current !== '') {
-            $lines[] = $current;
-        }
-
-        return $lines;
+    private function estimateRenderedWidth(
+        string $text,
+        float $fontSize,
+        string $metricsKey = 'helvetica',
+        float $wordSpacing = 0.0,
+    ): float {
+        return CoverLetterPdfFontMetrics::measureRenderedWidth($text, $fontSize, $metricsKey, $wordSpacing);
     }
 
     /**
@@ -278,38 +592,110 @@ class CoverLetterPdfBuilder
 
     /**
      * @param  array<int, array<string, mixed>>  $pageItems
+     * @return array{content: string, annots: list<array{rect: array{0: float, 1: float, 2: float, 3: float}, uri: string}>}
      */
-    private function buildPageContentStream(array $pageItems): string
+    private function buildPageContentStream(array $pageItems): array
     {
         $parts = [];
+        $annots = [];
 
         foreach ($pageItems as $item) {
-            if (($item['type'] ?? '') !== 'text') {
+            $type = (string) ($item['type'] ?? '');
+
+            if ($type === 'rect') {
+                [$red, $green, $blue] = $item['color'];
+                $x = (float) $item['x'];
+                $y = (float) $item['y'];
+                $w = (float) $item['w'];
+                $h = (float) $item['h'];
+
+                if (! empty($item['stroke'])) {
+                    $parts[] = "{$red} {$green} {$blue} RG";
+                    $parts[] = '2 w';
+                    $parts[] = "{$x} {$y} {$w} {$h} re S";
+                } else {
+                    $parts[] = "{$red} {$green} {$blue} rg";
+                    $parts[] = "{$x} {$y} {$w} {$h} re f";
+                }
+
+                continue;
+            }
+
+            if ($type !== 'text') {
                 continue;
             }
 
             [$red, $green, $blue] = $item['color'];
-            $x = self::MARGIN_LEFT;
+            $x = (float) ($item['x'] ?? self::MARGIN_LEFT);
+            $text = (string) $item['text'];
+            $size = (float) $item['size'];
+            $metricsKey = (string) ($item['metricsKey'] ?? $this->metricsKeyForPdfFont((string) $item['font'], false));
+            $wordSpacing = 0.0;
 
             if (($item['align'] ?? 'left') === 'right') {
-                $x = self::PDF_WIDTH - self::MARGIN_RIGHT - (strlen((string) $item['text']) * $item['size'] * 0.48);
+                $x = self::PDF_WIDTH - self::MARGIN_RIGHT - $this->estimateTextWidth($text, $size, $metricsKey);
+            } elseif (($item['align'] ?? 'left') === 'justify') {
+                $spaces = substr_count($text, ' ');
+                $maxWidth = (float) ($item['maxWidth'] ?? 0);
+
+                if ($spaces > 0 && $maxWidth > 0) {
+                    $naturalWidth = $this->estimateTextWidth($text, $size, $metricsKey);
+                    $wordSpacing = max(0.0, ($maxWidth - $naturalWidth) / $spaces);
+                }
+            }
+
+            if ($wordSpacing > 0) {
+                $parts[] = number_format($wordSpacing, 3, '.', '').' Tw';
             }
 
             $parts[] = 'BT';
             $parts[] = "{$red} {$green} {$blue} rg";
-            $parts[] = "{$item['font']} {$item['size']} Tf";
+            $parts[] = "{$item['font']} {$size} Tf";
             $parts[] = "{$x} {$item['y']} Td";
-            $parts[] = '('.$this->escapePdfString((string) $item['text']).') Tj';
+            $parts[] = '('.$this->escapePdfString($text).') Tj';
             $parts[] = 'ET';
+
+            if ($wordSpacing > 0) {
+                $parts[] = '0 Tw';
+            }
+
+            foreach ($item['linkMatches'] ?? [] as $match) {
+                $start = (int) ($match['start'] ?? 0);
+                $end = (int) ($match['end'] ?? 0);
+                $href = (string) ($match['href'] ?? '');
+
+                if ($href === '' || $end <= $start) {
+                    continue;
+                }
+
+                $prefix = substr($text, 0, $start);
+                $token = substr($text, $start, $end - $start);
+                $llx = $x + $this->estimateRenderedWidth($prefix, $size, $metricsKey, $wordSpacing);
+                $linkWidth = max(
+                    $this->estimateRenderedWidth($token, $size, $metricsKey, $wordSpacing),
+                    $size * 0.25,
+                );
+                $lly = (float) $item['y'] - ($size * 0.2);
+                $ury = (float) $item['y'] + ($size * 0.8);
+
+                $annots[] = [
+                    'rect' => [$llx, $lly, $llx + $linkWidth, $ury],
+                    'uri' => $href,
+                ];
+            }
         }
 
-        return implode("\n", $parts);
+        return [
+            'content' => implode("\n", $parts),
+            'annots' => $annots,
+        ];
     }
 
     /**
-     * @param  array<int, string>  $pageContents
+     * @param  list<array{content: string, annots: list<array{rect: array{0: float, 1: float, 2: float, 3: float}, uri: string}>}>  $pagePayloads
+     * @param  array{cover_letter_design: string, cover_letter_font: string, design_preference: string, font_preference: string}  $resolved
      */
-    private function renderPdf(array $pageContents): string
+    private function renderPdf(array $pagePayloads, bool $serif, array $resolved): string
     {
         $chunks = ["%PDF-1.4\n"];
         $offsets = [0];
@@ -324,46 +710,82 @@ class CoverLetterPdfBuilder
             self::FONT_SANS => 4,
             self::FONT_BODY => 5,
         ];
-        $firstPageObjectNumber = 6;
+
+        $nextObjectNumber = 6;
+        $pageAllocations = [];
+
+        foreach ($pagePayloads as $payload) {
+            $streamObjectNumber = $nextObjectNumber++;
+            $annotObjectNumbers = [];
+
+            foreach ($payload['annots'] as $unused) {
+                $annotObjectNumbers[] = $nextObjectNumber++;
+            }
+
+            $pageObjectNumber = $nextObjectNumber++;
+            $pageAllocations[] = [
+                'payload' => $payload,
+                'streamObjectNumber' => $streamObjectNumber,
+                'annotObjectNumbers' => $annotObjectNumbers,
+                'pageObjectNumber' => $pageObjectNumber,
+            ];
+        }
+
         $pageObjectNumbers = array_map(
-            fn (int $index): int => $firstPageObjectNumber + ($index * 2),
-            array_keys($pageContents),
+            fn (array $allocation): int => $allocation['pageObjectNumber'],
+            $pageAllocations,
         );
-        $streamObjectNumbers = array_map(
-            fn (int $index): int => $firstPageObjectNumber + 1 + ($index * 2),
-            array_keys($pageContents),
-        );
-        $lastObjectNumber = $streamObjectNumbers !== [] ? end($streamObjectNumbers) : $fontObjects[self::FONT_BODY];
+        $lastObjectNumber = $nextObjectNumber - 1;
 
         $addObject(1, '<< /Type /Catalog /Pages 2 0 R >>');
         $addObject(
             2,
-            '<< /Type /Pages /Kids ['.implode(' ', array_map(fn (int $n): string => "{$n} 0 R", $pageObjectNumbers)).'] /Count '.count($pageContents).' >>',
+            '<< /Type /Pages /Kids ['.implode(' ', array_map(fn (int $n): string => "{$n} 0 R", $pageObjectNumbers)).'] /Count '.count($pagePayloads).' >>',
         );
         $addObject(
             $fontObjects[self::FONT_SANS_BOLD],
-            '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+            '<< /Type /Font /Subtype /Type1 /BaseFont /'.($serif ? 'Times-Bold' : 'Helvetica-Bold').' /Encoding /WinAnsiEncoding >>',
         );
         $addObject(
             $fontObjects[self::FONT_SANS],
-            '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+            '<< /Type /Font /Subtype /Type1 /BaseFont /'.($serif ? 'Times-Roman' : 'Helvetica').' /Encoding /WinAnsiEncoding >>',
         );
         $addObject(
             $fontObjects[self::FONT_BODY],
-            '<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>',
+            '<< /Type /Font /Subtype /Type1 /BaseFont /'.($serif ? 'Times-Roman' : 'Helvetica').' /Encoding /WinAnsiEncoding >>',
         );
 
-        foreach ($pageContents as $index => $content) {
-            $streamObjectNumber = $streamObjectNumbers[$index];
-            $pageObjectNumber = $pageObjectNumbers[$index];
+        foreach ($pageAllocations as $allocation) {
+            $payload = $allocation['payload'];
+            $content = $payload['content'];
+            $streamObjectNumber = $allocation['streamObjectNumber'];
+            $annotObjectNumbers = $allocation['annotObjectNumbers'];
+            $pageObjectNumber = $allocation['pageObjectNumber'];
 
             $addObject(
                 $streamObjectNumber,
                 '<< /Length '.strlen($content)." >>\nstream\n{$content}\nendstream",
             );
+
+            foreach ($payload['annots'] as $annotIndex => $annot) {
+                [$llx, $lly, $urx, $ury] = $annot['rect'];
+                $rect = implode(' ', array_map(
+                    fn (float $value): string => number_format($value, 2, '.', ''),
+                    [$llx, $lly, $urx, $ury],
+                ));
+                $addObject(
+                    $annotObjectNumbers[$annotIndex],
+                    '<< /Type /Annot /Subtype /Link /Rect ['.$rect.'] /Border [0 0 0] /A << /S /URI /URI ('.$this->escapePdfString($annot['uri']).') >> >>',
+                );
+            }
+
+            $annotsRef = $annotObjectNumbers !== []
+                ? ' /Annots ['.implode(' ', array_map(fn (int $n): string => "{$n} 0 R", $annotObjectNumbers)).']'
+                : '';
+
             $addObject(
                 $pageObjectNumber,
-                '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '.self::PDF_WIDTH.' '.self::PDF_HEIGHT.'] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents '.$streamObjectNumber.' 0 R >>',
+                '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '.self::PDF_WIDTH.' '.self::PDF_HEIGHT.'] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents '.$streamObjectNumber.' 0 R'.$annotsRef.' >>',
             );
         }
 
@@ -377,7 +799,7 @@ class CoverLetterPdfBuilder
         }
 
         $pdfBody .= $xref;
-        $pdfBody .= "trailer\n<< /Size ".($lastObjectNumber + 1)." /Root 1 0 R >>\nstartxref\n{$xrefOffset}\n%%EOF\n";
+        $pdfBody .= "trailer\n<< /Size ".($lastObjectNumber + 1).' /Root 1 0 R /Info << /CoverLetterDesign ('.$this->escapePdfString($resolved['cover_letter_design']).') /CoverLetterFont ('.$this->escapePdfString($resolved['cover_letter_font']).") >> >>\nstartxref\n{$xrefOffset}\n%%EOF\n";
 
         return $pdfBody;
     }

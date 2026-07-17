@@ -91,6 +91,40 @@ class CoverLetterDocumentTest extends TestCase
     }
 
     #[Test]
+    public function test_cover_letter_text_save_embeds_profile_design_settings(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Alex Developer',
+            'email' => 'alex@example.com',
+            'cover_letter_design' => 'ink-sidebar',
+            'cover_letter_font' => 'literata',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->withToken($token)
+            ->postJson('/api/profile/cover-letters', [
+                'job' => [
+                    'title' => 'Backend Engineer',
+                    'company' => 'Acme Corp',
+                    'link' => 'https://jobs.example.com/backend-engineer-design',
+                ],
+                'text' => str_repeat('I am excited to apply for this backend role. ', 8),
+            ])
+            ->assertCreated()
+            ->assertJsonPath('saved', true);
+
+        $document = ProfileDocument::query()->where('user_id', $user->id)->first();
+        $this->assertNotNull($document);
+
+        $pdf = Storage::disk('local')->get($document->stored_path);
+
+        $this->assertStringContainsString('/CoverLetterDesign (ink-sidebar)', $pdf);
+        $this->assertStringContainsString('/CoverLetterFont (literata)', $pdf);
+        $this->assertStringContainsString('/BaseFont /Times-Bold', $pdf);
+    }
+
+    #[Test]
     public function test_assist_cover_letter_endpoint_persists_document_to_profile(): void
     {
         $user = User::factory()->create();
@@ -102,7 +136,7 @@ class CoverLetterDocumentTest extends TestCase
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatWithUsage')->once()->andReturn([
-                'content' => 'Dear hiring manager, I am excited to apply for this Laravel role.',
+                'content' => "Dear Hiring Manager,\n\nI am excited to apply for this Laravel role.\n\nYours faithfully,\nAlex Developer",
                 'prompt_tokens' => 100,
                 'completion_tokens' => 50,
                 'total_tokens' => 150,
@@ -122,7 +156,11 @@ class CoverLetterDocumentTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('document_saved', true)
-            ->assertJsonPath('saved_document.category', ProfileDocumentCategory::CoverLetter->value);
+            ->assertJsonPath('saved_document.category', ProfileDocumentCategory::CoverLetter->value)
+            ->assertJsonPath(
+                'cover_letter',
+                "Dear Hiring Manager,\n\nI am excited to apply for this Laravel role.\n\nYours faithfully,\nAlex Developer",
+            );
 
         $this->assertDatabaseHas('profile_documents', [
             'user_id' => $user->id,

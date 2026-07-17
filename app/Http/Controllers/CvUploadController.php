@@ -15,6 +15,7 @@ use App\Services\CvProfileDocumentService;
 use App\Services\ExtensionNanoGptUsageService;
 use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
+use App\Support\CoverLetterDesignSettings;
 use App\Support\CvExtractionProfileMerge;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
@@ -127,6 +128,7 @@ class CvUploadController extends Controller
             'extra_context' => 'nullable|string',
             ...ApplicationSettings::validationRules(),
             ...ApplicationAnswers::validationRules(),
+            ...CoverLetterDesignSettings::validationRules(),
         ]);
 
         if (array_key_exists('application_settings', $validated)) {
@@ -138,6 +140,17 @@ class CvUploadController extends Controller
         }
 
         unset($validated['application_answers_append'], $validated['application_answers_remove_id']);
+
+        $existing = CvProfile::query()->where('user_id', $request->user()->id)->first();
+
+        if (array_key_exists('cover_letter_design', $validated) || array_key_exists('cover_letter_font', $validated)) {
+            $normalized = CoverLetterDesignSettings::normalize(
+                $validated['cover_letter_design'] ?? $existing?->cover_letter_design,
+                $validated['cover_letter_font'] ?? $existing?->cover_letter_font,
+            );
+            $validated['cover_letter_design'] = $normalized['cover_letter_design'];
+            $validated['cover_letter_font'] = $normalized['cover_letter_font'];
+        }
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $request->user()->id],

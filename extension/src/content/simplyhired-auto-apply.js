@@ -1,7 +1,7 @@
 /**
  * SimplyHired Quick Apply DOM helpers (Indeed Apply runs in nested iframes).
  */
-const AutoCVApplySimplyHiredAutoApply = (() => {
+var AutoCVApplySimplyHiredAutoApply = (() => {
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
@@ -582,3 +582,11 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
         waitForJobDetailReady,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplySimplyHiredAutoApply = AutoCVApplySimplyHiredAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplySimplyHiredAutoApply = AutoCVApplySimplyHiredAutoApply;
+}

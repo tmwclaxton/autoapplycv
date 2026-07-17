@@ -1,7 +1,7 @@
 /**
  * Content-script debug logger - forwards entries to the background ring buffer.
  */
-const AutoCVApplyDebugLog = (() => {
+var AutoCVApplyDebugLog = (() => {
     function send(level, source, phase, message, data, tabId) {
         const entry = {
             type: 'DEBUG_LOG',
@@ -42,3 +42,11 @@ const AutoCVApplyDebugLog = (() => {
         },
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyDebugLog = AutoCVApplyDebugLog;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyDebugLog = AutoCVApplyDebugLog;
+}

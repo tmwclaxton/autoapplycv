@@ -1,0 +1,76 @@
+{
+  "sample_profile_source": "tests/fixtures/auto-apply/test-personas.json#uk_software",
+  "fonts": {
+    "display": "Clash Display",
+    "body": "Satoshi",
+    "source": "https://www.fontshare.com/fonts/clash-display",
+    "css": "shared/fonts.css"
+  },
+  "production_hooks": [
+    "App\\Services\\CoverLetterPdfBuilder",
+    "App\\Support\\CvFormattedTextBuilder",
+    "App\\Support\\TestPersonaCvFixtures"
+  ],
+  "variants": [
+    {
+      "id": "01",
+      "slug": "teal-masthead",
+      "title": "Teal Masthead",
+      "blurb": "Full-width teal header band, white Clash name, clean single-column body."
+    },
+    {
+      "id": "02",
+      "slug": "ink-sidebar",
+      "title": "Ink Sidebar",
+      "blurb": "Dark charcoal left rail for contact and skills; light main column for experience."
+    },
+    {
+      "id": "03",
+      "slug": "swiss-rules",
+      "title": "Swiss Rules",
+      "blurb": "Ultra-minimal black/white with hairline rules and oversized Clash Display name."
+    },
+    {
+      "id": "04",
+      "slug": "forest-rail",
+      "title": "Forest Rail",
+      "blurb": "Deep green left accent rail, refined single column, muted sage chips."
+    },
+    {
+      "id": "05",
+      "slug": "coral-timeline",
+      "title": "Coral Timeline",
+      "blurb": "Vertical timeline experience with coral markers and warm charcoal type."
+    },
+    {
+      "id": "06",
+      "slug": "asymmetric-split",
+      "title": "Asymmetric Split",
+      "blurb": "Wide Clash name left, stacked contact right, then two-column skills/experience."
+    },
+    {
+      "id": "07",
+      "slug": "slate-bands",
+      "title": "Slate Bands",
+      "blurb": "Soft slate section bands (not cards), strong section labels in Clash Display."
+    },
+    {
+      "id": "08",
+      "slug": "mono-bold",
+      "title": "Mono Bold",
+      "blurb": "High-contrast black and white, mega Clash type, dense modern hierarchy."
+    },
+    {
+      "id": "09",
+      "slug": "ocean-wash",
+      "title": "Ocean Wash",
+      "blurb": "Cool blue header wash into white body, airy spacing, navy accents."
+    },
+    {
+      "id": "10",
+      "slug": "geometric-mark",
+      "title": "Geometric Mark",
+      "blurb": "Large Clash monogram mark, modern portfolio layout with accent underlines."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ use App\Enums\ProfileDocumentCategory;
 use App\Models\CvProfile;
 use App\Models\ProfileDocument;
 use App\Models\User;
+use App\Support\CoverLetterDesignSettings;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -27,10 +28,19 @@ class CoverLetterDocumentService
     {
         $profile ??= $user->cvProfile;
 
+        $resolved = CoverLetterDesignSettings::resolveForGeneration(
+            $profile?->cover_letter_design,
+            $profile?->cover_letter_font,
+        );
+
         $pdfBytes = $this->pdfBuilder->build(
             $text,
-            $profile?->only(['full_name', 'email', 'phone', 'city']),
+            $profile?->only(['full_name', 'headline', 'email', 'phone', 'city', 'location']),
             $job,
+            [
+                'design' => $resolved['cover_letter_design'],
+                'font' => $resolved['cover_letter_font'],
+            ],
         );
 
         return $this->savePdfBytes(

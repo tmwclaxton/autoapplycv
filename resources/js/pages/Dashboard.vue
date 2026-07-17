@@ -8,6 +8,7 @@ import {
     Key,
     Loader2,
     MessageSquare,
+    Palette,
     Puzzle,
     Search,
     Upload,
@@ -15,6 +16,7 @@ import {
     Zap,
 } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import CoverLetterSettingsPanel from '@/components/cover-letter/CoverLetterSettingsPanel.vue';
 import ApplicationPreferencesPanel from '@/components/cv/ApplicationPreferencesPanel.vue';
 import ApplicationQaPanel from '@/components/cv/ApplicationQaPanel.vue';
 import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
@@ -26,6 +28,7 @@ import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import { useToastStore } from '@/stores/toastStore';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { ExtensionUsageSummary } from '@/components/cv/ExtensionUsagePanel.vue';
+import type { CoverLetterDesignOptions } from '@/lib/cover-letter-preview';
 import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
 import type {
     DocumentCategoryOption,
@@ -39,6 +42,7 @@ import billing from '@/routes/billing';
 
 setLayoutProps({
     tagline: 'Your profile, ready to post.',
+    maxWidth: '5xl',
 });
 
 interface SubscriptionSummary {
@@ -56,6 +60,7 @@ const props = defineProps<{
     documents: ProfileDocument[];
     documentCategories: DocumentCategoryOption[];
     extensionUsage: ExtensionUsageSummary;
+    coverLetterDesignOptions: CoverLetterDesignOptions;
     aiAssist?: {
         pricing?: Array<{ key: string; label: string; credits: number }>;
     } | null;
@@ -70,6 +75,7 @@ const activeTab = ref<
     | 'documents'
     | 'preferences'
     | 'qa'
+    | 'cover-letter'
     | 'usage'
     | 'extension'
 >('profile');
@@ -145,6 +151,7 @@ const tabs = [
     { key: 'documents' as const, label: 'Documents', icon: FileText },
     { key: 'preferences' as const, label: 'Preferences', icon: Search },
     { key: 'qa' as const, label: 'Application Q&A', icon: MessageSquare },
+    { key: 'cover-letter' as const, label: 'Cover letter', icon: Palette },
     { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
@@ -187,13 +194,22 @@ function scrollToDashboardAnchor(): void {
     });
 }
 
+function syncDashboardLayoutWidth(tab: typeof activeTab.value): void {
+    setLayoutProps({
+        tagline: 'Your profile, ready to post.',
+        maxWidth: tab === 'cover-letter' ? '7xl' : '5xl',
+    });
+}
+
 onMounted(() => {
     applyDashboardNavigationFromUrl();
+    syncDashboardLayoutWidth(activeTab.value);
     scrollToDashboardAnchor();
 });
 
 watch(activeTab, (tab) => {
     syncDashboardTabToUrl(tab);
+    syncDashboardLayoutWidth(tab);
 });
 
 const saveStatusLabel = computed(() => {
@@ -315,6 +331,8 @@ function profilePayload(): Record<string, unknown> {
         extra_context: profile.value.extra_context,
         application_settings: profile.value.application_settings,
         application_answers: profile.value.application_answers,
+        cover_letter_design: profile.value.cover_letter_design,
+        cover_letter_font: profile.value.cover_letter_font,
     };
 }
 
@@ -592,6 +610,14 @@ async function copyToken() {
         <div :class="{ 'pointer-events-none select-none': isUploading }">
             <ApplicationQaPanel v-model="profile.application_answers" />
         </div>
+    </div>
+
+    <div v-else-if="activeTab === 'cover-letter'" class="relative space-y-6">
+        <CoverLetterSettingsPanel
+            v-model:cover-letter-design="profile.cover_letter_design"
+            v-model:cover-letter-font="profile.cover_letter_font"
+            :options="coverLetterDesignOptions"
+        />
     </div>
 
     <div v-else-if="activeTab === 'usage'" class="space-y-6">

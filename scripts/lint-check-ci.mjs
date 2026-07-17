@@ -17,7 +17,7 @@ try {
 } catch {
     lintExitCode = 1;
 } finally {
-    execSync('php artisan wayfinder:generate --no-interaction', {
+    execSync('php artisan wayfinder:generate --with-form --no-interaction', {
         cwd: root,
         stdio: 'inherit',
     });

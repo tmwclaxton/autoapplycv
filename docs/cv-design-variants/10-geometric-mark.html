@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV Variant 10 - Geometric Mark</title>
+  <link rel="stylesheet" href="shared/fonts.css" />
+  <style>
+    :root { --ink: #12141a; --muted: #5b6170; --accent: #c45c26; --soft: #f7f3ef; --paper: #fff; --mark: #1a1d26; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: #ddd6ce; color: var(--ink); }
+    .page { width: 210mm; min-height: 297mm; margin: 24px auto; background: var(--paper); padding: 36px 40px 40px; box-shadow: 0 12px 40px rgba(18,20,26,.12); }
+    .top { display: grid; grid-template-columns: 78px 1fr; gap: 20px; align-items: center; padding-bottom: 22px; border-bottom: 3px solid var(--mark); }
+    .mark { width: 78px; height: 78px; border-radius: 18px; background: var(--mark); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -0.04em; }
+    .name { font-family: var(--font-display); font-weight: 700; font-size: 36px; letter-spacing: -0.035em; line-height: 1; }
+    .headline { font-family: var(--font-display); font-weight: 500; font-size: 14px; margin-top: 8px; color: var(--accent); }
+    .contact { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .section { margin-top: 22px; }
+    .section__title { font-family: var(--font-display); font-weight: 600; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; display: inline-block; border-bottom: 3px solid var(--accent); padding-bottom: 3px; }
+    .summary { font-size: 13.5px; line-height: 1.55; color: var(--muted); background: var(--soft); padding: 14px 16px; border-radius: 10px; }
+    .skills { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+    .skills li { font-size: 12px; font-weight: 500; background: var(--mark); color: #fff; padding: 6px 11px; border-radius: 6px; }
+    .role { margin-top: 14px; }
+    .role__title { font-family: var(--font-display); font-weight: 600; font-size: 16px; }
+    .role__meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .role__sep { margin: 0 6px; }
+    .role__highlights { margin: 8px 0 0 16px; font-size: 12.5px; line-height: 1.45; }
+    .edu__degree { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    .edu__meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    @media print { body { background: #fff; } .page { margin: 0; box-shadow: none; } }
+  </style>
+  
+</head>
+<body>
+  <main class="page" aria-label="CV preview Geometric Mark">
+
+    <header class="top">
+      <div class="mark" aria-hidden="true">JM</div>
+      <div>
+        <h1 class="name">James Mitchell</h1>
+        <p class="headline">Senior Laravel Developer</p>
+        <p class="contact">james.mitchell@example.com · +44 7837 370669 · London, United Kingdom · linkedin.com/in/james-mitchell · jamesmitchell.dev</p>
+      </div>
+    </header>
+    <section class="section"><h2 class="section__title">Summary</h2><p class="summary">Backend engineer specialising in Laravel APIs, Vue frontends, and PostgreSQL at scale. Comfortable owning delivery from schema design through production observability.</p></section>
+    <section class="section"><h2 class="section__title">Skills</h2><ul class="skills"><li>PHP</li><li>Laravel</li><li>Vue</li><li>PostgreSQL</li><li>Redis</li><li>Docker</li><li>AWS</li><li>Inertia</li></ul></section>
+    <section class="section"><h2 class="section__title">Experience</h2>
+      <article class="role">
+        <header class="role__head">
+          <h3 class="role__title">Senior Software Engineer</h3>
+          <p class="role__meta"><span class="role__company">Riverbank Systems</span><span class="role__sep">·</span><span>London</span><span class="role__sep">·</span><span class="role__dates">Mar 2021 - Present</span></p>
+        </header>
+        <ul class="role__highlights">
+          <li>Led migration of monolith to Laravel microservices serving 40k daily users</li><li>Built internal admin tooling with Vue 3 and Inertia</li><li>Cut p95 API latency 35% via query redesign and Redis caching</li>
+        </ul>
+      </article>
+      <article class="role">
+        <header class="role__head">
+          <h3 class="role__title">PHP Developer</h3>
+          <p class="role__meta"><span class="role__company">Coastal Digital</span><span class="role__sep">·</span><span>Bristol</span><span class="role__sep">·</span><span class="role__dates">Jul 2018 - Feb 2021</span></p>
+        </header>
+        <ul class="role__highlights">
+          <li>Shipped client portals and payment flows on Laravel and MySQL</li><li>Introduced CI, code review, and staging environments for a 6-person team</li>
+        </ul>
+      </article></section>
+    <section class="section"><h2 class="section__title">Education</h2>
+      <article class="edu">
+        <h3 class="edu__degree">BSc Computer Science</h3>
+        <p class="edu__meta">University of Bristol · 2015 - 2018</p>
+      </article></section>
+  </main>
+</body>
+</html>

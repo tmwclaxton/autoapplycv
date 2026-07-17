@@ -1,7 +1,7 @@
 /**
  * LinkedIn Easy Apply contact-info field helpers (content script global).
  */
-const AutoCVApplyLinkedInEasyApplyFields = (() => {
+var AutoCVApplyLinkedInEasyApplyFields = (() => {
     const PLACEHOLDER_OPTION_PATTERN = /^(select an option|choose an option|please select|select\.\.\.|--)$/i;
 
     const DIAL_CODE_TO_COUNTRY = [

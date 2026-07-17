@@ -1,7 +1,7 @@
 /**
  * Reed Apply DOM helpers for Auto Apply (content script global).
  */
-const AutoCVApplyReedAutoApply = (() => {
+var AutoCVApplyReedAutoApply = (() => {
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
@@ -1210,3 +1210,11 @@ const AutoCVApplyReedAutoApply = (() => {
         findJobCardById,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyReedAutoApply = AutoCVApplyReedAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyReedAutoApply = AutoCVApplyReedAutoApply;
+}

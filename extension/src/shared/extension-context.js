@@ -1,7 +1,7 @@
 /**
  * Guards against "Extension context invalidated" after extension reload.
  */
-const AutoCVApplyExtensionContext = (() => {
+var AutoCVApplyExtensionContext = (() => {
     let contextInvalidated = false;
     let contextProbePassed = false;
     /** @type {Set<() => void>} */

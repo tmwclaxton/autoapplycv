@@ -1,7 +1,7 @@
 /**
  * Content-script timing helper. Keep multiplier tiers aligned with auto-apply-timing.js.
  */
-const AutoCVApplyTiming = (() => {
+var AutoCVApplyTiming = (() => {
     const ACTIVE_KEY = 'autoApplyActiveTimingLevel';
     const DEFAULT_LEVEL = 5;
     const MIN_DELAY_MS = 40;
@@ -70,3 +70,11 @@ const AutoCVApplyTiming = (() => {
         refreshMultiplier,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyTiming = AutoCVApplyTiming;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyTiming = AutoCVApplyTiming;
+}

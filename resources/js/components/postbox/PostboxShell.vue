@@ -8,7 +8,7 @@ withDefaults(
     defineProps<{
         tagline?: string;
         showSignOut?: boolean;
-        maxWidth?: '4xl' | '5xl' | '6xl';
+        maxWidth?: '4xl' | '5xl' | '6xl' | '7xl';
     }>(),
     {
         tagline: 'Stop retyping your life story.',
@@ -21,6 +21,7 @@ const maxWidthClass = {
     '4xl': 'max-w-4xl',
     '5xl': 'max-w-5xl',
     '6xl': 'max-w-6xl',
+    '7xl': 'max-w-7xl',
 };
 </script>
 

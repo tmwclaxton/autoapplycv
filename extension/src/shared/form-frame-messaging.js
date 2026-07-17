@@ -13,6 +13,8 @@ const FRAME_CACHE_TTL_MS = 60_000;
 const FRAME_PROBE_TIMEOUT_MS = 4_000;
 const SNAPSHOT_TIMEOUT_MS = 45_000;
 const tabFrameCache = new Map();
+/** @type {Map<number, Promise<{ ready: boolean, injected: boolean }>>} */
+const tabContentScriptEnsureInFlight = new Map();
 
 /** Shown when the tab has no content script (common after extension reload). */
 export const CONTENT_SCRIPT_MISSING_USER_MESSAGE =
@@ -84,6 +86,9 @@ async function pingTabContentScript(tabId) {
 
 /**
  * Inject manifest content_scripts into an existing tab (e.g. after extension reload).
+ * Pings first so a live content script is never re-executed (avoids const redeclare / double boot).
+ *
+ * @returns {Promise<{ injected: boolean, skipped: boolean }>}
  */
 export async function injectManifestContentScripts(tabId) {
     if (typeof chrome?.scripting?.executeScript !== 'function') {
@@ -99,6 +104,16 @@ export async function injectManifestContentScripts(tabId) {
 
     if (/autocvapply\.com/i.test(url)) {
         throw new Error('AutoCVApply cannot run on this page.');
+    }
+
+    try {
+        await pingTabContentScript(tabId);
+
+        return { injected: false, skipped: true };
+    } catch (error) {
+        if (!isMissingContentScriptError(error instanceof Error ? error.message : error)) {
+            throw error;
+        }
     }
 
     const manifest = chrome.runtime.getManifest();
@@ -119,13 +134,11 @@ export async function injectManifestContentScripts(tabId) {
             files,
         });
     }
+
+    return { injected: true, skipped: false };
 }
 
-/**
- * Ensure the tab can receive messages. After extension reload, existing tabs have no
- * content script until refresh or programmatic injection.
- */
-export async function ensureTabContentScript(tabId, { timeoutMs = 8_000 } = {}) {
+async function ensureTabContentScriptOnce(tabId, { timeoutMs = 8_000 } = {}) {
     try {
         await pingTabContentScript(tabId);
 
@@ -139,11 +152,14 @@ export async function ensureTabContentScript(tabId, { timeoutMs = 8_000 } = {}) 
     let injected = false;
 
     try {
-        await injectManifestContentScripts(tabId);
-        injected = true;
-        logInfo('background', 'content-script.inject', 'Injected content scripts into tab', {
-            tabId,
-        }, tabId);
+        const result = await injectManifestContentScripts(tabId);
+        injected = result.injected === true;
+
+        if (injected) {
+            logInfo('background', 'content-script.inject', 'Injected content scripts into tab', {
+                tabId,
+            }, tabId);
+        }
     } catch (injectError) {
         const injectMessage = injectError instanceof Error ? injectError.message : String(injectError);
 
@@ -177,6 +193,29 @@ export async function ensureTabContentScript(tabId, { timeoutMs = 8_000 } = {}) 
     }
 
     throw new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE);
+}
+
+/**
+ * Ensure the tab can receive messages. After extension reload, existing tabs have no
+ * content script until refresh or programmatic injection.
+ */
+export async function ensureTabContentScript(tabId, { timeoutMs = 8_000 } = {}) {
+    const existing = tabContentScriptEnsureInFlight.get(tabId);
+
+    if (existing) {
+        return existing;
+    }
+
+    const pending = ensureTabContentScriptOnce(tabId, { timeoutMs })
+        .finally(() => {
+            if (tabContentScriptEnsureInFlight.get(tabId) === pending) {
+                tabContentScriptEnsureInFlight.delete(tabId);
+            }
+        });
+
+    tabContentScriptEnsureInFlight.set(tabId, pending);
+
+    return pending;
 }
 
 export function invalidateTabFrameCache(tabId) {

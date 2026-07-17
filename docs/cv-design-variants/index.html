@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV Design Variants - Gallery</title>
+  <link rel="stylesheet" href="shared/fonts.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      color: #141820;
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(15,118,110,.18), transparent 55%),
+        radial-gradient(700px 380px at 90% 0%, rgba(37,99,235,.12), transparent 50%),
+        #f4f5f7;
+      padding: 48px 24px 72px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .lede { margin-top: 14px; max-width: 58ch; color: #4b5565; font-size: 15px; line-height: 1.55; }
+    .note { margin-top: 10px; font-size: 13px; color: #6b7280; }
+    .grid {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 18px 18px 20px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #0f766e;
+      box-shadow: 0 12px 28px rgba(15,23,42,.08);
+    }
+    .num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      color: #0f766e;
+    }
+    .title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .blurb { font-size: 13px; line-height: 1.45; color: #5b6472; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>CV design variants</h1>
+    <p class="lede">Ten preview layouts using Clash Display for name and section headings. Same sample profile data in each. Pick a winner and we will wire it into production CV PDF generation.</p>
+    <p class="note">Sample person: James Mitchell (from Auto Apply test personas). Open any card - fonts load from Fontshare (needs network).</p>
+    <div class="grid">
+      <a class="card" href="01-teal-masthead.html">
+        <span class="num">01</span>
+        <span class="title">Teal Masthead</span>
+        <span class="blurb">Full-width teal header band, white Clash name, clean single-column body.</span>
+      </a>
+      <a class="card" href="02-ink-sidebar.html">
+        <span class="num">02</span>
+        <span class="title">Ink Sidebar</span>
+        <span class="blurb">Dark charcoal left rail for contact and skills; light main column for experience.</span>
+      </a>
+      <a class="card" href="03-swiss-rules.html">
+        <span class="num">03</span>
+        <span class="title">Swiss Rules</span>
+        <span class="blurb">Ultra-minimal black/white with hairline rules and oversized Clash Display name.</span>
+      </a>
+      <a class="card" href="04-forest-rail.html">
+        <span class="num">04</span>
+        <span class="title">Forest Rail</span>
+        <span class="blurb">Deep green left accent rail, refined single column, muted sage chips.</span>
+      </a>
+      <a class="card" href="05-coral-timeline.html">
+        <span class="num">05</span>
+        <span class="title">Coral Timeline</span>
+        <span class="blurb">Vertical timeline experience with coral markers and warm charcoal type.</span>
+      </a>
+      <a class="card" href="06-asymmetric-split.html">
+        <span class="num">06</span>
+        <span class="title">Asymmetric Split</span>
+        <span class="blurb">Wide Clash name left, stacked contact right, then two-column skills/experience.</span>
+      </a>
+      <a class="card" href="07-slate-bands.html">
+        <span class="num">07</span>
+        <span class="title">Slate Bands</span>
+        <span class="blurb">Soft slate section bands (not cards), strong section labels in Clash Display.</span>
+      </a>
+      <a class="card" href="08-mono-bold.html">
+        <span class="num">08</span>
+        <span class="title">Mono Bold</span>
+        <span class="blurb">High-contrast black and white, mega Clash type, dense modern hierarchy.</span>
+      </a>
+      <a class="card" href="09-ocean-wash.html">
+        <span class="num">09</span>
+        <span class="title">Ocean Wash</span>
+        <span class="blurb">Cool blue header wash into white body, airy spacing, navy accents.</span>
+      </a>
+      <a class="card" href="10-geometric-mark.html">
+        <span class="num">10</span>
+        <span class="title">Geometric Mark</span>
+        <span class="blurb">Large Clash monogram mark, modern portfolio layout with accent underlines.</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -5,7 +5,7 @@
  * - phone-country-listbox (Recruitee PhoneInput) - next extraction target
  * - labels / fill / field-scan - shared ATS logic vs platform adapters in *-auto-apply.js
  */
-const AutoCVApplyFormHeuristics = (() => {
+var AutoCVApplyFormHeuristics = (() => {
     function heuristicsLog(level, phase, message, data) {
         if (typeof AutoCVApplyDebugLog === 'undefined') {
             return;
@@ -9512,3 +9512,11 @@ const AutoCVApplyFormHeuristics = (() => {
         commitTotaljobsGenesisFormState,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyFormHeuristics = AutoCVApplyFormHeuristics;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyFormHeuristics = AutoCVApplyFormHeuristics;
+}

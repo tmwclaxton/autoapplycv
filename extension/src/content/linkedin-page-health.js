@@ -1,7 +1,7 @@
 /**
  * LinkedIn page health: frontend errors, checkpoints, stuck loading (content script global).
  */
-const AutoCVApplyLinkedInPageHealth = (() => {
+var AutoCVApplyLinkedInPageHealth = (() => {
     const ERROR_CODES = {
         SESSION_EXPIRED: 'session_expired',
         CHECKPOINT: 'checkpoint',
@@ -239,6 +239,10 @@ const AutoCVApplyLinkedInPageHealth = (() => {
         readLoadingOverlay,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyLinkedInPageHealth = AutoCVApplyLinkedInPageHealth;
+}
 
 if (typeof window !== 'undefined') {
     window.AutoCVApplyLinkedInPageHealth = AutoCVApplyLinkedInPageHealth;

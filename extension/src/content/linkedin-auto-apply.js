@@ -1,7 +1,7 @@
 /**
  * LinkedIn Easy Apply DOM helpers (content script global).
  */
-const AutoCVApplyLinkedInAutoApply = (() => {
+var AutoCVApplyLinkedInAutoApply = (() => {
     // Keep in sync with extension/src/shared/linkedin-step-readiness.js
     const LINKEDIN_STEP_READY_TIMEOUT_MS = 20_000;
     const LINKEDIN_EMPTY_SHELL_FAIL_FAST_MS = 6_000;
@@ -2690,6 +2690,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         validateBlockedFieldAfterFill,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyLinkedInAutoApply = AutoCVApplyLinkedInAutoApply;
+}
 
 if (typeof window !== 'undefined') {
     window.AutoCVApplyLinkedInAutoApply = AutoCVApplyLinkedInAutoApply;

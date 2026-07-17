@@ -1,7 +1,7 @@
 /**
  * Glassdoor Easy Apply DOM helpers (Indeed Apply runs in nested iframes).
  */
-const AutoCVApplyGlassdoorAutoApply = (() => {
+var AutoCVApplyGlassdoorAutoApply = (() => {
     const sleep = (ms) =>
         new Promise((resolve) => window.setTimeout(resolve, ms));
 
@@ -819,3 +819,11 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         waitForJobDetailReady,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyGlassdoorAutoApply = AutoCVApplyGlassdoorAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyGlassdoorAutoApply = AutoCVApplyGlassdoorAutoApply;
+}

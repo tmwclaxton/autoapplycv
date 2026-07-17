@@ -1,7 +1,7 @@
 /**
  * Pure LinkedIn parser exposed to content script (classic script global).
  */
-const AutoCVApplyLinkedInParser = (() => {
+var AutoCVApplyLinkedInParser = (() => {
     const JOB_CARD_SELECTORS = [
         'li.scaffold-layout__list-item[data-occludable-job-id]',
         'li.jobs-search-results__list-item',
@@ -156,6 +156,10 @@ const AutoCVApplyLinkedInParser = (() => {
         jobCardIsAlreadyApplied,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyLinkedInParser = AutoCVApplyLinkedInParser;
+}
 
 if (typeof window !== 'undefined') {
     window.AutoCVApplyLinkedInParser = AutoCVApplyLinkedInParser;

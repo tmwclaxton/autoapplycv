@@ -2,7 +2,7 @@
  * Stagehand-style field inventory: stable refs, page snapshots, ref-based fill.
  * Pairs with form-heuristics.js (fill) under extension/src/content/form/ as inventory grows.
  */
-const AutoCVApplyFieldInventory = (() => {
+var AutoCVApplyFieldInventory = (() => {
     function inventoryLog(level, phase, message, data) {
         if (typeof AutoCVApplyDebugLog === 'undefined') {
             return;
@@ -1104,3 +1104,11 @@ const AutoCVApplyFieldInventory = (() => {
         resolveHighlightRoot,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyFieldInventory = AutoCVApplyFieldInventory;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyFieldInventory = AutoCVApplyFieldInventory;
+}

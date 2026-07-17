@@ -1,7 +1,7 @@
 /**
  * Red outline on draftable fields detected by form heuristics / field inventory.
  */
-const AutoCVApplyFieldHighlighter = (() => {
+var AutoCVApplyFieldHighlighter = (() => {
     const HIGHLIGHT_CLASS = 'autocvapply-field-detected';
     const highlightedElements = new Set();
 
@@ -237,3 +237,11 @@ const AutoCVApplyFieldHighlighter = (() => {
 
     return { applyHighlights, clearHighlights };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyFieldHighlighter = AutoCVApplyFieldHighlighter;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyFieldHighlighter = AutoCVApplyFieldHighlighter;
+}

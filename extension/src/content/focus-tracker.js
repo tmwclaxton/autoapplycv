@@ -1,7 +1,7 @@
 /**
  * Track focused form fields and show an on-page Quick draft button.
  */
-const AutoCVApplyFocusTracker = (() => {
+var AutoCVApplyFocusTracker = (() => {
     const FOCUSED_FIELD_KEY = 'focusedField';
     const HOST_ID = 'autocvapply-quick-draft';
     const BUTTON_LABEL = 'Quick draft';
@@ -480,3 +480,11 @@ const AutoCVApplyFocusTracker = (() => {
 
     return { bindFocusTracking, FOCUSED_FIELD_KEY };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyFocusTracker = AutoCVApplyFocusTracker;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyFocusTracker = AutoCVApplyFocusTracker;
+}

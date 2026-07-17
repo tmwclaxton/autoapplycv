@@ -8,6 +8,7 @@ use App\Models\CvProfile;
 use App\Models\JobApplication;
 use App\Support\AiPhraseDenylist;
 use App\Support\ApplicationAnswers;
+use App\Support\CoverLetterBodyText;
 use App\Support\ProfileAnswerGrounding;
 use App\Support\ProfileFieldRegistry;
 use App\Support\ProfileIdentityFieldResolver;
@@ -1002,12 +1003,16 @@ class ApplicationAssistantService
         $result = $this->nanoGpt->chatWithUsage([
             [
                 'role' => 'system',
-                'content' => $this->systemPrompt($profile)."\n\nWrite concise, truthful cover letters. Do not invent experience.",
+                'content' => $this->systemPrompt($profile)."\n\n".$this->coverLetterWritingGuidelines(),
             ],
             [
                 'role' => 'user',
-                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only. Write in first person. Sound human and specific - mention real details from the profile and tie them to this employer. Avoid generic AI phrases listed in your system guidelines.\n\n"
-                    .json_encode($job, JSON_THROW_ON_ERROR),
+                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only.\n\n"
+                    .$this->coverLetterStructureInstructions()."\n\n"
+                    .json_encode([
+                        'job' => $job,
+                        'candidate_full_name' => $profile->full_name,
+                    ], JSON_THROW_ON_ERROR),
             ],
         ], [
             'model' => config('cv.extraction_model'),
@@ -1018,8 +1023,21 @@ class ApplicationAssistantService
             return null;
         }
 
+        $content = CoverLetterBodyText::finalize(
+            $this->sanitizeAssistantText(trim($result['content'])),
+            [
+                'full_name' => $profile->full_name,
+                'headline' => $profile->headline,
+                'email' => $profile->email,
+                'phone' => $profile->phone,
+                'city' => $profile->city,
+                'location' => $profile->location,
+            ],
+            $job,
+        );
+
         return [
-            'content' => $this->sanitizeAssistantText(trim($result['content'])),
+            'content' => $content,
             'usage' => [
                 'prompt_tokens' => $result['prompt_tokens'],
                 'completion_tokens' => $result['completion_tokens'],
@@ -1242,6 +1260,37 @@ Formatting:
 Identity (non-negotiable):
 - First name, last name, email, phone, and city must match the profile exactly. Never invent or localize identity to the employer's country or language.
 - Open-ended answers must reflect this candidate's real experience from the profile - not a generic marketing persona.
+GUIDE;
+    }
+
+    private function coverLetterWritingGuidelines(): string
+    {
+        return <<<'GUIDE'
+Write concise, truthful cover letters. Do not invent experience, employers, metrics, or tech stacks.
+
+The PDF design template already shows the candidate name, headline, email, phone, and location in a header or sidebar - never repeat those as a letterhead in the body. Do not add date lines, "Re:" subject lines, or job meta lines above the greeting.
+
+Body content must earn the reader's time:
+- Name the employer and role early, and give one concrete reason this job fits (drawn from the job description or company context - not generic enthusiasm).
+- Ground the middle in one real employer and job title from profile.experience, plus one concrete achievement, responsibility, or skill that maps to this role.
+- Close with a short, confident next-step sentence. Do not flatter the company or pad with filler.
+- Prefer specific verbs and outcomes over vague claims ("proven track record", "passionate about your mission", "perfect fit", "leverage synergies").
+- Sound human: first person, plain words, varied sentence length. Avoid the AI clichés listed in your system guidelines.
+GUIDE;
+    }
+
+    private function coverLetterStructureInstructions(): string
+    {
+        return <<<'GUIDE'
+Required structure (plain text only):
+1. Greeting on its own line: "Dear Hiring Manager," or "Dear {Name}," if hiring_manager, contact_name, or recruiter_name is present in the job payload.
+2. Exactly three short body paragraphs (blank line between each):
+   - Why this role: state the job title and employer, plus one specific reason you are applying (tie to the job description when available).
+   - Relevant experience: name a real employer and title from the profile, and connect one concrete achievement or skill to what this role needs. No invented numbers.
+   - Fit close: one or two sentences on what you would bring next, ending with a brief invitation to discuss.
+3. Sign-off on its own line ("Yours sincerely," when addressing a named person, otherwise "Yours faithfully,"), then the candidate's full name on the next line.
+
+Do not include contact blocks, addresses, phone numbers, email lines, or a second copy of the candidate name above the greeting.
 GUIDE;
     }
 

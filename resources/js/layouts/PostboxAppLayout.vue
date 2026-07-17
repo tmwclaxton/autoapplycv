@@ -7,7 +7,7 @@ import PostboxShell from '@/components/postbox/PostboxShell.vue';
 withDefaults(
     defineProps<{
         tagline?: string;
-        maxWidth?: '4xl' | '5xl' | '6xl';
+        maxWidth?: '4xl' | '5xl' | '6xl' | '7xl';
     }>(),
     {
         tagline: 'Stop retyping your life story.',

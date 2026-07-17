@@ -12,6 +12,7 @@ use App\Services\CvProfileDocumentService;
 use App\Support\AiAssistCosts;
 use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
+use App\Support\CoverLetterDesignSettings;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -46,12 +47,16 @@ class ProfileController extends Controller
         $applicationAnswers = $validated['application_answers'] ?? null;
         $applicationAnswersAppend = $validated['application_answers_append'] ?? null;
         $applicationAnswersRemoveId = $validated['application_answers_remove_id'] ?? null;
+        $coverLetterDesign = array_key_exists('cover_letter_design', $validated) ? $validated['cover_letter_design'] : null;
+        $coverLetterFont = array_key_exists('cover_letter_font', $validated) ? $validated['cover_letter_font'] : null;
         unset(
             $validated['structured_data'],
             $validated['application_settings'],
             $validated['application_answers'],
             $validated['application_answers_append'],
             $validated['application_answers_remove_id'],
+            $validated['cover_letter_design'],
+            $validated['cover_letter_font'],
         );
 
         $profile = CvProfile::updateOrCreate(
@@ -99,13 +104,23 @@ class ProfileController extends Controller
             $answersChanged = true;
         }
 
-        if ($structuredPatch !== [] || $applicationSettingsPatch !== [] || $answersChanged) {
+        if ($coverLetterDesign !== null || $coverLetterFont !== null) {
+            $normalized = CoverLetterDesignSettings::normalize(
+                $coverLetterDesign ?? $profile->cover_letter_design,
+                $coverLetterFont ?? $profile->cover_letter_font,
+            );
+            $profile->cover_letter_design = $normalized['cover_letter_design'];
+            $profile->cover_letter_font = $normalized['cover_letter_font'];
+        }
+
+        if ($structuredPatch !== [] || $applicationSettingsPatch !== [] || $answersChanged || $coverLetterDesign !== null || $coverLetterFont !== null) {
             $profile->save();
         }
 
         $profile->refresh();
 
         $applicationSettings = ApplicationSettings::merge($profile->application_settings);
+        $coverLetterSettings = CoverLetterDesignSettings::normalize($profile->cover_letter_design, $profile->cover_letter_font);
 
         return response()->json([
             'success' => true,
@@ -130,6 +145,8 @@ class ProfileController extends Controller
                 'structured_data' => $profile->structured_data ?? [],
                 'application_settings' => $applicationSettings,
                 'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
+                'cover_letter_design' => $coverLetterSettings['cover_letter_design'],
+                'cover_letter_font' => $coverLetterSettings['cover_letter_font'],
             ],
             'subscription' => $this->aiTokens->summary($user),
             'ai_assist' => AiAssistCosts::forFrontend(),
@@ -142,6 +159,7 @@ class ProfileController extends Controller
     private function profilePayload(User $user, CvProfile $profile): array
     {
         $applicationSettings = ApplicationSettings::merge($profile->application_settings);
+        $coverLetterSettings = CoverLetterDesignSettings::normalize($profile->cover_letter_design, $profile->cover_letter_font);
 
         return [
             'user' => [
@@ -168,6 +186,8 @@ class ProfileController extends Controller
                 'formatted_cv_text' => $profile->formatted_cv_text,
                 'extra_context' => $profile->extra_context,
                 'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
+                'cover_letter_design' => $coverLetterSettings['cover_letter_design'],
+                'cover_letter_font' => $coverLetterSettings['cover_letter_font'],
             ],
             'documents' => $user->profileDocuments()
                 ->latest()
@@ -177,6 +197,8 @@ class ProfileController extends Controller
                 ->all(),
             'document_categories' => ProfileDocumentCategory::uploadOptions(),
             'application_settings' => $applicationSettings,
+            'cover_letter_design' => $coverLetterSettings['cover_letter_design'],
+            'cover_letter_font' => $coverLetterSettings['cover_letter_font'],
             'computed_earliest_start' => ApplicationSettings::computeEarliestStart($applicationSettings['notice_period']),
             'subscription' => $this->aiTokens->summary($user),
             'ai_assist' => AiAssistCosts::forFrontend(),

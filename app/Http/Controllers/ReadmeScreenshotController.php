@@ -6,6 +6,7 @@ use App\Enums\ProfileDocumentCategory;
 use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Support\CoverLetterDesignSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,7 @@ class ReadmeScreenshotController extends Controller
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
             'extensionUsage' => $this->aiTokens->extensionUsageSummary($user),
+            'coverLetterDesignOptions' => CoverLetterDesignSettings::optionsForFrontend(),
             ...$this->documentPageProps($user),
         ]);
     }

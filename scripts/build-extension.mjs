@@ -267,6 +267,18 @@ copyFileSync(
     join(DIST, 'cover-letter-pdf.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/cover-letter-pdf-metrics.js'),
+    join(DIST, 'cover-letter-pdf-metrics.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cover-letter-draft.js'),
+    join(DIST, 'cover-letter-draft.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/cover-letter-designs.js'),
+    join(DIST, 'cover-letter-designs.js'),
+);
+copyFileSync(
     join(SRC, 'shared/pdf-win-ansi.js'),
     join(DIST, 'pdf-win-ansi.js'),
 );

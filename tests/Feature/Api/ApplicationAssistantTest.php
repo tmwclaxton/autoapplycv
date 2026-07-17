@@ -162,15 +162,23 @@ class ApplicationAssistantTest extends TestCase
         ]);
         $token = $user->createToken('extension')->plainTextToken;
 
-        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('chatWithUsage')->once()->andReturn([
-                'content' => 'Dear hiring manager, I am excited to apply.',
-                'prompt_tokens' => 100,
-                'completion_tokens' => 50,
-                'total_tokens' => 150,
-                'credits' => null,
-                'model' => 'openai/gpt-4.1-mini',
-            ]);
+        $capturedMessages = null;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$capturedMessages): void {
+            $mock->shouldReceive('chatWithUsage')
+                ->once()
+                ->andReturnUsing(function (array $messages) use (&$capturedMessages): array {
+                    $capturedMessages = $messages;
+
+                    return [
+                        'content' => "Alex Developer\nalex@example.com\n\nI am excited to apply for this role.",
+                        'prompt_tokens' => 100,
+                        'completion_tokens' => 50,
+                        'total_tokens' => 150,
+                        'credits' => null,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ];
+                });
         });
 
         $this->withToken($token)
@@ -180,10 +188,24 @@ class ApplicationAssistantTest extends TestCase
                 ],
             ])
             ->assertOk()
-            ->assertJsonPath('cover_letter', 'Dear hiring manager, I am excited to apply.')
+            ->assertJsonPath(
+                'cover_letter',
+                "Dear Hiring Manager,\n\nI am excited to apply for this role.\n\nYours faithfully,\nAlex Developer",
+            )
             ->assertJsonPath('credit_cost', 5);
 
         $this->assertSame(5, $user->fresh()->ai_tokens_used);
+
+        $systemPrompt = (string) ($capturedMessages[0]['content'] ?? '');
+        $userPrompt = (string) ($capturedMessages[1]['content'] ?? '');
+
+        $this->assertStringContainsString('never repeat those as a letterhead', $systemPrompt);
+        $this->assertStringContainsString('Name the employer and role early', $systemPrompt);
+        $this->assertStringContainsString('Exactly three short body paragraphs', $userPrompt);
+        $this->assertStringContainsString('Why this role', $userPrompt);
+        $this->assertStringContainsString('Relevant experience', $userPrompt);
+        $this->assertStringContainsString('Yours faithfully', $userPrompt);
+        $this->assertStringContainsString('Do not include contact blocks', $userPrompt);
     }
 
     public function test_api_can_generate_tailored_resume(): void

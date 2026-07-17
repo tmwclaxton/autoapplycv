@@ -10,7 +10,7 @@ Before creating a git commit - or before finishing a task that changed JS, Vue, 
 ```bash
 npm run format:check    # if it fails: npm run format
 npm run em-dash:check   # if it fails: npm run em-dash:fix
-npm run lint:check:ci   # if it fails: rm -rf resources/js/routes resources/js/actions && npm run lint -- --fix && php artisan wayfinder:generate
+npm run lint:check:ci   # if it fails: rm -rf resources/js/routes resources/js/actions && npm run lint -- --fix && php artisan wayfinder:generate --with-form
 ```
 
 For PHP changes, also run:
@@ -25,14 +25,14 @@ Only commit when all applicable checks pass. If you auto-fixed issues, mention w
 
 GitHub Actions runs `npm run lint:check` on a fresh checkout **without** gitignored Wayfinder output (`resources/js/routes`, `resources/js/actions`). When those folders exist locally, ESLint resolves `@/routes` / `@/actions` differently and `import/order` can pass locally while CI fails.
 
-Always verify lint with **`npm run lint:check:ci`**, which removes those dirs, runs `lint:check`, then runs `php artisan wayfinder:generate` to restore them.
+Always verify lint with **`npm run lint:check:ci`**, which removes those dirs, runs `lint:check`, then runs `php artisan wayfinder:generate --with-form` to restore them (including `.form()` helpers used by Inertia `<Form>` pages).
 
 Manual equivalent:
 
 ```bash
 rm -rf resources/js/routes resources/js/actions
 npm run lint:check
-php artisan wayfinder:generate
+php artisan wayfinder:generate --with-form
 ```
 
 Do not rely on `npm run lint:check` alone before push if Wayfinder output is present.

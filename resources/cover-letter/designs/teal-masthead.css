@@ -1,0 +1,106 @@
+:root {
+    --ink: #102a2a;
+    --muted: #4a6666;
+    --accent: #0d9488;
+    --paper: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: #e8ecec;
+}
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: var(--paper);
+    box-shadow: 0 12px 40px rgba(16, 42, 42, 0.12);
+    overflow: hidden;
+    position: relative;
+}
+.name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+.headline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    opacity: 0.9;
+}
+.contact {
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.88;
+}
+.letter {
+    padding: 28px 40px 48px;
+}
+.date {
+    font-size: 13px;
+    margin-bottom: 22px;
+    color: var(--muted);
+}
+.greeting {
+    font-size: 14.5px;
+    margin-bottom: 16px;
+}
+.paragraph {
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    color: var(--ink);
+    max-width: 62ch;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    overflow-wrap: break-word;
+}
+.signoff {
+    margin-top: 22px;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+.signoff strong {
+    font-family: var(--font-display);
+    font-size: 16px;
+    display: block;
+    margin-top: 10px;
+}
+.meta-job {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.masthead {
+    background: linear-gradient(135deg, #0f766e 0%, #115e59 55%, #134e4a 100%);
+    color: #fff;
+    padding: 36px 40px 32px;
+}
+.name {
+    font-size: 40px;
+    color: #fff;
+}
+.headline {
+    font-size: 15px;
+    margin-top: 10px;
+    color: #fff;
+}
+.contact {
+    margin-top: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 52ch;
+}
+.letter {
+    padding-top: 32px;
+}

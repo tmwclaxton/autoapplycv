@@ -109,6 +109,7 @@ class ProfileFieldRegistry
             'structured_data.additional_sections' => ['sometimes', 'nullable', 'array'],
             ...ApplicationSettings::validationRules(),
             ...ApplicationAnswers::validationRules(),
+            ...CoverLetterDesignSettings::validationRules(),
         ];
     }
 

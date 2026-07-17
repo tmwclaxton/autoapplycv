@@ -1,7 +1,7 @@
 /**
  * CV-Library Easy Apply DOM helpers for Auto Apply (content script global).
  */
-const AutoCVApplyCvLibraryAutoApply = (() => {
+var AutoCVApplyCvLibraryAutoApply = (() => {
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
@@ -953,3 +953,11 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         findJobCardById,
     };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyCvLibraryAutoApply = AutoCVApplyCvLibraryAutoApply;
+}
+
+if (typeof window !== 'undefined') {
+    window.AutoCVApplyCvLibraryAutoApply = AutoCVApplyCvLibraryAutoApply;
+}

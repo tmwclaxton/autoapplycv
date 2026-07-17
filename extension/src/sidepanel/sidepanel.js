@@ -11,17 +11,17 @@ import {
     normalizeLoginEndpoint,
     parseConnectionInput,
 } from './connection.js';
-import {
-    buildCoverLetterPdfFileName,
-    downloadCoverLetterPdf,
-} from './cover-letter-pdf.js';
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
+import { triggerBrowserDownload } from './file-transfer.js';
 import { formatContentScriptUserError } from './form-frame-messaging.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const CAPTCHA_ALERT_STORAGE_KEY = 'autoApplyLastCaptchaAlertKey';
+
+/** @type {{ id: number, text: string } | null} */
+let lastGeneratedCoverLetterDocument = null;
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');
@@ -380,6 +380,33 @@ function coverLetterSavedMessage(response) {
     return 'Cover letter ready.';
 }
 
+function rememberGeneratedCoverLetterDocument(response, text) {
+    const documentId = response?.saved_document?.id;
+    const letterText = String(text ?? response?.cover_letter ?? '').trim();
+
+    if (!documentId || letterText === '') {
+        lastGeneratedCoverLetterDocument = null;
+
+        return;
+    }
+
+    lastGeneratedCoverLetterDocument = {
+        id: documentId,
+        text: letterText,
+    };
+}
+
+function dataUrlToDownloadPayload(response) {
+    const rawBase64 = String(response?.base64 ?? '');
+    const base64 = rawBase64.includes(',') ? rawBase64.split(',')[1] : rawBase64;
+
+    return {
+        base64,
+        fileName: response?.fileName || 'cover-letter.pdf',
+        mimeType: response?.mimeType || 'application/pdf',
+    };
+}
+
 async function refreshUsage() {
     try {
         const data = await loadProfile();
@@ -607,11 +634,13 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
         }, statusEl);
 
         outputEl.value = response.cover_letter;
+        rememberGeneratedCoverLetterDocument(response, response.cover_letter);
         setAiOutputVisible('cover-output', 'cover-actions', true);
         statusEl.textContent = coverLetterSavedMessage(response);
         showMessage(coverLetterSavedMessage(response), 'success');
         await refreshDocumentsPanel();
     } catch (error) {
+        lastGeneratedCoverLetterDocument = null;
         statusEl.textContent = error.message;
         showMessage(error.message, 'error');
     }
@@ -621,8 +650,9 @@ document.getElementById('ats-copy-btn').addEventListener('click', () => copyOutp
 document.getElementById('cover-copy-btn').addEventListener('click', () => copyOutput('cover-output'));
 document.getElementById('cover-pdf-btn').addEventListener('click', async () => {
     const output = document.getElementById('cover-output');
+    const letterText = output?.value.trim() || '';
 
-    if (!output?.value.trim()) {
+    if (!letterText) {
         showMessage('Nothing to download yet.', 'error');
 
         return;
@@ -630,32 +660,42 @@ document.getElementById('cover-pdf-btn').addEventListener('click', async () => {
 
     try {
         const job = buildJobPayload();
-        const profileData = await loadProfile();
-        const profile = profileData?.profile ?? null;
 
-        downloadCoverLetterPdf({
-            text: output.value,
-            fileName: buildCoverLetterPdfFileName({
-                jobTitle: job.title,
-                company: job.company,
-            }),
-            profile,
-            job,
-        });
+        // Prefer the server PDF saved at generation (design/font + Random already resolved).
+        if (
+            lastGeneratedCoverLetterDocument?.id
+            && lastGeneratedCoverLetterDocument.text === letterText
+        ) {
+            const savedResponse = await chrome.runtime.sendMessage({
+                type: 'DOWNLOAD_PROFILE_DOCUMENT',
+                documentId: lastGeneratedCoverLetterDocument.id,
+            });
 
-        const saveResponse = await chrome.runtime.sendMessage({
-            type: 'SAVE_COVER_LETTER_DOCUMENT',
-            job,
-            text: output.value,
-        });
+            if (savedResponse?.error) {
+                throw new Error(savedResponse.error);
+            }
 
-        if (saveResponse?.error) {
-            showMessage(saveResponse.error, 'error');
+            triggerBrowserDownload(savedResponse);
+            showMessage('PDF download started.', 'success');
 
             return;
         }
 
-        showMessage(coverLetterSavedMessage(saveResponse), 'success');
+        // Same builder path as Auto Apply (GET_COVER_LETTER_DOCUMENT).
+        const response = await chrome.runtime.sendMessage({
+            type: 'GET_COVER_LETTER_DOCUMENT',
+            job,
+            text: letterText,
+            persist: true,
+            forceProfile: true,
+        });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        triggerBrowserDownload(dataUrlToDownloadPayload(response));
+        showMessage('PDF download started.', 'success');
         await refreshDocumentsPanel();
     } catch (error) {
         showMessage(error.message, 'error');
