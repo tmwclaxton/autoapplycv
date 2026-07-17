@@ -241,10 +241,16 @@ export async function findIndeedApplyFrameId(tabId) {
     return 0;
 }
 
-export async function sendIndeedApplyFlowMessage(tabId, message) {
+export async function sendIndeedApplyFlowMessage(tabId, message, options = {}) {
     const frameId = await findIndeedApplyFrameId(tabId);
+    const type = String(message?.type || '');
+    // FILL_AND_ADVANCE waits up to ~14s for a step transition inside the content
+    // script; keep bridge timeout above that so navigations do not surface as errors.
+    const timeoutMs = typeof options.timeoutMs === 'number' && options.timeoutMs > 0
+        ? options.timeoutMs
+        : (type === 'INDEED_FILL_AND_ADVANCE' ? 45_000 : 20_000);
 
-    return sendTabMessage(tabId, message, frameId);
+    return sendTabMessage(tabId, message, frameId, { timeoutMs });
 }
 
 export async function findBestFormFrameId(tabId, { force = false } = {}) {

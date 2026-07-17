@@ -8187,9 +8187,36 @@ async function processGlassdoorJob(
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
-            type: 'INDEED_FILL_AND_ADVANCE',
-        });
+        let advanceResponse = null;
+
+        try {
+            advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_FILL_AND_ADVANCE',
+            });
+        } catch (error) {
+            const verify = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_VERIFY_SUBMITTED',
+            }).catch(() => null);
+            const state = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            }).catch(() => null);
+
+            if (verify?.submitted || state?.submitted) {
+                submitted = true;
+                break;
+            }
+
+            if (state?.open && state.stepFingerprint
+                && state.stepFingerprint !== applyState.stepFingerprint) {
+                await logSession(
+                    'info',
+                    `[advance] ${job.title}: continued after FILL_AND_ADVANCE timeout.`,
+                );
+                continue;
+            }
+
+            throw error;
+        }
 
         if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
@@ -8243,6 +8270,19 @@ async function processGlassdoorJob(
         }
 
         if (!advanceResponse?.success) {
+            // Non-transition Continue is retryable - do not hard-skip the job.
+            if (
+                advanceResponse?.action === 'continue'
+                && advanceResponse?.transitioned === false
+            ) {
+                await logSession(
+                    'warn',
+                    `[advance] ${job.title}: Continue did not change step - retrying.`,
+                );
+                await sleep(randomDelay(900, 600));
+                continue;
+            }
+
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: {
                     reason: 'apply_step_unavailable',
