@@ -826,22 +826,6 @@ const AutoCVApplyReedAutoApply = (() => {
         };
     }
 
-    async function waitForSubmissionConfirmation(timeoutMs = 30_000) {
-        const deadline = Date.now() + timeoutMs;
-
-        while (Date.now() < deadline) {
-            const verify = verifySubmitted();
-
-            if (verify.submitted) {
-                return verify;
-            }
-
-            await humanPause(450, 700);
-        }
-
-        return verifySubmitted();
-    }
-
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
         await recoverSessionExpired().catch(() => {});
@@ -885,7 +869,10 @@ const AutoCVApplyReedAutoApply = (() => {
 
         if (submitButton && (isReview || !continueButton)) {
             await clickElement(submitButton);
-            const verify = await waitForSubmissionConfirmation();
+            // Do not wait long here - tab messaging times out around 20s. The
+            // orchestrator polls VERIFY_SUBMITTED after ADVANCE returns.
+            await humanPause(500, 900);
+            const verify = verifySubmitted();
 
             return {
                 success: true,

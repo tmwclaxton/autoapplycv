@@ -14,4 +14,6 @@ test('Reed submit discovery includes modal apply-btn and does not skip .modal', 
     assert.ok(source.includes('[data-qa="apply-job-modal"] button[data-qa="apply-btn"]'));
     assert.ok(source.includes("button.closest('nav, header')"));
     assert.ok(!source.includes("button.closest('.modal, nav, header')"));
+    assert.ok(source.includes('pendingConfirmation'));
+    assert.ok(!source.includes('waitForSubmissionConfirmation'));
 });
