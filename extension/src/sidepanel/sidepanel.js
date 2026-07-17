@@ -34,6 +34,11 @@ const logoutBtn = document.getElementById('logout-btn');
 const tokenInput = document.getElementById('token-input');
 const loginEndpointInput = document.getElementById('login-endpoint');
 const jobContextEl = document.getElementById('job-context');
+const answerQuestionsBtn = document.getElementById('answer-questions-btn');
+const answerQuestionsStatus = document.getElementById('answer-questions-status');
+
+const ANSWER_QUESTIONS_LABEL = 'Answer Questions on Page';
+let answerQuestionsRunning = false;
 
 const aiTabs = new Set(['ats', 'cover']);
 
@@ -81,6 +86,60 @@ function showMessage(text, tone = 'success') {
         messageEl.className = 'message';
         messageEl.textContent = '';
     }, 3000);
+}
+
+function setAnswerQuestionsStatus(text = '') {
+    if (!answerQuestionsStatus) {
+        return;
+    }
+
+    const trimmed = String(text || '').trim();
+    answerQuestionsStatus.textContent = trimmed;
+    answerQuestionsStatus.hidden = trimmed.length === 0;
+}
+
+function setAnswerQuestionsRunning(running, statusText = '') {
+    answerQuestionsRunning = running;
+
+    if (answerQuestionsBtn) {
+        answerQuestionsBtn.disabled = running;
+        answerQuestionsBtn.textContent = running
+            ? (statusText || 'Answering…')
+            : ANSWER_QUESTIONS_LABEL;
+    }
+
+    setAnswerQuestionsStatus(running ? (statusText || 'Answering questions on the page…') : statusText);
+}
+
+async function startAnswerQuestionsOnPage() {
+    if (!answerQuestionsBtn || answerQuestionsRunning) {
+        return;
+    }
+
+    setAnswerQuestionsRunning(true, 'Answering questions on the page…');
+    sidepanelLog.logInfo('draft-all.start', 'Answer Questions on Page clicked', {});
+
+    try {
+        const response = await chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' });
+
+        if (response?.error) {
+            setAnswerQuestionsRunning(false, '');
+            showMessage(response.error, 'error');
+
+            return;
+        }
+
+        const doneMessage = response?.message || 'Questions answered.';
+        setAnswerQuestionsRunning(false, '');
+        showMessage(doneMessage, 'success');
+
+        if (pendingFieldsPanel?.refreshPendingFields) {
+            void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        }
+    } catch (error) {
+        setAnswerQuestionsRunning(false, '');
+        showMessage(error?.message || 'Failed to answer questions on the page.', 'error');
+    }
 }
 
 function formatCredits(value) {
@@ -630,6 +689,10 @@ document.getElementById('open-debug-logs-btn').addEventListener('click', () => {
     sidepanelLog.logInfo('debug.open', 'Opened debug logs page', {});
 });
 
+answerQuestionsBtn?.addEventListener('click', () => {
+    void startAnswerQuestionsOnPage();
+});
+
 document.getElementById('logout-btn').addEventListener('click', () => {
     chrome.runtime.sendMessage({ type: 'LOGOUT' }, async () => {
         showMessage('Signed out.');
@@ -653,6 +716,14 @@ chrome.runtime.onMessage.addListener((message) => {
         sidepanelLog.logInfo('draft-all.progress', message.message || 'Draft All progress', {
             message: message.message,
         });
+
+        if (answerQuestionsRunning && message.message) {
+            if (answerQuestionsBtn) {
+                answerQuestionsBtn.textContent = 'Answering…';
+            }
+
+            setAnswerQuestionsStatus(message.message);
+        }
     }
 
     if (message.type === 'DRAFT_ALL_DONE') {
@@ -660,6 +731,10 @@ chrome.runtime.onMessage.addListener((message) => {
             message: message.message,
             pendingCount: message.pendingCount,
         });
+
+        if (answerQuestionsRunning) {
+            setAnswerQuestionsRunning(false, '');
+        }
 
         if (pendingFieldsPanel?.refreshPendingFields) {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});

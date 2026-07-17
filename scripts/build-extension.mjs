@@ -548,7 +548,6 @@ copyFileSync(
     join(SRC, 'content/field-highlighter.js'),
     join(DIST, 'field-highlighter.js'),
 );
-copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
 copyFileSync(
     join(SRC, 'sidepanel/sidepanel.html'),

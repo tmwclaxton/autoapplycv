@@ -5,7 +5,6 @@
 
 let profile = null;
 let overlayRefreshTimer = null;
-let overlayRefreshInFlight = false;
 let fieldHighlightRefreshInFlight = false;
 let cachedAuthenticated = false;
 let pendingSidePanelOpen = undefined;
@@ -64,10 +63,6 @@ function teardownContentScriptOnInvalidContext() {
     if (onVisibilityChangeRefresh) {
         document.removeEventListener('visibilitychange', onVisibilityChangeRefresh);
         onVisibilityChangeRefresh = null;
-    }
-
-    if (typeof AutoCVApplyPortalBar !== 'undefined') {
-        AutoCVApplyPortalBar.destroy();
     }
 
     if (typeof AutoCVApplyFieldHighlighter !== 'undefined') {
@@ -680,63 +675,9 @@ async function loadProfile({ force = false } = {}) {
 }
 
 function removeLegacyFillOverlay() {
-    document.querySelectorAll('#autocvapply-fill-btn').forEach((element) => {
-        if (!element.closest('#autocvapply-portal-bar')) {
-            element.remove();
-        }
+    document.querySelectorAll('#autocvapply-fill-btn, #autocvapply-portal-bar').forEach((element) => {
+        element.remove();
     });
-}
-
-async function runFullFill() {
-    contentLog('info', 'draft-all.start', 'Draft All triggered from content script', {});
-
-    // Always refresh subscription before the gate - content-script profile can stay
-    // stale for the whole page lifetime (e.g. after a bonus award or period reset).
-    await loadProfile({ force: true });
-
-    if (!profile) {
-        return { ok: false, message: '⚠ Sign in to AutoCVApply first' };
-    }
-
-    const remaining = profile.subscription?.credits_remaining ?? 0;
-
-    if (remaining <= 0 || profile.subscription?.can_use_credits === false) {
-        contentLog('warn', 'draft-all.start', 'Credit limit reached', {
-            remaining,
-            canUseCredits: profile.subscription?.can_use_credits,
-            blockReason: profile.subscription?.credit_block_reason ?? null,
-        });
-
-        return { ok: false, message: '⚠ Monthly limit reached' };
-    }
-
-    const ctx = extensionContext();
-
-    if (!ctx) {
-        return { ok: false, message: 'Extension context unavailable.' };
-    }
-
-    const draftResult = await new Promise((resolve) => {
-        ctx.safeRuntimeSendCallback({ type: 'START_DRAFT_ALL' }, resolve);
-    });
-
-    if (draftResult?.error) {
-        contentLog('error', 'draft-all.complete', 'Draft All returned error', { error: draftResult.error });
-
-        return { ok: false, message: draftResult.error };
-    }
-
-    contentLog('info', 'draft-all.complete', 'Draft All background finished', {
-        message: draftResult?.message,
-    });
-
-    await fillResumeFileInput();
-    await fillCoverLetterFileInput();
-
-    return {
-        ok: true,
-        message: draftResult?.message || '✓ Fill complete',
-    };
 }
 
 async function init() {
@@ -748,10 +689,6 @@ async function init() {
 
     if (window !== window.top) {
         return;
-    }
-
-    if (typeof AutoCVApplyPortalBar !== 'undefined') {
-        AutoCVApplyPortalBar.configure({ onFill: runFullFill });
     }
 
     removeLegacyFillOverlay();
@@ -876,159 +813,9 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         const explicitSidePanelOpen = pendingSidePanelOpen;
         pendingSidePanelOpen = undefined;
         overlayRefreshTimer = null;
-        void refreshFillButtonVisibility(explicitSidePanelOpen);
+        removeLegacyFillOverlay();
         void refreshFieldHighlights(explicitSidePanelOpen);
     }, 350);
-}
-
-async function refreshFillButtonVisibility(explicitSidePanelOpen) {
-    if (overlayRefreshInFlight) {
-        scheduleOverlayRefresh(explicitSidePanelOpen);
-
-        return;
-    }
-
-    overlayRefreshInFlight = true;
-
-    try {
-        await runOverlayRefresh(explicitSidePanelOpen);
-    } finally {
-        overlayRefreshInFlight = false;
-    }
-}
-
-function isIndeedApplyHostPage() {
-    try {
-        if (/smartapply\.indeed\.com/i.test(window.location.hostname)) {
-            return true;
-        }
-
-        return /indeedapply/i.test(window.location.pathname || '');
-    } catch {
-        return false;
-    }
-}
-
-function isGlassdoorApplyHostPage() {
-    if (typeof AutoCVApplyGlassdoorAutoApply?.isEasyApplyHostPage === 'function') {
-        return AutoCVApplyGlassdoorAutoApply.isEasyApplyHostPage();
-    }
-
-    try {
-        if (!/glassdoor\.(com|co\.uk)$/i.test(window.location.hostname)) {
-            return false;
-        }
-
-        for (const iframe of document.querySelectorAll('iframe')) {
-            const title = iframe.getAttribute('title') || '';
-            const src = iframe.getAttribute('src') || '';
-
-            if (/job application form/i.test(title) || /indeedapply|smartapply\.indeed/i.test(src)) {
-                return true;
-            }
-        }
-
-        return false;
-    } catch {
-        return false;
-    }
-}
-
-function isSimplyHiredApplyHostPage() {
-    if (typeof AutoCVApplySimplyHiredAutoApply?.isEasyApplyHostPage === 'function') {
-        return AutoCVApplySimplyHiredAutoApply.isEasyApplyHostPage();
-    }
-
-    try {
-        if (!/(^|\.)simplyhired\.(co\.uk|com)$/i.test(window.location.hostname)) {
-            return false;
-        }
-
-        for (const iframe of document.querySelectorAll('iframe')) {
-            const title = iframe.getAttribute('title') || '';
-            const src = iframe.getAttribute('src') || '';
-
-            if (/job application form/i.test(title) || /indeedapply|smartapply\.indeed/i.test(src)) {
-                return true;
-            }
-        }
-
-        return false;
-    } catch {
-        return false;
-    }
-}
-
-function isReedApplyHostPage() {
-    if (typeof AutoCVApplyReedAutoApply?.isEasyApplyHostPage === 'function') {
-        return AutoCVApplyReedAutoApply.isEasyApplyHostPage();
-    }
-
-    try {
-        if (!/^(www\.)?reed\.co\.uk$/i.test(window.location.hostname)) {
-            return false;
-        }
-
-        const path = window.location.pathname;
-
-        return /^\/jobs\/apply\/\d+/i.test(path)
-            || /^\/jobs\/application\/\d+/i.test(path)
-            || /\/\d+\/apply$/i.test(path);
-    } catch {
-        return false;
-    }
-}
-
-function isCvLibraryApplyHostPage() {
-    if (typeof AutoCVApplyCvLibraryAutoApply?.isEasyApplyHostPage === 'function') {
-        return AutoCVApplyCvLibraryAutoApply.isEasyApplyHostPage();
-    }
-
-    try {
-        if (!/^(www\.)?cv-library\.co\.uk$/i.test(window.location.hostname)) {
-            return false;
-        }
-
-        const path = window.location.pathname;
-
-        return /^\/job\/apply\/\d+/i.test(path);
-    } catch {
-        return false;
-    }
-}
-
-async function runOverlayRefresh(explicitSidePanelOpen) {
-    try {
-        if (window !== window.top) {
-            return;
-        }
-
-        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
-            ? explicitSidePanelOpen
-            : await isSidePanelOpen();
-        const authenticated = await isAuthenticated();
-
-        if (!authenticated) {
-            if (typeof AutoCVApplyPortalBar !== 'undefined') {
-                AutoCVApplyPortalBar.destroy();
-            }
-
-            return;
-        }
-
-        if (typeof AutoCVApplyPortalBar === 'undefined') {
-            return;
-        }
-
-        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage() || isSimplyHiredApplyHostPage() || isReedApplyHostPage() || isCvLibraryApplyHostPage();
-
-        AutoCVApplyPortalBar.update({
-            visible: showPortalBar,
-            sidebarOpen: showPortalBar,
-        });
-    } catch {
-        // Ignore visibility updates on restricted or disconnected pages.
-    }
 }
 
 async function refreshFieldHighlights(explicitSidePanelOpen) {

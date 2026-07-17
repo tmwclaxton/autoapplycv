@@ -16,7 +16,8 @@ class DraftAllExtensionTest extends TestCase
             'scripts/extension-benchmark/test-draft-all-optimizations.mjs',
             'scripts/extension-test/draft-all-pipeline.test.mjs',
             'scripts/extension-test/draft-all-stream.test.mjs',
-            'scripts/extension-test/portal-bar.test.mjs',
+            'scripts/extension-test/form-frame-messaging.test.mjs',
+            'scripts/extension-test/answer-questions-sidepanel.test.mjs',
         ];
     }
 
