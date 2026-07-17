@@ -589,11 +589,39 @@ const AutoCVApplyReedAutoApply = (() => {
         return null;
     }
 
+    function readActiveScreeningQuestionKey() {
+        const wrapper = document.querySelector('[id^="question-wrapper-"]');
+
+        if (wrapper instanceof HTMLElement) {
+            const title = normalize(
+                wrapper.querySelector('[class*="questions_title"]')?.textContent || '',
+            );
+
+            return [wrapper.id, title].filter(Boolean).join('|');
+        }
+
+        const progress = document.querySelector(
+            '[data-qa="progress-bar"][role="progressbar"], [data-qa="screening-questions-container"] [role="progressbar"]',
+        );
+        const progressValue = progress?.getAttribute('aria-valuenow') || '';
+        const field = document.querySelector(
+            '[data-qa="screening-questions-container"] input:not([type="hidden"]), '
+            + '[data-qa="screening-questions-container"] textarea, '
+            + '[data-qa="screening-questions-container"] select, '
+            + '.screening-questions_container__PaYsQ input:not([type="hidden"]), '
+            + '.screening-questions_container__PaYsQ textarea, '
+            + '.screening-questions_container__PaYsQ select',
+        );
+
+        return [progressValue, field?.id || field?.name || ''].filter(Boolean).join('|');
+    }
+
     function readStepFingerprint() {
         const label = readStepLabel() || 'unknown';
         const slug = window.location.pathname.split('/').filter(Boolean).slice(-2).join('/');
+        const questionKey = readActiveScreeningQuestionKey();
 
-        return `${slug}|${label}`;
+        return questionKey ? `${slug}|${label}|${questionKey}` : `${slug}|${label}`;
     }
 
     function readValidationErrors() {
@@ -927,8 +955,18 @@ const AutoCVApplyReedAutoApply = (() => {
             await clickElement(continueButton);
             await humanPause(650, 1100);
 
-            const nextFingerprint = readStepFingerprint();
-            const transitioned = nextFingerprint !== previousFingerprint;
+            let nextFingerprint = readStepFingerprint();
+            let transitioned = nextFingerprint !== previousFingerprint;
+            let validationErrorsAfter = readValidationErrors();
+
+            // One-question-per-step screening keeps the same modal title; wait briefly
+            // for the question wrapper / progress bar to swap before failing.
+            if (!transitioned && validationErrorsAfter.length === 0) {
+                await humanPause(450, 800);
+                nextFingerprint = readStepFingerprint();
+                transitioned = nextFingerprint !== previousFingerprint;
+                validationErrorsAfter = readValidationErrors();
+            }
 
             return {
                 success: transitioned,
@@ -936,7 +974,7 @@ const AutoCVApplyReedAutoApply = (() => {
                 submitted: false,
                 transitioned,
                 stepFingerprint: nextFingerprint,
-                validationErrors: readValidationErrors(),
+                validationErrors: validationErrorsAfter,
                 error: transitioned ? undefined : 'Reed Apply step did not change after Continue.',
             };
         }

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
     buildReedJobApplyUrl,
@@ -36,6 +37,20 @@ test('buildReedJobOpenUrl prefers explicit path', () => {
 
 test('buildReedJobApplyUrl builds apply URL from id', () => {
     assert.equal(buildReedJobApplyUrl('56997857'), 'https://www.reed.co.uk/jobs/apply/56997857');
+});
+
+test('Reed screening fingerprint includes active question key', () => {
+    const source = readFileSync(
+        new URL('../../extension/src/content/reed-auto-apply.js', import.meta.url),
+        'utf8',
+    );
+
+    assert.match(source, /function readActiveScreeningQuestionKey/);
+    assert.match(
+        source,
+        /questionKey \? `\$\{slug\}\|\$\{label\}\|\$\{questionKey\}`/,
+        'Fingerprint must include screening question id/title so Continue advances are detected',
+    );
 });
 
 test('isReedLoginUrl detects Auth0 secure login and authentication paths', () => {

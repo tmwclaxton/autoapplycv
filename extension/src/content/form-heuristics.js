@@ -1412,6 +1412,64 @@ const AutoCVApplyFormHeuristics = (() => {
         return '';
     }
 
+    function isReedApplyHost(doc = document) {
+        try {
+            return /(?:^|\.)reed\.co\.uk$/i.test(doc.location?.hostname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Reed screening questions hide a generic "Answer the question" label and show the
+     * real prompt in #question-wrapper-{id} [class*="questions_title"].
+     */
+    function getReedQuestionLabel(element) {
+        if (!element || !isReedApplyHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const id = String(element.getAttribute?.('id') || element.id || '').trim();
+
+        if (id) {
+            const wrapper = doc.getElementById(`question-wrapper-${id}`);
+            const title = normalize(
+                wrapper?.querySelector?.('[class*="questions_title"]')?.textContent || '',
+            );
+
+            if (title.length >= 2 && !/^answer the question$/i.test(title)) {
+                return title.slice(0, 200);
+            }
+        }
+
+        const formGroup = element.closest('.form-group, [class*="questions_text"]');
+        const siblingTitle = formGroup?.previousElementSibling?.matches?.('[id^="question-wrapper-"], [class*="questions_question"]')
+            ? formGroup.previousElementSibling
+            : null;
+        const siblingText = normalize(
+            siblingTitle?.querySelector?.('[class*="questions_title"]')?.textContent
+            || siblingTitle?.textContent
+            || '',
+        ).replace(/\*$/, '').trim();
+
+        if (siblingText.length >= 2 && !/^answer the question$/i.test(siblingText)) {
+            return siblingText.slice(0, 200);
+        }
+
+        const containerTitle = normalize(
+            element.closest('[data-qa="screening-questions-container"], [class*="screening-questions_container"]')
+                ?.querySelector?.('[class*="questions_title"]')
+                ?.textContent || '',
+        );
+
+        if (containerTitle.length >= 2 && !/^answer the question$/i.test(containerTitle)) {
+            return containerTitle.slice(0, 200);
+        }
+
+        return '';
+    }
+
     function isGreenhouseApplyHost(doc = document) {
         const host = String(doc.location?.hostname || '');
 
@@ -4187,6 +4245,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return greenhouseLabel;
         }
 
+        const reedLabel = getReedQuestionLabel(element);
+
+        if (reedLabel.length >= 2) {
+            return reedLabel;
+        }
+
         const personioLabel = getPersonioQuestionLabel(element);
 
         if (personioLabel.length >= 2) {
@@ -6090,6 +6154,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (greenhouseLabel.length >= 2) {
             return greenhouseLabel;
+        }
+
+        const reedLabel = getReedQuestionLabel(element);
+
+        if (reedLabel.length >= 2) {
+            return reedLabel;
         }
 
         const workableLabel = getWorkableQuestionLabel(element);
