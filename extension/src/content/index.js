@@ -897,17 +897,25 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
         }
 
         const settings = getAutofillSettings();
+        // Count inventoriable fields including already-filled ones so Easy Apply contact
+        // steps (prefilled email/phone) still count as a form host and get outlines.
         const count = AutoCVApplyFormHeuristics.countDraftableFields(
             root,
             profileData.profile,
             settings,
             {},
+            { includeFilled: true },
         );
         // Original fda4e581 gate: paint when the sidepanel is open OR the page is a
         // form host with draftable fields. Requiring sidepanel-only (v2.25.140) meant
         // outlines never appeared when presence/heartbeat lagged - the portal-bar era
-        // still painted on real application forms.
+        // still painted on real application forms. Easy Apply modal open is enough
+        // even when every contact field is already filled.
+        const easyApplyOpen = typeof AutoCVApplyLinkedInAutoApply !== 'undefined'
+            && typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal === 'function'
+            && Boolean(AutoCVApplyLinkedInAutoApply.readEasyApplyModal());
         const isFormHost = count > 0
+            || easyApplyOpen
             || (root === document && AutoCVApplyFormHeuristics.frameHasApplicationForm(document));
         const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
             ? explicitSidePanelOpen
@@ -924,6 +932,7 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             count,
             sidePanelOpen,
             isFormHost,
+            easyApplyOpen,
             rootTag: root === document ? 'document' : (root.tagName || '').toLowerCase(),
         });
     } catch {

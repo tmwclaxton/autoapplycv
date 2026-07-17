@@ -249,7 +249,53 @@ test('content script restores form-host highlight gate and sidepanel-open fast p
     assert.match(contentJs, /sidePanelOpen === true \? 40/);
     assert.match(contentJs, /\(!sidePanelOpen && !isFormHost\)/);
     assert.match(contentJs, /Painted field outlines/);
+    assert.match(contentJs, /includeFilled:\s*true/);
+    assert.match(contentJs, /easyApplyOpen/);
     assert.doesNotMatch(contentJs, /Clear outlines immediately when the sidepanel closes/);
+});
+
+test('LinkedIn Easy Apply contact fixture outlines filled email/phone fields', () => {
+    const HIGHLIGHT_CLASS = 'autocvapply-field-detected';
+    const fixtureHtml = readFileSync(
+        join(ROOT, 'tests/fixtures/auto-apply/linkedin/linkedin-easy-apply-backend-engineer-step1-contact.html'),
+        'utf8',
+    );
+    const window = loadInventoryWindow(
+        fixtureHtml,
+        'https://www.linkedin.com/jobs/view/1234567890/',
+        { withLinkedIn: true },
+    );
+    const highlighter = readFileSync(join(ROOT, 'extension/src/content/field-highlighter.js'), 'utf8')
+        .replace('const AutoCVApplyFieldHighlighter =', 'globalThis.AutoCVApplyFieldHighlighter =');
+    vm.runInContext(highlighter, window);
+
+    assert.ok(
+        window.AutoCVApplyLinkedInAutoApply?.readEasyApplyModal?.(),
+        'expected Easy Apply modal to be detected on contact fixture',
+    );
+
+    const root = window.AutoCVApplyFieldInventory.resolveHighlightRoot();
+    assert.ok(root, 'highlight root should be the Easy Apply modal');
+    assert.match(String(root.className || ''), /jobs-easy-apply-modal/);
+
+    window.AutoCVApplyFieldHighlighter.applyHighlights(
+        root,
+        { full_name: 'Alex Candidate', email: 'candidate@example.com' },
+        {},
+        {},
+    );
+
+    const email = window.document.getElementById('contact-email');
+    const phone = window.document.getElementById('contact-phone');
+    const name = window.document.getElementById('contact-name');
+
+    assert.equal(email?.value, 'candidate@example.com', 'fixture email should be prefilled');
+    assert.ok(email?.classList?.contains(HIGHLIGHT_CLASS), 'filled email must be outlined');
+    assert.ok(phone?.classList?.contains(HIGHLIGHT_CLASS), 'filled phone must be outlined');
+    assert.ok(name?.classList?.contains(HIGHLIGHT_CLASS), 'filled name must be outlined');
+
+    const highlightedCount = window.document.querySelectorAll(`.${HIGHLIGHT_CLASS}`).length;
+    assert.ok(highlightedCount >= 3, `expected >=3 outlines, got ${highlightedCount}`);
 });
 
 test('non-LinkedIn pages still inventory the full document', () => {

@@ -4475,6 +4475,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return oracleLabel;
         }
 
+        const linkedInEasyApplyLabel = getLinkedInEasyApplyFieldLabel(element);
+
+        if (linkedInEasyApplyLabel.length >= 2) {
+            return linkedInEasyApplyLabel;
+        }
+
         const complexSubLabel = getComplexSubfieldLabel(element);
 
         if (complexSubLabel.length >= 2) {
@@ -6259,6 +6265,54 @@ const AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
+    /**
+     * LinkedIn Easy Apply contact/screener fields use fb-dash / artdeco labels that
+     * are more reliable than falling back to the long Ember formElement id.
+     */
+    function getLinkedInEasyApplyFieldLabel(element) {
+        if (!(element instanceof Element)) {
+            return '';
+        }
+
+        const inEasyApply = element.closest?.(
+            '.jobs-easy-apply-modal, .jobs-easy-apply-content, [data-test-modal].jobs-easy-apply-modal, form.jobs-easy-apply-form, .fb-dash-form-element',
+        );
+
+        if (!inEasyApply) {
+            return '';
+        }
+
+        const formElement = element.closest('.fb-dash-form-element') || element.parentElement;
+        const title = formElement?.querySelector?.(
+            '[data-test-text-entity-list-form-title], .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
+        );
+
+        if (title && !title.contains(element)) {
+            const text = normalize(title.textContent);
+
+            if (text.length >= 2 && !/form\s*element\s*urn|easy\s*apply\s*form\s*element/i.test(text)) {
+                return text;
+            }
+        }
+
+        const id = element.getAttribute('id');
+
+        if (id) {
+            const doc = element.ownerDocument || document;
+            const escapedId = typeof CSS !== 'undefined' && CSS.escape
+                ? CSS.escape(id)
+                : id.replace(/"/g, '\\"');
+            const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+            const explicitText = normalize(explicit?.textContent || '');
+
+            if (explicitText.length >= 2 && !/form\s*element\s*urn|easy\s*apply\s*form\s*element/i.test(explicitText)) {
+                return explicitText;
+            }
+        }
+
+        return '';
+    }
+
     function getSmartRecruitersFieldLabel(element) {
         const host = outermostShadowHost(element);
         const scope = host?.closest?.(
@@ -6332,6 +6386,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (phoneInputLabel) {
             return phoneInputLabel;
+        }
+
+        const linkedInEasyApplyLabel = getLinkedInEasyApplyFieldLabel(element);
+
+        if (linkedInEasyApplyLabel.length >= 2) {
+            return linkedInEasyApplyLabel;
         }
 
         if (getAshbyFieldEntry(element)) {
@@ -9048,12 +9108,12 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
-    function collectDraftableFields(root, profile, settings, memo = {}) {
+    function collectDraftableFields(root, profile, settings, memo = {}, options = {}) {
         const items = [];
 
         eachDraftableField(root, profile, settings, memo, (field) => {
             items.push(field);
-        });
+        }, options);
 
         return items;
     }
@@ -9233,8 +9293,8 @@ const AutoCVApplyFormHeuristics = (() => {
         return applied;
     }
 
-    function countDraftableFields(root, profile, settings, memo = {}) {
-        return collectDraftableFields(root, profile, settings, memo).length;
+    function countDraftableFields(root, profile, settings, memo = {}, options = {}) {
+        return collectDraftableFields(root, profile, settings, memo, options).length;
     }
 
     function resolveAnswerForTarget(target, fieldType, answer) {

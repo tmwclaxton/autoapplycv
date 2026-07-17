@@ -205,16 +205,25 @@ const AutoCVApplyFieldHighlighter = (() => {
         ensureStyles();
         clearHighlights();
 
-        AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (_field, target, roleRadios) => {
-            for (const element of resolveHighlightElements(target, roleRadios)) {
-                if (!element || isExtensionUiElement(element)) {
-                    continue;
-                }
+        // Match field inventory: outline inventoriable controls even when already filled.
+        // Easy Apply contact steps (email/phone prefilled) must still show red outlines.
+        AutoCVApplyFormHeuristics.eachDraftableField(
+            root,
+            profile,
+            settings,
+            memo,
+            (_field, target, roleRadios) => {
+                for (const element of resolveHighlightElements(target, roleRadios)) {
+                    if (!element || isExtensionUiElement(element)) {
+                        continue;
+                    }
 
-                element.classList.add(HIGHLIGHT_CLASS);
-                highlightedElements.add(element);
-            }
-        });
+                    element.classList.add(HIGHLIGHT_CLASS);
+                    highlightedElements.add(element);
+                }
+            },
+            { includeFilled: true },
+        );
     }
 
     return { applyHighlights, clearHighlights };

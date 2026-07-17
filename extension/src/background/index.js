@@ -2014,7 +2014,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         const fields = inventoryFieldsToDraftShape(mechanicalFields);
 
         if (fields.length === 0) {
-            return { error: 'No application questions found on this page.' };
+            return { error: 'No empty questions to fill on this page.' };
         }
 
         return { fields, job, formFrameId, inventorySource: 'mechanical' };
@@ -2074,7 +2074,11 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     );
 
     if (fields.length === 0) {
-        return { error: 'No application questions found on this page.' };
+        return {
+            error: (initialCollect.snapshot?.elements?.length || 0) > 0
+                ? 'No empty questions to fill on this page.'
+                : 'No application questions found on this page.',
+        };
     }
 
     return { fields, job, formFrameId, inventorySource: inventory.source || 'llm' };
