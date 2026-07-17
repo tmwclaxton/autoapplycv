@@ -32,6 +32,16 @@ test('sidepanel wires Answer All Questions on Web Page to START_DRAFT_ALL', () =
     assert.match(sidepanelJs, /START_DRAFT_ALL/);
     assert.match(sidepanelJs, /answer-questions-btn/);
     assert.match(sidepanelJs, /ANSWER_QUESTIONS_LABEL\s*=\s*'Answer All Questions on Web Page'/);
+    assert.match(
+        sidepanelJs,
+        /Stay on the current sidepanel tab[\s\S]*Do not switch to Auto Apply/,
+    );
+});
+
+test('sidepanel shows Cancel while answering and sends CANCEL_DRAFT_ALL', () => {
+    assert.match(sidepanelHtml, /id="answer-questions-cancel-btn"/);
+    assert.match(sidepanelJs, /CANCEL_DRAFT_ALL/);
+    assert.match(sidepanelJs, /cancelAnswerQuestionsOnPage/);
 });
 
 test('sidepanel maps missing content-script errors to a refresh hint', () => {

@@ -441,12 +441,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
     }
 
     chrome.tabs.get(tabId)
-        .then((tab) => {
+        .then(async (tab) => {
             if (!isInjectableTabUrl(tab.url)) {
                 return;
             }
 
-            notifyTabOverlayVisibility(tabId);
+            const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+
+            if (resolveSidePanelOpen(storage)) {
+                await ensureActiveTabContentScriptForHighlights(tabId);
+            }
+
+            await notifyTabOverlayVisibility(tabId);
             void prefetchJobContextForTab(tabId, tab);
             void prefetchSnapshotForTab(tabId, tab);
         })
@@ -459,6 +465,7 @@ chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
 
         if (resolveSidePanelOpen(storage)) {
             await rememberSidePanelHostTab({ tabId, windowId });
+            await ensureActiveTabContentScriptForHighlights(tabId);
         }
 
         await notifyTabOverlayVisibility(tabId);
@@ -715,7 +722,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then(sendResponse)
             .catch((err) => {
                 logDraftError('draft-all.start', 'E2E Draft All failed', err, message.tabId);
-                sendResponse({ error: err.message });
+                sendResponse({ error: formatContentScriptUserError(err) });
             });
 
         return true;
@@ -2056,7 +2063,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
     if (draftAllRunning) {
         logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
 
-        return { error: 'Draft-all is already running on this tab.' };
+        return { error: 'Already answering questions on this page.' };
     }
 
     draftAllRunning = true;
@@ -2927,6 +2934,22 @@ async function postAssist(path, body) {
     return data;
 }
 
+async function ensureActiveTabContentScriptForHighlights(tabId = null) {
+    try {
+        const resolvedTabId = typeof tabId === 'number'
+            ? tabId
+            : await resolveActiveTabId();
+
+        if (typeof resolvedTabId !== 'number') {
+            return;
+        }
+
+        await ensureTabContentScript(resolvedTabId);
+    } catch {
+        // Non-injectable pages stay without highlights until refresh.
+    }
+}
+
 async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) {
     const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
 
@@ -2940,6 +2963,10 @@ async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) 
     }
 
     if (wasOpen !== true) {
+        // Inject content script if missing (post-reload tabs), then paint highlights.
+        await ensureActiveTabContentScriptForHighlights(
+            typeof tabId === 'number' ? tabId : null,
+        );
         await broadcastAutofillVisibility();
     }
 }

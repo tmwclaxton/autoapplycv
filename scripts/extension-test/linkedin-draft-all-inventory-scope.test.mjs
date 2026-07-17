@@ -183,6 +183,42 @@ test('LinkedIn Easy Apply modal open scopes inventory to modal fields', () => {
     );
 });
 
+test('resolveHighlightRoot matches inventory scope on LinkedIn SERP and Easy Apply', () => {
+    const serpWindow = loadInventoryWindow(
+        SERP_WITH_FILTERS_HTML,
+        'https://www.linkedin.com/jobs/search/?currentJobId=1',
+        { withLinkedIn: true },
+    );
+    const serpRoot = serpWindow.AutoCVApplyFieldInventory.resolveHighlightRoot();
+
+    assert.ok(serpRoot, 'job detail pane should be highlight root');
+    assert.equal(serpRoot.id, 'job-detail-pane');
+    assert.equal(
+        serpRoot.contains(serpWindow.document.querySelector('#serp-filters')),
+        false,
+        'highlight root must not include SERP filters',
+    );
+
+    const modalWindow = loadInventoryWindow(
+        EASY_APPLY_MODAL_HTML,
+        'https://www.linkedin.com/jobs/search/?currentJobId=1',
+        { withLinkedIn: true },
+    );
+    const modalRoot = modalWindow.AutoCVApplyFieldInventory.resolveHighlightRoot();
+
+    assert.ok(modalRoot, 'Easy Apply modal should be highlight root');
+    assert.match(modalRoot.className || '', /jobs-easy-apply-modal/);
+});
+
+test('content script paints highlights from resolveHighlightRoot when sidepanel opens', () => {
+    const contentJs = readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8');
+
+    assert.match(contentJs, /resolveHighlightRoot/);
+    assert.match(contentJs, /queuedHighlightSidePanelOpen/);
+    assert.match(contentJs, /sidePanelOpen === true \? 40/);
+    assert.match(contentJs, /Clear outlines immediately when the sidepanel closes/);
+});
+
 test('non-LinkedIn pages still inventory the full document', () => {
     const html = `<!doctype html><html><body>
       <form>

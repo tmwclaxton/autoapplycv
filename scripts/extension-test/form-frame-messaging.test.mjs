@@ -29,7 +29,10 @@ test('formatContentScriptUserError maps Chrome receiving-end errors to refresh h
         formatContentScriptUserError(new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE)),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
-    assert.equal(formatContentScriptUserError('Draft-all is already running on this tab.'), 'Draft-all is already running on this tab.');
+    assert.equal(
+        formatContentScriptUserError('Already answering questions on this page.'),
+        'Already answering questions on this page.',
+    );
 });
 
 test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {

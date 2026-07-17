@@ -591,6 +591,26 @@ const AutoCVApplyFieldInventory = (() => {
         return null;
     }
 
+    /**
+     * Mechanical highlight scope - same rules as Draft All inventory.
+     * Easy Apply modal > LinkedIn job detail > full document.
+     * Returns null on LinkedIn SERP/view when there is no job-detail pane
+     * (avoids outlining search filter checkboxes).
+     */
+    function resolveHighlightRoot() {
+        const easyApplyModal = resolveLinkedInEasyApplyInventoryRoot();
+
+        if (easyApplyModal) {
+            return easyApplyModal;
+        }
+
+        if (isLinkedInJobsApplySurfaceLocation()) {
+            return resolveLinkedInJobDetailInventoryRoot();
+        }
+
+        return document;
+    }
+
     function appendSnapshotFromRootIncludingSameOriginFrames(root, profile, settings, memo, merged, jobPostingLocation) {
         appendSnapshotFromRoot(root, profile, settings, memo, merged, jobPostingLocation);
 
@@ -1036,5 +1056,6 @@ const AutoCVApplyFieldInventory = (() => {
         registerValidationField,
         resetRegistry,
         resolveDraftableFieldForElement,
+        resolveHighlightRoot,
     };
 })();

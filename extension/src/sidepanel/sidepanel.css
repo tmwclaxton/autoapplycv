@@ -109,12 +109,28 @@ body {
     padding: 0 16px 12px;
 }
 
+.shell-answer-questions-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.shell-answer-questions-actions #answer-questions-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 #answer-questions-btn {
     background: #a50d25;
 }
 
 #answer-questions-btn:hover:not(:disabled) {
     background: #8f0b20;
+}
+
+#answer-questions-cancel-btn {
+    flex: 0 0 auto;
 }
 
 .shell-answer-questions-status {

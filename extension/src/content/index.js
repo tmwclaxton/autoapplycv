@@ -6,6 +6,8 @@
 let profile = null;
 let overlayRefreshTimer = null;
 let fieldHighlightRefreshInFlight = false;
+/** @type {boolean|undefined|null} queued sidePanelOpen after in-flight refresh; null = recheck storage */
+let queuedHighlightSidePanelOpen = undefined;
 let cachedAuthenticated = false;
 let pendingSidePanelOpen = undefined;
 let lastMutationRefreshAt = 0;
@@ -805,9 +807,17 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         pendingSidePanelOpen = sidePanelOpen;
     }
 
+    // Clear outlines immediately when the sidepanel closes - do not wait on debounce.
+    if (sidePanelOpen === false && typeof AutoCVApplyFieldHighlighter !== 'undefined') {
+        AutoCVApplyFieldHighlighter.clearHighlights();
+    }
+
     if (overlayRefreshTimer) {
         clearTimeout(overlayRefreshTimer);
     }
+
+    // Sidepanel-open should paint highlights ASAP; mutation/focus refreshes can debounce.
+    const delayMs = sidePanelOpen === true ? 40 : (sidePanelOpen === false ? 0 : 350);
 
     overlayRefreshTimer = setTimeout(() => {
         const explicitSidePanelOpen = pendingSidePanelOpen;
@@ -815,11 +825,17 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         overlayRefreshTimer = null;
         removeLegacyFillOverlay();
         void refreshFieldHighlights(explicitSidePanelOpen);
-    }, 350);
+    }, delayMs);
 }
 
 async function refreshFieldHighlights(explicitSidePanelOpen) {
     if (fieldHighlightRefreshInFlight) {
+        if (typeof explicitSidePanelOpen === 'boolean') {
+            queuedHighlightSidePanelOpen = explicitSidePanelOpen;
+        } else if (queuedHighlightSidePanelOpen === undefined) {
+            queuedHighlightSidePanelOpen = null;
+        }
+
         return;
     }
 
@@ -829,7 +845,22 @@ async function refreshFieldHighlights(explicitSidePanelOpen) {
         await runFieldHighlightRefresh(explicitSidePanelOpen);
     } finally {
         fieldHighlightRefreshInFlight = false;
+
+        if (queuedHighlightSidePanelOpen !== undefined) {
+            const next = queuedHighlightSidePanelOpen;
+            queuedHighlightSidePanelOpen = undefined;
+            void refreshFieldHighlights(next === null ? undefined : next);
+        }
     }
+}
+
+function resolveFieldHighlightRoot() {
+    if (typeof AutoCVApplyFieldInventory !== 'undefined'
+        && typeof AutoCVApplyFieldInventory.resolveHighlightRoot === 'function') {
+        return AutoCVApplyFieldInventory.resolveHighlightRoot();
+    }
+
+    return document;
 }
 
 async function runFieldHighlightRefresh(explicitSidePanelOpen) {
@@ -844,6 +875,16 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
     }
 
     try {
+        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
+            ? explicitSidePanelOpen
+            : await isSidePanelOpen();
+
+        if (!sidePanelOpen) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
         const authenticated = await isAuthenticated();
 
         if (!authenticated) {
@@ -860,24 +901,30 @@ async function runFieldHighlightRefresh(explicitSidePanelOpen) {
             return;
         }
 
-        const settings = getAutofillSettings();
-        const count = AutoCVApplyFormHeuristics.countDraftableFields(
-            document,
-            profileData.profile,
-            settings,
-            {},
-        );
-        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
-            ? explicitSidePanelOpen
-            : await isSidePanelOpen();
+        const root = resolveFieldHighlightRoot();
 
-        if (count === 0 || !sidePanelOpen) {
+        // LinkedIn SERP without a job-detail / Easy Apply scope: no outlines.
+        if (!root) {
             AutoCVApplyFieldHighlighter.clearHighlights();
 
             return;
         }
 
-        AutoCVApplyFieldHighlighter.applyHighlights(document, profileData.profile, settings, {});
+        const settings = getAutofillSettings();
+        const count = AutoCVApplyFormHeuristics.countDraftableFields(
+            root,
+            profileData.profile,
+            settings,
+            {},
+        );
+
+        if (count === 0) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
+        AutoCVApplyFieldHighlighter.applyHighlights(root, profileData.profile, settings, {});
     } catch {
         AutoCVApplyFieldHighlighter.clearHighlights();
     }

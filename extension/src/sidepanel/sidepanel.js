@@ -36,6 +36,7 @@ const tokenInput = document.getElementById('token-input');
 const loginEndpointInput = document.getElementById('login-endpoint');
 const jobContextEl = document.getElementById('job-context');
 const answerQuestionsBtn = document.getElementById('answer-questions-btn');
+const answerQuestionsCancelBtn = document.getElementById('answer-questions-cancel-btn');
 const answerQuestionsStatus = document.getElementById('answer-questions-status');
 
 const ANSWER_QUESTIONS_LABEL = 'Answer All Questions on Web Page';
@@ -105,11 +106,38 @@ function setAnswerQuestionsRunning(running, statusText = '') {
     if (answerQuestionsBtn) {
         answerQuestionsBtn.disabled = running;
         answerQuestionsBtn.textContent = running
-            ? (statusText || 'Answering…')
+            ? 'Answering…'
             : ANSWER_QUESTIONS_LABEL;
     }
 
+    if (answerQuestionsCancelBtn) {
+        answerQuestionsCancelBtn.hidden = !running;
+        answerQuestionsCancelBtn.disabled = false;
+    }
+
     setAnswerQuestionsStatus(running ? (statusText || 'Answering all questions on the web page…') : statusText);
+}
+
+async function cancelAnswerQuestionsOnPage() {
+    if (!answerQuestionsRunning) {
+        return;
+    }
+
+    if (answerQuestionsCancelBtn) {
+        answerQuestionsCancelBtn.disabled = true;
+    }
+
+    setAnswerQuestionsStatus('Cancelling…');
+    sidepanelLog.logInfo('draft-all.cancel', 'Answer All Questions cancelled from sidepanel', {});
+
+    try {
+        await chrome.runtime.sendMessage({ type: 'CANCEL_DRAFT_ALL', reason: 'user_cancel' });
+    } catch {
+        // Best-effort cancel; local UI still resets below.
+    }
+
+    setAnswerQuestionsRunning(false, '');
+    showMessage('Cancelled.', 'success');
 }
 
 async function startAnswerQuestionsOnPage() {
@@ -124,6 +152,10 @@ async function startAnswerQuestionsOnPage() {
 
     try {
         const response = await chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' });
+
+        if (!answerQuestionsRunning) {
+            return;
+        }
 
         if (response?.error) {
             setAnswerQuestionsRunning(false, '');
@@ -140,6 +172,10 @@ async function startAnswerQuestionsOnPage() {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});
         }
     } catch (error) {
+        if (!answerQuestionsRunning) {
+            return;
+        }
+
         setAnswerQuestionsRunning(false, '');
         showMessage(formatContentScriptUserError(error), 'error');
     }
@@ -694,6 +730,10 @@ document.getElementById('open-debug-logs-btn').addEventListener('click', () => {
 
 answerQuestionsBtn?.addEventListener('click', () => {
     void startAnswerQuestionsOnPage();
+});
+
+answerQuestionsCancelBtn?.addEventListener('click', () => {
+    void cancelAnswerQuestionsOnPage();
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => {
