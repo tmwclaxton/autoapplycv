@@ -1098,10 +1098,16 @@ async function advanceLinkedInEasyApplyStep(tabId) {
     let advanceResponse = await sendLinkedInMessage(
         tabId,
         'LINKEDIN_ADVANCE_EASY_APPLY',
-    );
+    ).catch((error) => ({
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+        messagingError: true,
+    }));
 
     if (
         advanceResponse?.success ||
+        advanceResponse?.submitted ||
+        advanceResponse?.action === 'submit' ||
         !/modal is not open/i.test(advanceResponse?.error || '')
     ) {
         return advanceResponse;
@@ -1109,7 +1115,33 @@ async function advanceLinkedInEasyApplyStep(tabId) {
 
     await sleep(randomDelay(750, 450));
 
+    // Submit often closes the modal and kills the port - confirm before reopen.
+    const closedVerify = await sendLinkedInMessage(
+        tabId,
+        'LINKEDIN_VERIFY_SUBMITTED',
+    ).catch(() => null);
+
+    if (closedVerify?.submitted) {
+        return {
+            success: true,
+            action: 'submit',
+            submitted: true,
+            closed: true,
+            confirmation: closedVerify.confirmation || 'Application submitted',
+        };
+    }
+
     const modalState = await readLinkedInModalState(tabId, { retries: 4 });
+
+    if (modalState?.submitted) {
+        return {
+            success: true,
+            action: 'submit',
+            submitted: true,
+            closed: true,
+            confirmation: modalState.confirmation || 'Application submitted',
+        };
+    }
 
     if (modalState?.open) {
         return sendLinkedInMessage(tabId, 'LINKEDIN_ADVANCE_EASY_APPLY');
@@ -1120,7 +1152,17 @@ async function advanceLinkedInEasyApplyStep(tabId) {
         'LINKEDIN_OPEN_EASY_APPLY',
     );
 
-    if (reopenResponse?.success && !reopenResponse?.alreadyApplied) {
+    if (reopenResponse?.alreadyApplied || reopenResponse?.submitted) {
+        return {
+            success: true,
+            action: 'submit',
+            submitted: true,
+            closed: true,
+            confirmation: 'Already applied',
+        };
+    }
+
+    if (reopenResponse?.success) {
         await sleep(randomDelay(900, 500));
         advanceResponse = await sendLinkedInMessage(
             tabId,
@@ -3909,6 +3951,18 @@ async function processLinkedInJob(
         }
 
         if (!advanceResponse?.success) {
+            if (/modal is not open/i.test(advanceResponse?.error || '')) {
+                const closedAfterAdvance = await sendLinkedInMessage(
+                    tabId,
+                    'LINKEDIN_VERIFY_SUBMITTED',
+                ).catch(() => null);
+
+                if (closedAfterAdvance?.submitted) {
+                    submitted = true;
+                    break;
+                }
+            }
+
             throw new Error(
                 advanceResponse?.error || 'Could not advance Easy Apply modal.',
             );
