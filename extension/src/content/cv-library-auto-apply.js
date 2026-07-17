@@ -791,6 +791,40 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
             await clickElement(continueButton);
             await humanPause(650, 1100);
 
+            const verifyAfterContinue = verifySubmitted();
+
+            if (verifyAfterContinue.submitted) {
+                return {
+                    success: true,
+                    action: 'submit',
+                    submitted: true,
+                    pendingConfirmation: false,
+                    transitioned: true,
+                    stepFingerprint: readStepFingerprint(),
+                    validationErrors: [],
+                    confirmation: verifyAfterContinue.confirmation,
+                };
+            }
+
+            const lateSubmit = findSubmitButton();
+
+            if (lateSubmit) {
+                await clickElement(lateSubmit);
+                await humanPause(500, 900);
+                const verify = verifySubmitted();
+
+                return {
+                    success: true,
+                    action: 'submit',
+                    submitted: verify.submitted,
+                    pendingConfirmation: !verify.submitted,
+                    transitioned: true,
+                    stepFingerprint: readStepFingerprint(),
+                    validationErrors: verify.submitted ? [] : readValidationErrors(),
+                    confirmation: verify.confirmation,
+                };
+            }
+
             const nextFingerprint = readStepFingerprint();
             const transitioned = nextFingerprint !== previousFingerprint;
 
