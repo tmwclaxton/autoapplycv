@@ -676,8 +676,6 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         };
     }
 
-    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 35_000;
-
     function readAppliedConfirmationText() {
         const markers = document.querySelectorAll(
             '[data-qa="applied-label"], [data-qa*="application-submitted"], [role="alert"], .alert, h1, h2',
@@ -720,22 +718,6 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         };
     }
 
-    async function waitForSubmissionConfirmation(timeoutMs = SUBMIT_CONFIRMATION_TIMEOUT_MS) {
-        const deadline = Date.now() + timeoutMs;
-
-        while (Date.now() < deadline) {
-            const verify = verifySubmitted();
-
-            if (verify.submitted) {
-                return verify;
-            }
-
-            await humanPause(400, 650);
-        }
-
-        return verifySubmitted();
-    }
-
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
 
@@ -757,11 +739,15 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         const previousFingerprint = readStepFingerprint();
         const submitButton = findSubmitButton();
         const continueButton = findContinueButton();
-        const isReview = /review|check your application|summary|your details/i.test(readStepLabel() || '');
 
-        if (submitButton && (isReview || !continueButton)) {
+        // Prefer Submit whenever present - Continue can match unrelated nav/footer
+        // controls on the one-step "Complete your application" page.
+        if (submitButton) {
             await clickElement(submitButton);
-            const verify = await waitForSubmissionConfirmation();
+            // Do not wait long here - tab messaging times out around 20s. The
+            // orchestrator polls VERIFY_SUBMITTED after ADVANCE returns.
+            await humanPause(500, 900);
+            const verify = verifySubmitted();
 
             return {
                 success: true,
