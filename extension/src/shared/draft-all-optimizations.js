@@ -420,16 +420,20 @@ export function buildMechanicalInventoryFields(snapshot) {
         }));
 }
 
+function isNavigationOnlyControl(control) {
+    const name = String(control?.name || control?.label || control?.text || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    return /^(continue|next|submit|back|review|save and continue|apply|apply now)$/i.test(name);
+}
+
 export function canUseMechanicalInventory(snapshot) {
     const elements = snapshot?.elements || [];
     const controls = snapshot?.controls || [];
     const fields = buildMechanicalInventoryFields(snapshot);
 
     if (fields.length === 0) {
-        return false;
-    }
-
-    if (controls.length > 0) {
         return false;
     }
 
@@ -445,6 +449,19 @@ export function canUseMechanicalInventory(snapshot) {
         if (isGenericQuestionLabel(field.question)) {
             return false;
         }
+    }
+
+    // Reed Easy Apply (and similar) is one concrete question per step plus Continue.
+    // Navigation controls must not force a flaky LLM inventory round-trip.
+    const navigationOnlyControls = controls.length === 0
+        || controls.every((control) => isNavigationOnlyControl(control));
+
+    if (navigationOnlyControls) {
+        return true;
+    }
+
+    if (controls.length > 0) {
+        return false;
     }
 
     return elements.length >= 3;
