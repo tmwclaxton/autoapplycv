@@ -10,6 +10,7 @@ const sidepanelHtml = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel
 const sidepanelJs = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel.js'), 'utf8');
 const sidepanelCss = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel.css'), 'utf8');
 const contentJs = readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8');
+const backgroundJs = readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8');
 const manifest = JSON.parse(readFileSync(join(ROOT, 'extension/manifest.json'), 'utf8'));
 
 test('Answer All Questions on Web Page lives in always-visible auth chrome', () => {
@@ -35,6 +36,25 @@ test('sidepanel wires Answer All Questions on Web Page to START_DRAFT_ALL', () =
     assert.match(
         sidepanelJs,
         /Stay on the current sidepanel tab[\s\S]*Do not switch to Auto Apply/,
+    );
+});
+
+test('Answer All start path invalidates caches and forces a fresh inventory', () => {
+    assert.match(backgroundJs, /async function invalidateDraftAllCachesForTab\(/);
+    assert.match(
+        backgroundJs,
+        /await invalidateDraftAllCachesForTab\(tabId, pageUrl\)/,
+    );
+    assert.match(
+        backgroundJs,
+        /findBestFormFrameId\(tabId, \{\s*force:\s*true\s*\}\)/,
+    );
+    assert.match(backgroundJs, /REFRESH_FIELD_HIGHLIGHTS/);
+    assert.match(backgroundJs, /freshInventory:\s*true/);
+    assert.match(contentJs, /message\.type === 'REFRESH_FIELD_HIGHLIGHTS'/);
+    assert.match(
+        contentJs,
+        /AutoCVApplyFieldHighlighter\.clearHighlights\(\)/,
     );
 });
 

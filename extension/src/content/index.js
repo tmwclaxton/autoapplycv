@@ -2687,6 +2687,22 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'REFRESH_FIELD_HIGHLIGHTS') {
+            if (typeof AutoCVApplyFieldHighlighter !== 'undefined') {
+                AutoCVApplyFieldHighlighter.clearHighlights();
+            }
+
+            const sidePanelOpen = typeof message.sidePanelOpen === 'boolean'
+                ? message.sidePanelOpen
+                : true;
+
+            void refreshFieldHighlights(sidePanelOpen)
+                .then(() => sendResponse({ success: true }))
+                .catch(() => sendResponse({ success: false }));
+
+            return;
+        }
+
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             if (!isAutoApplyBurstActive()) {
                 scheduleOverlayRefresh(

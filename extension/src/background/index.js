@@ -51,7 +51,6 @@ import {
     enrichApplyAnswers,
     enrichFieldsWithSnapshotDom,
     isJobSpecificMemoField,
-    shouldReuseCachedDraftAllSnapshot,
     snapshotFingerprint,
     fetchGreenhouseJobPostingLocation,
     tryInferJobContextFromPage,
@@ -1699,7 +1698,41 @@ async function clearSnapshotCache(pageUrl) {
     }
 
     snapshotCache.delete(pageUrl);
+    snapshotPrefetchInFlight.delete(pageUrl);
+    snapshotPrefetchLastAt.delete(pageUrl);
     await chrome.storage.session.remove(snapshotCacheKey(pageUrl));
+}
+
+/**
+ * Drop prefetched snapshot / frame caches so Answer All re-detects the live DOM.
+ * Sidepanel open / last highlight may predate SPA step changes or Easy Apply open.
+ */
+async function invalidateDraftAllCachesForTab(tabId, pageUrl = '') {
+    invalidateTabFrameCache(tabId);
+
+    if (pageUrl) {
+        await clearSnapshotCache(pageUrl);
+    }
+
+    logInfo('background', 'draft-all.cache', 'Invalidated snapshot and frame caches before fresh inventory', {
+        tabId,
+        pageUrl: pageUrl || null,
+    }, tabId);
+}
+
+async function refreshFieldHighlightsForTab(tabId) {
+    if (typeof tabId !== 'number') {
+        return;
+    }
+
+    try {
+        await sendTabMessage(tabId, { type: 'REFRESH_FIELD_HIGHLIGHTS', sidePanelOpen: true }, 0, {
+            timeoutMs: 5_000,
+        });
+    } catch {
+        // Best-effort; Draft All fill does not depend on outlines.
+        await notifyTabOverlayVisibility(tabId);
+    }
 }
 
 async function getCachedSnapshot(pageUrl, fingerprint = null) {
@@ -1750,7 +1783,7 @@ async function setCachedSnapshot(pageUrl, snapshot, formFrameId) {
 async function prefetchSnapshotForTab(tabId, tab) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
 
-    if (!pageUrl) {
+    if (!pageUrl || draftAllRunning) {
         return;
     }
 
@@ -1870,13 +1903,14 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
 async function collectInitialSnapshot(tabId, tab, perf = null) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
 
-    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url }, tabId);
+    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url, force: true }, tabId);
     perf?.start('frame.discovery');
 
-    let formFrameId = await findBestFormFrameId(tabId);
+    // Always re-score frames - cached frame ids go stale when modals/iframes appear.
+    const formFrameId = await findBestFormFrameId(tabId, { force: true });
     perf?.end('frame.discovery');
 
-    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId }, tabId);
+    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId, forced: true }, tabId);
 
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
@@ -1887,23 +1921,6 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     const freshFingerprint = collectResponse?.snapshot
         ? snapshotFingerprint(collectResponse.snapshot)
         : null;
-    const cachedEntry = await getCachedSnapshot(pageUrl);
-
-    if (cachedEntry?.snapshot && !shouldReuseCachedDraftAllSnapshot(cachedEntry.fingerprint, freshFingerprint)) {
-        logInfo('background', 'snapshot.cache', 'Ignoring stale prefetched snapshot after form content change', {
-            formFrameId,
-            cachedFingerprint: cachedEntry.fingerprint,
-            freshFingerprint,
-            cachedFieldCount: cachedEntry.snapshot.elements?.length || 0,
-            freshFieldCount: collectResponse?.snapshot?.elements?.length || 0,
-        }, tabId);
-    } else if (cachedEntry?.snapshot && shouldReuseCachedDraftAllSnapshot(cachedEntry.fingerprint, freshFingerprint)) {
-        logDebug('background', 'snapshot.cache', 'Fresh snapshot matches prefetched cache fingerprint', {
-            formFrameId,
-            fingerprint: freshFingerprint,
-            fieldCount: collectResponse?.snapshot?.elements?.length || 0,
-        }, tabId);
-    }
 
     logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
         formFrameId,
@@ -1912,6 +1929,7 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         fieldCount: collectResponse?.snapshot?.elements?.length || 0,
         controlCount: collectResponse?.snapshot?.controls?.length || 0,
         fingerprint: freshFingerprint,
+        cached: false,
         error: collectResponse?.error,
     }, tabId);
 
@@ -1935,6 +1953,9 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         collectInitialSnapshot(tabId, tab, perf),
         resolveJobContextForDraft(tabId, tab, perf),
     ]);
+
+    // Repaint outlines from the live inventory (clears stale sidepanel-open highlights).
+    void refreshFieldHighlightsForTab(tabId);
 
     if (initialCollect?.snapshot?.elements?.length) {
         logDebug('background', 'snapshot.fields', 'Snapshot field summary', {
@@ -2079,6 +2100,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
             buildAutofillSettings(),
         ]);
 
+        const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+        await invalidateDraftAllCachesForTab(tabId, pageUrl);
+
         logInfo('background', 'draft-all.start', 'Draft All started', {
             tabId,
             url: tab.url,
@@ -2086,6 +2110,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             settings,
             e2eMock: Boolean(e2eOptions?.fields?.length),
             contentScriptInjected: contentScript.injected,
+            freshInventory: true,
         }, tabId);
 
         const resolved = e2eOptions?.fields?.length
@@ -2094,9 +2119,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 job: e2eOptions.job || {
                     title: tab.title || 'Job application',
                     company: 'E2E Mock Company',
-                    link: tab.url?.split('?')[0] || tab.url,
+                    link: pageUrl || tab.url,
                 },
-                formFrameId: await findBestFormFrameId(tabId),
+                formFrameId: await findBestFormFrameId(tabId, { force: true }),
             }
             : await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
 
