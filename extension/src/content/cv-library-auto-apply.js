@@ -321,28 +321,45 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function readApplyButton() {
-        for (const link of document.querySelectorAll('a[data-qa="type-apply-now"]')) {
-            if (!(link instanceof HTMLElement) || !isElementVisible(link)) {
-                continue;
-            }
+        const selectors = [
+            'a[data-qa^="apply-now"]',
+            'a[data-qa^="1-click-apply"]',
+            'button[data-qa^="apply-now"]',
+            'button[data-qa^="1-click-apply"]',
+            'a[data-qa="type-apply-now"]',
+            'a[href*="/job/apply/"]',
+        ];
 
-            if (/external-apply/i.test(link.innerHTML || '')) {
-                continue;
-            }
+        for (const selector of selectors) {
+            for (const link of document.querySelectorAll(selector)) {
+                if (!(link instanceof HTMLElement) || !isElementVisible(link)) {
+                    continue;
+                }
 
-            return link;
+                if (/external-apply/i.test(link.innerHTML || link.className || '')) {
+                    continue;
+                }
+
+                return link;
+            }
         }
 
-        for (const button of document.querySelectorAll('button, a[role="button"]')) {
+        for (const button of document.querySelectorAll('button, a[role="button"], a')) {
             if (!(button instanceof HTMLElement) || !isElementVisible(button)) {
                 continue;
             }
 
             const text = normalize(button.textContent);
             const label = normalize(button.getAttribute('aria-label') || '');
+            const qa = normalize(button.getAttribute('data-qa') || '');
 
-            if (/^apply now$/i.test(text) || /apply now/i.test(label)) {
-                if (/external/i.test(text + label)) {
+            if (
+                /^apply now$/i.test(text)
+                || /apply now/i.test(label)
+                || /^1.?click apply$/i.test(text)
+                || /^(apply-now|1-click-apply)/i.test(qa)
+            ) {
+                if (/external/i.test(text + label + qa)) {
                     continue;
                 }
 
@@ -654,25 +671,38 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
     const SUBMIT_CONFIRMATION_TIMEOUT_MS = 35_000;
 
     function readAppliedConfirmationText() {
-        const body = normalize(document.body?.textContent || '');
+        const markers = document.querySelectorAll(
+            '[data-qa="applied-label"], [data-qa*="application-submitted"], [role="alert"], .alert, h1, h2',
+        );
 
-        return body.match(/(?:application (?:has been )?submitted|thank you for applying|we received your application|successfully applied|your application has been sent|you have applied|application complete|application submitted)/i);
+        for (const node of markers) {
+            const text = normalize(node.textContent || '');
+            const match = text.match(
+                /(?:application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|application complete)/i,
+            );
+
+            if (match) {
+                return match;
+            }
+        }
+
+        return null;
     }
 
     function verifySubmitted() {
+        if (document.querySelector('[data-qa="applied-label"], [data-qa*="application-submitted"]')) {
+            return {
+                submitted: true,
+                confirmation: 'CV-Library application submitted',
+            };
+        }
+
         const confirmation = readAppliedConfirmationText();
 
         if (confirmation) {
             return {
                 submitted: true,
                 confirmation: confirmation[0],
-            };
-        }
-
-        if (document.querySelector('[data-qa="applied-label"], [data-qa*="application-submitted"]')) {
-            return {
-                submitted: true,
-                confirmation: 'CV-Library application submitted',
             };
         }
 
