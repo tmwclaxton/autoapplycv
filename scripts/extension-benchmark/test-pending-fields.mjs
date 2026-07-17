@@ -308,8 +308,9 @@ const financialPartition = partitionBatchAnswers(
 );
 
 assert(
-    financialPartition.pending.some((field) => field.ref === 'q_financial'),
-    'null skill-specific years answer should prompt the user',
+    !financialPartition.pending.some((field) => field.ref === 'q_financial')
+        && financialPartition.toApply.length === 0,
+    'null skill-specific years answer should not sidebar-prompt or apply a generic years value',
 );
 assert(
     isSkillSpecificYearsExperienceQuestionLabel('How many years of Financial services experience do you have?'),
@@ -489,6 +490,12 @@ assert(
     splitFullName('Toby Claxton').first === 'Toby'
         && splitFullName('Toby Claxton').last === 'Claxton',
     'splitFullName should split first and last names',
+);
+
+assert(
+    splitFullName({ first: 'Toby', last: 'Claxton' }).first === 'Toby'
+        && splitFullName({ first: 'Toby', last: 'Claxton' }).last === 'Claxton',
+    'splitFullName should read structured full_name objects without [object Object]',
 );
 
 assert(

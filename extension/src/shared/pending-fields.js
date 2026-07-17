@@ -181,6 +181,14 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'postcode', label: 'Postcode', dashboard_tab: 'profile', dashboard_anchor: 'field-postcode', keywords: ['postcode', 'postal code', 'zip code', 'zip'] },
     { path: 'structured_data.address_line_1', label: 'Address line 1', dashboard_tab: 'profile', dashboard_anchor: 'field-address-line-1', keywords: ['street address', 'address line 1', 'address line', 'street', 'home address', 'mailing address'], exactLabels: ['address'] },
+    {
+        path: 'structured_data.state_region',
+        label: 'County / State',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-state-region',
+        keywords: ['state/province', 'county/region', 'state or province'],
+        exactLabels: ['county', 'state', 'region', 'province'],
+    },
     { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence', 'citizenship', 'nationality', 'pays', 'land'] },
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
     { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'immigration sponsorship', 'require sponsorship'] },
@@ -214,6 +222,7 @@ const IDENTITY_PROFILE_PATHS = new Set([
     'country',
     'postcode',
     'structured_data.address_line_1',
+    'structured_data.state_region',
 ]);
 
 const PREFERENCE_PROFILE_PATHS = new Set([
@@ -992,9 +1001,26 @@ function resolveProfileMappingForDomHints(dom) {
 }
 
 export function splitFullName(fullName) {
+    if (fullName && typeof fullName === 'object' && !Array.isArray(fullName)) {
+        const first = String(fullName.first ?? fullName.first_name ?? '').trim();
+        const last = String(fullName.last ?? fullName.last_name ?? '').trim();
+
+        if (first || last) {
+            return { first, last };
+        }
+
+        const nested = String(fullName.name || fullName.full_name || '').trim();
+
+        if (nested) {
+            return splitFullName(nested);
+        }
+
+        return { first: '', last: '' };
+    }
+
     const trimmed = String(fullName || '').trim();
 
-    if (!trimmed) {
+    if (!trimmed || /^\[object object\]$/i.test(trimmed)) {
         return { first: '', last: '' };
     }
 
@@ -1801,13 +1827,45 @@ export function formatUkPostcodeForApply(value) {
 }
 
 /**
+ * True when a location/city answer is really the applicant surname (e.g. "Claxton"
+ * or invented "Claxton, Norfolk" from last name + a UK county).
+ */
+export function looksLikeSurnameAsLocationValue(value, profileData) {
+    const lastName = normalizeQuestionLabel(readProfileValue(profileData, 'full_name.last'));
+
+    if (!lastName || lastName.length < 2) {
+        return false;
+    }
+
+    const firstPart = normalizeQuestionLabel(String(value || '').split(',')[0] || '');
+
+    if (!firstPart) {
+        return false;
+    }
+
+    return firstPart === lastName
+        || firstPart.startsWith(`${lastName} `)
+        || lastName.startsWith(`${firstPart} `);
+}
+
+function sanitizeLocationToken(value, profileData) {
+    const text = String(value || '').trim();
+
+    if (!text || looksLikeSurnameAsLocationValue(text, profileData)) {
+        return '';
+    }
+
+    return text;
+}
+
+/**
  * Prefer residential city from location when it disagrees with a job-search city
  * (e.g. city=London + location=Wycombe + postcode=HP12...).
  */
 export function resolveResidenceCityValue(profileData) {
-    const city = String(readProfileValue(profileData, 'city') || '').trim();
+    const city = sanitizeLocationToken(readProfileValue(profileData, 'city'), profileData);
     const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
-    const locationCity = String(location.split(',')[0] || '').trim();
+    const locationCity = sanitizeLocationToken(location.split(',')[0] || '', profileData);
     const postcode = String(readProfileValue(profileData, 'postcode') || '').trim();
 
     if (locationCity && city) {
@@ -1823,6 +1881,40 @@ export function resolveResidenceCityValue(profileData) {
     }
 
     return city || locationCity;
+}
+
+/**
+ * Indeed/Glassdoor "City, county" locality fields need city (and optional region),
+ * never surname and never an invented "LastName, County" string.
+ */
+export function resolveCityCountyLocationValue(profileData) {
+    const city = resolveResidenceCityValue(profileData);
+    const region = sanitizeLocationToken(
+        readProfileValue(profileData, 'structured_data.state_region'),
+        profileData,
+    );
+
+    if (!city) {
+        return '';
+    }
+
+    if (
+        region
+        && !normalizeQuestionLabel(city).includes(normalizeQuestionLabel(region))
+        && !/^england|scotland|wales|northern ireland|united kingdom|uk$/i.test(region)
+    ) {
+        return `${city}, ${region}`;
+    }
+
+    return city;
+}
+
+export function isCityCountyCombinedQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    return Boolean(normalized)
+        && /\b(?:city|town)\b/.test(normalized)
+        && /\bcounty\b/.test(normalized);
 }
 
 export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
@@ -2327,6 +2419,13 @@ export function readProfileValue(profileData, path) {
         }
 
         return '';
+    }
+
+    if (path === 'full_name' && typeof node === 'object' && !Array.isArray(node)) {
+        const split = splitFullName(node);
+        const joined = [split.first, split.last].filter(Boolean).join(' ').trim();
+
+        return joined || profileData?.user?.name || '';
     }
 
     return node;
@@ -2877,11 +2976,23 @@ function profileValueForApply(mapping, profileData, field = null) {
     }
 
     if (mapping.path === 'city') {
+        const label = field?.label || field?.question || '';
+
+        if (isCityCountyCombinedQuestionLabel(label)) {
+            return resolveCityCountyLocationValue(profileData);
+        }
+
         return resolveResidenceCityValue(profileData);
     }
 
     if (mapping.path === 'location') {
         return resolveConciseLocationValue(profileData);
+    }
+
+    if (mapping.path === 'structured_data.state_region') {
+        const region = sanitizeLocationToken(value, profileData);
+
+        return region;
     }
 
     if (mapping.path === 'postcode') {
@@ -3642,6 +3753,28 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
                 if (isMeaningfulAnswer(profileFallback)) {
                     resolvedAnswer = profileFallback;
                 }
+            }
+        }
+
+        const locationLabel = field.label || field.question || '';
+
+        if (
+            isMeaningfulAnswer(resolvedAnswer)
+            && (
+                isCityLocationQuestionLabel(locationLabel)
+                || isCityCountyCombinedQuestionLabel(locationLabel)
+                || isLocationAutocompleteQuestionLabel(locationLabel)
+            )
+            && looksLikeSurnameAsLocationValue(resolvedAnswer, profileData)
+        ) {
+            const safeLocation = isCityCountyCombinedQuestionLabel(locationLabel)
+                ? resolveCityCountyLocationValue(profileData)
+                : resolveResidenceCityValue(profileData);
+
+            if (isMeaningfulAnswer(safeLocation)) {
+                resolvedAnswer = safeLocation;
+            } else {
+                continue;
             }
         }
 
