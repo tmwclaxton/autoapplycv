@@ -8061,19 +8061,42 @@ async function processGlassdoorJob(
             } catch (error) {
                 // Submit often navigates away from smartapply before the content
                 // script can reply - treat verified submission as success.
-                const verify = await sendIndeedApplyFlowMessage(tabId, {
-                    type: 'INDEED_VERIFY_SUBMITTED',
-                }).catch(() => null);
-                const state = await sendIndeedApplyFlowMessage(tabId, {
-                    type: 'INDEED_APPLY_STATE',
-                }).catch(() => null);
+                for (let attempt = 0; attempt < 4; attempt += 1) {
+                    const verify = await sendIndeedApplyFlowMessage(tabId, {
+                        type: 'INDEED_VERIFY_SUBMITTED',
+                    }).catch(() => null);
+                    const state = await sendIndeedApplyFlowMessage(tabId, {
+                        type: 'INDEED_APPLY_STATE',
+                    }).catch(() => null);
 
-                if (verify?.submitted || state?.submitted) {
-                    await logSession(
-                        'info',
-                        `[submit] ${job.title}: confirmed after submit navigation timeout.`,
-                    );
-                    submitted = true;
+                    if (verify?.submitted || state?.submitted) {
+                        await logSession(
+                            'info',
+                            `[submit] ${job.title}: confirmed after submit navigation timeout.`,
+                        );
+                        submitted = true;
+                        break;
+                    }
+
+                    const confirmResult = await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        GLASSDOOR_PLATFORM_ID,
+                        session,
+                    ).catch(() => null);
+
+                    if (confirmResult?.submitted) {
+                        await logSession(
+                            'info',
+                            `[submit] ${job.title}: confirmed via submit confirmation wait.`,
+                        );
+                        submitted = true;
+                        break;
+                    }
+
+                    await sleep(700);
+                }
+
+                if (submitted) {
                     break;
                 }
 
