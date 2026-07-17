@@ -110,6 +110,10 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
                 return;
             }
 
+            if (result.outcome === 'paused') {
+                return;
+            }
+
             session = await updateSession((current) => {
                 const stats = { ...current.stats };
 

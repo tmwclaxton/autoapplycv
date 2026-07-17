@@ -52,6 +52,17 @@ test('isSimplyHiredIndeedHandoffUrl detects Indeed viewjob handoff', () => {
     );
 });
 
+test('SimplyHired Cloudflare title on Indeed job URL counts as handoff/captcha', () => {
+    const url = 'https://uk.indeed.com/job/senior-full-stack-software-engineer-8ae52ab8183b008c';
+    const title = 'Just a moment...';
+    const captcha = /just a moment/i.test(title);
+    const indeedHandoff = isSimplyHiredIndeedHandoffUrl(url) || (captcha && /indeed\.com/i.test(url));
+
+    assert.equal(isSimplyHiredIndeedHandoffUrl(url), true);
+    assert.equal(captcha, true);
+    assert.equal(indeedHandoff, true);
+});
+
 test('urlsMatchSimplyHiredSearch matches role and location', () => {
     const expected = buildSimplyHiredJobSearchUrl('software engineer', { filters: { location: 'London' } });
 

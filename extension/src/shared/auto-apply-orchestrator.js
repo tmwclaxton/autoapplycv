@@ -8051,9 +8051,34 @@ async function processGlassdoorJob(
                 'info',
                 `[review] ${job.title}: attempting submit.`,
             );
-            const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
-                type: 'INDEED_FILL_AND_ADVANCE',
-            });
+
+            let advanceResponse = null;
+
+            try {
+                advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_FILL_AND_ADVANCE',
+                });
+            } catch (error) {
+                // Submit often navigates away from smartapply before the content
+                // script can reply - treat verified submission as success.
+                const verify = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_VERIFY_SUBMITTED',
+                }).catch(() => null);
+                const state = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_APPLY_STATE',
+                }).catch(() => null);
+
+                if (verify?.submitted || state?.submitted) {
+                    await logSession(
+                        'info',
+                        `[submit] ${job.title}: confirmed after submit navigation timeout.`,
+                    );
+                    submitted = true;
+                    break;
+                }
+
+                throw error;
+            }
 
             if (advanceResponse?.action === 'submit') {
                 await logSession(
@@ -8091,9 +8116,14 @@ async function processGlassdoorJob(
             if (!submitted) {
                 const reviewState = await sendIndeedApplyFlowMessage(tabId, {
                     type: 'INDEED_APPLY_STATE',
-                });
+                }).catch(() => null);
+                const verify = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_VERIFY_SUBMITTED',
+                }).catch(() => null);
 
-                if (
+                if (verify?.submitted || reviewState?.submitted) {
+                    submitted = true;
+                } else if (
                     advanceResponse?.error?.includes('captcha') ||
                     reviewState?.captchaPresent
                 ) {
@@ -8110,20 +8140,20 @@ async function processGlassdoorJob(
                         reason: 'captcha_required',
                         tabId,
                     };
+                } else {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'apply_submit_failed' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'apply_submit_failed',
+                        detail:
+                            advanceResponse?.error ||
+                            'Could not submit on review step.',
+                        tabId,
+                    };
                 }
-
-                await recordAnalyticsEvent(session, 'skipped', job, {
-                    metadata: { reason: 'apply_submit_failed' },
-                });
-
-                return {
-                    outcome: 'skipped',
-                    reason: 'apply_submit_failed',
-                    detail:
-                        advanceResponse?.error ||
-                        'Could not submit on review step.',
-                    tabId,
-                };
             }
 
             break;
@@ -9512,4 +9542,5 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
     waitForApplicationSubmitConfirmation,
+    pauseForCaptchaReview,
 });

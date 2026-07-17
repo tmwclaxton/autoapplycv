@@ -2118,7 +2118,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     const validationErrors = readValidationErrors();
 
                     return {
-                        success: validationErrors.length === 0,
+                        success: false,
                         action:
                             validationErrors.length > 0
                                 ? 'blocked'
@@ -2191,8 +2191,10 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
         const validationErrors = readValidationErrors();
 
+        // Do not report a successful continue when the step fingerprint did not
+        // change - orchestrators treat that as progress and loop until stuck.
         return {
-            success: validationErrors.length === 0,
+            success: false,
             action: validationErrors.length > 0 ? 'blocked' : 'continue',
             submitted: false,
             transitioned: false,

@@ -51,6 +51,7 @@ export function createSimplyHiredOrchestrator(deps) {
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
+        pauseForCaptchaReview,
     } = deps;
 
     const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
@@ -90,6 +91,21 @@ export function createSimplyHiredOrchestrator(deps) {
                 }
 
                 if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                    const nav = await inspectSimplyHiredNavigation(tabId);
+
+                    // Quick Apply often navigates onto Indeed mid-message; treat as handoff,
+                    // not a stale SimplyHired tab that should be reloaded back to SERP.
+                    if (nav.indeedHandoff || nav.captcha) {
+                        return {
+                            success: false,
+                            indeedHandoff: Boolean(nav.indeedHandoff || nav.captcha),
+                            captcha: nav.captcha,
+                            navigated: true,
+                            landedUrl: nav.url,
+                            error: message,
+                        };
+                    }
+
                     invalidateTabFrameCache(tabId);
                     await logSession('warn', `[simplyhired_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
 
@@ -99,8 +115,15 @@ export function createSimplyHiredOrchestrator(deps) {
                         await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                     } catch {
                         try {
-                            await chrome.tabs.reload(tabId);
-                            await waitForTabLoadComplete(tabId);
+                            const currentUrl = await readTabUrl(tabId);
+
+                            // Reloading an open /job page during apply discovery can bounce
+                            // back to search and false-skip as "no Quick Apply".
+                            if (!/\/job\//i.test(currentUrl)) {
+                                await chrome.tabs.reload(tabId);
+                                await waitForTabLoadComplete(tabId);
+                            }
+
                             await waitForSimplyHiredContentScript(tabId);
                             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                             await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
@@ -190,6 +213,24 @@ export function createSimplyHiredOrchestrator(deps) {
         } catch {
             return '';
         }
+    }
+
+    async function readTabTitle(tabId) {
+        try {
+            return String((await chrome.tabs.get(tabId))?.title || '');
+        } catch {
+            return '';
+        }
+    }
+
+    async function inspectSimplyHiredNavigation(tabId) {
+        const url = await readTabUrl(tabId);
+        const title = await readTabTitle(tabId);
+        const captcha = isCloudflareChallengeUrl(url) || /just a moment/i.test(title);
+        const indeedHandoff = isSimplyHiredIndeedHandoffUrl(url)
+            || (captcha && /indeed\.com/i.test(url));
+
+        return { url, title, captcha, indeedHandoff };
     }
 
     async function waitForSimplyHiredContentScript(tabId, timeoutMs = 45_000) {
@@ -349,46 +390,23 @@ export function createSimplyHiredOrchestrator(deps) {
             tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
             await waitForTabLoadComplete(tabId);
 
-            const landedUrl = await readTabUrl(tabId);
-            let landedTitle = '';
+            // Job URLs sometimes settle on SimplyHired briefly, then redirect to Indeed.
+            const settleDeadline = Date.now() + 10_000;
 
-            try {
-                landedTitle = String((await chrome.tabs.get(tabId))?.title || '');
-            } catch {
-                landedTitle = '';
-            }
+            while (Date.now() < settleDeadline) {
+                const nav = await inspectSimplyHiredNavigation(tabId);
 
-            if (isCloudflareChallengeUrl(landedUrl) || /just a moment/i.test(landedTitle)) {
-                return {
-                    success: false,
-                    tabId,
-                    skipReason: 'captcha_required',
-                    error: 'Cloudflare/Indeed security check blocked job open.',
-                };
-            }
+                if (nav.captcha) {
+                    return {
+                        success: false,
+                        tabId,
+                        skipReason: 'captcha_required',
+                        error: 'Cloudflare/Indeed security check blocked job open.',
+                        landedUrl: nav.url,
+                    };
+                }
 
-            if (isSimplyHiredIndeedHandoffUrl(landedUrl)) {
-                await logSession(
-                    'info',
-                    `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
-                );
-
-                return {
-                    success: true,
-                    jobId: job.jobId,
-                    tabId,
-                    navigated: true,
-                    indeedHandoff: true,
-                    landedUrl,
-                };
-            }
-
-            try {
-                await waitForSimplyHiredContentScript(tabId, 12_000);
-            } catch (error) {
-                const afterWaitUrl = await readTabUrl(tabId);
-
-                if (isSimplyHiredIndeedHandoffUrl(afterWaitUrl)) {
+                if (nav.indeedHandoff) {
                     await logSession(
                         'info',
                         `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
@@ -400,7 +418,45 @@ export function createSimplyHiredOrchestrator(deps) {
                         tabId,
                         navigated: true,
                         indeedHandoff: true,
-                        landedUrl: afterWaitUrl,
+                        landedUrl: nav.url,
+                    };
+                }
+
+                if (/\/job\//i.test(nav.url)) {
+                    break;
+                }
+
+                await sleep(400);
+            }
+
+            try {
+                await waitForSimplyHiredContentScript(tabId, 12_000);
+            } catch (error) {
+                const afterWait = await inspectSimplyHiredNavigation(tabId);
+
+                if (afterWait.captcha) {
+                    return {
+                        success: false,
+                        tabId,
+                        skipReason: 'captcha_required',
+                        error: 'Cloudflare/Indeed security check blocked job open.',
+                        landedUrl: afterWait.url,
+                    };
+                }
+
+                if (afterWait.indeedHandoff) {
+                    await logSession(
+                        'info',
+                        `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
+                    );
+
+                    return {
+                        success: true,
+                        jobId: job.jobId,
+                        tabId,
+                        navigated: true,
+                        indeedHandoff: true,
+                        landedUrl: afterWait.url,
                     };
                 }
 
@@ -418,7 +474,56 @@ export function createSimplyHiredOrchestrator(deps) {
             selectResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
         }
 
+        if (selectResponse?.indeedHandoff || selectResponse?.captcha) {
+            if (selectResponse.captcha) {
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'captcha_required',
+                    error: 'Cloudflare/Indeed security check blocked job open.',
+                    landedUrl: selectResponse.landedUrl,
+                };
+            }
+
+            await logSession(
+                'info',
+                `SimplyHired Quick Apply handed off to Indeed for ${job.title}.`,
+            );
+
+            return {
+                success: true,
+                jobId: job.jobId,
+                tabId,
+                navigated: true,
+                indeedHandoff: true,
+                landedUrl: selectResponse.landedUrl,
+            };
+        }
+
         if (!selectResponse?.success) {
+            const nav = await inspectSimplyHiredNavigation(tabId);
+
+            if (nav.captcha) {
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'captcha_required',
+                    error: 'Cloudflare/Indeed security check blocked job open.',
+                    landedUrl: nav.url,
+                };
+            }
+
+            if (nav.indeedHandoff) {
+                return {
+                    success: true,
+                    jobId: job.jobId,
+                    tabId,
+                    navigated: true,
+                    indeedHandoff: true,
+                    landedUrl: nav.url,
+                };
+            }
+
             return {
                 success: false,
                 tabId,
@@ -429,7 +534,42 @@ export function createSimplyHiredOrchestrator(deps) {
 
         const detailResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
 
+        if (detailResponse?.indeedHandoff || detailResponse?.captcha) {
+            if (detailResponse.captcha) {
+                return {
+                    success: false,
+                    tabId,
+                    skipReason: 'captcha_required',
+                    error: 'Cloudflare/Indeed security check blocked job open.',
+                    landedUrl: detailResponse.landedUrl,
+                };
+            }
+
+            return {
+                success: true,
+                jobId: job.jobId,
+                tabId,
+                navigated: true,
+                indeedHandoff: true,
+                landedUrl: detailResponse.landedUrl,
+            };
+        }
+
         if (!detailResponse?.success) {
+            const nav = await inspectSimplyHiredNavigation(tabId);
+
+            if (nav.indeedHandoff || nav.captcha) {
+                return {
+                    success: !nav.captcha,
+                    tabId,
+                    skipReason: nav.captcha ? 'captcha_required' : undefined,
+                    error: nav.captcha ? 'Cloudflare/Indeed security check blocked job open.' : undefined,
+                    navigated: true,
+                    indeedHandoff: !nav.captcha,
+                    landedUrl: nav.url,
+                };
+            }
+
             return {
                 success: false,
                 tabId,
@@ -570,6 +710,12 @@ export function createSimplyHiredOrchestrator(deps) {
         tabId = openResult.tabId || tabId;
 
         if (!openResult.success) {
+            if (openResult.skipReason === 'captcha_required' && typeof pauseForCaptchaReview === 'function') {
+                await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
+
+                return { outcome: 'paused', reason: 'captcha_required', tabId };
+            }
+
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: openResult.skipReason || 'job_unavailable' },
             });
@@ -586,32 +732,92 @@ export function createSimplyHiredOrchestrator(deps) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
-        if (!openResult.indeedHandoff) {
-            const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
+        let indeedHandoff = Boolean(openResult.indeedHandoff);
+        const postOpenNav = await inspectSimplyHiredNavigation(tabId);
 
-            if (health && health.ok === false) {
-                throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
+        if (postOpenNav.captcha) {
+            if (typeof pauseForCaptchaReview === 'function') {
+                await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
+
+                return { outcome: 'paused', reason: 'captcha_required', tabId };
             }
 
-            await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+            return {
+                outcome: 'skipped',
+                reason: 'captcha_required',
+                detail: 'Indeed security check blocked SimplyHired Quick Apply handoff.',
+                tabId,
+            };
+        }
 
-            const applyAvailability = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_CHECK_APPLY_AVAILABILITY');
+        if (postOpenNav.indeedHandoff) {
+            indeedHandoff = true;
+        }
 
-            if (applyAvailability?.quickApply === false || !applyAvailability?.hasApplyButton) {
+        if (!indeedHandoff) {
+            if (isSimplyHiredJobsSearchUrl(postOpenNav.url)) {
                 await recordAnalyticsEvent(session, 'skipped', job, {
-                    metadata: { reason: 'no_simplyhired_apply' },
+                    metadata: { reason: 'job_unavailable' },
                 });
 
                 return {
                     outcome: 'skipped',
-                    reason: 'no_simplyhired_apply',
-                    detail: applyAvailability?.externalApply
-                        ? 'Job uses external apply, not Quick Apply.'
-                        : 'SimplyHired Quick Apply button not found on job page.',
+                    reason: 'job_unavailable',
+                    detail: 'SimplyHired job page did not stay open (returned to search).',
                     tabId,
                 };
             }
 
+            const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
+
+            if (health?.indeedHandoff || health?.captcha) {
+                indeedHandoff = true;
+            } else if (health && health.ok === false) {
+                throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
+            }
+        }
+
+        if (!indeedHandoff) {
+            await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+            const applyAvailability = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_CHECK_APPLY_AVAILABILITY');
+
+            if (applyAvailability?.indeedHandoff || applyAvailability?.captcha) {
+                indeedHandoff = true;
+            } else if (applyAvailability?.quickApply === false || !applyAvailability?.hasApplyButton) {
+                const nav = await inspectSimplyHiredNavigation(tabId);
+
+                if (nav.indeedHandoff || nav.captcha) {
+                    indeedHandoff = true;
+                } else if (isSimplyHiredJobsSearchUrl(nav.url)) {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'job_unavailable' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'job_unavailable',
+                        detail: 'SimplyHired job page did not stay open (returned to search).',
+                        tabId,
+                    };
+                } else {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'no_simplyhired_apply' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'no_simplyhired_apply',
+                        detail: applyAvailability?.externalApply
+                            ? 'Job uses external apply, not Quick Apply.'
+                            : 'SimplyHired Quick Apply button not found on job page.',
+                        tabId,
+                    };
+                }
+            }
+        }
+
+        if (!indeedHandoff) {
             const fitSession = await loadAutoApplySession();
             const fitResult = await evaluateSimplyHiredJobFit(tabId, job, fitSession || session);
 
@@ -627,30 +833,64 @@ export function createSimplyHiredOrchestrator(deps) {
 
             const applyResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_OPEN_APPLY');
 
-            if (applyResponse?.quickApply === false) {
+            if (applyResponse?.indeedHandoff || applyResponse?.captcha) {
+                indeedHandoff = true;
+
+                if (applyResponse.captcha && typeof pauseForCaptchaReview === 'function') {
+                    await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
+
+                    return { outcome: 'paused', reason: 'captcha_required', tabId };
+                }
+            } else if (applyResponse?.quickApply === false) {
                 await recordAnalyticsEvent(session, 'skipped', job, {
                     metadata: { reason: 'no_simplyhired_apply' },
                 });
 
                 return { outcome: 'skipped', reason: 'no_simplyhired_apply', tabId };
+            } else if (!applyResponse?.success) {
+                const nav = await inspectSimplyHiredNavigation(tabId);
+
+                if (nav.captcha && typeof pauseForCaptchaReview === 'function') {
+                    await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
+
+                    return { outcome: 'paused', reason: 'captcha_required', tabId };
+                }
+
+                if (nav.indeedHandoff) {
+                    indeedHandoff = true;
+                } else {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'no_simplyhired_apply' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'no_simplyhired_apply',
+                        detail: applyResponse?.error || '',
+                        tabId,
+                    };
+                }
             }
 
-            if (!applyResponse?.success) {
-                await recordAnalyticsEvent(session, 'skipped', job, {
-                    metadata: { reason: 'no_simplyhired_apply' },
-                });
+            if (!indeedHandoff) {
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
+                invalidateTabFrameCache(tabId);
 
-                return {
-                    outcome: 'skipped',
-                    reason: 'no_simplyhired_apply',
-                    detail: applyResponse?.error || '',
-                    tabId,
-                };
+                const afterClick = await inspectSimplyHiredNavigation(tabId);
+
+                if (afterClick.captcha && typeof pauseForCaptchaReview === 'function') {
+                    await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
+
+                    return { outcome: 'paused', reason: 'captcha_required', tabId };
+                }
+
+                if (afterClick.indeedHandoff) {
+                    indeedHandoff = true;
+                }
             }
+        }
 
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
-            invalidateTabFrameCache(tabId);
-        } else {
+        if (indeedHandoff) {
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
             invalidateTabFrameCache(tabId);
 
@@ -658,19 +898,15 @@ export function createSimplyHiredOrchestrator(deps) {
             let indeedApplyOpened = false;
 
             while (Date.now() < openApplyDeadline) {
-                const currentUrl = await readTabUrl(tabId);
-                let currentTitle = '';
+                const nav = await inspectSimplyHiredNavigation(tabId);
 
-                try {
-                    currentTitle = String((await chrome.tabs.get(tabId))?.title || '');
-                } catch {
-                    currentTitle = '';
-                }
+                if (nav.captcha) {
+                    if (typeof pauseForCaptchaReview === 'function') {
+                        await pauseForCaptchaReview(session, tabId, job, null, { stage: 'viewjob' });
 
-                if (
-                    isCloudflareChallengeUrl(currentUrl)
-                    || /just a moment/i.test(currentTitle)
-                ) {
+                        return { outcome: 'paused', reason: 'captcha_required', tabId };
+                    }
+
                     await logSession(
                         'warn',
                         `[captcha] ${job.title}: clear the Indeed/Cloudflare security check in the browser.`,
