@@ -7044,6 +7044,18 @@ async function processReedJob(
         return { outcome: 'skipped', reason: 'no_reed_apply', tabId };
     }
 
+    if (applyResponse?.alreadyApplied || applyResponse?.submitted) {
+        await logSession(
+            'success',
+            `[submitted] ${job.title} at ${job.company} (already applied).`,
+        );
+        await recordAnalyticsEvent(session, 'submitted', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return { outcome: 'applied', tabId };
+    }
+
     if (!applyResponse?.success) {
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'no_reed_apply' },

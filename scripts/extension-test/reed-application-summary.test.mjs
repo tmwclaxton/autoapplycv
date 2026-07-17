@@ -37,6 +37,8 @@ const sandbox = {
     HTMLElement: context.HTMLElement,
     Event: context.Event,
     MouseEvent: context.MouseEvent,
+    URLSearchParams,
+    URL,
     getComputedStyle: context.getComputedStyle.bind(context),
     setTimeout,
     clearTimeout,
@@ -93,5 +95,33 @@ assert(
     !Reed.verifySubmitted().submitted,
     'JD phrase "successfully applied" must not false-positive submitted',
 );
+
+// Post-submit related-jobs SERP with Applied badge must confirm submission.
+const serpHtml = readFileSync(
+    path.join(rootDir, 'tests/fixtures/form-extraction/html/reed-post-submit-applied-serp.html'),
+    'utf8',
+);
+const serpDom = new JSDOM(serpHtml, {
+    url: 'https://www.reed.co.uk/jobs/php-developer-jobs-in-north-hykeham?q=php+developer&jobId=56845129',
+});
+const serpSandbox = {
+    window: serpDom.window,
+    document: serpDom.window.document,
+    HTMLElement: serpDom.window.HTMLElement,
+    Event: serpDom.window.Event,
+    MouseEvent: serpDom.window.MouseEvent,
+    URLSearchParams,
+    URL,
+    getComputedStyle: serpDom.window.getComputedStyle.bind(serpDom.window),
+    setTimeout,
+    clearTimeout,
+    console,
+    globalThis: serpDom.window,
+};
+serpDom.window.globalThis = serpDom.window;
+vm.createContext(serpSandbox);
+vm.runInContext(reedSource, serpSandbox);
+const SerpReed = serpSandbox.AutoCVApplyReedAutoApply;
+assert(SerpReed.verifySubmitted().submitted, 'Applied SERP badge must verify submitted');
 
 console.log('reed-application-summary: ok');

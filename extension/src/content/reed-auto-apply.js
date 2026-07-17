@@ -514,6 +514,15 @@ var AutoCVApplyReedAutoApply = (() => {
     async function clickReedApply() {
         await prepareJobView({ force: true });
 
+        if (hasAppliedUiMarker() || verifySubmitted().submitted) {
+            return {
+                success: true,
+                reedApply: true,
+                alreadyApplied: true,
+                submitted: true,
+            };
+        }
+
         if (readExternalApplyMarker()) {
             return {
                 success: false,
@@ -536,6 +545,15 @@ var AutoCVApplyReedAutoApply = (() => {
         const applyButton = readApplyButton();
 
         if (!(applyButton instanceof HTMLElement)) {
+            if (hasAppliedUiMarker() || verifySubmitted().submitted) {
+                return {
+                    success: true,
+                    reedApply: true,
+                    alreadyApplied: true,
+                    submitted: true,
+                };
+            }
+
             return { success: false, error: 'Reed Easy Apply button not found on job page.' };
         }
 
@@ -931,7 +949,11 @@ var AutoCVApplyReedAutoApply = (() => {
             return true;
         }
 
-        if (document.querySelector('[data-qa="applied-btn"], [data-qa*="applied-label"], [data-qa="job-applied"], [class*="job-applied-card"]')) {
+        if (document.querySelector(
+            '[data-qa="applied-btn"], [data-qa*="applied-label"], [data-qa="job-applied"], '
+            + '[data-qa="badge-0-applied"], [data-qa*="badge"][data-qa*="applied"], '
+            + '[class*="job-applied-card"]',
+        )) {
             return true;
         }
 
@@ -942,7 +964,7 @@ var AutoCVApplyReedAutoApply = (() => {
         }
 
         for (const applyButton of document.querySelectorAll(
-            'button[data-qa="apply-btn"], [data-qa="apply-btn"], button[data-qa*="applied"]',
+            'button[data-qa="apply-btn"], [data-qa="apply-btn"], button[data-qa="applyJobBtn"], button[data-qa*="applied"]',
         )) {
             if (!(applyButton instanceof HTMLElement)) {
                 continue;
@@ -962,11 +984,53 @@ var AutoCVApplyReedAutoApply = (() => {
         return false;
     }
 
+    /**
+     * After Submit, Reed often navigates to a related-jobs SERP with
+     * ?jobId=… and an Applied badge / Applied CTA on that card.
+     */
+    function hasPostSubmitAppliedSerpMarker() {
+        const jobId = readJobIdFromUrl();
+
+        if (!jobId || !isReedSearchPage()) {
+            return false;
+        }
+
+        const card = findJobCardById(jobId);
+
+        if (!(card instanceof HTMLElement)) {
+            // SERP may highlight the applied job via badge even without data-id match.
+            return Boolean(document.querySelector(
+                '[data-qa="badge-0-applied"], button[data-qa="applyJobBtn"][disabled]',
+            ));
+        }
+
+        if (card.querySelector('[data-qa="badge-0-applied"], [data-qa*="badge"][data-qa*="applied"]')) {
+            return true;
+        }
+
+        for (const button of card.querySelectorAll('button[data-qa="applyJobBtn"], button[data-qa="apply-btn"]')) {
+            const label = normalize(button.textContent || '');
+
+            if (/^applied$/i.test(label)) {
+                return true;
+            }
+        }
+
+        return /\bapplied\b/i.test(normalize(card.textContent || ''));
+    }
+
     function verifySubmitted() {
         if (isReedApplySuccessPage()) {
             return {
                 submitted: true,
                 confirmation: 'Reed application confirmation page',
+            };
+        }
+
+        if (hasPostSubmitAppliedSerpMarker()) {
+            return {
+                submitted: true,
+                confirmation: 'Reed related-jobs page shows Applied after submit',
             };
         }
 
