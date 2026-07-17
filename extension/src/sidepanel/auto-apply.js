@@ -4,10 +4,7 @@ import {
 } from './auto-apply-activity-ui.js';
 import { resolveAutoApplyControlsState } from './auto-apply-controls-ui.js';
 import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
-import {
-    buildAutoApplyInterventionSummary,
-    buildAutoApplyPreflightLines,
-} from './auto-apply-intervention.js';
+import { buildAutoApplyInterventionSummary } from './auto-apply-intervention.js';
 import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
 import {
     AUTO_APPLY_PLATFORM_LIST,
@@ -47,8 +44,6 @@ const timingValueEl = document.getElementById('auto-apply-timing-value');
 const startBtn = document.getElementById('auto-apply-start-btn');
 const stopBtn = document.getElementById('auto-apply-stop-btn');
 const statusEl = document.getElementById('auto-apply-status');
-const preflightEl = document.getElementById('auto-apply-preflight');
-const preflightLinesEl = document.getElementById('auto-apply-preflight-lines');
 const interventionEl = document.getElementById('auto-apply-intervention');
 const interventionHeadlineEl = document.getElementById('auto-apply-intervention-headline');
 const interventionDetailEl = document.getElementById('auto-apply-intervention-detail');
@@ -61,7 +56,6 @@ const activityPanelEl = document.getElementById('auto-apply-activity-panel');
 const statsEl = document.getElementById('auto-apply-stats');
 const logEl = document.getElementById('auto-apply-log');
 const clearLogBtn = document.getElementById('auto-apply-clear-log-btn');
-const filtersDetailsEl = document.getElementById('auto-apply-filters-details');
 
 /** @type {ReturnType<typeof setInterval>|null} */
 let pollTimer = null;
@@ -74,8 +68,6 @@ let notifyUser = null;
 let lastRenderedSession = null;
 /** @type {ReturnType<typeof setTimeout>|null} */
 let saveSettingsTimer = null;
-/** @type {object|null} */
-let cachedProfileData = null;
 let automationRunning = false;
 
 function extensionContext() {
@@ -273,7 +265,6 @@ function applySettingsToForm(settings) {
     syncTimingLevelLabel();
     syncFitGateControls();
     syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
-    syncFiltersDetailsOpen();
 }
 
 async function loadPersistedSettings() {
@@ -299,34 +290,12 @@ function syncFitGateControls() {
     minFitScoreInput.disabled = !fitEnabledInput.checked;
 }
 
-function hasActiveSearchFilters() {
-    return Boolean(
-        locationInput.value.trim()
-        || (marketSelect?.value && marketSelect.value !== 'auto')
-        || workTypeSelect.value
-        || experienceSelect.value
-        || datePostedSelect.value
-        || minSalarySelect.value,
-    );
-}
-
-function syncFiltersDetailsOpen() {
-    if (!filtersDetailsEl) {
-        return;
-    }
-
-    if (hasActiveSearchFilters()) {
-        filtersDetailsEl.open = true;
-    }
-}
-
 /**
  * Prefill Auto Apply search fields from the signed-in profile.
  *
  * @param {object|null|undefined} profileData
  */
 export function syncSearchDefaultsFromProfile(profileData) {
-    cachedProfileData = profileData || null;
     const profileLocation = resolveProfileSearchLocation(profileData);
     const currentLocation = locationInput.value.trim();
 
@@ -344,9 +313,7 @@ export function syncSearchDefaultsFromProfile(profileData) {
         roleInput.value = headline;
     }
 
-    syncFiltersDetailsOpen();
     schedulePersistSettings();
-    renderPreflightSummary(profileData);
 }
 
 function formatStats(session) {
@@ -364,40 +331,6 @@ function formatStats(session) {
     parts.push(`Errors ${stats.errors}`);
 
     return parts.join(' · ');
-}
-
-function renderPreflightSummary(profileData = cachedProfileData) {
-    if (!preflightEl || !preflightLinesEl) {
-        return;
-    }
-
-    if (!profileData || automationRunning) {
-        preflightEl.hidden = true;
-        preflightLinesEl.innerHTML = '';
-
-        return;
-    }
-
-    const platform = readSelectedPlatform() || LINKEDIN_PLATFORM_ID;
-    const lines = buildAutoApplyPreflightLines(profileData, {
-        platform,
-        roleDescription: roleInput.value.trim() || 'Not set',
-        maxApplications: Number.parseInt(maxApplicationsInput.value, 10) || 3,
-        location: locationInput.value.trim(),
-        fitCheckEnabled: fitEnabledInput.checked,
-        minFitScore: readMinFitScore(),
-        timingLevel: readTimingLevel(),
-    });
-
-    preflightLinesEl.innerHTML = '';
-
-    for (const line of lines) {
-        const item = document.createElement('li');
-        item.textContent = line;
-        preflightLinesEl.appendChild(item);
-    }
-
-    preflightEl.hidden = false;
 }
 
 function renderInterventionSummary(session) {
@@ -562,7 +495,6 @@ function renderCleanState() {
     resetActivityPanelVisibility();
     renderStatusLine(null);
     renderPauseBanner(null);
-    renderPreflightSummary();
     statsEl.textContent = '';
     renderLog(null);
     renderActivityVisibility(null);
@@ -608,14 +540,6 @@ function renderSession(session) {
 
     renderStatusLine(session);
     renderPauseBanner(session);
-
-    if (session && isActiveAutoApplyStatus(session.status)) {
-        if (preflightEl) {
-            preflightEl.hidden = true;
-        }
-    } else {
-        renderPreflightSummary();
-    }
 
     if (shouldShowAutoApplyActivityControls(session)) {
         statsEl.textContent = formatStats(session);
@@ -785,24 +709,12 @@ function bindSettingsPersistence() {
     for (const input of inputs) {
         input.addEventListener('input', () => {
             schedulePersistSettings();
-            renderPreflightSummary();
-
-            if (input === locationInput || input === marketSelect || input === workTypeSelect || input === experienceSelect
-                || input === datePostedSelect || input === minSalarySelect) {
-                syncFiltersDetailsOpen();
-            }
         });
         input.addEventListener('change', () => {
             schedulePersistSettings();
-            renderPreflightSummary();
 
             if (input === platformSelect) {
                 syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
-            }
-
-            if (input === locationInput || input === marketSelect || input === workTypeSelect || input === experienceSelect
-                || input === datePostedSelect || input === minSalarySelect) {
-                syncFiltersDetailsOpen();
             }
         });
     }
@@ -817,12 +729,10 @@ function bindSettingsPersistence() {
         timingLevelInput.addEventListener('input', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
-            renderPreflightSummary();
         });
         timingLevelInput.addEventListener('change', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
-            renderPreflightSummary();
         });
     }
 }

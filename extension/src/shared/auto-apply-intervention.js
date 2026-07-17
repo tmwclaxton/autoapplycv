@@ -96,39 +96,3 @@ export function buildAutoApplyInterventionSummary(session) {
 
     return null;
 }
-
-/**
- * @param {object|null|undefined} profileData
- * @param {{
- *   platform: string,
- *   roleDescription: string,
- *   maxApplications: number,
- *   location?: string,
- *   fitCheckEnabled?: boolean,
- *   minFitScore?: number,
- *   timingLevel?: number,
- * }} startConfig
- * @returns {string[]}
- */
-export function buildAutoApplyPreflightLines(profileData, startConfig) {
-    const profile = profileData?.profile || {};
-    const name = String(profile.full_name || profile.name || '').trim() || 'Signed-in profile';
-    const email = String(profile.email || '').trim();
-    const location =
-        String(startConfig.location || profile.city || profile.location || '').trim()
-        || 'From profile';
-    const fitLine = startConfig.fitCheckEnabled
-        ? `Fit gate on (min ${startConfig.minFitScore ?? 10}, 5 credits per scored job)`
-        : 'Fit gate off';
-    const timing = describeTimingLevel(startConfig.timingLevel);
-
-    const lines = [
-        `Profile: ${name}${email ? ` (${email})` : ''}`,
-        `Platform: ${startConfig.platform} · Role: ${startConfig.roleDescription}`,
-        `Location: ${location} · Max applications: ${startConfig.maxApplications}`,
-        fitLine,
-        `Timing: ${timing} (slower is more human-like; does not prevent platform detection)`,
-    ];
-
-    return lines;
-}

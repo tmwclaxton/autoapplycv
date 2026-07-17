@@ -9,37 +9,14 @@ import {
 } from '../../extension/src/shared/auto-apply-session.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const {
-    buildAutoApplyInterventionSummary,
-    buildAutoApplyPreflightLines,
-} = await import(pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-intervention.js')).href);
+const { buildAutoApplyInterventionSummary } = await import(
+    pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-intervention.js')).href
+);
 const {
     AUTO_APPLY_OUTCOME,
     appendAutoApplyJobOutcome,
     resolveStructuredJobProcessOutcome,
 } = await import(pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-outcomes.js')).href);
-
-const preflight = buildAutoApplyPreflightLines(
-    {
-        profile: {
-            full_name: 'Test User',
-            email: 'test@example.com',
-            city: 'London',
-        },
-    },
-    {
-        platform: 'linkedin',
-        roleDescription: 'software engineer',
-        maxApplications: 5,
-        fitCheckEnabled: true,
-        minFitScore: 10,
-        timingLevel: 5,
-    },
-);
-
-assert(preflight.some((line) => line.includes('Test User')));
-assert(preflight.some((line) => line.includes('Careful timing')));
-assert(preflight.some((line) => line.includes('does not prevent platform detection')));
 
 let session = createInitialSession({
     platform: 'linkedin',

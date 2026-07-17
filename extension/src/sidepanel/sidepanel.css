@@ -1117,8 +1117,8 @@ body {
 .auto-apply-details-summary {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 10px;
+    gap: 8px;
+    padding: 10px 12px;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -1135,7 +1135,12 @@ body {
 
 .auto-apply-details-summary::before {
     content: '▸';
-    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;
+    font-size: 18px;
+    line-height: 1;
     transition: transform 0.15s ease;
 }
 
@@ -1354,23 +1359,6 @@ body {
 
 .auto-apply-pause-message {
     margin: 0;
-}
-
-.auto-apply-preflight {
-    margin-top: 10px;
-    padding: 12px;
-}
-
-.auto-apply-preflight-title {
-    margin: 0 0 6px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.auto-apply-preflight-lines {
-    margin: 0;
-    padding-left: 18px;
 }
 
 .auto-apply-intervention {
