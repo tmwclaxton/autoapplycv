@@ -1985,6 +1985,8 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
 
 async function collectInitialSnapshot(tabId, tab, perf = null) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+    const isSmartApplyQuestions = /smartapply\.indeed\.com/i.test(tab.url || '')
+        && /questions-module/i.test(tab.url || '');
 
     logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url, force: true }, tabId);
     perf?.start('frame.discovery');
@@ -1998,7 +2000,33 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
     const profilePayload = await getProfile().catch(() => null);
-    const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+    let collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+
+    // SmartApply questions hydrate after the route change - empty snapshot on the
+    // questions URL is almost always a race, not a real empty form.
+    if (
+        isSmartApplyQuestions
+        && collectResponse?.success
+        && !(collectResponse?.snapshot?.elements?.length)
+    ) {
+        const hydrateDeadline = Date.now() + 6_000;
+
+        while (Date.now() < hydrateDeadline) {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 400);
+            });
+            collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+
+            if (collectResponse?.snapshot?.elements?.length) {
+                logInfo('background', 'snapshot.collect', 'SmartApply questions hydrated after wait', {
+                    fieldCount: collectResponse.snapshot.elements.length,
+                    waitedMs: Date.now() - snapshotStartedAt,
+                }, tabId);
+                break;
+            }
+        }
+    }
+
     perf?.end('snapshot.collect');
 
     const freshFingerprint = collectResponse?.snapshot
@@ -2169,9 +2197,21 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
 
 async function runDraftAll(tabId, e2eOptions = null) {
     if (draftAllRunning) {
-        logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
+        // Auto Apply can advance a step while a prior Draft All is still winding
+        // down - wait briefly instead of immediately failing the next step.
+        const waitDeadline = Date.now() + 15_000;
 
-        return { error: 'Already answering questions on this page.' };
+        while (draftAllRunning && Date.now() < waitDeadline) {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 250);
+            });
+        }
+
+        if (draftAllRunning) {
+            logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
+
+            return { error: 'Already answering questions on this page.' };
+        }
     }
 
     draftAllRunning = true;

@@ -1262,6 +1262,22 @@ function isIndeedSmartApplyTabUrl(url) {
     );
 }
 
+function isIndeedDraftSkipStep(applyState) {
+    if (!applyState) {
+        return false;
+    }
+
+    if (applyState.isReviewStep || applyState.isResumeCardStep) {
+        return true;
+    }
+
+    const fingerprint = String(applyState.stepFingerprint || '');
+
+    return /resume-selection|resume-module|relevant-experience|review-module|preview-module/i.test(
+        fingerprint,
+    );
+}
+
 async function readIndeedTabUrl(tabId) {
     try {
         const tab = await chrome.tabs.get(tabId);
@@ -5470,35 +5486,7 @@ async function processIndeedJobInner(
             continue;
         }
 
-        if (!applyState.isReviewStep) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
-
-            const draftResult = await runDraftAllForStep(
-                tabId,
-                job,
-                applyState.stepLabel,
-                runDraftAll,
-                session,
-            );
-            const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
-                type: 'INDEED_APPLY_STATE',
-            });
-            const pauseOutcome = await ensureStepFilledOrPaused(
-                tabId,
-                job,
-                postDraftState || applyState,
-                draftResult,
-                session,
-                profileData,
-            );
-
-            session = pauseOutcome.session || session;
-            profileData = pauseOutcome.profileData ?? profileData;
-
-            if (pauseOutcome.stopped) {
-                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
-            }
-        } else {
+        if (applyState.isReviewStep) {
             await logSession(
                 'info',
                 `[review] ${job.title}: attempting submit.`,
@@ -5551,6 +5539,34 @@ async function processIndeedJobInner(
                     sameStepCount = 0;
                     continue;
                 }
+            }
+        } else if (!isIndeedDraftSkipStep(applyState)) {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+
+            const draftResult = await runDraftAllForStep(
+                tabId,
+                job,
+                applyState.stepLabel,
+                runDraftAll,
+                session,
+            );
+            const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            });
+            const pauseOutcome = await ensureStepFilledOrPaused(
+                tabId,
+                job,
+                postDraftState || applyState,
+                draftResult,
+                session,
+                profileData,
+            );
+
+            session = pauseOutcome.session || session;
+            profileData = pauseOutcome.profileData ?? profileData;
+
+            if (pauseOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
         }
 
@@ -8305,32 +8321,34 @@ async function processGlassdoorJob(
             break;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+        if (!isIndeedDraftSkipStep(applyState)) {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
-        const draftResult = await runDraftAllForStep(
-            tabId,
-            job,
-            applyState.stepLabel,
-            runDraftAll,
-            session,
-        );
-        const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
-            type: 'INDEED_APPLY_STATE',
-        });
-        const pauseOutcome = await ensureStepFilledOrPaused(
-            tabId,
-            job,
-            postDraftState || applyState,
-            draftResult,
-            session,
-            profileData,
-        );
+            const draftResult = await runDraftAllForStep(
+                tabId,
+                job,
+                applyState.stepLabel,
+                runDraftAll,
+                session,
+            );
+            const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            });
+            const pauseOutcome = await ensureStepFilledOrPaused(
+                tabId,
+                job,
+                postDraftState || applyState,
+                draftResult,
+                session,
+                profileData,
+            );
 
-        session = pauseOutcome.session || session;
-        profileData = pauseOutcome.profileData ?? profileData;
+            session = pauseOutcome.session || session;
+            profileData = pauseOutcome.profileData ?? profileData;
 
-        if (pauseOutcome.stopped) {
-            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            if (pauseOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
         }
 
         let advanceResponse = null;

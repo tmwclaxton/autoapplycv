@@ -1284,10 +1284,18 @@ var AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
+    function isIndeedResumeCardStep() {
+        const slug = readApplyStepSlug() || '';
+
+        // Resume card / relevant-experience steps have no inventoriable inputs.
+        return /resume-selection|resume-module|relevant-experience/i.test(slug);
+    }
+
     function isIndeedReviewStep() {
         const slug = readApplyStepSlug() || '';
 
-        if (/review|preview/i.test(slug)) {
+        // Prefer explicit module slugs - bare /review|preview/ matched unrelated paths.
+        if (/review-module|preview-module|(?:^|\/)review(?:\/|$)/i.test(slug)) {
             return true;
         }
 
@@ -1482,24 +1490,33 @@ var AutoCVApplyIndeedAutoApply = (() => {
             ? reviewRoot
             : reviewRoot || readApplyModuleScope();
 
-        if (reviewOnly && !scope) {
+        // SmartApply beta sometimes marks review via URL before mosaic preview
+        // root hydrates - still search the document for Submit.
+        if (reviewOnly && !scope && !isIndeedReviewStep()) {
             return null;
         }
 
         const searchRoot = scope || document;
         const submit = searchRoot.querySelector(
-            '[data-testid="submit-application-button"], [name="submit-application"]',
+            '[data-testid="submit-application-button"], [name="submit-application"], button[type="submit"]',
         );
 
         if (
             submit instanceof HTMLElement &&
             (includeDisabled || !submit.disabled)
         ) {
-            return submit;
+            const submitLabel = normalize(
+                submit.getAttribute('aria-label') || submit.textContent,
+            );
+
+            // Avoid Continue buttons that use type=submit.
+            if (!/\b(continue|next|save)\b/i.test(submitLabel)) {
+                return submit;
+            }
         }
 
         for (const button of searchRoot.querySelectorAll(
-            'button, [role="button"]',
+            'button, [role="button"], input[type="submit"]',
         )) {
             if (!(button instanceof HTMLElement)) {
                 continue;
@@ -1515,6 +1532,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
 
             if (
                 /\b(submit application|submit your application)\b/i.test(label)
+                || /^submit$/i.test(label)
             ) {
                 return button;
             }
@@ -1681,11 +1699,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
         }
 
         const onReviewStep = isIndeedReviewStep();
+        const onResumeCardStep = isIndeedResumeCardStep();
         const continueButton = readContinueButton();
         const submitButton = findSubmitButton({
             includeDisabled: true,
             reviewOnly: true,
-        });
+        }) || (onReviewStep
+            ? findSubmitButton({ includeDisabled: true, reviewOnly: false })
+            : null);
         const validationErrors = readValidationErrors();
         const invalidFields = readInvalidFields();
         const captchaPresent = readIndeedCaptchaPresent();
@@ -1699,6 +1720,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
             hasSubmitButton: Boolean(submitButton),
             submitDisabled: Boolean(submitButton?.disabled),
             isReviewStep: onReviewStep,
+            isResumeCardStep: onResumeCardStep,
             captchaPresent,
             storedApplicant,
             stepLabel: readStepLabel(),
@@ -1981,6 +2003,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 submitButton = findSubmitButton({
                     includeDisabled: true,
                     reviewOnly: true,
+                }) || findSubmitButton({
+                    includeDisabled: true,
+                    reviewOnly: false,
                 });
 
                 if (
@@ -2352,6 +2377,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
         getIndeedApplyState,
         clickContinueOrSubmit,
         verifySubmitted,
+        isIndeedResumeCardStep,
+        isIndeedReviewStep,
+        findSubmitButton,
         goToNextSearchPage,
         scanPageHealth,
         openIndeedContactInfoStep,
