@@ -1901,7 +1901,7 @@ export function isEeoQuestionLabel(label) {
 }
 
 const EEO_DECLINE_OPTION_PATTERN =
-    /decline to self-?identify|i do not want to answer|prefer not to (?:say|answer|respond|self|disclose)|i decline|none of the above|^undefined$|not specified|prefer not|do not wish|i choose not to (?:identify|disclose)/i;
+    /decline to self[-\s]?identify|i do not want to answer|prefer not to (?:say|answer|respond|self|disclose)|i decline|none of the above|^undefined$|not specified|prefer not|do(?:\s*not|\s*n't) wish|i don'?t wish|i choose not to (?:identify|disclose)/i;
 
 /**
  * Resolve a decline option when present. Kept for callers that still want an

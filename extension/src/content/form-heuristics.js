@@ -3476,6 +3476,14 @@ var AutoCVApplyFormHeuristics = (() => {
         option.dispatchEvent(new MouseEvent('click', eventInit));
     }
 
+    function isReactSelectComboboxShell(element) {
+        return Boolean(
+            element?.closest?.(
+                '.select__control, .select-shell, .select__container',
+            ),
+        );
+    }
+
     function comboboxSelectionMatches(element, expected, optionText) {
         if (isWorkableSelectCombobox(element)) {
             const root = element.closest('[data-input-type="select"]');
@@ -3495,6 +3503,18 @@ var AutoCVApplyFormHeuristics = (() => {
                     valueMatchesAnswer(element.value, optionText)
                 );
             }
+        }
+
+        // Greenhouse/react-select: typed filter text is not a committed selection.
+        // Trust single-value / hidden / data-value via readReactSelectValue only.
+        if (
+            isReactSelectComboboxShell(element) &&
+            !isWorkableSelectCombobox(element)
+        ) {
+            return (
+                valueMatchesAnswer(readReactSelectValue(element), expected) ||
+                valueMatchesAnswer(readReactSelectValue(element), optionText)
+            );
         }
 
         return (
@@ -3523,14 +3543,57 @@ var AutoCVApplyFormHeuristics = (() => {
         const selectionCommitted = () =>
             comboboxSelectionMatches(element, expected, optionText);
 
-        const finalizeCommittedSelection = async () => {
-            syncWorkableHiddenSelectValue(element, optionText, option);
-            element.setAttribute('aria-expanded', 'false');
-            element.blur();
-            clearValidationState(element);
-            await pauseMs(120);
+        const syncGreenhouseRequiredInput = () => {
+            const shell = element.closest('.select-shell, .select__container');
+            const requiredInput = shell?.querySelector(
+                'input[tabindex="-1"][aria-hidden="true"][required], input.remix-css-1a0ro4n-requiredInput, input[tabindex="-1"][aria-hidden="true"]',
+            );
 
-            return selectionCommitted();
+            if (!requiredInput || requiredInput === element) {
+                return;
+            }
+
+            setNativeValue(requiredInput, optionText || expected);
+            requiredInput.dispatchEvent(new Event('input', { bubbles: true }));
+            requiredInput.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        const finalizeCommittedSelection = async ({ blur = true } = {}) => {
+            syncWorkableHiddenSelectValue(element, optionText, option);
+
+            if (selectionCommitted()) {
+                syncGreenhouseRequiredInput();
+                element.setAttribute('aria-expanded', 'false');
+
+                if (blur) {
+                    element.blur();
+                }
+
+                clearValidationState(element);
+                await pauseMs(80);
+
+                return selectionCommitted();
+            }
+
+            return false;
+        };
+
+        const pressComboboxKey = (key, code = key) => {
+            element.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key,
+                    code,
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            element.dispatchEvent(
+                new KeyboardEvent('keyup', {
+                    key,
+                    code,
+                    bubbles: true,
+                }),
+            );
         };
 
         option.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
@@ -3553,47 +3616,43 @@ var AutoCVApplyFormHeuristics = (() => {
         for (const attempt of [0, 1]) {
             if (attempt === 1) {
                 element.focus();
+                openReactSelectDropdown(element);
+                await pauseMs(100);
+            }
 
-                if (isWorkableSelectCombobox(element)) {
-                    openWorkableSelectDropdown(element);
-                } else {
-                    openReactSelectDropdown(element);
-                }
+            // Prefer pointer events - Greenhouse react-select commits on pointerdown.
+            dispatchPointerClick(option);
+            await pauseMs(160);
 
-                await pauseMs(60);
+            if (await finalizeCommittedSelection({ blur: false })) {
+                element.blur();
+
+                return selectionCommitted();
             }
 
             dispatchReactSelectOptionMouseDown(option);
-            await pauseMs(80);
+            await pauseMs(160);
 
-            if (await finalizeCommittedSelection()) {
-                return true;
+            if (await finalizeCommittedSelection({ blur: false })) {
+                element.blur();
+
+                return selectionCommitted();
             }
 
             nativeClick(option);
-            await pauseMs(80);
+            await pauseMs(160);
 
-            if (await finalizeCommittedSelection()) {
-                return true;
+            if (await finalizeCommittedSelection({ blur: false })) {
+                element.blur();
+
+                return selectionCommitted();
             }
 
             element.focus();
-            element.dispatchEvent(
-                new KeyboardEvent('keydown', {
-                    key: 'Enter',
-                    code: 'Enter',
-                    bubbles: true,
-                    cancelable: true,
-                }),
-            );
-            element.dispatchEvent(
-                new KeyboardEvent('keyup', {
-                    key: 'Enter',
-                    code: 'Enter',
-                    bubbles: true,
-                }),
-            );
-            await pauseMs(80);
+            pressComboboxKey('ArrowDown');
+            await pauseMs(60);
+            pressComboboxKey('Enter');
+            await pauseMs(160);
 
             if (await finalizeCommittedSelection()) {
                 return true;
@@ -3835,15 +3894,28 @@ var AutoCVApplyFormHeuristics = (() => {
                 return singleValue.textContent.replace(/\s+/g, ' ').trim();
             }
 
-            const dataValueContainer =
-                control.querySelector('.select__input-container[data-value]') ||
-                element.closest('.select__input-container[data-value]');
-            const dataValue = String(
-                dataValueContainer?.getAttribute('data-value') || '',
-            ).trim();
+            const placeholder = control.querySelector('.select__placeholder');
+            const placeholderVisible =
+                placeholder &&
+                placeholder.textContent?.trim() &&
+                placeholder.offsetParent !== null &&
+                getComputedStyle(placeholder).display !== 'none';
 
-            if (dataValue.length >= 1 && !/^select\b/i.test(dataValue)) {
-                return dataValue;
+            // data-value on the input container often mirrors typed filter text
+            // while the placeholder still says Select... - ignore in that case.
+            if (!placeholderVisible) {
+                const dataValueContainer =
+                    control.querySelector(
+                        '.select__input-container[data-value]',
+                    ) ||
+                    element.closest('.select__input-container[data-value]');
+                const dataValue = String(
+                    dataValueContainer?.getAttribute('data-value') || '',
+                ).trim();
+
+                if (dataValue.length >= 1 && !/^select\b/i.test(dataValue)) {
+                    return dataValue;
+                }
             }
         }
 
@@ -3865,9 +3937,22 @@ var AutoCVApplyFormHeuristics = (() => {
             .replace(/\s+/g, ' ')
             .trim();
 
+        // Do not treat react-select filter input text as the selected value.
+        // Greenhouse source-of-hire was returning filled:true while still on Select...
         if (
+            workableRoot &&
             comboboxText.length >= 2 &&
             !/^select an option/i.test(comboboxText)
+        ) {
+            return comboboxText;
+        }
+
+        if (
+            !shell &&
+            !control &&
+            comboboxText.length >= 2 &&
+            !/^select an option/i.test(comboboxText) &&
+            !/^select\.\.\.$/i.test(comboboxText)
         ) {
             return comboboxText;
         }
@@ -3891,6 +3976,12 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             return workableHidden.value.trim();
+        }
+
+        // React-select keeps typed filter text on the input while placeholder
+        // still shows Select... - never treat that as a committed value.
+        if (shell || control) {
+            return null;
         }
 
         const typed = String(element.value || '').trim();
@@ -5600,7 +5691,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
-            return committed;
+            return false;
         }
 
         if (options.length > 0) {
@@ -9264,12 +9355,25 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (element.getAttribute?.('role') === 'combobox') {
-            return (
-                readReactSelectValue(element) ||
-                readSmartRecruitersControlValue(element) ||
-                element.value?.trim() ||
-                null
-            );
+            const reactSelectValue = readReactSelectValue(element);
+
+            if (reactSelectValue) {
+                return reactSelectValue;
+            }
+
+            const smartRecruitersValue =
+                readSmartRecruitersControlValue(element);
+
+            if (smartRecruitersValue) {
+                return smartRecruitersValue;
+            }
+
+            // Typed react-select filter text is not a committed selection.
+            if (isReactSelectComboboxShell(element)) {
+                return null;
+            }
+
+            return element.value?.trim() || null;
         }
 
         if (isPhoneCountryListboxButton(element)) {
