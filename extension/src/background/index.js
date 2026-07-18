@@ -38,7 +38,10 @@ import {
     saveLoginEndpoint,
 } from './connection.js';
 import { buildDraftCoverLetterText } from './cover-letter-draft.js';
-import { buildCoverLetterPdfBytes, buildCoverLetterPdfFileName } from './cover-letter-pdf.js';
+import {
+    buildCoverLetterPdfBytes,
+    buildCoverLetterPdfFileName,
+} from './cover-letter-pdf.js';
 import {
     clearLogs,
     exportLogsForTest,
@@ -67,7 +70,13 @@ import {
     buildDraftAllApplyPlan,
     partitionDraftAllBatchAnswers,
 } from './draft-all-pipeline.js';
-import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
+import {
+    requestDraftAllStream,
+    requestDraftField,
+    requestAssistChatStream,
+    requestFieldInventory,
+    requestJobContext,
+} from './draft-all-stream.js';
 import {
     appendDraftChatQueueEntry,
     normalizeDraftBatchAnswers,
@@ -102,6 +111,7 @@ import {
     resolveProfileMappingForLabel,
     shouldSaveToApplicationAnswers,
 } from './pending-fields.js';
+import { resolveSpeakLanguagePendingSave } from './speak-language-answer.js';
 import { createPerfTimer } from './perf-timer.js';
 import {
     clearSidePanelHostTab,
@@ -114,7 +124,10 @@ import {
     resolveSidePanelOpen,
     shouldPaintFieldHighlights,
 } from './side-panel-state.js';
-import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
+import {
+    validateCvUpload,
+    validateDocumentUpload,
+} from './upload-validation.js';
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
@@ -157,14 +170,18 @@ function applyCachedSubscription(subscription) {
         cachedProfile.subscription = subscription;
     }
 
-    chrome.runtime.sendMessage({
-        type: 'SUBSCRIPTION_UPDATED',
-        subscription,
-    }).catch(() => {});
+    chrome.runtime
+        .sendMessage({
+            type: 'SUBSCRIPTION_UPDATED',
+            subscription,
+        })
+        .catch(() => {});
 }
 
 function notifyUsageRefreshRequired() {
-    chrome.runtime.sendMessage({ type: 'USAGE_REFRESH_REQUESTED' }).catch(() => {});
+    chrome.runtime
+        .sendMessage({ type: 'USAGE_REFRESH_REQUESTED' })
+        .catch(() => {});
 }
 
 configureAutoApplyAtsSubscriptionHandler(applyCachedSubscription);
@@ -174,7 +191,9 @@ async function clearQuestionMemo() {
 }
 
 async function loadQuestionMemo() {
-    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+    const { questionMemo = {} } = await chrome.storage.local.get([
+        'questionMemo',
+    ]);
 
     return questionMemo;
 }
@@ -200,7 +219,11 @@ async function uploadCv(filePayload) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
     const formData = new FormData();
-    formData.append('cv', base64ToBlob(filePayload.base64, filePayload.mimeType), filePayload.fileName);
+    formData.append(
+        'cv',
+        base64ToBlob(filePayload.base64, filePayload.mimeType),
+        filePayload.fileName,
+    );
 
     const response = await fetch(`${apiBase}/api/cv/upload`, {
         method: 'POST',
@@ -250,7 +273,11 @@ async function uploadProfileDocument(message) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
     const formData = new FormData();
-    formData.append('file', base64ToBlob(message.file.base64, message.file.mimeType), message.file.fileName);
+    formData.append(
+        'file',
+        base64ToBlob(message.file.base64, message.file.mimeType),
+        message.file.fileName,
+    );
     formData.append('category', message.category);
 
     if (message.title?.trim()) {
@@ -296,13 +323,16 @@ async function deleteProfileDocument(documentId) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${apiBase}/api/profile/documents/${documentId}`, {
-        method: 'DELETE',
-        headers: {
-            Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/json',
+    const response = await fetch(
+        `${apiBase}/api/profile/documents/${documentId}`,
+        {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${apiToken}`,
+                Accept: 'application/json',
+            },
         },
-    });
+    );
 
     const data = await response.json().catch(() => ({}));
 
@@ -323,7 +353,9 @@ async function deleteProfileDocument(documentId) {
 
 async function fetchProfileDocument(documentId) {
     const profileData = await getProfile();
-    const document = (profileData.documents || []).find((item) => item.id === documentId);
+    const document = (profileData.documents || []).find(
+        (item) => item.id === documentId,
+    );
 
     if (!document?.download_url) {
         throw new Error('Document not found.');
@@ -432,7 +464,9 @@ chrome.runtime.onConnect.addListener((port) => {
             try {
                 port.postMessage({
                     type: 'error',
-                    message: error?.message || 'Could not respond right now. Try again shortly.',
+                    message:
+                        error?.message ||
+                        'Could not respond right now. Try again shortly.',
                 });
             } catch {
                 // Port may have disconnected.
@@ -448,7 +482,9 @@ function cancelDraftAll(reason = 'cancelled') {
     draftAllRunToken += 1;
     draftAllRunning = false;
     invalidateTabFrameCache();
-    logWarn('background', 'draft-all.cancel', 'Draft All cancelled', { reason });
+    logWarn('background', 'draft-all.cancel', 'Draft All cancelled', {
+        reason,
+    });
 
     return { success: true, cancelled: true, reason };
 }
@@ -489,7 +525,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
         return;
     }
 
-    chrome.tabs.get(tabId)
+    chrome.tabs
+        .get(tabId)
         .then(async (tab) => {
             if (!isInjectableTabUrl(tab.url)) {
                 return;
@@ -501,7 +538,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
                 SIDE_PANEL_HOST_WINDOW_ID_KEY,
             ]);
             const hostWindowId = storage[SIDE_PANEL_HOST_WINDOW_ID_KEY];
-            const inHostWindow = typeof hostWindowId !== 'number' || hostWindowId === tab.windowId;
+            const inHostWindow =
+                typeof hostWindowId !== 'number' ||
+                hostWindowId === tab.windowId;
 
             if (resolveSidePanelOpen(storage) && inHostWindow) {
                 await ensureActiveTabContentScriptForHighlights(tabId);
@@ -583,18 +622,31 @@ function broadcastDraftEvent(type, payload = {}) {
         const tabId = tabs[0]?.id;
 
         if (tabId) {
-            chrome.tabs.sendMessage(tabId, { type, ...payload }).catch(() => {});
+            chrome.tabs
+                .sendMessage(tabId, { type, ...payload })
+                .catch(() => {});
         }
     });
 }
 
 function logDraftError(phase, message, error, tabId, data = {}) {
-    logError('background', phase, message, {
-        ...data,
-        error: error instanceof Error
-            ? { name: error.name, message: error.message, stack: error.stack }
-            : error,
-    }, tabId);
+    logError(
+        'background',
+        phase,
+        message,
+        {
+            ...data,
+            error:
+                error instanceof Error
+                    ? {
+                          name: error.name,
+                          message: error.message,
+                          stack: error.stack,
+                      }
+                    : error,
+        },
+        tabId,
+    );
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -603,13 +655,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             invalidateProfileCache();
         }
 
-        getProfile().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        getProfile()
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'GET_CV_DOCUMENT') {
-        getCvDocument().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        getCvDocument()
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -619,7 +675,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             text: typeof message.text === 'string' ? message.text : null,
             persist: message.persist !== false,
             forceProfile: message.forceProfile !== false,
-        }).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        })
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -628,62 +686,86 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         persistCoverLetterDocument({
             job: message.job || null,
             text: message.text || null,
-        }).then(sendResponse).catch((err) => sendResponse({ error: err.message, saved: false }));
+        })
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message, saved: false }));
 
         return true;
     }
 
     if (message.type === 'RECORD_AUTOFILL') {
-        recordCreditUsage(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        recordCreditUsage(message.count)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'ASSIST_COVER_LETTER') {
-        assistCoverLetter(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+        assistCoverLetter(message)
+            .then(sendResponse)
+            .catch((err) =>
+                sendResponse({ error: err.message, success: false }),
+            );
 
         return true;
     }
 
     if (message.type === 'ASSIST_ATS') {
-        assistAts(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+        assistAts(message)
+            .then(sendResponse)
+            .catch((err) =>
+                sendResponse({ error: err.message, success: false }),
+            );
 
         return true;
     }
 
     if (message.type === 'UPLOAD_CV') {
-        uploadCv(message.file).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        uploadCv(message.file)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'UPLOAD_PROFILE_DOCUMENT') {
-        uploadProfileDocument(message).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        uploadProfileDocument(message)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'DELETE_PROFILE_DOCUMENT') {
-        deleteProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        deleteProfileDocument(message.documentId)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'DOWNLOAD_PROFILE_DOCUMENT') {
-        downloadProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        downloadProfileDocument(message.documentId)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'PREVIEW_PROFILE_DOCUMENT') {
-        fetchProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        fetchProfileDocument(message.documentId)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'SET_TOKEN') {
         if (!message.token || !message.apiBase) {
-            sendResponse({ error: 'Connection JSON must include token and api_base.' });
+            sendResponse({
+                error: 'Connection JSON must include token and api_base.',
+            });
 
             return true;
         }
@@ -694,7 +776,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
             .then(async () => {
                 invalidateProfileCache();
-                chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+                chrome.runtime
+                    .sendMessage({ type: 'AUTH_STATE_CHANGED' })
+                    .catch(() => {});
                 await broadcastAutofillVisibility();
                 sendResponse({ success: true });
             })
@@ -704,13 +788,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_AUTH_STATUS') {
-        chrome.storage.local.get(['apiToken', 'apiBase', 'loginEndpoint'], (result) => {
-            sendResponse({
-                isAuthenticated: !!result.apiToken,
-                apiBase: result.apiBase ?? null,
-                loginEndpoint: result.loginEndpoint ?? 'https://autocvapply.com',
-            });
-        });
+        chrome.storage.local.get(
+            ['apiToken', 'apiBase', 'loginEndpoint'],
+            (result) => {
+                sendResponse({
+                    isAuthenticated: !!result.apiToken,
+                    apiBase: result.apiBase ?? null,
+                    loginEndpoint:
+                        result.loginEndpoint ?? 'https://autocvapply.com',
+                });
+            },
+        );
 
         return true;
     }
@@ -727,7 +815,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         clearConnection()
             .then(async () => {
                 invalidateProfileCache();
-                chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+                chrome.runtime
+                    .sendMessage({ type: 'AUTH_STATE_CHANGED' })
+                    .catch(() => {});
                 await broadcastAutofillVisibility();
                 sendResponse({ success: true });
             })
@@ -759,14 +849,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((tabId) => runDraftAll(tabId))
             .then(sendResponse)
             .catch((err) => {
-                logDraftError('draft-all.start', 'Draft All failed to start', err, sender.tab?.id);
+                logDraftError(
+                    'draft-all.start',
+                    'Draft All failed to start',
+                    err,
+                    sender.tab?.id,
+                );
                 sendResponse({ error: formatContentScriptUserError(err) });
             });
 
         return true;
     }
 
-    if (message.type === 'CANCEL_DRAFT_ALL' || message.type === 'RESET_DRAFT_ALL') {
+    if (
+        message.type === 'CANCEL_DRAFT_ALL' ||
+        message.type === 'RESET_DRAFT_ALL'
+    ) {
         sendResponse(cancelDraftAll(message.reason || message.type));
 
         return false;
@@ -776,10 +874,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const pageUrl = message.pageUrl || sender.tab?.url?.split('?')[0] || '';
 
         void clearSnapshotCache(pageUrl).then(() => {
-            logDebug('background', 'snapshot.cache', 'Cleared snapshot cache after form content change', {
-                pageUrl,
-                signature: message.signature || null,
-            }, sender.tab?.id);
+            logDebug(
+                'background',
+                'snapshot.cache',
+                'Cleared snapshot cache after form content change',
+                {
+                    pageUrl,
+                    signature: message.signature || null,
+                },
+                sender.tab?.id,
+            );
             sendResponse({ success: true });
         });
 
@@ -790,7 +894,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         runDraftAll(message.tabId)
             .then(sendResponse)
             .catch((err) => {
-                logDraftError('draft-all.start', 'E2E Draft All failed', err, message.tabId);
+                logDraftError(
+                    'draft-all.start',
+                    'E2E Draft All failed',
+                    err,
+                    message.tabId,
+                );
                 sendResponse({ error: formatContentScriptUserError(err) });
             });
 
@@ -799,7 +908,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_START') {
         void (async () => {
-            if (typeof message.hostTabId === 'number' || typeof message.hostWindowId === 'number') {
+            if (
+                typeof message.hostTabId === 'number' ||
+                typeof message.hostWindowId === 'number'
+            ) {
                 await rememberSidePanelHostTab({
                     tabId: message.hostTabId,
                     windowId: message.hostWindowId,
@@ -820,7 +932,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     runDraftAll,
                 });
 
-                sendResponse({ success: true, session: session ? sanitizeAutoApplySessionResponse(session) : null });
+                sendResponse({
+                    success: true,
+                    session: session
+                        ? sanitizeAutoApplySessionResponse(session)
+                        : null,
+                });
             } catch (err) {
                 sendResponse({ error: err.message });
             }
@@ -831,11 +948,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_STOP') {
         stopAutoApply()
-            .then((session) => sendResponse({
-                success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
-                running: isAutoApplyRunning(),
-            }))
+            .then((session) =>
+                sendResponse({
+                    success: true,
+                    session: session
+                        ? sanitizeAutoApplySessionResponse(session)
+                        : null,
+                    running: isAutoApplyRunning(),
+                }),
+            )
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -843,11 +964,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_FORCE_STOP') {
         forceResetAutoApply()
-            .then(() => sendResponse({
-                success: true,
-                session: null,
-                running: false,
-            }))
+            .then(() =>
+                sendResponse({
+                    success: true,
+                    session: null,
+                    running: false,
+                }),
+            )
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -855,11 +978,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_CLEAR_ACTIVITY') {
         clearAutoApplyActivityLog()
-            .then((session) => sendResponse({
-                success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
-                running: isAutoApplyRunning(),
-            }))
+            .then((session) =>
+                sendResponse({
+                    success: true,
+                    session: session
+                        ? sanitizeAutoApplySessionResponse(session)
+                        : null,
+                    running: isAutoApplyRunning(),
+                }),
+            )
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -867,7 +994,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_STATUS') {
         getAutoApplyStatus()
-            .then((session) => sendResponse({ session, running: isAutoApplyRunning() }))
+            .then((session) =>
+                sendResponse({ session, running: isAutoApplyRunning() }),
+            )
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -891,11 +1020,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'AUTO_APPLY_RESUME') {
         resumeAutoApplyFromPause()
-            .then((session) => sendResponse({
-                success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
-                running: isAutoApplyRunning(),
-            }))
+            .then((session) =>
+                sendResponse({
+                    success: true,
+                    session: session
+                        ? sanitizeAutoApplySessionResponse(session)
+                        : null,
+                    running: isAutoApplyRunning(),
+                }),
+            )
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -904,7 +1037,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'DEBUG_LOG') {
         if (message.entry) {
             ingestDebugEntry(message.entry);
-            chrome.runtime.sendMessage({ type: 'DEBUG_LOG_APPENDED' }).catch(() => {});
+            chrome.runtime
+                .sendMessage({ type: 'DEBUG_LOG_APPENDED' })
+                .catch(() => {});
         }
 
         sendResponse({ success: true });
@@ -913,47 +1048,58 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_DEBUG_LOGS') {
-        getAllLogs().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        getAllLogs()
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'DEBUG_LOG_EXPORT') {
-        exportLogsForTest().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        exportLogsForTest()
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'CLEAR_DEBUG_LOGS') {
-        clearLogs().then(() => sendResponse({ success: true })).catch((err) => sendResponse({ error: err.message }));
+        clearLogs()
+            .then(() => sendResponse({ success: true }))
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'GET_SIDE_PANEL_STATE') {
-        chrome.storage.session.get([
-            'sidePanelOpen',
-            'sidePanelLastHeartbeatAt',
-            SIDE_PANEL_HOST_WINDOW_ID_KEY,
-        ], (result) => {
-            const sidePanelOpen = resolveSidePanelOpen(result);
-            const hostWindowId = typeof result[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
-                ? result[SIDE_PANEL_HOST_WINDOW_ID_KEY]
-                : null;
-            const tabWindowId = typeof sender.tab?.windowId === 'number'
-                ? sender.tab.windowId
-                : null;
+        chrome.storage.session.get(
+            [
+                'sidePanelOpen',
+                'sidePanelLastHeartbeatAt',
+                SIDE_PANEL_HOST_WINDOW_ID_KEY,
+            ],
+            (result) => {
+                const sidePanelOpen = resolveSidePanelOpen(result);
+                const hostWindowId =
+                    typeof result[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
+                        ? result[SIDE_PANEL_HOST_WINDOW_ID_KEY]
+                        : null;
+                const tabWindowId =
+                    typeof sender.tab?.windowId === 'number'
+                        ? sender.tab.windowId
+                        : null;
 
-            sendResponse({
-                sidePanelOpen,
-                hostWindowId,
-                paintFieldHighlights: shouldPaintFieldHighlights({
+                sendResponse({
                     sidePanelOpen,
-                    tabWindowId,
                     hostWindowId,
-                }),
-            });
-        });
+                    paintFieldHighlights: shouldPaintFieldHighlights({
+                        sidePanelOpen,
+                        tabWindowId,
+                        hostWindowId,
+                    }),
+                });
+            },
+        );
 
         return true;
     }
@@ -987,13 +1133,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'ASSIST_CHAT') {
-        assistChat(message).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        assistChat(message)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'APPLY_PROFILE_UPDATE') {
-        applyProfileUpdate(message.update).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        applyProfileUpdate(message.update)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -1012,7 +1162,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'SAVE_PENDING_FIELD_ANSWER') {
         resolveActiveTabId(sender.tab?.id)
-            .then((tabId) => savePendingFieldAnswer(tabId, message.field, message.answer))
+            .then((tabId) =>
+                savePendingFieldAnswer(tabId, message.field, message.answer),
+            )
             .then(sendResponse)
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -1029,58 +1181,62 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-    if (message.type === 'PROFILE_UPDATED') {
-        invalidateProfileCache();
-        void clearQuestionMemo();
-        notifyUsageRefreshRequired();
-        sendResponse({ success: true });
-
-        return;
-    }
-
-    if (message.type !== 'EXTENSION_AUTH_COMPLETE') {
-        return;
-    }
-
-    if (!message.token || !message.apiBase) {
-        sendResponse({ error: 'Invalid auth payload.' });
-
-        return;
-    }
-
-    let apiOrigin;
-
-    try {
-        apiOrigin = new URL(message.apiBase).origin;
-    } catch {
-        sendResponse({ error: 'Invalid API base.' });
-
-        return;
-    }
-
-    const senderOrigin = sender.url ? new URL(sender.url).origin : null;
-
-    if (senderOrigin !== apiOrigin) {
-        sendResponse({ error: 'Origin mismatch.' });
-
-        return;
-    }
-
-    saveConnection({
-        token: message.token,
-        apiBase: message.apiBase,
-    })
-        .then(async () => {
+chrome.runtime.onMessageExternal.addListener(
+    (message, sender, sendResponse) => {
+        if (message.type === 'PROFILE_UPDATED') {
             invalidateProfileCache();
-            chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
-            await broadcastAutofillVisibility();
+            void clearQuestionMemo();
+            notifyUsageRefreshRequired();
             sendResponse({ success: true });
-        })
-        .catch((err) => sendResponse({ error: err.message }));
 
-    return true;
-});
+            return;
+        }
+
+        if (message.type !== 'EXTENSION_AUTH_COMPLETE') {
+            return;
+        }
+
+        if (!message.token || !message.apiBase) {
+            sendResponse({ error: 'Invalid auth payload.' });
+
+            return;
+        }
+
+        let apiOrigin;
+
+        try {
+            apiOrigin = new URL(message.apiBase).origin;
+        } catch {
+            sendResponse({ error: 'Invalid API base.' });
+
+            return;
+        }
+
+        const senderOrigin = sender.url ? new URL(sender.url).origin : null;
+
+        if (senderOrigin !== apiOrigin) {
+            sendResponse({ error: 'Origin mismatch.' });
+
+            return;
+        }
+
+        saveConnection({
+            token: message.token,
+            apiBase: message.apiBase,
+        })
+            .then(async () => {
+                invalidateProfileCache();
+                chrome.runtime
+                    .sendMessage({ type: 'AUTH_STATE_CHANGED' })
+                    .catch(() => {});
+                await broadcastAutofillVisibility();
+                sendResponse({ success: true });
+            })
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    },
+);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId !== 'autocvapply-quick-answer' || !tab?.id) {
@@ -1095,15 +1251,18 @@ async function resolveActiveTabId(preferredTabId, preferredWindowId) {
         return preferredTabId;
     }
 
-    const query = typeof preferredWindowId === 'number'
-        ? { active: true, windowId: preferredWindowId }
-        : { active: true, currentWindow: true };
+    const query =
+        typeof preferredWindowId === 'number'
+            ? { active: true, windowId: preferredWindowId }
+            : { active: true, currentWindow: true };
 
     const [tab] = await chrome.tabs.query(query);
 
     if (!tab?.id) {
         if (typeof preferredWindowId === 'number') {
-            throw new Error(`No active tab found in window ${preferredWindowId}.`);
+            throw new Error(
+                `No active tab found in window ${preferredWindowId}.`,
+            );
         }
 
         throw new Error('No active tab found.');
@@ -1119,9 +1278,10 @@ async function getSidePanelStateResponse(tabWindowId = null) {
         SIDE_PANEL_HOST_WINDOW_ID_KEY,
     ]);
     const sidePanelOpen = resolveSidePanelOpen(storage);
-    const hostWindowId = typeof storage[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
-        ? storage[SIDE_PANEL_HOST_WINDOW_ID_KEY]
-        : null;
+    const hostWindowId =
+        typeof storage[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
+            ? storage[SIDE_PANEL_HOST_WINDOW_ID_KEY]
+            : null;
 
     return {
         sidePanelOpen,
@@ -1187,7 +1347,9 @@ async function buildAutofillSettings() {
         const profileData = await getProfile();
 
         if (profileData?.application_settings) {
-            return mapApplicationSettingsForAssist(profileData.application_settings);
+            return mapApplicationSettingsForAssist(
+                profileData.application_settings,
+            );
         }
     } catch {
         // Fall through to defaults.
@@ -1211,7 +1373,11 @@ async function saveLocalMemo(answers, fieldsByRef = null, profileData = null) {
                 field_type: answer.field_type,
             };
 
-            if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
+            if (
+                isMeaningfulAnswer(
+                    resolveIdentityProfileAnswer(field, profileData),
+                )
+            ) {
                 continue;
             }
 
@@ -1231,7 +1397,9 @@ async function saveLocalMemo(answers, fieldsByRef = null, profileData = null) {
         return;
     }
 
-    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+    const { questionMemo = {} } = await chrome.storage.local.get([
+        'questionMemo',
+    ]);
 
     await chrome.storage.local.set({
         questionMemo: {
@@ -1255,11 +1423,13 @@ async function savePendingFields(tabId, fields) {
 }
 
 function broadcastPendingFieldsUpdated(tabId, fields) {
-    chrome.runtime.sendMessage({
-        type: 'PENDING_FIELDS_UPDATED',
-        tabId,
-        fields,
-    }).catch(() => {});
+    chrome.runtime
+        .sendMessage({
+            type: 'PENDING_FIELDS_UPDATED',
+            tabId,
+            fields,
+        })
+        .catch(() => {});
 }
 
 async function enrichPendingFieldFromSnapshot(tabId, field) {
@@ -1269,9 +1439,13 @@ async function enrichPendingFieldFromSnapshot(tabId, field) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
-        const element = (snapshotResponse?.snapshot?.elements || [])
-            .find((item) => item.ref === field.ref);
+        const snapshotResponse = await collectSnapshotFromTab(
+            tabId,
+            formFrameId,
+        );
+        const element = (snapshotResponse?.snapshot?.elements || []).find(
+            (item) => item.ref === field.ref,
+        );
 
         if (!element) {
             return field;
@@ -1280,9 +1454,10 @@ async function enrichPendingFieldFromSnapshot(tabId, field) {
         return {
             ...field,
             field_type: field.field_type || element.field_type || null,
-            options: Array.isArray(element.options) && element.options.length >= 2
-                ? element.options
-                : field.options ?? null,
+            options:
+                Array.isArray(element.options) && element.options.length >= 2
+                    ? element.options
+                    : (field.options ?? null),
             dom: field.dom || element.dom || null,
         };
     } catch {
@@ -1300,7 +1475,9 @@ async function resolvePendingFieldJob(tabId) {
     };
 
     try {
-        const meta = await chrome.tabs.sendMessage(tabId, { type: 'GET_JOB_META' });
+        const meta = await chrome.tabs.sendMessage(tabId, {
+            type: 'GET_JOB_META',
+        });
 
         if (meta?.job) {
             job = meta.job;
@@ -1324,7 +1501,8 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         enrichedField.label || enrichedField.question || '',
         userAnswer,
         {
-            profileYears: profileData?.application_settings?.years_of_experience ?? null,
+            profileYears:
+                profileData?.application_settings?.years_of_experience ?? null,
             fieldType: enrichedField.field_type || null,
             options: enrichedField.options || null,
         },
@@ -1334,32 +1512,63 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         throw new Error('Enter an answer first.');
     }
 
-    const mapping = enrichedField.profile_path
-        ? { path: enrichedField.profile_path, label: enrichedField.profile_label ?? null }
-        : resolveProfileMappingForLabel(enrichedField.label || enrichedField.question || '', profileData, enrichedField.dom || null);
+    const speakLanguageSave = resolveSpeakLanguagePendingSave(
+        enrichedField,
+        trimmed,
+        profileData,
+    );
 
-    if (shouldSaveToApplicationAnswers(enrichedField, mapping)) {
-        await appendApplicationAnswer(enrichedField.label || enrichedField.question, trimmed);
-    } else if (mapping?.path) {
-        const pathParts = mapping.path.split('.');
-        const fieldKey = pathParts[pathParts.length - 1];
-        const profileValue = formatProfileSaveValue(
-            { ...enrichedField, profile_path: mapping.path },
-            trimmed,
-            profileData,
-        );
-
+    if (speakLanguageSave?.mode === 'profile_languages') {
         await applyProfileUpdate({
-            path: mapping.path,
-            field: fieldKey,
-            value: profileValue,
+            path: 'structured_data.languages',
+            field: 'languages',
+            value: speakLanguageSave.languages,
         });
+    } else if (speakLanguageSave?.mode === 'application_answers') {
+        await appendApplicationAnswer(
+            enrichedField.label || enrichedField.question,
+            trimmed,
+        );
+    } else {
+        const mapping = enrichedField.profile_path
+            ? {
+                  path: enrichedField.profile_path,
+                  label: enrichedField.profile_label ?? null,
+              }
+            : resolveProfileMappingForLabel(
+                  enrichedField.label || enrichedField.question || '',
+                  profileData,
+                  enrichedField.dom || null,
+              );
+
+        if (shouldSaveToApplicationAnswers(enrichedField, mapping)) {
+            await appendApplicationAnswer(
+                enrichedField.label || enrichedField.question,
+                trimmed,
+            );
+        } else if (mapping?.path) {
+            const pathParts = mapping.path.split('.');
+            const fieldKey = pathParts[pathParts.length - 1];
+            const profileValue = formatProfileSaveValue(
+                { ...enrichedField, profile_path: mapping.path },
+                trimmed,
+                profileData,
+            );
+
+            await applyProfileUpdate({
+                path: mapping.path,
+                field: fieldKey,
+                value: profileValue,
+            });
+        }
     }
 
-    await saveLocalMemo([{
-        label: enrichedField.label || enrichedField.question,
-        answer: trimmed,
-    }]);
+    await saveLocalMemo([
+        {
+            label: enrichedField.label || enrichedField.question,
+            answer: trimmed,
+        },
+    ]);
 
     let applied = false;
     let fillAnswer = trimmed;
@@ -1371,12 +1580,16 @@ async function savePendingFieldAnswer(tabId, field, answer) {
             buildAutofillSettings(),
         ]);
 
-        fillAnswer = await resolvePendingFieldFillAnswer(enrichedField, userAnswer, {
-            requestDraftField,
-            job,
-            settings,
-            profileData,
-        });
+        fillAnswer = await resolvePendingFieldFillAnswer(
+            enrichedField,
+            userAnswer,
+            {
+                requestDraftField,
+                job,
+                settings,
+                profileData,
+            },
+        );
 
         const result = await applyDraftAnswerToTab(
             tabId,
@@ -1396,22 +1609,28 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         // Best-effort fill after profile save.
     }
 
-    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== enrichedField.ref);
+    const pending = (await loadPendingFields(tabId)).filter(
+        (item) => item.ref !== enrichedField.ref,
+    );
     await savePendingFields(tabId, pending);
 
     const autoApplySession = await loadAutoApplySession();
 
     if (
-        autoApplySession?.status === 'paused_for_input'
-        && autoApplySession.pauseContext?.blockerField?.ref === enrichedField.ref
+        autoApplySession?.status === 'paused_for_input' &&
+        autoApplySession.pauseContext?.blockerField?.ref === enrichedField.ref
     ) {
-        const modalState = await validateBlockedFieldOnTab(tabId, enrichedField);
+        const modalState = await validateBlockedFieldOnTab(
+            tabId,
+            enrichedField,
+        );
         const validationError = modalState
             ? findFieldValidationError(modalState, enrichedField)
             : null;
 
         if (validationError) {
-            const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
+            const validationAttempt =
+                (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
             const pauseOutcome = await rePauseAutoApplyForValidationRetry({
                 tabId,
                 job: autoApplySession.pauseContext.job,
@@ -1428,7 +1647,8 @@ async function savePendingFieldAnswer(tabId, field, answer) {
                 fields: await loadPendingFields(tabId),
                 resumed: false,
                 validationRetry: true,
-                maxRetriesReached: validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT,
+                maxRetriesReached:
+                    validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT,
                 pauseContext: pauseOutcome?.session?.pauseContext || null,
             };
         }
@@ -1444,7 +1664,9 @@ async function dismissPendingField(tabId, field) {
         throw new Error('Missing field reference.');
     }
 
-    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== field.ref);
+    const pending = (await loadPendingFields(tabId)).filter(
+        (item) => item.ref !== field.ref,
+    );
     await savePendingFields(tabId, pending);
 
     return { success: true, fields: pending };
@@ -1467,25 +1689,28 @@ function sanitizeAutoApplySessionResponse(session) {
         lastError: session.lastError,
         pauseContext: session.pauseContext
             ? {
-                job: session.pauseContext.job,
-                stepFingerprint: session.pauseContext.stepFingerprint,
-                tabId: session.pauseContext.tabId,
-                blockerField: session.pauseContext.blockerField,
-                clarifyingQuestion: session.pauseContext.clarifyingQuestion,
-                questionText: session.pauseContext.questionText,
-                resumeAt: session.pauseContext.resumeAt,
-                captcha: Boolean(session.pauseContext.captcha),
-                identityConfirm: Boolean(session.pauseContext.identityConfirm),
-                loginRequired: Boolean(session.pauseContext.loginRequired),
-                pauseReason: session.pauseContext.pauseReason
-                    || (session.pauseContext.captcha
-                        ? 'captcha'
-                        : session.pauseContext.loginRequired
+                  job: session.pauseContext.job,
+                  stepFingerprint: session.pauseContext.stepFingerprint,
+                  tabId: session.pauseContext.tabId,
+                  blockerField: session.pauseContext.blockerField,
+                  clarifyingQuestion: session.pauseContext.clarifyingQuestion,
+                  questionText: session.pauseContext.questionText,
+                  resumeAt: session.pauseContext.resumeAt,
+                  captcha: Boolean(session.pauseContext.captcha),
+                  identityConfirm: Boolean(
+                      session.pauseContext.identityConfirm,
+                  ),
+                  loginRequired: Boolean(session.pauseContext.loginRequired),
+                  pauseReason:
+                      session.pauseContext.pauseReason ||
+                      (session.pauseContext.captcha
+                          ? 'captcha'
+                          : session.pauseContext.loginRequired
                             ? 'login'
                             : session.pauseContext.identityConfirm
-                                ? 'identity_confirm'
-                                : null),
-            }
+                              ? 'identity_confirm'
+                              : null),
+              }
             : null,
     };
 }
@@ -1493,7 +1718,11 @@ function sanitizeAutoApplySessionResponse(session) {
 async function submitAutoApplyBlockerAnswer(answer, fieldOverride = null) {
     const session = await loadAutoApplySession();
 
-    if (!session || session.status !== 'paused_for_input' || !session.pauseContext) {
+    if (
+        !session ||
+        session.status !== 'paused_for_input' ||
+        !session.pauseContext
+    ) {
         throw new Error('Auto Apply is not waiting for your answer.');
     }
 
@@ -1528,9 +1757,13 @@ function snapshotElementToDraftField(element) {
 
 async function collectUnfilledRequiredFields(tabId, formFrameId) {
     try {
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
-        const required = (snapshotResponse?.snapshot?.elements || [])
-            .filter((element) => element.required);
+        const snapshotResponse = await collectSnapshotFromTab(
+            tabId,
+            formFrameId,
+        );
+        const required = (snapshotResponse?.snapshot?.elements || []).filter(
+            (element) => element.required,
+        );
         const filterResponse = await sendTabMessage(
             tabId,
             {
@@ -1540,13 +1773,21 @@ async function collectUnfilledRequiredFields(tabId, formFrameId) {
             formFrameId,
         );
 
-        return (filterResponse?.elements || []).map(snapshotElementToDraftField);
+        return (filterResponse?.elements || []).map(
+            snapshotElementToDraftField,
+        );
     } catch {
         return [];
     }
 }
 
-async function applyPostDraftValidation(tabId, formFrameId, pendingFields, message, options = {}) {
+async function applyPostDraftValidation(
+    tabId,
+    formFrameId,
+    pendingFields,
+    message,
+    options = {},
+) {
     const profileData = options.profileData ?? null;
 
     if (isAutoApplyRunning()) {
@@ -1561,7 +1802,10 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
                 pendingFields: [],
                 invalidFieldCount: 0,
             },
-            unfilledRequiredFields: await collectUnfilledRequiredFields(tabId, formFrameId),
+            unfilledRequiredFields: await collectUnfilledRequiredFields(
+                tabId,
+                formFrameId,
+            ),
         };
     }
 
@@ -1575,12 +1819,18 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
     let pendingCount = nextPendingFields.length;
 
     if (validationScan.pendingFields.length > 0) {
-        nextPendingFields = mergePendingFields(nextPendingFields, validationScan.pendingFields);
+        nextPendingFields = mergePendingFields(
+            nextPendingFields,
+            validationScan.pendingFields,
+        );
         pendingCount = nextPendingFields.length;
         await savePendingFields(tabId, nextPendingFields);
     }
 
-    const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
+    const unfilledRequiredFields = await collectUnfilledRequiredFields(
+        tabId,
+        formFrameId,
+    );
     const unfilledPending = buildPendingFieldsFromUnfilledSnapshot(
         unfilledRequiredFields,
         profileData,
@@ -1588,7 +1838,10 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
     );
 
     if (unfilledPending.length > 0) {
-        nextPendingFields = mergePendingFields(nextPendingFields, unfilledPending);
+        nextPendingFields = mergePendingFields(
+            nextPendingFields,
+            unfilledPending,
+        );
         pendingCount = nextPendingFields.length;
         await savePendingFields(tabId, nextPendingFields);
     }
@@ -1597,11 +1850,13 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
     pendingCount = nextPendingFields.length;
 
     if (validationScan.hasErrors) {
-        const errorPreview = validationScan.validationErrors.slice(0, 2).join('; ')
-            || `${validationScan.invalidFieldCount} field(s) failed validation`;
-        nextMessage = pendingCount > 0
-            ? `Fill complete, but the form still reports validation errors (${errorPreview}). Check We need your help.`
-            : `Fill complete, but the form reports validation errors (${errorPreview}).`;
+        const errorPreview =
+            validationScan.validationErrors.slice(0, 2).join('; ') ||
+            `${validationScan.invalidFieldCount} field(s) failed validation`;
+        nextMessage =
+            pendingCount > 0
+                ? `Fill complete, but the form still reports validation errors (${errorPreview}). Check We need your help.`
+                : `Fill complete, but the form reports validation errors (${errorPreview}).`;
     }
 
     return {
@@ -1631,23 +1886,30 @@ function inventoryFieldsToDraftShape(inventoryFields) {
  * Lever reveals disability signature/date inputs after the disability select changes.
  * Fill them from profile when they appear during the EEO stage.
  */
-async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profileData) {
+async function fillRevealedDisabilitySignatureFields(
+    tabId,
+    formFrameId,
+    profileData,
+) {
     await new Promise((resolve) => setTimeout(resolve, 150));
 
     let snapshot;
 
     try {
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTab(
+            tabId,
+            formFrameId,
+        );
         snapshot = snapshotResponse?.snapshot;
     } catch {
         return 0;
     }
 
     const fullName = String(
-        profileData?.full_name
-        || profileData?.profile?.full_name
-        || profileData?.user?.name
-        || '',
+        profileData?.full_name ||
+            profileData?.profile?.full_name ||
+            profileData?.user?.name ||
+            '',
     ).trim();
     const today = new Date();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -1658,13 +1920,18 @@ async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profile
 
     for (const element of snapshot?.elements || []) {
         const name = String(element?.dom?.name || '');
-        const label = String(element?.question || element?.label || '').toLowerCase();
+        const label = String(
+            element?.question || element?.label || '',
+        ).toLowerCase();
 
         if (!element?.ref) {
             continue;
         }
 
-        if (name === 'eeo[disabilitySignature]' || (label === 'name' && name.includes('disability'))) {
+        if (
+            name === 'eeo[disabilitySignature]' ||
+            (label === 'name' && name.includes('disability'))
+        ) {
             if (fullName) {
                 answers.push({
                     ref: element.ref,
@@ -1676,7 +1943,10 @@ async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profile
             }
         }
 
-        if (name === 'eeo[disabilitySignatureDate]' || (label === 'date' && name.includes('disability'))) {
+        if (
+            name === 'eeo[disabilitySignatureDate]' ||
+            (label === 'date' && name.includes('disability'))
+        ) {
             answers.push({
                 ref: element.ref,
                 label: element.question || element.label || 'date',
@@ -1693,11 +1963,17 @@ async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profile
 
     const applyResult = await applyDraftBatchToTab(tabId, answers, formFrameId);
 
-    logInfo('background', 'draft-all.eeo', 'Filled revealed disability signature fields', {
-        count: answers.length,
-        success: applyResult?.success,
-        applied: applyResult?.applied,
-    }, tabId);
+    logInfo(
+        'background',
+        'draft-all.eeo',
+        'Filled revealed disability signature fields',
+        {
+            count: answers.length,
+            success: applyResult?.success,
+            applied: applyResult?.applied,
+        },
+        tabId,
+    );
 
     return Number(applyResult?.applied || 0);
 }
@@ -1713,14 +1989,22 @@ async function getCachedJobContext(pageUrl) {
 
     const memoryEntry = jobContextCache.get(pageUrl);
 
-    if (memoryEntry && Date.now() - memoryEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS) {
+    if (
+        memoryEntry &&
+        Date.now() - memoryEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS
+    ) {
         return memoryEntry.job;
     }
 
-    const stored = await chrome.storage.session.get([jobContextCacheKey(pageUrl)]);
+    const stored = await chrome.storage.session.get([
+        jobContextCacheKey(pageUrl),
+    ]);
     const sessionEntry = stored[jobContextCacheKey(pageUrl)];
 
-    if (sessionEntry?.job && Date.now() - sessionEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS) {
+    if (
+        sessionEntry?.job &&
+        Date.now() - sessionEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS
+    ) {
         jobContextCache.set(pageUrl, sessionEntry);
 
         return sessionEntry.job;
@@ -1775,11 +2059,17 @@ async function prefetchJobContextForTab(tabId, tab) {
 
         if (inferred) {
             await setCachedJobContext(pageUrl, inferred);
-            logDebug('background', 'job-context.prefetch', 'Prefetched job context from page metadata', {
-                pageUrl,
-                title: inferred.title,
-                company: inferred.company,
-            }, tabId);
+            logDebug(
+                'background',
+                'job-context.prefetch',
+                'Prefetched job context from page metadata',
+                {
+                    pageUrl,
+                    title: inferred.title,
+                    company: inferred.company,
+                },
+                tabId,
+            );
 
             return;
         }
@@ -1792,17 +2082,29 @@ async function prefetchJobContextForTab(tabId, tab) {
 
         if (result.ok && result.job) {
             await setCachedJobContext(pageUrl, result.job);
-            logDebug('background', 'job-context.prefetch', 'Prefetched job context from API', {
-                pageUrl,
-                title: result.job.title,
-                company: result.job.company,
-            }, tabId);
+            logDebug(
+                'background',
+                'job-context.prefetch',
+                'Prefetched job context from API',
+                {
+                    pageUrl,
+                    title: result.job.title,
+                    company: result.job.company,
+                },
+                tabId,
+            );
         }
     } catch (error) {
-        logDebug('background', 'job-context.prefetch', 'Job context prefetch failed', {
-            pageUrl,
-            error: error instanceof Error ? error.message : error,
-        }, tabId);
+        logDebug(
+            'background',
+            'job-context.prefetch',
+            'Job context prefetch failed',
+            {
+                pageUrl,
+                error: error instanceof Error ? error.message : error,
+            },
+            tabId,
+        );
     } finally {
         jobContextPrefetchInFlight.delete(pageUrl);
     }
@@ -1834,10 +2136,16 @@ async function invalidateDraftAllCachesForTab(tabId, pageUrl = '') {
         await clearSnapshotCache(pageUrl);
     }
 
-    logInfo('background', 'draft-all.cache', 'Invalidated snapshot and frame caches before fresh inventory', {
+    logInfo(
+        'background',
+        'draft-all.cache',
+        'Invalidated snapshot and frame caches before fresh inventory',
+        {
+            tabId,
+            pageUrl: pageUrl || null,
+        },
         tabId,
-        pageUrl: pageUrl || null,
-    }, tabId);
+    );
 }
 
 async function refreshFieldHighlightsForTab(tabId) {
@@ -1855,16 +2163,22 @@ async function refreshFieldHighlightsForTab(tabId) {
         ]);
         const tab = await chrome.tabs.get(tabId);
         const message = buildSidePanelVisibilityMessage(storage, {
-            tabWindowId: typeof tab?.windowId === 'number' ? tab.windowId : null,
+            tabWindowId:
+                typeof tab?.windowId === 'number' ? tab.windowId : null,
         });
 
-        await sendTabMessage(tabId, {
-            type: 'REFRESH_FIELD_HIGHLIGHTS',
-            sidePanelOpen: message.sidePanelOpen,
-            paintFieldHighlights: message.paintFieldHighlights,
-        }, 0, {
-            timeoutMs: 5_000,
-        });
+        await sendTabMessage(
+            tabId,
+            {
+                type: 'REFRESH_FIELD_HIGHLIGHTS',
+                sidePanelOpen: message.sidePanelOpen,
+                paintFieldHighlights: message.paintFieldHighlights,
+            },
+            0,
+            {
+                timeoutMs: 5_000,
+            },
+        );
     } catch {
         // Best-effort; Draft All fill does not depend on outlines.
         await notifyTabOverlayVisibility(tabId);
@@ -1878,16 +2192,24 @@ async function getCachedSnapshot(pageUrl, fingerprint = null) {
 
     const memoryEntry = snapshotCache.get(pageUrl);
 
-    if (memoryEntry && Date.now() - memoryEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS) {
+    if (
+        memoryEntry &&
+        Date.now() - memoryEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS
+    ) {
         if (fingerprint === null || memoryEntry.fingerprint === fingerprint) {
             return memoryEntry;
         }
     }
 
-    const stored = await chrome.storage.session.get([snapshotCacheKey(pageUrl)]);
+    const stored = await chrome.storage.session.get([
+        snapshotCacheKey(pageUrl),
+    ]);
     const sessionEntry = stored[snapshotCacheKey(pageUrl)];
 
-    if (sessionEntry?.snapshot && Date.now() - sessionEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS) {
+    if (
+        sessionEntry?.snapshot &&
+        Date.now() - sessionEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS
+    ) {
         if (fingerprint === null || sessionEntry.fingerprint === fingerprint) {
             snapshotCache.set(pageUrl, sessionEntry);
 
@@ -1927,14 +2249,25 @@ async function prefetchSnapshotForTab(tabId, tab) {
     // inventory to the job detail pane (or returns empty quickly) instead of hanging on
     // tracker iframes / filter checkboxes for ~45s.
     if (isLinkedInJobsApplySurfaceUrl(tab.url || pageUrl)) {
-        const modalState = await sendTabMessage(tabId, { type: 'LINKEDIN_EASY_APPLY_STATE' }, 0, {
-            timeoutMs: 2_000,
-        }).catch(() => null);
+        const modalState = await sendTabMessage(
+            tabId,
+            { type: 'LINKEDIN_EASY_APPLY_STATE' },
+            0,
+            {
+                timeoutMs: 2_000,
+            },
+        ).catch(() => null);
 
         if (!modalState?.open) {
-            logDebug('background', 'snapshot.prefetch', 'Skipping LinkedIn prefetch without Easy Apply modal', {
-                pageUrl,
-            }, tabId);
+            logDebug(
+                'background',
+                'snapshot.prefetch',
+                'Skipping LinkedIn prefetch without Easy Apply modal',
+                {
+                    pageUrl,
+                },
+                tabId,
+            );
 
             return;
         }
@@ -1960,21 +2293,44 @@ async function prefetchSnapshotForTab(tabId, tab) {
     try {
         const profilePayload = await getProfile().catch(() => null);
         const formFrameId = await findBestFormFrameId(tabId);
-        const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+        const collectResponse = await collectSnapshotFromTab(
+            tabId,
+            formFrameId,
+            profilePayload,
+        );
 
-        if (collectResponse?.success && collectResponse.snapshot?.elements?.length) {
-            await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
-            logDebug('background', 'snapshot.prefetch', 'Prefetched form snapshot', {
+        if (
+            collectResponse?.success &&
+            collectResponse.snapshot?.elements?.length
+        ) {
+            await setCachedSnapshot(
                 pageUrl,
-                fieldCount: collectResponse.snapshot.elements.length,
+                collectResponse.snapshot,
                 formFrameId,
-            }, tabId);
+            );
+            logDebug(
+                'background',
+                'snapshot.prefetch',
+                'Prefetched form snapshot',
+                {
+                    pageUrl,
+                    fieldCount: collectResponse.snapshot.elements.length,
+                    formFrameId,
+                },
+                tabId,
+            );
         }
     } catch (error) {
-        logDebug('background', 'snapshot.prefetch', 'Snapshot prefetch failed', {
-            pageUrl,
-            error: error instanceof Error ? error.message : error,
-        }, tabId);
+        logDebug(
+            'background',
+            'snapshot.prefetch',
+            'Snapshot prefetch failed',
+            {
+                pageUrl,
+                error: error instanceof Error ? error.message : error,
+            },
+            tabId,
+        );
     } finally {
         snapshotPrefetchInFlight.delete(pageUrl);
     }
@@ -1983,22 +2339,40 @@ async function prefetchSnapshotForTab(tabId, tab) {
 async function resolveJobContextForDraft(tabId, tab, perf = null) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
 
-    logDebug('background', 'job-context.fetch', 'Resolving job context', { pageUrl }, tabId);
+    logDebug(
+        'background',
+        'job-context.fetch',
+        'Resolving job context',
+        { pageUrl },
+        tabId,
+    );
     perf?.start('job-context');
 
     const cachedJob = await getCachedJobContext(pageUrl);
 
     if (cachedJob) {
         perf?.end('job-context');
-        logInfo('background', 'job-context.cache', 'Job context cache hit', {
-            title: cachedJob.title,
-            company: cachedJob.company,
-        }, tabId);
+        logInfo(
+            'background',
+            'job-context.cache',
+            'Job context cache hit',
+            {
+                title: cachedJob.title,
+                company: cachedJob.company,
+            },
+            tabId,
+        );
 
         return { ok: true, job: cachedJob, cached: true };
     }
 
-    logDebug('background', 'job-context.fetch', 'Cache miss - fetching page payload', { pageUrl }, tabId);
+    logDebug(
+        'background',
+        'job-context.fetch',
+        'Cache miss - fetching page payload',
+        { pageUrl },
+        tabId,
+    );
 
     const page = await fetchPagePayloadForJobContext(tabId, tab);
     const inferred = tryInferJobContextFromPage(page, tab.title);
@@ -2006,12 +2380,18 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
     if (inferred) {
         await setCachedJobContext(pageUrl, inferred);
         perf?.end('job-context');
-        logInfo('background', 'job-context.inferred', 'Job context inferred from page metadata', {
-            title: inferred.title,
-            company: inferred.company,
-            source: inferred.source,
-            descriptionLength: inferred.job_description?.length || 0,
-        }, tabId);
+        logInfo(
+            'background',
+            'job-context.inferred',
+            'Job context inferred from page metadata',
+            {
+                title: inferred.title,
+                company: inferred.company,
+                source: inferred.source,
+                descriptionLength: inferred.job_description?.length || 0,
+            },
+            tabId,
+        );
 
         return { ok: true, job: inferred, cached: false, inferred: true };
     }
@@ -2021,16 +2401,28 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
 
     if (result.ok && result.job) {
         await setCachedJobContext(pageUrl, result.job);
-        logInfo('background', 'job-context.result', 'Job context resolved', {
-            title: result.job.title,
-            company: result.job.company,
-            descriptionLength: result.job.job_description?.length || 0,
-        }, tabId);
+        logInfo(
+            'background',
+            'job-context.result',
+            'Job context resolved',
+            {
+                title: result.job.title,
+                company: result.job.company,
+                descriptionLength: result.job.job_description?.length || 0,
+            },
+            tabId,
+        );
     } else {
-        logWarn('background', 'job-context.result', 'Job context failed', {
-            message: result.message,
-            ok: result.ok,
-        }, tabId);
+        logWarn(
+            'background',
+            'job-context.result',
+            'Job context failed',
+            {
+                message: result.message,
+                ok: result.ok,
+            },
+            tabId,
+        );
     }
 
     return result;
@@ -2038,29 +2430,46 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
 
 async function collectInitialSnapshot(tabId, tab, perf = null) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
-    const isSmartApplyQuestions = /smartapply\.indeed\.com/i.test(tab.url || '')
-        && /questions-module/i.test(tab.url || '');
+    const isSmartApplyQuestions =
+        /smartapply\.indeed\.com/i.test(tab.url || '') &&
+        /questions-module/i.test(tab.url || '');
 
-    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url, force: true }, tabId);
+    logDebug(
+        'background',
+        'frame.discovery',
+        'Finding best form frame',
+        { url: tab.url, force: true },
+        tabId,
+    );
     perf?.start('frame.discovery');
 
     // Always re-score frames - cached frame ids go stale when modals/iframes appear.
     const formFrameId = await findBestFormFrameId(tabId, { force: true });
     perf?.end('frame.discovery');
 
-    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId, forced: true }, tabId);
+    logInfo(
+        'background',
+        'frame.discovery',
+        'Form frame selected',
+        { formFrameId, forced: true },
+        tabId,
+    );
 
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
     const profilePayload = await getProfile().catch(() => null);
-    let collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+    let collectResponse = await collectSnapshotFromTab(
+        tabId,
+        formFrameId,
+        profilePayload,
+    );
 
     // SmartApply questions hydrate after the route change - empty snapshot on the
     // questions URL is almost always a race, not a real empty form.
     if (
-        isSmartApplyQuestions
-        && collectResponse?.success
-        && !(collectResponse?.snapshot?.elements?.length)
+        isSmartApplyQuestions &&
+        collectResponse?.success &&
+        !collectResponse?.snapshot?.elements?.length
     ) {
         const hydrateDeadline = Date.now() + 6_000;
 
@@ -2068,13 +2477,23 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
             await new Promise((resolve) => {
                 setTimeout(resolve, 400);
             });
-            collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+            collectResponse = await collectSnapshotFromTab(
+                tabId,
+                formFrameId,
+                profilePayload,
+            );
 
             if (collectResponse?.snapshot?.elements?.length) {
-                logInfo('background', 'snapshot.collect', 'SmartApply questions hydrated after wait', {
-                    fieldCount: collectResponse.snapshot.elements.length,
-                    waitedMs: Date.now() - snapshotStartedAt,
-                }, tabId);
+                logInfo(
+                    'background',
+                    'snapshot.collect',
+                    'SmartApply questions hydrated after wait',
+                    {
+                        fieldCount: collectResponse.snapshot.elements.length,
+                        waitedMs: Date.now() - snapshotStartedAt,
+                    },
+                    tabId,
+                );
                 break;
             }
         }
@@ -2086,16 +2505,22 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         ? snapshotFingerprint(collectResponse.snapshot)
         : null;
 
-    logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
-        formFrameId,
-        durationMs: Date.now() - snapshotStartedAt,
-        success: collectResponse?.success === true,
-        fieldCount: collectResponse?.snapshot?.elements?.length || 0,
-        controlCount: collectResponse?.snapshot?.controls?.length || 0,
-        fingerprint: freshFingerprint,
-        cached: false,
-        error: collectResponse?.error,
-    }, tabId);
+    logInfo(
+        'background',
+        'snapshot.collect',
+        'Initial snapshot collected',
+        {
+            formFrameId,
+            durationMs: Date.now() - snapshotStartedAt,
+            success: collectResponse?.success === true,
+            fieldCount: collectResponse?.snapshot?.elements?.length || 0,
+            controlCount: collectResponse?.snapshot?.controls?.length || 0,
+            fingerprint: freshFingerprint,
+            cached: false,
+            error: collectResponse?.error,
+        },
+        tabId,
+    );
 
     if (collectResponse?.success && collectResponse.snapshot) {
         await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
@@ -2108,7 +2533,12 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     };
 }
 
-async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null) {
+async function resolveDraftFieldsViaInventory(
+    tabId,
+    tab,
+    settings,
+    perf = null,
+) {
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
         message: 'Scanning form and extracting job details…',
     });
@@ -2122,29 +2552,48 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     void refreshFieldHighlightsForTab(tabId);
 
     if (initialCollect?.snapshot?.elements?.length) {
-        logDebug('background', 'snapshot.fields', 'Snapshot field summary', {
-            fields: initialCollect.snapshot.elements.map((element) => ({
-                ref: element.ref,
-                question: element.question,
-                field_type: element.field_type,
-                required: element.required,
-                optionCount: element.options?.length || 0,
-            })),
-        }, tabId);
+        logDebug(
+            'background',
+            'snapshot.fields',
+            'Snapshot field summary',
+            {
+                fields: initialCollect.snapshot.elements.map((element) => ({
+                    ref: element.ref,
+                    question: element.question,
+                    field_type: element.field_type,
+                    required: element.required,
+                    optionCount: element.options?.length || 0,
+                })),
+            },
+            tabId,
+        );
     }
 
     if (!initialCollect?.success) {
-        logWarn('background', 'snapshot.collect', 'Initial snapshot failed', {
-            error: initialCollect?.error,
-        }, tabId);
+        logWarn(
+            'background',
+            'snapshot.collect',
+            'Initial snapshot failed',
+            {
+                error: initialCollect?.error,
+            },
+            tabId,
+        );
 
-        return { error: initialCollect?.error || 'Could not scan this page for fields.' };
+        return {
+            error:
+                initialCollect?.error || 'Could not scan this page for fields.',
+        };
     }
 
     if (!jobContext.ok) {
         applyCachedSubscription(jobContext.subscription);
 
-        return { error: jobContext.message || 'Could not extract job context from this page.' };
+        return {
+            error:
+                jobContext.message ||
+                'Could not extract job context from this page.',
+        };
     }
 
     applyCachedSubscription(jobContext.subscription);
@@ -2160,16 +2609,24 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         message: 'Scanning form fields…',
     });
 
-    const mechanicalFields = buildMechanicalInventoryFields(initialCollect.snapshot);
+    const mechanicalFields = buildMechanicalInventoryFields(
+        initialCollect.snapshot,
+    );
 
     if (canUseMechanicalInventory(initialCollect.snapshot)) {
         perf?.start('inventory.mechanical');
         perf?.end('inventory.mechanical');
 
-        logInfo('background', 'inventory.mechanical', 'Using mechanical field inventory', {
-            fieldCount: mechanicalFields.length,
-            elementCount: initialCollect.snapshot.elements.length,
-        }, tabId);
+        logInfo(
+            'background',
+            'inventory.mechanical',
+            'Using mechanical field inventory',
+            {
+                fieldCount: mechanicalFields.length,
+                elementCount: initialCollect.snapshot.elements.length,
+            },
+            tabId,
+        );
 
         const fields = inventoryFieldsToDraftShape(mechanicalFields);
 
@@ -2189,32 +2646,50 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
 
     perf?.start('inventory.llm');
 
-    logDebug('background', 'inventory.request', 'Inventory request', {
-        elementCount: inventoryPayload.snapshot?.elements?.length || 0,
-        settingsKeys: Object.keys(settings || {}),
-    }, tabId);
+    logDebug(
+        'background',
+        'inventory.request',
+        'Inventory request',
+        {
+            elementCount: inventoryPayload.snapshot?.elements?.length || 0,
+            settingsKeys: Object.keys(settings || {}),
+        },
+        tabId,
+    );
 
     const inventoryStartedAt = Date.now();
     const inventory = await requestFieldInventory(inventoryPayload);
     perf?.end('inventory.llm');
 
-    logInfo('background', 'inventory.response', 'Inventory response', {
-        durationMs: Date.now() - inventoryStartedAt,
-        ok: inventory.ok,
-        complete: inventory.complete,
-        source: inventory.source || 'llm',
-        fieldCount: inventory.fields?.length || 0,
-        message: inventory.message,
-        usage: inventory.usage ?? null,
-        fields: (inventory.fields || []).map((field) => ({
-            ref: field.ref,
-            question: field.question || field.label,
-            field_type: field.field_type,
-        })),
-    }, tabId);
+    logInfo(
+        'background',
+        'inventory.response',
+        'Inventory response',
+        {
+            durationMs: Date.now() - inventoryStartedAt,
+            ok: inventory.ok,
+            complete: inventory.complete,
+            source: inventory.source || 'llm',
+            fieldCount: inventory.fields?.length || 0,
+            message: inventory.message,
+            usage: inventory.usage ?? null,
+            fields: (inventory.fields || []).map((field) => ({
+                ref: field.ref,
+                question: field.question || field.label,
+                field_type: field.field_type,
+            })),
+        },
+        tabId,
+    );
 
     if (inventory.usage) {
-        logInfo('background', 'usage.inventory', 'Inventory LLM token usage', inventory.usage, tabId);
+        logInfo(
+            'background',
+            'usage.inventory',
+            'Inventory LLM token usage',
+            inventory.usage,
+            tabId,
+        );
     }
 
     if (!inventory.ok) {
@@ -2222,14 +2697,22 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
 
         // Overnight Auto Apply must not stall on Assist pauses when NanoGPT
         // inventory briefly returns 502 - use the mechanical snapshot instead.
-        const mechanicalFallback = buildMechanicalInventoryFields(initialCollect.snapshot);
+        const mechanicalFallback = buildMechanicalInventoryFields(
+            initialCollect.snapshot,
+        );
         const fallbackFields = inventoryFieldsToDraftShape(mechanicalFallback);
 
         if (fallbackFields.length > 0) {
-            logWarn('background', 'inventory.mechanical-fallback', 'LLM inventory failed; using mechanical fields', {
-                message: inventory.message,
-                fieldCount: fallbackFields.length,
-            }, tabId);
+            logWarn(
+                'background',
+                'inventory.mechanical-fallback',
+                'LLM inventory failed; using mechanical fields',
+                {
+                    message: inventory.message,
+                    fieldCount: fallbackFields.length,
+                },
+                tabId,
+            );
 
             return {
                 fields: fallbackFields,
@@ -2250,13 +2733,19 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
 
     if (fields.length === 0) {
         return {
-            error: (initialCollect.snapshot?.elements?.length || 0) > 0
-                ? 'No empty questions to fill on this page.'
-                : 'No application questions found on this page.',
+            error:
+                (initialCollect.snapshot?.elements?.length || 0) > 0
+                    ? 'No empty questions to fill on this page.'
+                    : 'No application questions found on this page.',
         };
     }
 
-    return { fields, job, formFrameId, inventorySource: inventory.source || 'llm' };
+    return {
+        fields,
+        job,
+        formFrameId,
+        inventorySource: inventory.source || 'llm',
+    };
 }
 
 async function runDraftAll(tabId, e2eOptions = null) {
@@ -2272,7 +2761,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
         }
 
         if (draftAllRunning) {
-            logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
+            logWarn(
+                'background',
+                'draft-all.start',
+                'Draft All already running',
+                {},
+                tabId,
+            );
 
             return { error: 'Already answering questions on this page.' };
         }
@@ -2294,52 +2789,76 @@ async function runDraftAll(tabId, e2eOptions = null) {
         const pageUrl = tab.url?.split('?')[0] || tab.url || '';
         await invalidateDraftAllCachesForTab(tabId, pageUrl);
 
-        logInfo('background', 'draft-all.start', 'Draft All started', {
+        logInfo(
+            'background',
+            'draft-all.start',
+            'Draft All started',
+            {
+                tabId,
+                url: tab.url,
+                title: tab.title,
+                settings,
+                e2eMock: Boolean(e2eOptions?.fields?.length),
+                contentScriptInjected: contentScript.injected,
+                freshInventory: true,
+            },
             tabId,
-            url: tab.url,
-            title: tab.title,
-            settings,
-            e2eMock: Boolean(e2eOptions?.fields?.length),
-            contentScriptInjected: contentScript.injected,
-            freshInventory: true,
-        }, tabId);
+        );
 
         const resolved = e2eOptions?.fields?.length
             ? {
-                fields: inventoryFieldsToDraftShape(e2eOptions.fields),
-                job: e2eOptions.job || {
-                    title: tab.title || 'Job application',
-                    company: 'E2E Mock Company',
-                    link: pageUrl || tab.url,
-                },
-                formFrameId: await findBestFormFrameId(tabId, { force: true }),
-            }
+                  fields: inventoryFieldsToDraftShape(e2eOptions.fields),
+                  job: e2eOptions.job || {
+                      title: tab.title || 'Job application',
+                      company: 'E2E Mock Company',
+                      link: pageUrl || tab.url,
+                  },
+                  formFrameId: await findBestFormFrameId(tabId, {
+                      force: true,
+                  }),
+              }
             : await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
 
         if (resolved.error) {
-            logWarn('background', 'draft-all.resolve', 'Field resolution failed', {
-                error: resolved.error,
-            }, tabId);
+            logWarn(
+                'background',
+                'draft-all.resolve',
+                'Field resolution failed',
+                {
+                    error: resolved.error,
+                },
+                tabId,
+            );
 
             return { error: resolved.error };
         }
 
         const { fields: resolvedFields, job, formFrameId } = resolved;
-        let jobPostingLocation = resolvedFields.find((field) => field.job_posting_location)?.job_posting_location
-            || extractJobPostingLocationSnippet([
-                job?.job_description,
-                job?.title,
-                tab.title,
-            ].filter(Boolean).join('\n'));
+        let jobPostingLocation =
+            resolvedFields.find((field) => field.job_posting_location)
+                ?.job_posting_location ||
+            extractJobPostingLocationSnippet(
+                [job?.job_description, job?.title, tab.title]
+                    .filter(Boolean)
+                    .join('\n'),
+            );
 
         if (!jobPostingLocation) {
-            jobPostingLocation = await fetchGreenhouseJobPostingLocation(tab.url || '');
+            jobPostingLocation = await fetchGreenhouseJobPostingLocation(
+                tab.url || '',
+            );
         }
 
-        const fields = enrichFieldsWithJobPostingLocation(resolvedFields, jobPostingLocation);
+        const fields = enrichFieldsWithJobPostingLocation(
+            resolvedFields,
+            jobPostingLocation,
+        );
         const profileData = await getProfile();
         const fieldsByRef = new Map(fields.map((field) => [field.ref, field]));
-        let pendingFields = filterPendingFieldsForInventory(await loadPendingFields(tabId), fields);
+        let pendingFields = filterPendingFieldsForInventory(
+            await loadPendingFields(tabId),
+            fields,
+        );
 
         // Draft All never keyword-maps profile values into fields. Profile context goes to the LLM;
         // question memo applies only explicit user-saved answers; pending-fields sidebar prompts for gaps.
@@ -2354,123 +2873,154 @@ async function runDraftAll(tabId, e2eOptions = null) {
         pendingFields = draftPlan.pendingFields;
         let totalFieldsFilled = 0;
 
-        const profileYears = profileData?.application_settings?.years_of_experience ?? null;
+        const profileYears =
+            profileData?.application_settings?.years_of_experience ?? null;
 
         const stageProgressMessages = {
             memo: (count) => `Applying ${count} saved answer(s)…`,
             reference: (count) => `Applying ${count} reference field(s)…`,
             identity: (count) => `Applying ${count} profile field(s)…`,
             preference: (count) => `Applying ${count} preference field(s)…`,
-            screener: (count) => `Applying ${count} employer screener answer(s)…`,
+            screener: (count) =>
+                `Applying ${count} employer screener answer(s)…`,
             agreement: (count) => `Applying ${count} agreement checkbox(es)…`,
-            signature: (count) => `Applying ${count} electronic signature field(s)…`,
+            signature: (count) =>
+                `Applying ${count} electronic signature field(s)…`,
             eeo: (count) => `Applying ${count} voluntary EEO field(s)…`,
-            marketing_consent: (count) => `Applying ${count} optional consent field(s)…`,
+            marketing_consent: (count) =>
+                `Applying ${count} optional consent field(s)…`,
         };
 
         for (const stage of draftPlan.applyStages) {
             const stageCount = stage.answers.length;
 
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                message: stageProgressMessages[stage.type]?.(stageCount) || `Applying ${stageCount} field(s)…`,
+                message:
+                    stageProgressMessages[stage.type]?.(stageCount) ||
+                    `Applying ${stageCount} field(s)…`,
             });
 
             let answersToApply = stage.answers;
 
             if (stage.type === 'memo') {
                 const partitioned = partitionDraftAllBatchAnswers(
-                    stage.answers.map(({ ref, label, answer, field_type, source }) => ({
-                        ref,
-                        label,
-                        answer,
-                        field_type,
-                        source: source || 'memo',
-                    })),
+                    stage.answers.map(
+                        ({ ref, label, answer, field_type, source }) => ({
+                            ref,
+                            label,
+                            answer,
+                            field_type,
+                            source: source || 'memo',
+                        }),
+                    ),
                     fieldsByRef,
                     profileData,
                 );
                 answersToApply = partitioned.toApply;
-                pendingFields = mergePendingFields(pendingFields, partitioned.pending);
+                pendingFields = mergePendingFields(
+                    pendingFields,
+                    partitioned.pending,
+                );
             }
 
-            const perfPhase = stage.type === 'memo'
-                ? 'apply.memo'
-                : stage.type === 'reference'
-                    ? 'apply.references'
-                    : stage.type === 'eeo'
+            const perfPhase =
+                stage.type === 'memo'
+                    ? 'apply.memo'
+                    : stage.type === 'reference'
+                      ? 'apply.references'
+                      : stage.type === 'eeo'
                         ? 'apply.eeo'
                         : stage.type === 'preference'
-                            ? 'apply.preference'
-                            : stage.type === 'screener'
-                                ? 'apply.screener'
-                    : stage.type === 'agreement'
-                        ? 'apply.agreement'
-                        : stage.type === 'signature'
-                            ? 'apply.signature'
-                            : stage.type === 'marketing_consent'
-                                ? 'apply.marketing_consent'
-                                : 'apply.identity';
+                          ? 'apply.preference'
+                          : stage.type === 'screener'
+                            ? 'apply.screener'
+                            : stage.type === 'agreement'
+                              ? 'apply.agreement'
+                              : stage.type === 'signature'
+                                ? 'apply.signature'
+                                : stage.type === 'marketing_consent'
+                                  ? 'apply.marketing_consent'
+                                  : 'apply.identity';
 
             perf.start(perfPhase);
             const applyResult = await applyDraftBatchToTab(
                 tabId,
-                enrichApplyAnswers(answersToApply, fieldsByRef, { profileYears }),
+                enrichApplyAnswers(answersToApply, fieldsByRef, {
+                    profileYears,
+                }),
                 formFrameId,
             );
             perf.end(perfPhase);
 
-            const logPhase = stage.type === 'memo'
-                ? 'draft-all.memo'
-                : stage.type === 'reference'
-                    ? 'draft-all.references'
-                    : stage.type === 'eeo'
+            const logPhase =
+                stage.type === 'memo'
+                    ? 'draft-all.memo'
+                    : stage.type === 'reference'
+                      ? 'draft-all.references'
+                      : stage.type === 'eeo'
                         ? 'draft-all.eeo'
                         : stage.type === 'preference'
-                            ? 'draft-all.preference'
-                            : stage.type === 'screener'
-                                ? 'draft-all.screener'
-                        : stage.type === 'agreement'
-                            ? 'draft-all.agreement'
-                            : stage.type === 'signature'
+                          ? 'draft-all.preference'
+                          : stage.type === 'screener'
+                            ? 'draft-all.screener'
+                            : stage.type === 'agreement'
+                              ? 'draft-all.agreement'
+                              : stage.type === 'signature'
                                 ? 'draft-all.signature'
                                 : stage.type === 'marketing_consent'
-                                    ? 'draft-all.marketing-consent'
-                                    : 'draft-all.identity';
+                                  ? 'draft-all.marketing-consent'
+                                  : 'draft-all.identity';
 
-            logInfo('background', logPhase, `Applied ${stage.type} profile fields`, {
-                count: stageCount,
-                success: applyResult?.success,
-                applied: applyResult?.applied,
-            }, tabId);
+            logInfo(
+                'background',
+                logPhase,
+                `Applied ${stage.type} profile fields`,
+                {
+                    count: stageCount,
+                    success: applyResult?.success,
+                    applied: applyResult?.applied,
+                },
+                tabId,
+            );
 
-            totalFieldsFilled += Number(applyResult?.applied || stageCount || 0);
+            totalFieldsFilled += Number(
+                applyResult?.applied || stageCount || 0,
+            );
             pushDraftAnswersToSidepanelChat(0, answersToApply, fieldsByRef);
 
             if (stage.type === 'eeo') {
-                const signatureFilled = await fillRevealedDisabilitySignatureFields(
-                    tabId,
-                    formFrameId,
-                    profileData,
-                );
+                const signatureFilled =
+                    await fillRevealedDisabilitySignatureFields(
+                        tabId,
+                        formFrameId,
+                        profileData,
+                    );
                 totalFieldsFilled += signatureFilled;
             }
         }
 
         if (draftPlan.skipsLlm) {
             let pendingCount = pendingFields.length;
-            let message = pendingCount > 0
-                ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
-                : draftPlan.memoAnswerCount > 0
-                    ? `Fill complete (${draftPlan.memoAnswerCount} field(s) from saved answers).`
-                    : 'No fields required AI drafting.';
+            let message =
+                pendingCount > 0
+                    ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
+                    : draftPlan.memoAnswerCount > 0
+                      ? `Fill complete (${draftPlan.memoAnswerCount} field(s) from saved answers).`
+                      : 'No fields required AI drafting.';
 
             if (!isAutoApplyRunning()) {
                 await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
             }
 
-            const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message, {
-                profileData,
-            });
+            const postValidation = await applyPostDraftValidation(
+                tabId,
+                formFrameId,
+                pendingFields,
+                message,
+                {
+                    profileData,
+                },
+            );
             pendingFields = postValidation.pendingFields;
             pendingCount = postValidation.pendingCount;
             message = postValidation.message;
@@ -2492,21 +3042,29 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 pendingFields,
                 pendingCount,
                 unfilledRequiredFields: postValidation.unfilledRequiredFields,
-                validationErrors: postValidation.validationScan.validationErrors,
-                validationInvalidFieldCount: postValidation.validationScan.invalidFieldCount,
+                validationErrors:
+                    postValidation.validationScan.validationErrors,
+                validationInvalidFieldCount:
+                    postValidation.validationScan.invalidFieldCount,
             };
         }
 
         const draftFields = draftPlan.llmFields;
 
-        logInfo('background', 'draft-all.stream', 'Starting draft-all stream', {
-            fieldCount: fields.length,
-            memoApplied: draftPlan.memoAnswerCount,
-            aiFieldCount: draftPlan.remainingFieldCount,
-            compactFieldCount: draftFields.length,
-            formFrameId,
-            jobTitle: job?.title,
-        }, tabId);
+        logInfo(
+            'background',
+            'draft-all.stream',
+            'Starting draft-all stream',
+            {
+                fieldCount: fields.length,
+                memoApplied: draftPlan.memoAnswerCount,
+                aiFieldCount: draftPlan.remainingFieldCount,
+                compactFieldCount: draftFields.length,
+                formFrameId,
+                jobTitle: job?.title,
+            },
+            tabId,
+        );
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
             message: `Drafting ${draftPlan.remainingFieldCount} field(s)…`,
@@ -2517,185 +3075,289 @@ async function runDraftAll(tabId, e2eOptions = null) {
         const usageEvents = [];
         let resumePromise = null;
         perf.start('draft.batch-1');
-        const result = await requestDraftAllStream({
-            job,
-            fields: draftFields,
-            settings,
-            page_title: tab.title,
-        }, async (event) => {
-            applyCachedSubscription(event.subscription);
-            applyCachedSubscription(event.usage?.subscription);
+        const result = await requestDraftAllStream(
+            {
+                job,
+                fields: draftFields,
+                settings,
+                page_title: tab.title,
+            },
+            async (event) => {
+                applyCachedSubscription(event.subscription);
+                applyCachedSubscription(event.usage?.subscription);
 
-            if (event.type === 'usage' && event.usage) {
-                usageEvents.push({
-                    phase: event.phase || 'draft',
-                    batch_index: event.batch_index ?? null,
-                    ...event.usage,
-                });
-                logInfo('background', 'usage.draft', 'Draft batch token usage', {
-                    batchIndex: event.batch_index,
-                    ...event.usage,
-                }, tabId);
-            }
-
-            if (event.type === 'batch' && Array.isArray(event.answers)) {
-                const batchNumber = event.batch_index + 1;
-                const draftPhase = `draft.batch-${batchNumber}`;
-                const applyPhase = `apply.batch-${batchNumber}`;
-                let { toApply, pending: batchPending } = partitionDraftAllBatchAnswers(
-                    event.answers.map((answer) => ({ ...answer, source: answer.source || 'nanogpt' })),
-                    fieldsByRef,
-                    profileData,
-                );
-
-                const coherenceRejected = batchPending.filter((item) => item.reason === 'type_coherence');
-
-                if (coherenceRejected.length > 0) {
-                    logInfo('background', 'draft-all.coherence', 'Rejected incoherent NanoGPT answers', {
-                        batchIndex: event.batch_index,
-                        rejected: coherenceRejected.map((item) => ({
-                            ref: item.ref,
-                            label: item.label,
-                            reject_reason: item.reject_reason,
-                            rejected_answer: item.rejected_answer,
-                        })),
-                    }, tabId);
+                if (event.type === 'usage' && event.usage) {
+                    usageEvents.push({
+                        phase: event.phase || 'draft',
+                        batch_index: event.batch_index ?? null,
+                        ...event.usage,
+                    });
+                    logInfo(
+                        'background',
+                        'usage.draft',
+                        'Draft batch token usage',
+                        {
+                            batchIndex: event.batch_index,
+                            ...event.usage,
+                        },
+                        tabId,
+                    );
                 }
 
-                const retriedBatch = await retryEmptyDraftBatchAnswers({
-                    batchAnswers: event.answers,
-                    partitionResult: { toApply, pending: batchPending },
-                    fieldsByRef,
-                    job,
-                    settings,
-                    profileData,
-                    requestDraftField,
-                    onFieldRetried: ({ ref, answer, error }) => {
-                        logDebug('background', 'draft-all.retry', 'Per-field draft retry', {
-                            batchIndex: event.batch_index,
-                            ref,
-                            answerPreview: typeof answer === 'string' ? answer.slice(0, 80) : answer,
-                            error: error || null,
-                        }, tabId);
-                    },
-                });
+                if (event.type === 'batch' && Array.isArray(event.answers)) {
+                    const batchNumber = event.batch_index + 1;
+                    const draftPhase = `draft.batch-${batchNumber}`;
+                    const applyPhase = `apply.batch-${batchNumber}`;
+                    let { toApply, pending: batchPending } =
+                        partitionDraftAllBatchAnswers(
+                            event.answers.map((answer) => ({
+                                ...answer,
+                                source: answer.source || 'nanogpt',
+                            })),
+                            fieldsByRef,
+                            profileData,
+                        );
 
-                toApply = retriedBatch.toApply;
-                batchPending = retriedBatch.pending;
+                    const coherenceRejected = batchPending.filter(
+                        (item) => item.reason === 'type_coherence',
+                    );
 
-                if (retriedBatch.retriedCount > 0) {
-                    logInfo('background', 'draft-all.retry', 'Retried empty batch answers per field', {
-                        batchIndex: event.batch_index,
-                        retriedCount: retriedBatch.retriedCount,
-                        applyCount: toApply.length,
-                    }, tabId);
-                }
+                    if (coherenceRejected.length > 0) {
+                        logInfo(
+                            'background',
+                            'draft-all.coherence',
+                            'Rejected incoherent NanoGPT answers',
+                            {
+                                batchIndex: event.batch_index,
+                                rejected: coherenceRejected.map((item) => ({
+                                    ref: item.ref,
+                                    label: item.label,
+                                    reject_reason: item.reject_reason,
+                                    rejected_answer: item.rejected_answer,
+                                })),
+                            },
+                            tabId,
+                        );
+                    }
 
-                for (const subscription of retriedBatch.subscriptions) {
-                    applyCachedSubscription(subscription);
-                }
-
-                pendingFields = mergePendingFields(pendingFields, batchPending);
-
-                perf.end(draftPhase);
-                perf.start(applyPhase);
-                perf.start(`draft.batch-${batchNumber + 1}`);
-
-                logDebug('background', 'draft-all.batch', `Applying batch ${batchNumber}`, {
-                    batchIndex: event.batch_index,
-                    answerCount: event.answers.length,
-                    applyCount: toApply.length,
-                    pendingCount: batchPending.length,
-                    answers: toApply.map((answer) => ({
-                        ref: answer.ref,
-                        label: answer.label,
-                        field_type: answer.field_type,
-                        source: answer.source || null,
-                        answerPreview: typeof answer.answer === 'string'
-                            ? answer.answer.slice(0, 80)
-                            : answer.answer,
-                    })),
-                }, tabId);
-
-                const applyPromise = applyDraftBatchToTab(tabId, enrichApplyAnswers(toApply, fieldsByRef, { profileYears }), formFrameId)
-                    .then((applyResult) => {
-                        logInfo('background', 'draft-all.apply', `Batch ${batchNumber} apply result`, {
-                            batchIndex: event.batch_index,
-                            success: applyResult?.success,
-                            applied: applyResult?.applied,
-                            error: applyResult?.error || null,
-                        }, tabId);
-
-                        totalFieldsFilled += Number(applyResult?.applied || 0);
-
-                        return applyResult;
-                    })
-                    .catch((error) => {
-                        logDraftError('draft-all.apply', 'Batch apply threw', error, tabId, {
-                            batchIndex: event.batch_index,
-                        });
-
-                        return {
-                            success: false,
-                            applied: 0,
-                            error: error instanceof Error ? error.message : String(error),
-                        };
-                    })
-                    .finally(() => {
-                        perf.end(applyPhase);
+                    const retriedBatch = await retryEmptyDraftBatchAnswers({
+                        batchAnswers: event.answers,
+                        partitionResult: { toApply, pending: batchPending },
+                        fieldsByRef,
+                        job,
+                        settings,
+                        profileData,
+                        requestDraftField,
+                        onFieldRetried: ({ ref, answer, error }) => {
+                            logDebug(
+                                'background',
+                                'draft-all.retry',
+                                'Per-field draft retry',
+                                {
+                                    batchIndex: event.batch_index,
+                                    ref,
+                                    answerPreview:
+                                        typeof answer === 'string'
+                                            ? answer.slice(0, 80)
+                                            : answer,
+                                    error: error || null,
+                                },
+                                tabId,
+                            );
+                        },
                     });
 
-                applyPromises.push(applyPromise);
-                await applyPromise;
-                void saveLocalMemo(toApply, fieldsByRef, profileData);
-                batchIndex = batchNumber;
+                    toApply = retriedBatch.toApply;
+                    batchPending = retriedBatch.pending;
 
-                pushDraftAnswersToSidepanelChat(batchNumber, toApply, fieldsByRef);
+                    if (retriedBatch.retriedCount > 0) {
+                        logInfo(
+                            'background',
+                            'draft-all.retry',
+                            'Retried empty batch answers per field',
+                            {
+                                batchIndex: event.batch_index,
+                                retriedCount: retriedBatch.retriedCount,
+                                applyCount: toApply.length,
+                            },
+                            tabId,
+                        );
+                    }
 
-                broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                    message: `Applied batch ${batchNumber}…`,
-                });
-            }
+                    for (const subscription of retriedBatch.subscriptions) {
+                        applyCachedSubscription(subscription);
+                    }
 
-            if (event.type === 'batch_error') {
-                logWarn('background', 'draft-all.batch', 'Batch error from stream', {
-                    batchIndex: event.batch_index,
-                    message: event.message,
-                }, tabId);
+                    pendingFields = mergePendingFields(
+                        pendingFields,
+                        batchPending,
+                    );
 
-                broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                    message: event.message || 'A batch failed.',
-                });
-            }
+                    perf.end(draftPhase);
+                    perf.start(applyPhase);
+                    perf.start(`draft.batch-${batchNumber + 1}`);
 
-            if (event.type === 'complete' && event.subscription) {
-                applyCachedSubscription(event.subscription);
+                    logDebug(
+                        'background',
+                        'draft-all.batch',
+                        `Applying batch ${batchNumber}`,
+                        {
+                            batchIndex: event.batch_index,
+                            answerCount: event.answers.length,
+                            applyCount: toApply.length,
+                            pendingCount: batchPending.length,
+                            answers: toApply.map((answer) => ({
+                                ref: answer.ref,
+                                label: answer.label,
+                                field_type: answer.field_type,
+                                source: answer.source || null,
+                                answerPreview:
+                                    typeof answer.answer === 'string'
+                                        ? answer.answer.slice(0, 80)
+                                        : answer.answer,
+                            })),
+                        },
+                        tabId,
+                    );
 
-                if (!resumePromise && !isAutoApplyRunning()) {
-                    perf.start('resume.fill');
-                    resumePromise = fillApplicationDocumentsOnTab(tabId, formFrameId, job)
-                        .then(() => {
-                            perf.end('resume.fill');
-                            logInfo('background', 'fill.resume', 'Application documents fill complete', {}, tabId);
+                    const applyPromise = applyDraftBatchToTab(
+                        tabId,
+                        enrichApplyAnswers(toApply, fieldsByRef, {
+                            profileYears,
+                        }),
+                        formFrameId,
+                    )
+                        .then((applyResult) => {
+                            logInfo(
+                                'background',
+                                'draft-all.apply',
+                                `Batch ${batchNumber} apply result`,
+                                {
+                                    batchIndex: event.batch_index,
+                                    success: applyResult?.success,
+                                    applied: applyResult?.applied,
+                                    error: applyResult?.error || null,
+                                },
+                                tabId,
+                            );
 
-                            return { success: true };
+                            totalFieldsFilled += Number(
+                                applyResult?.applied || 0,
+                            );
+
+                            return applyResult;
                         })
                         .catch((error) => {
-                            perf.end('resume.fill');
-                            logWarn('background', 'fill.resume', 'Application documents fill failed (best-effort)', {
-                                error: error instanceof Error ? error.message : error,
-                            }, tabId);
+                            logDraftError(
+                                'draft-all.apply',
+                                'Batch apply threw',
+                                error,
+                                tabId,
+                                {
+                                    batchIndex: event.batch_index,
+                                },
+                            );
 
-                            return null;
+                            return {
+                                success: false,
+                                applied: 0,
+                                error:
+                                    error instanceof Error
+                                        ? error.message
+                                        : String(error),
+                            };
+                        })
+                        .finally(() => {
+                            perf.end(applyPhase);
                         });
+
+                    applyPromises.push(applyPromise);
+                    await applyPromise;
+                    void saveLocalMemo(toApply, fieldsByRef, profileData);
+                    batchIndex = batchNumber;
+
+                    pushDraftAnswersToSidepanelChat(
+                        batchNumber,
+                        toApply,
+                        fieldsByRef,
+                    );
+
+                    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                        message: `Applied batch ${batchNumber}…`,
+                    });
                 }
-            }
-        });
+
+                if (event.type === 'batch_error') {
+                    logWarn(
+                        'background',
+                        'draft-all.batch',
+                        'Batch error from stream',
+                        {
+                            batchIndex: event.batch_index,
+                            message: event.message,
+                        },
+                        tabId,
+                    );
+
+                    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                        message: event.message || 'A batch failed.',
+                    });
+                }
+
+                if (event.type === 'complete' && event.subscription) {
+                    applyCachedSubscription(event.subscription);
+
+                    if (!resumePromise && !isAutoApplyRunning()) {
+                        perf.start('resume.fill');
+                        resumePromise = fillApplicationDocumentsOnTab(
+                            tabId,
+                            formFrameId,
+                            job,
+                        )
+                            .then(() => {
+                                perf.end('resume.fill');
+                                logInfo(
+                                    'background',
+                                    'fill.resume',
+                                    'Application documents fill complete',
+                                    {},
+                                    tabId,
+                                );
+
+                                return { success: true };
+                            })
+                            .catch((error) => {
+                                perf.end('resume.fill');
+                                logWarn(
+                                    'background',
+                                    'fill.resume',
+                                    'Application documents fill failed (best-effort)',
+                                    {
+                                        error:
+                                            error instanceof Error
+                                                ? error.message
+                                                : error,
+                                    },
+                                    tabId,
+                                );
+
+                                return null;
+                            });
+                    }
+                }
+            },
+        );
 
         if (!result.ok) {
-            logWarn('background', 'draft-all.complete', 'Draft-all stream failed', {
-                message: result.message,
-            }, tabId);
+            logWarn(
+                'background',
+                'draft-all.complete',
+                'Draft-all stream failed',
+                {
+                    message: result.message,
+                },
+                tabId,
+            );
 
             applyCachedSubscription(result.subscription);
 
@@ -2713,37 +3375,68 @@ async function runDraftAll(tabId, e2eOptions = null) {
         await savePendingFields(tabId, pendingFields);
 
         let pendingCount = pendingFields.length;
-        let message = pendingCount > 0
-            ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
-            : `Fill complete (${fields.length} field(s) drafted).`;
-        logInfo('background', 'draft-all.complete', 'Draft All finished', {
-            fieldCount: fields.length,
-            memoApplied: draftPlan.memoAnswerCount,
-            aiFieldCount: draftPlan.remainingFieldCount,
-            batchesApplied: batchIndex,
-            pendingCount,
-        }, tabId);
+        let message =
+            pendingCount > 0
+                ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
+                : `Fill complete (${fields.length} field(s) drafted).`;
+        logInfo(
+            'background',
+            'draft-all.complete',
+            'Draft All finished',
+            {
+                fieldCount: fields.length,
+                memoApplied: draftPlan.memoAnswerCount,
+                aiFieldCount: draftPlan.remainingFieldCount,
+                batchesApplied: batchIndex,
+                pendingCount,
+            },
+            tabId,
+        );
 
         if (resumePromise) {
             void resumePromise;
         } else if (!isAutoApplyRunning()) {
             try {
                 perf.start('resume.fill');
-                logDebug('background', 'fill.resume', 'Sending application document fills to tab', { formFrameId }, tabId);
+                logDebug(
+                    'background',
+                    'fill.resume',
+                    'Sending application document fills to tab',
+                    { formFrameId },
+                    tabId,
+                );
                 await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
                 perf.end('resume.fill');
-                logInfo('background', 'fill.resume', 'Application documents fill complete', {}, tabId);
+                logInfo(
+                    'background',
+                    'fill.resume',
+                    'Application documents fill complete',
+                    {},
+                    tabId,
+                );
             } catch (error) {
                 perf.end('resume.fill');
-                logWarn('background', 'fill.resume', 'Application documents fill failed (best-effort)', {
-                    error: error instanceof Error ? error.message : error,
-                }, tabId);
+                logWarn(
+                    'background',
+                    'fill.resume',
+                    'Application documents fill failed (best-effort)',
+                    {
+                        error: error instanceof Error ? error.message : error,
+                    },
+                    tabId,
+                );
             }
         }
 
-        const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message, {
-            profileData,
-        });
+        const postValidation = await applyPostDraftValidation(
+            tabId,
+            formFrameId,
+            pendingFields,
+            message,
+            {
+                profileData,
+            },
+        );
         pendingFields = postValidation.pendingFields;
         pendingCount = postValidation.pendingCount;
         message = postValidation.message;
@@ -2751,17 +3444,22 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
-        const tokenUsage = usageEvents.reduce((totals, event) => ({
-            prompt_tokens: totals.prompt_tokens + (event.prompt_tokens || 0),
-            completion_tokens: totals.completion_tokens + (event.completion_tokens || 0),
-            total_tokens: totals.total_tokens + (event.total_tokens || 0),
-            batches: totals.batches + 1,
-        }), {
-            prompt_tokens: 0,
-            completion_tokens: 0,
-            total_tokens: 0,
-            batches: 0,
-        });
+        const tokenUsage = usageEvents.reduce(
+            (totals, event) => ({
+                prompt_tokens:
+                    totals.prompt_tokens + (event.prompt_tokens || 0),
+                completion_tokens:
+                    totals.completion_tokens + (event.completion_tokens || 0),
+                total_tokens: totals.total_tokens + (event.total_tokens || 0),
+                batches: totals.batches + 1,
+            }),
+            {
+                prompt_tokens: 0,
+                completion_tokens: 0,
+                total_tokens: 0,
+                batches: 0,
+            },
+        );
 
         perf.summary({
             fieldCount: fields.length,
@@ -2784,10 +3482,16 @@ async function runDraftAll(tabId, e2eOptions = null) {
             pendingCount,
             unfilledRequiredFields,
             validationErrors: postValidation.validationScan.validationErrors,
-            validationInvalidFieldCount: postValidation.validationScan.invalidFieldCount,
+            validationInvalidFieldCount:
+                postValidation.validationScan.invalidFieldCount,
         };
     } catch (error) {
-        logDraftError('draft-all.error', 'Draft All unhandled error', error, tabId);
+        logDraftError(
+            'draft-all.error',
+            'Draft All unhandled error',
+            error,
+            tabId,
+        );
 
         return { error: formatContentScriptUserError(error) };
     } finally {
@@ -2813,7 +3517,9 @@ async function quickAnswerFocused(tabId) {
     };
 
     try {
-        const meta = await chrome.tabs.sendMessage(tabId, { type: 'GET_JOB_META' });
+        const meta = await chrome.tabs.sendMessage(tabId, {
+            type: 'GET_JOB_META',
+        });
 
         if (meta?.job) {
             job = meta.job;
@@ -2833,25 +3539,42 @@ async function quickAnswerFocused(tabId) {
         ref: focusedField.ref || null,
         dom: focusedField.dom || null,
         field_type: focusedField.field_type || null,
-        data_field_path: focusedField.data_field_path || focusedField.dom?.data_field_path || null,
+        data_field_path:
+            focusedField.data_field_path ||
+            focusedField.dom?.data_field_path ||
+            null,
     });
-    await saveLocalMemo([{
-        ref: focusedField.ref,
-        label: data.label,
-        answer: data.answer,
-    }], new Map([[focusedField.ref, focusedField]]), cachedProfile);
+    await saveLocalMemo(
+        [
+            {
+                ref: focusedField.ref,
+                label: data.label,
+                answer: data.answer,
+            },
+        ],
+        new Map([[focusedField.ref, focusedField]]),
+        cachedProfile,
+    );
 
     applyCachedSubscription(data.subscription);
 
-    pushDraftAnswersToSidepanelChat(0, [{
-        ref: focusedField.ref,
-        label: data.label || focusedField.label,
-        answer: data.answer,
-    }], new Map([[focusedField.ref, focusedField]]));
+    pushDraftAnswersToSidepanelChat(
+        0,
+        [
+            {
+                ref: focusedField.ref,
+                label: data.label || focusedField.label,
+                answer: data.answer,
+            },
+        ],
+        new Map([[focusedField.ref, focusedField]]),
+    );
 
     return {
         success: true,
-        message: data.answer ? 'Quick draft applied.' : 'No answer generated for this field.',
+        message: data.answer
+            ? 'Quick draft applied.'
+            : 'No answer generated for this field.',
         answer: data.answer,
     };
 }
@@ -2859,7 +3582,7 @@ async function quickAnswerFocused(tabId) {
 async function getProfile() {
     const now = Date.now();
 
-    if (cachedProfile && (now - cacheTimestamp) < CACHE_TTL_MS) {
+    if (cachedProfile && now - cacheTimestamp < CACHE_TTL_MS) {
         return cachedProfile;
     }
 
@@ -2886,7 +3609,9 @@ async function getProfile() {
     const data = await response.json();
     cachedProfile = data;
     cacheTimestamp = now;
-    await syncQuestionMemoFromApplicationAnswers(data.profile?.application_answers ?? []);
+    await syncQuestionMemoFromApplicationAnswers(
+        data.profile?.application_answers ?? [],
+    );
 
     return data;
 }
@@ -2896,7 +3621,9 @@ async function syncQuestionMemoFromApplicationAnswers(applicationAnswers) {
         return;
     }
 
-    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+    const { questionMemo = {} } = await chrome.storage.local.get([
+        'questionMemo',
+    ]);
     const merged = { ...questionMemo };
 
     for (const entry of applicationAnswers) {
@@ -2945,7 +3672,9 @@ async function appendApplicationAnswer(question, answer) {
             throw new Error('Session expired. Please log in again.');
         }
 
-        throw new Error(apiErrorMessage(data, 'Could not save application answer.'));
+        throw new Error(
+            apiErrorMessage(data, 'Could not save application answer.'),
+        );
     }
 
     invalidateProfileCache();
@@ -2956,13 +3685,15 @@ async function appendApplicationAnswer(question, answer) {
 async function getCvDocument() {
     const now = Date.now();
 
-    if (cachedCvDocument && (now - cachedCvDocumentAt) < CV_CACHE_TTL_MS) {
+    if (cachedCvDocument && now - cachedCvDocumentAt < CV_CACHE_TTL_MS) {
         return cachedCvDocument;
     }
 
     const profileData = await getProfile();
     const documents = profileData.documents || [];
-    const cvDocument = documents.find((document) => document.category === 'cv') || documents[0];
+    const cvDocument =
+        documents.find((document) => document.category === 'cv') ||
+        documents[0];
 
     if (!cvDocument?.id) {
         throw new Error('No CV document found on your profile');
@@ -2980,16 +3711,27 @@ async function getCvDocument() {
 }
 
 function coverLetterSourceKey(job = {}) {
-    const link = String(job?.link || '').trim().toLowerCase();
+    const link = String(job?.link || '')
+        .trim()
+        .toLowerCase();
 
     if (link) {
         return link;
     }
 
-    return `${String(job?.title || '').trim().toLowerCase()}|${String(job?.company || '').trim().toLowerCase()}`;
+    return `${String(job?.title || '')
+        .trim()
+        .toLowerCase()}|${String(job?.company || '')
+        .trim()
+        .toLowerCase()}`;
 }
 
-async function persistCoverLetterDocument({ job = null, bytes = null, text = null, fileName = null }) {
+async function persistCoverLetterDocument({
+    job = null,
+    bytes = null,
+    text = null,
+    fileName = null,
+}) {
     const sourceKey = coverLetterSourceKey(job || {});
 
     if (savedCoverLetterSourceKeys.has(sourceKey)) {
@@ -3009,7 +3751,11 @@ async function persistCoverLetterDocument({ job = null, bytes = null, text = nul
             payload.file_base64 = arrayBufferToBase64(bytes);
             payload.file_name = fileName;
         } else {
-            return { saved: false, duplicate: false, error: 'Cover letter content missing.' };
+            return {
+                saved: false,
+                duplicate: false,
+                error: 'Cover letter content missing.',
+            };
         }
 
         const response = await fetch(`${apiBase}/api/profile/cover-letters`, {
@@ -3027,37 +3773,48 @@ async function persistCoverLetterDocument({ job = null, bytes = null, text = nul
             savedCoverLetterSourceKeys.add(sourceKey);
             invalidateProfileCache();
         } else {
-            logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
-                status: response.status,
-                message: data.message || data.error || null,
-            });
+            logWarn(
+                'background',
+                'cover-letter.save',
+                'Cover letter document save failed',
+                {
+                    status: response.status,
+                    message: data.message || data.error || null,
+                },
+            );
         }
 
         return data;
     } catch (error) {
-        logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
-            error: error instanceof Error ? error.message : error,
-        });
+        logWarn(
+            'background',
+            'cover-letter.save',
+            'Cover letter document save failed',
+            {
+                error: error instanceof Error ? error.message : error,
+            },
+        );
 
         return { saved: false, duplicate: false };
     }
 }
 
-async function getCoverLetterDocument(job = null, {
-    text = null,
-    persist = true,
-    forceProfile = true,
-} = {}) {
+async function getCoverLetterDocument(
+    job = null,
+    { text = null, persist = true, forceProfile = true } = {},
+) {
     if (forceProfile) {
         invalidateProfileCache();
     }
 
     const profileData = await getProfile();
     const profile = profileData?.profile || profileData || {};
-    const letterText = typeof text === 'string' && text.trim() !== ''
-        ? text.trim()
-        : buildDraftCoverLetterText(profileData, job || {});
-    const design = profile.cover_letter_design ?? profileData?.cover_letter_design;
+    const letterText =
+        typeof text === 'string' && text.trim() !== ''
+            ? text.trim()
+            : buildDraftCoverLetterText(profileData, job || {});
+    const design =
+        profile.cover_letter_design ?? profileData?.cover_letter_design;
     const font = profile.cover_letter_font ?? profileData?.cover_letter_font;
     const bytes = buildCoverLetterPdfBytes(letterText, {
         profile,
@@ -3095,7 +3852,11 @@ async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
     }
 
     try {
-        await sendTabMessage(tabId, { type: 'FILL_COVER_LETTER', job }, formFrameId);
+        await sendTabMessage(
+            tabId,
+            { type: 'FILL_COVER_LETTER', job },
+            formFrameId,
+        );
     } catch {
         // Best-effort cover letter fill when the form has a cover letter upload.
     }
@@ -3152,9 +3913,8 @@ async function postAssist(path, body) {
 
 async function ensureActiveTabContentScriptForHighlights(tabId = null) {
     try {
-        const resolvedTabId = typeof tabId === 'number'
-            ? tabId
-            : await resolveActiveTabId();
+        const resolvedTabId =
+            typeof tabId === 'number' ? tabId : await resolveActiveTabId();
 
         if (typeof resolvedTabId !== 'number') {
             return;
@@ -3166,8 +3926,13 @@ async function ensureActiveTabContentScriptForHighlights(tabId = null) {
     }
 }
 
-async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) {
-    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
+async function recordSidePanelHeartbeat({
+    tabId = null,
+    windowId = null,
+} = {}) {
+    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get([
+        'sidePanelOpen',
+    ]);
 
     await chrome.storage.session.set({
         sidePanelOpen: true,
@@ -3199,7 +3964,9 @@ async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) 
 }
 
 async function markSidePanelClosed() {
-    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
+    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get([
+        'sidePanelOpen',
+    ]);
 
     await chrome.storage.session.set({
         sidePanelOpen: false,
@@ -3225,17 +3992,20 @@ async function broadcastAutofillVisibility() {
     ]);
     const tabs = await chrome.tabs.query({});
 
-    await Promise.all(tabs.map((tab) => {
-        if (!tab.id) {
-            return Promise.resolve();
-        }
+    await Promise.all(
+        tabs.map((tab) => {
+            if (!tab.id) {
+                return Promise.resolve();
+            }
 
-        const message = buildSidePanelVisibilityMessage(storage, {
-            tabWindowId: typeof tab.windowId === 'number' ? tab.windowId : null,
-        });
+            const message = buildSidePanelVisibilityMessage(storage, {
+                tabWindowId:
+                    typeof tab.windowId === 'number' ? tab.windowId : null,
+            });
 
-        return chrome.tabs.sendMessage(tab.id, message).catch(() => {});
-    }));
+            return chrome.tabs.sendMessage(tab.id, message).catch(() => {});
+        }),
+    );
 }
 
 async function assistChat(message) {
@@ -3252,17 +4022,22 @@ async function assistChat(message) {
 async function streamAssistChat(message, onEvent) {
     const settings = await buildAutofillSettings();
 
-    const result = await requestAssistChatStream({
-        messages: message.messages,
-        job: message.job || {},
-        focused_field: message.focused_field || null,
-        settings,
-    }, onEvent);
+    const result = await requestAssistChatStream(
+        {
+            messages: message.messages,
+            job: message.job || {},
+            focused_field: message.focused_field || null,
+            settings,
+        },
+        onEvent,
+    );
 
     if (!result.ok) {
         applyCachedSubscription(result.subscription);
 
-        throw new Error(result.message || 'Could not respond right now. Try again shortly.');
+        throw new Error(
+            result.message || 'Could not respond right now. Try again shortly.',
+        );
     }
 
     applyCachedSubscription(result.usage?.subscription);
@@ -3271,18 +4046,24 @@ async function streamAssistChat(message, onEvent) {
 }
 
 async function applyProfileUpdate(update) {
-    if (!update?.field || !Object.prototype.hasOwnProperty.call(update, 'value')) {
+    if (
+        !update?.field ||
+        !Object.prototype.hasOwnProperty.call(update, 'value')
+    ) {
         throw new Error('Invalid profile update.');
     }
 
-    const path = typeof update.path === 'string' && update.path !== ''
-        ? update.path
-        : update.field;
+    const path =
+        typeof update.path === 'string' && update.path !== ''
+            ? update.path
+            : update.field;
 
     const body = buildPatchBody(path, update.value);
 
     if (Object.keys(body).length === 0) {
-        throw new Error('That profile field cannot be updated from the extension.');
+        throw new Error(
+            'That profile field cannot be updated from the extension.',
+        );
     }
 
     const apiToken = await getApiToken();
@@ -3317,7 +4098,9 @@ async function applyProfileUpdate(update) {
 }
 
 function buildPatchBody(path, value) {
-    const parts = String(path || '').split('.').filter(Boolean);
+    const parts = String(path || '')
+        .split('.')
+        .filter(Boolean);
 
     if (parts.length === 0) {
         return {};
@@ -3408,7 +4191,10 @@ function assertBridgeNavigableUrl(url) {
     return parsed.toString();
 }
 
-async function bridgeWaitForTab(tabId, { windowId = null, urlIncludes = null, timeoutMs = 30000 } = {}) {
+async function bridgeWaitForTab(
+    tabId,
+    { windowId = null, urlIncludes = null, timeoutMs = 30000 } = {},
+) {
     const resolvedTabId = await resolveActiveTabId(tabId, windowId);
     const deadline = Date.now() + Math.max(0, Number(timeoutMs) || 0);
 
@@ -3444,29 +4230,40 @@ async function bridgeWaitForTab(tabId, { windowId = null, urlIncludes = null, ti
 async function bridgeFindControlRef(tabId, frameId, name) {
     const collectResponse = await collectSnapshotFromTab(tabId, frameId, null);
     const controls = collectResponse?.snapshot?.controls || [];
-    const needle = String(name || '').trim().toLowerCase();
+    const needle = String(name || '')
+        .trim()
+        .toLowerCase();
 
     if (!needle) {
         throw new Error('Control name is required.');
     }
 
     const control = controls.find((entry) => {
-        const candidate = String(entry.name || '').trim().toLowerCase();
+        const candidate = String(entry.name || '')
+            .trim()
+            .toLowerCase();
 
-        return candidate === needle
-            || candidate.includes(needle)
-            || needle.includes(candidate);
+        return (
+            candidate === needle ||
+            candidate.includes(needle) ||
+            needle.includes(candidate)
+        );
     });
 
     if (!control?.ref) {
-        throw new Error(`No navigation control matching "${name}". Available: ${controls.map((entry) => entry.name).join(', ') || 'none'}`);
+        throw new Error(
+            `No navigation control matching "${name}". Available: ${controls.map((entry) => entry.name).join(', ') || 'none'}`,
+        );
     }
 
     return control;
 }
 
 async function bridgeBuildAuthStatus(tabId, windowId = null) {
-    const { apiToken, apiBase } = await chrome.storage.local.get(['apiToken', 'apiBase']);
+    const { apiToken, apiBase } = await chrome.storage.local.get([
+        'apiToken',
+        'apiBase',
+    ]);
     const resolvedTabId = await resolveActiveTabId(tabId, windowId);
     const tab = await chrome.tabs.get(resolvedTabId);
     const loginPending = bridgeDetectLoginUrl(tab.url || '');
@@ -3493,12 +4290,17 @@ async function bridgeBuildAuthStatus(tabId, windowId = null) {
 initExtensionBridge({
     resolveActiveTabId,
     handlers: {
-        get_status: async ({ tabId, windowId } = {}) => bridgeBuildAuthStatus(tabId, windowId),
+        get_status: async ({ tabId, windowId } = {}) =>
+            bridgeBuildAuthStatus(tabId, windowId),
         get_page_html: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : 0;
 
-            return sendTabMessage(resolvedTabId, { type: 'GET_PAGE_HTML' }, resolvedFrameId);
+            return sendTabMessage(
+                resolvedTabId,
+                { type: 'GET_PAGE_HTML' },
+                resolvedFrameId,
+            );
         },
         get_field_inventory: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
@@ -3507,12 +4309,18 @@ initExtensionBridge({
 
             try {
                 const profileData = await getProfile();
-                profilePayload = profileData ? { profile: profileData.profile ?? null } : null;
+                profilePayload = profileData
+                    ? { profile: profileData.profile ?? null }
+                    : null;
             } catch {
                 profilePayload = null;
             }
 
-            return collectSnapshotFromTab(resolvedTabId, frameId, profilePayload);
+            return collectSnapshotFromTab(
+                resolvedTabId,
+                frameId,
+                profilePayload,
+            );
         },
         get_debug_logs: async () => getAllLogs(),
         debug_log_export: async () => exportLogsForTest(),
@@ -3532,7 +4340,11 @@ initExtensionBridge({
             );
 
             return tabs
-                .filter((tab) => typeof tab.url === 'string' && /^https?:/i.test(tab.url))
+                .filter(
+                    (tab) =>
+                        typeof tab.url === 'string' &&
+                        /^https?:/i.test(tab.url),
+                )
                 .map((tab) => ({
                     id: tab.id,
                     url: tab.url,
@@ -3546,9 +4358,12 @@ initExtensionBridge({
 
             return windows.map((win) => {
                 const httpTabs = (win.tabs || []).filter(
-                    (tab) => typeof tab.url === 'string' && /^https?:/i.test(tab.url),
+                    (tab) =>
+                        typeof tab.url === 'string' &&
+                        /^https?:/i.test(tab.url),
                 );
-                const focusedTab = (win.tabs || []).find((tab) => tab.active) ?? null;
+                const focusedTab =
+                    (win.tabs || []).find((tab) => tab.active) ?? null;
 
                 return {
                     id: win.id,
@@ -3557,10 +4372,10 @@ initExtensionBridge({
                     tabCount: httpTabs.length,
                     activeTab: focusedTab
                         ? {
-                            id: focusedTab.id,
-                            url: focusedTab.url ?? null,
-                            title: focusedTab.title ?? '',
-                        }
+                              id: focusedTab.id,
+                              url: focusedTab.url ?? null,
+                              title: focusedTab.title ?? '',
+                          }
                         : null,
                 };
             });
@@ -3581,10 +4396,17 @@ initExtensionBridge({
 
             return openSidePanelForTab(resolvedTabId);
         },
-        close_side_panel: async ({ windowId }) => closeSidePanelForWindow(
-            typeof windowId === 'number' ? windowId : null,
-        ),
-        navigate_tab: async ({ tabId, windowId, url, newTab = false, active = true }) => {
+        close_side_panel: async ({ windowId }) =>
+            closeSidePanelForWindow(
+                typeof windowId === 'number' ? windowId : null,
+            ),
+        navigate_tab: async ({
+            tabId,
+            windowId,
+            url,
+            newTab = false,
+            active = true,
+        }) => {
             const destination = assertBridgeNavigableUrl(url);
             const focusTab = active !== false;
 
@@ -3606,7 +4428,10 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            await chrome.tabs.update(resolvedTabId, { url: destination, active: focusTab });
+            await chrome.tabs.update(resolvedTabId, {
+                url: destination,
+                active: focusTab,
+            });
 
             return {
                 tabId: resolvedTabId,
@@ -3614,18 +4439,28 @@ initExtensionBridge({
                 newTab: false,
             };
         },
-        wait_for_tab: async ({ tabId, windowId, urlIncludes = null, timeoutMs = 30000 }) => bridgeWaitForTab(tabId, {
+        wait_for_tab: async ({
+            tabId,
             windowId,
-            urlIncludes: urlIncludes || null,
-            timeoutMs,
-        }),
+            urlIncludes = null,
+            timeoutMs = 30000,
+        }) =>
+            bridgeWaitForTab(tabId, {
+                windowId,
+                urlIncludes: urlIncludes || null,
+                timeoutMs,
+            }),
         click_ref: async ({ tabId, windowId, frameId, ref }) => {
             if (!ref) {
                 throw new Error('ref is required.');
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const result = await clickInventoryRefOnTab(resolvedTabId, ref, frameId);
+            const result = await clickInventoryRefOnTab(
+                resolvedTabId,
+                ref,
+                frameId,
+            );
 
             return {
                 success: Boolean(result?.success),
@@ -3634,8 +4469,16 @@ initExtensionBridge({
         },
         click_control_inventory: async ({ tabId, windowId, frameId, name }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const control = await bridgeFindControlRef(resolvedTabId, frameId, name);
-            const result = await clickInventoryRefOnTab(resolvedTabId, control.ref, frameId);
+            const control = await bridgeFindControlRef(
+                resolvedTabId,
+                frameId,
+                name,
+            );
+            const result = await clickInventoryRefOnTab(
+                resolvedTabId,
+                control.ref,
+                frameId,
+            );
 
             return {
                 success: Boolean(result?.success),
@@ -3648,12 +4491,19 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+            const resolvedFrameId =
+                typeof frameId === 'number'
+                    ? frameId
+                    : await findBestFormFrameId(resolvedTabId);
 
-            return sendTabMessage(resolvedTabId, {
-                type: 'BRIDGE_CLICK_TEXT',
-                text,
-            }, resolvedFrameId);
+            return sendTabMessage(
+                resolvedTabId,
+                {
+                    type: 'BRIDGE_CLICK_TEXT',
+                    text,
+                },
+                resolvedFrameId,
+            );
         },
         click_selector: async ({ tabId, windowId, frameId, selector }) => {
             if (!selector || typeof selector !== 'string') {
@@ -3661,43 +4511,81 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+            const resolvedFrameId =
+                typeof frameId === 'number'
+                    ? frameId
+                    : await findBestFormFrameId(resolvedTabId);
 
-            return sendTabMessage(resolvedTabId, {
-                type: 'BRIDGE_CLICK_SELECTOR',
-                selector,
-            }, resolvedFrameId);
+            return sendTabMessage(
+                resolvedTabId,
+                {
+                    type: 'BRIDGE_CLICK_SELECTOR',
+                    selector,
+                },
+                resolvedFrameId,
+            );
         },
         read_field_values: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+            const resolvedFrameId =
+                typeof frameId === 'number'
+                    ? frameId
+                    : await findBestFormFrameId(resolvedTabId);
 
-            return sendTabMessage(resolvedTabId, {
-                type: 'BRIDGE_READ_FIELD_VALUES',
-            }, resolvedFrameId);
+            return sendTabMessage(
+                resolvedTabId,
+                {
+                    type: 'BRIDGE_READ_FIELD_VALUES',
+                },
+                resolvedFrameId,
+            );
         },
-        read_form_validation: async ({ tabId, windowId, frameId, triggerValidation = true }) => {
+        read_form_validation: async ({
+            tabId,
+            windowId,
+            frameId,
+            triggerValidation = true,
+        }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
-            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+            const resolvedFrameId =
+                typeof frameId === 'number'
+                    ? frameId
+                    : await findBestFormFrameId(resolvedTabId);
 
             return scanFormValidationOnTab(resolvedTabId, resolvedFrameId, {
                 triggerValidation: triggerValidation !== false,
             });
         },
-        apply_answer: async ({ tabId, windowId, frameId, ref, label, answer, field_type, dom, data_field_path }) => {
+        apply_answer: async ({
+            tabId,
+            windowId,
+            frameId,
+            ref,
+            label,
+            answer,
+            field_type,
+            dom,
+            data_field_path,
+        }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             if (!ref && !label) {
                 throw new Error('ref or label is required.');
             }
 
-            const result = await applyDraftAnswerToTab(resolvedTabId, label || '', answer, {
-                frameId,
-                ref: ref || null,
-                field_type: field_type || null,
-                dom: dom || null,
-                data_field_path: data_field_path || dom?.data_field_path || null,
-            });
+            const result = await applyDraftAnswerToTab(
+                resolvedTabId,
+                label || '',
+                answer,
+                {
+                    frameId,
+                    ref: ref || null,
+                    field_type: field_type || null,
+                    dom: dom || null,
+                    data_field_path:
+                        data_field_path || dom?.data_field_path || null,
+                },
+            );
 
             return {
                 success: Boolean(result?.success),
@@ -3710,7 +4598,8 @@ initExtensionBridge({
 
             return runDraftAll(resolvedTabId);
         },
-        cancel_draft_all: async ({ reason = 'bridge_cancel' } = {}) => cancelDraftAll(reason),
+        cancel_draft_all: async ({ reason = 'bridge_cancel' } = {}) =>
+            cancelDraftAll(reason),
         reload_tab: async ({ tabId, windowId } = {}) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             invalidateTabFrameCache(resolvedTabId);
@@ -3741,7 +4630,12 @@ initExtensionBridge({
                 url: tab?.url ?? null,
             };
         },
-        indeed_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        indeed_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3750,7 +4644,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        totaljobs_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        totaljobs_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3759,7 +4658,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        glassdoor_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        glassdoor_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3768,7 +4672,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        simplyhired_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        simplyhired_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3777,7 +4686,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        reed_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        reed_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3786,7 +4700,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        cvlibrary_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        cvlibrary_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3795,7 +4714,12 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        linkedin_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
+        linkedin_tab_message: async ({
+            tabId,
+            windowId,
+            type,
+            ...messageParams
+        }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
@@ -3823,7 +4747,11 @@ initExtensionBridge({
                 throw new Error('roleDescription is required.');
             }
 
-            const mergedFilters = mergeAutoApplyStartFilters({ filters, location, market });
+            const mergedFilters = mergeAutoApplyStartFilters({
+                filters,
+                location,
+                market,
+            });
 
             const session = await startAutoApply({
                 platform,
@@ -3835,13 +4763,16 @@ initExtensionBridge({
                 timingLevel,
                 force: force === true,
                 hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
-                hostWindowId: typeof hostWindowId === 'number' ? hostWindowId : null,
+                hostWindowId:
+                    typeof hostWindowId === 'number' ? hostWindowId : null,
                 runDraftAll,
             });
 
             return {
                 success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                session: session
+                    ? sanitizeAutoApplySessionResponse(session)
+                    : null,
             };
         },
         auto_apply_status: async () => ({
@@ -3853,7 +4784,9 @@ initExtensionBridge({
 
             return {
                 success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                session: session
+                    ? sanitizeAutoApplySessionResponse(session)
+                    : null,
             };
         },
         auto_apply_resume: async () => {
@@ -3861,7 +4794,9 @@ initExtensionBridge({
 
             return {
                 success: true,
-                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                session: session
+                    ? sanitizeAutoApplySessionResponse(session)
+                    : null,
             };
         },
         auto_apply_submit_blocker: async ({ answer, field = null }) => {
@@ -3869,7 +4804,10 @@ initExtensionBridge({
                 throw new Error('answer is required.');
             }
 
-            const result = await submitAutoApplyBlockerAnswer(String(answer).trim(), field);
+            const result = await submitAutoApplyBlockerAnswer(
+                String(answer).trim(),
+                field,
+            );
 
             return { success: true, result };
         },
@@ -3917,8 +4855,10 @@ self.__autocvapplyE2e = {
         await saveConnection({ token: apiToken, apiBase });
         invalidateProfileCache();
     },
-    runDraftAllWithMocks: async (tabId, { job, fields }) => runDraftAll(tabId, { job, fields }),
-    startAutoApply: async (options) => startAutoApply({ ...options, runDraftAll }),
+    runDraftAllWithMocks: async (tabId, { job, fields }) =>
+        runDraftAll(tabId, { job, fields }),
+    startAutoApply: async (options) =>
+        startAutoApply({ ...options, runDraftAll }),
     stopAutoApply,
     getAutoApplyStatus,
     getAutoApplySessionForE2e: () => loadAutoApplySession(),

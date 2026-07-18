@@ -13,6 +13,7 @@ import {
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
 } from '../../extension/src/shared/pending-fields.js';
+import { resolveSpeakLanguagePendingSave } from '../../extension/src/shared/speak-language-answer.js';
 
 const profileData = {
     application_settings: {
@@ -633,7 +634,37 @@ const emptyLanguagePartition = partitionScreenerHeuristicFields(
 assert.equal(emptyLanguagePartition.screenerAnswers.length, 0);
 assert.equal(emptyLanguagePartition.remainingFields.length, 0);
 assert.equal(emptyLanguagePartition.pendingFields.length, 1);
+assert.equal(emptyLanguagePartition.pendingFields[0].profile_path, null);
+assert.match(
+    String(emptyLanguagePartition.pendingFields[0].pending_hint || ''),
+    /adds this language/i,
+);
+
+assert.deepEqual(
+    resolveSpeakLanguagePendingSave(
+        {
+            label: 'Do you speak French ?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        'Yes',
+        { profile: { structured_data: { languages: [] } } },
+    ),
+    {
+        mode: 'profile_languages',
+        languages: [{ language: 'French', proficiency: null }],
+    },
+);
+
 assert.equal(
-    emptyLanguagePartition.pendingFields[0].profile_path,
-    'structured_data.languages',
+    resolveSpeakLanguagePendingSave(
+        {
+            label: 'Do you speak French ?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        'No',
+        { profile: { structured_data: { languages: [] } } },
+    )?.mode,
+    'application_answers',
 );

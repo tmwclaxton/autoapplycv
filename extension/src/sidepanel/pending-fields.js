@@ -35,9 +35,14 @@ function buildDisplayFields(fields, pauseContext) {
     return [blockerField, ...fields];
 }
 
-export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext = () => null }) {
+export function initPendingFieldsPanel({
+    showMessage,
+    getAutoApplyPauseContext = () => null,
+}) {
     const sectionEl = document.getElementById('pending-fields-section');
-    const clarifyingQuestionEl = document.getElementById('pending-fields-clarifying-question');
+    const clarifyingQuestionEl = document.getElementById(
+        'pending-fields-clarifying-question',
+    );
     const listEl = document.getElementById('pending-fields-list');
     const summaryEl = document.getElementById('pending-fields-summary');
 
@@ -48,20 +53,28 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
     let fields = [];
     let savingRef = null;
 
-    function renderClarifyingQuestion(pauseContext, hasAutoApplyPause, displayFields) {
+    function renderClarifyingQuestion(
+        pauseContext,
+        hasAutoApplyPause,
+        displayFields,
+    ) {
         if (!clarifyingQuestionEl) {
             return;
         }
 
         if (hasAutoApplyPause) {
-            clarifyingQuestionEl.textContent = resolveAutoApplyPauseClarifyingDisplay(pauseContext);
-            clarifyingQuestionEl.hidden = clarifyingQuestionEl.textContent.trim() === '';
+            clarifyingQuestionEl.textContent =
+                resolveAutoApplyPauseClarifyingDisplay(pauseContext);
+            clarifyingQuestionEl.hidden =
+                clarifyingQuestionEl.textContent.trim() === '';
 
             return;
         }
 
         const firstPending = displayFields[0];
-        const pendingQuestion = String(firstPending?.question || firstPending?.label || '').trim();
+        const pendingQuestion = String(
+            firstPending?.question || firstPending?.label || '',
+        ).trim();
 
         if (pendingQuestion) {
             clarifyingQuestionEl.textContent = pendingQuestion;
@@ -91,7 +104,11 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         const hasAutoApplyPause = Boolean(pauseContext?.blockerField?.ref);
         const displayFields = buildDisplayFields(fields, pauseContext);
 
-        renderClarifyingQuestion(pauseContext, hasAutoApplyPause, displayFields);
+        renderClarifyingQuestion(
+            pauseContext,
+            hasAutoApplyPause,
+            displayFields,
+        );
 
         if (displayFields.length === 0) {
             sectionEl.hidden = true;
@@ -104,16 +121,26 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         summaryEl.textContent = hasAutoApplyPause
             ? 'Auto Apply is paused. Answer below, then tap Save & fill.'
             : displayFields.length === 1
-                ? '1 question still needs your answer.'
-                : `${displayFields.length} questions still need your answers.`;
+              ? '1 question still needs your answer.'
+              : `${displayFields.length} questions still need your answers.`;
 
         for (const field of displayFields) {
-            listEl.appendChild(createPendingFieldCard(field, pauseContext, displayFields.length));
+            listEl.appendChild(
+                createPendingFieldCard(
+                    field,
+                    pauseContext,
+                    displayFields.length,
+                ),
+            );
         }
 
         if (pauseContext?.blockerField?.ref) {
-            const blockerCard = listEl.querySelector(`[data-ref="${CSS.escape(pauseContext.blockerField.ref)}"]`);
-            const blockerInput = blockerCard?.querySelector('.pending-field-input');
+            const blockerCard = listEl.querySelector(
+                `[data-ref="${CSS.escape(pauseContext.blockerField.ref)}"]`,
+            );
+            const blockerInput = blockerCard?.querySelector(
+                '.pending-field-input',
+            );
 
             if (blockerInput instanceof HTMLElement) {
                 blockerInput.focus();
@@ -121,14 +148,22 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         }
     }
 
-    function createPendingFieldCard(field, pauseContext, pendingFieldCount = 1) {
+    function createPendingFieldCard(
+        field,
+        pauseContext,
+        pendingFieldCount = 1,
+    ) {
         const card = document.createElement('article');
         card.className = 'pending-field-card postbox-panel';
         card.dataset.ref = field.ref;
 
-        const displayLabel = resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext, {
-            pendingFieldCount,
-        });
+        const displayLabel = resolveAutoApplyPendingFieldDisplayLabel(
+            field,
+            pauseContext,
+            {
+                pendingFieldCount,
+            },
+        );
 
         if (displayLabel) {
             const question = document.createElement('p');
@@ -140,27 +175,38 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         const hint = document.createElement('p');
         hint.className = 'postbox-hint pending-field-hint';
 
-        const autoApplyHint = resolveAutoApplyPendingFieldHint(field, pauseContext);
+        const autoApplyHint = resolveAutoApplyPendingFieldHint(
+            field,
+            pauseContext,
+        );
 
         if (autoApplyHint) {
             hint.textContent = autoApplyHint;
+        } else if (field.pending_hint) {
+            hint.textContent = String(field.pending_hint);
         } else if (field.reason === 'type_coherence') {
             const rejected = String(field.rejected_answer || '').trim();
             const why = String(field.reject_reason || 'type mismatch').trim();
             hint.textContent = rejected
                 ? `Skipped incoherent draft (${why}): "${rejected.slice(0, 80)}${rejected.length > 80 ? '…' : ''}". Enter the correct answer.`
                 : `Skipped incoherent draft (${why}). Enter the correct answer.`;
-        } else if (field.reason === 'validation_error' && field.validationMessage) {
+        } else if (
+            field.reason === 'validation_error' &&
+            field.validationMessage
+        ) {
             hint.textContent = `Validation error: ${field.validationMessage}`;
         } else if (field.profile_path) {
             hint.textContent = field.profile_label
                 ? `Saved to your profile as ${field.profile_label.toLowerCase()}.`
                 : 'Saved to your profile when you submit.';
         } else {
-            hint.textContent = 'Saved to Application Q&A on your dashboard for future forms.';
+            hint.textContent =
+                'Saved to Application Q&A on your dashboard for future forms.';
         }
 
-        const input = document.createElement(field.field_type === 'textarea' ? 'textarea' : 'input');
+        const input = document.createElement(
+            field.field_type === 'textarea' ? 'textarea' : 'input',
+        );
         input.className = 'postbox-input pending-field-input';
         input.placeholder = 'Your answer…';
 
@@ -248,7 +294,12 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
                     render();
                 }
 
-                showMessage(response.applied ? 'Answer saved and filled.' : 'Answer saved to your profile.', 'success');
+                showMessage(
+                    response.applied
+                        ? 'Answer saved and filled.'
+                        : 'Answer saved to your profile.',
+                    'success',
+                );
             } catch (error) {
                 showMessage(error.message, 'error');
                 saveBtn.disabled = false;
@@ -268,7 +319,9 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
     }
 
     async function refreshPendingFields() {
-        const response = await chrome.runtime.sendMessage({ type: 'GET_PENDING_FIELDS' });
+        const response = await chrome.runtime.sendMessage({
+            type: 'GET_PENDING_FIELDS',
+        });
 
         if (response?.error) {
             throw new Error(response.error);
@@ -279,7 +332,11 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
     }
 
     chrome.runtime.onMessage.addListener((message) => {
-        if (message.type === 'PENDING_FIELDS_UPDATED' || message.type === 'DRAFT_ALL_DONE' || message.type === 'AUTO_APPLY_PAUSED') {
+        if (
+            message.type === 'PENDING_FIELDS_UPDATED' ||
+            message.type === 'DRAFT_ALL_DONE' ||
+            message.type === 'AUTO_APPLY_PAUSED'
+        ) {
             void refreshPendingFields().catch(() => {});
         }
     });

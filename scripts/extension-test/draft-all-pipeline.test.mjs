@@ -882,7 +882,9 @@ test('stale speak-language memo is ignored when profile languages are empty', ()
     assert.equal(plan.pendingFields.length, 2);
     assert.ok(
         plan.pendingFields.every(
-            (field) => field.profile_path === 'structured_data.languages',
+            (field) =>
+                field.profile_path == null &&
+                /adds this language/i.test(field.pending_hint || ''),
         ),
     );
 });

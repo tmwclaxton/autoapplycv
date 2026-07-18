@@ -553,11 +553,15 @@ export function partitionScreenerHeuristicFields(
                 question: label,
                 field_type: field.field_type || 'radio',
                 options: field.options ?? null,
-                profile_path: 'structured_data.languages',
-                profile_label: 'Languages',
+                // Do not bind Yes/No onto structured_data.languages as a scalar.
+                // Save & fill merges the language name on Yes (see speak-language-answer).
+                profile_path: null,
+                profile_label: null,
                 dashboard_tab: 'profile',
-                dashboard_anchor: '',
+                dashboard_anchor: 'field-languages',
                 reason: 'missing_profile_data',
+                pending_hint:
+                    'Answer Yes or No. Yes adds this language to your profile for future forms.',
             });
             continue;
         }

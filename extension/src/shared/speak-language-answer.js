@@ -142,3 +142,61 @@ export function shouldRejectSpeakLanguageMemoAnswer(
 
     return normalized !== resolved.toLowerCase();
 }
+
+function titleCaseLanguage(language) {
+    return String(language || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+}
+
+/**
+ * How to persist a sidebar Yes/No for a speak-language screener.
+ * Yes merges the language into structured_data.languages; No stays on application Q&A.
+ *
+ * @returns {{ mode: 'profile_languages', languages: Array<object> }|{ mode: 'application_answers' }|null}
+ */
+export function resolveSpeakLanguagePendingSave(field, answer, profileData) {
+    if (!isSpeakLanguageYesNoQuestion(field)) {
+        return null;
+    }
+
+    const normalized = String(answer || '')
+        .trim()
+        .toLowerCase();
+    const asked = extractSpeakLanguageFromLabel(
+        field?.label || field?.question || '',
+    );
+
+    if (!asked || (normalized !== 'yes' && normalized !== 'no')) {
+        return { mode: 'application_answers' };
+    }
+
+    if (normalized === 'no') {
+        return { mode: 'application_answers' };
+    }
+
+    const existing = readProfileValue(profileData, 'structured_data.languages');
+    const list = Array.isArray(existing)
+        ? existing.map((entry) =>
+              entry && typeof entry === 'object' ? { ...entry } : entry,
+          )
+        : [];
+    const names = profileLanguageNames(profileData);
+    const alreadyListed = names.some(
+        (name) =>
+            name === asked ||
+            name.startsWith(`${asked} `) ||
+            asked.startsWith(name),
+    );
+
+    if (!alreadyListed) {
+        list.push({
+            language: titleCaseLanguage(asked),
+            proficiency: null,
+        });
+    }
+
+    return { mode: 'profile_languages', languages: list };
+}
