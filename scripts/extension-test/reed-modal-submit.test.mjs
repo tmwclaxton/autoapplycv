@@ -97,3 +97,13 @@ test('Reed Application summary fixture has Submit and no inventoriable inputs', 
     assert.ok(!html.includes('<textarea'));
     assert.ok(!html.includes('<select'));
 });
+
+test('Reed Easy Apply allows long multi-page question wizards', () => {
+    const source = readFileSync(
+        join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js'),
+        'utf8',
+    );
+
+    assert.match(source, /REED_EASY_APPLY_MAX_STEPS\s*=\s*25/);
+    assert.ok(source.includes('while (guard < REED_EASY_APPLY_MAX_STEPS)'));
+});

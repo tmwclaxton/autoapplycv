@@ -49,6 +49,7 @@ export function createSimplyHiredOrchestrator(deps) {
         sendIndeedApplyFlowMessage,
         runDraftAllForStep,
         ensureStepFilledOrPaused,
+        isIndeedDraftSkipStep,
         EASY_APPLY_MAX_STEPS,
         EASY_APPLY_STUCK_STEP_LIMIT,
         watchdogState,
@@ -1136,31 +1137,33 @@ export function createSimplyHiredOrchestrator(deps) {
                 break;
             }
 
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+            if (!isIndeedDraftSkipStep?.(applyState)) {
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
-            const draftResult = await runDraftAllForStep(
-                tabId,
-                job,
-                applyState.stepLabel,
-                runDraftAll,
-                session,
-                SIMPLYHIRED_PLATFORM_ID,
-            );
-            const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
-            const pauseOutcome = await ensureStepFilledOrPaused(
-                tabId,
-                job,
-                postDraftState || applyState,
-                draftResult,
-                session,
-                profileData,
-            );
+                const draftResult = await runDraftAllForStep(
+                    tabId,
+                    job,
+                    applyState.stepLabel,
+                    runDraftAll,
+                    session,
+                    SIMPLYHIRED_PLATFORM_ID,
+                );
+                const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+                const pauseOutcome = await ensureStepFilledOrPaused(
+                    tabId,
+                    job,
+                    postDraftState || applyState,
+                    draftResult,
+                    session,
+                    profileData,
+                );
 
-            session = pauseOutcome.session || session;
-            profileData = pauseOutcome.profileData ?? profileData;
+                session = pauseOutcome.session || session;
+                profileData = pauseOutcome.profileData ?? profileData;
 
-            if (pauseOutcome.stopped) {
-                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                if (pauseOutcome.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
             }
 
             const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });

@@ -165,6 +165,8 @@ async function resetAutoApplyTiming() {
 const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
 const EASY_APPLY_MAX_STEPS = 10;
+/** Reed Easy Apply can have long multi-page question wizards. */
+const REED_EASY_APPLY_MAX_STEPS = 25;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
 function buildSessionSearchOptions(session) {
     return {
@@ -7144,7 +7146,7 @@ async function processReedJob(
     let lastStepFingerprint = null;
     let sameStepCount = 0;
 
-    while (guard < EASY_APPLY_MAX_STEPS) {
+    while (guard < REED_EASY_APPLY_MAX_STEPS) {
         guard += 1;
 
         if (await shouldStop(session)) {
@@ -9718,6 +9720,7 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     sendIndeedApplyFlowMessage,
     runDraftAllForStep,
     ensureStepFilledOrPaused,
+    isIndeedDraftSkipStep,
     EASY_APPLY_MAX_STEPS,
     EASY_APPLY_STUCK_STEP_LIMIT,
     watchdogState,
