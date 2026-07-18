@@ -409,9 +409,9 @@ function dataUrlToDownloadPayload(response) {
     };
 }
 
-async function refreshUsage() {
+async function refreshUsage({ force = false } = {}) {
     try {
-        const data = await loadProfile();
+        const data = await loadProfile({ force });
         renderSubscription(data?.subscription);
     } catch (error) {
         showMessage(error.message, 'error');
@@ -788,6 +788,14 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'AUTH_STATE_CHANGED') {
         void init();
+    }
+
+    if (message.type === 'SUBSCRIPTION_UPDATED') {
+        renderSubscription(message.subscription);
+    }
+
+    if (message.type === 'USAGE_REFRESH_REQUESTED') {
+        void refreshUsage({ force: true });
     }
 
     if (message.type === 'DRAFT_ALL_BATCH_ANSWERS') {

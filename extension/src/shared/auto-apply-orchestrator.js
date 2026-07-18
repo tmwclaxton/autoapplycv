@@ -13,12 +13,15 @@ import {
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
 import {
+    configureAutoApplyAtsSubscriptionHandler,
     formatAutoApplyFitLogMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
+
+export { configureAutoApplyAtsSubscriptionHandler };
 import {
     appendAutoApplyJobOutcome,
     AUTO_APPLY_OUTCOME,

@@ -2,6 +2,25 @@ import { getApiToken, getStoredApiBase } from './connection.js';
 
 export const MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT = 40;
 
+/** @type {((subscription: object) => void)|null} */
+let atsSubscriptionHandler = null;
+
+/**
+ * Wire background cache + sidepanel updates when Auto Apply ATS scoring spends credits.
+ * @param {((subscription: object) => void)|null} handler
+ */
+export function configureAutoApplyAtsSubscriptionHandler(handler) {
+    atsSubscriptionHandler = typeof handler === 'function' ? handler : null;
+}
+
+function notifyAtsSubscription(subscription) {
+    if (!subscription || typeof subscription !== 'object' || !atsSubscriptionHandler) {
+        return;
+    }
+
+    atsSubscriptionHandler(subscription);
+}
+
 export const DEFAULT_MIN_FIT_SCORE = 10;
 
 /**
@@ -83,7 +102,7 @@ export function formatAutoApplyFitLogMessage(title, company, score, minFitScore,
 /**
  * @param {string} jobDescription
  * @param {string|null|undefined} rolePreferences
- * @returns {Promise<{ ok: true, score: number, result: object }|{ ok: false, insufficientCredits?: boolean, error: string }>}
+ * @returns {Promise<{ ok: true, score: number, result: object, subscription?: object }|{ ok: false, insufficientCredits?: boolean, error: string, subscription?: object }>}
  */
 export async function requestAutoApplyAtsScore(jobDescription, rolePreferences = null) {
     const apiToken = await getApiToken();
@@ -114,11 +133,16 @@ export async function requestAutoApplyAtsScore(jobDescription, rolePreferences =
 
     const data = await response.json().catch(() => ({}));
 
+    if (data.subscription) {
+        notifyAtsSubscription(data.subscription);
+    }
+
     if (response.status === 402) {
         return {
             ok: false,
             insufficientCredits: true,
             error: data.error || 'Credit limit reached.',
+            subscription: data.subscription || undefined,
         };
     }
 
@@ -126,6 +150,7 @@ export async function requestAutoApplyAtsScore(jobDescription, rolePreferences =
         return {
             ok: false,
             error: data.error || data.message || 'Could not score job fit.',
+            subscription: data.subscription || undefined,
         };
     }
 
@@ -133,5 +158,6 @@ export async function requestAutoApplyAtsScore(jobDescription, rolePreferences =
         ok: true,
         score: Number(data.result.score ?? 0),
         result: data.result,
+        subscription: data.subscription || undefined,
     };
 }

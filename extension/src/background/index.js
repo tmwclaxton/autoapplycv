@@ -5,6 +5,7 @@ import {
     findFieldValidationError,
 } from './auto-apply-blockers.js';
 import {
+    configureAutoApplyAtsSubscriptionHandler,
     configureAutoApplyProfileLoader,
     clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
@@ -136,6 +137,31 @@ function invalidateProfileCache() {
     cachedCvDocument = null;
     cachedCvDocumentAt = 0;
 }
+
+/**
+ * Apply a spend-API subscription payload to the profile cache and notify the sidepanel.
+ * Prefer this over assigning cachedProfile.subscription directly so the "N left" UI stays live.
+ */
+function applyCachedSubscription(subscription) {
+    if (!subscription || typeof subscription !== 'object') {
+        return;
+    }
+
+    if (cachedProfile) {
+        cachedProfile.subscription = subscription;
+    }
+
+    chrome.runtime.sendMessage({
+        type: 'SUBSCRIPTION_UPDATED',
+        subscription,
+    }).catch(() => {});
+}
+
+function notifyUsageRefreshRequired() {
+    chrome.runtime.sendMessage({ type: 'USAGE_REFRESH_REQUESTED' }).catch(() => {});
+}
+
+configureAutoApplyAtsSubscriptionHandler(applyCachedSubscription);
 
 async function clearQuestionMemo() {
     await chrome.storage.local.remove(['questionMemo']);
@@ -705,6 +731,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'PROFILE_UPDATED') {
         invalidateProfileCache();
         void clearQuestionMemo();
+        notifyUsageRefreshRequired();
         sendResponse({ success: true });
 
         return false;
@@ -998,6 +1025,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     if (message.type === 'PROFILE_UPDATED') {
         invalidateProfileCache();
         void clearQuestionMemo();
+        notifyUsageRefreshRequired();
         sendResponse({ success: true });
 
         return;
@@ -2109,16 +2137,12 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     }
 
     if (!jobContext.ok) {
-        if (jobContext.subscription && cachedProfile) {
-            cachedProfile.subscription = jobContext.subscription;
-        }
+        applyCachedSubscription(jobContext.subscription);
 
         return { error: jobContext.message || 'Could not extract job context from this page.' };
     }
 
-    if (jobContext.subscription && cachedProfile) {
-        cachedProfile.subscription = jobContext.subscription;
-    }
+    applyCachedSubscription(jobContext.subscription);
 
     const job = jobContext.job;
     const formFrameId = initialCollect.formFrameId;
@@ -2189,9 +2213,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     }
 
     if (!inventory.ok) {
-        if (inventory.subscription && cachedProfile) {
-            cachedProfile.subscription = inventory.subscription;
-        }
+        applyCachedSubscription(inventory.subscription);
 
         // Overnight Auto Apply must not stall on Assist pauses when NanoGPT
         // inventory briefly returns 502 - use the mechanical snapshot instead.
@@ -2215,9 +2237,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         return { error: inventory.message || 'Field inventory failed.' };
     }
 
-    if (inventory.subscription && cachedProfile) {
-        cachedProfile.subscription = inventory.subscription;
-    }
+    applyCachedSubscription(inventory.subscription);
 
     const fields = inventoryFieldsToDraftShape(
         enrichFieldsWithSnapshotDom(inventory.fields, initialCollect.snapshot),
@@ -2496,6 +2516,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
             settings,
             page_title: tab.title,
         }, async (event) => {
+            applyCachedSubscription(event.subscription);
+            applyCachedSubscription(event.usage?.subscription);
+
             if (event.type === 'usage' && event.usage) {
                 usageEvents.push({
                     phase: event.phase || 'draft',
@@ -2548,9 +2571,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 }
 
                 for (const subscription of retriedBatch.subscriptions) {
-                    if (subscription && cachedProfile) {
-                        cachedProfile.subscription = subscription;
-                    }
+                    applyCachedSubscription(subscription);
                 }
 
                 pendingFields = mergePendingFields(pendingFields, batchPending);
@@ -2625,8 +2646,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 });
             }
 
-            if (event.type === 'complete' && event.subscription && cachedProfile) {
-                cachedProfile.subscription = event.subscription;
+            if (event.type === 'complete' && event.subscription) {
+                applyCachedSubscription(event.subscription);
 
                 if (!resumePromise && !isAutoApplyRunning()) {
                     perf.start('resume.fill');
@@ -2654,9 +2675,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 message: result.message,
             }, tabId);
 
-            if (result.subscription && cachedProfile) {
-                cachedProfile.subscription = result.subscription;
-            }
+            applyCachedSubscription(result.subscription);
 
             return { error: result.message || 'Draft-all failed.' };
         }
@@ -2800,9 +2819,7 @@ async function quickAnswerFocused(tabId) {
         answer: data.answer,
     }], new Map([[focusedField.ref, focusedField]]), cachedProfile);
 
-    if (cachedProfile && data.subscription) {
-        cachedProfile.subscription = data.subscription;
-    }
+    applyCachedSubscription(data.subscription);
 
     pushDraftAnswersToSidepanelChat(0, [{
         ref: focusedField.ref,
@@ -3093,9 +3110,7 @@ async function postAssist(path, body) {
     const data = await response.json().catch(() => ({}));
 
     if (response.status === 402) {
-        if (cachedProfile) {
-            cachedProfile.subscription = data.subscription;
-        }
+        applyCachedSubscription(data.subscription);
 
         throw new Error(data.error || 'Credit limit reached');
     }
@@ -3104,9 +3119,7 @@ async function postAssist(path, body) {
         throw new Error(data.error || data.message || 'AI assist failed');
     }
 
-    if (cachedProfile && data.subscription) {
-        cachedProfile.subscription = data.subscription;
-    }
+    applyCachedSubscription(data.subscription);
 
     if (data.document_saved || data.saved || data.saved_document) {
         invalidateProfileCache();
@@ -3225,16 +3238,12 @@ async function streamAssistChat(message, onEvent) {
     }, onEvent);
 
     if (!result.ok) {
-        if (result.subscription && cachedProfile) {
-            cachedProfile.subscription = result.subscription;
-        }
+        applyCachedSubscription(result.subscription);
 
         throw new Error(result.message || 'Could not respond right now. Try again shortly.');
     }
 
-    if (result.usage?.subscription && cachedProfile) {
-        cachedProfile.subscription = result.usage.subscription;
-    }
+    applyCachedSubscription(result.usage?.subscription);
 
     return result;
 }
@@ -3322,9 +3331,7 @@ async function recordCreditUsage(count) {
     const data = await response.json();
 
     if (response.status === 402) {
-        if (cachedProfile) {
-            cachedProfile.subscription = data.subscription;
-        }
+        applyCachedSubscription(data.subscription);
 
         throw new Error(data.error || 'Credit limit reached');
     }
@@ -3333,9 +3340,7 @@ async function recordCreditUsage(count) {
         throw new Error(data.error || 'Failed to record credit usage');
     }
 
-    if (cachedProfile) {
-        cachedProfile.subscription = data.subscription;
-    }
+    applyCachedSubscription(data.subscription);
 
     return data;
 }
