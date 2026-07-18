@@ -59,7 +59,7 @@ assert.doesNotMatch(
 );
 assert.match(
     processIndeedJobBlock,
-    /if \(!applyState\.isReviewStep\)[\s\S]*?runDraftAllForStep/,
+    /isIndeedDraftSkipStep\(applyState\)[\s\S]*?runDraftAllForStep/,
     'Indeed apply should run Draft All only on non-review form steps',
 );
 assert.match(

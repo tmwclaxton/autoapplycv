@@ -39,20 +39,22 @@ export async function createAutoApplyWindow(url) {
 /**
  * @param {number} windowId
  * @param {string} url
+ * @param {{ active?: boolean }} [options]
  */
-export async function createAutoApplyTab(windowId, url) {
+export async function createAutoApplyTab(windowId, url, { active = true } = {}) {
     return chrome.tabs.create({
         windowId,
         url,
-        active: false,
+        active,
     });
 }
 
 /**
  * @param {number} tabId
  * @param {string} url
+ * @param {{ active?: boolean }} [options]
  */
-export async function navigateAutoApplyTab(tabId, url, { active = false } = {}) {
+export async function navigateAutoApplyTab(tabId, url, { active = true } = {}) {
     await chrome.tabs.update(tabId, { url, active });
 }
 

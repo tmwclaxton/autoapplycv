@@ -847,8 +847,7 @@ async function resolveSidePanelHostForAutoApply() {
 async function openUrlInAutoApplyWindow(url, tabId = null) {
     let windowId = await resolveAutoApplyWindowId();
     const session = await loadAutoApplySession();
-    const preferHostWindow = session?.usesDedicatedWindow === false;
-    const preferVisibleTab = preferHostWindow;
+    let preferHostWindow = session?.usesDedicatedWindow === false;
 
     if (!windowId && preferHostWindow) {
         windowId = session.windowId ?? null;
@@ -865,6 +864,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         if (hostBinding) {
             tabId = tabId ?? hostBinding.tabId ?? null;
             windowId = hostBinding.windowId;
+            preferHostWindow = true;
             await rememberAutoApplyWindow(windowId, tabId, {
                 usesDedicatedWindow: false,
             });
@@ -877,6 +877,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 
             if (tab?.windowId) {
                 windowId = tab.windowId;
+                preferHostWindow = true;
                 await rememberAutoApplyWindow(windowId, tabId, {
                     usesDedicatedWindow: false,
                 });
@@ -908,6 +909,8 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         windowId = created.windowId;
     }
 
+    const preferVisibleTab = preferHostWindow;
+
     if (tabId) {
         try {
             const tab = await chrome.tabs.get(tabId);
@@ -921,6 +924,10 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
                     active: preferVisibleTab,
                 });
 
+                if (preferVisibleTab) {
+                    await wakeAutoApplyTab(tabId).catch(() => {});
+                }
+
                 return tabId;
             }
         } catch {
@@ -928,8 +935,14 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         }
     }
 
-    const tab = await createAutoApplyTab(windowId, url);
+    const tab = await createAutoApplyTab(windowId, url, {
+        active: preferVisibleTab,
+    });
     await rememberAutoApplyWindow(windowId, tab.id);
+
+    if (preferVisibleTab) {
+        await wakeAutoApplyTab(tab.id).catch(() => {});
+    }
 
     return tab.id;
 }
@@ -5543,18 +5556,41 @@ async function processIndeedJobInner(
                     reviewGate?.submitDisabled ||
                     applyState.submitDisabled
                 ) {
-                    // Match Glassdoor/SimplyHired overnight behaviour: skip
-                    // review CAPTCHA instead of pausing the whole session.
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: captcha on review step - skipping job.`,
+                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+                    );
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
+                        tabId,
+                        job,
+                        reviewGate || applyState,
                     );
 
-                    return {
-                        outcome: 'skipped',
-                        reason: 'captcha_required',
-                        tabId,
-                    };
+                    if (captchaOutcome.stopped) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'user_input_stop',
+                            tabId,
+                        };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'captcha_required',
+                            tabId,
+                        };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
                 }
             }
         } else if (!isIndeedDraftSkipStep(applyState)) {
@@ -5599,14 +5635,35 @@ async function processIndeedJobInner(
         if (advanceBlockedByCaptcha) {
             await logSession(
                 'warn',
-                `[captcha] ${job.title}: captcha on review step - skipping job.`,
+                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (3 min timeout).`,
+            );
+            const captchaOutcome = await waitForIndeedCaptchaResume(
+                session,
+                tabId,
+                job,
+                applyState,
             );
 
-            return {
-                outcome: 'skipped',
-                reason: 'captcha_required',
-                tabId,
-            };
+            if (captchaOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (captchaOutcome.timedOut) {
+                await logSession(
+                    'warn',
+                    `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                );
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'captcha_required',
+                    tabId,
+                };
+            }
+
+            session = captchaOutcome.session || session;
+            sameStepCount = 0;
+            continue;
         }
 
         if (advanceResponse?.action === 'submit') {
@@ -5634,14 +5691,39 @@ async function processIndeedJobInner(
                 if (confirmResult.captcha) {
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - skipping job.`,
+                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - solve in browser, then resume in Assist (3 min timeout).`,
+                    );
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
+                        tabId,
+                        job,
+                        applyState,
                     );
 
-                    return {
-                        outcome: 'skipped',
-                        reason: 'captcha_required',
-                        tabId,
-                    };
+                    if (captchaOutcome.stopped) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'user_input_stop',
+                            tabId,
+                        };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'captcha_required',
+                            tabId,
+                        };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
                 }
 
                 if (confirmResult.submitted) {
@@ -8157,6 +8239,44 @@ async function processGlassdoorJob(
         );
 
         if (applyState.isReviewStep) {
+            if (applyState.captchaPresent || applyState.submitDisabled) {
+                await logSession(
+                    'warn',
+                    `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
+                );
+                const captchaOutcome = await waitForIndeedCaptchaResume(
+                    session,
+                    tabId,
+                    job,
+                    applyState,
+                    { stage: 'review' },
+                );
+
+                if (captchaOutcome.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (captchaOutcome.timedOut) {
+                    await logSession(
+                        'warn',
+                        `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                    );
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'captcha_required' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
+                        tabId,
+                    };
+                }
+
+                session = captchaOutcome.session || session;
+                sameStepCount = 0;
+                continue;
+            }
+
             await logSession(
                 'info',
                 `[review] ${job.title}: attempting submit.`,
@@ -8257,22 +8377,48 @@ async function processGlassdoorJob(
                 if (verify?.submitted || reviewState?.submitted) {
                     submitted = true;
                 } else if (
-                    advanceResponse?.error?.includes('captcha') ||
-                    reviewState?.captchaPresent
+                    advanceResponse?.error?.includes('captcha')
+                    || reviewState?.captchaPresent
                 ) {
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: captcha on review step - skipping job.`,
+                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
                     );
-                    await recordAnalyticsEvent(session, 'skipped', job, {
-                        metadata: { reason: 'captcha_required' },
-                    });
-
-                    return {
-                        outcome: 'skipped',
-                        reason: 'captcha_required',
+                    const captchaOutcome = await waitForIndeedCaptchaResume(
+                        session,
                         tabId,
-                    };
+                        job,
+                        reviewState || applyState,
+                        { stage: 'review' },
+                    );
+
+                    if (captchaOutcome.stopped) {
+                        return {
+                            outcome: 'stopped',
+                            reason: 'user_input_stop',
+                            tabId,
+                        };
+                    }
+
+                    if (captchaOutcome.timedOut) {
+                        await logSession(
+                            'warn',
+                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                        );
+                        await recordAnalyticsEvent(session, 'skipped', job, {
+                            metadata: { reason: 'captcha_required' },
+                        });
+
+                        return {
+                            outcome: 'skipped',
+                            reason: 'captcha_required',
+                            tabId,
+                        };
+                    }
+
+                    session = captchaOutcome.session || session;
+                    sameStepCount = 0;
+                    continue;
                 } else {
                     await recordAnalyticsEvent(session, 'skipped', job, {
                         metadata: { reason: 'apply_submit_failed' },
@@ -8395,13 +8541,35 @@ async function processGlassdoorJob(
         if (advanceResponse?.error?.includes('captcha')) {
             await logSession(
                 'warn',
-                `[captcha] ${job.title}: captcha on review step - skipping job.`,
+                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
             );
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'captcha_required' },
-            });
+            const captchaOutcome = await waitForIndeedCaptchaResume(
+                session,
+                tabId,
+                job,
+                applyState,
+                { stage: 'review' },
+            );
 
-            return { outcome: 'skipped', reason: 'captcha_required', tabId };
+            if (captchaOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (captchaOutcome.timedOut) {
+                await logSession(
+                    'warn',
+                    `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
+                );
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'captcha_required' },
+                });
+
+                return { outcome: 'skipped', reason: 'captcha_required', tabId };
+            }
+
+            session = captchaOutcome.session || session;
+            sameStepCount = 0;
+            continue;
         }
 
         if (!advanceResponse?.success) {

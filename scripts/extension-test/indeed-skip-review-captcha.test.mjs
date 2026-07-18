@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Overnight Auto Apply must skip Indeed review CAPTCHA instead of pausing
- * the whole session (matches Glassdoor / SimplyHired).
+ * Auto Apply must PAUSE (alert + resume) on Indeed review CAPTCHA.
+ * Do not immediately skip the job so overnight runs ignore security checks.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -24,18 +24,37 @@ const processIndeed = source.slice(
 
 assert.match(
     processIndeed,
-    /captcha on review step - skipping job/,
-    'Indeed review CAPTCHA must skip the job',
-);
-assert.doesNotMatch(
-    processIndeed,
     /solve captcha on review step in the browser, then resume in Assist/,
-    'Indeed must not pause overnight for review CAPTCHA',
+    'Indeed review CAPTCHA must pause for user help',
 );
 assert.match(
     processIndeed,
-    /reason:\s*'captcha_required'/,
-    'Indeed CAPTCHA skip must use captcha_required reason',
+    /waitForIndeedCaptchaResume/,
+    'Indeed review CAPTCHA must wait for resume after pause',
+);
+assert.doesNotMatch(
+    processIndeed,
+    /captcha on review step - skipping job/,
+    'Indeed must not immediately skip review CAPTCHA without pausing',
 );
 
-console.log('indeed-skip-review-captcha tests passed.');
+const processGlassdoorStart = source.indexOf('async function processGlassdoorJob');
+assert.ok(processGlassdoorStart > 0, 'processGlassdoorJob must exist');
+const processGlassdoorEnd = source.indexOf('async function process', processGlassdoorStart + 1);
+const processGlassdoor = source.slice(
+    processGlassdoorStart,
+    processGlassdoorEnd > processGlassdoorStart ? processGlassdoorEnd : processGlassdoorStart + 80_000,
+);
+
+assert.match(
+    processGlassdoor,
+    /captchaPresent[\s\S]*?waitForIndeedCaptchaResume[\s\S]*?stage:\s*'review'/,
+    'Glassdoor review CAPTCHA must pause via waitForIndeedCaptchaResume',
+);
+assert.doesNotMatch(
+    processGlassdoor,
+    /captcha on review step - skipping job/,
+    'Glassdoor must not immediately skip review CAPTCHA without pausing',
+);
+
+console.log('indeed-skip-review-captcha tests passed (pause-not-skip).');
