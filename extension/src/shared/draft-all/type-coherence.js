@@ -245,6 +245,18 @@ export function looksLikeSalaryAmountAnswer(answer) {
     return false;
 }
 
+export function looksLikeUrlAnswer(answer) {
+    const text = String(answer || '').trim();
+
+    if (!text) {
+        return false;
+    }
+
+    return /^(https?:\/\/|www\.)/i.test(text)
+        || /(?:linkedin\.com\/in\/|github\.com\/)/i.test(text);
+}
+
+
 /**
  * @typedef {'locality'|'phone'|'email'|'date'|'number'|'salary'|'notice'|'yes_no_choice'|'free_text'|'choice'|'unknown'} FieldExpectation
  */
@@ -379,7 +391,12 @@ export function evaluateAnswerTypeCoherence(field, answer) {
     }
 
     if (category === 'locality' && isFreeTextField(field)) {
-        if (looksLikeEmailAnswer(text) || looksLikePhoneAnswer(text) || looksLikeSalaryAmountAnswer(text)) {
+        if (
+            looksLikeEmailAnswer(text)
+            || looksLikePhoneAnswer(text)
+            || looksLikeSalaryAmountAnswer(text)
+            || looksLikeUrlAnswer(text)
+        ) {
             return {
                 coherent: false,
                 reason: 'non_locality_on_locality',

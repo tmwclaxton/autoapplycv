@@ -10,6 +10,7 @@ import {
     evaluateAnswerTypeCoherence,
     looksLikeNoticePeriodAnswer,
     looksLikeSalaryAmountAnswer,
+    looksLikeUrlAnswer,
     shouldRejectAnswerForTypeCoherence,
     shouldRejectYesNoAnswerOnLocationField,
 } from '../../extension/src/shared/draft-all/type-coherence.js';
@@ -232,3 +233,14 @@ test('empty profile phone/email pending early and not sent to LLM', () => {
     assert.equal(plan.llmFields.some((item) => item.ref === 'why'), true);
 });
 
+
+test('rejects url on locality free text', () => {
+    assert.equal(looksLikeUrlAnswer('https://linkedin.com/in/toby'), true);
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            { label: 'City, county', field_type: 'text' },
+            'https://linkedin.com/in/toby',
+        ).reason,
+        'non_locality_on_locality',
+    );
+});

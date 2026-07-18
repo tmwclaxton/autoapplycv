@@ -298,6 +298,7 @@ const SYN_FW_PICKS = [
 ];
 
 const SYN_INDEED_PICKS = [
+    { id: 'indeed-city-county-locality', reason: 'Indeed Smart Apply City, county locality + street + postcode' },
     { id: 'syn-indeed-apply-contact-001', reason: 'Indeed mosaic apply contact info - postcode, locality combobox, street address' },
     { id: 'syn-indeed-apply-questions-001', reason: 'Indeed employer questions - education single-select, textareas, commute radios' },
 ];
