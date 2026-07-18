@@ -4733,8 +4733,9 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        // Ignore generic input values like "on"/"off" - they match too many answers via includes().
-        if (option === 'on' || option === 'off' || option === 'true' || option === 'false') {
+        // Ignore bare HTML values on/off - they match too many answers via includes().
+        // Keep True/False - Indeed SmartApply uses those as visible radio labels.
+        if (option === 'on' || option === 'off') {
             return false;
         }
 
@@ -4760,11 +4761,19 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (normalizedAnswer === 'yes') {
-            return /^yes\b/.test(option) || option.includes('i am open') || option.includes('i can start');
+            return option === 'true'
+                || /^yes\b/.test(option)
+                || /^true\b/.test(option)
+                || option.includes('i am open')
+                || option.includes('i can start');
         }
 
         if (normalizedAnswer === 'no') {
-            return /^no\b/.test(option) || option.includes('not open') || option.includes('i am not');
+            return option === 'false'
+                || /^no\b/.test(option)
+                || /^false\b/.test(option)
+                || option.includes('not open')
+                || option.includes('i am not');
         }
 
         return false;
@@ -9505,6 +9514,7 @@ var AutoCVApplyFormHeuristics = (() => {
         setFieldValue,
         setGroupValue,
         setRoleRadioGroupValue,
+        optionMatchesAnswer,
         valueMatchesAnswer,
         verifyFieldApplied,
         isSnapshotElementFilled,
