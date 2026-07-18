@@ -120,7 +120,11 @@ class SubscriptionTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'free'])
-            ->assertRedirect(route('billing.index'));
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas(
+                'success',
+                'You are on the Free plan. Your Direct Debit has been cancelled.',
+            );
     }
 
     public function test_dashboard_includes_subscription_summary(): void

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\SubscriptionStatus;
 use App\Enums\SubscriptionTier;
+use App\Models\User;
 use App\Services\AiTokenService;
 use App\Services\GoCardlessService;
+use App\Services\PlanChangeCalculator;
 use GoCardlessPro\Core\Exception\ApiException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,6 +23,7 @@ class BillingController extends Controller
     public function __construct(
         private readonly AiTokenService $usage,
         private readonly GoCardlessService $goCardless,
+        private readonly PlanChangeCalculator $planChange,
     ) {}
 
     public function index(Request $request): Response|RedirectResponse
@@ -77,7 +80,7 @@ class BillingController extends Controller
             if ($user->gocardless_subscription_id !== null || $user->gocardless_mandate_id !== null) {
                 $this->goCardless->cancelSubscription($user);
 
-                return redirect()->route('billing.index')->with('success', 'You are on the Free plan.');
+                return redirect()->route('billing.index')->with('success', 'You are on the Free plan. Your Direct Debit has been cancelled.');
             }
 
             if ($user->subscriptionTier() === $tier && $user->subscriptionStatus()->value === 'active') {
@@ -94,6 +97,10 @@ class BillingController extends Controller
 
         if ($user->subscriptionTier() === $tier && $user->subscriptionStatus()->value === 'active') {
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
+        }
+
+        if ($this->canChangePaidPlanInPlace($user, $tier)) {
+            return $this->changePaidPlanInPlace($user, $tier);
         }
 
         if ($user->gocardless_billing_request_id !== null) {
@@ -207,5 +214,92 @@ class BillingController extends Controller
         return redirect()
             ->route('billing.index')
             ->with('success', 'Your subscription has been cancelled. You remain on the Free plan.');
+    }
+
+    private function canChangePaidPlanInPlace(User $user, SubscriptionTier $tier): bool
+    {
+        return $tier->isPaid()
+            && $user->subscriptionTier()->isPaid()
+            && $user->subscriptionStatus() === SubscriptionStatus::Active
+            && $user->gocardless_mandate_id !== null
+            && $user->gocardless_subscription_id !== null;
+    }
+
+    private function changePaidPlanInPlace(User $user, SubscriptionTier $tier): RedirectResponse
+    {
+        $wasUpgrade = $this->planChange->isUpgrade($user, $tier);
+        $wasDowngrade = $this->planChange->isDowngradeToPaid($user, $tier);
+        $amountDuePence = $wasUpgrade
+            ? $this->planChange->upgradeAmountDuePence($user, $tier)
+            : 0;
+
+        try {
+            $this->goCardless->changePaidPlan($user, $tier, $amountDuePence);
+        } catch (InvalidArgumentException $exception) {
+            Log::error('Paid plan change misconfigured', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Billing is not configured yet. Please contact support.');
+        } catch (ApiException $exception) {
+            Log::error('GoCardless paid plan change failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'amount_due_pence' => $amountDuePence,
+                'message' => $exception->getMessage(),
+                'errors' => $exception->getErrors(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'We could not update your plan. Please try again in a moment.');
+        } catch (Throwable $exception) {
+            Log::error('Paid plan change failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Something went wrong updating your plan. Please try again.');
+        }
+
+        if ($wasUpgrade && $amountDuePence > 0) {
+            $amount = '£'.number_format($amountDuePence / 100, 2);
+
+            return redirect()
+                ->route('billing.index')
+                ->with(
+                    'success',
+                    'Upgraded to '.$tier->label().'. A Direct Debit of '.$amount.' will be collected for this period; renewals will be '.$tier->formattedPrice().'.',
+                );
+        }
+
+        if ($wasUpgrade) {
+            return redirect()
+                ->route('billing.index')
+                ->with(
+                    'success',
+                    'Upgraded to '.$tier->label().'. Renewals will be '.$tier->formattedPrice().'.',
+                );
+        }
+
+        if ($wasDowngrade) {
+            return redirect()
+                ->route('billing.index')
+                ->with(
+                    'success',
+                    'Moved to '.$tier->label().'. Your Direct Debit renewals are now '.$tier->formattedPrice().'.',
+                );
+        }
+
+        return redirect()
+            ->route('billing.index')
+            ->with('success', 'Your plan is now '.$tier->label().'.');
     }
 }

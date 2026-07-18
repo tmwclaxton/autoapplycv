@@ -284,6 +284,65 @@ class GoCardlessService
         ])->save();
     }
 
+    /**
+     * Change between paid tiers using an existing mandate.
+     *
+     * Upgrades may collect $amountDuePence as a one-off Direct Debit payment.
+     * The recurring subscription amount is always updated to the new tier price.
+     */
+    public function changePaidPlan(User $user, SubscriptionTier $newTier, int $amountDuePence): void
+    {
+        if (! $newTier->isPaid()) {
+            throw new InvalidArgumentException('Cannot change to a free tier with changePaidPlan.');
+        }
+
+        $mandateId = $user->gocardless_mandate_id;
+        $subscriptionId = $user->gocardless_subscription_id;
+
+        if ($mandateId === null || $subscriptionId === null) {
+            throw new InvalidArgumentException('No active Direct Debit mandate to change plan.');
+        }
+
+        if ($amountDuePence > 0) {
+            $this->client()->payments()->create([
+                'params' => [
+                    'amount' => $amountDuePence,
+                    'currency' => 'GBP',
+                    'description' => 'AutoCVApply upgrade to '.$newTier->label(),
+                    'metadata' => [
+                        'user_id' => (string) $user->id,
+                        'tier' => $newTier->value,
+                        'type' => 'plan_upgrade',
+                    ],
+                    'links' => [
+                        'mandate' => $mandateId,
+                    ],
+                ],
+                'headers' => [
+                    'Idempotency-Key' => 'upgrade-'.$user->id.'-'.$newTier->value.'-'.now()->format('Y-m'),
+                ],
+            ]);
+        }
+
+        $this->client()->subscriptions()->update($subscriptionId, [
+            'params' => [
+                'amount' => $newTier->pricePence(),
+                'name' => 'AutoCVApply '.$newTier->label(),
+                'metadata' => [
+                    'user_id' => (string) $user->id,
+                    'tier' => $newTier->value,
+                ],
+            ],
+        ]);
+
+        $user->forceFill([
+            'subscription_tier' => $newTier->value,
+            'subscription_status' => SubscriptionStatus::Active->value,
+            'pending_subscription_tier' => null,
+            'gocardless_billing_request_id' => null,
+        ])->save();
+    }
+
     public function handleEvent(Event $event): void
     {
         if ($event->resource_type === 'billing_requests' && $event->action === 'fulfilled') {
