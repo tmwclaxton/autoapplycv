@@ -43,6 +43,7 @@ import {
     clearAutoApplySession,
     createInitialSession,
     isActiveAutoApplyStatus,
+    isSameAutoApplyRun,
     isTerminalAutoApplyStatus,
     loadAutoApplySession,
     pauseAutoApplyForInput,
@@ -998,10 +999,18 @@ function sanitizeSessionForBroadcast(session) {
     };
 }
 
-async function updateSession(mutator) {
+/**
+ * @param {((current: import('./auto-apply-session.js').AutoApplySession) => import('./auto-apply-session.js').AutoApplySession)|object} mutator
+ * @param {string|null|undefined} [ownerRunId] When set, refuse writes if storage belongs to another run.
+ */
+async function updateSession(mutator, ownerRunId = undefined) {
     const current = await loadAutoApplySession();
 
     if (!current) {
+        return null;
+    }
+
+    if (ownerRunId != null && current.runId && current.runId !== ownerRunId) {
         return null;
     }
 
@@ -1010,6 +1019,25 @@ async function updateSession(mutator) {
             ? mutator(current)
             : { ...current, ...mutator };
 
+    // Never let a stale writer rewrite run identity.
+    if (current.runId) {
+        next.runId = current.runId;
+    }
+
+    if (current.platform) {
+        next.platform = current.platform;
+    }
+
+    const latest = await loadAutoApplySession();
+
+    if (!latest || (current.runId && latest.runId !== current.runId)) {
+        return null;
+    }
+
+    if (ownerRunId != null && latest.runId && latest.runId !== ownerRunId) {
+        return null;
+    }
+
     await saveAutoApplySession(next);
     broadcastAutoApplyStatus(next);
     void syncAutoApplyAnalyticsSession(next);
@@ -1017,9 +1045,15 @@ async function updateSession(mutator) {
     return next;
 }
 
-async function logSession(level, message) {
-    return updateSession((session) =>
-        appendAutoApplyLog(session, level, message),
+/**
+ * @param {'info'|'warn'|'error'|'success'} level
+ * @param {string} message
+ * @param {string|null|undefined} [ownerRunId]
+ */
+async function logSession(level, message, ownerRunId = undefined) {
+    return updateSession(
+        (session) => appendAutoApplyLog(session, level, message),
+        ownerRunId,
     );
 }
 
@@ -8724,10 +8758,18 @@ export async function startAutoApply({
     return next;
 }
 
-async function shouldStop(_session) {
+async function shouldStop(session = null) {
     const latest = await loadAutoApplySession();
 
-    return !latest || latest.stopRequested;
+    if (!latest || latest.stopRequested) {
+        return true;
+    }
+
+    if (session && !isSameAutoApplyRun(session, latest)) {
+        return true;
+    }
+
+    return false;
 }
 
 async function finalizeStoppedSession() {
@@ -9053,7 +9095,7 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === SIMPLYHIRED_PLATFORM_ID) {
         return runSimplyHiredAutoApplyLoop(
-            buildSimplyHiredRunnerContext(),
+            buildSimplyHiredRunnerContext(session),
             initialSession,
             runDraftAll,
             profileData,
@@ -9493,7 +9535,7 @@ export async function resetAutoApplySession() {
     });
 }
 
-const FORCE_RESET_WAIT_MS = 1000;
+const FORCE_RESET_WAIT_MS = 15_000;
 
 export async function clearAutoApplyActivityLog() {
     const session = await loadAutoApplySession();
@@ -9551,11 +9593,18 @@ export async function forceResetAutoApply() {
         }
     }
 
-    if (activeRunPromise) {
+    const pendingRun = activeRunPromise;
+
+    if (pendingRun) {
         await Promise.race([
-            activeRunPromise.catch(() => {}),
+            pendingRun.catch(() => {}),
             sleep(FORCE_RESET_WAIT_MS),
         ]);
+
+        // Detach a stuck zombie loop so a new platform run can start cleanly.
+        if (activeRunPromise === pendingRun) {
+            activeRunPromise = null;
+        }
     }
 
     await resetAutoApplyTiming();

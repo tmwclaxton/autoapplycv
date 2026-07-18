@@ -426,6 +426,10 @@ copyFileSync(
     join(DIST, 'auto-apply-session.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/auto-apply-run-ownership.js'),
+    join(DIST, 'auto-apply-run-ownership.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-timing.js'),
     join(DIST, 'auto-apply-timing.js'),
 );

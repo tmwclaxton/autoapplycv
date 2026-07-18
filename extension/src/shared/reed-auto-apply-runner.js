@@ -2,6 +2,8 @@
  * Reed Auto Apply loop extracted from the orchestrator to keep file size manageable.
  */
 
+import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
+
 /**
  * @param {Record<string, Function>} ctx
  * @param {import('./auto-apply-session.js').AutoApplySession} initialSession
@@ -18,10 +20,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         recoverReedTab,
         returnToReedSearch,
         loadAutoApplySession,
-        updateSession,
-        logSession,
         finalizeAutoApplyAnalyticsSession,
-        shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
         isWatchdogStuck,
@@ -33,10 +32,21 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         AUTO_APPLY_DELAY_MS,
     } = ctx;
 
+    const {
+        ownsLatest,
+        updateSession,
+        logSession,
+        shouldStop,
+    } = bindAutoApplyRunOwnership(initialSession, ctx);
+
     resetWatchdog();
 
     let session = initialSession;
     let tabId = await ensureReedTab(session);
+
+    if (await shouldStop(session)) {
+        return;
+    }
 
     session = await updateSession({ tabId }) || session;
     markWatchdogProgress(session);
@@ -54,7 +64,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
     while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
         session = await loadAutoApplySession();
 
-        if (!session) {
+        if (!ownsLatest(session)) {
             return;
         }
 
@@ -82,6 +92,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
 
         if (isWatchdogStuck(session)) {
             if (await shouldStop(session)) {
+                if (!ownsLatest(await loadAutoApplySession())) {
+                    return;
+                }
+
                 await finalizeStoppedSession();
 
                 return;
@@ -98,6 +112,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
 
         try {
             const result = await processReedJob(tabId, job, runDraftAll, session, profileData);
+
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
 
             if (result.tabId && result.tabId !== tabId) {
                 tabId = result.tabId;
@@ -148,6 +166,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
 
             markWatchdogProgress(session);
         } catch (error) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await recordAnalyticsEvent(session, 'error', job, {
                 metadata: { message: error.message || 'Auto Apply job failed.' },
             }, tabId);
@@ -173,6 +195,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         }
 
         if (await shouldStop(session)) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -181,6 +207,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
 
         if (!slept) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -188,6 +218,10 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
     }
 
     session = await loadAutoApplySession();
+
+    if (!ownsLatest(session)) {
+        return;
+    }
 
     session = await updateSession((current) => ({
         ...current,

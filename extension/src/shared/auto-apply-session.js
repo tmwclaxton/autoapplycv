@@ -44,6 +44,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @typedef {Object} AutoApplySession
  * @property {'idle'|'running'|'paused_for_input'|'stopped'|'completed'|'error'} status
  * @property {string} platform
+ * @property {string} runId
  * @property {string} roleDescription
  * @property {number|null} tabId
  * @property {number|null} windowId
@@ -66,6 +67,14 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {AutoApplyPauseContext|null} pauseContext
  * @property {Array<{ jobId: string, title: string, company: string, outcome: string, reason: string|null, stepFingerprint?: string|null, ts: number }>} [jobOutcomes]
  */
+
+function createAutoApplyRunId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+
+    return `run-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
 
 /**
  * @param {{
@@ -91,6 +100,7 @@ export function createInitialSession({
     return {
         status: 'running',
         platform,
+        runId: createAutoApplyRunId(),
         roleDescription,
         tabId: null,
         windowId: null,
@@ -120,6 +130,29 @@ export function createInitialSession({
         pauseContext: null,
         jobOutcomes: [],
     };
+}
+
+/**
+ * True when `latest` is still the same Auto Apply run as `owner`.
+ * Used to stop zombie loops after force-reset / platform switch.
+ *
+ * @param {Pick<AutoApplySession, 'runId'|'platform'>|null|undefined} owner
+ * @param {Pick<AutoApplySession, 'runId'|'platform'|'stopRequested'>|null|undefined} latest
+ */
+export function isSameAutoApplyRun(owner, latest) {
+    if (!owner || !latest) {
+        return false;
+    }
+
+    if (owner.runId && latest.runId && owner.runId !== latest.runId) {
+        return false;
+    }
+
+    if (owner.platform && latest.platform && owner.platform !== latest.platform) {
+        return false;
+    }
+
+    return true;
 }
 
 /**

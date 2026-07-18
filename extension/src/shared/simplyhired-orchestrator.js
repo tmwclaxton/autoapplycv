@@ -11,12 +11,24 @@ import {
  * @param {object} deps
  */
 export function createSimplyHiredOrchestrator(deps) {
+    let writeOwnerRunId = null;
+
+    const logSession = (level, message) =>
+        deps.logSession(level, message, writeOwnerRunId ?? undefined);
+    const updateSession = (mutator) =>
+        deps.updateSession(mutator, writeOwnerRunId ?? undefined);
+    const shouldStop = async (session) => {
+        if (session?.runId) {
+            writeOwnerRunId = session.runId;
+        }
+
+        return deps.shouldStop(session);
+    };
+
     const {
         sendTabMessage,
         invalidateTabFrameCache,
         isExtensionMessagingError,
-        logSession,
-        updateSession,
         loadAutoApplySession,
         buildJobSearchUrl,
         buildSessionSearchOptions,
@@ -44,7 +56,6 @@ export function createSimplyHiredOrchestrator(deps) {
         markWatchdogProgress,
         resetWatchdog,
         finalizeAutoApplyAnalyticsSession,
-        shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
         isWatchdogStuck,
@@ -694,6 +705,14 @@ export function createSimplyHiredOrchestrator(deps) {
     }
 
     async function processSimplyHiredJob(tabId, job, runDraftAll, session, profileData = null) {
+        if (session?.runId) {
+            writeOwnerRunId = session.runId;
+        }
+
+        if (await shouldStop(session)) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
         await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
         if (job.title === 'Unknown role' || job.company === 'Unknown company') {
@@ -1238,7 +1257,11 @@ export function createSimplyHiredOrchestrator(deps) {
         return { outcome: 'applied', tabId };
     }
 
-    function buildSimplyHiredRunnerContext() {
+    function buildSimplyHiredRunnerContext(session = null) {
+        if (session?.runId) {
+            writeOwnerRunId = session.runId;
+        }
+
         return {
             resetWatchdog,
             ensureSimplyHiredTab,

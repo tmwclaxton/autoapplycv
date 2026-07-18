@@ -3,6 +3,8 @@
  * Called with orchestrator context helpers.
  */
 
+import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
+
 /**
  * @param {Record<string, Function>} ctx
  * @param {import('./auto-apply-session.js').AutoApplySession} initialSession
@@ -19,10 +21,7 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
         recoverTotalJobsTab,
         returnToTotalJobsSearch,
         loadAutoApplySession,
-        updateSession,
-        logSession,
         finalizeAutoApplyAnalyticsSession,
-        shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
         isWatchdogStuck,
@@ -33,6 +32,13 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
         randomDelay,
         AUTO_APPLY_DELAY_MS,
     } = ctx;
+
+    const {
+        ownsLatest,
+        updateSession,
+        logSession,
+        shouldStop,
+    } = bindAutoApplyRunOwnership(initialSession, ctx);
 
     resetWatchdog();
 
@@ -55,7 +61,7 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
     while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
         session = await loadAutoApplySession();
 
-        if (!session) {
+        if (!ownsLatest(session)) {
             return;
         }
 
@@ -83,6 +89,10 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
 
         if (isWatchdogStuck(session)) {
             if (await shouldStop(session)) {
+                if (!ownsLatest(await loadAutoApplySession())) {
+                    return;
+                }
+
                 await finalizeStoppedSession();
 
                 return;
@@ -164,6 +174,10 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
         }
 
         if (await shouldStop(session)) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -172,6 +186,10 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
         const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
 
         if (!slept) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -179,6 +197,10 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
     }
 
     session = await loadAutoApplySession();
+
+    if (!ownsLatest(session)) {
+        return;
+    }
 
     session = await updateSession((current) => ({
         ...current,

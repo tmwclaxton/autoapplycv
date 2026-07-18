@@ -2,6 +2,8 @@
  * SimplyHired Auto Apply loop extracted from the orchestrator to keep file size manageable.
  */
 
+import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
+
 /**
  * @param {Record<string, Function>} ctx
  * @param {import('./auto-apply-session.js').AutoApplySession} initialSession
@@ -18,10 +20,7 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         recoverSimplyHiredTab,
         returnToSimplyHiredSearch,
         loadAutoApplySession,
-        updateSession,
-        logSession,
         finalizeAutoApplyAnalyticsSession,
-        shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
         isWatchdogStuck,
@@ -32,6 +31,13 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         randomDelay,
         AUTO_APPLY_DELAY_MS,
     } = ctx;
+
+    const {
+        ownsLatest,
+        updateSession,
+        logSession,
+        shouldStop,
+    } = bindAutoApplyRunOwnership(initialSession, ctx);
 
     resetWatchdog();
 
@@ -54,7 +60,7 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
     while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
         session = await loadAutoApplySession();
 
-        if (!session) {
+        if (!ownsLatest(session)) {
             return;
         }
 
@@ -82,6 +88,10 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
 
         if (isWatchdogStuck(session)) {
             if (await shouldStop(session)) {
+                if (!ownsLatest(await loadAutoApplySession())) {
+                    return;
+                }
+
                 await finalizeStoppedSession();
 
                 return;
@@ -178,6 +188,10 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         }
 
         if (await shouldStop(session)) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -186,6 +200,10 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
 
         if (!slept) {
+            if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
             await finalizeStoppedSession();
 
             return;
@@ -193,6 +211,10 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
     }
 
     session = await loadAutoApplySession();
+
+    if (!ownsLatest(session)) {
+        return;
+    }
 
     session = await updateSession((current) => ({
         ...current,

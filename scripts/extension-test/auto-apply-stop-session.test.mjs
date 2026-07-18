@@ -206,7 +206,16 @@ test('stopAutoApply escalates to force reset when stop is already requested', as
     };
 
     globalThis.chrome = {
-        storage: { local: storage },
+        storage: {
+            local: storage,
+            session: {
+                async get() {
+                    return {};
+                },
+                async set() {},
+                async remove() {},
+            },
+        },
         runtime: {
             sendMessage: () => Promise.resolve(),
             lastError: null,
