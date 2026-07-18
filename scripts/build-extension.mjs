@@ -770,8 +770,9 @@ function applyFirefoxManifest(manifest) {
     // built-in consent). Values must match what we transmit to our first-party API:
     // auth tokens, CV/profile PII, job-page content for drafting, and page URLs.
     // See https://mzl.la/firefox-builtin-data-consent
-    // data_collection_permissions requires Firefox desktop 140+ (AMO / built-in consent).
-    // Do not set gecko_android here; if added later, its strict_min_version must be 142+.
+    // data_collection_permissions requires Firefox desktop 140+ and Android 142+
+    // (AMO / built-in consent). Override gecko_android so desktop can stay at 140.
+    // See https://mzl.la/firefox-builtin-data-consent
     manifest.browser_specific_settings = {
         gecko: {
             id: 'autocvapply@autocvapply.com',
@@ -784,6 +785,9 @@ function applyFirefoxManifest(manifest) {
                     'browsingActivity',
                 ],
             },
+        },
+        gecko_android: {
+            strict_min_version: '142.0',
         },
     };
     // Firefox MV3 backgrounds are event pages only (service workers locked off).

@@ -31,6 +31,10 @@ class ExtensionBuildTest extends TestCase
         );
         $this->assertSame('140.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
         $this->assertSame(
+            '142.0',
+            $firefoxManifest['browser_specific_settings']['gecko_android']['strict_min_version'] ?? null,
+        );
+        $this->assertSame(
             [
                 'authenticationInfo',
                 'personallyIdentifyingInfo',
