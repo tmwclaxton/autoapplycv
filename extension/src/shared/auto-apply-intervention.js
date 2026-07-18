@@ -1,5 +1,5 @@
-import { resolveAutoApplyPauseReason } from './auto-apply-pause-ui.js';
 import { resolveCurrentQueueJobLabel } from './auto-apply-outcomes.js';
+import { resolveAutoApplyPauseReason } from './auto-apply-pause-ui.js';
 import { describeTimingLevel } from './auto-apply-timing.js';
 
 /**

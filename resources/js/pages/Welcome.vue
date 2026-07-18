@@ -205,7 +205,7 @@ defineProps<{
             >
                 Generate a tailored cover letter from the extension during Auto
                 Apply, or from the Cover tab. Pick a design and font on your
-                dashboard - including Random - then preview before it attaches.
+                dashboard, then preview before it attaches.
             </p>
 
             <div class="mt-6 grid gap-4 sm:grid-cols-3">

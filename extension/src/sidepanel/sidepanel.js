@@ -5,6 +5,7 @@ import {
     playCaptchaAlertSound,
     shouldPlayCaptchaAlert,
 } from './auto-apply-captcha-alert.js';
+import { initAutoApplyManualResumePanel } from './auto-apply-manual-resume.js';
 import { initAutoApplyPanel } from './auto-apply.js';
 import {
     DEFAULT_LOGIN_ENDPOINT,
@@ -16,7 +17,6 @@ import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
 import { triggerBrowserDownload } from './file-transfer.js';
 import { formatContentScriptUserError } from './form-frame-messaging.js';
-import { initAutoApplyManualResumePanel } from './auto-apply-manual-resume.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const CAPTCHA_ALERT_STORAGE_KEY = 'autoApplyLastCaptchaAlertKey';

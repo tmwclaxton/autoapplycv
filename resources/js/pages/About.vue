@@ -92,7 +92,7 @@ import {
                     tmwclaxton/autoapplycv </a
                 >. It is licensed under the
                 <a
-                    href="https://polyformproject.org/licenses/noncommercial/1.0.0/"
+                    href="https://polyformproject.org/licenses/noncommercial/1.0.0"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
