@@ -521,9 +521,17 @@ export function isVisaSponsorshipQuestionLabel(label) {
         return false;
     }
 
-    return /\b(require|requiring|need)\b.*\bsponsorship\b/.test(normalized)
+    // Avoid country/city fields that mention sponsorship only in helper copy.
+    if (/\b(?:city|town|postcode|postal code|street address)\b/.test(normalized)
+        && !/\b(?:require|requiring|need|visa|immigration)\b/.test(normalized)) {
+        return false;
+    }
+
+    return /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(normalized)
         || /\bsponsorship\b.*\b(?:visa|h-1b|employment eligibility|work authorization|legally work)\b/.test(normalized)
-        || /\b(?:now|future|might you)\b.*\bsponsorship\b/.test(normalized);
+        || /\b(?:now|future|might you|will you)\b.*\bsponsorship\b/.test(normalized)
+        || /\bvisa sponsorship\b/.test(normalized)
+        || /\bimmigration sponsorship\b/.test(normalized);
 }
 
 /** On-site / hybrid commute questions tied to a specific office city. */

@@ -275,4 +275,13 @@ class ProfileIdentityFieldResolverTest extends TestCase
         $this->assertSame('Claxton', ProfileIdentityFieldResolver::resolveValue($profile, 'full_name.last'));
         $this->assertSame('tmwclaxton@gmail.com', ProfileIdentityFieldResolver::resolveValue($profile, 'email'));
     }
+
+    public function test_identity_prompt_rules_forbid_invented_city_when_profile_city_empty(): void
+    {
+        $rules = ProfileIdentityFieldResolver::identityPromptRules();
+
+        $this->assertStringContainsString('If profile.city is empty, return null', $rules);
+        $this->assertStringContainsString('sibling postcode and street fields', $rules);
+        $this->assertStringContainsString('Never invent a candidate name, email, phone number, or city', $rules);
+    }
 }

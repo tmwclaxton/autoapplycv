@@ -218,8 +218,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '2 weeks',
-    'availability prompt must not use years_of_experience',
+    null,
+    'availability without notice_period must not invent 2 weeks or use years_of_experience',
 );
 
 assert.equal(
@@ -230,8 +230,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '55000',
-    'numeric salary field must not use years_of_experience',
+    null,
+    'salary without profile salary must not invent 55000 or use years_of_experience',
 );
 
 assert.equal(
@@ -258,7 +258,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '55000',
+    null,
+    'compensation without profile salary must leave pending/LLM',
 );
 
 assert.equal(
@@ -349,6 +350,31 @@ assert.equal(
         profileData,
     ),
     'No',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you need visa sponsorship?',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        profileData,
+    ),
+    'No',
+    'clear visa_sponsorship setting must answer short sponsorship screeners',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'What is your current notice period/availability?',
+            type: 'text',
+        },
+        { application_settings: { years_of_experience: '5' } },
+    ),
+    null,
+    'empty notice_period must not invent a duration',
 );
 
 assert.equal(

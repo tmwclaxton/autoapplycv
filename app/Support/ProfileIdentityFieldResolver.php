@@ -362,6 +362,8 @@ class ProfileIdentityFieldResolver
         return 'Identity fields (first name, last name, full name, email, phone, city/location city): '
             .'copy the exact values from profile.full_name, profile.email, profile.phone, and profile.city. '
             .'Never invent a candidate name, email, phone number, or city. '
+            .'If profile.city is empty, return null for city/town/locality fields even when postcode or street appear elsewhere in the batch. '
+            .'When city is present, sibling postcode and street fields in the same batch are supporting context for locality - keep them consistent, do not invent a different town. '
             .'Do not localize identity to the job country or form language. '
             .'Never put the candidate\'s own name, email, or phone into referee, reference, or emergency-contact fields; '
             .'use profile.structured_data.references when present, otherwise leave those fields unset. '

@@ -155,20 +155,20 @@ function resolveNoticePeriodFromSettings(settings = {}, field = null) {
     const domId = field?.dom?.id || field?.dom?.input_id || null;
     const fieldType = field?.type || field?.field_type || 'text';
 
-    if (isMeaningfulAnswer(settings.notice_period)) {
-        return normalizeNoticePeriodAnswer(
-            'notice period',
-            String(settings.notice_period).trim(),
-            {
-                fieldType,
-                domId,
-                profileYears,
-                fallbackNoticePeriod: '2 weeks',
-            },
-        );
+    if (!isMeaningfulAnswer(settings.notice_period)) {
+        return null;
     }
 
-    return '2 weeks';
+    return normalizeNoticePeriodAnswer(
+        'notice period',
+        String(settings.notice_period).trim(),
+        {
+            fieldType,
+            domId,
+            profileYears,
+            fallbackNoticePeriod: '2 weeks',
+        },
+    );
 }
 
 function parsePositiveSalaryNumber(value) {
@@ -216,7 +216,8 @@ function resolveSalaryFromSettings(settings = {}) {
         return String(Math.round(weekly * 52));
     }
 
-    return '55000';
+    // Prefer leave-pending / NanoGPT over inventing a salary figure.
+    return null;
 }
 
 function isNumericExperienceField(fieldType, domId, label) {
@@ -299,7 +300,7 @@ function normalizeHeuristicAnswerForField(answer, field) {
 
     const numeric = value.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
 
-    return numeric?.[0] || '55000';
+    return numeric?.[0] || null;
 }
 
 /**
@@ -401,17 +402,23 @@ export function resolveHeuristicScreenerAnswer(
     }
 
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
-        return normalizeHeuristicAnswerForField(
-            resolveNoticePeriodFromSettings(settings, normalizedField),
-            normalizedField,
-        );
+        const noticeAnswer = resolveNoticePeriodFromSettings(settings, normalizedField);
+
+        if (!isMeaningfulAnswer(noticeAnswer)) {
+            return null;
+        }
+
+        return normalizeHeuristicAnswerForField(noticeAnswer, normalizedField);
     }
 
     if (isSalaryScreenerQuestion(label)) {
-        return normalizeHeuristicAnswerForField(
-            resolveSalaryFromSettings(settings),
-            normalizedField,
-        );
+        const salaryAnswer = resolveSalaryFromSettings(settings);
+
+        if (!isMeaningfulAnswer(salaryAnswer)) {
+            return null;
+        }
+
+        return normalizeHeuristicAnswerForField(salaryAnswer, normalizedField);
     }
 
     if (
@@ -516,11 +523,11 @@ export function resolveTestModeFallbackAnswer(
     }
 
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
-        return resolveNoticePeriodFromSettings(settings, field);
+        return resolveNoticePeriodFromSettings(settings, field) || '2 weeks';
     }
 
     if (isSalaryScreenerQuestion(label)) {
-        return resolveSalaryFromSettings(settings);
+        return resolveSalaryFromSettings(settings) || '55000';
     }
 
     if (
@@ -608,7 +615,7 @@ function normalizeScreenerAnswer(field, answer, profileData) {
         fieldType: field?.type || field?.field_type,
         domId: field?.dom?.id || field?.dom?.input_id || null,
         options: field?.options,
-        fallbackNoticePeriod: resolveNoticePeriodFromSettings(settings, field),
+        fallbackNoticePeriod: resolveNoticePeriodFromSettings(settings, field) || '2 weeks',
     });
 
     return String(normalized ?? '').trim();
