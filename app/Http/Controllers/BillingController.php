@@ -95,12 +95,25 @@ class BillingController extends Controller
             return redirect()->route('billing.index')->with('success', 'You are on the Free plan.');
         }
 
-        if ($user->subscriptionTier() === $tier && $user->subscriptionStatus()->value === 'active') {
+        if ($user->subscriptionTier() === $tier
+            && $user->subscriptionStatus() === SubscriptionStatus::Active
+            && $user->gocardless_billing_request_id === null) {
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
         }
 
+        // Existing Direct Debit customers always change plans in place - never start a
+        // fresh Instant Bank Pay "first month" checkout (that leaves them stuck pending).
         if ($this->canChangePaidPlanInPlace($user, $tier)) {
-            return $this->changePaidPlanInPlace($user, $tier);
+            if ($user->gocardless_billing_request_id !== null
+                || $user->subscriptionStatus() === SubscriptionStatus::Pending) {
+                $user->forceFill([
+                    'subscription_status' => SubscriptionStatus::Active->value,
+                    'pending_subscription_tier' => null,
+                    'gocardless_billing_request_id' => null,
+                ])->save();
+            }
+
+            return $this->changePaidPlanInPlace($user->fresh(), $tier);
         }
 
         if ($user->gocardless_billing_request_id !== null) {
@@ -146,6 +159,21 @@ class BillingController extends Controller
 
                 return Inertia::location($checkoutUrl);
             }
+        }
+
+        // Paid users without a stored mandate/subscription must not silently start a
+        // duplicate signup - surface the problem instead.
+        if ($user->subscriptionTier()->isPaid()) {
+            Log::error('Paid user missing GoCardless mandate or subscription for plan change', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'mandate_id' => $user->gocardless_mandate_id,
+                'subscription_id' => $user->gocardless_subscription_id,
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'We could not update your plan because billing details are incomplete. Please contact support.');
         }
 
         try {
@@ -220,7 +248,6 @@ class BillingController extends Controller
     {
         return $tier->isPaid()
             && $user->subscriptionTier()->isPaid()
-            && $user->subscriptionStatus() === SubscriptionStatus::Active
             && $user->gocardless_mandate_id !== null
             && $user->gocardless_subscription_id !== null;
     }

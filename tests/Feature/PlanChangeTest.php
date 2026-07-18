@@ -96,4 +96,66 @@ class PlanChangeTest extends TestCase
                 'You are on the Free plan. Your Direct Debit has been cancelled.',
             );
     }
+
+    public function test_stuck_pending_paid_user_upgrades_in_place_instead_of_instant_bank_pay(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'pending',
+            'pending_subscription_tier' => 'pro',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+            'gocardless_billing_request_id' => 'BRQ_STUCK',
+            'ai_tokens_used' => 163,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('changePaidPlan')
+                ->once()
+                ->withArgs(function (User $user, $tier, int $amountDuePence): bool {
+                    return $user->gocardless_billing_request_id === null
+                        && $user->subscription_status === 'active'
+                        && $tier->value === 'pro'
+                        && $amountDuePence === 1046;
+                });
+            $mock->shouldReceive('createCheckoutFlow')->never();
+            $mock->shouldReceive('resumeCheckoutFlow')->never();
+        });
+
+        $this->actingAs($user)
+            ->post(route('billing.checkout'), ['tier' => 'pro'])
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas(
+                'success',
+                'Upgraded to Pro. A Direct Debit of £10.46 will be collected for this period; renewals will be £17.00/mo.',
+            );
+
+        $user->refresh();
+
+        $this->assertNull($user->gocardless_billing_request_id);
+        $this->assertNull($user->pending_subscription_tier);
+        $this->assertSame('active', $user->subscription_status);
+    }
+
+    public function test_paid_user_without_mandate_does_not_start_instant_bank_pay_checkout(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+            'gocardless_mandate_id' => null,
+            'gocardless_subscription_id' => null,
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('createCheckoutFlow')->never();
+            $mock->shouldReceive('changePaidPlan')->never();
+        });
+
+        $this->actingAs($user)
+            ->from(route('billing.index'))
+            ->post(route('billing.checkout'), ['tier' => 'pro'])
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas('error');
+    }
 }
