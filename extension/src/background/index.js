@@ -4294,6 +4294,7 @@ initExtensionBridge({
             bridgeBuildAuthStatus(tabId, windowId),
         get_page_html: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : 0;
 
             return sendTabMessage(
@@ -4419,6 +4420,11 @@ initExtensionBridge({
 
                 const tab = await chrome.tabs.create(createOptions);
 
+                if (typeof tab.id === 'number') {
+                    await bridgeWaitForTab(tab.id, { timeoutMs: 45_000 });
+                    await ensureTabContentScript(tab.id, { timeoutMs: 15_000 });
+                }
+
                 return {
                     tabId: tab.id,
                     url: tab.url ?? destination,
@@ -4428,10 +4434,13 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            invalidateTabFrameCache(resolvedTabId);
             await chrome.tabs.update(resolvedTabId, {
                 url: destination,
                 active: focusTab,
             });
+            await bridgeWaitForTab(resolvedTabId, { timeoutMs: 45_000 });
+            await ensureTabContentScript(resolvedTabId, { timeoutMs: 15_000 });
 
             return {
                 tabId: resolvedTabId,
@@ -4456,6 +4465,7 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const result = await clickInventoryRefOnTab(
                 resolvedTabId,
                 ref,
@@ -4469,6 +4479,7 @@ initExtensionBridge({
         },
         click_control_inventory: async ({ tabId, windowId, frameId, name }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const control = await bridgeFindControlRef(
                 resolvedTabId,
                 frameId,
@@ -4491,6 +4502,7 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const resolvedFrameId =
                 typeof frameId === 'number'
                     ? frameId
@@ -4511,6 +4523,7 @@ initExtensionBridge({
             }
 
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const resolvedFrameId =
                 typeof frameId === 'number'
                     ? frameId
@@ -4527,6 +4540,7 @@ initExtensionBridge({
         },
         read_field_values: async ({ tabId, windowId, frameId }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const resolvedFrameId =
                 typeof frameId === 'number'
                     ? frameId
@@ -4547,6 +4561,7 @@ initExtensionBridge({
             triggerValidation = true,
         }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
             const resolvedFrameId =
                 typeof frameId === 'number'
                     ? frameId
@@ -4568,6 +4583,7 @@ initExtensionBridge({
             data_field_path,
         }) => {
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+            await ensureTabContentScript(resolvedTabId);
 
             if (!ref && !label) {
                 throw new Error('ref or label is required.');
@@ -4604,6 +4620,8 @@ initExtensionBridge({
             const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             invalidateTabFrameCache(resolvedTabId);
             await chrome.tabs.reload(resolvedTabId);
+            await bridgeWaitForTab(resolvedTabId, { timeoutMs: 45_000 });
+            await ensureTabContentScript(resolvedTabId, { timeoutMs: 15_000 });
 
             return { success: true, tabId: resolvedTabId };
         },
@@ -4616,6 +4634,8 @@ initExtensionBridge({
             }
 
             await chrome.tabs.reload(resolvedTabId);
+            await bridgeWaitForTab(resolvedTabId, { timeoutMs: 45_000 });
+            await ensureTabContentScript(resolvedTabId, { timeoutMs: 15_000 });
 
             return { success: true, tabId: resolvedTabId, discarded: true };
         },
