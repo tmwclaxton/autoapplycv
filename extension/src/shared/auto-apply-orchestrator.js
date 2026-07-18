@@ -5503,41 +5503,18 @@ async function processIndeedJobInner(
                     reviewGate?.submitDisabled ||
                     applyState.submitDisabled
                 ) {
+                    // Match Glassdoor/SimplyHired overnight behaviour: skip
+                    // review CAPTCHA instead of pausing the whole session.
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+                        `[captcha] ${job.title}: captcha on review step - skipping job.`,
                     );
-                    const captchaOutcome = await waitForIndeedCaptchaResume(
-                        session,
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
                         tabId,
-                        job,
-                        reviewGate || applyState,
-                    );
-
-                    if (captchaOutcome.stopped) {
-                        return {
-                            outcome: 'stopped',
-                            reason: 'user_input_stop',
-                            tabId,
-                        };
-                    }
-
-                    if (captchaOutcome.timedOut) {
-                        await logSession(
-                            'warn',
-                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
-                        );
-
-                        return {
-                            outcome: 'skipped',
-                            reason: 'captcha_required',
-                            tabId,
-                        };
-                    }
-
-                    session = captchaOutcome.session || session;
-                    sameStepCount = 0;
-                    continue;
+                    };
                 }
             }
         } else if (!isIndeedDraftSkipStep(applyState)) {
@@ -5582,35 +5559,14 @@ async function processIndeedJobInner(
         if (advanceBlockedByCaptcha) {
             await logSession(
                 'warn',
-                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (3 min timeout).`,
+                `[captcha] ${job.title}: captcha on review step - skipping job.`,
             );
-            const captchaOutcome = await waitForIndeedCaptchaResume(
-                session,
+
+            return {
+                outcome: 'skipped',
+                reason: 'captcha_required',
                 tabId,
-                job,
-                applyState,
-            );
-
-            if (captchaOutcome.stopped) {
-                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
-            }
-
-            if (captchaOutcome.timedOut) {
-                await logSession(
-                    'warn',
-                    `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
-                );
-
-                return {
-                    outcome: 'skipped',
-                    reason: 'captcha_required',
-                    tabId,
-                };
-            }
-
-            session = captchaOutcome.session || session;
-            sameStepCount = 0;
-            continue;
+            };
         }
 
         if (advanceResponse?.action === 'submit') {
@@ -5638,39 +5594,14 @@ async function processIndeedJobInner(
                 if (confirmResult.captcha) {
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - solve in browser, then resume in Assist (3 min timeout).`,
+                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - skipping job.`,
                     );
-                    const captchaOutcome = await waitForIndeedCaptchaResume(
-                        session,
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'captcha_required',
                         tabId,
-                        job,
-                        applyState,
-                    );
-
-                    if (captchaOutcome.stopped) {
-                        return {
-                            outcome: 'stopped',
-                            reason: 'user_input_stop',
-                            tabId,
-                        };
-                    }
-
-                    if (captchaOutcome.timedOut) {
-                        await logSession(
-                            'warn',
-                            `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
-                        );
-
-                        return {
-                            outcome: 'skipped',
-                            reason: 'captcha_required',
-                            tabId,
-                        };
-                    }
-
-                    session = captchaOutcome.session || session;
-                    sameStepCount = 0;
-                    continue;
+                    };
                 }
 
                 if (confirmResult.submitted) {
