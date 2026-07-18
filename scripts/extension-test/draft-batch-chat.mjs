@@ -71,6 +71,15 @@ assert(normalized[0].label === 'Why this role?', 'normalizeDraftBatchAnswers sho
 assert(normalized[1].label === 'Notice period', 'normalizeDraftBatchAnswers should prefer answer label when present');
 
 assert(
+    normalizeDraftBatchAnswer({
+        ref: 'ref-1',
+        answer: 'Because I love Laravel.',
+        source: 'nanogpt',
+    }, fieldsByRef)?.source === 'nanogpt',
+    'normalizeDraftBatchAnswer should preserve answer provenance source for Assist',
+);
+
+assert(
     buildDraftBatchChatHeading(1, 1) === 'Drafted 1 answer',
     'buildDraftBatchChatHeading should use singular copy for one answer',
 );

@@ -56,10 +56,13 @@ export function normalizeDraftBatchAnswer(answer, fieldsByRef) {
 
     const label = resolveDraftBatchAnswerLabel(answer, fieldsByRef);
 
+    const source = String(answer.source || '').trim();
+
     return {
         ref: answer.ref,
         label: label || 'Field',
         answer: answerText,
+        ...(source ? { source } : {}),
     };
 }
 

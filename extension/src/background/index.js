@@ -2379,11 +2379,12 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             if (stage.type === 'memo') {
                 const partitioned = partitionDraftAllBatchAnswers(
-                    stage.answers.map(({ ref, label, answer, field_type }) => ({
+                    stage.answers.map(({ ref, label, answer, field_type, source }) => ({
                         ref,
                         label,
                         answer,
                         field_type,
+                        source: source || 'memo',
                     })),
                     fieldsByRef,
                     profileData,
@@ -2609,6 +2610,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         ref: answer.ref,
                         label: answer.label,
                         field_type: answer.field_type,
+                        source: answer.source || null,
                         answerPreview: typeof answer.answer === 'string'
                             ? answer.answer.slice(0, 80)
                             : answer.answer,
