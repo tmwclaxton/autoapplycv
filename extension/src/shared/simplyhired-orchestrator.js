@@ -1088,40 +1088,18 @@ export function createSimplyHiredOrchestrator(deps) {
                     const reviewState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
 
                     if (
-                        (advanceResponse?.error?.includes('captcha') || reviewState?.captchaPresent)
-                        && typeof waitForIndeedCaptchaResume === 'function'
+                        advanceResponse?.error?.includes('captcha')
+                        || reviewState?.captchaPresent
                     ) {
                         await logSession(
                             'warn',
-                            `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
+                            `[captcha] ${job.title}: captcha on review step - skipping job.`,
                         );
-                        const captchaOutcome = await waitForIndeedCaptchaResume(
-                            session,
-                            tabId,
-                            job,
-                            reviewState || applyState,
-                            { stage: 'review' },
-                        );
+                        await recordAnalyticsEvent(session, 'skipped', job, {
+                            metadata: { reason: 'captcha_required' },
+                        });
 
-                        if (captchaOutcome.stopped) {
-                            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
-                        }
-
-                        if (captchaOutcome.timedOut) {
-                            await logSession(
-                                'warn',
-                                `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`,
-                            );
-                            await recordAnalyticsEvent(session, 'skipped', job, {
-                                metadata: { reason: 'captcha_required' },
-                            });
-
-                            return { outcome: 'skipped', reason: 'captcha_required', tabId };
-                        }
-
-                        session = captchaOutcome.session || session;
-                        sameStepCount = 0;
-                        continue;
+                        return { outcome: 'skipped', reason: 'captcha_required', tabId };
                     }
 
                     await recordAnalyticsEvent(session, 'skipped', job, {
