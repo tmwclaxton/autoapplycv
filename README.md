@@ -12,12 +12,14 @@
 <p align="center">
   <a href="https://autocvapply.com"><img src="https://img.shields.io/badge/Website-autocvapply.com-C8102E?style=for-the-badge" alt="Website" /></a>
   <a href="https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih"><img src="https://img.shields.io/badge/Chrome_Web_Store-Install-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome Web Store" /></a>
+  <a href="https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/"><img src="https://img.shields.io/badge/Firefox_Add--ons-Install-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Firefox Add-ons" /></a>
   <a href="https://github.com/tmwclaxton/autoapplycv"><img src="https://img.shields.io/badge/GitHub-Source-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
 </p>
 
 <p align="center">
   <a href="https://autocvapply.com">Website</a> ·
   <a href="https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih">Chrome Web Store</a> ·
+  <a href="https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/">Firefox Add-ons</a> ·
   <a href="https://github.com/tmwclaxton/autoapplycv">GitHub</a> ·
   <a href="https://autocvapply.com/how-to">How it works</a> ·
   <a href="https://autocvapply.com/dashboard">Dashboard</a>
@@ -135,12 +137,12 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 
 ## Quick install
 
-> **Recommended:** create a free account at **[autocvapply.com](https://autocvapply.com)**, upload your CV, then **[install from the Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih)** (or download a zip from your dashboard for Edge, Brave, or Firefox).
+> **Recommended:** create a free account at **[autocvapply.com](https://autocvapply.com)**, upload your CV, then install from the **[Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih)** or **[Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/)** (or download a zip from your dashboard for Edge, Brave, or temporary Firefox sideload).
 
 ### Production (autocvapply.com)
 
 1. **[Sign up](https://autocvapply.com)** and upload your CV
-2. **[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih)** - or open **Dashboard → Extension** for zip installs
+2. **Install the extension** from the [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) or [Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/) - or open **Dashboard → Extension** for zip installs
 3. For zip installs: download for your browser and sideload using the on-screen instructions
 4. Copy your connection JSON (`token` + `api_base`) into the extension sidebar
 
@@ -148,7 +150,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 |---------|----------------|---------------|
 | **Chrome** | [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) → Add to Chrome | [Live](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
 | **Edge / Brave** | Store listing or dashboard zip → Load unpacked | [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
-| **Firefox** | Download zip from dashboard → Load Temporary Add-on | Firefox Add-ons - *coming soon* |
+| **Firefox** | [Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/) → Add to Firefox | [Live](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/) |
 
 ### From source (developers)
 
@@ -354,6 +356,7 @@ Practical advice for high-volume applications (no magic numbers - your mileage v
 | **GitHub** | [github.com/tmwclaxton/autoapplycv](https://github.com/tmwclaxton/autoapplycv) |
 | **Discord** | [discord.gg/DqqqTv3Spt](https://discord.gg/DqqqTv3Spt) - extension help & community |
 | **Chrome Web Store** | [chromewebstore.google.com/.../autocvapply](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
+| **Firefox Add-ons** | [addons.mozilla.org/.../autocvapply](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/) |
 | **Form corpus docs** | [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) |
 | **Extension bridge (MCP)** | [`scripts/extension-bridge/README.md`](scripts/extension-bridge/README.md) |
 | **Job board automation playbook** | [`docs/platform-automation-playbook.md`](docs/platform-automation-playbook.md) |

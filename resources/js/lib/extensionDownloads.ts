@@ -1,4 +1,4 @@
-import { CHROME_WEB_STORE_URL } from '@/lib/site';
+import { CHROME_WEB_STORE_URL, FIREFOX_ADDONS_URL } from '@/lib/site';
 import extensionManifest from '../../../extension/manifest.json';
 
 /** Same version as extension/manifest.json (bundled at build time). */
@@ -13,6 +13,6 @@ export const extensionDownloads = {
     firefox: versionedExtensionZip('/extension/autoapplycv-firefox.zip'),
     /** Chrome Web Store listing for Chrome (and Chromium store installs). */
     chromeWebStore: CHROME_WEB_STORE_URL,
-    /** @deprecated Use chrome URL; kept for older links. */
-    legacy: versionedExtensionZip('/extension/autoapplycv.zip'),
+    /** Firefox Add-ons (AMO) listing. */
+    firefoxAddons: FIREFOX_ADDONS_URL,
 } as const;

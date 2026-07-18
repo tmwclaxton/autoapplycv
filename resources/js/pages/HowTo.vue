@@ -8,7 +8,11 @@ import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
-import { CHROME_WEB_STORE_URL, FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
+import {
+    CHROME_WEB_STORE_URL,
+    FIREFOX_ADDONS_URL,
+    FORM_CORPUS_SCENARIO_COUNT,
+} from '@/lib/site';
 </script>
 
 <template>
@@ -54,8 +58,17 @@ import { CHROME_WEB_STORE_URL, FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
                         Chrome Web Store
                     </a>
                     (or from your dashboard).
-                    <strong>Edge / Brave / Firefox:</strong> download the zip
-                    from your dashboard.
+                    <strong>Firefox:</strong> install from
+                    <a
+                        :href="FIREFOX_ADDONS_URL"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Firefox Add-ons
+                    </a>
+                    (or from your dashboard).
+                    <strong>Edge / Brave:</strong> use the Chrome Web Store
+                    listing or download the zip from your dashboard.
                 </li>
                 <li>
                     Zip installs: unzip and sideload -

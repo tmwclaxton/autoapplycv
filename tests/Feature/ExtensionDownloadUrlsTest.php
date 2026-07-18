@@ -28,6 +28,8 @@ class ExtensionDownloadUrlsTest extends TestCase
         $this->assertStringContainsString('versionedExtensionZip', $source);
         $this->assertStringContainsString('/extension/autoapplycv-chrome.zip', $source);
         $this->assertStringContainsString('/extension/autoapplycv-firefox.zip', $source);
+        $this->assertStringContainsString('FIREFOX_ADDONS_URL', $source);
+        $this->assertStringContainsString('firefoxAddons:', $source);
         $this->assertNotSame('', $version);
         $this->assertMatchesRegularExpression('/\d+\.\d+\.\d+/', $version);
     }
@@ -41,7 +43,35 @@ class ExtensionDownloadUrlsTest extends TestCase
         $this->assertStringContainsString("return 'autoapplycv-chrome.zip'", $source);
         $this->assertStringContainsString("return 'autoapplycv-firefox.zip'", $source);
         $this->assertStringContainsString(':download="downloadFilename"', $source);
-        $this->assertStringContainsString('Do not upload the Chrome', $source);
+        $this->assertStringContainsString('do not upload the Chrome zip to AMO', $source);
+        $this->assertStringContainsString('Install from Firefox Add-ons', $source);
+        $this->assertStringContainsString('extensionDownloads.firefoxAddons', $source);
+    }
+
+    public function test_site_exports_chrome_and_firefox_store_urls(): void
+    {
+        $source = (string) file_get_contents(resource_path('js/lib/site.ts'));
+
+        $this->assertStringContainsString(
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+            $source,
+        );
+        $this->assertStringContainsString(
+            'https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/',
+            $source,
+        );
+    }
+
+    public function test_welcome_page_links_chrome_and_firefox_store_listings(): void
+    {
+        $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));
+
+        $this->assertStringContainsString('CHROME_WEB_STORE_URL', $source);
+        $this->assertStringContainsString('FIREFOX_ADDONS_URL', $source);
+        $this->assertStringContainsString('Chrome Web Store', $source);
+        $this->assertStringContainsString('Firefox Add-ons', $source);
+        $this->assertStringContainsString('<Chrome', $source);
+        $this->assertStringContainsString("['fab', 'firefox-browser']", $source);
     }
 
     public function test_nginx_sets_no_cache_headers_for_extension_zips(): void

@@ -19,7 +19,7 @@ Rough guide for live demos. Aim for **10-12 minutes** on the ATS track; add **5 
 
 ### Extension (half an hour before)
 
-- [ ] Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih), or sideload the dashboard zip via `chrome://extensions` → Load unpacked.
+- [ ] Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) or [Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/), or sideload the dashboard zip via `chrome://extensions` → Load unpacked.
 - [ ] Open the **side panel** and pin it if you can.
 - [ ] Connect via **Sign in with AutoCVApply** or paste the JSON and **Connect with JSON**.
 - [ ] Check you see your name, the green dot, and credits in the header.
@@ -97,7 +97,7 @@ Good when you need it to actually work - investors, early users, anyone sceptica
 
 **Say something like:**
 
-> Chrome users can grab it from the Chrome Web Store - one click Add to Chrome. Edge, Brave, or Firefox: download the zip from the dashboard and sideload. Connect once with sign-in or a token, and you're done. Day to day you just live in this side panel.
+> Chrome users can grab it from the Chrome Web Store - one click Add to Chrome. Firefox: install from Firefox Add-ons. Edge or Brave: use the store listing or download the zip from the dashboard and sideload. Connect once with sign-in or a token, and you're done. Day to day you just live in this side panel.
 
 **If already connected:** pop the side panel open, flash the green status and credit bar, move on.
 

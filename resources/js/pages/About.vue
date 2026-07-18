@@ -112,7 +112,7 @@ import {
         <PostboxCta
             class="mt-10"
             title="Want to try it?"
-            description="Sign in, upload your CV, install from the Chrome Web Store."
+            description="Sign in, upload your CV, install from the Chrome Web Store or Firefox Add-ons."
             button-label="Get started"
         />
     </PostboxMarketingLayout>

@@ -188,20 +188,40 @@ function selectBrowser(browser: BrowserChoice): void {
 
                 <template v-else>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        Use
+                        Firefox users: install from Firefox Add-ons. Prefer a
+                        zip for temporary sideload testing? Use
                         <code
                             class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >autoapplycv-firefox.zip</code
                         >
-                        for Firefox (and Mozilla AMO). Do not upload the Chrome
-                        zip to AMO.
+                        - do not upload the Chrome zip to AMO.
+                    </p>
+
+                    <a
+                        :href="extensionDownloads.firefoxAddons"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="postbox-btn mt-5 inline-flex items-center gap-2"
+                    >
+                        <FontAwesomeIcon
+                            :icon="['fab', 'firefox-browser']"
+                            class="size-4"
+                            aria-hidden="true"
+                        />
+                        Install from Firefox Add-ons
+                        <ExternalLink class="size-3.5" aria-hidden="true" />
+                    </a>
+
+                    <p class="mt-5 text-sm text-muted-foreground">
+                        Prefer a zip? Download and load as a temporary add-on
+                        for local testing.
                     </p>
 
                     <a
                         v-if="downloadUrl && downloadFilename"
                         :href="downloadUrl"
                         :download="downloadFilename"
-                        class="postbox-btn mt-5 inline-flex items-center gap-2"
+                        class="postbox-btn-outline mt-3 inline-flex items-center gap-2"
                     >
                         <Download class="size-4" aria-hidden="true" />
                         {{ downloadLabel }}
@@ -280,26 +300,30 @@ function selectBrowser(browser: BrowserChoice): void {
                     class="mt-4 list-decimal space-y-2 pl-5 text-sm text-muted-foreground"
                 >
                     <li>
-                        Extract the downloaded zip to a folder on your computer.
+                        <strong>Firefox Add-ons:</strong> open
+                        <a
+                            :href="extensionDownloads.firefoxAddons"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="postbox-link"
+                        >
+                            the Firefox Add-ons listing
+                        </a>
+                        and click Add to Firefox.
                     </li>
                     <li>
-                        Open
+                        <strong>Zip (temporary):</strong> extract the downloaded
+                        zip, open
                         <code
                             class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >about:debugging</code
                         >
-                        → This Firefox.
-                    </li>
-                    <li>
-                        Click Load Temporary Add-on and select the extracted
+                        → This Firefox, then Load Temporary Add-on and select
+                        the extracted
                         <code
                             class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >manifest.json</code
-                        >.
-                    </li>
-                    <li>
-                        Firefox removes temporary add-ons when you quit. Reload
-                        the extension after each browser restart.
+                        >. Temporary add-ons are removed when you quit Firefox.
                     </li>
                     <li>
                         Generate a connection in the dashboard and paste it into

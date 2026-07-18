@@ -34,7 +34,7 @@ Primary audience: people actively job hunting - graduates, career changers, cont
 
 ## How autofill works
 1. User uploads a CV and reviews the parsed profile (name, contact, experience, skills, summary, etc.).
-2. User installs the Chrome extension and connects with an API token from the dashboard.
+2. User installs the Chrome or Firefox extension and connects with an API token from the dashboard.
 3. On a supported job application page, the user clicks **AutoFill**; the extension fills empty fields from the saved profile.
 4. **One autofill** = **one input successfully filled** (not one button click). A form with six empty fields filled in one action uses six autofills.
 

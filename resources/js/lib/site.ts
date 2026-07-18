@@ -6,6 +6,9 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 export const CHROME_WEB_STORE_URL =
     'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih';
 
+export const FIREFOX_ADDONS_URL =
+    'https://addons.mozilla.org/en-GB/firefox/addon/autocvapply/';
+
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
 export const FORM_CORPUS_SCENARIO_COUNT = 6229;

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Head, Link } from '@inertiajs/vue3';
 import {
     ArrowRight,
     Bot,
+    Chrome,
     FileText,
     FileUp,
     MessageCircle,
@@ -16,7 +18,11 @@ import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
-import { CHROME_WEB_STORE_URL, FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
+import {
+    CHROME_WEB_STORE_URL,
+    FIREFOX_ADDONS_URL,
+    FORM_CORPUS_SCENARIO_COUNT,
+} from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -67,8 +73,21 @@ defineProps<{
                     rel="noopener noreferrer"
                     class="postbox-btn-outline w-full sm:w-auto"
                 >
+                    <Chrome class="size-4" aria-hidden="true" />
                     Chrome Web Store
-                    <ArrowRight class="size-4" />
+                </a>
+                <a
+                    :href="FIREFOX_ADDONS_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="postbox-btn-outline w-full sm:w-auto"
+                >
+                    <FontAwesomeIcon
+                        :icon="['fab', 'firefox-browser']"
+                        class="size-4"
+                        aria-hidden="true"
+                    />
+                    Firefox Add-ons
                 </a>
                 <Link
                     :href="howTo()"
