@@ -44,9 +44,14 @@ export function initDocumentsPanel({
             return;
         }
 
-        categorySelect.innerHTML = categories.map((category) => (
-            `<option value="${category.value}">${category.label}</option>`
-        )).join('');
+        categorySelect.replaceChildren();
+
+        for (const category of categories) {
+            const option = document.createElement('option');
+            option.value = category.value;
+            option.textContent = category.label;
+            categorySelect.appendChild(option);
+        }
 
         if (!categorySelect.value && categories.length > 0) {
             categorySelect.value = categories[0].value;
@@ -74,7 +79,7 @@ export function initDocumentsPanel({
             return;
         }
 
-        listEl.innerHTML = '';
+        listEl.replaceChildren();
 
         if (documents.length === 0) {
             emptyEl.hidden = false;
@@ -87,40 +92,56 @@ export function initDocumentsPanel({
         for (const doc of documents) {
             const item = document.createElement('article');
             item.className = 'document-item postbox-panel';
-            item.innerHTML = `
-                <div class="document-item-body">
-                    <strong class="document-item-title"></strong>
-                    <div class="document-item-meta"></div>
-                </div>
-                <div class="document-item-actions">
-                    ${doc.preview_url ? '<button type="button" class="postbox-btn-outline document-preview-btn">Preview</button>' : ''}
-                    <button type="button" class="postbox-btn-outline document-download-btn">Download</button>
-                    <button type="button" class="postbox-btn-outline document-delete-btn">Delete</button>
-                </div>
-            `;
 
-            item.querySelector('.document-item-title').textContent = doc.title;
-            item.querySelector('.document-item-meta').textContent = `${doc.category_label} · ${doc.file_size_label}`;
+            const body = document.createElement('div');
+            body.className = 'document-item-body';
 
-            const previewButton = item.querySelector('.document-preview-btn');
+            const title = document.createElement('strong');
+            title.className = 'document-item-title';
+            title.textContent = doc.title;
 
-            if (previewButton && doc.preview_url) {
+            const meta = document.createElement('div');
+            meta.className = 'document-item-meta';
+            meta.textContent = `${doc.category_label} · ${doc.file_size_label}`;
+
+            body.append(title, meta);
+
+            const actions = document.createElement('div');
+            actions.className = 'document-item-actions';
+
+            if (doc.preview_url) {
+                const previewButton = document.createElement('button');
+                previewButton.type = 'button';
+                previewButton.className = 'postbox-btn-outline document-preview-btn';
+                previewButton.textContent = 'Preview';
                 previewButton.addEventListener('click', () => {
                     previewDocument(doc.id);
                 });
+                actions.appendChild(previewButton);
             }
 
-            item.querySelector('.document-download-btn').addEventListener('click', () => {
+            const downloadButton = document.createElement('button');
+            downloadButton.type = 'button';
+            downloadButton.className = 'postbox-btn-outline document-download-btn';
+            downloadButton.textContent = 'Download';
+            downloadButton.addEventListener('click', () => {
                 downloadDocument(doc.id);
             });
 
-            item.querySelector('.document-delete-btn').addEventListener('click', () => {
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'postbox-btn-outline document-delete-btn';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => {
                 deleteDocument(doc);
             });
 
+            actions.append(downloadButton, deleteButton);
+            item.append(body, actions);
+
             if (deletingId === doc.id) {
-                item.querySelector('.document-delete-btn').disabled = true;
-                item.querySelector('.document-delete-btn').textContent = 'Deleting…';
+                deleteButton.disabled = true;
+                deleteButton.textContent = 'Deleting…';
             }
 
             listEl.appendChild(item);

@@ -216,12 +216,16 @@ function patchManifest(apiBase) {
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 4)}\n`);
 }
 
+function removeDirForce(dirPath) {
+    rmSync(dirPath, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+}
+
 const env = loadEnvFile(join(ROOT, '.env'));
 const apiBase = resolveExtensionApiBase(env);
 
 console.log('Building AutoCVApply extension...');
 
-rmSync(DIST, { recursive: true, force: true });
+removeDirForce(DIST);
 mkdirSync(DIST, { recursive: true });
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -352,6 +356,10 @@ copyFileSync(
 copyFileSync(
     join(SRC, 'shared/side-panel-host-tab.js'),
     join(DIST, 'side-panel-host-tab.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/browser-panel.js'),
+    join(DIST, 'browser-panel.js'),
 );
 copyFileSync(
     join(SRC, 'shared/job-board-market.js'),
@@ -694,10 +702,56 @@ function zipDirectory(sourceDir, outputPath) {
     });
 }
 
+function listJsFilesRecursive(dir, base = dir) {
+    const files = [];
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const absolute = join(dir, entry.name);
+
+        if (entry.isDirectory()) {
+            files.push(...listJsFilesRecursive(absolute, base));
+            continue;
+        }
+
+        if (entry.isFile() && entry.name.endsWith('.js')) {
+            files.push(absolute.slice(base.length + 1));
+        }
+    }
+
+    return files;
+}
+
+function assertNoChromeSidePanelApi(firefoxDist) {
+    // AMO flags chrome.sidePanel / browser.sidePanel member access (incl. optional chaining).
+    const forbidden = /(?:chrome|browser)\s*\??\s*\.\s*sidePanel\b/;
+    const offenders = [];
+
+    for (const relativePath of listJsFilesRecursive(firefoxDist)) {
+        const content = readFileSync(join(firefoxDist, relativePath), 'utf8');
+
+        if (forbidden.test(content)) {
+            offenders.push(relativePath);
+        }
+    }
+
+    if (offenders.length > 0) {
+        throw new Error(
+            `Firefox package still references chrome/browser.sidePanel in: ${offenders.join(', ')}`,
+        );
+    }
+}
+
 function buildFirefoxDist() {
     const firefoxDist = join(ROOT, 'extension/dist-firefox');
-    rmSync(firefoxDist, { recursive: true, force: true });
+    removeDirForce(firefoxDist);
     cpSync(DIST, firefoxDist, { recursive: true });
+
+    // Dual-package: Firefox gets a sidebarAction-only panel helper with no sidePanel APIs.
+    copyFileSync(
+        join(SRC, 'shared/browser-panel.firefox.js'),
+        join(firefoxDist, 'browser-panel.js'),
+    );
+    assertNoChromeSidePanelApi(firefoxDist);
 
     const manifestPath = join(firefoxDist, 'manifest.json');
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
@@ -716,10 +770,12 @@ function applyFirefoxManifest(manifest) {
     // built-in consent). Values must match what we transmit to our first-party API:
     // auth tokens, CV/profile PII, job-page content for drafting, and page URLs.
     // See https://mzl.la/firefox-builtin-data-consent
+    // data_collection_permissions requires Firefox desktop 140+ (AMO / built-in consent).
+    // Do not set gecko_android here; if added later, its strict_min_version must be 142+.
     manifest.browser_specific_settings = {
         gecko: {
             id: 'autocvapply@autocvapply.com',
-            strict_min_version: '121.0',
+            strict_min_version: '140.0',
             data_collection_permissions: {
                 required: [
                     'authenticationInfo',
@@ -767,7 +823,7 @@ copyFileSync(CHROME_ZIP, LEGACY_ZIP);
 
 const firefoxDist = buildFirefoxDist();
 zipDirectory(firefoxDist, FIREFOX_ZIP);
-rmSync(firefoxDist, { recursive: true, force: true });
+removeDirForce(firefoxDist);
 
 console.log(`Extension built to ${DIST}/`);
 console.log(`  Chrome zip:  ${CHROME_ZIP}`);

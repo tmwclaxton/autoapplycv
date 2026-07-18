@@ -85,7 +85,7 @@ function extensionContext() {
 function renderPlatformOptions(preferredPlatformId = LINKEDIN_PLATFORM_ID) {
     const selectedPlatform = normalizeAutoApplyPlatform(preferredPlatformId) || LINKEDIN_PLATFORM_ID;
 
-    platformSelect.innerHTML = '';
+    platformSelect.replaceChildren();
 
     for (const platform of AUTO_APPLY_PLATFORM_LIST) {
         const option = document.createElement('option');
@@ -123,7 +123,7 @@ function syncMarketField(platformId = readSelectedPlatform() || LINKEDIN_PLATFOR
     }
 
     const previousValue = marketSelect.value || 'auto';
-    marketSelect.innerHTML = '';
+    marketSelect.replaceChildren();
 
     for (const optionDef of markets || []) {
         const option = document.createElement('option');
@@ -441,7 +441,7 @@ function renderStatusLine(session) {
 }
 
 function renderLog(session) {
-    logEl.innerHTML = '';
+    logEl.replaceChildren();
 
     const entries = session?.log || [];
 

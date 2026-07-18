@@ -201,50 +201,55 @@ var AutoCVApplyFocusTracker = (() => {
         hostElement.setAttribute('data-autocvapply-ui', 'quick-draft');
 
         shadowRoot = hostElement.attachShadow({ mode: 'closed' });
-        shadowRoot.innerHTML = `
-            <style>
-                :host {
-                    all: initial;
-                }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            :host {
+                all: initial;
+            }
+            #quick-draft-btn {
+                all: unset;
+                box-sizing: border-box;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 6px 10px;
+                border: 2px solid #1b365d;
+                background: #c8102e;
+                color: #ffffff;
+                font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 1.2;
+                white-space: nowrap;
+                cursor: pointer;
+                box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
+                user-select: none;
+                -webkit-user-select: none;
+            }
+            #quick-draft-btn.is-visible {
+                display: inline-flex;
+            }
+            #quick-draft-btn:hover:not(:disabled) {
+                filter: brightness(1.06);
+            }
+            #quick-draft-btn:disabled {
+                opacity: 0.75;
+                cursor: wait;
+            }
+            @media (prefers-color-scheme: dark) {
                 #quick-draft-btn {
-                    all: unset;
-                    box-sizing: border-box;
-                    display: none;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 6px 10px;
-                    border: 2px solid #1b365d;
-                    background: #c8102e;
-                    color: #ffffff;
-                    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-                    font-size: 12px;
-                    font-weight: 700;
-                    line-height: 1.2;
-                    white-space: nowrap;
-                    cursor: pointer;
-                    box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
-                    user-select: none;
-                    -webkit-user-select: none;
+                    border-color: #8eb4d8;
+                    box-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
                 }
-                #quick-draft-btn.is-visible {
-                    display: inline-flex;
-                }
-                #quick-draft-btn:hover:not(:disabled) {
-                    filter: brightness(1.06);
-                }
-                #quick-draft-btn:disabled {
-                    opacity: 0.75;
-                    cursor: wait;
-                }
-                @media (prefers-color-scheme: dark) {
-                    #quick-draft-btn {
-                        border-color: #8eb4d8;
-                        box-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
-                    }
-                }
-            </style>
-            <button type="button" id="quick-draft-btn">${BUTTON_LABEL}</button>
+            }
         `;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = 'quick-draft-btn';
+        button.textContent = BUTTON_LABEL;
+        shadowRoot.append(style, button);
 
         Object.assign(hostElement.style, {
             position: 'absolute',

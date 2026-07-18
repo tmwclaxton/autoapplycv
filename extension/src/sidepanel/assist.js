@@ -272,8 +272,52 @@ export function initAssistChat({
         return copyBtn;
     }
 
-    const ASSIST_COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-    const ASSIST_COPIED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    function createAssistSvgIcon(paths) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('width', '14');
+        svg.setAttribute('height', '14');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('stroke-width', '2');
+        svg.setAttribute('stroke-linecap', 'round');
+        svg.setAttribute('stroke-linejoin', 'round');
+        svg.setAttribute('aria-hidden', 'true');
+
+        for (const path of paths) {
+            const el = document.createElementNS('http://www.w3.org/2000/svg', path.tag);
+
+            for (const [name, value] of Object.entries(path.attrs)) {
+                el.setAttribute(name, value);
+            }
+
+            svg.appendChild(el);
+        }
+
+        return svg;
+    }
+
+    function setAssistCopyIcon(button, mode) {
+        button.replaceChildren(
+            mode === 'copied'
+                ? createAssistSvgIcon([
+                    { tag: 'polyline', attrs: { points: '20 6 9 17 4 12' } },
+                ])
+                : createAssistSvgIcon([
+                    {
+                        tag: 'rect',
+                        attrs: {
+                            x: '9', y: '9', width: '13', height: '13', rx: '2', ry: '2',
+                        },
+                    },
+                    {
+                        tag: 'path',
+                        attrs: { d: 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1' },
+                    },
+                ]),
+        );
+    }
 
     function createAssistantCopyButton(getText) {
         const copyBtn = document.createElement('button');
@@ -281,7 +325,7 @@ export function initAssistChat({
         copyBtn.className = 'assist-message-copy-btn';
         copyBtn.setAttribute('aria-label', 'Copy response');
         copyBtn.title = 'Copy response';
-        copyBtn.innerHTML = ASSIST_COPY_ICON;
+        setAssistCopyIcon(copyBtn, 'copy');
 
         let resetTimer = null;
 
@@ -303,13 +347,13 @@ export function initAssistChat({
             try {
                 await navigator.clipboard.writeText(trimmed);
                 copyBtn.classList.add('is-copied');
-                copyBtn.innerHTML = ASSIST_COPIED_ICON;
+                setAssistCopyIcon(copyBtn, 'copied');
                 copyBtn.setAttribute('aria-label', 'Copied');
                 showMessage('Copied to clipboard.', 'success');
 
                 resetTimer = setTimeout(() => {
                     copyBtn.classList.remove('is-copied');
-                    copyBtn.innerHTML = ASSIST_COPY_ICON;
+                    setAssistCopyIcon(copyBtn, 'copy');
                     copyBtn.setAttribute('aria-label', 'Copy response');
                     copyBtn.disabled = false;
                     resetTimer = null;
@@ -884,7 +928,7 @@ export function initAssistChat({
     function clearChat() {
         closeActiveStreamPort();
         chatHistory.length = 0;
-        messagesEl.innerHTML = '';
+        messagesEl.replaceChildren();
         appendWelcomeMessage();
         inputEl.value = '';
         setRequestInProgress(false);

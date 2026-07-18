@@ -29,7 +29,7 @@ class ExtensionBuildTest extends TestCase
             'autocvapply@autocvapply.com',
             $firefoxManifest['browser_specific_settings']['gecko']['id'] ?? null,
         );
-        $this->assertSame('121.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
+        $this->assertSame('140.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
         $this->assertSame(
             [
                 'authenticationInfo',
@@ -56,6 +56,23 @@ class ExtensionBuildTest extends TestCase
         $this->assertNotContains('sidePanel', $firefoxManifest['permissions'] ?? []);
         $this->assertContains('tabs', $firefoxManifest['permissions'] ?? []);
         $this->assertContains('storage', $firefoxManifest['permissions'] ?? []);
+        $sidePanelApiPattern = '/(?:chrome|browser)\s*\??\s*\.\s*sidePanel\b/';
+        $this->assertDoesNotMatchRegularExpression(
+            $sidePanelApiPattern,
+            $this->readZipEntry($firefoxZip, 'browser-panel.js'),
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            $sidePanelApiPattern,
+            $this->readZipEntry($firefoxZip, 'background.js'),
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            $sidePanelApiPattern,
+            $this->readZipEntry($firefoxZip, 'auto-apply-orchestrator.js'),
+        );
+        $this->assertStringContainsString(
+            'sidebarAction',
+            $this->readZipEntry($firefoxZip, 'browser-panel.js'),
+        );
 
         $chromeManifest = $this->readManifestFromZip($chromeZip);
         $this->assertArrayNotHasKey('browser_specific_settings', $chromeManifest);
@@ -67,6 +84,10 @@ class ExtensionBuildTest extends TestCase
         $this->assertContains('sidePanel', $chromeManifest['permissions'] ?? []);
         $this->assertArrayHasKey('externally_connectable', $chromeManifest);
         $this->assertSame('icons/icon32.png', $chromeManifest['icons']['32'] ?? null);
+        $this->assertMatchesRegularExpression(
+            $sidePanelApiPattern,
+            $this->readZipEntry($chromeZip, 'browser-panel.js'),
+        );
     }
 
     /**
@@ -74,14 +95,19 @@ class ExtensionBuildTest extends TestCase
      */
     private function readManifestFromZip(string $path): array
     {
+        return json_decode($this->readZipEntry($path, 'manifest.json'), true, flags: JSON_THROW_ON_ERROR);
+    }
+
+    private function readZipEntry(string $path, string $name): string
+    {
         $zip = new ZipArchive;
         $this->assertTrue($zip->open($path));
 
-        $manifest = $zip->getFromName('manifest.json');
+        $contents = $zip->getFromName($name);
         $zip->close();
 
-        $this->assertIsString($manifest);
+        $this->assertIsString($contents);
 
-        return json_decode($manifest, true, flags: JSON_THROW_ON_ERROR);
+        return $contents;
     }
 }

@@ -64,7 +64,10 @@ function renderLogs() {
     statsEl.textContent = `${filtered.length} shown · ${allLogs.length} total · updated ${new Date().toLocaleTimeString('en-GB')}`;
 
     if (filtered.length === 0) {
-        logListEl.innerHTML = '<div class="empty">No log entries match the current filters.</div>';
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'No log entries match the current filters.';
+        logListEl.replaceChildren(empty);
 
         return;
     }
@@ -72,44 +75,61 @@ function renderLogs() {
     const shouldStick = autoScrollEl.checked
         && (filtered.length !== lastRenderedCount || window.scrollY + window.innerHeight >= document.body.scrollHeight - 40);
 
-    logListEl.innerHTML = filtered.map((entry) => {
-        const dataBlock = entry.data !== undefined
-            ? `<pre class="entry-data">${escapeHtml(JSON.stringify(entry.data, null, 2))}</pre>`
-            : '';
+    const fragment = document.createDocumentFragment();
 
-        return `
-            <article class="entry" data-id="${entry.id}">
-                <div class="entry-head">
-                    <span class="level level-${entry.level}">${entry.level}</span>
-                    <span class="time">${formatTime(entry.timestamp)}</span>
-                    <span class="source">${escapeHtml(entry.source || '')}</span>
-                    <span class="message"><strong>${escapeHtml(entry.phase || '')}</strong> - ${escapeHtml(entry.message || '')}</span>
-                    <span class="phase">${entry.tabId != null ? `tab ${entry.tabId}` : ''}</span>
-                </div>
-                ${dataBlock}
-            </article>
-        `;
-    }).join('');
+    for (const entry of filtered) {
+        const article = document.createElement('article');
+        article.className = 'entry';
+        article.dataset.id = String(entry.id);
 
-    logListEl.querySelectorAll('.entry-head').forEach((head) => {
+        const head = document.createElement('div');
+        head.className = 'entry-head';
         head.addEventListener('click', () => {
-            head.closest('.entry')?.classList.toggle('expanded');
+            article.classList.toggle('expanded');
         });
-    });
+
+        const level = document.createElement('span');
+        level.className = `level level-${entry.level}`;
+        level.textContent = entry.level;
+
+        const time = document.createElement('span');
+        time.className = 'time';
+        time.textContent = formatTime(entry.timestamp);
+
+        const source = document.createElement('span');
+        source.className = 'source';
+        source.textContent = entry.source || '';
+
+        const message = document.createElement('span');
+        message.className = 'message';
+        const phaseStrong = document.createElement('strong');
+        phaseStrong.textContent = entry.phase || '';
+        message.append(phaseStrong, document.createTextNode(` - ${entry.message || ''}`));
+
+        const phase = document.createElement('span');
+        phase.className = 'phase';
+        phase.textContent = entry.tabId != null ? `tab ${entry.tabId}` : '';
+
+        head.append(level, time, source, message, phase);
+        article.appendChild(head);
+
+        if (entry.data !== undefined) {
+            const dataBlock = document.createElement('pre');
+            dataBlock.className = 'entry-data';
+            dataBlock.textContent = JSON.stringify(entry.data, null, 2);
+            article.appendChild(dataBlock);
+        }
+
+        fragment.appendChild(article);
+    }
+
+    logListEl.replaceChildren(fragment);
 
     lastRenderedCount = filtered.length;
 
     if (shouldStick) {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
     }
-}
-
-function escapeHtml(value) {
-    return String(value)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;');
 }
 
 function scheduleRender() {

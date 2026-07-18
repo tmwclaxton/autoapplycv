@@ -75,7 +75,7 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
     }
 
     function render() {
-        listEl.innerHTML = '';
+        listEl.replaceChildren();
 
         const pauseContext = getAutoApplyPauseContext();
 

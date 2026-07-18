@@ -23,6 +23,12 @@ import {
 import { loadAutoApplySession } from './auto-apply-session.js';
 import { mergeAutoApplyStartFilters } from './auto-apply-start-filters.js';
 import { initExtensionBridge } from './bridge-client.js';
+import {
+    closeBrowserPanel,
+    configureChromeSidePanel,
+    openBrowserPanel,
+    supportsFirefoxSidebarAction,
+} from './browser-panel.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import {
     clearConnection,
@@ -350,37 +356,24 @@ async function downloadProfileDocument(documentId) {
     return payload;
 }
 
-function supportsChromeSidePanel() {
-    return Boolean(chrome.sidePanel?.setPanelBehavior);
-}
-
-function supportsFirefoxSidebarAction() {
-    return Boolean(chrome.sidebarAction?.open);
-}
-
 function configureSidePanel() {
-    if (!supportsChromeSidePanel()) {
-        return;
-    }
-
-    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
-
-    chrome.sidePanel.onOpened?.addListener((info) => {
-        recordSidePanelHeartbeat({
-            tabId: typeof info?.tabId === 'number' ? info.tabId : null,
-            windowId: typeof info?.windowId === 'number' ? info.windowId : null,
-        }).catch(() => {});
-    });
-
-    chrome.sidePanel.onClosed?.addListener(() => {
-        markSidePanelClosed().catch(() => {});
+    configureChromeSidePanel({
+        onOpened: (info) => {
+            recordSidePanelHeartbeat({
+                tabId: info.tabId,
+                windowId: info.windowId,
+            }).catch(() => {});
+        },
+        onClosed: () => {
+            markSidePanelClosed().catch(() => {});
+        },
     });
 }
 
-// Firefox: no sidePanel / openPanelOnActionClick - open sidebar_action on toolbar click.
+// Firefox: no openPanelOnActionClick - open sidebar_action on toolbar click.
 if (supportsFirefoxSidebarAction() && chrome.action?.onClicked) {
     chrome.action.onClicked.addListener(() => {
-        chrome.sidebarAction.open().catch(() => {});
+        openBrowserPanel().catch(() => {});
     });
 }
 
@@ -1148,17 +1141,11 @@ async function openSidePanelForTab(tabId) {
 
     const tab = await chrome.tabs.get(tabId);
 
-    if (chrome.sidePanel?.open) {
-        await chrome.sidePanel.open({
-            tabId,
-            windowId: tab.windowId,
-        });
-    } else if (supportsFirefoxSidebarAction()) {
-        // Requires a user gesture (e.g. toolbar click). Programmatic callers may fail.
-        await chrome.sidebarAction.open();
-    } else {
-        throw new Error('Side panel API is not available in this browser.');
-    }
+    // May require a user gesture on Firefox (sidebarAction.open).
+    await openBrowserPanel({
+        tabId,
+        windowId: tab.windowId,
+    });
 
     await rememberSidePanelHostTab({
         tabId,
@@ -1182,9 +1169,9 @@ async function closeSidePanelForWindow(windowId = null) {
         resolvedWindowId = tab.windowId;
     }
 
-    if (chrome.sidePanel?.close) {
-        await chrome.sidePanel.close({ windowId: resolvedWindowId });
-    } else {
+    const closed = await closeBrowserPanel({ windowId: resolvedWindowId });
+
+    if (!closed) {
         await markSidePanelClosed();
     }
 

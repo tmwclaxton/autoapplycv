@@ -71,6 +71,7 @@ import {
     navigateAutoApplyTab,
     wakeAutoApplyTab,
 } from './auto-apply-window.js';
+import { openBrowserPanel } from './browser-panel.js';
 import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
 import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
@@ -2712,14 +2713,10 @@ async function openAssistSidePanelForCaptcha(tabId) {
         await chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
         await chrome.tabs.update(tabId, { active: true }).catch(() => {});
 
-        if (chrome.sidePanel?.open) {
-            await chrome.sidePanel.open({
-                tabId,
-                windowId: tab.windowId,
-            });
-        } else if (chrome.sidebarAction?.open) {
-            await chrome.sidebarAction.open();
-        }
+        await openBrowserPanel({
+            tabId,
+            windowId: tab.windowId,
+        });
     } catch {
         // Side panel may already be open or the API may reject without a gesture.
     }
