@@ -144,6 +144,12 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
 
         if (autoApplyHint) {
             hint.textContent = autoApplyHint;
+        } else if (field.reason === 'type_coherence') {
+            const rejected = String(field.rejected_answer || '').trim();
+            const why = String(field.reject_reason || 'type mismatch').trim();
+            hint.textContent = rejected
+                ? `Skipped incoherent draft (${why}): "${rejected.slice(0, 80)}${rejected.length > 80 ? '…' : ''}". Enter the correct answer.`
+                : `Skipped incoherent draft (${why}). Enter the correct answer.`;
         } else if (field.reason === 'validation_error' && field.validationMessage) {
             hint.textContent = `Validation error: ${field.validationMessage}`;
         } else if (field.profile_path) {
