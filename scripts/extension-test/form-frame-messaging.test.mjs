@@ -68,6 +68,24 @@ test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     assert.equal(largeBatch, 300_000);
 });
 
+test('applyDraftBatchToTab forwards scaled timeout to sendTabMessage', async () => {
+    const source = await import('node:fs').then((fs) =>
+        fs.readFileSync(
+            join(ROOT, 'extension/src/shared/form-frame-messaging.js'),
+            'utf8',
+        ),
+    );
+
+    assert.match(
+        source,
+        /export async function applyDraftBatchToTab[\s\S]*?sendTabMessage\(\s*tabId,\s*\{\s*type:\s*'APPLY_DRAFT_BATCH',\s*answers\s*\},\s*resolvedFrameId,\s*\{\s*timeoutMs\s*\},\s*\)/,
+    );
+    assert.doesNotMatch(
+        source,
+        /Promise\.race\(\[\s*sendTabMessage\(tabId,\s*\{\s*type:\s*'APPLY_DRAFT_BATCH'/,
+    );
+});
+
 test('scoreFrame prefers form hosts and ignores invalid counts', () => {
     assert.equal(scoreFrame(null, true), -1);
     assert.equal(scoreFrame(3, false), 3);

@@ -673,12 +673,14 @@ export async function applyDraftBatchToTab(tabId, answers, frameId) {
     const timeoutMs = computeApplyDraftBatchTimeoutMs(answers);
 
     try {
-        return await Promise.race([
-            sendTabMessage(tabId, { type: 'APPLY_DRAFT_BATCH', answers }, resolvedFrameId),
-            new Promise((_, reject) => {
-                setTimeout(() => reject(new Error('APPLY_DRAFT_BATCH timed out')), timeoutMs);
-            }),
-        ]);
+        // sendTabMessage defaults to 20s; pass the scaled budget so Workable
+        // combobox/textarea batches are not cut off while still in-flight.
+        return await sendTabMessage(
+            tabId,
+            { type: 'APPLY_DRAFT_BATCH', answers },
+            resolvedFrameId,
+            { timeoutMs },
+        );
     } catch (error) {
         return {
             success: false,

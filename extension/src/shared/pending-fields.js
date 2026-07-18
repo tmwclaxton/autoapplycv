@@ -4583,8 +4583,47 @@ function resolveUsResidenceAnswer(field, profileData) {
     return isUs ? 'Yes' : 'No';
 }
 
+function resolveUsLocationConfirmationYesNoAnswer(field, profileData) {
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
+    const willingRaw = readProfileValue(
+        profileData,
+        'application_settings.willing_to_relocate',
+    );
+    const willingRelocate =
+        willingRaw === true || /^yes\b/i.test(String(willingRaw || '').trim());
+    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
+        String(country || '').trim(),
+    );
+    const isCanada = /^canada$/i.test(String(country || '').trim());
+    const label = field?.label || field?.question || '';
+    const allowsCanada = /or canada/i.test(normalizeQuestionLabel(label));
+
+    if (isUs || (allowsCanada && isCanada)) {
+        return 'Yes';
+    }
+
+    // "If hired, will you be based…" is about future work location.
+    const asksFutureBase = /(?:will you be based|if hired)/i.test(
+        normalizeQuestionLabel(label),
+    );
+
+    if (asksFutureBase && willingRelocate) {
+        return 'Yes';
+    }
+
+    return 'No';
+}
+
 function resolveUsLocationConfirmationAnswer(field, profileData) {
     const options = Array.isArray(field?.options) ? field.options : [];
+
+    // Greenhouse react-select often has empty options until opened. Still answer
+    // clear Yes/No "based in US/Canada" questions from the label alone.
+    if (fieldHasYesNoOptions(field) || options.length === 0) {
+        return resolveUsLocationConfirmationYesNoAnswer(field, profileData);
+    }
 
     if (options.length < 2) {
         return '';
@@ -4602,17 +4641,6 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
     const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
         String(country || '').trim(),
     );
-    const isCanada = /^canada$/i.test(String(country || '').trim());
-    const label = field?.label || field?.question || '';
-    const allowsCanada = /or canada/i.test(normalizeQuestionLabel(label));
-
-    if (fieldHasYesNoOptions(field)) {
-        if (isUs || (allowsCanada && isCanada)) {
-            return 'Yes';
-        }
-
-        return 'No';
-    }
 
     if (isUs) {
         return (

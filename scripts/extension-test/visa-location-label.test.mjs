@@ -174,6 +174,42 @@ test('UK profile answers No to based in the US or Canada Yes/No', () => {
     assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
 });
 
+test('UK profile answers No even when Greenhouse options are not harvested yet', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            willing_to_relocate: 'no',
+        },
+    };
+    const field = {
+        ref: 'f8',
+        label: 'if hired by warp, will you be based in the u.s. or canada?',
+        field_type: 'select',
+        options: [],
+        dom: { role: 'combobox' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
+});
+
+test('UK relocate-yes answers Yes to if-hired US or Canada base', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            willing_to_relocate: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f8',
+        label: 'if hired by warp, will you be based in the u.s. or canada?',
+        field_type: 'select',
+        options: ['Yes', 'No'],
+        dom: { role: 'combobox' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'Yes');
+});
+
 test('Polish work-auth status select leaves pending instead of inventing nationality', () => {
     const profile = {
         country: 'United Kingdom',

@@ -4576,24 +4576,43 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     async function closeOpenComboboxMenus(doc) {
+        const openComboboxes = Array.from(
+            doc.querySelectorAll?.('[role="combobox"][aria-expanded="true"]') ||
+                [],
+        );
         const active = doc.activeElement;
 
-        if (active?.getAttribute?.('role') === 'combobox') {
-            active.dispatchEvent(
+        if (
+            active?.getAttribute?.('role') === 'combobox' &&
+            !openComboboxes.includes(active)
+        ) {
+            openComboboxes.push(active);
+        }
+
+        for (const combobox of openComboboxes) {
+            combobox.dispatchEvent(
                 new KeyboardEvent('keydown', {
                     key: 'Escape',
                     bubbles: true,
                     cancelable: true,
                 }),
             );
-            active.dispatchEvent(
+            combobox.dispatchEvent(
                 new KeyboardEvent('keyup', { key: 'Escape', bubbles: true }),
             );
-            active.blur();
+            combobox.setAttribute('aria-expanded', 'false');
         }
 
-        doc.body?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        doc.body?.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+        // Greenhouse react-select treats a body mousedown as canceling an
+        // in-flight selection and can wipe the previous field in a batch.
+        if (!isGreenhouseApplyHost(doc)) {
+            doc.body?.dispatchEvent(
+                new MouseEvent('mousedown', { bubbles: true }),
+            );
+            doc.body?.dispatchEvent(
+                new MouseEvent('mouseup', { bubbles: true }),
+            );
+        }
 
         await new Promise((resolve) => {
             setTimeout(resolve, 60);
