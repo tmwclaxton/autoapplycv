@@ -2251,10 +2251,15 @@ function pickWorkAuthStatusOption(field, authorized) {
         const preferredPatterns = [
             /uk\/?irish citizen/i,
             /british citizen/i,
+            /i am a (?:uk|british|irish) citizen/i,
             /\bcitizen\b/i,
             /settled status|pre-settled status/i,
-            /indefinite leave to remain/i,
+            /indefinite leave to remain|\bilr\b/i,
             /right of abode/i,
+            /permanent residence|permanent resident/i,
+            /do not require (?:a )?visa|no visa required/i,
+            /have the right to work/i,
+            /authori[sz]ed to work/i,
         ];
 
         for (const pattern of preferredPatterns) {
@@ -3732,10 +3737,26 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return '';
     }
 
-    const raw = profileValueForApply(mapping, profileData, field);
+    let raw = profileValueForApply(mapping, profileData, field);
 
     if (!isMeaningfulAnswer(raw)) {
         return '';
+    }
+
+    // "Do you require a work permit?" is the inverse of legally authorized.
+    if (
+        mapping.path === 'application_settings.legally_authorized'
+        && isWorkPermitRequirementQuestion(label)
+        && fieldHasYesNoOptions(field)
+    ) {
+        const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
+        const unauthorized = raw === false || /^no\b/i.test(String(raw).trim());
+
+        if (authorized) {
+            raw = 'No';
+        } else if (unauthorized) {
+            raw = 'Yes';
+        }
     }
 
     const normalized = isStructuredSalaryFormatPrompt(label)

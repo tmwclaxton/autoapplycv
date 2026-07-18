@@ -380,6 +380,33 @@ test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformI
     assert.equal(plan.llmFields.length, 0);
 });
 
+test('buildDraftAllApplyPlan inverts work-permit questions from legally_authorized', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Do you require a work permit?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            country: 'United Kingdom',
+            application_settings: {
+                ...profileData.application_settings,
+                legally_authorized: 'yes',
+            },
+        },
+        questionMemo: {},
+    });
+    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+
+    assert.equal(preference?.answers?.[0]?.answer, 'No');
+    assert.equal(plan.llmFields.length, 0);
+});
+
 test('buildDraftAllApplyPlan fills salary and Polish notice from preference settings', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
