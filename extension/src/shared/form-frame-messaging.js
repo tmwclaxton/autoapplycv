@@ -38,6 +38,10 @@ export function isMissingContentScriptError(message) {
     return (
         text.includes('Receiving end does not exist')
         || text.includes('Could not establish connection')
+        || text.includes('Content script ping failed')
+        || /message port closed/i.test(text)
+        || /asynchronous response/i.test(text)
+        || /Tab message timed out after \d+ms \(PING_CONTENT_SCRIPT\)/i.test(text)
         || isDeadContentScriptError(text)
     );
 }
@@ -63,9 +67,23 @@ export function formatContentScriptUserError(error) {
 }
 
 async function pingTabContentScript(tabId) {
-    const response = await sendTabMessage(tabId, { type: 'PING_CONTENT_SCRIPT' }, 0, {
-        timeoutMs: 1_500,
-    });
+    let response;
+
+    try {
+        response = await sendTabMessage(tabId, { type: 'PING_CONTENT_SCRIPT' }, 0, {
+            timeoutMs: 1_500,
+        });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        // Timeouts / closed ports are the same class of failure as a missing script:
+        // ensureTabContentScript should reinject (or show the refresh hint).
+        if (isMissingContentScriptError(message)) {
+            throw new Error(message);
+        }
+
+        throw error instanceof Error ? error : new Error(message);
+    }
 
     // Zombie content scripts (post chrome.runtime.reload) still receive messages and
     // reply with context-unavailable - treat that as missing so we reinject.
@@ -73,15 +91,18 @@ async function pingTabContentScript(tabId) {
         throw new Error(String(response.error));
     }
 
-    if (response?.success !== true && response?.ready !== true) {
-        throw new Error(
-            response?.error
-                ? String(response.error)
-                : 'Content script ping failed.',
-        );
+    if (response?.success === true || response?.ready === true) {
+        return response;
     }
 
-    return response;
+    // Empty/undefined responses mean a half-dead listener (common after reload when a
+    // zombie still acknowledges the port but cannot sendResponse). Use the canonical
+    // missing-script error so reinject runs instead of surfacing a raw ping failure.
+    throw new Error(
+        response?.error
+            ? String(response.error)
+            : 'Could not establish connection. Receiving end does not exist.',
+    );
 }
 
 /**

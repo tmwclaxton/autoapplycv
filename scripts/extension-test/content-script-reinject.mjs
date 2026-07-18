@@ -132,8 +132,18 @@ const guardSource = readFileSync(join(ROOT, 'extension/src/shared/form-frame-mes
 assert.match(guardSource, /pingTabContentScript\(tabId\)/);
 assert.match(guardSource, /skipped: true/);
 assert.match(guardSource, /tabContentScriptEnsureInFlight/);
+assert.match(guardSource, /Content script ping failed/);
+
+const contextSource = readFileSync(join(ROOT, 'extension/src/shared/extension-context.js'), 'utf8');
+assert.match(contextSource, /Always re-check runtime identity/);
+assert.doesNotMatch(
+    contextSource,
+    /if \(contextProbePassed\) \{\s*return true;\s*\}/,
+);
 
 console.log('ok - content scripts execute twice without SyntaxError');
 console.log('ok - content main is idempotent-wrapped');
 console.log('ok - injectManifestContentScripts pings before inject');
-console.log('\n3 content-script reinject checks passed.');
+console.log('ok - empty ping responses reinject instead of raw failure');
+console.log('ok - extension context re-probes runtime identity');
+console.log('\n5 content-script reinject checks passed.');

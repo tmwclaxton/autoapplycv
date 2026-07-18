@@ -1155,6 +1155,20 @@ async function collectDraftContext(injectedProfile = null) {
 }
 
 contentMessageListener = (message, sender, sendResponse) => {
+    // Answer pings synchronously so ensureTabContentScript never depends on the async
+    // IIFE microtask (zombies + reload races otherwise resolve as undefined).
+    if (message?.type === 'PING_CONTENT_SCRIPT') {
+        if (!ensureExtensionContextOrTeardown()) {
+            sendResponse({ error: 'Extension context unavailable.' });
+
+            return false;
+        }
+
+        sendResponse({ success: true, ready: true });
+
+        return false;
+    }
+
     (async () => {
         const linkedInBurst = typeof message.type === 'string' && message.type.startsWith('LINKEDIN_');
 
@@ -1165,12 +1179,6 @@ contentMessageListener = (message, sender, sendResponse) => {
         try {
         if (!ensureExtensionContextOrTeardown()) {
             sendResponse({ error: 'Extension context unavailable.' });
-
-            return;
-        }
-
-        if (message.type === 'PING_CONTENT_SCRIPT') {
-            sendResponse({ success: true, ready: true });
 
             return;
         }

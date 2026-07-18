@@ -108,10 +108,10 @@ var AutoCVApplyExtensionContext = (() => {
             return false;
         }
 
-        if (contextProbePassed) {
-            return true;
-        }
-
+        // Always re-check runtime identity. After chrome.runtime.reload / an extension
+        // update, a zombie content-script heap can still have contextProbePassed=true
+        // while chrome.runtime is already invalidated. Trusting the cache there blocks
+        // reinject (__autocvapplyContentIsLive early-return) and breaks messaging.
         try {
             return probeExtensionContext();
         } catch {

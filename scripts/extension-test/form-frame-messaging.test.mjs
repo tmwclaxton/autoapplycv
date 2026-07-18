@@ -22,6 +22,9 @@ const {
 test('formatContentScriptUserError maps Chrome receiving-end errors to refresh hint', () => {
     assert.equal(isMissingContentScriptError('Could not establish connection. Receiving end does not exist.'), true);
     assert.equal(isMissingContentScriptError('Extension context unavailable.'), true);
+    assert.equal(isMissingContentScriptError('Content script ping failed.'), true);
+    assert.equal(isMissingContentScriptError('Tab message timed out after 1500ms (PING_CONTENT_SCRIPT)'), true);
+    assert.equal(isMissingContentScriptError('The message port closed before a response was received.'), true);
     assert.equal(
         formatContentScriptUserError('Could not establish connection. Receiving end does not exist.'),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
@@ -32,6 +35,10 @@ test('formatContentScriptUserError maps Chrome receiving-end errors to refresh h
     );
     assert.equal(
         formatContentScriptUserError(new Error('Extension context invalidated.')),
+        CONTENT_SCRIPT_MISSING_USER_MESSAGE,
+    );
+    assert.equal(
+        formatContentScriptUserError(new Error('Content script ping failed.')),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
@@ -127,9 +134,12 @@ test('ensureTabContentScript injects or asks for refresh after extension reload'
     assert.match(source, /PING_CONTENT_SCRIPT/);
     assert.match(source, /isDeadContentScriptError/);
     assert.match(source, /response\?\.error && isMissingContentScriptError/);
+    assert.match(source, /Content script ping failed/);
+    assert.match(source, /Receiving end does not exist/);
     assert.match(source, /extension context \(unavailable\|invalidated\)/i);
     assert.match(background, /ensureTabContentScript\(tabId\)/);
     assert.match(content, /removeListener\(contentMessageListener\)/);
+    assert.match(content, /message\?\.type === 'PING_CONTENT_SCRIPT'/);
 });
 
 test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () => {
