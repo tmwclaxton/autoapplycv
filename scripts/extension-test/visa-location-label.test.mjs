@@ -192,7 +192,7 @@ test('UK profile answers No even when Greenhouse options are not harvested yet',
     assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
 });
 
-test('UK relocate-yes answers Yes to if-hired US or Canada base', () => {
+test('UK relocate-yes still answers No to if-hired US or Canada Yes/No', () => {
     const profile = {
         country: 'United Kingdom',
         application_settings: {
@@ -207,7 +207,25 @@ test('UK relocate-yes answers Yes to if-hired US or Canada base', () => {
         dom: { role: 'combobox' },
     };
 
-    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'Yes');
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
+});
+
+test('UK profile answers No to US/Canada permanent work-auth when options unharvested', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            legally_authorized: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f9',
+        label: 'do you have permanent authorization to work for warp in the u.s. or canada?',
+        field_type: 'select',
+        options: [],
+        dom: { role: 'combobox' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
 });
 
 test('Polish work-auth status select leaves pending instead of inventing nationality', () => {

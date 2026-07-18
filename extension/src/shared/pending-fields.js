@@ -3061,6 +3061,23 @@ function pickWorkAuthStatusOption(field, authorized) {
     return noRight || '';
 }
 
+function isWorkAuthYesNoStyleQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    // Nationality / status dropdowns must stay pending when options do not match.
+    if (
+        /\b(nationalit|citizenship|visa type|specify your current|legal work authorization status|which of the following)\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
+    return /\b(permanent authorization|authori[sz]ed to work|eligible to work|right to work|legally (?:eligible|authori[sz]ed)|work authori[sz]ation)\b/.test(
+        normalized,
+    );
+}
+
 function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
     const label = field?.label || field?.question || '';
     const profileInCountry = profileMatchesWorkAuthCountryAliases(
@@ -3078,6 +3095,7 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
         field?.field_type === 'select' ||
         field?.field_type === 'checkbox' ||
         field?.dom?.role === 'combobox';
+    const options = Array.isArray(field?.options) ? field.options : [];
 
     if (!isChoiceField) {
         return '';
@@ -3091,6 +3109,12 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
 
     if (statusOption) {
         return statusOption;
+    }
+
+    // Greenhouse react-select often has empty options until opened. Still answer
+    // clear Yes/No work-auth questions from the country match alone.
+    if (options.length === 0 && isWorkAuthYesNoStyleQuestion(label)) {
+        return yesNoAnswer;
     }
 
     // Status / nationality selects must never receive bare Yes/No (combobox
@@ -4587,12 +4611,6 @@ function resolveUsLocationConfirmationYesNoAnswer(field, profileData) {
     const country = normalizeCountryNameForApply(
         readProfileValue(profileData, 'country'),
     );
-    const willingRaw = readProfileValue(
-        profileData,
-        'application_settings.willing_to_relocate',
-    );
-    const willingRelocate =
-        willingRaw === true || /^yes\b/i.test(String(willingRaw || '').trim());
     const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
         String(country || '').trim(),
     );
@@ -4604,15 +4622,9 @@ function resolveUsLocationConfirmationYesNoAnswer(field, profileData) {
         return 'Yes';
     }
 
-    // "If hired, will you be based…" is about future work location.
-    const asksFutureBase = /(?:will you be based|if hired)/i.test(
-        normalizeQuestionLabel(label),
-    );
-
-    if (asksFutureBase && willingRelocate) {
-        return 'Yes';
-    }
-
+    // Yes/No "will you be based in the US?" means living/working there, not
+    // abstract relocate willingness. Relocate-open wording is handled by the
+    // multi-option path below.
     return 'No';
 }
 
