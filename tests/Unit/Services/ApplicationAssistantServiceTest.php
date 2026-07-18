@@ -697,6 +697,6 @@ class ApplicationAssistantServiceTest extends TestCase
 
         $this->assertNotNull($result);
         $this->assertCount(1, $result['answers']);
-        $this->assertSame('yes', $result['answers'][0]['answer']);
+        $this->assertSame('Yes', $result['answers'][0]['answer']);
     }
 }

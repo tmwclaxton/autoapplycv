@@ -99,7 +99,10 @@ function loadLinkedInApi(html, url, { includeFormHeuristics = false } = {}) {
 
     globalThis.window = window;
     globalThis.document = window.document;
+    globalThis.Element = window.Element;
     globalThis.HTMLElement = window.HTMLElement;
+    globalThis.ShadowRoot = window.ShadowRoot;
+    globalThis.MutationObserver = window.MutationObserver;
     globalThis.MouseEvent = window.MouseEvent;
     globalThis.KeyboardEvent = window.KeyboardEvent;
     globalThis.Event = window.Event;
@@ -651,6 +654,12 @@ for (const scenario of dbExportManifest.scenarios || []) {
         const listbox = document.createElement('div');
         listbox.id = listboxId;
         listbox.setAttribute('role', 'listbox');
+        Object.defineProperty(listbox, 'offsetParent', {
+            configurable: true,
+            get() {
+                return document.body;
+            },
+        });
 
         for (const label of [
             'London, England, United Kingdom',
@@ -659,12 +668,24 @@ for (const scenario of dbExportManifest.scenarios || []) {
             const option = document.createElement('div');
             option.setAttribute('role', 'option');
             option.textContent = label;
+            Object.defineProperty(option, 'offsetParent', {
+                configurable: true,
+                get() {
+                    return document.body;
+                },
+            });
             listbox.appendChild(option);
         }
 
         document.body.appendChild(listbox);
         input.setAttribute('aria-controls', listboxId);
         input.setAttribute('aria-expanded', 'true');
+        Object.defineProperty(input, 'offsetParent', {
+            configurable: true,
+            get() {
+                return document.body;
+            },
+        });
 
         const filled = await globalThis.AutoCVApplyFormHeuristics.applyAnswerForTarget(
             document,

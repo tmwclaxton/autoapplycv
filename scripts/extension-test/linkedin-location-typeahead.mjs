@@ -65,7 +65,10 @@ function loadFixtureApi(html, url) {
 
     globalThis.window = window;
     globalThis.document = window.document;
+    globalThis.Element = window.Element;
     globalThis.HTMLElement = window.HTMLElement;
+    globalThis.ShadowRoot = window.ShadowRoot;
+    globalThis.MutationObserver = window.MutationObserver;
     globalThis.MouseEvent = window.MouseEvent;
     globalThis.KeyboardEvent = window.KeyboardEvent;
     globalThis.Event = window.Event;
@@ -78,22 +81,46 @@ function loadFixtureApi(html, url) {
     return { window, dom };
 }
 
+function patchJsdomVisibility(element, window) {
+    Object.defineProperty(element, 'offsetParent', {
+        configurable: true,
+        get() {
+            return window.document.body;
+        },
+    });
+    Object.defineProperty(element, 'offsetWidth', {
+        configurable: true,
+        get() {
+            return 120;
+        },
+    });
+    Object.defineProperty(element, 'offsetHeight', {
+        configurable: true,
+        get() {
+            return 24;
+        },
+    });
+}
+
 function attachListbox(window, input, options) {
     const listboxId = `linkedin-location-test-listbox-${Math.random().toString(36).slice(2, 8)}`;
     const listbox = window.document.createElement('div');
     listbox.id = listboxId;
     listbox.setAttribute('role', 'listbox');
+    patchJsdomVisibility(listbox, window);
 
     for (const label of options) {
         const option = window.document.createElement('div');
         option.setAttribute('role', 'option');
         option.textContent = label;
+        patchJsdomVisibility(option, window);
         listbox.appendChild(option);
     }
 
     window.document.body.appendChild(listbox);
     input.setAttribute('aria-controls', listboxId);
     input.setAttribute('aria-expanded', 'true');
+    patchJsdomVisibility(input, window);
 
     return listboxId;
 }

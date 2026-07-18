@@ -72,7 +72,18 @@ const wizardSnapshot = {
     controls: [{ ref: 'c0', name: 'Continue' }],
 };
 
-assert(!canUseMechanicalInventory(wizardSnapshot), 'wizard controls should disable mechanical inventory');
+// Navigation-only controls (Continue/Next/Submit) must not force an LLM inventory round-trip.
+assert(canUseMechanicalInventory(wizardSnapshot), 'navigation-only wizard controls should allow mechanical inventory');
+
+const nonNavigationWizardSnapshot = {
+    elements: mechanicalSnapshot.elements,
+    controls: [{ ref: 'c0', name: 'Upload resume' }],
+};
+
+assert(
+    !canUseMechanicalInventory(nonNavigationWizardSnapshot),
+    'non-navigation controls should disable mechanical inventory',
+);
 
 const stepOneSnapshot = {
     elements: [
