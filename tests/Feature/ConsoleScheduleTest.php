@@ -33,4 +33,17 @@ class ConsoleScheduleTest extends TestCase
         $this->assertNotNull($event, 'Expected WorkerHeartbeatJob to be registered on the schedule.');
         $this->assertSame('* * * * *', $event->expression);
     }
+
+    public function test_synthetic_analytics_increment_is_scheduled_hourly(): void
+    {
+        $schedule = app(Schedule::class);
+
+        $event = collect($schedule->events())->first(
+            fn (Event $event): bool => str_contains($event->command ?? '', 'analytics:increment-synthetic')
+                || str_contains($event->description ?? '', 'analytics:increment-synthetic'),
+        );
+
+        $this->assertNotNull($event, 'Expected analytics:increment-synthetic to be registered on the schedule.');
+        $this->assertSame('0 * * * *', $event->expression);
+    }
 }

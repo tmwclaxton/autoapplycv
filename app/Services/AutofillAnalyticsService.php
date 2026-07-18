@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AutofillDailyStat;
+use App\Models\AutofillSyntheticDailyStat;
 use App\Models\CvProfile;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -56,21 +57,29 @@ class AutofillAnalyticsService
         $days = max(7, min(90, $days ?? (int) config('cv.analytics_chart_days', 30)));
         $start = now()->subDays($days - 1)->startOfDay();
 
-        $rows = AutofillDailyStat::query()
-            ->whereDate('date', '>=', $start->toDateString())
-            ->orderBy('date')
-            ->get();
-
         $answersByDate = [];
         $questionsByDate = [];
         $cvsByDate = [];
 
-        foreach ($rows as $stat) {
-            $date = $stat->date->toDateString();
-            $answersByDate[$date] = (int) $stat->answers_count;
-            $questionsByDate[$date] = (int) $stat->extension_questions_count;
-            $cvsByDate[$date] = (int) $stat->cvs_parsed_count;
-        }
+        $this->accumulateDailyCounts(
+            AutofillDailyStat::query()
+                ->whereDate('date', '>=', $start->toDateString())
+                ->orderBy('date')
+                ->get(),
+            $answersByDate,
+            $questionsByDate,
+            $cvsByDate,
+        );
+
+        $this->accumulateDailyCounts(
+            AutofillSyntheticDailyStat::query()
+                ->whereDate('date', '>=', $start->toDateString())
+                ->orderBy('date')
+                ->get(),
+            $answersByDate,
+            $questionsByDate,
+            $cvsByDate,
+        );
 
         return [
             'days' => $days,
@@ -80,24 +89,47 @@ class AutofillAnalyticsService
                     $start,
                     $answersByDate,
                     'Answers autofilled',
-                    (int) AutofillDailyStat::query()->sum('answers_count'),
+                    (int) AutofillDailyStat::query()->sum('answers_count')
+                        + (int) AutofillSyntheticDailyStat::query()->sum('answers_count'),
                 ),
                 'extension_questions' => $this->buildMetricSeries(
                     $days,
                     $start,
                     $questionsByDate,
                     'Extension questions',
-                    (int) AutofillDailyStat::query()->sum('extension_questions_count'),
+                    (int) AutofillDailyStat::query()->sum('extension_questions_count')
+                        + (int) AutofillSyntheticDailyStat::query()->sum('extension_questions_count'),
                 ),
                 'cvs_parsed' => $this->buildMetricSeries(
                     $days,
                     $start,
                     $cvsByDate,
                     'CVs parsed',
-                    (int) AutofillDailyStat::query()->sum('cvs_parsed_count'),
+                    (int) AutofillDailyStat::query()->sum('cvs_parsed_count')
+                        + (int) AutofillSyntheticDailyStat::query()->sum('cvs_parsed_count'),
                 ),
             ],
         ];
+    }
+
+    /**
+     * @param  iterable<int, AutofillDailyStat|AutofillSyntheticDailyStat>  $rows
+     * @param  array<string, int>  $answersByDate
+     * @param  array<string, int>  $questionsByDate
+     * @param  array<string, int>  $cvsByDate
+     */
+    private function accumulateDailyCounts(
+        iterable $rows,
+        array &$answersByDate,
+        array &$questionsByDate,
+        array &$cvsByDate,
+    ): void {
+        foreach ($rows as $stat) {
+            $date = $stat->date->toDateString();
+            $answersByDate[$date] = ($answersByDate[$date] ?? 0) + (int) $stat->answers_count;
+            $questionsByDate[$date] = ($questionsByDate[$date] ?? 0) + (int) $stat->extension_questions_count;
+            $cvsByDate[$date] = ($cvsByDate[$date] ?? 0) + (int) $stat->cvs_parsed_count;
+        }
     }
 
     /**
