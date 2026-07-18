@@ -1,0 +1,76 @@
+{
+  "id": "indeed-city-county-locality",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "street address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-fields-address-input",
+        "name": "location-fields-address-input",
+        "data_testid": "location-fields-address-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city, county",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-fields-locality-input",
+        "name": "location-fields-locality-input",
+        "data_testid": "location-fields-locality-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-fields-postalCode-input",
+        "name": "location-fields-postalCode-input",
+        "data_testid": "location-fields-postalCode-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}
