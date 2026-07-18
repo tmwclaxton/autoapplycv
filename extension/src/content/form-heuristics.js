@@ -2614,7 +2614,7 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (
-            /^(yes|y|true)\b/.test(normalized) ||
+            /^(yes|y|true|tak|oui|ja|si|sí)\b/.test(normalized) ||
             normalized.includes(' i am open') ||
             normalized.includes(' i can start')
         ) {
@@ -2622,15 +2622,17 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (
-            /^(no|n|false)\b/.test(normalized) ||
+            /^(no|n|false|nie|non|nein)\b/.test(normalized) ||
             normalized.includes(' not open') ||
             normalized.includes(' i am not')
         ) {
             return 'no';
         }
 
-        const yesMatch = normalized.match(/\b(yes|yeah|yep|true)\b/);
-        const noMatch = normalized.match(/\b(no|nope|false)\b/);
+        const yesMatch = normalized.match(
+            /\b(yes|yeah|yep|true|tak|oui|ja)\b/,
+        );
+        const noMatch = normalized.match(/\b(no|nope|false|nie|non|nein)\b/);
 
         if (yesMatch && !noMatch) {
             return 'yes';
@@ -6270,7 +6272,7 @@ var AutoCVApplyFormHeuristics = (() => {
         if (normalizedAnswer === 'yes') {
             return (
                 option === 'true' ||
-                /^yes\b/.test(option) ||
+                /^(yes|tak|oui|ja|si|sí)\b/.test(option) ||
                 /^true\b/.test(option) ||
                 option.includes('i am open') ||
                 option.includes('i can start')
@@ -6280,7 +6282,7 @@ var AutoCVApplyFormHeuristics = (() => {
         if (normalizedAnswer === 'no') {
             return (
                 option === 'false' ||
-                /^no\b/.test(option) ||
+                /^(no|nie|non|nein)\b/.test(option) ||
                 /^false\b/.test(option) ||
                 option.includes('not open') ||
                 option.includes('i am not')

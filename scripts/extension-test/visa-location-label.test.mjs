@@ -8,11 +8,13 @@ import {
     isJobApplicationLocationChoiceLabel,
     isLocalityIdentityField,
     isLocationAutocompleteQuestionLabel,
+    isOnSiteCommuteQuestionLabel,
     isVisaSponsorshipQuestionLabel,
     partitionIdentityProfileFields,
     partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
     resolveIdentityProfileAnswer,
+    resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
 } from '../../extension/src/shared/pending-fields.js';
 
@@ -71,6 +73,28 @@ test('preference answers No for need-visa sponsorship when setting clear', () =>
     assert.equal(preferenceAnswers.length, 1);
     assert.equal(preferenceAnswers[0].answer, 'No');
     assert.equal(remainingFields.length, 0);
+});
+
+test('Polish Warsaw hybrid Tak/Nie declines to Nie for UK profile', () => {
+    const label =
+        'to stanowisko wymaga pracy u nas w biurze w warszawie w modelu hybrydowym - 3 dni w biurze, 2 dni zdalnie. czy jest to dla ciebie w porządku?';
+    assert.equal(isOnSiteCommuteQuestionLabel(label), true);
+    assert.equal(
+        resolveOfficeCommuteDeclineAnswer(
+            {
+                ref: 'f5',
+                label,
+                field_type: 'radio',
+                options: ['Tak', 'Nie'],
+            },
+            {
+                location: 'High Wycombe, England',
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+            },
+        ),
+        'Nie',
+    );
 });
 
 test('Lever which-location-are-you-applying-for is job site not residence', () => {

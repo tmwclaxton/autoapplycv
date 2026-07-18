@@ -1082,6 +1082,26 @@ function fieldHasYesNoOptions(field) {
     return field?.field_type === 'radio' && options.length >= 2;
 }
 
+function pickLocalizedYesNoOption(field, wantYes) {
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const yesPattern = /^(yes|tak|oui|ja|si|sí)\b/i;
+    const noPattern = /^(no|nie|non|nein)\b/i;
+
+    for (const option of options) {
+        const text = String(option || '').trim();
+
+        if (wantYes && yesPattern.test(text)) {
+            return text;
+        }
+
+        if (!wantYes && noPattern.test(text)) {
+            return text;
+        }
+    }
+
+    return wantYes ? 'Yes' : 'No';
+}
+
 export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
 
@@ -1105,7 +1125,7 @@ export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
         return '';
     }
 
-    return 'No';
+    return pickLocalizedYesNoOption(field, false);
 }
 
 function profileNearRelocateDestination(label, profileLocation) {
