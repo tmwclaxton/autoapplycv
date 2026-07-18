@@ -26,7 +26,7 @@ class ExtensionBuildTest extends TestCase
 
         $firefoxManifest = $this->readManifestFromZip($firefoxZip);
         $this->assertSame(
-            'autocvapply@autocvapply.com',
+            'autocvapply-amo@autocvapply.com',
             $firefoxManifest['browser_specific_settings']['gecko']['id'] ?? null,
         );
         $this->assertSame('140.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);

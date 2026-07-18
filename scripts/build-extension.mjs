@@ -775,7 +775,7 @@ function applyFirefoxManifest(manifest) {
     // See https://mzl.la/firefox-builtin-data-consent
     manifest.browser_specific_settings = {
         gecko: {
-            id: 'autocvapply@autocvapply.com',
+            id: 'autocvapply-amo@autocvapply.com',
             strict_min_version: '140.0',
             data_collection_permissions: {
                 required: [
