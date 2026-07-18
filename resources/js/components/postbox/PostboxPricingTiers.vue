@@ -63,7 +63,7 @@ function planButtonLabel(plan: PricingPlan): string {
             props.subscriptionStatus === 'pending' &&
             props.pendingTier === plan.key
         ) {
-            return 'Finish Direct Debit setup';
+            return 'Finish bank payment setup';
         }
 
         if (
@@ -77,7 +77,7 @@ function planButtonLabel(plan: PricingPlan): string {
             return 'Current plan';
         }
 
-        return plan.is_paid ? 'Upgrade via Direct Debit' : 'Switch to Free';
+        return plan.is_paid ? 'Upgrade via bank payment' : 'Switch to Free';
     }
 
     if (plan.is_paid) {

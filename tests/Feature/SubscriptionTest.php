@@ -218,7 +218,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. Direct Debit payments will be collected monthly.',
+                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
             );
     }
 
@@ -364,7 +364,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. Direct Debit payments will be collected monthly.',
+                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
             );
     }
 
@@ -400,6 +400,7 @@ class SubscriptionTest extends TestCase
             'subscription_tier' => 'starter',
             'subscription_status' => 'active',
             'gocardless_subscription_id' => 'SB123',
+            'gocardless_mandate_id' => 'MD123',
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {

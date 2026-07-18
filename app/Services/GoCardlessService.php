@@ -74,6 +74,12 @@ class GoCardlessService
 
         $billingRequest = $this->client()->billingRequests()->create([
             'params' => [
+                'payment_request' => [
+                    'description' => 'AutoCVApply '.$tier->label().' - first month',
+                    'amount' => $tier->pricePence(),
+                    'currency' => 'GBP',
+                    'scheme' => 'faster_payments',
+                ],
                 'mandate_request' => [
                     'scheme' => 'bacs',
                     'metadata' => [
@@ -154,6 +160,8 @@ class GoCardlessService
         }
 
         if ($subscriptionId === null && $mandateId !== null) {
+            $startDate = $this->subscriptionStartDateFromBillingRequest($links);
+
             $subscription = $this->client()->subscriptions()->create([
                 'params' => [
                     'amount' => $tier->pricePence(),
@@ -161,7 +169,7 @@ class GoCardlessService
                     'name' => 'AutoCVApply '.$tier->label(),
                     'interval_unit' => 'monthly',
                     'interval' => 1,
-                    'day_of_month' => '1',
+                    'start_date' => $startDate,
                     'metadata' => [
                         'user_id' => (string) $user->id,
                         'tier' => $tier->value,
@@ -169,6 +177,9 @@ class GoCardlessService
                     'links' => [
                         'mandate' => $mandateId,
                     ],
+                ],
+                'headers' => [
+                    'Idempotency-Key' => 'subscription-'.$billingRequestId,
                 ],
             ]);
 
@@ -510,6 +521,7 @@ class GoCardlessService
         ];
 
         $subscriptionId = $user->gocardless_subscription_id;
+        $mandateId = $user->gocardless_mandate_id;
 
         if ($subscriptionId === null || ! $user->subscriptionTier()->isPaid()) {
             return $empty;
@@ -549,10 +561,18 @@ class GoCardlessService
                 : null;
         }
 
+        if ($mandateId === null) {
+            return [
+                'next_payment_date' => $nextPaymentDate,
+                'next_payment_amount' => $nextPaymentAmount,
+                'payments' => [],
+            ];
+        }
+
         try {
             $payments = $this->client()->payments()->list([
                 'params' => [
-                    'subscription' => $subscriptionId,
+                    'mandate' => $mandateId,
                     'limit' => 24,
                 ],
             ]);
@@ -565,7 +585,7 @@ class GoCardlessService
         } catch (ApiException $exception) {
             Log::warning('Failed to fetch GoCardless payment history', [
                 'user_id' => $user->id,
-                'subscription_id' => $subscriptionId,
+                'mandate_id' => $mandateId,
                 'message' => $exception->getMessage(),
             ]);
 
@@ -577,7 +597,7 @@ class GoCardlessService
         } catch (\Throwable $exception) {
             Log::warning('Failed to fetch GoCardless payment history', [
                 'user_id' => $user->id,
-                'subscription_id' => $subscriptionId,
+                'mandate_id' => $mandateId,
                 'message' => $exception->getMessage(),
             ]);
 
@@ -609,6 +629,29 @@ class GoCardlessService
                 ])
                 ->all(),
         ];
+    }
+
+    private function subscriptionStartDateFromBillingRequest(object $links): string
+    {
+        $anchorDate = now()->toDateString();
+        $paymentId = $links->payment_request_payment ?? $links->payment ?? null;
+
+        if ($paymentId !== null) {
+            try {
+                $payment = $this->client()->payments()->get($paymentId);
+
+                if (! empty($payment->charge_date)) {
+                    $anchorDate = (string) $payment->charge_date;
+                }
+            } catch (\Throwable $exception) {
+                Log::warning('Failed to fetch GoCardless first payment for subscription start date', [
+                    'payment_id' => $paymentId,
+                    'message' => $exception->getMessage(),
+                ]);
+            }
+        }
+
+        return Carbon::parse($anchorDate)->addMonthNoOverflow()->toDateString();
     }
 
     private function formatPaymentAmount(int $amountInMinorUnits, string $currency): string

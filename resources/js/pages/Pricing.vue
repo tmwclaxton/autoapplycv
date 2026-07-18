@@ -82,7 +82,8 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     Credit allowances reset on the 1st of each month. Paid plans
-                    bill via UK Direct Debit through GoCardless.
+                    charge the first month instantly by bank transfer, then
+                    renew monthly by UK Direct Debit through GoCardless.
                 </p>
             </div>
         </div>
@@ -110,8 +111,8 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Yes. Sign in, pick Starter or Pro, and complete Direct
-                        Debit setup from billing.
+                        Yes. Sign in, pick Starter or Pro, and complete bank
+                        payment setup from billing.
                     </dd>
                 </div>
                 <div>

@@ -45,7 +45,7 @@ class BillingController extends Controller
         if ($reconciled === 'activated') {
             session()->flash(
                 'success',
-                'Your plan is active. Direct Debit payments will be collected monthly.',
+                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
             );
         }
 
@@ -124,7 +124,7 @@ class BillingController extends Controller
 
                     return redirect()
                         ->route('billing.index')
-                        ->with('error', 'We could not resume Direct Debit setup. Please try again in a moment.');
+                        ->with('error', 'We could not resume bank payment setup. Please try again in a moment.');
                 } catch (Throwable $exception) {
                     Log::error('Billing checkout resume failed', [
                         'user_id' => $user->id,
@@ -163,7 +163,7 @@ class BillingController extends Controller
 
             return redirect()
                 ->route('billing.index')
-                ->with('error', 'We could not start Direct Debit checkout. Please try again in a moment.');
+                ->with('error', 'We could not start bank payment checkout. Please try again in a moment.');
         } catch (Throwable $exception) {
             Log::error('Billing checkout failed', [
                 'user_id' => $user->id,
@@ -186,13 +186,13 @@ class BillingController extends Controller
         if ($this->goCardless->syncPendingCheckout($user)) {
             return redirect()
                 ->route('billing.index')
-                ->with('success', 'Your plan is active. Direct Debit payments will be collected monthly.');
+                ->with('success', 'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.');
         }
 
         if ($user->gocardless_billing_request_id !== null) {
             return redirect()
                 ->route('billing.index')
-                ->with('success', 'Direct Debit setup received. Your plan will activate once GoCardless confirms the mandate.');
+                ->with('success', 'Bank payment setup received. Your plan will activate once GoCardless confirms payment.');
         }
 
         return redirect()

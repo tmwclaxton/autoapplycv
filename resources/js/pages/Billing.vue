@@ -149,7 +149,7 @@ async function cancelSubscription(): Promise<void> {
     const confirmed = await confirm({
         title: 'Cancel your paid plan?',
         description:
-            'You will move back to Free and your Direct Debit will be cancelled.',
+            'You will move back to Free and your Direct Debit mandate will be cancelled.',
         confirmLabel: 'Cancel plan',
         variant: 'destructive',
     });
@@ -206,7 +206,7 @@ async function cancelSubscription(): Promise<void> {
                     class="mt-2 text-sm text-muted-foreground"
                 >
                     Your {{ subscription.effective_tier_label }} plan stays
-                    active until Direct Debit setup completes.
+                    active until bank payment setup completes.
                 </p>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {{ subscription.plan_description }}
@@ -268,7 +268,7 @@ async function cancelSubscription(): Promise<void> {
             class="postbox-btn mt-4"
             @click="resumeCheckout"
         >
-            Finish Direct Debit setup
+            Finish bank payment setup
         </button>
 
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -294,11 +294,10 @@ async function cancelSubscription(): Promise<void> {
     </div>
 
     <div v-if="showBillingHistory" class="postbox-panel mb-8 p-4 sm:p-6">
-        <h2 class="text-lg font-bold text-postbox-navy">
-            Direct Debit billing
-        </h2>
+        <h2 class="text-lg font-bold text-postbox-navy">Billing history</h2>
         <p class="mt-1 text-sm text-muted-foreground">
-            Payments are collected monthly by Direct Debit through GoCardless.
+            The first month is charged instantly by bank transfer. Renewals are
+            collected monthly by Direct Debit through GoCardless.
         </p>
 
         <div
@@ -323,8 +322,8 @@ async function cancelSubscription(): Promise<void> {
                 v-if="billing.payments.length === 0"
                 class="mt-3 text-sm text-muted-foreground"
             >
-                No payments recorded yet. Your first Direct Debit will appear
-                here after it is collected.
+                No payments recorded yet. Your first payment will appear here
+                after checkout completes.
             </div>
 
             <div v-else class="mt-3 overflow-x-auto">
