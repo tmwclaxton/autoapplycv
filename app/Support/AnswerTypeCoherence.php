@@ -117,6 +117,14 @@ class AnswerTypeCoherence
             return true;
         }
 
+        if ($category === 'number' && (
+            self::looksLikeNoticePeriod($trimmed)
+            || self::looksLikeEmail($trimmed)
+            || $isBareYesNo
+        )) {
+            return true;
+        }
+
         if ($category === 'locality' && self::profileCityEmpty($profile)) {
             return true;
         }
@@ -175,6 +183,15 @@ class AnswerTypeCoherence
             return 'number';
         }
 
+        // Visa / work-auth questions often mention "location" but are not locality fields.
+        if (preg_match('/\b(?:sponsorship|authorized|right to work|work permit|visa)\b/', $label) === 1) {
+            return 'other';
+        }
+
+        if (preg_match('/\b(?:city|town)\b/', $label) === 1 && preg_match('/\bcounty\b/', $label) === 1) {
+            return 'locality';
+        }
+
         if (preg_match('/\b(?:city|town|postcode|postal code|street address|current location)\b/', $label) === 1
             || (preg_match('/\blocation\b/', $label) === 1 && ! preg_match('/\bcountry\b/', $label))) {
             return 'locality';
@@ -186,6 +203,10 @@ class AnswerTypeCoherence
     private static function looksLikeNoticePeriod(string $answer): bool
     {
         if (preg_match('/^(immediate|immediately|asap|available now|now)$/i', $answer) === 1) {
+            return true;
+        }
+
+        if (preg_match('/^(?:one|two|three|four|five|six)\s+(?:weeks?|months?)\b/i', $answer) === 1) {
             return true;
         }
 

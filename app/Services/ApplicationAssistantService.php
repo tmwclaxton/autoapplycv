@@ -94,6 +94,7 @@ class ApplicationAssistantService
                         .'When sibling questions in the same batch include postcode/zip and street address, use those together with profile.city/profile.location to answer city/town/locality - never invent a city that contradicts them. '
                         .'If profile.city and profile.location are empty, return null for city/town/locality/postcode/street fields - do not guess from the job location or employer HQ. '
                         .'For salary or notice-period fields, use application_settings values when present; if those settings are missing or unclear, return null rather than inventing figures or durations. '
+                        .'For "do you speak {language}" Yes/No questions, answer Yes only when that language appears in profile.structured_data.languages; answer No only when languages are listed and omit that language; if languages is empty or missing, return null (never invent fluency). '
                         .'Never answer free-text city, phone, email, date, number, salary, or notice fields with bare Yes/No. '
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
                         .'Prefer null whenever you are unsure or the profile lacks a clear fact. Never invent employers, degrees, dates, skills, tools, cities, salaries, or notice periods not listed in the profile. '

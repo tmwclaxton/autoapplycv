@@ -119,4 +119,46 @@ class AnswerTypeCoherenceTest extends TestCase
             'https://linkedin.com/in/toby',
         ));
     }
+
+    public function test_visa_location_label_is_not_treated_as_locality(): void
+    {
+        $profile = new CvProfile(['city' => 'High Wycombe']);
+
+        $this->assertFalse(AnswerTypeCoherence::shouldReject(
+            $profile,
+            [
+                'label' => "Do you need visa sponsorship for the role's location?",
+                'field_type' => 'radio',
+                'options' => ['Yes', 'No'],
+            ],
+            'No',
+        ));
+
+        // Without Yes/No options, a city string must not be rejected as locality bleed.
+        $this->assertFalse(AnswerTypeCoherence::shouldReject(
+            $profile,
+            [
+                'label' => "Do you need visa sponsorship for the role's location?",
+                'field_type' => 'text',
+            ],
+            'High Wycombe',
+        ));
+    }
+
+    public function test_rejects_worded_notice_on_salary_and_notice_on_years(): void
+    {
+        $profile = new CvProfile([]);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Expected salary', 'field_type' => 'text'],
+            'two weeks',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'How many years of experience do you have?', 'field_type' => 'text'],
+            '2 weeks',
+        ));
+    }
 }
