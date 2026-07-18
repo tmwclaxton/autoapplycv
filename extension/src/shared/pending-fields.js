@@ -5236,10 +5236,14 @@ function shouldLeaveWorkAuthStatusPending(field) {
     return options.length >= 2;
 }
 
+/** Apply this answer to clear a stale/invented combobox value (content script sentinel). */
+export const DRAFT_FIELD_CLEAR_SENTINEL = '__CLEAR__';
+
 export function partitionPreferenceProfileFields(fields, profileData) {
     const preferenceAnswers = [];
     const remainingFields = [];
     const pendingFields = [];
+    const clearAnswers = [];
 
     for (const field of fields || []) {
         const answer = resolvePreferenceProfileAnswer(field, profileData);
@@ -5268,13 +5272,22 @@ export function partitionPreferenceProfileFields(fields, profileData) {
             pending.pending_hint =
                 'None of the listed work-authorization options match your profile. Choose the closest option for this employer.';
             pendingFields.push(pending);
+            // Workable/session restore can leave a prior invented nationality selection.
+            clearAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer: DRAFT_FIELD_CLEAR_SENTINEL,
+            });
             continue;
         }
 
         remainingFields.push(field);
     }
 
-    return { preferenceAnswers, remainingFields, pendingFields };
+    return { preferenceAnswers, remainingFields, pendingFields, clearAnswers };
 }
 
 export function partitionBatchAnswers(answers, fieldsByRef, profileData) {

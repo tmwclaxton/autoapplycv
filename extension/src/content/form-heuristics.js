@@ -5553,6 +5553,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        if (String(value) === '__CLEAR__') {
+            return clearComboboxFieldValue(element);
+        }
+
         heuristicsLog('debug', 'apply.combobox', 'Starting combobox fill', {
             valuePreview: String(value).slice(0, 80),
             ariaControls: element.getAttribute('aria-controls'),
@@ -10814,8 +10818,166 @@ var AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(element.value, stringValue);
     }
 
+    async function clearComboboxFieldValue(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+
+        if (isWorkableSelectCombobox(element)) {
+            const root = element.closest('[data-input-type="select"]');
+            const hidden = resolveWorkableHiddenSelectInput(root, element);
+            const illustrated = root?.querySelector(
+                '[data-role="illustrated-input"]',
+            );
+            const clearButton = root?.querySelector(
+                'button[aria-label*="clear" i], button[aria-label*="Clear" i], [data-role="clear"], .clear-button, button[class*="clear"]',
+            );
+
+            if (clearButton) {
+                dispatchPointerClick(clearButton);
+                await pauseMs(80);
+            }
+
+            element.focus();
+            setNativeValue(element, '');
+            element.dispatchEvent(
+                new InputEvent('input', {
+                    bubbles: true,
+                    cancelable: true,
+                    inputType: 'deleteContentBackward',
+                    data: null,
+                }),
+            );
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            element.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'Escape',
+                    code: 'Escape',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+
+            if (hidden) {
+                setNativeValue(hidden, '');
+                hidden.removeAttribute('value');
+                hidden.dispatchEvent(
+                    new InputEvent('input', {
+                        bubbles: true,
+                        cancelable: true,
+                        inputType: 'deleteContentBackward',
+                        data: null,
+                    }),
+                );
+                hidden.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            if (illustrated) {
+                illustrated.textContent = '';
+                illustrated.removeAttribute('data-value');
+            }
+
+            root?.setAttribute('data-open', 'false');
+            root?.setAttribute('data-error', 'false');
+            root?.removeAttribute('data-value');
+            element.setAttribute('aria-expanded', 'false');
+            element.blur();
+
+            const remaining = String(
+                readReactSelectValue(element) || element.value || '',
+            ).trim();
+            const hiddenRemaining = String(hidden?.value || '').trim();
+
+            heuristicsLog(
+                remaining || hiddenRemaining ? 'warn' : 'info',
+                'apply.combobox',
+                remaining || hiddenRemaining
+                    ? 'Workable combobox clear incomplete'
+                    : 'Workable combobox cleared',
+                {
+                    remainingPreview: remaining.slice(0, 40),
+                    hiddenPreview: hiddenRemaining.slice(0, 40),
+                },
+            );
+
+            // Visible label cleared is enough for sidebar honesty; hidden id may
+            // linger until the user picks a real option.
+            return !remaining;
+        }
+
+        if (isReactSelectComboboxShell(element)) {
+            const control = element.closest('.select__control');
+            const shell = element.closest('.select-shell, .select__container');
+            const singleValue = control?.querySelector(
+                '.select__single-value, .select__multi-value__label',
+            );
+            const placeholder = control?.querySelector('.select__placeholder');
+            const requiredInput = shell?.querySelector(
+                'input[tabindex="-1"][aria-hidden="true"]',
+            );
+
+            singleValue?.remove();
+
+            if (placeholder) {
+                placeholder.style.display = '';
+            }
+
+            setNativeValue(element, '');
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+
+            if (requiredInput && requiredInput !== element) {
+                setNativeValue(requiredInput, '');
+                requiredInput.dispatchEvent(
+                    new Event('input', { bubbles: true }),
+                );
+                requiredInput.dispatchEvent(
+                    new Event('change', { bubbles: true }),
+                );
+            }
+
+            element.setAttribute('aria-expanded', 'false');
+            element.blur();
+            closeOpenComboboxMenus(doc);
+
+            return !readReactSelectValue(element);
+        }
+
+        setNativeValue(element, '');
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return !String(element.value || '').trim();
+    }
+
     async function setFieldValue(element, value) {
-        if (!element || value === null || value === undefined || value === '') {
+        if (!element || value === null || value === undefined) {
+            heuristicsLog(
+                'warn',
+                'apply.setFieldValue',
+                'setFieldValue skipped - empty',
+                {},
+            );
+
+            return false;
+        }
+
+        if (String(value) === '__CLEAR__') {
+            heuristicsLog(
+                'info',
+                'apply.setFieldValue',
+                'Clearing field via sentinel',
+                {
+                    role: element.getAttribute?.('role'),
+                    tag: element.tagName?.toLowerCase(),
+                },
+            );
+
+            return clearComboboxFieldValue(element);
+        }
+
+        if (value === '') {
             heuristicsLog(
                 'warn',
                 'apply.setFieldValue',
@@ -11398,8 +11560,29 @@ var AutoCVApplyFormHeuristics = (() => {
         return Boolean(errorRoot && isVisible(errorRoot));
     }
 
+    function isWorkableHiddenSelectCompanion(element) {
+        if (!element || element.getAttribute?.('role') === 'combobox') {
+            return false;
+        }
+
+        if (!element.closest?.('[data-input-type="select"]')) {
+            return false;
+        }
+
+        return (
+            element.getAttribute?.('aria-hidden') === 'true' ||
+            element.tabIndex === -1 ||
+            element.getAttribute?.('tabindex') === '-1'
+        );
+    }
+
     function elementNeedsDraft(element) {
         if (isWorkableInactiveConditionalField(element)) {
+            return false;
+        }
+
+        // Prefer the visible Workable combobox; opaque companion ids steal the label.
+        if (isWorkableHiddenSelectCompanion(element)) {
             return false;
         }
 
@@ -11686,6 +11869,10 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             if (includeFilled && isSiteSearchChrome(element)) {
+                continue;
+            }
+
+            if (isWorkableHiddenSelectCompanion(element)) {
                 continue;
             }
 
@@ -12227,6 +12414,12 @@ var AutoCVApplyFormHeuristics = (() => {
                 : target?.tagName,
         });
 
+        if (String(resolvedAnswer) === '__CLEAR__') {
+            const clearTarget = Array.isArray(target) ? target[0] : target;
+
+            return clearComboboxFieldValue(clearTarget);
+        }
+
         let applied = false;
 
         if (Array.isArray(target)) {
@@ -12336,6 +12529,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (!applied) {
             return false;
+        }
+
+        if (String(resolvedAnswer) === '__CLEAR__') {
+            return applied;
         }
 
         if (

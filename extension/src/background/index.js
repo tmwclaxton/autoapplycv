@@ -2880,6 +2880,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             memo: (count) => `Applying ${count} saved answer(s)…`,
             reference: (count) => `Applying ${count} reference field(s)…`,
             identity: (count) => `Applying ${count} profile field(s)…`,
+            clear: (count) => `Clearing ${count} mismatched field(s)…`,
             preference: (count) => `Applying ${count} preference field(s)…`,
             screener: (count) =>
                 `Applying ${count} employer screener answer(s)…`,
@@ -2930,9 +2931,11 @@ async function runDraftAll(tabId, e2eOptions = null) {
                       ? 'apply.references'
                       : stage.type === 'eeo'
                         ? 'apply.eeo'
-                        : stage.type === 'preference'
-                          ? 'apply.preference'
-                          : stage.type === 'screener'
+                        : stage.type === 'clear'
+                          ? 'apply.clear'
+                          : stage.type === 'preference'
+                            ? 'apply.preference'
+                            : stage.type === 'screener'
                             ? 'apply.screener'
                             : stage.type === 'agreement'
                               ? 'apply.agreement'

@@ -176,11 +176,14 @@ test('Polish work-auth status select leaves pending instead of inventing nationa
     };
 
     assert.equal(resolvePreferenceProfileAnswer(field, profile), '');
-    const { preferenceAnswers, remainingFields, pendingFields } =
+    const { preferenceAnswers, remainingFields, pendingFields, clearAnswers } =
         partitionPreferenceProfileFields([field], profile);
     assert.equal(preferenceAnswers.length, 0);
     assert.equal(remainingFields.length, 0);
     assert.equal(pendingFields.length, 1);
     assert.equal(pendingFields[0].ref, 'f14');
     assert.equal(pendingFields[0].reason, 'missing_profile_data');
+    assert.equal(clearAnswers.length, 1);
+    assert.equal(clearAnswers[0].ref, 'f14');
+    assert.equal(clearAnswers[0].answer, '__CLEAR__');
 });

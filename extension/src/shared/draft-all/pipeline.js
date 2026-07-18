@@ -259,6 +259,16 @@ export function buildDraftAllApplyPlan({
         });
     }
 
+    if ((preferencePartition.clearAnswers || []).length > 0) {
+        applyStages.push({
+            type: 'clear',
+            answers: tagAnswersWithSource(
+                preferencePartition.clearAnswers,
+                'screener',
+            ),
+        });
+    }
+
     if (preferencePartition.preferenceAnswers.length > 0) {
         applyStages.push({
             type: 'preference',
