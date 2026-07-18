@@ -338,13 +338,73 @@ class NanoGptService
         $start = strpos($content, '{');
         $end = strrpos($content, '}');
 
-        if ($start === false || $end === false || $end <= $start) {
+        if ($start !== false && $end !== false && $end > $start) {
+            $decoded = json_decode(substr($content, $start, $end - $start + 1), true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return $this->salvageTruncatedAnswersJson($content);
+    }
+
+    /**
+     * Recover complete answer rows when the model hits max_tokens mid-JSON.
+     *
+     * @return array{answers: array<int, array<string, mixed>}>|null
+     */
+    private function salvageTruncatedAnswersJson(string $content): ?array
+    {
+        if (! preg_match('/"answers"\s*:\s*\[/i', $content)) {
             return null;
         }
 
-        $decoded = json_decode(substr($content, $start, $end - $start + 1), true);
+        $answers = [];
 
-        return is_array($decoded) ? $decoded : null;
+        if (preg_match_all(
+            '/\{\s*"label"\s*:\s*"(?:\\\\.|[^"\\\\])*"\s*,\s*"ref"\s*:\s*"(?:\\\\.|[^"\\\\])*"\s*,\s*"answer"\s*:\s*"(?:\\\\.|[^"\\\\])*"\s*\}/s',
+            $content,
+            $matches,
+        )) {
+            foreach ($matches[0] as $jsonObject) {
+                $decoded = json_decode($jsonObject, true);
+
+                if (is_array($decoded) && array_key_exists('answer', $decoded)) {
+                    $answers[] = $decoded;
+                }
+            }
+        }
+
+        // Close a final truncated answer string so at least that row survives.
+        if (
+            $answers === []
+            && preg_match(
+                '/\{\s*"label"\s*:\s*("(?:\\\\.|[^"\\\\])*")\s*,\s*"ref"\s*:\s*("(?:\\\\.|[^"\\\\])*")\s*,\s*"answer"\s*:\s*"((?:\\\\.|[^"\\\\])*)\s*\z/s',
+                $content,
+                $partial,
+            )
+        ) {
+            $closed = '{"label":'.$partial[1].',"ref":'.$partial[2].',"answer":'.json_encode(
+                stripcslashes($partial[3]),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+            ).'}';
+            $decoded = json_decode($closed, true);
+
+            if (is_array($decoded) && is_string($decoded['answer'] ?? null) && trim($decoded['answer']) !== '') {
+                $answers[] = $decoded;
+            }
+        }
+
+        if ($answers === []) {
+            return null;
+        }
+
+        Log::info('NanoGPT salvaged truncated answers JSON.', [
+            'recovered' => count($answers),
+        ]);
+
+        return ['answers' => $answers];
     }
 
     public function extractTextFromImage(string $absolutePath, string $mimeType): ?string
@@ -417,6 +477,14 @@ class NanoGptService
 
         if (array_key_exists('response_format', $options) && $options['response_format'] !== null) {
             $payload['response_format'] = $options['response_format'];
+        }
+
+        if (isset($options['max_tokens'])) {
+            $maxTokens = (int) $options['max_tokens'];
+
+            if ($maxTokens > 0) {
+                $payload['max_tokens'] = $maxTokens;
+            }
         }
 
         $request = Http::withToken($this->apiKey)

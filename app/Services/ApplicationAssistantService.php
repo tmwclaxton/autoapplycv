@@ -107,6 +107,8 @@ class ApplicationAssistantService
         ], [
             'model' => $model,
             'temperature' => 0.4,
+            // Multi-textarea batches otherwise truncate mid-JSON on flash-lite tiers.
+            'max_tokens' => max(1024, (int) config('cv.ai_assist.draft_all_max_tokens', 4096)),
         ]);
 
         if ($payload === null || ! isset($payload['answers']) || ! is_array($payload['answers'])) {

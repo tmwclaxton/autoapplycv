@@ -104,7 +104,9 @@ return [
         'ats_score_cost' => (int) env('CV_AI_ATS_SCORE_COST', 5),
         'chat_cost' => (int) env('CV_AI_CHAT_COST', 1),
         'question_cost' => 1,
-        'draft_all_batch_size' => (int) env('CV_AI_DRAFT_ALL_BATCH_SIZE', 10),
+        // Smaller batches + higher completion budget avoid truncated JSON on long textareas.
+        'draft_all_batch_size' => 4,
+        'draft_all_max_tokens' => 4096,
     ],
 
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),

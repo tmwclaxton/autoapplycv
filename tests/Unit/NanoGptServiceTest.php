@@ -264,4 +264,65 @@ class NanoGptServiceTest extends TestCase
         $this->assertNull($result);
         Http::assertSentCount(1);
     }
+
+    public function test_chat_json_salvages_truncated_answers_payload(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        $truncated = <<<'JSON'
+{
+  "answers": [
+    {
+      "label": "please leave a note",
+      "ref": "f10",
+      "answer": "I have spent my career building products from the ground up
+JSON;
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => $truncated]],
+                ],
+                'usage' => ['total_tokens' => 40],
+            ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatJson([
+            ['role' => 'user', 'content' => 'Draft answers'],
+        ]);
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result['answers'] ?? []);
+        $this->assertSame('f10', $result['answers'][0]['ref'] ?? null);
+        $this->assertStringContainsString('building products', (string) ($result['answers'][0]['answer'] ?? ''));
+        Http::assertSent(fn ($request) => ($request->data()['max_tokens'] ?? null) === null);
+    }
+
+    public function test_chat_with_usage_forwards_max_tokens(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => '{"ok":true}']],
+                ],
+                'usage' => ['total_tokens' => 4],
+            ], 200),
+        ]);
+
+        app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'hi'],
+        ], [
+            'max_tokens' => 4096,
+        ]);
+
+        Http::assertSent(fn ($request) => ($request->data()['max_tokens'] ?? null) === 4096);
+    }
 }
