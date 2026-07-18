@@ -276,7 +276,8 @@ const IDENTITY_DOM_PATTERNS = [
     { path: 'phone', pattern: /(?:^|[\[\]_-])(?:phone|mobile|telephone|tel)(?:$|[\[\]_-])/i },
     { path: 'postcode', pattern: /(?:^|[\[\]_-])(?:postal[_-]?code|post[_-]?code|zip[_-]?code|zip)(?:$|[\[\]_-])/i },
     { path: 'structured_data.address_line_1', pattern: /(?:^|[\[\]_-])(?:street[_-]?address|location[_-]?address|address[_-]?line[_-]?1?)(?:$|[\[\]_-])/i },
-    { path: 'city', pattern: /(?:^|[\[\]_-])(?:locality|location[_-]?locality)(?:$|[\[\]_-])/i },
+    { path: 'city', pattern: /(?:^|[\[\]_-])(?:locality|location[_-]?locality|location[_-]?fields[_-]?locality)(?:$|[\[\]_-])/i },
+    { path: 'structured_data.state_region', pattern: /(?:^|[\[\]_-])(?:admin[_-]?area|state[_-]?region|location[_-]?fields[_-]?admin)(?:$|[\[\]_-])/i },
 ];
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
@@ -1022,7 +1023,12 @@ function resolveProfileMappingForDomHints(dom) {
         return profileMappingByPath('_phone_country_dial');
     }
 
-    const hints = [dom?.id, dom?.name].filter(Boolean).join(' ').trim();
+    const hints = [
+        dom?.id,
+        dom?.name,
+        dom?.data_testid,
+        dom?.input_id,
+    ].filter(Boolean).join(' ').trim();
 
     if (!hints) {
         return null;
@@ -1035,6 +1041,22 @@ function resolveProfileMappingForDomHints(dom) {
     }
 
     return null;
+}
+
+/** Indeed/Glassdoor locality widgets (City, county) even when the visible label is truncated. */
+export function isCityCountyLocalityDom(dom) {
+    const hints = [
+        dom?.id,
+        dom?.name,
+        dom?.data_testid,
+        dom?.input_id,
+    ].filter(Boolean).join(' ').toLowerCase();
+
+    if (!hints) {
+        return false;
+    }
+
+    return /location-fields-locality|location[_-]?locality|locality-input/.test(hints);
 }
 
 export function splitFullName(fullName) {
@@ -1970,9 +1992,13 @@ export function resolveCityCountyLocationValue(profileData) {
 export function isCityCountyCombinedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return Boolean(normalized)
-        && /\b(?:city|town)\b/.test(normalized)
-        && /\bcounty\b/.test(normalized);
+    if (!normalized || !/\b(?:city|town)\b/.test(normalized)) {
+        return false;
+    }
+
+    // City + county/state/region compounds (not country - that is a separate field).
+    return /\b(?:county|state|region|province)\b/.test(normalized)
+        && !/\bcountry\b/.test(normalized);
 }
 
 const LOCATION_IDENTITY_PATHS = new Set([
@@ -1987,7 +2013,7 @@ const LOCATION_IDENTITY_PATHS = new Set([
 function resolveSafeLocationAnswerForField(field, profileData) {
     const label = field?.label || field?.question || '';
 
-    if (isCityCountyCombinedQuestionLabel(label)) {
+    if (isCityCountyCombinedQuestionLabel(label) || isCityCountyLocalityDom(field?.dom)) {
         return resolveCityCountyLocationValue(profileData);
     }
 
@@ -3129,7 +3155,7 @@ function profileValueForApply(mapping, profileData, field = null) {
     if (mapping.path === 'city') {
         const label = field?.label || field?.question || '';
 
-        if (isCityCountyCombinedQuestionLabel(label)) {
+        if (isCityCountyCombinedQuestionLabel(label) || isCityCountyLocalityDom(field?.dom)) {
             return resolveCityCountyLocationValue(profileData);
         }
 
@@ -3332,6 +3358,7 @@ export function isLocalityIdentityField(field) {
         isCityCountyCombinedQuestionLabel(label)
         || isCityLocationQuestionLabel(label)
         || isLocationAutocompleteQuestionLabel(label)
+        || isCityCountyLocalityDom(field?.dom)
     ) {
         return true;
     }

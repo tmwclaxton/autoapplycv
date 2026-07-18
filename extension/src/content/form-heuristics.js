@@ -657,6 +657,43 @@ var AutoCVApplyFormHeuristics = (() => {
             return ariaLabel;
         }
 
+        // Gravity Forms address/name inputs use input_N.1 .. input_N.5 when sublabels are absent.
+        const nameHint = String(element.getAttribute?.('name') || element.name || '');
+        const addressSuffix = nameHint.match(/\.([1-6])$/);
+
+        if (addressSuffix && complex.matches?.('.ginput_container_address')) {
+            const addressLabels = {
+                1: 'Street Address',
+                2: 'Address Line 2',
+                3: 'City',
+                4: 'State',
+                5: 'ZIP Code',
+                6: 'Country',
+            };
+            const mapped = addressLabels[addressSuffix[1]];
+
+            if (mapped) {
+                return normalize(mapped);
+            }
+        }
+
+        const nameSuffix = nameHint.match(/\.([1-8])$/);
+
+        if (nameSuffix && complex.matches?.('.ginput_container_name')) {
+            const nameLabels = {
+                2: 'Prefix',
+                3: 'First',
+                4: 'Middle',
+                6: 'Last',
+                8: 'Suffix',
+            };
+            const mapped = nameLabels[nameSuffix[1]];
+
+            if (mapped) {
+                return normalize(mapped);
+            }
+        }
+
         return '';
     }
 

@@ -45,8 +45,28 @@ test('splitFullName reads structured full_name objects', () => {
 
 test('City, county maps to city identity path not last_name', () => {
     assert.equal(isCityCountyCombinedQuestionLabel('City, county'), true);
+    assert.equal(isCityCountyCombinedQuestionLabel('City, state'), true);
+    assert.equal(isCityCountyCombinedQuestionLabel('City / region'), true);
     assert.equal(resolveProfileMappingForLabel('City, county')?.path, 'city');
     assert.notEqual(resolveProfileMappingForLabel('City, county')?.path, 'full_name.last');
+});
+
+test('locality DOM hints use city+county fill without relying on label', () => {
+    const { identityAnswers } = partitionIdentityProfileFields(
+        [{
+            ref: 'loc',
+            label: 'Where do you live?',
+            field_type: 'text',
+            dom: {
+                name: 'location-fields-locality-input',
+                id: 'location-fields-locality-input',
+                data_testid: 'location-fields-locality-input',
+            },
+        }],
+        profile,
+    );
+
+    assert.equal(identityAnswers[0]?.answer, 'High Wycombe, Buckinghamshire');
 });
 
 test('standalone County maps to state_region', () => {

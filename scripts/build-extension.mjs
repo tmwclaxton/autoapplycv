@@ -313,12 +313,20 @@ copyFileSync(
     join(SRC, 'shared/draft-all/empty-batch-retry.js'),
     join(DIST, 'draft-all/empty-batch-retry.js'),
 );
+copyFileSync(
+    join(SRC, 'shared/draft-all/type-coherence.js'),
+    join(DIST, 'draft-all/type-coherence.js'),
+);
 writeFileSync(
     join(DIST, 'draft-all-pipeline.js'),
     readFileSync(join(SRC, 'shared/draft-all/pipeline.js'), 'utf8')
         .replace(
             "from './consent-fields.js'",
             "from './draft-all/consent-fields.js'",
+        )
+        .replace(
+            "from './type-coherence.js'",
+            "from './draft-all/type-coherence.js'",
         )
         .replace(
             "from '../auto-apply-screener-answer.js'",

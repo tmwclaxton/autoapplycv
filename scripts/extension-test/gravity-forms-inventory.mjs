@@ -64,10 +64,13 @@ const context = dom.window;
 const sandbox = {
     window: context,
     document: context.document,
+    Element: context.Element,
+    ShadowRoot: context.ShadowRoot,
     HTMLElement: context.HTMLElement,
     HTMLInputElement: context.HTMLInputElement,
     HTMLTextAreaElement: context.HTMLTextAreaElement,
     HTMLSelectElement: context.HTMLSelectElement,
+    Node: context.Node,
     CSS: context.CSS,
     Event: context.Event,
     console,
@@ -121,3 +124,64 @@ console.log(JSON.stringify({
     inventoried_ids: ids,
     inventoried_labels: labels,
 }, null, 2));
+
+// When sublabels/placeholders are absent, name-suffix fallback must keep City distinct.
+const bareAddressHtml = `
+<form id="gform_3" method="post">
+  <fieldset class="gfield gfield--type-address">
+    <legend class="gfield_label">Address</legend>
+    <div class="ginput_complex ginput_container_address" id="input_3_1">
+      <input type="text" name="input_1.1" id="input_3_1_1">
+      <input type="text" name="input_1.3" id="input_3_1_3">
+      <input type="text" name="input_1.5" id="input_3_1_5">
+    </div>
+  </fieldset>
+</form>
+`;
+
+const bareDom = new JSDOM(`<!doctype html><html><body>${bareAddressHtml}</body></html>`, {
+    url: 'https://example.com/apply/',
+});
+const bareContext = bareDom.window;
+const bareSandbox = {
+    window: bareContext,
+    document: bareContext.document,
+    Element: bareContext.Element,
+    ShadowRoot: bareContext.ShadowRoot,
+    HTMLElement: bareContext.HTMLElement,
+    HTMLInputElement: bareContext.HTMLInputElement,
+    HTMLTextAreaElement: bareContext.HTMLTextAreaElement,
+    HTMLSelectElement: bareContext.HTMLSelectElement,
+    Node: bareContext.Node,
+    CSS: bareContext.CSS,
+    Event: bareContext.Event,
+    console,
+    globalThis: bareContext,
+};
+bareContext.globalThis = bareContext;
+vm.createContext(bareSandbox);
+vm.runInContext(heuristicsScript, bareSandbox);
+
+for (const element of bareContext.document.querySelectorAll('input')) {
+    Object.defineProperty(element, 'offsetParent', {
+        configurable: true,
+        get() {
+            return element.parentElement || bareContext.document.body;
+        },
+    });
+}
+
+assert(
+    bareContext.AutoCVApplyFormHeuristics.getQuestionLabel(
+        bareContext.document.getElementById('input_3_1_3'),
+    ) === 'city',
+    'bare Gravity Forms city input must use name-suffix City, not shared Address legend',
+);
+assert(
+    bareContext.AutoCVApplyFormHeuristics.getQuestionLabel(
+        bareContext.document.getElementById('input_3_1_5'),
+    ) === 'zip code',
+    'bare Gravity Forms zip input must use name-suffix ZIP Code',
+);
+
+console.log(JSON.stringify({ ok: true, bare_suffix_fallback: true }, null, 2));
