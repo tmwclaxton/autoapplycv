@@ -41,11 +41,32 @@ const profile = {
 };
 
 test('classifyFieldExpectation covers locality phone email salary notice', () => {
-    assert.equal(classifyFieldExpectation({ label: 'City, county', field_type: 'text' }), 'locality');
-    assert.equal(classifyFieldExpectation({ label: 'Email', field_type: 'email' }), 'email');
-    assert.equal(classifyFieldExpectation({ label: 'Phone number', field_type: 'tel' }), 'phone');
-    assert.equal(classifyFieldExpectation({ label: 'Expected salary', field_type: 'text' }), 'salary');
-    assert.equal(classifyFieldExpectation({ label: 'Notice period', field_type: 'text' }), 'notice');
+    assert.equal(
+        classifyFieldExpectation({ label: 'City, county', field_type: 'text' }),
+        'locality',
+    );
+    assert.equal(
+        classifyFieldExpectation({ label: 'Email', field_type: 'email' }),
+        'email',
+    );
+    assert.equal(
+        classifyFieldExpectation({ label: 'Phone number', field_type: 'tel' }),
+        'phone',
+    );
+    assert.equal(
+        classifyFieldExpectation({
+            label: 'Expected salary',
+            field_type: 'text',
+        }),
+        'salary',
+    );
+    assert.equal(
+        classifyFieldExpectation({
+            label: 'Notice period',
+            field_type: 'text',
+        }),
+        'notice',
+    );
     assert.equal(
         classifyFieldExpectation({
             label: 'Are you authorized to work?',
@@ -58,12 +79,32 @@ test('classifyFieldExpectation covers locality phone email salary notice', () =>
 
 test('rejects Yes/No on free-text locality phone email date number', () => {
     const cases = [
-        [{ label: 'City, county', field_type: 'text' }, 'Yes', 'yes_no_on_locality'],
+        [
+            { label: 'City, county', field_type: 'text' },
+            'Yes',
+            'yes_no_on_locality',
+        ],
         [{ label: 'Postcode', field_type: 'text' }, 'No', 'yes_no_on_locality'],
-        [{ label: 'Phone number', field_type: 'tel' }, 'Yes', 'yes_no_on_phone'],
-        [{ label: 'Email address', field_type: 'email' }, 'No', 'yes_no_on_email'],
-        [{ label: 'Date of birth', field_type: 'text' }, 'Yes', 'yes_no_on_date'],
-        [{ label: 'How many years of experience?', field_type: 'number' }, 'No', 'yes_no_on_number'],
+        [
+            { label: 'Phone number', field_type: 'tel' },
+            'Yes',
+            'yes_no_on_phone',
+        ],
+        [
+            { label: 'Email address', field_type: 'email' },
+            'No',
+            'yes_no_on_email',
+        ],
+        [
+            { label: 'Date of birth', field_type: 'text' },
+            'Yes',
+            'yes_no_on_date',
+        ],
+        [
+            { label: 'How many years of experience?', field_type: 'number' },
+            'No',
+            'yes_no_on_number',
+        ],
     ];
 
     for (const [field, answer, reason] of cases) {
@@ -74,11 +115,14 @@ test('rejects Yes/No on free-text locality phone email date number', () => {
     }
 
     assert.equal(
-        shouldRejectAnswerForTypeCoherence({
-            label: 'Authorized to work in the UK?',
-            field_type: 'radio',
-            options: ['Yes', 'No'],
-        }, 'Yes'),
+        shouldRejectAnswerForTypeCoherence(
+            {
+                label: 'Authorized to work in the UK?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            'Yes',
+        ),
         false,
     );
 });
@@ -89,19 +133,31 @@ test('rejects salary notice bleed both directions', () => {
     assert.equal(looksLikeSalaryAmountAnswer('2 weeks'), false);
 
     assert.equal(
-        evaluateAnswerTypeCoherence({ label: 'Expected salary', field_type: 'text' }, '2 weeks').reason,
+        evaluateAnswerTypeCoherence(
+            { label: 'Expected salary', field_type: 'text' },
+            '2 weeks',
+        ).reason,
         'notice_on_salary',
     );
     assert.equal(
-        evaluateAnswerTypeCoherence({ label: 'Notice period', field_type: 'text' }, '55000').reason,
+        evaluateAnswerTypeCoherence(
+            { label: 'Notice period', field_type: 'text' },
+            '55000',
+        ).reason,
         'salary_on_notice',
     );
     assert.equal(
-        shouldRejectAnswerForTypeCoherence({ label: 'Expected salary', field_type: 'text' }, '55000'),
+        shouldRejectAnswerForTypeCoherence(
+            { label: 'Expected salary', field_type: 'text' },
+            '55000',
+        ),
         false,
     );
     assert.equal(
-        shouldRejectAnswerForTypeCoherence({ label: 'Notice period', field_type: 'text' }, '2 weeks'),
+        shouldRejectAnswerForTypeCoherence(
+            { label: 'Notice period', field_type: 'text' },
+            '2 weeks',
+        ),
         false,
     );
 });
@@ -110,7 +166,10 @@ test('location Yes/No helper still rejects city county', () => {
     const field = { label: 'City, county', field_type: 'text' };
 
     assert.equal(shouldRejectYesNoAnswerOnLocationField(field, 'Yes'), true);
-    assert.equal(shouldRejectYesNoAnswerOnLocationField(field, 'High Wycombe'), false);
+    assert.equal(
+        shouldRejectYesNoAnswerOnLocationField(field, 'High Wycombe'),
+        false,
+    );
 });
 
 test('partitionBatchAnswers leaves salary/notice bleed pending', () => {
@@ -121,15 +180,30 @@ test('partitionBatchAnswers leaves salary/notice bleed pending', () => {
             application_settings: {},
         },
     };
-    const salaryField = { ref: 's1', label: 'Expected salary', field_type: 'text' };
-    const noticeField = { ref: 'n1', label: 'Notice period', field_type: 'text' };
+    const salaryField = {
+        ref: 's1',
+        label: 'Expected salary',
+        field_type: 'text',
+    };
+    const noticeField = {
+        ref: 'n1',
+        label: 'Notice period',
+        field_type: 'text',
+    };
     const fieldsByRef = new Map([
         ['s1', salaryField],
         ['n1', noticeField],
     ]);
 
     const salaryBleed = partitionBatchAnswers(
-        [{ ref: 's1', label: 'Expected salary', field_type: 'text', answer: '2 weeks' }],
+        [
+            {
+                ref: 's1',
+                label: 'Expected salary',
+                field_type: 'text',
+                answer: '2 weeks',
+            },
+        ],
         fieldsByRef,
         bareProfile,
     );
@@ -140,7 +214,14 @@ test('partitionBatchAnswers leaves salary/notice bleed pending', () => {
     assert.equal(salaryBleed.pending[0].rejected_answer, '2 weeks');
 
     const noticeBleed = partitionBatchAnswers(
-        [{ ref: 'n1', label: 'Notice period', field_type: 'text', answer: '£55,000' }],
+        [
+            {
+                ref: 'n1',
+                label: 'Notice period',
+                field_type: 'text',
+                answer: '£55,000',
+            },
+        ],
         fieldsByRef,
         bareProfile,
     );
@@ -178,20 +259,37 @@ test('empty profile city pending early and not sent to LLM', () => {
         },
     };
 
-    const missing = partitionMissingLocalityIdentityFields([field], emptyCityProfile);
+    const missing = partitionMissingLocalityIdentityFields(
+        [field],
+        emptyCityProfile,
+    );
     assert.equal(missing.pendingFields.length, 1);
     assert.equal(missing.remainingFields.length, 0);
     assert.equal(missing.localityAnswers.length, 0);
 
     const plan = buildDraftAllApplyPlan({
-        fields: [field, { ref: 'why', label: 'Why this role?', field_type: 'textarea' }],
+        fields: [
+            field,
+            { ref: 'why', label: 'Why this role?', field_type: 'textarea' },
+        ],
         profileData: emptyCityProfile,
         questionMemo: {},
     });
 
-    assert.equal(plan.llmFields.some((item) => item.ref === 'cc' || item.label === 'City, county'), false);
-    assert.equal(plan.pendingFields.some((item) => item.ref === 'cc'), true);
-    assert.equal(plan.llmFields.some((item) => item.ref === 'why'), true);
+    assert.equal(
+        plan.llmFields.some(
+            (item) => item.ref === 'cc' || item.label === 'City, county',
+        ),
+        false,
+    );
+    assert.equal(
+        plan.pendingFields.some((item) => item.ref === 'cc'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((item) => item.ref === 'why'),
+        true,
+    );
 });
 
 test('identity stage answers are tagged with source', () => {
@@ -203,7 +301,9 @@ test('identity stage answers are tagged with source', () => {
         profileData: profile,
         questionMemo: {},
     });
-    const identity = plan.applyStages.find((stage) => stage.type === 'identity');
+    const identity = plan.applyStages.find(
+        (stage) => stage.type === 'identity',
+    );
 
     assert.ok(identity);
     assert.ok(identity.answers.every((answer) => answer.source === 'identity'));
@@ -222,17 +322,71 @@ test('empty profile phone/email pending early and not sent to LLM', () => {
     };
 
     const plan = buildDraftAllApplyPlan({
-        fields: [phone, email, { ref: 'why', label: 'Why this role?', field_type: 'textarea' }],
+        fields: [
+            phone,
+            email,
+            { ref: 'why', label: 'Why this role?', field_type: 'textarea' },
+        ],
         profileData: emptyContactProfile,
         questionMemo: {},
     });
 
-    assert.equal(plan.llmFields.some((item) => item.ref === 'ph' || item.ref === 'em'), false);
-    assert.equal(plan.pendingFields.some((item) => item.ref === 'ph'), true);
-    assert.equal(plan.pendingFields.some((item) => item.ref === 'em'), true);
-    assert.equal(plan.llmFields.some((item) => item.ref === 'why'), true);
+    assert.equal(
+        plan.llmFields.some((item) => item.ref === 'ph' || item.ref === 'em'),
+        false,
+    );
+    assert.equal(
+        plan.pendingFields.some((item) => item.ref === 'ph'),
+        true,
+    );
+    assert.equal(
+        plan.pendingFields.some((item) => item.ref === 'em'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((item) => item.ref === 'why'),
+        true,
+    );
 });
 
+test('empty profile name pending early and not sent to LLM', () => {
+    const first = { ref: 'fn', label: 'First name', field_type: 'text' };
+    const last = { ref: 'ln', label: 'Last name', field_type: 'text' };
+    const emptyNameProfile = {
+        profile: {
+            full_name: { first: '', last: '' },
+            city: 'High Wycombe',
+            email: 'toby@example.com',
+        },
+    };
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            first,
+            last,
+            { ref: 'why', label: 'Why this role?', field_type: 'textarea' },
+        ],
+        profileData: emptyNameProfile,
+        questionMemo: {},
+    });
+
+    assert.equal(
+        plan.llmFields.some((item) => item.ref === 'fn' || item.ref === 'ln'),
+        false,
+    );
+    assert.equal(
+        plan.pendingFields.some((item) => item.ref === 'fn'),
+        true,
+    );
+    assert.equal(
+        plan.pendingFields.some((item) => item.ref === 'ln'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((item) => item.ref === 'why'),
+        true,
+    );
+});
 
 test('rejects url on locality free text', () => {
     assert.equal(looksLikeUrlAnswer('https://linkedin.com/in/toby'), true);

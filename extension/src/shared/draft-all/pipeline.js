@@ -24,6 +24,7 @@ import {
     partitionIdentityProfileFields,
     partitionMissingContactIdentityFields,
     partitionMissingLocalityIdentityFields,
+    partitionMissingNameIdentityFields,
     partitionPreferenceProfileFields,
     partitionPriorEmployerContactFields,
     partitionReferenceProfileFields,
@@ -94,6 +95,18 @@ export function buildDraftAllApplyPlan({
         profileData,
     );
     remainingFields = identityPartition.remainingFields;
+
+    // Empty name fields must pending early - never invent a candidate name via NanoGPT.
+    const missingNamePartition = partitionMissingNameIdentityFields(
+        remainingFields,
+        profileData,
+    );
+    remainingFields = missingNamePartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        missingNamePartition.pendingFields,
+    );
+    const nameRescueAnswers = missingNamePartition.nameAnswers || [];
 
     // Empty city/postcode/street must pending early - never invent locality via NanoGPT.
     const missingLocalityPartition = partitionMissingLocalityIdentityFields(
@@ -220,6 +233,7 @@ export function buildDraftAllApplyPlan({
 
     const identityAnswers = [
         ...identityPartition.identityAnswers,
+        ...nameRescueAnswers,
         ...localityRescueAnswers,
         ...contactRescueAnswers,
     ];

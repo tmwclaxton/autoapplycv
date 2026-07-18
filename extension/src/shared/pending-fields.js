@@ -3,7 +3,10 @@ import {
     findExactChoiceOptionMatch,
     normalizeFieldAnswerForQuestion,
 } from './answer-normalization.js';
-import { isMeaningfulAnswer, isMeaningfulFieldAnswer } from './draft-all/answer-utils.js';
+import {
+    isMeaningfulAnswer,
+    isMeaningfulFieldAnswer,
+} from './draft-all/answer-utils.js';
 import {
     isAgreementCheckboxField,
     isElectronicSignatureField,
@@ -19,7 +22,10 @@ import { normalizeQuestionLabel } from './draft-all-optimizations.js';
 
 export { isMarketingOrFutureConsentField } from './draft-all/consent-fields.js';
 
-export { isMeaningfulAnswer, isMeaningfulFieldAnswer } from './draft-all/answer-utils.js';
+export {
+    isMeaningfulAnswer,
+    isMeaningfulFieldAnswer,
+} from './draft-all/answer-utils.js';
 
 export {
     evaluateAnswerTypeCoherence,
@@ -29,7 +35,9 @@ export {
 } from './draft-all/type-coherence.js';
 
 function looksLikePhoneAnswer(answer) {
-    const compact = String(answer || '').trim().replace(/\s+/g, '');
+    const compact = String(answer || '')
+        .trim()
+        .replace(/\s+/g, '');
 
     return /^\+?\d{10,15}$/.test(compact);
 }
@@ -43,13 +51,19 @@ function isPhoneRelatedField(field) {
         return true;
     }
 
-    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone)\b/i.test(normalized);
+    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone)\b/i.test(
+        normalized,
+    );
 }
 
 function isSmsOrMarketingConsentField(field) {
-    const normalized = normalizeQuestionLabel(field?.label || field?.question || '');
+    const normalized = normalizeQuestionLabel(
+        field?.label || field?.question || '',
+    );
 
-    return /\b(consent to receive|recruiting sms|sms messages?)\b/.test(normalized);
+    return /\b(consent to receive|recruiting sms|sms messages?)\b/.test(
+        normalized,
+    );
 }
 
 export function shouldRejectPhoneAnswerOnField(field, answer) {
@@ -57,7 +71,10 @@ export function shouldRejectPhoneAnswerOnField(field, answer) {
         return false;
     }
 
-    if (isSmsOrMarketingConsentField(field) || isMarketingOrFutureConsentField(field)) {
+    if (
+        isSmsOrMarketingConsentField(field) ||
+        isMarketingOrFutureConsentField(field)
+    ) {
         return true;
     }
 
@@ -200,21 +217,184 @@ const GENERAL_SKILL_FACT_QUESTION_PATTERNS = [
 ];
 
 const PROFILE_FIELD_MAPPINGS = [
-    { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'], exactLabels: ['name'] },
-    { path: 'full_name.first', label: 'First name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['first name', 'given name', 'forename', 'fornamn', 'förnamn', 'prénom', 'prenom', 'vorname'], exactLabels: ['prénom', 'prenom', 'vorname'] },
-    { path: 'full_name.last', label: 'Last name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['last name', 'surname', 'family name', 'efternamn', 'nom de famille', 'nachname'], exactLabels: ['nom', 'nachname'] },
-    { path: '_phone_country_dial', label: 'Phone country code', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone country code', 'country calling code', 'calling code', 'country code', 'dial code'] },
-    { path: '_phone_national', label: 'Mobile phone number', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['mobile phone number', 'mobile phone', 'mobile number', 'national number'] },
-    { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email', 'e post', 'epost', 'adresse e-mail', 'adresse email'] },
-    { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell', 'telefon', 'téléphone', 'telephone'] },
-    { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin', 'profil linkedin'] },
-    { path: '_profile_link.github', label: 'GitHub', dashboard_tab: 'profile', dashboard_anchor: 'field-social-links', keywords: ['github', 'github url', 'github profile', 'github link'] },
-    { path: '_profile_link.portfolio', label: 'Portfolio', dashboard_tab: 'profile', dashboard_anchor: 'field-website-url', keywords: ['portfolio', 'portfolio url', 'work samples', 'behance', 'dribbble'] },
-    { path: 'website_url', label: 'Website', dashboard_tab: 'profile', dashboard_anchor: 'field-website-url', keywords: ['personal website', 'website url', 'your website', 'other website', 'web site'], exactLabels: ['website'] },
-    { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town', 'stad', 'ort'] },
-    { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
-    { path: 'postcode', label: 'Postcode', dashboard_tab: 'profile', dashboard_anchor: 'field-postcode', keywords: ['postcode', 'postal code', 'zip code', 'zip'] },
-    { path: 'structured_data.address_line_1', label: 'Address line 1', dashboard_tab: 'profile', dashboard_anchor: 'field-address-line-1', keywords: ['street address', 'address line 1', 'address line', 'street', 'home address', 'mailing address'], exactLabels: ['address'] },
+    {
+        path: 'full_name',
+        label: 'Full name',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-full-name',
+        keywords: [
+            'full name',
+            'applicant name',
+            'your name',
+            'candidate name',
+        ],
+        exactLabels: ['name'],
+    },
+    {
+        path: 'full_name.first',
+        label: 'First name',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-full-name',
+        keywords: [
+            'first name',
+            'given name',
+            'forename',
+            'fornamn',
+            'förnamn',
+            'prénom',
+            'prenom',
+            'vorname',
+        ],
+        exactLabels: ['prénom', 'prenom', 'vorname'],
+    },
+    {
+        path: 'full_name.last',
+        label: 'Last name',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-full-name',
+        keywords: [
+            'last name',
+            'surname',
+            'family name',
+            'efternamn',
+            'nom de famille',
+            'nachname',
+        ],
+        exactLabels: ['nom', 'nachname'],
+    },
+    {
+        path: '_phone_country_dial',
+        label: 'Phone country code',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-phone',
+        keywords: [
+            'phone country code',
+            'country calling code',
+            'calling code',
+            'country code',
+            'dial code',
+        ],
+    },
+    {
+        path: '_phone_national',
+        label: 'Mobile phone number',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-phone',
+        keywords: [
+            'mobile phone number',
+            'mobile phone',
+            'mobile number',
+            'national number',
+        ],
+    },
+    {
+        path: 'email',
+        label: 'Email',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-email',
+        keywords: [
+            'email',
+            'e-mail',
+            'personal email',
+            'e post',
+            'epost',
+            'adresse e-mail',
+            'adresse email',
+        ],
+    },
+    {
+        path: 'phone',
+        label: 'Phone',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-phone',
+        keywords: [
+            'phone',
+            'mobile',
+            'telephone',
+            'contact number',
+            'cell',
+            'telefon',
+            'téléphone',
+            'telephone',
+        ],
+    },
+    {
+        path: 'linkedin_url',
+        label: 'LinkedIn',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-linkedin-url',
+        keywords: ['linkedin', 'profil linkedin'],
+    },
+    {
+        path: '_profile_link.github',
+        label: 'GitHub',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-social-links',
+        keywords: ['github', 'github url', 'github profile', 'github link'],
+    },
+    {
+        path: '_profile_link.portfolio',
+        label: 'Portfolio',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-website-url',
+        keywords: [
+            'portfolio',
+            'portfolio url',
+            'work samples',
+            'behance',
+            'dribbble',
+        ],
+    },
+    {
+        path: 'website_url',
+        label: 'Website',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-website-url',
+        keywords: [
+            'personal website',
+            'website url',
+            'your website',
+            'other website',
+            'web site',
+        ],
+        exactLabels: ['website'],
+    },
+    {
+        path: 'city',
+        label: 'City',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-city',
+        keywords: ['city', 'current city', 'town', 'stad', 'ort'],
+    },
+    {
+        path: 'location',
+        label: 'Location',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-location',
+        keywords: ['location', 'current location'],
+    },
+    {
+        path: 'postcode',
+        label: 'Postcode',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-postcode',
+        keywords: ['postcode', 'postal code', 'zip code', 'zip'],
+    },
+    {
+        path: 'structured_data.address_line_1',
+        label: 'Address line 1',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-address-line-1',
+        keywords: [
+            'street address',
+            'address line 1',
+            'address line',
+            'street',
+            'home address',
+            'mailing address',
+        ],
+        exactLabels: ['address'],
+    },
     {
         path: 'structured_data.state_region',
         label: 'County / State',
@@ -223,16 +403,119 @@ const PROFILE_FIELD_MAPPINGS = [
         keywords: ['state/province', 'county/region', 'state or province'],
         exactLabels: ['county', 'state', 'region', 'province'],
     },
-    { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence', 'citizenship', 'nationality', 'pays', 'land'] },
-    { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
-    { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'immigration sponsorship', 'require sponsorship'] },
-    { path: 'application_settings.legally_authorized', label: 'Legally authorized to work', dashboard_tab: 'preferences', dashboard_anchor: 'field-legally-authorized', keywords: ['legally authorized', 'right to work', 'eligible to work', 'work permit', 'authorized to work', 'authorised to work'] },
-    { path: 'application_settings.affirm_local_commute', label: 'Commute to job location', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-commute', keywords: ['comfortable commuting', 'commuting to this job', 'commute to this job', 'willing to commute'] },
-    { path: 'application_settings.affirm_local_hybrid', label: 'Hybrid work setting', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-hybrid', keywords: ['comfortable working in a hybrid', 'hybrid setting', 'work in a hybrid'] },
-    { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
-    { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license', "driver's license", 'valid driver', 'valid driving'] },
-    { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
-    { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
+    {
+        path: 'country',
+        label: 'Country',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-country',
+        keywords: [
+            'country',
+            'country of residence',
+            'citizenship',
+            'nationality',
+            'pays',
+            'land',
+        ],
+    },
+    {
+        path: 'application_settings.years_of_experience',
+        label: 'Years of experience',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-years-of-experience',
+        keywords: [
+            'years of experience',
+            'years experience',
+            'total experience',
+        ],
+    },
+    {
+        path: 'application_settings.visa_sponsorship',
+        label: 'Visa sponsorship',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-visa-sponsorship',
+        keywords: [
+            'visa sponsorship',
+            'immigration sponsorship',
+            'require sponsorship',
+        ],
+    },
+    {
+        path: 'application_settings.legally_authorized',
+        label: 'Legally authorized to work',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-legally-authorized',
+        keywords: [
+            'legally authorized',
+            'right to work',
+            'eligible to work',
+            'work permit',
+            'authorized to work',
+            'authorised to work',
+        ],
+    },
+    {
+        path: 'application_settings.affirm_local_commute',
+        label: 'Commute to job location',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-affirm-local-commute',
+        keywords: [
+            'comfortable commuting',
+            'commuting to this job',
+            'commute to this job',
+            'willing to commute',
+        ],
+    },
+    {
+        path: 'application_settings.affirm_local_hybrid',
+        label: 'Hybrid work setting',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-affirm-local-hybrid',
+        keywords: [
+            'comfortable working in a hybrid',
+            'hybrid setting',
+            'work in a hybrid',
+        ],
+    },
+    {
+        path: 'application_settings.willing_to_relocate',
+        label: 'Willing to relocate',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-willing-to-relocate',
+        keywords: ['willing to relocate', 'open to relocation', 'relocate'],
+    },
+    {
+        path: 'application_settings.drivers_license',
+        label: 'Driving licence',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-drivers-license',
+        keywords: [
+            'driving licence',
+            'driving license',
+            'drivers license',
+            "driver's license",
+            'valid driver',
+            'valid driving',
+        ],
+    },
+    {
+        path: 'application_settings.notice_period',
+        label: 'Notice period',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-notice-period',
+        keywords: ['notice period'],
+    },
+    {
+        path: 'application_settings.job_preferences',
+        label: 'Job preferences',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-job-preferences',
+        keywords: [
+            'job preferences',
+            'job preference',
+            'role preferences',
+            'type of role',
+        ],
+    },
 ];
 
 const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
@@ -278,14 +561,44 @@ const IDENTITY_DOM_PATTERNS = [
     { path: 'full_name', pattern: /candidate\.name/i },
     { path: 'email', pattern: /candidate\.email/i },
     { path: 'phone', pattern: /candidate\.phone/i },
-    { path: 'full_name.first', pattern: /(?:^|[\[\]_-])(?:first[_-]?name|given[_-]?name|forename)(?:$|[\[\]_-])/i },
-    { path: 'full_name.last', pattern: /(?:^|[\[\]_-])(?:last[_-]?name|surname|family[_-]?name)(?:$|[\[\]_-])/i },
-    { path: 'email', pattern: /(?:^|[\[\]_-])(?:email|e[_-]?mail)(?:$|[\[\]_-])/i },
-    { path: 'phone', pattern: /(?:^|[\[\]_-])(?:phone|mobile|telephone|tel)(?:$|[\[\]_-])/i },
-    { path: 'postcode', pattern: /(?:^|[\[\]_-])(?:postal[_-]?code|post[_-]?code|zip[_-]?code|zip)(?:$|[\[\]_-])/i },
-    { path: 'structured_data.address_line_1', pattern: /(?:^|[\[\]_-])(?:street[_-]?address|location[_-]?address|address[_-]?line[_-]?1?)(?:$|[\[\]_-])/i },
-    { path: 'city', pattern: /(?:^|[\[\]_-])(?:locality|location[_-]?locality|location[_-]?fields[_-]?locality)(?:$|[\[\]_-])/i },
-    { path: 'structured_data.state_region', pattern: /(?:^|[\[\]_-])(?:admin[_-]?area|state[_-]?region|location[_-]?fields[_-]?admin)(?:$|[\[\]_-])/i },
+    {
+        path: 'full_name.first',
+        pattern:
+            /(?:^|[\[\]_-])(?:first[_-]?name|given[_-]?name|forename)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'full_name.last',
+        pattern:
+            /(?:^|[\[\]_-])(?:last[_-]?name|surname|family[_-]?name)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'email',
+        pattern: /(?:^|[\[\]_-])(?:email|e[_-]?mail)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'phone',
+        pattern: /(?:^|[\[\]_-])(?:phone|mobile|telephone|tel)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'postcode',
+        pattern:
+            /(?:^|[\[\]_-])(?:postal[_-]?code|post[_-]?code|zip[_-]?code|zip)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'structured_data.address_line_1',
+        pattern:
+            /(?:^|[\[\]_-])(?:street[_-]?address|location[_-]?address|address[_-]?line[_-]?1?)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'city',
+        pattern:
+            /(?:^|[\[\]_-])(?:locality|location[_-]?locality|location[_-]?fields[_-]?locality)(?:$|[\[\]_-])/i,
+    },
+    {
+        path: 'structured_data.state_region',
+        pattern:
+            /(?:^|[\[\]_-])(?:admin[_-]?area|state[_-]?region|location[_-]?fields[_-]?admin)(?:$|[\[\]_-])/i,
+    },
 ];
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
@@ -373,11 +686,23 @@ const PRIOR_EMPLOYER_CONTACT_PATTERNS = [
 ];
 
 const REFERENCE_FIELD_PATTERNS = [
-    { key: 'name', pattern: /^(full\s+)?name$|\breference\s+name\b|\bcontact\s+name\b/i },
-    { key: 'relationship', pattern: /\brelationship\b|\bhow\s+(?:do|did)\s+you\s+know\b/i },
-    { key: 'company', pattern: /\bcompany\b|\borgani[sz]ation\b|\bemployer\b/i },
+    {
+        key: 'name',
+        pattern: /^(full\s+)?name$|\breference\s+name\b|\bcontact\s+name\b/i,
+    },
+    {
+        key: 'relationship',
+        pattern: /\brelationship\b|\bhow\s+(?:do|did)\s+you\s+know\b/i,
+    },
+    {
+        key: 'company',
+        pattern: /\bcompany\b|\borgani[sz]ation\b|\bemployer\b/i,
+    },
     { key: 'title', pattern: /\btitle\b|\bjob\s+title\b|\bposition\b/i },
-    { key: 'phone', pattern: /\bphone\b|\bmobile\b|\btelephone\b|\bcontact\s+number\b/i },
+    {
+        key: 'phone',
+        pattern: /\bphone\b|\bmobile\b|\btelephone\b|\bcontact\s+number\b/i,
+    },
     { key: 'email', pattern: /\bemail\b|\be-?mail\b/i },
 ];
 
@@ -387,7 +712,8 @@ const SALARY_FALLBACK_PATHS = [
     'application_settings.expected_salary_weekly',
 ];
 
-const SALARY_CONTEXT_PATTERN = /\b(?:salary|salaries|wage|wages|compensation|pay|gross|earn|earning|rate|remuneration)\b/i;
+const SALARY_CONTEXT_PATTERN =
+    /\b(?:salary|salaries|wage|wages|compensation|pay|gross|earn|earning|rate|remuneration)\b/i;
 
 const BROAD_SALARY_PERIOD_KEYWORDS = new Set([
     'per week',
@@ -401,7 +727,10 @@ const BROAD_SALARY_PERIOD_KEYWORDS = new Set([
 ]);
 
 function salaryMappingByPath(path) {
-    return SALARY_MAPPINGS.find((mapping) => mapping.path === path) ?? SALARY_MAPPINGS[2];
+    return (
+        SALARY_MAPPINGS.find((mapping) => mapping.path === path) ??
+        SALARY_MAPPINGS[2]
+    );
 }
 
 function salaryPeriodKeywordMatches(keyword, normalized) {
@@ -417,7 +746,9 @@ function salaryPeriodKeywordMatches(keyword, normalized) {
 }
 
 function salaryPeriodKeywordsMatch(normalized, periodKeywords) {
-    return periodKeywords.some((keyword) => salaryPeriodKeywordMatches(keyword, normalized));
+    return periodKeywords.some((keyword) =>
+        salaryPeriodKeywordMatches(keyword, normalized),
+    );
 }
 
 export function isHoursCommitmentQuestionLabel(label) {
@@ -427,19 +758,32 @@ export function isHoursCommitmentQuestionLabel(label) {
         return false;
     }
 
-    if (/\b(?:hours?|hrs?)\s+(?:per\s+)?(?:week|wk|month|mo)\b/.test(normalized)) {
+    if (
+        /\b(?:hours?|hrs?)\s+(?:per\s+)?(?:week|wk|month|mo)\b/.test(normalized)
+    ) {
         return true;
     }
 
-    if (/\b(?:hours?|hrs?)\b/.test(normalized) && /\bper\s+(?:week|wk|month|mo)\b/.test(normalized)) {
+    if (
+        /\b(?:hours?|hrs?)\b/.test(normalized) &&
+        /\bper\s+(?:week|wk|month|mo)\b/.test(normalized)
+    ) {
         return true;
     }
 
-    if (/\b(?:commit|commitment|dedicate|devote)\b.*\b(?:hours?|hrs?|time)\b/.test(normalized)) {
+    if (
+        /\b(?:commit|commitment|dedicate|devote)\b.*\b(?:hours?|hrs?|time)\b/.test(
+            normalized,
+        )
+    ) {
         return true;
     }
 
-    if (/\b(?:time\s+)?commit(?:ment)?\b.*\bper\s+(?:week|wk)\b/.test(normalized)) {
+    if (
+        /\b(?:time\s+)?commit(?:ment)?\b.*\bper\s+(?:week|wk)\b/.test(
+            normalized,
+        )
+    ) {
         return true;
     }
 
@@ -457,7 +801,9 @@ export function isSalaryQuestionLabel(label) {
         return false;
     }
 
-    if (GENERIC_SALARY_KEYWORDS.some((keyword) => normalized.includes(keyword))) {
+    if (
+        GENERIC_SALARY_KEYWORDS.some((keyword) => normalized.includes(keyword))
+    ) {
         return true;
     }
 
@@ -465,7 +811,9 @@ export function isSalaryQuestionLabel(label) {
         return true;
     }
 
-    return SALARY_MAPPINGS.some((mapping) => salaryPeriodKeywordsMatch(normalized, mapping.periodKeywords));
+    return SALARY_MAPPINGS.some((mapping) =>
+        salaryPeriodKeywordsMatch(normalized, mapping.periodKeywords),
+    );
 }
 
 export function resolveSalaryPeriodPath(label) {
@@ -496,7 +844,11 @@ export function defaultSalaryFallbackPath(profileData) {
 
 export function resolveSalaryMapping(label, profileData = null) {
     const periodPath = resolveSalaryPeriodPath(label);
-    const path = periodPath ?? (profileData ? defaultSalaryFallbackPath(profileData) : SALARY_FALLBACK_PATHS[0]);
+    const path =
+        periodPath ??
+        (profileData
+            ? defaultSalaryFallbackPath(profileData)
+            : SALARY_FALLBACK_PATHS[0]);
     const definition = salaryMappingByPath(path);
 
     return {
@@ -515,12 +867,15 @@ export function isNoticePeriodQuestionLabel(label) {
 export function isStructuredSalaryFormatPrompt(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /rodzaj umowy/.test(normalized)
-        || (/netto/.test(normalized) && /brutto/.test(normalized))
-        || (/kwota/.test(normalized) && /(miesi[eę]czna|roczna)/.test(normalized));
+    return (
+        /rodzaj umowy/.test(normalized) ||
+        (/netto/.test(normalized) && /brutto/.test(normalized)) ||
+        (/kwota/.test(normalized) && /(miesi[eę]czna|roczna)/.test(normalized))
+    );
 }
 
-const US_OFFICE_METRO_PATTERN = /los angeles|\bla\b area|boston|seattle|atlanta|scottsdale|san francisco|new york|chicago|denver|austin|hawthorne|billings|montana|\bmt\b|el segundo|dallas|\btx\b|austin,\s*tx|san luis obispo/;
+const US_OFFICE_METRO_PATTERN =
+    /los angeles|\bla\b area|boston|seattle|atlanta|scottsdale|san francisco|new york|chicago|denver|austin|hawthorne|billings|montana|\bmt\b|el segundo|dallas|\btx\b|austin,\s*tx|san luis obispo/;
 
 /** Visa / immigration sponsorship Yes-No gates (not country or city fields). */
 export function isVisaSponsorshipQuestionLabel(label) {
@@ -531,22 +886,39 @@ export function isVisaSponsorshipQuestionLabel(label) {
     }
 
     // Avoid country/city fields that mention sponsorship only in helper copy.
-    if (/\b(?:city|town|postcode|postal code|street address)\b/.test(normalized)
-        && !/\b(?:require|requiring|need|visa|immigration|sponsorship)\b/.test(normalized)) {
+    if (
+        /\b(?:city|town|postcode|postal code|street address)\b/.test(
+            normalized,
+        ) &&
+        !/\b(?:require|requiring|need|visa|immigration|sponsorship)\b/.test(
+            normalized,
+        )
+    ) {
         return false;
     }
 
     if (/\bsponsorship\b/.test(normalized)) {
-        return /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(normalized)
-            || /\bsponsorship\b.*\b(?:visa|h-1b|employment eligibility|work authorization|legally work)\b/.test(normalized)
-            || /\b(?:now|future|might you|will you)\b.*\bsponsorship\b/.test(normalized)
-            || /\bvisa sponsorship\b/.test(normalized)
-            || /\bimmigration sponsorship\b/.test(normalized);
+        return (
+            /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(
+                normalized,
+            ) ||
+            /\bsponsorship\b.*\b(?:visa|h-1b|employment eligibility|work authorization|legally work)\b/.test(
+                normalized,
+            ) ||
+            /\b(?:now|future|might you|will you)\b.*\bsponsorship\b/.test(
+                normalized,
+            ) ||
+            /\bvisa sponsorship\b/.test(normalized) ||
+            /\bimmigration sponsorship\b/.test(normalized)
+        );
     }
 
     // "Do you require a visa to work?" without the word sponsorship.
-    return /\b(require|requiring|need|needs|needed)\b.*\bvisa\b/.test(normalized)
-        && /\b(?:work|employment|job|role)\b/.test(normalized);
+    return (
+        /\b(require|requiring|need|needs|needed)\b.*\bvisa\b/.test(
+            normalized,
+        ) && /\b(?:work|employment|job|role)\b/.test(normalized)
+    );
 }
 
 /** On-site / hybrid commute questions tied to a specific office city. */
@@ -557,34 +929,59 @@ export function isOnSiteCommuteQuestionLabel(label) {
         return true;
     }
 
-    if (/\bon[- ]?site\b/.test(normalized)
-        && /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(normalized)) {
+    if (
+        /\bon[- ]?site\b/.test(normalized) &&
+        /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(
+            normalized,
+        )
+    ) {
         return true;
     }
 
-    if (/(?:hybrid|on[- ]?site|commute|relocate)/.test(normalized) && US_OFFICE_METRO_PATTERN.test(normalized)) {
+    if (
+        /(?:hybrid|on[- ]?site|commute|relocate)/.test(normalized) &&
+        US_OFFICE_METRO_PATTERN.test(normalized)
+    ) {
         return true;
     }
 
-    return /(?:hybryd|hybrid|office|biur|on[- ]?site|commute|relocate)/.test(normalized)
-        && /(warszaw|warsaw|london|berlin|paris|office in|u nas w)/.test(normalized);
+    return (
+        /(?:hybryd|hybrid|office|biur|on[- ]?site|commute|relocate)/.test(
+            normalized,
+        ) &&
+        /(warszaw|warsaw|london|berlin|paris|office in|u nas w)/.test(
+            normalized,
+        )
+    );
 }
 
 function isCitySpecificRelocateQuestion(label) {
-    return isOnSiteCommuteQuestionLabel(label) && /relocate/.test(normalizeQuestionLabel(label));
+    return (
+        isOnSiteCommuteQuestionLabel(label) &&
+        /relocate/.test(normalizeQuestionLabel(label))
+    );
 }
 
 function isForeignTimezoneTrainingLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /(ph time|philippines time|\bpht\b)/.test(normalized)
-        && /(training|night shift|attend|shift|monday through friday|timezone|time zone|aest|comfortable with this|working with)/.test(normalized);
+    return (
+        /(ph time|philippines time|\bpht\b)/.test(normalized) &&
+        /(training|night shift|attend|shift|monday through friday|timezone|time zone|aest|comfortable with this|working with)/.test(
+            normalized,
+        )
+    );
 }
 
 function isPhilippinesResidencyQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /filipino citizen/.test(normalized) && /(resides in|residing in|live in|living in).{0,20}philippines/.test(normalized);
+    return (
+        /filipino citizen/.test(normalized) &&
+        /(resides in|residing in|live in|living in).{0,20}philippines/.test(
+            normalized,
+        )
+    );
 }
 
 function profileInPhilippines(profileData) {
@@ -630,17 +1027,23 @@ function profileLocationMatchesOfficeCity(cityToken, profileLocation) {
 function extractOfficeCitiesFromLabel(normalized) {
     const cities = new Set();
 
-    for (const match of normalized.matchAll(/\boffice in\s+([a-z\u00e0-\u00ff-]+)/g)) {
+    for (const match of normalized.matchAll(
+        /\boffice in\s+([a-z\u00e0-\u00ff-]+)/g,
+    )) {
         cities.add(match[1].trim());
     }
 
-    const basedMatch = normalized.match(/\bbased at our office in\s+([a-z\u00e0-\u00ff-]+)/);
+    const basedMatch = normalized.match(
+        /\bbased at our office in\s+([a-z\u00e0-\u00ff-]+)/,
+    );
 
     if (basedMatch) {
         cities.add(basedMatch[1].trim());
     }
 
-    const slashMatch = normalized.match(/(?:from our|in)\s+([a-z\u00e0-\u00ff-]+(?:\s*\/\s*[a-z\u00e0-\u00ff-]+)+)\s+office/);
+    const slashMatch = normalized.match(
+        /(?:from our|in)\s+([a-z\u00e0-\u00ff-]+(?:\s*\/\s*[a-z\u00e0-\u00ff-]+)+)\s+office/,
+    );
 
     if (slashMatch) {
         for (const part of slashMatch[1].split('/')) {
@@ -660,12 +1063,16 @@ function profileNearOfficeCities(cities, profileLocation) {
         return null;
     }
 
-    return cities.some((city) => profileLocationMatchesOfficeCity(city, profileLocation));
+    return cities.some((city) =>
+        profileLocationMatchesOfficeCity(city, profileLocation),
+    );
 }
 
 function fieldHasYesNoOptions(field) {
     const options = Array.isArray(field?.options) ? field.options : [];
-    const hasYes = options.some((option) => /^yes$/i.test(String(option).trim()));
+    const hasYes = options.some((option) =>
+        /^yes$/i.test(String(option).trim()),
+    );
     const hasNo = options.some((option) => /^no$/i.test(String(option).trim()));
 
     if (hasYes && hasNo) {
@@ -683,9 +1090,14 @@ export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
     }
 
     const profileLocation = profileLocationTokens(profileData);
-    const profileInUk = /london|england|united kingdom|uk\b|britain/.test(profileLocation);
+    const profileInUk = /london|england|united kingdom|uk\b|britain/.test(
+        profileLocation,
+    );
 
-    if (!profileInUk || profileNearRelocateDestination(label, profileLocation)) {
+    if (
+        !profileInUk ||
+        profileNearRelocateDestination(label, profileLocation)
+    ) {
         return '';
     }
 
@@ -715,13 +1127,19 @@ function profileNearRelocateDestination(label, profileLocation) {
     const match = normalized.match(/relocate to\s+([^,?]+)/);
 
     if (!match) {
-        if (US_OFFICE_METRO_PATTERN.test(normalized)
-            && /london|united kingdom|england|uk\b|britain/.test(profileLocation)) {
+        if (
+            US_OFFICE_METRO_PATTERN.test(normalized) &&
+            /london|united kingdom|england|uk\b|britain/.test(profileLocation)
+        ) {
             return false;
         }
 
-        if (/(?:office in|based at our office|live in the area|willing to relocate)/.test(normalized)
-            && /london|united kingdom|england|uk\b|britain/.test(profileLocation)) {
+        if (
+            /(?:office in|based at our office|live in the area|willing to relocate)/.test(
+                normalized,
+            ) &&
+            /london|united kingdom|england|uk\b|britain/.test(profileLocation)
+        ) {
             return false;
         }
 
@@ -730,7 +1148,9 @@ function profileNearRelocateDestination(label, profileLocation) {
 
     const destination = match[1];
 
-    return destination.split(/\s+/).some((token) => token.length > 2 && profileLocation.includes(token));
+    return destination
+        .split(/\s+/)
+        .some((token) => token.length > 2 && profileLocation.includes(token));
 }
 
 function isAffirmativeRelocateAnswer(answer) {
@@ -743,7 +1163,9 @@ function profileLocationTokens(profileData) {
         readProfileValue(profileData, 'city'),
         readProfileValue(profileData, 'country'),
         readProfileValue(profileData, 'structured_data.address_line_1'),
-    ].map((value) => normalizeQuestionLabel(String(value || ''))).filter(Boolean);
+    ]
+        .map((value) => normalizeQuestionLabel(String(value || '')))
+        .filter(Boolean);
 
     return parts.join(' ');
 }
@@ -752,21 +1174,29 @@ function profileLocationTokens(profileData) {
 export function isSecurityClearanceQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /(?:active\s+)?security clearance|clearance eligibility/.test(normalized);
+    return /(?:active\s+)?security clearance|clearance eligibility/.test(
+        normalized,
+    );
 }
 
 export function isItarEligibilityQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /\bitar\b/.test(normalized) || /international traffic in arms/.test(normalized);
+    return (
+        /\bitar\b/.test(normalized) ||
+        /international traffic in arms/.test(normalized)
+    );
 }
 
 export function isUsExportComplianceQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /export administration controlled technology/.test(normalized)
-        || (/trade compliance/.test(normalized) && /non[- ]?us person/.test(normalized))
-        || /deemed export license/.test(normalized);
+    return (
+        /export administration controlled technology/.test(normalized) ||
+        (/trade compliance/.test(normalized) &&
+            /non[- ]?us person/.test(normalized)) ||
+        /deemed export license/.test(normalized)
+    );
 }
 
 export function isUsEmploymentAuthorizationBasisQuestionLabel(label) {
@@ -782,27 +1212,46 @@ export function isEmployerScreeningTrapLabel(label) {
         return false;
     }
 
-    return /favourite fruit|favorite fruit|devon.{0,12}fruit/.test(normalized)
-        || (/what is .{2,40} favourite/.test(normalized) && /fruit|colour|color|pet|mascot/.test(normalized));
+    return (
+        /favourite fruit|favorite fruit|devon.{0,12}fruit/.test(normalized) ||
+        (/what is .{2,40} favourite/.test(normalized) &&
+            /fruit|colour|color|pet|mascot/.test(normalized))
+    );
 }
 
 /** Never apply an LLM guess to employer screening traps. */
 export function shouldClarifyScreeningTrap(field, answer, profileData = null) {
     const label = field?.label || field?.question || '';
 
-    if (isSecurityClearanceQuestionLabel(label) && profileData && !profileInUnitedStates(profileData)) {
+    if (
+        isSecurityClearanceQuestionLabel(label) &&
+        profileData &&
+        !profileInUnitedStates(profileData)
+    ) {
         return isMeaningfulAnswer(answer);
     }
 
-    if (isItarEligibilityQuestionLabel(label) && profileData && !profileInUnitedStates(profileData)) {
+    if (
+        isItarEligibilityQuestionLabel(label) &&
+        profileData &&
+        !profileInUnitedStates(profileData)
+    ) {
         return isMeaningfulAnswer(answer);
     }
 
-    if (isUsExportComplianceQuestionLabel(label) && profileData && !profileInUnitedStates(profileData)) {
+    if (
+        isUsExportComplianceQuestionLabel(label) &&
+        profileData &&
+        !profileInUnitedStates(profileData)
+    ) {
         return isMeaningfulAnswer(answer);
     }
 
-    if (isUsEmploymentAuthorizationBasisQuestionLabel(label) && profileData && !profileInUnitedStates(profileData)) {
+    if (
+        isUsEmploymentAuthorizationBasisQuestionLabel(label) &&
+        profileData &&
+        !profileInUnitedStates(profileData)
+    ) {
         return isMeaningfulAnswer(answer);
     }
 
@@ -818,13 +1267,23 @@ export function shouldClarifyLocationCommute(field, answer, profileData) {
     const label = field?.label || field?.question || '';
     const normalizedLabel = normalizeQuestionLabel(label);
     const profileLocation = profileLocationTokens(profileData);
-    const profileInUk = /london|england|united kingdom|uk\b|britain/.test(profileLocation);
+    const profileInUk = /london|england|united kingdom|uk\b|britain/.test(
+        profileLocation,
+    );
 
-    if (isForeignTimezoneTrainingLabel(label) && profileInUk && !profileInPhilippines(profileData)) {
+    if (
+        isForeignTimezoneTrainingLabel(label) &&
+        profileInUk &&
+        !profileInPhilippines(profileData)
+    ) {
         return isAffirmativeRelocateAnswer(answer);
     }
 
-    if (isPhilippinesResidencyQuestionLabel(label) && profileInUk && !profileInPhilippines(profileData)) {
+    if (
+        isPhilippinesResidencyQuestionLabel(label) &&
+        profileInUk &&
+        !profileInPhilippines(profileData)
+    ) {
         return isAffirmativeRelocateAnswer(answer);
     }
 
@@ -833,26 +1292,40 @@ export function shouldClarifyLocationCommute(field, answer, profileData) {
     }
 
     const requiresWarsaw = /warszaw|warsaw/.test(normalizedLabel);
-    const profileInWarsaw = /warszaw|warsaw|mazowieck|poland|polska/.test(profileLocation);
+    const profileInWarsaw = /warszaw|warsaw|mazowieck|poland|polska/.test(
+        profileLocation,
+    );
 
     if (requiresWarsaw && profileInUk && !profileInWarsaw) {
         return isAffirmativeRelocateAnswer(answer);
     }
 
     if (/relocate to\b/.test(normalizedLabel) && profileInUk) {
-        const mentionsUsDestination = /billings|,\s*mt\b|\bmontana\b/.test(normalizedLabel);
+        const mentionsUsDestination = /billings|,\s*mt\b|\bmontana\b/.test(
+            normalizedLabel,
+        );
 
-        if (mentionsUsDestination && isAffirmativeRelocateAnswer(answer) && !profileNearRelocateDestination(label, profileLocation)) {
+        if (
+            mentionsUsDestination &&
+            isAffirmativeRelocateAnswer(answer) &&
+            !profileNearRelocateDestination(label, profileLocation)
+        ) {
             return true;
         }
     }
 
     if (profileInUk && isAffirmativeRelocateAnswer(answer)) {
-        const isStrictOnsiteRequirement = (/\bon[- ]?site\b/.test(normalizedLabel)
-                || /\bwork in (?:our )?office\b/.test(normalizedLabel))
-            && /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(normalizedLabel);
+        const isStrictOnsiteRequirement =
+            (/\bon[- ]?site\b/.test(normalizedLabel) ||
+                /\bwork in (?:our )?office\b/.test(normalizedLabel)) &&
+            /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(
+                normalizedLabel,
+            );
 
-        if (isStrictOnsiteRequirement || !profileNearRelocateDestination(label, profileLocation)) {
+        if (
+            isStrictOnsiteRequirement ||
+            !profileNearRelocateDestination(label, profileLocation)
+        ) {
             return true;
         }
     }
@@ -890,18 +1363,29 @@ export function formatStructuredSalaryAnswer(label, answer, profileData) {
         raw = '';
     }
 
-    if (/rodzaj umowy/.test(normalizeQuestionLabel(raw))
-        && /brutto|netto|gross|gbp|pln|roczn|month|year/i.test(raw)) {
+    if (
+        /rodzaj umowy/.test(normalizeQuestionLabel(raw)) &&
+        /brutto|netto|gross|gbp|pln|roczn|month|year/i.test(raw)
+    ) {
         return raw;
     }
 
     // LLM often returns a partial prefix ("Permanent employment") - rebuild from profile.
-    if (/^permanent employment/i.test(raw) && !/gross|brutto|netto|gbp|pln|\d/i.test(raw)) {
+    if (
+        /^permanent employment/i.test(raw) &&
+        !/gross|brutto|netto|gbp|pln|\d/i.test(raw)
+    ) {
         raw = '';
     }
 
-    const yearly = readProfileValue(profileData, 'application_settings.expected_salary_yearly');
-    const monthly = readProfileValue(profileData, 'application_settings.expected_salary_monthly');
+    const yearly = readProfileValue(
+        profileData,
+        'application_settings.expected_salary_yearly',
+    );
+    const monthly = readProfileValue(
+        profileData,
+        'application_settings.expected_salary_monthly',
+    );
     const rawAmount = /^\d+$/.test(raw) ? parseSalaryAmount(raw) : null;
     const yearlyAmount = parseSalaryAmount(yearly);
     const monthlyAmount = parseSalaryAmount(monthly);
@@ -929,8 +1413,10 @@ export function isYearsExperienceQuestionLabel(label) {
         return true;
     }
 
-    return /\byears? of (?:work )?experience\b/i.test(normalized)
-        && /\b(how many|with|in|using|have|do you)\b/i.test(normalized);
+    return (
+        /\byears? of (?:work )?experience\b/i.test(normalized) &&
+        /\b(how many|with|in|using|have|do you)\b/i.test(normalized)
+    );
 }
 
 export function isGenericTotalExperienceQuestionLabel(label) {
@@ -941,17 +1427,22 @@ export function isGenericTotalExperienceQuestionLabel(label) {
     }
 
     const totalExperienceMapping = PROFILE_FIELD_MAPPINGS.find(
-        (mapping) => mapping.path === 'application_settings.years_of_experience',
+        (mapping) =>
+            mapping.path === 'application_settings.years_of_experience',
     );
 
     return Boolean(
-        totalExperienceMapping?.keywords.some((keyword) => keywordMatchesNormalized(keyword, normalized)),
+        totalExperienceMapping?.keywords.some((keyword) =>
+            keywordMatchesNormalized(keyword, normalized),
+        ),
     );
 }
 
 export function isSkillSpecificYearsExperienceQuestionLabel(label) {
-    return isYearsExperienceQuestionLabel(label)
-        && !isGenericTotalExperienceQuestionLabel(label);
+    return (
+        isYearsExperienceQuestionLabel(label) &&
+        !isGenericTotalExperienceQuestionLabel(label)
+    );
 }
 
 export function isAvailabilityQuestionLabel(label) {
@@ -980,7 +1471,9 @@ export function shouldUseContextualProfileSave(path) {
 }
 
 export function formatContextualProfileLine(questionLabel, answer) {
-    const label = String(questionLabel || '').trim().replace(/[?:\s]+$/, '');
+    const label = String(questionLabel || '')
+        .trim()
+        .replace(/[?:\s]+$/, '');
     const value = String(answer || '').trim();
 
     return `${label}: ${value}`;
@@ -1009,13 +1502,18 @@ export function formatProfileSaveValue(field, answer, profileData) {
     }
 
     const existing = readProfileValue(profileData, path);
-    const questionLabel = field.label || field.question || field.profile_label || 'Answer';
+    const questionLabel =
+        field.label || field.question || field.profile_label || 'Answer';
 
     return appendContextualProfileAnswer(existing, questionLabel, answer);
 }
 
 function availabilityProfileMapping(profileData = null) {
-    if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
+    if (
+        isMeaningfulAnswer(
+            readProfileValue(profileData, 'computed_earliest_start'),
+        )
+    ) {
         return {
             path: 'computed_earliest_start',
             label: 'Earliest start date',
@@ -1025,14 +1523,19 @@ function availabilityProfileMapping(profileData = null) {
     }
 
     // Prefer notice_period when earliest start is unset so clear notice settings fill availability.
-    if (isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'))) {
-        return profileMappingByPath('application_settings.notice_period')
-            || {
+    if (
+        isMeaningfulAnswer(
+            readProfileValue(profileData, 'application_settings.notice_period'),
+        )
+    ) {
+        return (
+            profileMappingByPath('application_settings.notice_period') || {
                 path: 'application_settings.notice_period',
                 label: 'Notice period',
                 dashboard_tab: 'preferences',
                 dashboard_anchor: 'field-notice-period',
-            };
+            }
+        );
     }
 
     return {
@@ -1044,12 +1547,13 @@ function availabilityProfileMapping(profileData = null) {
 }
 
 function profileMappingByPath(path) {
-    return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
+    return (
+        PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null
+    );
 }
 
 function isGreenhousePhoneCountryCombobox(dom) {
-    return dom?.id === 'country'
-        && dom?.role === 'combobox';
+    return dom?.id === 'country' && dom?.role === 'combobox';
 }
 
 function resolveProfileMappingForDomHints(dom) {
@@ -1057,12 +1561,10 @@ function resolveProfileMappingForDomHints(dom) {
         return profileMappingByPath('_phone_country_dial');
     }
 
-    const hints = [
-        dom?.id,
-        dom?.name,
-        dom?.data_testid,
-        dom?.input_id,
-    ].filter(Boolean).join(' ').trim();
+    const hints = [dom?.id, dom?.name, dom?.data_testid, dom?.input_id]
+        .filter(Boolean)
+        .join(' ')
+        .trim();
 
     if (!hints) {
         return null;
@@ -1079,23 +1581,25 @@ function resolveProfileMappingForDomHints(dom) {
 
 /** Indeed/Glassdoor locality widgets (City, county) even when the visible label is truncated. */
 export function isCityCountyLocalityDom(dom) {
-    const hints = [
-        dom?.id,
-        dom?.name,
-        dom?.data_testid,
-        dom?.input_id,
-    ].filter(Boolean).join(' ').toLowerCase();
+    const hints = [dom?.id, dom?.name, dom?.data_testid, dom?.input_id]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
 
     if (!hints) {
         return false;
     }
 
-    return /location-fields-locality|location[_-]?locality|locality-input/.test(hints);
+    return /location-fields-locality|location[_-]?locality|locality-input/.test(
+        hints,
+    );
 }
 
 export function splitFullName(fullName) {
     if (fullName && typeof fullName === 'object' && !Array.isArray(fullName)) {
-        const first = String(fullName.first ?? fullName.first_name ?? '').trim();
+        const first = String(
+            fullName.first ?? fullName.first_name ?? '',
+        ).trim();
         const last = String(fullName.last ?? fullName.last_name ?? '').trim();
 
         if (first || last) {
@@ -1132,17 +1636,26 @@ export function splitFullName(fullName) {
 function keywordMatchesNormalized(keyword, normalized) {
     const escaped = String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`, 'i').test(` ${normalized} `);
+    return new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`, 'i').test(
+        ` ${normalized} `,
+    );
 }
 
 function dedupeNormalizedLabel(normalized) {
-    const tokens = String(normalized || '').trim().split(/\s+/).filter(Boolean);
+    const tokens = String(normalized || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
 
     if (tokens.length <= 1) {
         return normalized;
     }
 
-    for (let phraseLen = 1; phraseLen <= Math.floor(tokens.length / 2); phraseLen += 1) {
+    for (
+        let phraseLen = 1;
+        phraseLen <= Math.floor(tokens.length / 2);
+        phraseLen += 1
+    ) {
         if (tokens.length % phraseLen !== 0) {
             continue;
         }
@@ -1151,7 +1664,10 @@ function dedupeNormalizedLabel(normalized) {
         let repeats = true;
 
         for (let index = phraseLen; index < tokens.length; index += phraseLen) {
-            if (tokens.slice(index, index + phraseLen).join(' ') !== phrase.join(' ')) {
+            if (
+                tokens.slice(index, index + phraseLen).join(' ') !==
+                phrase.join(' ')
+            ) {
                 repeats = false;
                 break;
             }
@@ -1173,11 +1689,17 @@ function normalizeLabelForMapping(label) {
 }
 
 function mappingMatchesLabel(mapping, normalized) {
-    if (mapping.exactLabels?.some((label) => normalized === normalizeQuestionLabel(label))) {
+    if (
+        mapping.exactLabels?.some(
+            (label) => normalized === normalizeQuestionLabel(label),
+        )
+    ) {
         return true;
     }
 
-    return mapping.keywords.some((keyword) => keywordMatchesNormalized(keyword, normalized));
+    return mapping.keywords.some((keyword) =>
+        keywordMatchesNormalized(keyword, normalized),
+    );
 }
 
 export function dedupeQuestionLabelForDisplay(label) {
@@ -1194,7 +1716,11 @@ export function dedupeQuestionLabelForDisplay(label) {
         return decontaminated;
     }
 
-    for (let phraseLen = 1; phraseLen <= Math.floor(tokens.length / 2); phraseLen += 1) {
+    for (
+        let phraseLen = 1;
+        phraseLen <= Math.floor(tokens.length / 2);
+        phraseLen += 1
+    ) {
         if (tokens.length % phraseLen !== 0) {
             continue;
         }
@@ -1204,7 +1730,9 @@ export function dedupeQuestionLabelForDisplay(label) {
         let repeats = true;
 
         for (let index = phraseLen; index < tokens.length; index += phraseLen) {
-            const chunkNorm = normalizeQuestionLabel(tokens.slice(index, index + phraseLen).join(' '));
+            const chunkNorm = normalizeQuestionLabel(
+                tokens.slice(index, index + phraseLen).join(' '),
+            );
 
             if (chunkNorm !== phraseNorm) {
                 repeats = false;
@@ -1253,7 +1781,11 @@ const QUESTION_LABEL_GROUPS = [
 function questionLabelGroupIndexes(normalized) {
     const matches = [];
 
-    for (let groupIndex = 0; groupIndex < QUESTION_LABEL_GROUPS.length; groupIndex += 1) {
+    for (
+        let groupIndex = 0;
+        groupIndex < QUESTION_LABEL_GROUPS.length;
+        groupIndex += 1
+    ) {
         let earliestIndex = null;
 
         for (const keyword of QUESTION_LABEL_GROUPS[groupIndex]) {
@@ -1263,7 +1795,8 @@ function questionLabelGroupIndexes(normalized) {
                 continue;
             }
 
-            earliestIndex = earliestIndex === null ? index : Math.min(earliestIndex, index);
+            earliestIndex =
+                earliestIndex === null ? index : Math.min(earliestIndex, index);
         }
 
         if (earliestIndex !== null) {
@@ -1306,7 +1839,10 @@ function contaminatedLabelCutIndex(normalized) {
     }
 
     const searchStart = firstKeywordStart + firstKeyword.split(' ').length;
-    const secondKeywordStart = normWords.indexOf(secondKeyword.split(' ')[0], searchStart);
+    const secondKeywordStart = normWords.indexOf(
+        secondKeyword.split(' ')[0],
+        searchStart,
+    );
 
     if (secondKeywordStart <= 0) {
         return null;
@@ -1331,7 +1867,8 @@ export function isEeoQuestionLabel(label) {
     return EEO_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
 }
 
-const EEO_DECLINE_OPTION_PATTERN = /decline to self-?identify|i do not want to answer|prefer not to (?:say|answer|respond|self|disclose)|i decline|none of the above|^undefined$|not specified|prefer not|do not wish|i choose not to (?:identify|disclose)/i;
+const EEO_DECLINE_OPTION_PATTERN =
+    /decline to self-?identify|i do not want to answer|prefer not to (?:say|answer|respond|self|disclose)|i decline|none of the above|^undefined$|not specified|prefer not|do not wish|i choose not to (?:identify|disclose)/i;
 
 /**
  * Resolve a decline option when present. Kept for callers that still want an
@@ -1353,7 +1890,11 @@ export function resolveEeoDeclineOption(field) {
         return '';
     }
 
-    const preferNot = declineOptions.find((text) => /prefer not to (?:say|answer|self|disclose)|decline to self-?identify|i do not want to answer|i decline/i.test(text));
+    const preferNot = declineOptions.find((text) =>
+        /prefer not to (?:say|answer|self|disclose)|decline to self-?identify|i do not want to answer|i decline/i.test(
+            text,
+        ),
+    );
 
     return preferNot || declineOptions[0];
 }
@@ -1393,7 +1934,9 @@ export function isEducationQuestionLabel(label) {
         return false;
     }
 
-    return EDUCATION_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+    return EDUCATION_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(normalized),
+    );
 }
 
 export function fieldContextHaystack(field) {
@@ -1416,7 +1959,9 @@ export function isThirdPartyContactField(field) {
         return false;
     }
 
-    return THIRD_PARTY_CONTACT_PATTERNS.some((pattern) => pattern.test(haystack));
+    return THIRD_PARTY_CONTACT_PATTERNS.some((pattern) =>
+        pattern.test(haystack),
+    );
 }
 
 export function isReferenceProfileField(field) {
@@ -1426,11 +1971,17 @@ export function isReferenceProfileField(field) {
         return false;
     }
 
-    if (REFERENCE_PROFILE_EXCLUDE_PATTERNS.some((pattern) => pattern.test(haystack))) {
+    if (
+        REFERENCE_PROFILE_EXCLUDE_PATTERNS.some((pattern) =>
+            pattern.test(haystack),
+        )
+    ) {
         return false;
     }
 
-    return REFERENCE_PROFILE_SECTION_PATTERNS.some((pattern) => pattern.test(haystack));
+    return REFERENCE_PROFILE_SECTION_PATTERNS.some((pattern) =>
+        pattern.test(haystack),
+    );
 }
 
 export function isPriorEmployerContactField(field) {
@@ -1440,14 +1991,20 @@ export function isPriorEmployerContactField(field) {
         return false;
     }
 
-    if (!PRIOR_EMPLOYER_CONTACT_PATTERNS.some((pattern) => pattern.test(haystack))) {
+    if (
+        !PRIOR_EMPLOYER_CONTACT_PATTERNS.some((pattern) =>
+            pattern.test(haystack),
+        )
+    ) {
         return false;
     }
 
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
 
-    return /\b(phone|supervisor|company|employer|title|job)\b/i.test(label)
-        || field?.field_type === 'tel';
+    return (
+        /\b(phone|supervisor|company|employer|title|job)\b/i.test(label) ||
+        field?.field_type === 'tel'
+    );
 }
 
 function resolveReferenceFieldKey(field) {
@@ -1467,10 +2024,13 @@ function resolveReferenceFieldKey(field) {
 }
 
 export function readProfileReferences(profileData) {
-    const structured = profileData?.profile?.structured_data
-        || profileData?.structured_data
-        || {};
-    const references = Array.isArray(structured.references) ? structured.references : [];
+    const structured =
+        profileData?.profile?.structured_data ||
+        profileData?.structured_data ||
+        {};
+    const references = Array.isArray(structured.references)
+        ? structured.references
+        : [];
 
     return references
         .map((reference) => ({
@@ -1481,7 +2041,9 @@ export function readProfileReferences(profileData) {
             phone: String(reference?.phone || '').trim(),
             relationship: String(reference?.relationship || '').trim(),
         }))
-        .filter((reference) => Object.values(reference).some((value) => value !== ''));
+        .filter((reference) =>
+            Object.values(reference).some((value) => value !== ''),
+        );
 }
 
 function referenceValueForKey(reference, key, profileData, field = null) {
@@ -1521,7 +2083,10 @@ export function partitionReferenceProfileFields(fields, profileData) {
     for (const field of fields || []) {
         if (!isReferenceProfileField(field)) {
             if (previousWasReference) {
-                nextReferenceIndex = Math.min(referenceIndex + 1, references.length - 1);
+                nextReferenceIndex = Math.min(
+                    referenceIndex + 1,
+                    references.length - 1,
+                );
             }
 
             previousWasReference = false;
@@ -1540,7 +2105,11 @@ export function partitionReferenceProfileFields(fields, profileData) {
 
         const key = resolveReferenceFieldKey(field);
 
-        if (key && seenKeysInSlot.has(key) && referenceIndex < references.length - 1) {
+        if (
+            key &&
+            seenKeysInSlot.has(key) &&
+            referenceIndex < references.length - 1
+        ) {
             referenceIndex += 1;
             seenKeysInSlot.clear();
         }
@@ -1549,7 +2118,12 @@ export function partitionReferenceProfileFields(fields, profileData) {
             seenKeysInSlot.add(key);
         }
 
-        const answer = referenceValueForKey(references[referenceIndex], key, profileData, field);
+        const answer = referenceValueForKey(
+            references[referenceIndex],
+            key,
+            profileData,
+            field,
+        );
 
         if (isMeaningfulAnswer(answer)) {
             referenceAnswers.push({
@@ -1577,7 +2151,9 @@ export function partitionPriorEmployerContactFields(fields, profileData) {
 
     for (const field of fields || []) {
         if (isPriorEmployerContactField(field)) {
-            pendingFields.push(createPendingField(field, null, 'prior_employer_contact'));
+            pendingFields.push(
+                createPendingField(field, null, 'prior_employer_contact'),
+            );
         } else {
             remainingFields.push(field);
         }
@@ -1596,7 +2172,9 @@ export function partitionPriorEmployerContactFields(fields, profileData) {
  * @returns {boolean}
  */
 export function isSourceOfHireQuestionLabel(label) {
-    const text = String(label || '').replace(/\s+/g, ' ').trim();
+    const text = String(label || '')
+        .replace(/\s+/g, ' ')
+        .trim();
 
     if (!text) {
         return false;
@@ -1606,7 +2184,9 @@ export function isSourceOfHireQuestionLabel(label) {
         return false;
     }
 
-    return SOURCE_OF_HIRE_QUESTION_PATTERNS.some((pattern) => pattern.test(text));
+    return SOURCE_OF_HIRE_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(text),
+    );
 }
 
 export function isOpenEndedQuestionLabel(label) {
@@ -1616,7 +2196,9 @@ export function isOpenEndedQuestionLabel(label) {
         return false;
     }
 
-    return OPEN_ENDED_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+    return OPEN_ENDED_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(normalized),
+    );
 }
 
 function isLanguageProficiencyQuestionLabel(label) {
@@ -1626,7 +2208,9 @@ function isLanguageProficiencyQuestionLabel(label) {
         return false;
     }
 
-    return LANGUAGE_PROFICIENCY_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+    return LANGUAGE_PROFICIENCY_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(normalized),
+    );
 }
 
 function isGeneralSkillFactQuestionLabel(label) {
@@ -1636,7 +2220,9 @@ function isGeneralSkillFactQuestionLabel(label) {
         return false;
     }
 
-    return GENERAL_SKILL_FACT_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+    return GENERAL_SKILL_FACT_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(normalized),
+    );
 }
 
 function collectApplicationContextCompanyNames(field, profileData = null) {
@@ -1670,9 +2256,13 @@ function labelMentionsCompanyName(label, companyNames) {
     }
 
     return companyNames.some((companyName) => {
-        const companyNormalized = normalizeQuestionLabel(companyName).toLowerCase();
+        const companyNormalized =
+            normalizeQuestionLabel(companyName).toLowerCase();
 
-        return companyNormalized.length >= 3 && normalized.includes(companyNormalized);
+        return (
+            companyNormalized.length >= 3 &&
+            normalized.includes(companyNormalized)
+        );
     });
 }
 
@@ -1702,7 +2292,10 @@ export function isProfileGeneralQuestion(field, profileData = null) {
         return true;
     }
 
-    if (isYearsExperienceQuestionLabel(label) && isGenericTotalExperienceQuestionLabel(label)) {
+    if (
+        isYearsExperienceQuestionLabel(label) &&
+        isGenericTotalExperienceQuestionLabel(label)
+    ) {
         return true;
     }
 
@@ -1766,7 +2359,11 @@ export function isApplicationSpecificQuestion(field, profileData = null) {
         return false;
     }
 
-    if (APPLICATION_SPECIFIC_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized))) {
+    if (
+        APPLICATION_SPECIFIC_QUESTION_PATTERNS.some((pattern) =>
+            pattern.test(normalized),
+        )
+    ) {
         return true;
     }
 
@@ -1774,7 +2371,10 @@ export function isApplicationSpecificQuestion(field, profileData = null) {
         return true;
     }
 
-    const companyNames = collectApplicationContextCompanyNames(field, profileData);
+    const companyNames = collectApplicationContextCompanyNames(
+        field,
+        profileData,
+    );
 
     if (labelMentionsCompanyName(label, companyNames)) {
         return true;
@@ -1790,12 +2390,18 @@ export function isVideoOrPortfolioUrlQuestionLabel(label) {
         return false;
     }
 
-    if (/\b(video|reel|demo|portfolio|github|behance|dribbble|website|url|link)\b/.test(normalized)
-        && /\b(paste|submit|provide|share|enter|link|url|http)\b/.test(normalized)) {
+    if (
+        /\b(video|reel|demo|portfolio|github|behance|dribbble|website|url|link)\b/.test(
+            normalized,
+        ) &&
+        /\b(paste|submit|provide|share|enter|link|url|http)\b/.test(normalized)
+    ) {
         return true;
     }
 
-    return /\b(video (?:application|link|url)|portfolio url|personal website|github url)\b/.test(normalized);
+    return /\b(video (?:application|link|url)|portfolio url|personal website|github url)\b/.test(
+        normalized,
+    );
 }
 
 function looksLikeUrlAnswer(answer) {
@@ -1809,7 +2415,9 @@ function looksLikeUrlAnswer(answer) {
         return true;
     }
 
-    return /^[a-z0-9.-]+\.[a-z]{2,}([\/?#].*)?$/i.test(text) && !/\s/.test(text);
+    return (
+        /^[a-z0-9.-]+\.[a-z]{2,}([\/?#].*)?$/i.test(text) && !/\s/.test(text)
+    );
 }
 
 export function isCityLocationQuestionLabel(label) {
@@ -1823,7 +2431,11 @@ export function isCityLocationQuestionLabel(label) {
         return false;
     }
 
-    if (/\b(?:first name|last name|race|ethnicity|gender|school|degree|discipline)\b/.test(normalized)) {
+    if (
+        /\b(?:first name|last name|race|ethnicity|gender|school|degree|discipline)\b/.test(
+            normalized,
+        )
+    ) {
         return false;
     }
 
@@ -1835,11 +2447,17 @@ export function isCityLocationQuestionLabel(label) {
         return true;
     }
 
-    if (/\b(?:city|town)\b/.test(normalized) && /\blocation\b/.test(normalized)) {
+    if (
+        /\b(?:city|town)\b/.test(normalized) &&
+        /\blocation\b/.test(normalized)
+    ) {
         return true;
     }
 
-    if (/\b(?:city|town)\b/.test(normalized) && /\b(?:state|region|zip|postcode)\b/.test(normalized)) {
+    if (
+        /\b(?:city|town)\b/.test(normalized) &&
+        /\b(?:state|region|zip|postcode)\b/.test(normalized)
+    ) {
         return true;
     }
 
@@ -1870,7 +2488,10 @@ export function isLocationAutocompleteQuestionLabel(label) {
         return true;
     }
 
-    if (/\b(?:current )?location\b/.test(normalized) && !/\baddress line\b/.test(normalized)) {
+    if (
+        /\b(?:current )?location\b/.test(normalized) &&
+        !/\baddress line\b/.test(normalized)
+    ) {
         return true;
     }
 
@@ -1917,7 +2538,11 @@ export function looksLikeCityCountryLocationOnly(value) {
         return false;
     }
 
-    if (/\b(?:street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|drive|dr\.?|close|way|court|place|gardens|terrace|crescent|boulevard|blvd\.?|house|flat|apartment|apt\.?|unit|suite)\b/i.test(text)) {
+    if (
+        /\b(?:street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|drive|dr\.?|close|way|court|place|gardens|terrace|crescent|boulevard|blvd\.?|house|flat|apartment|apt\.?|unit|suite)\b/i.test(
+            text,
+        )
+    ) {
         return false;
     }
 
@@ -1950,21 +2575,27 @@ export function formatUkPostcodeForApply(value) {
  * or invented "Claxton, Norfolk" from last name + a UK county).
  */
 export function looksLikeSurnameAsLocationValue(value, profileData) {
-    const lastName = normalizeQuestionLabel(readProfileValue(profileData, 'full_name.last'));
+    const lastName = normalizeQuestionLabel(
+        readProfileValue(profileData, 'full_name.last'),
+    );
 
     if (!lastName || lastName.length < 2) {
         return false;
     }
 
-    const firstPart = normalizeQuestionLabel(String(value || '').split(',')[0] || '');
+    const firstPart = normalizeQuestionLabel(
+        String(value || '').split(',')[0] || '',
+    );
 
     if (!firstPart) {
         return false;
     }
 
-    return firstPart === lastName
-        || firstPart.startsWith(`${lastName} `)
-        || lastName.startsWith(`${firstPart} `);
+    return (
+        firstPart === lastName ||
+        firstPart.startsWith(`${lastName} `) ||
+        lastName.startsWith(`${firstPart} `)
+    );
 }
 
 function sanitizeLocationToken(value, profileData) {
@@ -1982,17 +2613,28 @@ function sanitizeLocationToken(value, profileData) {
  * (e.g. city=London + location=Wycombe + postcode=HP12...).
  */
 export function resolveResidenceCityValue(profileData) {
-    const city = sanitizeLocationToken(readProfileValue(profileData, 'city'), profileData);
-    const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
-    const locationCity = sanitizeLocationToken(location.split(',')[0] || '', profileData);
-    const postcode = String(readProfileValue(profileData, 'postcode') || '').trim();
+    const city = sanitizeLocationToken(
+        readProfileValue(profileData, 'city'),
+        profileData,
+    );
+    const location = dedupeLocationParts(
+        readProfileValue(profileData, 'location'),
+    );
+    const locationCity = sanitizeLocationToken(
+        location.split(',')[0] || '',
+        profileData,
+    );
+    const postcode = String(
+        readProfileValue(profileData, 'postcode') || '',
+    ).trim();
 
     if (locationCity && city) {
         const cityKey = city.toLowerCase();
         const locationKey = locationCity.toLowerCase();
-        const overlapping = cityKey === locationKey
-            || cityKey.includes(locationKey)
-            || locationKey.includes(cityKey);
+        const overlapping =
+            cityKey === locationKey ||
+            cityKey.includes(locationKey) ||
+            locationKey.includes(cityKey);
 
         if (!overlapping && postcode) {
             return locationCity;
@@ -2018,9 +2660,13 @@ export function resolveCityCountyLocationValue(profileData) {
     }
 
     if (
-        region
-        && !normalizeQuestionLabel(city).includes(normalizeQuestionLabel(region))
-        && !/^england|scotland|wales|northern ireland|united kingdom|uk$/i.test(region)
+        region &&
+        !normalizeQuestionLabel(city).includes(
+            normalizeQuestionLabel(region),
+        ) &&
+        !/^england|scotland|wales|northern ireland|united kingdom|uk$/i.test(
+            region,
+        )
     ) {
         return `${city}, ${region}`;
     }
@@ -2036,8 +2682,10 @@ export function isCityCountyCombinedQuestionLabel(label) {
     }
 
     // City + county/state/region compounds (not country - that is a separate field).
-    return /\b(?:county|state|region|province)\b/.test(normalized)
-        && !/\bcountry\b/.test(normalized);
+    return (
+        /\b(?:county|state|region|province)\b/.test(normalized) &&
+        !/\bcountry\b/.test(normalized)
+    );
 }
 
 const LOCATION_IDENTITY_PATHS = new Set([
@@ -2052,24 +2700,39 @@ const LOCATION_IDENTITY_PATHS = new Set([
 function resolveSafeLocationAnswerForField(field, profileData) {
     const label = field?.label || field?.question || '';
 
-    if (isCityCountyCombinedQuestionLabel(label) || isCityCountyLocalityDom(field?.dom)) {
+    if (
+        isCityCountyCombinedQuestionLabel(label) ||
+        isCityCountyLocalityDom(field?.dom)
+    ) {
         return resolveCityCountyLocationValue(profileData);
     }
 
-    if (isCityLocationQuestionLabel(label) || isLocationAutocompleteQuestionLabel(label)) {
+    if (
+        isCityLocationQuestionLabel(label) ||
+        isLocationAutocompleteQuestionLabel(label)
+    ) {
         return resolveResidenceCityValue(profileData);
     }
 
     return resolveProfileFallbackAnswer(field, profileData);
 }
 
-export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
+export function resolveConciseLocationValue(
+    profileData,
+    { preferCity = false } = {},
+) {
     const city = preferCity
         ? resolveResidenceCityValue(profileData)
         : String(readProfileValue(profileData, 'city') || '').trim();
-    const region = String(readProfileValue(profileData, 'structured_data.state_region') || '').trim();
-    const country = String(readProfileValue(profileData, 'country') || '').trim();
-    const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
+    const region = String(
+        readProfileValue(profileData, 'structured_data.state_region') || '',
+    ).trim();
+    const country = String(
+        readProfileValue(profileData, 'country') || '',
+    ).trim();
+    const location = dedupeLocationParts(
+        readProfileValue(profileData, 'location'),
+    );
 
     if (preferCity && city) {
         return city;
@@ -2107,10 +2770,15 @@ function isBooleanYesNoField(field) {
         return false;
     }
 
-    const normalized = options.map((option) => String(option).trim().toLowerCase());
+    const normalized = options.map((option) =>
+        String(option).trim().toLowerCase(),
+    );
     const allowed = new Set(['yes', 'no', 'y', 'n', 'true', 'false']);
 
-    return normalized.length <= 4 && normalized.every((option) => allowed.has(option));
+    return (
+        normalized.length <= 4 &&
+        normalized.every((option) => allowed.has(option))
+    );
 }
 
 export function isProfileMappingMismatch(field, mapping) {
@@ -2120,27 +2788,34 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
-    if (mapping && isSalaryProfilePath(mapping.path) && isBooleanYesNoField(field)) {
+    if (
+        mapping &&
+        isSalaryProfilePath(mapping.path) &&
+        isBooleanYesNoField(field)
+    ) {
         return true;
     }
 
-    if (mapping?.path === 'country' && isWorkAuthorizationQuestionLabel(label)) {
+    if (
+        mapping?.path === 'country' &&
+        isWorkAuthorizationQuestionLabel(label)
+    ) {
         return true;
     }
 
     // Country-specific legally authorized must go through NanoGPT - a UK
     // "legally authorized" setting must not answer "authorized to work in the US".
     if (
-        mapping
-        && mapping.path === 'application_settings.legally_authorized'
-        && isCountrySpecificWorkAuthQuestion(label, field?.context)
+        mapping &&
+        mapping.path === 'application_settings.legally_authorized' &&
+        isCountrySpecificWorkAuthQuestion(label, field?.context)
     ) {
         return true;
     }
 
     if (
-        mapping?.path === 'application_settings.years_of_experience'
-        && isSkillSpecificYearsExperienceQuestionLabel(label)
+        mapping?.path === 'application_settings.years_of_experience' &&
+        isSkillSpecificYearsExperienceQuestionLabel(label)
     ) {
         return true;
     }
@@ -2193,7 +2868,11 @@ function haystackMentionsWorkAuthCountry(haystack, aliases) {
 function isWorkAuthorizationQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    if (!/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|work permit)\b/.test(normalized)) {
+    if (
+        !/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|work permit)\b/.test(
+            normalized,
+        )
+    ) {
         return false;
     }
 
@@ -2211,16 +2890,22 @@ function isJobPostingRelativeWorkAuthQuestion(label) {
         return false;
     }
 
-    return /location posted/.test(normalized)
-        || /country for which you applied/.test(normalized)
-        || /country for which you are applying/.test(normalized)
-        || /country for which you(?:'re| are) applying/.test(normalized);
+    return (
+        /location posted/.test(normalized) ||
+        /country for which you applied/.test(normalized) ||
+        /country for which you are applying/.test(normalized) ||
+        /country for which you(?:'re| are) applying/.test(normalized)
+    );
 }
 
 function isCountrySpecificWorkAuthQuestion(label, context = '') {
     const haystack = `${label || ''} ${context || ''}`.toLowerCase();
 
-    if (!/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|sponsorship|visa|work permit)\b/.test(haystack)) {
+    if (
+        !/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|sponsorship|visa|work permit)\b/.test(
+            haystack,
+        )
+    ) {
         return false;
     }
 
@@ -2228,20 +2913,25 @@ function isCountrySpecificWorkAuthQuestion(label, context = '') {
         return true;
     }
 
-    return NAMED_WORK_AUTH_COUNTRIES.some((aliases) => haystackMentionsWorkAuthCountry(haystack, aliases));
+    return NAMED_WORK_AUTH_COUNTRIES.some((aliases) =>
+        haystackMentionsWorkAuthCountry(haystack, aliases),
+    );
 }
 
 function profileMatchesWorkAuthCountryAliases(profileCountry, aliases) {
     return aliases.some(
-        (alias) => profileCountry.includes(alias) || alias.includes(profileCountry),
+        (alias) =>
+            profileCountry.includes(alias) || alias.includes(profileCountry),
     );
 }
 
 function isWorkPermitRequirementQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /\b(require|requiring|need)\b/.test(normalized)
-        && /\b(work permit|visa)\b/.test(normalized);
+    return (
+        /\b(require|requiring|need)\b/.test(normalized) &&
+        /\b(work permit|visa)\b/.test(normalized)
+    );
 }
 
 /**
@@ -2250,7 +2940,13 @@ function isWorkPermitRequirementQuestion(label) {
  */
 function pickWorkAuthStatusOption(field, authorized) {
     const options = Array.isArray(field?.options)
-        ? field.options.map((option) => String(option || '').replace(/\s+/g, ' ').trim()).filter(Boolean)
+        ? field.options
+              .map((option) =>
+                  String(option || '')
+                      .replace(/\s+/g, ' ')
+                      .trim(),
+              )
+              .filter(Boolean)
         : [];
 
     if (options.length < 3) {
@@ -2283,26 +2979,33 @@ function pickWorkAuthStatusOption(field, authorized) {
         return '';
     }
 
-    const noRight = options.find((option) => (
-        /do not have the right to work/i.test(option)
-        || /no right to work/i.test(option)
-        || /not (?:currently )?authori[sz]ed/i.test(option)
-    ));
+    const noRight = options.find(
+        (option) =>
+            /do not have the right to work/i.test(option) ||
+            /no right to work/i.test(option) ||
+            /not (?:currently )?authori[sz]ed/i.test(option),
+    );
 
     return noRight || '';
 }
 
 function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
     const label = field?.label || field?.question || '';
-    const profileInCountry = profileMatchesWorkAuthCountryAliases(profileCountry, aliases);
+    const profileInCountry = profileMatchesWorkAuthCountryAliases(
+        profileCountry,
+        aliases,
+    );
     const authorizedAnswer = profileInCountry ? 'Yes' : 'No';
     const yesNoAnswer = isWorkPermitRequirementQuestion(label)
-        ? (authorizedAnswer === 'Yes' ? 'No' : 'Yes')
+        ? authorizedAnswer === 'Yes'
+            ? 'No'
+            : 'Yes'
         : authorizedAnswer;
-    const isChoiceField = field?.field_type === 'radio'
-        || field?.field_type === 'select'
-        || field?.field_type === 'checkbox'
-        || field?.dom?.role === 'combobox';
+    const isChoiceField =
+        field?.field_type === 'radio' ||
+        field?.field_type === 'select' ||
+        field?.field_type === 'checkbox' ||
+        field?.dom?.role === 'combobox';
 
     if (!isChoiceField) {
         return '';
@@ -2336,7 +3039,9 @@ function resolveCountrySpecificWorkAuthAnswer(field, profileData) {
     }
 
     const haystack = `${label} ${context} ${jobPostingLocation}`.toLowerCase();
-    const profileCountry = normalizeCountryNameForApply(readProfileValue(profileData, 'country')).toLowerCase();
+    const profileCountry = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    ).toLowerCase();
 
     for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
         if (!haystackMentionsWorkAuthCountry(haystack, aliases)) {
@@ -2391,25 +3096,42 @@ export function enrichFieldsWithJobPostingLocation(fields, locationText) {
 function isUsLocationQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /\b(?:currently )?located in (?:the )?(?:usa|u\.s\.|us|united states)\b/i.test(normalized)
-        || /\b(?:currently )?(?:based|living|residing) in (?:the )?(?:usa|u\.s\.|us|united states)\b/i.test(normalized);
+    return (
+        /\b(?:currently )?located in (?:the )?(?:usa|u\.s\.|us|united states)\b/i.test(
+            normalized,
+        ) ||
+        /\b(?:currently )?(?:based|living|residing) in (?:the )?(?:usa|u\.s\.|us|united states)\b/i.test(
+            normalized,
+        )
+    );
 }
 
 function resolveUsLocationAnswer(field, profileData) {
-    const country = normalizeCountryNameForApply(readProfileValue(profileData, 'country'));
-    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(String(country || '').trim());
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
+    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
+        String(country || '').trim(),
+    );
 
     return isUs ? 'Yes' : 'No';
 }
 
-export function resolveProfileMappingForLabel(label, profileData = null, dom = null) {
+export function resolveProfileMappingForLabel(
+    label,
+    profileData = null,
+    dom = null,
+) {
     const normalized = normalizeLabelForMapping(label);
 
     if (!normalized) {
         return resolveProfileMappingForDomHints(dom);
     }
 
-    if (isSmsOrMarketingConsentField({ label }) || isMarketingOrFutureConsentField({ label })) {
+    if (
+        isSmsOrMarketingConsentField({ label }) ||
+        isMarketingOrFutureConsentField({ label })
+    ) {
         return null;
     }
 
@@ -2441,7 +3163,10 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
         (entry) => entry.path === 'application_settings.affirm_local_commute',
     );
 
-    if (affirmCommuteEntry && mappingMatchesLabel(affirmCommuteEntry, normalized)) {
+    if (
+        affirmCommuteEntry &&
+        mappingMatchesLabel(affirmCommuteEntry, normalized)
+    ) {
         return affirmCommuteEntry;
     }
 
@@ -2449,7 +3174,10 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
         (entry) => entry.path === 'application_settings.affirm_local_hybrid',
     );
 
-    if (affirmHybridEntry && mappingMatchesLabel(affirmHybridEntry, normalized)) {
+    if (
+        affirmHybridEntry &&
+        mappingMatchesLabel(affirmHybridEntry, normalized)
+    ) {
         return affirmHybridEntry;
     }
 
@@ -2475,15 +3203,21 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
 }
 
 export function isUserSpecificQuestion(label) {
-    return USER_SPECIFIC_LABEL_PATTERNS.some((pattern) => pattern.test(String(label || '')))
-        || isSalaryQuestionLabel(label);
+    return (
+        USER_SPECIFIC_LABEL_PATTERNS.some((pattern) =>
+            pattern.test(String(label || '')),
+        ) || isSalaryQuestionLabel(label)
+    );
 }
 
 function readProfileSocialLinks(profileData) {
-    const structured = profileData?.profile?.structured_data
-        || profileData?.structured_data
-        || {};
-    const links = Array.isArray(structured.social_links) ? structured.social_links : [];
+    const structured =
+        profileData?.profile?.structured_data ||
+        profileData?.structured_data ||
+        {};
+    const links = Array.isArray(structured.social_links)
+        ? structured.social_links
+        : [];
 
     return links
         .map((link) => ({
@@ -2494,7 +3228,9 @@ function readProfileSocialLinks(profileData) {
 }
 
 function urlHostContains(url, fragment) {
-    const text = String(url || '').trim().toLowerCase();
+    const text = String(url || '')
+        .trim()
+        .toLowerCase();
 
     if (!text || !fragment) {
         return false;
@@ -2507,7 +3243,10 @@ function urlHostContains(url, fragment) {
     }
 }
 
-function resolveSocialLinkUrl(links, { labelPattern = null, urlHostFragment = null } = {}) {
+function resolveSocialLinkUrl(
+    links,
+    { labelPattern = null, urlHostFragment = null } = {},
+) {
     for (const link of links) {
         if (labelPattern?.test(link.label)) {
             return link.url;
@@ -2532,7 +3271,9 @@ function resolveGithubProfileUrl(profileData) {
         return fromSocial;
     }
 
-    const website = String(readProfileValue(profileData, 'website_url') || '').trim();
+    const website = String(
+        readProfileValue(profileData, 'website_url') || '',
+    ).trim();
 
     if (website && urlHostContains(website, 'github.com')) {
         return website;
@@ -2552,23 +3293,33 @@ function resolvePortfolioProfileUrl(profileData) {
     }
 
     for (const link of links) {
-        if (urlHostContains(link.url, 'behance.net') || urlHostContains(link.url, 'dribbble.com')) {
+        if (
+            urlHostContains(link.url, 'behance.net') ||
+            urlHostContains(link.url, 'dribbble.com')
+        ) {
             return link.url;
         }
     }
 
-    const website = String(readProfileValue(profileData, 'website_url') || '').trim();
+    const website = String(
+        readProfileValue(profileData, 'website_url') || '',
+    ).trim();
 
-    if (website
-        && !urlHostContains(website, 'github.com')
-        && !urlHostContains(website, 'linkedin.com')) {
+    if (
+        website &&
+        !urlHostContains(website, 'github.com') &&
+        !urlHostContains(website, 'linkedin.com')
+    ) {
         return website;
     }
 
-    const structured = profileData?.profile?.structured_data
-        || profileData?.structured_data
-        || {};
-    const projects = Array.isArray(structured.projects) ? structured.projects : [];
+    const structured =
+        profileData?.profile?.structured_data ||
+        profileData?.structured_data ||
+        {};
+    const projects = Array.isArray(structured.projects)
+        ? structured.projects
+        : [];
 
     for (const project of projects) {
         const url = String(project?.url || '').trim();
@@ -2609,7 +3360,10 @@ export function readProfileValue(profileData, path) {
     if (parts[0] === 'application_settings') {
         let node = profileData.application_settings;
 
-        if (node == null || (typeof node === 'object' && Object.keys(node).length === 0)) {
+        if (
+            node == null ||
+            (typeof node === 'object' && Object.keys(node).length === 0)
+        ) {
             node = profileData.profile?.application_settings ?? {};
         }
 
@@ -2626,7 +3380,11 @@ export function readProfileValue(profileData, path) {
         node = node?.[part];
     }
 
-    if (node === null || node === undefined || (typeof node === 'string' && node.trim() === '')) {
+    if (
+        node === null ||
+        node === undefined ||
+        (typeof node === 'string' && node.trim() === '')
+    ) {
         if (path === 'full_name') {
             return profileData?.user?.name ?? '';
         }
@@ -2638,9 +3396,16 @@ export function readProfileValue(profileData, path) {
         return '';
     }
 
-    if (path === 'full_name' && typeof node === 'object' && !Array.isArray(node)) {
+    if (
+        path === 'full_name' &&
+        typeof node === 'object' &&
+        !Array.isArray(node)
+    ) {
         const split = splitFullName(node);
-        const joined = [split.first, split.last].filter(Boolean).join(' ').trim();
+        const joined = [split.first, split.last]
+            .filter(Boolean)
+            .join(' ')
+            .trim();
 
         return joined || profileData?.user?.name || '';
     }
@@ -2650,12 +3415,11 @@ export function readProfileValue(profileData, path) {
 
 function phoneCountryCode(profileData) {
     return String(
-        profileData?.application_settings?.phone_country_code
-        || profileData?.application_settings?.phoneCountryCode
-        || '',
+        profileData?.application_settings?.phone_country_code ||
+            profileData?.application_settings?.phoneCountryCode ||
+            '',
     ).trim();
 }
-
 
 export function formatPhoneForForm(profileData, phone) {
     const normalized = String(phone || '').replace(/\s/g, '');
@@ -2690,9 +3454,10 @@ export function formatPhoneForMaskedTelInput(profileData, phone) {
         return '';
     }
 
-    const dialDigits = phoneCountryCode(profileData).replace(/\D/g, '')
-        || (e164.match(/^\+(\d{1,3})/) || [])[1]
-        || '';
+    const dialDigits =
+        phoneCountryCode(profileData).replace(/\D/g, '') ||
+        (e164.match(/^\+(\d{1,3})/) || [])[1] ||
+        '';
 
     if (dialDigits && digits.startsWith(dialDigits)) {
         digits = digits.slice(dialDigits.length);
@@ -2735,7 +3500,10 @@ function resolvePhoneDialCodeForApply(profileData) {
         return explicit.startsWith('+') ? explicit : `+${explicit}`;
     }
 
-    const formatted = formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
+    const formatted = formatPhoneForForm(
+        profileData,
+        readProfileValue(profileData, 'phone'),
+    );
     const match = formatted.match(/^\+(\d{1,3})/);
 
     return match ? `+${match[1]}` : '';
@@ -2757,14 +3525,18 @@ export function resolvePhoneCountryListboxAnswer(profileData, field = null) {
 
     if (options.length > 0) {
         const dialToken = `+${digits}`;
-        const byDial = options.find((option) => String(option || '').includes(dialToken));
+        const byDial = options.find((option) =>
+            String(option || '').includes(dialToken),
+        );
 
         if (byDial) {
             return String(byDial);
         }
 
         if (countryName) {
-            const byName = options.find((option) => countryOptionMatchesProfile(option, countryName));
+            const byName = options.find((option) =>
+                countryOptionMatchesProfile(option, countryName),
+            );
 
             if (byName) {
                 return String(byName);
@@ -2785,15 +3557,15 @@ function normalizeCountryNameForApply(value) {
     const normalized = raw.toLowerCase().replace(/\./g, '');
 
     if (
-        normalized === 'england'
-        || normalized === 'scotland'
-        || normalized === 'wales'
-        || normalized === 'northern ireland'
-        || normalized === 'great britain'
-        || normalized === 'britain'
-        || normalized === 'uk'
-        || normalized === 'u.k'
-        || normalized === 'gb'
+        normalized === 'england' ||
+        normalized === 'scotland' ||
+        normalized === 'wales' ||
+        normalized === 'northern ireland' ||
+        normalized === 'great britain' ||
+        normalized === 'britain' ||
+        normalized === 'uk' ||
+        normalized === 'u.k' ||
+        normalized === 'gb'
     ) {
         return 'United Kingdom';
     }
@@ -2809,18 +3581,28 @@ function countryOptionMatchesProfile(option, profileCountry) {
         return false;
     }
 
-    if (optionText === profileText || optionText.includes(profileText) || profileText.includes(optionText)) {
+    if (
+        optionText === profileText ||
+        optionText.includes(profileText) ||
+        profileText.includes(optionText)
+    ) {
         return true;
     }
 
     const aliases = [
         [/netherlands|holland/, /netherlands|holland/],
         [/croatia/, /croatia/],
-        [/united kingdom|great britain|britain|england|scotland|wales|northern ireland|\buk\b/, /united kingdom|great britain|britain|\buk\b/],
+        [
+            /united kingdom|great britain|britain|england|scotland|wales|northern ireland|\buk\b/,
+            /united kingdom|great britain|britain|\buk\b/,
+        ],
         [/united states|usa|\bus\b/, /united states|usa|\bus\b/],
     ];
 
-    return aliases.some(([optionPattern, profilePattern]) => optionPattern.test(optionText) && profilePattern.test(profileText));
+    return aliases.some(
+        ([optionPattern, profilePattern]) =>
+            optionPattern.test(optionText) && profilePattern.test(profileText),
+    );
 }
 
 function resolveCountryOptionForField(profileCountry, field) {
@@ -2843,7 +3625,9 @@ function resolveCountryOptionForField(profileCountry, field) {
         }
     }
 
-    const otherOption = options.find((option) => /^other$/i.test(String(option).trim()));
+    const otherOption = options.find((option) =>
+        /^other$/i.test(String(option).trim()),
+    );
 
     if (otherOption) {
         return otherOption;
@@ -2853,13 +3637,19 @@ function resolveCountryOptionForField(profileCountry, field) {
 }
 
 function resolvePhoneNationalForApply(profileData) {
-    const formatted = formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
+    const formatted = formatPhoneForForm(
+        profileData,
+        readProfileValue(profileData, 'phone'),
+    );
 
     if (!formatted) {
         return '';
     }
 
-    const dialCode = resolvePhoneDialCodeForApply(profileData).replace(/\D/g, '');
+    const dialCode = resolvePhoneDialCodeForApply(profileData).replace(
+        /\D/g,
+        '',
+    );
     let digits = formatted.replace(/\D/g, '');
 
     if (dialCode && digits.startsWith(dialCode)) {
@@ -2870,17 +3660,21 @@ function resolvePhoneNationalForApply(profileData) {
 }
 
 function shouldSkipUserPromptForFieldLabel(labelOrField, profileData = null) {
-    const label = typeof labelOrField === 'string'
-        ? labelOrField
-        : (labelOrField?.label || labelOrField?.question || '');
-    const field = typeof labelOrField === 'string'
-        ? { label }
-        : (labelOrField || { label });
+    const label =
+        typeof labelOrField === 'string'
+            ? labelOrField
+            : labelOrField?.label || labelOrField?.question || '';
+    const field =
+        typeof labelOrField === 'string'
+            ? { label }
+            : labelOrField || { label };
 
     // EEO and education stay eligible for sidebar if LLM leaves required gaps.
     // Application-specific essays and hours-commitment noise stay out of the sidebar.
-    return isHoursCommitmentQuestionLabel(label)
-        || isApplicationSpecificQuestion(field, profileData);
+    return (
+        isHoursCommitmentQuestionLabel(label) ||
+        isApplicationSpecificQuestion(field, profileData)
+    );
 }
 
 function shouldPromptAvailabilityField(field, profileData) {
@@ -2890,11 +3684,17 @@ function shouldPromptAvailabilityField(field, profileData) {
         return null;
     }
 
-    if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
+    if (
+        isMeaningfulAnswer(
+            readProfileValue(profileData, 'computed_earliest_start'),
+        )
+    ) {
         return false;
     }
 
-    return !isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'));
+    return !isMeaningfulAnswer(
+        readProfileValue(profileData, 'application_settings.notice_period'),
+    );
 }
 
 export function shouldPromptUserForField(field, profileData) {
@@ -2908,7 +3708,10 @@ export function shouldPromptUserForField(field, profileData) {
         return false;
     }
 
-    const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
+    const availabilityPrompt = shouldPromptAvailabilityField(
+        field,
+        profileData,
+    );
 
     if (availabilityPrompt !== null) {
         return availabilityPrompt;
@@ -2922,7 +3725,11 @@ export function shouldPromptUserForField(field, profileData) {
         return false;
     }
 
-    const mapping = resolveProfileMappingForLabel(label, profileData, field.dom || null);
+    const mapping = resolveProfileMappingForLabel(
+        label,
+        profileData,
+        field.dom || null,
+    );
 
     if (isProfileMappingMismatch(field, mapping)) {
         return false;
@@ -2943,7 +3750,9 @@ export function shouldPromptUserForField(field, profileData) {
 function isEducationLevelConfirmationLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /completed the following level of education|have you completed.*\bdegree\b/.test(normalized);
+    return /completed the following level of education|have you completed.*\bdegree\b/.test(
+        normalized,
+    );
 }
 
 export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
@@ -2965,7 +3774,10 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
-    const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
+    const availabilityPrompt = shouldPromptAvailabilityField(
+        field,
+        profileData,
+    );
 
     if (availabilityPrompt !== null) {
         return availabilityPrompt;
@@ -2991,7 +3803,9 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
-    if (isMeaningfulAnswer(resolvePreferenceProfileAnswer(field, profileData))) {
+    if (
+        isMeaningfulAnswer(resolvePreferenceProfileAnswer(field, profileData))
+    ) {
         return false;
     }
 
@@ -3049,7 +3863,9 @@ export function normalizePersonNameForCompare(value) {
  * @returns {{ fullName: string, firstName: string, lastName: string, email: string, phone: string }}
  */
 export function resolveExpectedApplicantIdentity(profileData) {
-    const fullName = String(readProfileValue(profileData, 'full_name') || '').trim();
+    const fullName = String(
+        readProfileValue(profileData, 'full_name') || '',
+    ).trim();
     const split = splitFullName(fullName);
 
     return {
@@ -3069,23 +3885,28 @@ export function resolveExpectedApplicantIdentity(profileData) {
  * @param {object|null|undefined} profileData
  * @returns {boolean}
  */
-export function indeedStoredIdentityConflictsWithProfile(storedIdentity, profileData) {
+export function indeedStoredIdentityConflictsWithProfile(
+    storedIdentity,
+    profileData,
+) {
     if (!storedIdentity || !profileData) {
         return false;
     }
 
     const expected = resolveExpectedApplicantIdentity(profileData);
     const storedFull = String(
-        storedIdentity.fullName
-            || `${storedIdentity.firstName || ''} ${storedIdentity.lastName || ''}`.trim(),
+        storedIdentity.fullName ||
+            `${storedIdentity.firstName || ''} ${storedIdentity.lastName || ''}`.trim(),
     ).trim();
 
     if (!expected.fullName || !storedFull) {
         return false;
     }
 
-    return normalizePersonNameForCompare(expected.fullName)
-        !== normalizePersonNameForCompare(storedFull);
+    return (
+        normalizePersonNameForCompare(expected.fullName) !==
+        normalizePersonNameForCompare(storedFull)
+    );
 }
 
 export function isPreferenceProfilePath(path) {
@@ -3101,7 +3922,10 @@ export function resolveIdentityProfileAnswer(field, profileData) {
         return '';
     }
 
-    if (isSmsOrMarketingConsentField(field) || isMarketingOrFutureConsentField(field)) {
+    if (
+        isSmsOrMarketingConsentField(field) ||
+        isMarketingOrFutureConsentField(field)
+    ) {
         return '';
     }
 
@@ -3116,9 +3940,9 @@ export function resolveIdentityProfileAnswer(field, profileData) {
     const normalizedLabel = normalizeLabelForMapping(label);
 
     if (
-        affirmCommuteEntry
-        && normalizedLabel
-        && mappingMatchesLabel(affirmCommuteEntry, normalizedLabel)
+        affirmCommuteEntry &&
+        normalizedLabel &&
+        mappingMatchesLabel(affirmCommuteEntry, normalizedLabel)
     ) {
         return '';
     }
@@ -3128,9 +3952,9 @@ export function resolveIdentityProfileAnswer(field, profileData) {
     );
 
     if (
-        affirmHybridEntry
-        && normalizedLabel
-        && mappingMatchesLabel(affirmHybridEntry, normalizedLabel)
+        affirmHybridEntry &&
+        normalizedLabel &&
+        mappingMatchesLabel(affirmHybridEntry, normalizedLabel)
     ) {
         return '';
     }
@@ -3203,7 +4027,10 @@ function profileValueForApply(mapping, profileData, field = null) {
     if (mapping.path === 'city') {
         const label = field?.label || field?.question || '';
 
-        if (isCityCountyCombinedQuestionLabel(label) || isCityCountyLocalityDom(field?.dom)) {
+        if (
+            isCityCountyCombinedQuestionLabel(label) ||
+            isCityCountyLocalityDom(field?.dom)
+        ) {
             return resolveCityCountyLocationValue(profileData);
         }
 
@@ -3282,18 +4109,22 @@ export function buildPendingFieldsFromProfileGaps(fields, profileData) {
             continue;
         }
 
-        pending.push(createPendingField(
-            field,
-            resolvePendingProfileMapping(field, profileData),
-            'missing_profile_data',
-        ));
+        pending.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_profile_data',
+            ),
+        );
     }
 
     return pending;
 }
 
 function createPendingField(field, mapping, reason, meta = null) {
-    const label = dedupeQuestionLabelForDisplay(field.label || field.question || '');
+    const label = dedupeQuestionLabelForDisplay(
+        field.label || field.question || '',
+    );
     const pending = {
         ref: field.ref,
         label,
@@ -3350,7 +4181,9 @@ export function isPhoneCountryDialOptionsField(field) {
         return false;
     }
 
-    const dialLikeCount = options.filter((option) => /\+\d{1,4}\b/.test(String(option || ''))).length;
+    const dialLikeCount = options.filter((option) =>
+        /\+\d{1,4}\b/.test(String(option || '')),
+    ).length;
 
     if (dialLikeCount < Math.min(8, Math.floor(options.length * 0.4))) {
         return false;
@@ -3359,9 +4192,11 @@ export function isPhoneCountryDialOptionsField(field) {
     const fieldType = String(field.field_type || '').toLowerCase();
     const role = String(field.dom?.role || '').toLowerCase();
 
-    return fieldType === 'select'
-        || fieldType === 'combobox'
-        || role === 'combobox';
+    return (
+        fieldType === 'select' ||
+        fieldType === 'combobox' ||
+        role === 'combobox'
+    );
 }
 
 export function partitionIdentityProfileFields(fields, profileData) {
@@ -3375,7 +4210,10 @@ export function partitionIdentityProfileFields(fields, profileData) {
 
         const answer = resolveIdentityProfileAnswer(field, profileData);
 
-        if (isMeaningfulAnswer(answer) && !shouldRejectPhoneAnswerOnField(field, answer)) {
+        if (
+            isMeaningfulAnswer(answer) &&
+            !shouldRejectPhoneAnswerOnField(field, answer)
+        ) {
             identityAnswers.push({
                 ref: field.ref,
                 label: field.label || field.question || '',
@@ -3390,7 +4228,10 @@ export function partitionIdentityProfileFields(fields, profileData) {
     }
 
     // Country dial must land before the national/tel input on split phone widgets (Recruitee, etc.).
-    identityAnswers.sort((left, right) => identityPhoneApplyRank(left) - identityPhoneApplyRank(right));
+    identityAnswers.sort(
+        (left, right) =>
+            identityPhoneApplyRank(left) - identityPhoneApplyRank(right),
+    );
 
     return { identityAnswers, remainingFields };
 }
@@ -3403,17 +4244,25 @@ export function isLocalityIdentityField(field) {
     const label = field?.label || field?.question || '';
 
     if (
-        isCityCountyCombinedQuestionLabel(label)
-        || isCityLocationQuestionLabel(label)
-        || isLocationAutocompleteQuestionLabel(label)
-        || isCityCountyLocalityDom(field?.dom)
+        isCityCountyCombinedQuestionLabel(label) ||
+        isCityLocationQuestionLabel(label) ||
+        isLocationAutocompleteQuestionLabel(label) ||
+        isCityCountyLocalityDom(field?.dom)
     ) {
         return true;
     }
 
-    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
+    const mapping = resolveProfileMappingForLabel(
+        label,
+        null,
+        field?.dom || null,
+    );
 
-    return Boolean(mapping && LOCATION_IDENTITY_PATHS.has(mapping.path) && mapping.path !== 'country');
+    return Boolean(
+        mapping &&
+        LOCATION_IDENTITY_PATHS.has(mapping.path) &&
+        mapping.path !== 'country',
+    );
 }
 
 export function partitionMissingLocalityIdentityFields(fields, profileData) {
@@ -3427,7 +4276,10 @@ export function partitionMissingLocalityIdentityFields(fields, profileData) {
             continue;
         }
 
-        const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+        const safeLocation = resolveSafeLocationAnswerForField(
+            field,
+            profileData,
+        );
 
         if (isMeaningfulAnswer(safeLocation)) {
             localityAnswers.push({
@@ -3441,16 +4293,75 @@ export function partitionMissingLocalityIdentityFields(fields, profileData) {
             continue;
         }
 
-        pendingFields.push(createPendingField(
-            field,
-            resolvePendingProfileMapping(field, profileData),
-            'missing_profile_data',
-        ));
+        pendingFields.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_profile_data',
+            ),
+        );
     }
 
     return { pendingFields, remainingFields, localityAnswers };
 }
 
+const NAME_IDENTITY_PATHS = new Set([
+    'full_name',
+    'full_name.first',
+    'full_name.last',
+]);
+
+/**
+ * Name identity fields with an empty profile value must leave-pending early.
+ * Do not send them to NanoGPT (it invents candidate names).
+ */
+export function isNameIdentityField(field) {
+    const label = field?.label || field?.question || '';
+    const mapping = resolveProfileMappingForLabel(
+        label,
+        null,
+        field?.dom || null,
+    );
+
+    return Boolean(mapping && NAME_IDENTITY_PATHS.has(mapping.path));
+}
+
+export function partitionMissingNameIdentityFields(fields, profileData) {
+    const pendingFields = [];
+    const remainingFields = [];
+    const nameAnswers = [];
+
+    for (const field of fields || []) {
+        if (!isNameIdentityField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const answer = resolveIdentityProfileAnswer(field, profileData);
+
+        if (isMeaningfulAnswer(answer)) {
+            nameAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer,
+            });
+            continue;
+        }
+
+        pendingFields.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_profile_data',
+            ),
+        );
+    }
+
+    return { pendingFields, remainingFields, nameAnswers };
+}
 
 const CONTACT_IDENTITY_PATHS = new Set(['email', 'phone']);
 
@@ -3466,7 +4377,11 @@ export function isContactIdentityField(field) {
         return true;
     }
 
-    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
+    const mapping = resolveProfileMappingForLabel(
+        label,
+        null,
+        field?.dom || null,
+    );
 
     return Boolean(mapping && CONTACT_IDENTITY_PATHS.has(mapping.path));
 }
@@ -3484,7 +4399,10 @@ export function partitionMissingContactIdentityFields(fields, profileData) {
 
         const answer = resolveIdentityProfileAnswer(field, profileData);
 
-        if (isMeaningfulAnswer(answer) && !shouldRejectPhoneAnswerOnField(field, answer)) {
+        if (
+            isMeaningfulAnswer(answer) &&
+            !shouldRejectPhoneAnswerOnField(field, answer)
+        ) {
             contactAnswers.push({
                 ref: field.ref,
                 label: field.label || field.question || '',
@@ -3496,11 +4414,13 @@ export function partitionMissingContactIdentityFields(fields, profileData) {
             continue;
         }
 
-        pendingFields.push(createPendingField(
-            field,
-            resolvePendingProfileMapping(field, profileData),
-            'missing_profile_data',
-        ));
+        pendingFields.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_profile_data',
+            ),
+        );
     }
 
     return { pendingFields, remainingFields, contactAnswers };
@@ -3509,23 +4429,35 @@ export function partitionMissingContactIdentityFields(fields, profileData) {
 function identityPhoneApplyRank(answer) {
     const label = normalizeQuestionLabel(answer?.label || '');
     const pathHint = String(answer?.answer || '');
-    const domHint = [answer?.dom?.name, answer?.dom?.id].filter(Boolean).join(' ');
+    const domHint = [answer?.dom?.name, answer?.dom?.id]
+        .filter(Boolean)
+        .join(' ');
 
     // Name and email first so a slow phone-country listbox cannot block the whole identity batch.
-    if (/^(full name|email address|first name|last name|email)$/.test(label)
-        || /candidate\.(name|email)/i.test(domHint)
-        || /^(first_name|last_name|email)$/i.test(domHint)) {
+    if (
+        /^(full name|email address|first name|last name|email)$/.test(label) ||
+        /candidate\.(name|email)/i.test(domHint) ||
+        /^(first_name|last_name|email)$/i.test(domHint)
+    ) {
         return -2;
     }
 
-    if (/country calling code|phone country code|calling code|dial code/.test(label)
-        || (pathHint.startsWith('+') && pathHint.length <= 5)
-        || (answer?.dom?.id === 'country' && answer?.dom?.role === 'combobox')) {
+    if (
+        /country calling code|phone country code|calling code|dial code/.test(
+            label,
+        ) ||
+        (pathHint.startsWith('+') && pathHint.length <= 5) ||
+        (answer?.dom?.id === 'country' && answer?.dom?.role === 'combobox')
+    ) {
         return 0;
     }
 
-    if (/^(phone|mobile|telephone|contact number|cell|telefon|mobile phone)/.test(label)
-        || /candidate\.phone/i.test(domHint)) {
+    if (
+        /^(phone|mobile|telephone|contact number|cell|telefon|mobile phone)/.test(
+            label,
+        ) ||
+        /candidate\.phone/i.test(domHint)
+    ) {
         return 1;
     }
 
@@ -3535,25 +4467,37 @@ function identityPhoneApplyRank(answer) {
 function isUsLocationConfirmationQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /based in the (?:usa|u\.s\.|united states)/i.test(normalized)
-        || /confirm you(?:'re| are) based in the (?:usa|u\.s\.)/i.test(normalized);
+    return (
+        /based in the (?:usa|u\.s\.|united states)/i.test(normalized) ||
+        /confirm you(?:'re| are) based in the (?:usa|u\.s\.)/i.test(normalized)
+    );
 }
 
 function isUsResidenceQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    return /\breside within (?:the )?(?:usa|u\.s\.|united states)\b/i.test(normalized);
+    return /\breside within (?:the )?(?:usa|u\.s\.|united states)\b/i.test(
+        normalized,
+    );
 }
 
 function profileInUnitedStates(profileData) {
-    const country = normalizeCountryNameForApply(readProfileValue(profileData, 'country'));
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
 
-    return /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(String(country || '').trim());
+    return /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
+        String(country || '').trim(),
+    );
 }
 
 function resolveUsResidenceAnswer(field, profileData) {
-    const country = normalizeCountryNameForApply(readProfileValue(profileData, 'country'));
-    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(String(country || '').trim());
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
+    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
+        String(country || '').trim(),
+    );
 
     return isUs ? 'Yes' : 'No';
 }
@@ -3565,21 +4509,44 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
         return '';
     }
 
-    const country = normalizeCountryNameForApply(readProfileValue(profileData, 'country'));
-    const willingRaw = readProfileValue(profileData, 'application_settings.willing_to_relocate');
-    const willingRelocate = willingRaw === true
-        || /^yes\b/i.test(String(willingRaw || '').trim());
-    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(String(country || '').trim());
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
+    const willingRaw = readProfileValue(
+        profileData,
+        'application_settings.willing_to_relocate',
+    );
+    const willingRelocate =
+        willingRaw === true || /^yes\b/i.test(String(willingRaw || '').trim());
+    const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
+        String(country || '').trim(),
+    );
 
     if (isUs) {
-        return options.find((option) => /yes,\s*i am based in the usa/i.test(String(option))) || '';
+        return (
+            options.find((option) =>
+                /yes,\s*i am based in the usa/i.test(String(option)),
+            ) || ''
+        );
     }
 
     if (willingRelocate) {
-        return options.find((option) => /planning to relocate|open to relocating to the usa/i.test(String(option))) || '';
+        return (
+            options.find((option) =>
+                /planning to relocate|open to relocating to the usa/i.test(
+                    String(option),
+                ),
+            ) || ''
+        );
     }
 
-    return options.find((option) => /nor am i open to relocating|not based in the usa, nor/i.test(String(option))) || '';
+    return (
+        options.find((option) =>
+            /nor am i open to relocating|not based in the usa, nor/i.test(
+                String(option),
+            ),
+        ) || ''
+    );
 }
 
 function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
@@ -3589,7 +4556,10 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
         return '';
     }
 
-    const raw = readProfileValue(profileData, 'application_settings.visa_sponsorship');
+    const raw = readProfileValue(
+        profileData,
+        'application_settings.visa_sponsorship',
+    );
     let yesNoAnswer = '';
 
     if (raw === true || /^yes\b/i.test(String(raw || '').trim())) {
@@ -3603,14 +4573,19 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
     }
 
     const options = Array.isArray(field?.options) ? field.options : [];
-    const hasYesNoOptions = options.some((option) => /^yes$/i.test(String(option).trim()))
-        && options.some((option) => /^no$/i.test(String(option).trim()));
+    const hasYesNoOptions =
+        options.some((option) => /^yes$/i.test(String(option).trim())) &&
+        options.some((option) => /^no$/i.test(String(option).trim()));
 
     if (hasYesNoOptions) {
         return yesNoAnswer;
     }
 
-    if (field?.field_type === 'radio' || field?.field_type === 'select' || field?.dom?.role === 'combobox') {
+    if (
+        field?.field_type === 'radio' ||
+        field?.field_type === 'select' ||
+        field?.dom?.role === 'combobox'
+    ) {
         return yesNoAnswer;
     }
 
@@ -3618,7 +4593,10 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
 }
 
 function shouldAffirmLocalCommuteComfort(profileData) {
-    const raw = readProfileValue(profileData, 'application_settings.affirm_local_commute');
+    const raw = readProfileValue(
+        profileData,
+        'application_settings.affirm_local_commute',
+    );
 
     if (raw === false || raw === 'no' || raw === '0') {
         return false;
@@ -3673,7 +4651,10 @@ export function resolveLocalCommuteComfortAnswer(field, profileData) {
 }
 
 function shouldAffirmLocalHybridWork(profileData) {
-    const raw = readProfileValue(profileData, 'application_settings.affirm_local_hybrid');
+    const raw = readProfileValue(
+        profileData,
+        'application_settings.affirm_local_hybrid',
+    );
 
     if (raw === false || raw === 'no' || raw === '0') {
         return false;
@@ -3732,14 +4713,20 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return '';
     }
 
-    if (isSmsOrMarketingConsentField(field) || isMarketingOrFutureConsentField(field)) {
+    if (
+        isSmsOrMarketingConsentField(field) ||
+        isMarketingOrFutureConsentField(field)
+    ) {
         return '';
     }
 
     const label = field?.label || field?.question || '';
 
     if (isUsLocationConfirmationQuestion(label)) {
-        const usLocationAnswer = resolveUsLocationConfirmationAnswer(field, profileData);
+        const usLocationAnswer = resolveUsLocationConfirmationAnswer(
+            field,
+            profileData,
+        );
 
         if (isMeaningfulAnswer(usLocationAnswer)) {
             return usLocationAnswer;
@@ -3762,31 +4749,46 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
     }
 
-    const countrySpecificWorkAuthAnswer = resolveCountrySpecificWorkAuthAnswer(field, profileData);
+    const countrySpecificWorkAuthAnswer = resolveCountrySpecificWorkAuthAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(countrySpecificWorkAuthAnswer)) {
         return countrySpecificWorkAuthAnswer;
     }
 
-    const sponsorshipAnswer = resolveVisaSponsorshipPreferenceAnswer(field, profileData);
+    const sponsorshipAnswer = resolveVisaSponsorshipPreferenceAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(sponsorshipAnswer)) {
         return sponsorshipAnswer;
     }
 
-    const officeCommuteDecline = resolveOfficeCommuteDeclineAnswer(field, profileData);
+    const officeCommuteDecline = resolveOfficeCommuteDeclineAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(officeCommuteDecline)) {
         return officeCommuteDecline;
     }
 
-    const localCommuteComfort = resolveLocalCommuteComfortAnswer(field, profileData);
+    const localCommuteComfort = resolveLocalCommuteComfortAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(localCommuteComfort)) {
         return localCommuteComfort;
     }
 
-    const localHybridComfort = resolveLocalHybridComfortAnswer(field, profileData);
+    const localHybridComfort = resolveLocalHybridComfortAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(localHybridComfort)) {
         return localHybridComfort;
@@ -3814,9 +4816,9 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     // "Do you require a work permit?" is the inverse of legally authorized.
     if (
-        mapping.path === 'application_settings.legally_authorized'
-        && isWorkPermitRequirementQuestion(label)
-        && fieldHasYesNoOptions(field)
+        mapping.path === 'application_settings.legally_authorized' &&
+        isWorkPermitRequirementQuestion(label) &&
+        fieldHasYesNoOptions(field)
     ) {
         const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
         const unauthorized = raw === false || /^no\b/i.test(String(raw).trim());
@@ -3832,10 +4834,16 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         ? formatStructuredSalaryAnswer(label, raw, profileData)
         : raw;
 
-    if (mapping.path === 'application_settings.willing_to_relocate' && isOnSiteCommuteQuestionLabel(label)) {
+    if (
+        mapping.path === 'application_settings.willing_to_relocate' &&
+        isOnSiteCommuteQuestionLabel(label)
+    ) {
         const profileLocation = profileLocationTokens(profileData);
 
-        if (isAffirmativeRelocateAnswer(normalized) && !profileNearRelocateDestination(label, profileLocation)) {
+        if (
+            isAffirmativeRelocateAnswer(normalized) &&
+            !profileNearRelocateDestination(label, profileLocation)
+        ) {
             if (fieldHasYesNoOptions(field)) {
                 return 'No';
             }
@@ -3844,14 +4852,10 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
     }
 
-    return normalizeFieldAnswerForQuestion(
-        label,
-        normalized,
-        {
-            fieldType: field.field_type,
-            options: field.options,
-        },
-    );
+    return normalizeFieldAnswerForQuestion(label, normalized, {
+        fieldType: field.field_type,
+        options: field.options,
+    });
 }
 
 export function partitionCitySpecificRelocateFields(fields, profileData) {
@@ -3872,16 +4876,27 @@ export function partitionCitySpecificRelocateFields(fields, profileData) {
         }
 
         const profileLocation = profileLocationTokens(profileData);
-        const profileInUk = /london|england|united kingdom|uk\b|britain/.test(profileLocation);
-        const willingRaw = readProfileValue(profileData, 'application_settings.willing_to_relocate');
-        const wouldApplyYes = willingRaw === true || isAffirmativeRelocateAnswer(willingRaw);
+        const profileInUk = /london|england|united kingdom|uk\b|britain/.test(
+            profileLocation,
+        );
+        const willingRaw = readProfileValue(
+            profileData,
+            'application_settings.willing_to_relocate',
+        );
+        const wouldApplyYes =
+            willingRaw === true || isAffirmativeRelocateAnswer(willingRaw);
 
-        if ((profileInUk || wouldApplyYes) && !profileNearRelocateDestination(label, profileLocation)) {
-            pendingFields.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'location_clarify',
-            ));
+        if (
+            (profileInUk || wouldApplyYes) &&
+            !profileNearRelocateDestination(label, profileLocation)
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'location_clarify',
+                ),
+            );
         } else {
             remainingFields.push(field);
         }
@@ -3898,7 +4913,10 @@ export function partitionOnSiteCommuteFields(fields, profileData) {
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
 
-        if (!isOnSiteCommuteQuestionLabel(label) || isCitySpecificRelocateQuestion(label)) {
+        if (
+            !isOnSiteCommuteQuestionLabel(label) ||
+            isCitySpecificRelocateQuestion(label)
+        ) {
             remainingFields.push(field);
             continue;
         }
@@ -3909,22 +4927,37 @@ export function partitionOnSiteCommuteFields(fields, profileData) {
         }
 
         const profileLocation = profileLocationTokens(profileData);
-        const profileInUk = /london|england|united kingdom|uk\b|britain/.test(profileLocation);
-        const willingRaw = readProfileValue(profileData, 'application_settings.willing_to_relocate');
-        const wouldApplyYes = willingRaw === true || isAffirmativeRelocateAnswer(willingRaw);
+        const profileInUk = /london|england|united kingdom|uk\b|britain/.test(
+            profileLocation,
+        );
+        const willingRaw = readProfileValue(
+            profileData,
+            'application_settings.willing_to_relocate',
+        );
+        const wouldApplyYes =
+            willingRaw === true || isAffirmativeRelocateAnswer(willingRaw);
         const normalized = normalizeQuestionLabel(label);
-        const isStrictOnsiteRequirement = (/\bon[- ]?site\b/.test(normalized)
-                || /\bwork in (?:our )?office\b/.test(normalized))
-            && /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(normalized);
+        const isStrictOnsiteRequirement =
+            (/\bon[- ]?site\b/.test(normalized) ||
+                /\bwork in (?:our )?office\b/.test(normalized)) &&
+            /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(
+                normalized,
+            );
 
-        if (profileInUk
-            && (isStrictOnsiteRequirement || !profileNearRelocateDestination(label, profileLocation))
-            || (wouldApplyYes && !profileNearRelocateDestination(label, profileLocation))) {
-            pendingFields.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'location_clarify',
-            ));
+        if (
+            (profileInUk &&
+                (isStrictOnsiteRequirement ||
+                    !profileNearRelocateDestination(label, profileLocation))) ||
+            (wouldApplyYes &&
+                !profileNearRelocateDestination(label, profileLocation))
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'location_clarify',
+                ),
+            );
         } else {
             remainingFields.push(field);
         }
@@ -3938,9 +4971,13 @@ function isInterestCheckboxGroupField(field) {
     const normalized = normalizeQuestionLabel(label);
     const options = Array.isArray(field?.options) ? field.options : [];
 
-    return field?.field_type === 'checkbox'
-        && options.length >= 2
-        && /\b(interests? you|options below|department|area of interest|relevant experience in)\b/.test(normalized);
+    return (
+        field?.field_type === 'checkbox' &&
+        options.length >= 2 &&
+        /\b(interests? you|options below|department|area of interest|relevant experience in)\b/.test(
+            normalized,
+        )
+    );
 }
 
 function resolveInterestCheckboxFallbackAnswer(field, profileData) {
@@ -3953,13 +4990,28 @@ function resolveInterestCheckboxFallbackAnswer(field, profileData) {
         readProfileValue(profileData, 'headline'),
         readProfileValue(profileData, 'application_settings.job_preferences'),
         readProfileValue(profileData, 'structured_data.summary'),
-    ].map((value) => normalizeQuestionLabel(String(value || ''))).join(' ');
+    ]
+        .map((value) => normalizeQuestionLabel(String(value || '')))
+        .join(' ');
 
     const keywordSets = [
-        { pattern: /product|engineering|software|developer|technical/, optionPattern: /product development|engineering|technical|project management/i },
-        { pattern: /marketing|growth|brand/, optionPattern: /marketing|growth|brand|e-commerce/i },
-        { pattern: /design|creative|ux|ui/, optionPattern: /creative|design|motion/i },
-        { pattern: /operations|customer success|support/, optionPattern: /operations|customer experience/i },
+        {
+            pattern: /product|engineering|software|developer|technical/,
+            optionPattern:
+                /product development|engineering|technical|project management/i,
+        },
+        {
+            pattern: /marketing|growth|brand/,
+            optionPattern: /marketing|growth|brand|e-commerce/i,
+        },
+        {
+            pattern: /design|creative|ux|ui/,
+            optionPattern: /creative|design|motion/i,
+        },
+        {
+            pattern: /operations|customer success|support/,
+            optionPattern: /operations|customer experience/i,
+        },
         { pattern: /finance|accounting/, optionPattern: /finance|accounting/i },
         { pattern: /people|hr|human resources/, optionPattern: /people|hr/i },
     ];
@@ -3972,7 +5024,10 @@ function resolveInterestCheckboxFallbackAnswer(field, profileData) {
         const optionText = normalizeQuestionLabel(option);
 
         for (const { pattern, optionPattern } of keywordSets) {
-            if (pattern.test(profileHaystack) && optionPattern.test(optionText)) {
+            if (
+                pattern.test(profileHaystack) &&
+                optionPattern.test(optionText)
+            ) {
                 score += 3;
             }
         }
@@ -3987,7 +5042,9 @@ function resolveInterestCheckboxFallbackAnswer(field, profileData) {
 }
 
 function shouldRejectNonYesNoAnswerOnSponsorshipField(field, answer) {
-    if (!isVisaSponsorshipQuestionLabel(field?.label || field?.question || '')) {
+    if (
+        !isVisaSponsorshipQuestionLabel(field?.label || field?.question || '')
+    ) {
         return false;
     }
 
@@ -4003,18 +5060,28 @@ export function partitionForeignTimezoneTrainingFields(fields, profileData) {
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
 
-        if (isForeignTimezoneTrainingLabel(label) && !profileInPhilippines(profileData)) {
-            pendingFields.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'location_clarify',
-            ));
-        } else if (isPhilippinesResidencyQuestionLabel(label) && !profileInPhilippines(profileData)) {
-            pendingFields.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'location_clarify',
-            ));
+        if (
+            isForeignTimezoneTrainingLabel(label) &&
+            !profileInPhilippines(profileData)
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'location_clarify',
+                ),
+            );
+        } else if (
+            isPhilippinesResidencyQuestionLabel(label) &&
+            !profileInPhilippines(profileData)
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'location_clarify',
+                ),
+            );
         } else {
             remainingFields.push(field);
         }
@@ -4031,26 +5098,34 @@ export function partitionScreeningTrapFields(fields, profileData) {
         const label = field?.label || field?.question || '';
 
         if (
-            isSecurityClearanceQuestionLabel(label)
-            && !profileInUnitedStates(profileData)
-            && (field?.field_type === 'radio' || field?.field_type === 'select')
-            && Array.isArray(field?.options)
-            && field.options.some((option) => /^no\b/i.test(String(option)))
+            isSecurityClearanceQuestionLabel(label) &&
+            !profileInUnitedStates(profileData) &&
+            (field?.field_type === 'radio' || field?.field_type === 'select') &&
+            Array.isArray(field?.options) &&
+            field.options.some((option) => /^no\b/i.test(String(option)))
         ) {
             remainingFields.push(field);
             continue;
         }
 
-        if (isEmployerScreeningTrapLabel(label)
-            || (isSecurityClearanceQuestionLabel(label) && !profileInUnitedStates(profileData))
-            || (isItarEligibilityQuestionLabel(label) && !profileInUnitedStates(profileData))
-            || (isUsExportComplianceQuestionLabel(label) && !profileInUnitedStates(profileData))
-            || (isUsEmploymentAuthorizationBasisQuestionLabel(label) && !profileInUnitedStates(profileData))) {
-            pendingFields.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'screening_clarify',
-            ));
+        if (
+            isEmployerScreeningTrapLabel(label) ||
+            (isSecurityClearanceQuestionLabel(label) &&
+                !profileInUnitedStates(profileData)) ||
+            (isItarEligibilityQuestionLabel(label) &&
+                !profileInUnitedStates(profileData)) ||
+            (isUsExportComplianceQuestionLabel(label) &&
+                !profileInUnitedStates(profileData)) ||
+            (isUsEmploymentAuthorizationBasisQuestionLabel(label) &&
+                !profileInUnitedStates(profileData))
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'screening_clarify',
+                ),
+            );
         } else {
             remainingFields.push(field);
         }
@@ -4066,7 +5141,10 @@ export function partitionPreferenceProfileFields(fields, profileData) {
     for (const field of fields || []) {
         const answer = resolvePreferenceProfileAnswer(field, profileData);
 
-        if (isMeaningfulAnswer(answer) && !shouldRejectPhoneAnswerOnField(field, answer)) {
+        if (
+            isMeaningfulAnswer(answer) &&
+            !shouldRejectPhoneAnswerOnField(field, answer)
+        ) {
             preferenceAnswers.push({
                 ref: field.ref,
                 label: field.label || field.question || '',
@@ -4095,7 +5173,10 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             options: answer.options,
         };
         let resolvedAnswer = answer.answer;
-        const signatureAnswer = resolveElectronicSignatureAnswer(field, profileData);
+        const signatureAnswer = resolveElectronicSignatureAnswer(
+            field,
+            profileData,
+        );
 
         if (isMeaningfulAnswer(signatureAnswer)) {
             resolvedAnswer = signatureAnswer;
@@ -4103,15 +5184,24 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
 
         const identityAnswer = resolveIdentityProfileAnswer(field, profileData);
 
-        if (isMeaningfulAnswer(identityAnswer) && !isElectronicSignatureField(field)) {
+        if (
+            isMeaningfulAnswer(identityAnswer) &&
+            !isElectronicSignatureField(field)
+        ) {
             resolvedAnswer = identityAnswer;
         } else {
-            const preferenceAnswer = resolvePreferenceProfileAnswer(field, profileData);
+            const preferenceAnswer = resolvePreferenceProfileAnswer(
+                field,
+                profileData,
+            );
 
             if (isMeaningfulAnswer(preferenceAnswer)) {
                 resolvedAnswer = preferenceAnswer;
             } else if (!isMeaningfulAnswer(resolvedAnswer)) {
-                const profileFallback = resolveProfileFallbackAnswer(field, profileData);
+                const profileFallback = resolveProfileFallbackAnswer(
+                    field,
+                    profileData,
+                );
 
                 if (isMeaningfulAnswer(profileFallback)) {
                     resolvedAnswer = profileFallback;
@@ -4122,15 +5212,15 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
         const locationLabel = field.label || field.question || '';
 
         if (
-            isMeaningfulAnswer(resolvedAnswer)
-            && (
-                isCityLocationQuestionLabel(locationLabel)
-                || isCityCountyCombinedQuestionLabel(locationLabel)
-                || isLocationAutocompleteQuestionLabel(locationLabel)
-            )
-            && looksLikeSurnameAsLocationValue(resolvedAnswer, profileData)
+            isMeaningfulAnswer(resolvedAnswer) &&
+            (isCityLocationQuestionLabel(locationLabel) ||
+                isCityCountyCombinedQuestionLabel(locationLabel) ||
+                isLocationAutocompleteQuestionLabel(locationLabel)) &&
+            looksLikeSurnameAsLocationValue(resolvedAnswer, profileData)
         ) {
-            const safeLocation = isCityCountyCombinedQuestionLabel(locationLabel)
+            const safeLocation = isCityCountyCombinedQuestionLabel(
+                locationLabel,
+            )
                 ? resolveCityCountyLocationValue(profileData)
                 : resolveResidenceCityValue(profileData);
 
@@ -4143,41 +5233,73 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
 
         // Shared post-answer type-coherence gate (memo / heuristic / NanoGPT).
         // Prefer leave-pending over wrong fills (Yes on city, salary on notice, etc.).
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldRejectAnswerForTypeCoherence(field, resolvedAnswer)) {
-            const coherence = evaluateAnswerTypeCoherence(field, resolvedAnswer);
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldRejectAnswerForTypeCoherence(field, resolvedAnswer)
+        ) {
+            const coherence = evaluateAnswerTypeCoherence(
+                field,
+                resolvedAnswer,
+            );
 
-            if (coherence.category === 'locality' || shouldRejectYesNoAnswerOnLocationField(field, resolvedAnswer)) {
-                const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+            if (
+                coherence.category === 'locality' ||
+                shouldRejectYesNoAnswerOnLocationField(field, resolvedAnswer)
+            ) {
+                const safeLocation = resolveSafeLocationAnswerForField(
+                    field,
+                    profileData,
+                );
 
                 if (isMeaningfulAnswer(safeLocation)) {
                     resolvedAnswer = safeLocation;
                 } else {
-                    pending.push(createPendingField(
-                        field,
-                        resolvePendingProfileMapping(field, profileData),
-                        'type_coherence',
-                        { rejected_answer: String(resolvedAnswer), reject_reason: coherence.reason },
-                    ));
+                    pending.push(
+                        createPendingField(
+                            field,
+                            resolvePendingProfileMapping(field, profileData),
+                            'type_coherence',
+                            {
+                                rejected_answer: String(resolvedAnswer),
+                                reject_reason: coherence.reason,
+                            },
+                        ),
+                    );
                     continue;
                 }
             } else {
-                pending.push(createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'type_coherence',
-                    { rejected_answer: String(resolvedAnswer), reject_reason: coherence.reason },
-                ));
+                pending.push(
+                    createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'type_coherence',
+                        {
+                            rejected_answer: String(resolvedAnswer),
+                            reject_reason: coherence.reason,
+                        },
+                    ),
+                );
                 continue;
             }
         }
 
         // Never auto-apply future-jobs / marketing opt-ins (unchecked is correct).
-        if (isMeaningfulAnswer(resolvedAnswer) && isMarketingOrFutureConsentField(field)) {
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            isMarketingOrFutureConsentField(field)
+        ) {
             continue;
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && isStructuredSalaryFormatPrompt(field.label || field.question || '')) {
-            resolvedAnswer = formatStructuredSalaryAnswer(field.label || field.question || '', resolvedAnswer, profileData);
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            isStructuredSalaryFormatPrompt(field.label || field.question || '')
+        ) {
+            resolvedAnswer = formatStructuredSalaryAnswer(
+                field.label || field.question || '',
+                resolvedAnswer,
+                profileData,
+            );
         }
 
         if (isEeoQuestionLabel(field.label || field.question || '')) {
@@ -4186,65 +5308,94 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             if (decline) {
                 resolvedAnswer = decline;
             } else {
-                pending.push(createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'eeo_clarify',
-                ));
+                pending.push(
+                    createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'eeo_clarify',
+                    ),
+                );
                 continue;
             }
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldClarifyScreeningTrap(field, resolvedAnswer, profileData)) {
-            pending.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'screening_clarify',
-            ));
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldClarifyScreeningTrap(field, resolvedAnswer, profileData)
+        ) {
+            pending.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'screening_clarify',
+                ),
+            );
             continue;
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldClarifyLocationCommute(field, resolvedAnswer, profileData)) {
-            const officeCommuteDecline = resolveOfficeCommuteDeclineAnswer(field, profileData);
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldClarifyLocationCommute(field, resolvedAnswer, profileData)
+        ) {
+            const officeCommuteDecline = resolveOfficeCommuteDeclineAnswer(
+                field,
+                profileData,
+            );
 
             if (isMeaningfulAnswer(officeCommuteDecline)) {
                 resolvedAnswer = officeCommuteDecline;
             } else {
-                pending.push(createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'location_clarify',
-                ));
+                pending.push(
+                    createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'location_clarify',
+                    ),
+                );
                 continue;
             }
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldRejectPhoneAnswerOnField(field, resolvedAnswer)) {
-            pending.push(createPendingField(
-                field,
-                resolvePendingProfileMapping(field, profileData),
-                'missing_answer',
-            ));
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldRejectPhoneAnswerOnField(field, resolvedAnswer)
+        ) {
+            pending.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'missing_answer',
+                ),
+            );
             continue;
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldRejectNonYesNoAnswerOnSponsorshipField(field, resolvedAnswer)) {
-            const sponsorshipAnswer = resolveVisaSponsorshipPreferenceAnswer(field, profileData);
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldRejectNonYesNoAnswerOnSponsorshipField(field, resolvedAnswer)
+        ) {
+            const sponsorshipAnswer = resolveVisaSponsorshipPreferenceAnswer(
+                field,
+                profileData,
+            );
 
             if (isMeaningfulAnswer(sponsorshipAnswer)) {
                 resolvedAnswer = sponsorshipAnswer;
             } else {
-                pending.push(createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'missing_answer',
-                ));
+                pending.push(
+                    createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'missing_answer',
+                    ),
+                );
                 continue;
             }
         }
 
         if (!isMeaningfulAnswer(resolvedAnswer)) {
-            const interestCheckboxAnswer = resolveInterestCheckboxFallbackAnswer(field, profileData);
+            const interestCheckboxAnswer =
+                resolveInterestCheckboxFallbackAnswer(field, profileData);
 
             if (isMeaningfulAnswer(interestCheckboxAnswer)) {
                 resolvedAnswer = interestCheckboxAnswer;
@@ -4252,13 +5403,19 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
         }
 
         if (isMeaningfulFieldAnswer(field, resolvedAnswer)) {
-            if (isVideoOrPortfolioUrlQuestionLabel(field.label || field.question || '')
-                && !looksLikeUrlAnswer(resolvedAnswer)) {
-                pending.push(createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'missing_answer',
-                ));
+            if (
+                isVideoOrPortfolioUrlQuestionLabel(
+                    field.label || field.question || '',
+                ) &&
+                !looksLikeUrlAnswer(resolvedAnswer)
+            ) {
+                pending.push(
+                    createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'missing_answer',
+                    ),
+                );
                 continue;
             }
 
@@ -4275,18 +5432,26 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             continue;
         }
 
-        pending.push(createPendingField(
-            field,
-            resolvePendingProfileMapping(field, profileData),
-            'missing_answer',
-        ));
+        pending.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_answer',
+            ),
+        );
     }
 
     return { toApply, pending };
 }
 
-export function buildPendingFieldsFromUnfilledSnapshot(elements, profileData, existingPending = []) {
-    const existingRefs = new Set((existingPending || []).map((field) => field.ref).filter(Boolean));
+export function buildPendingFieldsFromUnfilledSnapshot(
+    elements,
+    profileData,
+    existingPending = [],
+) {
+    const existingRefs = new Set(
+        (existingPending || []).map((field) => field.ref).filter(Boolean),
+    );
     const pending = [];
 
     for (const element of elements || []) {
@@ -4310,7 +5475,10 @@ export function buildPendingFieldsFromUnfilledSnapshot(elements, profileData, ex
             continue;
         }
 
-        const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
+        const availabilityPrompt = shouldPromptAvailabilityField(
+            field,
+            profileData,
+        );
 
         if (availabilityPrompt === false) {
             continue;
@@ -4336,11 +5504,13 @@ export function buildPendingFieldsFromUnfilledSnapshot(elements, profileData, ex
             continue;
         }
 
-        pending.push(createPendingField(
-            field,
-            resolvePendingProfileMapping(field, profileData),
-            'missing_answer',
-        ));
+        pending.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_answer',
+            ),
+        );
     }
 
     return pending;
@@ -4357,13 +5527,17 @@ export function filterPendingFieldsForInventory(pendingFields, fields) {
     const keys = new Set(
         (fields || [])
             .filter((field) => field?.ref)
-            .map((field) => pendingFieldKey({
-                ref: field.ref,
-                label: field.label || field.question || '',
-            })),
+            .map((field) =>
+                pendingFieldKey({
+                    ref: field.ref,
+                    label: field.label || field.question || '',
+                }),
+            ),
     );
 
-    return (pendingFields || []).filter((field) => keys.has(pendingFieldKey(field)));
+    return (pendingFields || []).filter((field) =>
+        keys.has(pendingFieldKey(field)),
+    );
 }
 
 export function mergePendingFields(existing, incoming) {
