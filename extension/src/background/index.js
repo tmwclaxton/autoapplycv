@@ -2349,6 +2349,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             profileData,
             questionMemo,
             existingPendingFields: pendingFields,
+            pageUrl: tab.url || pageUrl || null,
         });
         pendingFields = draftPlan.pendingFields;
         let totalFieldsFilled = 0;

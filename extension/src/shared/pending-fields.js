@@ -263,6 +263,9 @@ const PREFERENCE_PROFILE_PATHS = new Set([
     'application_settings.drivers_license',
     'application_settings.years_of_experience',
     'application_settings.notice_period',
+    'application_settings.expected_salary_yearly',
+    'application_settings.expected_salary_monthly',
+    'application_settings.expected_salary_weekly',
     'computed_earliest_start',
 ]);
 
@@ -500,7 +503,7 @@ export function resolveSalaryMapping(label, profileData = null) {
 }
 
 export function isNoticePeriodQuestionLabel(label) {
-    return /notice period/i.test(String(label || ''));
+    return /notice period|okres wypowiedzenia/i.test(String(label || ''));
 }
 
 /** Salary prompts that ask for contract type + net/gross + period (common on Polish forms). */
@@ -518,21 +521,27 @@ const US_OFFICE_METRO_PATTERN = /los angeles|\bla\b area|boston|seattle|atlanta|
 export function isVisaSponsorshipQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    if (!normalized || !/\bsponsorship\b/.test(normalized)) {
+    if (!normalized) {
         return false;
     }
 
     // Avoid country/city fields that mention sponsorship only in helper copy.
     if (/\b(?:city|town|postcode|postal code|street address)\b/.test(normalized)
-        && !/\b(?:require|requiring|need|visa|immigration)\b/.test(normalized)) {
+        && !/\b(?:require|requiring|need|visa|immigration|sponsorship)\b/.test(normalized)) {
         return false;
     }
 
-    return /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(normalized)
-        || /\bsponsorship\b.*\b(?:visa|h-1b|employment eligibility|work authorization|legally work)\b/.test(normalized)
-        || /\b(?:now|future|might you|will you)\b.*\bsponsorship\b/.test(normalized)
-        || /\bvisa sponsorship\b/.test(normalized)
-        || /\bimmigration sponsorship\b/.test(normalized);
+    if (/\bsponsorship\b/.test(normalized)) {
+        return /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(normalized)
+            || /\bsponsorship\b.*\b(?:visa|h-1b|employment eligibility|work authorization|legally work)\b/.test(normalized)
+            || /\b(?:now|future|might you|will you)\b.*\bsponsorship\b/.test(normalized)
+            || /\bvisa sponsorship\b/.test(normalized)
+            || /\bimmigration sponsorship\b/.test(normalized);
+    }
+
+    // "Do you require a visa to work?" without the word sponsorship.
+    return /\b(require|requiring|need|needs|needed)\b.*\bvisa\b/.test(normalized)
+        && /\b(?:work|employment|job|role)\b/.test(normalized);
 }
 
 /** On-site / hybrid commute questions tied to a specific office city. */
@@ -1000,7 +1009,27 @@ export function formatProfileSaveValue(field, answer, profileData) {
     return appendContextualProfileAnswer(existing, questionLabel, answer);
 }
 
-function availabilityProfileMapping() {
+function availabilityProfileMapping(profileData = null) {
+    if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
+        return {
+            path: 'computed_earliest_start',
+            label: 'Earliest start date',
+            dashboard_tab: 'preferences',
+            dashboard_anchor: 'field-notice-period',
+        };
+    }
+
+    // Prefer notice_period when earliest start is unset so clear notice settings fill availability.
+    if (isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'))) {
+        return profileMappingByPath('application_settings.notice_period')
+            || {
+                path: 'application_settings.notice_period',
+                label: 'Notice period',
+                dashboard_tab: 'preferences',
+                dashboard_anchor: 'field-notice-period',
+            };
+    }
+
     return {
         path: 'computed_earliest_start',
         label: 'Earliest start date',
@@ -2386,7 +2415,7 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
     }
 
     if (isAvailabilityQuestionLabel(label)) {
-        return availabilityProfileMapping();
+        return availabilityProfileMapping(profileData);
     }
 
     if (isVisaSponsorshipQuestionLabel(label)) {

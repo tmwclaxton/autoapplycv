@@ -358,6 +358,64 @@ test('buildDraftAllApplyPlan keeps notice period deterministic and answers sourc
     assert.equal(plan.llmFields.some((field) => field.ref === 'f3'), true);
 });
 
+test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformId omitted', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f1',
+                label: 'Please indicate where you heard about CGI',
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {},
+        pageUrl: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module',
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+    );
+
+    assert.equal(answersByRef.get('f1'), 'Indeed');
+    assert.equal(plan.llmFields.length, 0);
+});
+
+test('buildDraftAllApplyPlan fills salary and Polish notice from preference settings', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { id: 0, ref: 'f0', label: 'Expected salary', field_type: 'text' },
+            { id: 1, ref: 'f1', label: 'Okres wypowiedzenia', field_type: 'text' },
+            { id: 2, ref: 'f2', label: 'When can you start?', field_type: 'text' },
+            {
+                id: 3,
+                ref: 'f3',
+                label: 'Do you require a visa to work in this role?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            application_settings: {
+                ...profileData.application_settings,
+                notice_period: '4 weeks',
+                expected_salary_yearly: '72000',
+                visa_sponsorship: 'no',
+            },
+        },
+        questionMemo: {},
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+    );
+
+    assert.equal(answersByRef.get('f0'), '72000');
+    assert.equal(answersByRef.get('f1'), '4 weeks');
+    assert.equal(answersByRef.get('f2'), '4 weeks');
+    assert.equal(answersByRef.get('f3'), 'No');
+    assert.equal(plan.llmFields.length, 0);
+});
+
 test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners deterministically', () => {
     const ukProfile = {
         ...profileData,
