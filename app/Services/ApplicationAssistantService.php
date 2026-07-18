@@ -7,6 +7,7 @@ use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
 use App\Models\JobApplication;
 use App\Support\AiPhraseDenylist;
+use App\Support\AnswerTypeCoherence;
 use App\Support\ApplicationAnswers;
 use App\Support\CoverLetterBodyText;
 use App\Support\ProfileAnswerGrounding;
@@ -154,10 +155,14 @@ class ApplicationAssistantService
             $answers[] = $entry;
         }
 
-        $answers = ProfileAnswerGrounding::enforceGroundedAnswers(
+        $answers = AnswerTypeCoherence::enforceCoherentAnswers(
             $profile,
             $llmQuestions,
-            ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
+            ProfileAnswerGrounding::enforceGroundedAnswers(
+                $profile,
+                $llmQuestions,
+                ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
+            ),
         );
 
         $answers = array_merge($partition['identity_answers'], $answers);
