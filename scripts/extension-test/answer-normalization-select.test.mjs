@@ -14,7 +14,7 @@ const { enrichApplyAnswers } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/draft-all-optimizations.js')).href
 );
 const { partitionDraftAllBatchAnswers } = await import(
-    pathToFileURL(join(ROOT, 'extension/src/shared/draft-all-pipeline.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
 );
 
 const yesNoWithPlaceholder = ['Select...', 'Yes', 'No'];
@@ -111,7 +111,7 @@ test('partitionDraftAllBatchAnswers defaults EEO nulls to decline options', () =
 
 test('buildDraftAllApplyPlan applies EEO decline before LLM', async () => {
     const { buildDraftAllApplyPlan } = await import(
-        pathToFileURL(join(ROOT, 'extension/src/shared/draft-all-pipeline.js')).href
+        pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
     );
 
     const plan = buildDraftAllApplyPlan({

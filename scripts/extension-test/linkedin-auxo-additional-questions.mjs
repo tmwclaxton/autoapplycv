@@ -5,7 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const { buildDraftAllApplyPlan } = await import(
-    pathToFileURL(join(ROOT, 'extension/dist/draft-all-pipeline.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
 );
 import { detectUnfilledBlockers } from '../../extension/src/shared/auto-apply-blockers.js';
 import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';

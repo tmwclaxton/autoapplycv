@@ -5,14 +5,14 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const { partitionDraftAllBatchAnswers } = await import(
-    pathToFileURL(join(ROOT, 'extension/dist/draft-all-pipeline.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
 );
 const {
     collectEmptyBatchAnswerRetryRefs,
     retryEmptyDraftBatchAnswers,
-} = await import(pathToFileURL(join(ROOT, 'extension/dist/draft-all/empty-batch-retry.js')).href);
+} = await import(pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/empty-batch-retry.js')).href);
 const { isSkillSpecificYearsExperienceQuestionLabel } = await import(
-    pathToFileURL(join(ROOT, 'extension/dist/pending-fields.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/pending-fields.js')).href
 );
 
 const profileData = {

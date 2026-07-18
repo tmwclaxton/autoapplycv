@@ -14,7 +14,7 @@ import {
     partitionElectronicSignatureFields,
     partitionMarketingConsentFields,
 } from './consent-fields.js';
-import { compactFieldsForDraft, partitionFieldsByQuestionMemo } from './draft-all-optimizations.js';
+import { compactFieldsForDraft, partitionFieldsByQuestionMemo } from '../draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
     mergePendingFields,
@@ -28,7 +28,7 @@ import {
     partitionPriorEmployerContactFields,
     partitionReferenceProfileFields,
     partitionScreeningTrapFields,
-} from './pending-fields.js';
+} from '../pending-fields.js';
 
 /**
  * Plan deterministic Draft All stages before any LLM stream.

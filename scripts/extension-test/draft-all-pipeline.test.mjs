@@ -8,7 +8,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const {
     buildDraftAllApplyPlan,
     partitionDraftAllBatchAnswers,
-} = await import(pathToFileURL(join(ROOT, 'extension/dist/draft-all-pipeline.js')).href);
+} = await import(pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href);
 
 const profileData = {
     full_name: 'Toby Claxton',

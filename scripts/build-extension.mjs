@@ -319,6 +319,14 @@ writeFileSync(
         .replace(
             "from '../auto-apply-screener-answer.js'",
             "from './auto-apply-screener-answer.js'",
+        )
+        .replace(
+            "from '../draft-all-optimizations.js'",
+            "from './draft-all-optimizations.js'",
+        )
+        .replace(
+            "from '../pending-fields.js'",
+            "from './pending-fields.js'",
         ),
 );
 copyFileSync(
