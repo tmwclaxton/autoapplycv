@@ -712,10 +712,22 @@ function buildFirefoxDist() {
  * Strips Chrome-only keys that Firefox warns about or rejects.
  */
 function applyFirefoxManifest(manifest) {
+    // AMO requires data_collection_permissions for new extensions (Firefox 140+
+    // built-in consent). Values must match what we transmit to our first-party API:
+    // auth tokens, CV/profile PII, job-page content for drafting, and page URLs.
+    // See https://mzl.la/firefox-builtin-data-consent
     manifest.browser_specific_settings = {
         gecko: {
             id: 'autocvapply@autocvapply.com',
             strict_min_version: '121.0',
+            data_collection_permissions: {
+                required: [
+                    'authenticationInfo',
+                    'personallyIdentifyingInfo',
+                    'websiteContent',
+                    'browsingActivity',
+                ],
+            },
         },
     };
     // Firefox MV3 backgrounds are event pages only (service workers locked off).

@@ -30,6 +30,19 @@ class ExtensionBuildTest extends TestCase
             $firefoxManifest['browser_specific_settings']['gecko']['id'] ?? null,
         );
         $this->assertSame('121.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
+        $this->assertSame(
+            [
+                'authenticationInfo',
+                'personallyIdentifyingInfo',
+                'websiteContent',
+                'browsingActivity',
+            ],
+            $firefoxManifest['browser_specific_settings']['gecko']['data_collection_permissions']['required'] ?? null,
+        );
+        $this->assertArrayNotHasKey(
+            'optional',
+            $firefoxManifest['browser_specific_settings']['gecko']['data_collection_permissions'] ?? [],
+        );
         $this->assertSame(['background.js'], $firefoxManifest['background']['scripts'] ?? null);
         $this->assertSame('module', $firefoxManifest['background']['type'] ?? null);
         $this->assertArrayNotHasKey('service_worker', $firefoxManifest['background'] ?? []);
