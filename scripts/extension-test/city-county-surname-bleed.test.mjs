@@ -7,6 +7,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
+import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
+import { partitionFieldsByQuestionMemo } from '../../extension/src/shared/draft-all-optimizations.js';
 import {
     isBareYesNoAnswer,
     isCityCountyCombinedQuestionLabel,
@@ -19,8 +21,6 @@ import {
     shouldRejectYesNoAnswerOnLocationField,
     splitFullName,
 } from '../../extension/src/shared/pending-fields.js';
-import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
-import { partitionFieldsByQuestionMemo } from '../../extension/src/shared/draft-all-optimizations.js';
 
 const profile = {
     profile: {
