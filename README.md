@@ -34,6 +34,12 @@
 </p>
 
 <p align="center">
+  <a href="https://autocvapply.com/analytics"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fautocvapply.com%2Fanalytics.json&query=%24.metrics.answers_autofilled.total&label=Answers%20autofilled&color=C8102E" alt="Answers autofilled" /></a>
+  <a href="https://autocvapply.com/analytics"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fautocvapply.com%2Fanalytics.json&query=%24.metrics.extension_questions.total&label=Extension%20questions&color=C8102E" alt="Extension questions" /></a>
+  <a href="https://autocvapply.com/analytics"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fautocvapply.com%2Fanalytics.json&query=%24.metrics.cvs_parsed.total&label=CVs%20parsed&color=C8102E" alt="CVs parsed" /></a>
+</p>
+
+<p align="center">
   <strong><a href="https://autocvapply.com">Sign up free at autocvapply.com</a></strong> - upload your CV, connect the extension, fill forms in minutes.<br />
   <sub><strong>Job board Auto Apply:</strong> LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed - full end-to-end apply from the extension sidebar. On other ATS forms, you review every field and click Submit yourself.</sub>
 </p>
@@ -341,7 +347,7 @@ Practical advice for high-volume applications (no magic numbers - your mileage v
 | **Website** | [autocvapply.com](https://autocvapply.com) |
 | **Dashboard** | [autocvapply.com/dashboard](https://autocvapply.com/dashboard) |
 | **How it works** | [autocvapply.com/how-to](https://autocvapply.com/how-to) |
-| **Analytics** | [autocvapply.com/analytics](https://autocvapply.com/analytics) |
+| **Analytics** | [autocvapply.com/analytics](https://autocvapply.com/analytics) ([JSON](https://autocvapply.com/analytics.json)) |
 | **Blog** | [autocvapply.com/blog](https://autocvapply.com/blog) |
 | **Privacy** | [autocvapply.com/privacy](https://autocvapply.com/privacy) |
 | **Contact** | [autocvapply.com/contact](https://autocvapply.com/contact) |
@@ -922,6 +928,7 @@ The extension authenticates with Laravel Sanctum bearer tokens.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| `GET` | `/analytics.json` | Public aggregate usage totals (no auth; for README badges) |
 | `GET` | `/api/profile` | Fetch user profile + subscription usage |
 | `POST` | `/extension/connection` | Generate extension connection JSON (dashboard session) |
 | `POST` | `/api/applications/assist/inventory` | Field inventory for current page |

@@ -23,6 +23,7 @@ Route::inertia('/how-to', 'HowTo')->name('how-to');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+Route::get('/analytics.json', [AnalyticsController::class, 'json'])->name('analytics.json');
 Route::inertia('/terms', 'Legal/Terms')->name('terms');
 Route::inertia('/privacy', 'Legal/Privacy')->name('privacy');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');

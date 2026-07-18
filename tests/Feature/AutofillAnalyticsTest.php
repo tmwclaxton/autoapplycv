@@ -110,6 +110,33 @@ class AutofillAnalyticsTest extends TestCase
                 ->missing('auto_apply'));
     }
 
+    public function test_analytics_json_is_publicly_accessible(): void
+    {
+        AutofillDailyStat::factory()->create([
+            'date' => now()->subDay()->toDateString(),
+            'answers_count' => 12,
+            'extension_questions_count' => 4,
+            'cvs_parsed_count' => 2,
+        ]);
+
+        AutofillDailyStat::factory()->create([
+            'date' => now()->toDateString(),
+            'answers_count' => 8,
+            'extension_questions_count' => 3,
+            'cvs_parsed_count' => 1,
+        ]);
+
+        $this->get(route('analytics.json'))
+            ->assertOk()
+            ->assertHeader('Cache-Control', 'max-age=300, public')
+            ->assertJsonPath('metrics.answers_autofilled.total', 20)
+            ->assertJsonPath('metrics.answers_autofilled.period_total', 20)
+            ->assertJsonPath('metrics.extension_questions.total', 7)
+            ->assertJsonPath('metrics.cvs_parsed.total', 3)
+            ->assertJsonCount(30, 'metrics.answers_autofilled.series')
+            ->assertJsonMissingPath('auto_apply');
+    }
+
     public function test_public_summary_fills_missing_days_with_zero(): void
     {
         AutofillDailyStat::factory()->create([
