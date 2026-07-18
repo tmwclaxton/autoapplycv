@@ -1,15 +1,26 @@
 const CHOICE_FIELD_TYPES = new Set(['radio', 'checkbox', 'select']);
-const TEXT_LIKE_FIELD_TYPES = new Set(['text', 'email', 'tel', 'url', 'number', 'textarea']);
+const TEXT_LIKE_FIELD_TYPES = new Set([
+    'text',
+    'email',
+    'tel',
+    'url',
+    'number',
+    'textarea',
+]);
 
 import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
 import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
-import { isMarketingOrFutureConsentField, isAgreementCheckboxField } from './draft-all/consent-fields.js';
+import {
+    isMarketingOrFutureConsentField,
+    isAgreementCheckboxField,
+} from './draft-all/consent-fields.js';
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
 import {
     isEmployerScreeningTrapLabel,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
 } from './pending-fields.js';
+import { shouldRejectSpeakLanguageMemoAnswer } from './speak-language-answer.js';
 
 const ATS_URL_PATTERNS = [
     { pattern: /jobs\.ashbyhq\.com\/([^/?#]+)/i, source: 'ashby' },
@@ -25,7 +36,8 @@ const MIN_SINGLE_PAGE_FIELD_COUNT = 5;
 const MIN_INFERRED_JOB_TEXT_LENGTH = 200;
 /** Matches DraftAllApplicationRequest / InventoryApplicationRequest max:64. */
 const MAX_API_FIELD_OPTIONS = 64;
-const PREFERRED_OPTION_PATTERN = /^(reed|indeed|linkedin|totaljobs|glassdoor|cv.?library|other|yes|no)$/i;
+const PREFERRED_OPTION_PATTERN =
+    /^(reed|indeed|linkedin|totaljobs|glassdoor|cv.?library|other|yes|no)$/i;
 
 /**
  * Cap choice options for API validation while keeping common board/yes-no answers.
@@ -42,9 +54,10 @@ export function truncateOptionsForApi(options) {
     const rest = [];
 
     for (const option of options) {
-        const label = typeof option === 'string'
-            ? option
-            : String(option?.label ?? option?.value ?? option ?? '').trim();
+        const label =
+            typeof option === 'string'
+                ? option
+                : String(option?.label ?? option?.value ?? option ?? '').trim();
 
         if (PREFERRED_OPTION_PATTERN.test(label)) {
             preferred.push(option);
@@ -77,7 +90,10 @@ function parseJobTitleFromPageTitle(pageTitle, company) {
     const separators = [' | ', ' - ', ' \u2014 ', ' \u2013 ', ' at '];
 
     for (const separator of separators) {
-        const parts = title.split(separator).map((part) => part.trim()).filter(Boolean);
+        const parts = title
+            .split(separator)
+            .map((part) => part.trim())
+            .filter(Boolean);
 
         if (parts.length < 2) {
             continue;
@@ -148,7 +164,10 @@ export function applicationAnswersToMemo(applicationAnswers) {
 }
 
 export function mergeQuestionMemos(...memos) {
-    return Object.assign({}, ...memos.filter((memo) => memo && typeof memo === 'object'));
+    return Object.assign(
+        {},
+        ...memos.filter((memo) => memo && typeof memo === 'object'),
+    );
 }
 
 /**
@@ -157,7 +176,11 @@ export function mergeQuestionMemos(...memos) {
  * @param {Record<string, string>|null|undefined} questionMemo
  * @returns {string|null}
  */
-export function resolveSavedApplicationAnswer(field, profileData = null, questionMemo = null) {
+export function resolveSavedApplicationAnswer(
+    field,
+    profileData = null,
+    questionMemo = null,
+) {
     const label = field?.label || field?.question || '';
 
     if (!label || isJobSpecificMemoField(field)) {
@@ -171,9 +194,9 @@ export function resolveSavedApplicationAnswer(field, profileData = null, questio
     const answer = matchMemoAnswer(mergedMemo, label);
 
     if (
-        !answer
-        || shouldRejectPhoneAnswerOnField(field, answer)
-        || shouldRejectAnswerForTypeCoherence(field, answer)
+        !answer ||
+        shouldRejectPhoneAnswerOnField(field, answer) ||
+        shouldRejectAnswerForTypeCoherence(field, answer)
     ) {
         return null;
     }
@@ -211,7 +234,11 @@ export function matchMemoAnswer(questionMemo, fieldLabel) {
     return null;
 }
 
-export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData = null) {
+export function partitionFieldsByQuestionMemo(
+    fields,
+    questionMemo,
+    profileData = null,
+) {
     const memoAnswers = [];
     const remainingFields = [];
 
@@ -223,7 +250,11 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData 
             continue;
         }
 
-        if (isMeaningfulAnswer(resolvePreferenceProfileAnswer(field, profileData))) {
+        if (
+            isMeaningfulAnswer(
+                resolvePreferenceProfileAnswer(field, profileData),
+            )
+        ) {
             remainingFields.push(field);
             continue;
         }
@@ -246,9 +277,10 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData 
         const answer = matchMemoAnswer(questionMemo, label);
 
         if (
-            answer
-            && !shouldRejectPhoneAnswerOnField(field, answer)
-            && !shouldRejectAnswerForTypeCoherence(field, answer)
+            answer &&
+            !shouldRejectPhoneAnswerOnField(field, answer) &&
+            !shouldRejectAnswerForTypeCoherence(field, answer) &&
+            !shouldRejectSpeakLanguageMemoAnswer(field, answer, profileData)
         ) {
             memoAnswers.push({
                 id: field.id,
@@ -321,7 +353,11 @@ export function compactFieldsForDraft(fields) {
             compact.max_chars = field.max_chars;
         }
 
-        if (CHOICE_FIELD_TYPES.has(fieldType) && Array.isArray(field.options) && field.options.length > 0) {
+        if (
+            CHOICE_FIELD_TYPES.has(fieldType) &&
+            Array.isArray(field.options) &&
+            field.options.length > 0
+        ) {
             compact.options = truncateOptionsForApi(field.options);
         }
 
@@ -329,7 +365,10 @@ export function compactFieldsForDraft(fields) {
             const dom = {};
 
             for (const key of ['id', 'name']) {
-                if (typeof field.dom[key] === 'string' && field.dom[key].trim() !== '') {
+                if (
+                    typeof field.dom[key] === 'string' &&
+                    field.dom[key].trim() !== ''
+                ) {
                     dom[key] = field.dom[key].trim();
                 }
             }
@@ -354,7 +393,9 @@ export function snapshotFingerprint(snapshot) {
     return [
         elements.length,
         controls.length,
-        elements.map((element) => `${element.ref}:${element.question}`).join('|'),
+        elements
+            .map((element) => `${element.ref}:${element.question}`)
+            .join('|'),
         controls.map((control) => control.ref).join('|'),
     ].join('::');
 }
@@ -364,22 +405,33 @@ export function snapshotFingerprint(snapshot) {
  * Used by the content mutation observer and to invalidate draft-all snapshot cache.
  */
 export function computeFormContentSignature(rootDocument) {
-    const doc = rootDocument || (typeof document !== 'undefined' ? document : null);
+    const doc =
+        rootDocument || (typeof document !== 'undefined' ? document : null);
 
     if (!doc) {
         return '';
     }
 
-    const heading = doc.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 80) || '';
+    const heading =
+        doc
+            .querySelector('h1')
+            ?.textContent?.replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 80) || '';
     const form = doc.querySelector('form');
 
     return `${heading}|${form?.querySelectorAll('input, textarea, select').length || 0}|${form?.textContent?.length || 0}`;
 }
 
-export function shouldReuseCachedDraftAllSnapshot(cachedFingerprint, freshFingerprint) {
-    return Boolean(cachedFingerprint)
-        && Boolean(freshFingerprint)
-        && cachedFingerprint === freshFingerprint;
+export function shouldReuseCachedDraftAllSnapshot(
+    cachedFingerprint,
+    freshFingerprint,
+) {
+    return (
+        Boolean(cachedFingerprint) &&
+        Boolean(freshFingerprint) &&
+        cachedFingerprint === freshFingerprint
+    );
 }
 
 export function shouldForceInventoryComplete(snapshot, inventory) {
@@ -387,7 +439,11 @@ export function shouldForceInventoryComplete(snapshot, inventory) {
     const elementCount = snapshot?.elements?.length || 0;
     const fieldCount = inventory?.fields?.length || 0;
 
-    if (controls.length > 0 || elementCount < MIN_SINGLE_PAGE_FIELD_COUNT || fieldCount === 0) {
+    if (
+        controls.length > 0 ||
+        elementCount < MIN_SINGLE_PAGE_FIELD_COUNT ||
+        fieldCount === 0
+    ) {
         return false;
     }
 
@@ -409,14 +465,21 @@ function isGenericQuestionLabel(label) {
         return true;
     }
 
-    return GENERIC_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+    return GENERIC_QUESTION_PATTERNS.some((pattern) =>
+        pattern.test(normalized),
+    );
 }
 
 export function buildMechanicalInventoryFields(snapshot) {
     const elements = snapshot?.elements || [];
 
     return elements
-        .filter((element) => element?.ref && element?.question && element.field_type !== 'file')
+        .filter(
+            (element) =>
+                element?.ref &&
+                element?.question &&
+                element.field_type !== 'file',
+        )
         .map((element) => ({
             ref: element.ref,
             question: element.question,
@@ -434,7 +497,9 @@ function isNavigationOnlyControl(control) {
         .replace(/\s+/g, ' ')
         .trim();
 
-    return /^(continue|next|submit|back|review|save and continue|apply|apply now)$/i.test(name);
+    return /^(continue|next|submit|back|review|save and continue|apply|apply now)$/i.test(
+        name,
+    );
 }
 
 export function canUseMechanicalInventory(snapshot) {
@@ -462,8 +527,9 @@ export function canUseMechanicalInventory(snapshot) {
 
     // Reed Easy Apply (and similar) is one concrete question per step plus Continue.
     // Navigation controls must not force a flaky LLM inventory round-trip.
-    const navigationOnlyControls = controls.length === 0
-        || controls.every((control) => isNavigationOnlyControl(control));
+    const navigationOnlyControls =
+        controls.length === 0 ||
+        controls.every((control) => isNavigationOnlyControl(control));
 
     if (navigationOnlyControls) {
         return true;
@@ -507,13 +573,21 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
         const label = answer.label || field?.label || field?.question || '';
         const fieldType = answer.field_type || field?.field_type || null;
         const fieldOptions = answer.options || field?.options || null;
-        const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, {
-            profileYears,
-            fieldType,
-            domId: field?.dom?.id || field?.dom?.input_id || answer.dom?.id || null,
-            options: fieldOptions,
-            fallbackNoticePeriod: '2 weeks',
-        });
+        const normalizedAnswer = normalizeFieldAnswerForQuestion(
+            label,
+            answer.answer,
+            {
+                profileYears,
+                fieldType,
+                domId:
+                    field?.dom?.id ||
+                    field?.dom?.input_id ||
+                    answer.dom?.id ||
+                    null,
+                options: fieldOptions,
+                fallbackNoticePeriod: '2 weeks',
+            },
+        );
 
         if (!field) {
             return {
@@ -528,7 +602,8 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
             field_type: fieldType || 'text',
             options: fieldOptions,
             dom: answer.dom || field.dom || null,
-            data_field_path: answer.data_field_path || field.dom?.data_field_path || null,
+            data_field_path:
+                answer.data_field_path || field.dom?.data_field_path || null,
         };
     });
 }
@@ -580,7 +655,9 @@ export async function fetchGreenhouseJobPostingLocation(url) {
         const data = await response.json();
         const locationName = data?.location?.name;
 
-        return typeof locationName === 'string' ? locationName.trim().slice(0, 200) : '';
+        return typeof locationName === 'string'
+            ? locationName.trim().slice(0, 200)
+            : '';
     } catch {
         return '';
     }
@@ -609,9 +686,10 @@ export function tryInferJobContextFromPage(pagePayload, tabTitle = '') {
     }
 
     const title = parseJobTitleFromPageTitle(pageTitle, company);
-    const jobDescription = pageText.length >= MIN_INFERRED_JOB_TEXT_LENGTH
-        ? pageText.slice(0, 20000)
-        : null;
+    const jobDescription =
+        pageText.length >= MIN_INFERRED_JOB_TEXT_LENGTH
+            ? pageText.slice(0, 20000)
+            : null;
 
     if (!title && !company && !jobDescription) {
         return null;

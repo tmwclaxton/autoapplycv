@@ -5,10 +5,9 @@ import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const {
-    buildDraftAllApplyPlan,
-    partitionDraftAllBatchAnswers,
-} = await import(pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href);
+const { buildDraftAllApplyPlan, partitionDraftAllBatchAnswers } = await import(
+    pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
+);
 
 const profileData = {
     full_name: 'Toby Claxton',
@@ -33,9 +32,20 @@ const profileData = {
 test('buildDraftAllApplyPlan applies memo, reference, and identity before LLM fields', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
-            { id: 0, ref: 'f0', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
             { id: 1, ref: 'f1', label: 'First name', field_type: 'text' },
-            { id: 2, ref: 'f2', label: 'Full name', field_type: 'text', context: 'Professional references' },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Full name',
+                field_type: 'text',
+                context: 'Professional references',
+            },
             { id: 3, ref: 'f3', label: 'Cover letter', field_type: 'textarea' },
         ],
         profileData,
@@ -75,8 +85,19 @@ test('buildDraftAllApplyPlan skips LLM when identity and memo cover all fields',
 test('buildDraftAllApplyPlan routes prior employer contact fields to pending sidebar', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
-            { id: 0, ref: 'f1', label: 'Supervisor phone', field_type: 'tel', context: 'Previous employment' },
-            { id: 1, ref: 'f2', label: 'Why this role?', field_type: 'textarea' },
+            {
+                id: 0,
+                ref: 'f1',
+                label: 'Supervisor phone',
+                field_type: 'tel',
+                context: 'Previous employment',
+            },
+            {
+                id: 1,
+                ref: 'f2',
+                label: 'Why this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData: {
             full_name: 'Toby Claxton',
@@ -108,10 +129,17 @@ test('buildDraftAllApplyPlan applies preference and agreement fields before LLM'
                 ref: 'f1',
                 label: 'Applicant statement: I certify that all information is true.',
                 field_type: 'checkbox',
-                options: ['Yes, I have read and understand this APPLICANT STATEMENT'],
+                options: [
+                    'Yes, I have read and understand this APPLICANT STATEMENT',
+                ],
                 required: true,
             },
-            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
             {
                 id: 3,
                 ref: 'f3',
@@ -130,11 +158,24 @@ test('buildDraftAllApplyPlan applies preference and agreement fields before LLM'
         questionMemo: {},
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'agreement'), true);
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'eeo'), true);
-    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
-    const agreement = plan.applyStages.find((stage) => stage.type === 'agreement');
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'preference'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'agreement'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'eeo'),
+        true,
+    );
+    const preference = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
+    const agreement = plan.applyStages.find(
+        (stage) => stage.type === 'agreement',
+    );
     assert.equal(preference.answers[0].answer, 'No');
     assert.match(agreement.answers[0].answer, /APPLICANT STATEMENT/i);
     assert.equal(plan.llmFields.length, 1);
@@ -171,11 +212,18 @@ test('buildDraftAllApplyPlan answers country-specific US work auth from profile 
         questionMemo: {},
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
-    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'preference'),
+        true,
+    );
+    const preference = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
     assert.equal(preference.answers.length, 2);
     assert.deepEqual(
-        preference.answers.map((answer) => ({ ref: answer.ref, answer: answer.answer })).sort((a, b) => a.ref.localeCompare(b.ref)),
+        preference.answers
+            .map((answer) => ({ ref: answer.ref, answer: answer.answer }))
+            .sort((a, b) => a.ref.localeCompare(b.ref)),
         [
             { ref: 'f0', answer: 'No' },
             { ref: 'f1', answer: 'No' },
@@ -212,8 +260,13 @@ test('buildDraftAllApplyPlan maps UK right-to-work status dropdowns to citizen o
         questionMemo: {},
     });
 
-    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
-    assert.ok(preference, 'Expected preference stage for UK RTW status dropdown');
+    const preference = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
+    assert.ok(
+        preference,
+        'Expected preference stage for UK RTW status dropdown',
+    );
     assert.equal(preference.answers.length, 1);
     assert.equal(preference.answers[0].ref, 'f0');
     assert.equal(preference.answers[0].answer, 'I am a UK/Irish Citizen');
@@ -232,7 +285,12 @@ test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields',
                 field_type: 'radio',
                 options: ['Banana', 'Pineapple', 'Raspberry', 'Peach'],
             },
-            { id: 2, ref: 'f2', label: 'Why Hospitable?', field_type: 'textarea' },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Why Hospitable?',
+                field_type: 'textarea',
+            },
         ],
         profileData,
         questionMemo: {},
@@ -246,22 +304,42 @@ test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields',
 });
 
 test('buildDraftAllApplyPlan auto-fills electronic certification signature from profile', () => {
-    const certifyLabel = 'I certify that all of the information I have provided is correct and complete. Please sign by typing your Full Legal First, Middle Initial, and Last Name.';
+    const certifyLabel =
+        'I certify that all of the information I have provided is correct and complete. Please sign by typing your Full Legal First, Middle Initial, and Last Name.';
     const plan = buildDraftAllApplyPlan({
         fields: [
             { id: 0, ref: 'f0', label: 'First name', field_type: 'text' },
-            { id: 1, ref: 'f1', label: certifyLabel, field_type: 'text', required: true },
-            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 1,
+                ref: 'f1',
+                label: certifyLabel,
+                field_type: 'text',
+                required: true,
+            },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData,
         questionMemo: {},
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'signature'), true);
-    const signature = plan.applyStages.find((stage) => stage.type === 'signature');
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'signature'),
+        true,
+    );
+    const signature = plan.applyStages.find(
+        (stage) => stage.type === 'signature',
+    );
     assert.equal(signature.answers[0].ref, 'f1');
     assert.equal(signature.answers[0].answer, 'Toby Claxton');
-    assert.equal(plan.pendingFields.some((field) => field.ref === 'f1'), false);
+    assert.equal(
+        plan.pendingFields.some((field) => field.ref === 'f1'),
+        false,
+    );
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].ref, 'f2');
 });
@@ -278,17 +356,30 @@ test('buildDraftAllApplyPlan auto-declines Personio data retention consent befor
                 options: ['Please select', 'Yes', 'No'],
                 required: true,
             },
-            { id: 2, ref: 'f2', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData,
         questionMemo: {},
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'marketing_consent'), true);
-    const marketingConsent = plan.applyStages.find((stage) => stage.type === 'marketing_consent');
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'marketing_consent'),
+        true,
+    );
+    const marketingConsent = plan.applyStages.find(
+        (stage) => stage.type === 'marketing_consent',
+    );
     assert.equal(marketingConsent.answers[0].ref, 'f1');
     assert.equal(marketingConsent.answers[0].answer, 'No');
-    assert.equal(plan.pendingFields.some((field) => field.ref === 'f1'), false);
+    assert.equal(
+        plan.pendingFields.some((field) => field.ref === 'f1'),
+        false,
+    );
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].ref, 'f2');
 });
@@ -299,10 +390,14 @@ test('partitionDraftAllBatchAnswers keeps identity answers over null LLM output'
         ['f2', { ref: 'f2', label: 'Why this role?', field_type: 'textarea' }],
     ]);
 
-    const { toApply, pending } = partitionDraftAllBatchAnswers([
-        { ref: 'f1', label: 'First name', answer: null },
-        { ref: 'f2', label: 'Why this role?', answer: 'Grounded answer.' },
-    ], fieldsByRef, profileData);
+    const { toApply, pending } = partitionDraftAllBatchAnswers(
+        [
+            { ref: 'f1', label: 'First name', answer: null },
+            { ref: 'f2', label: 'Why this role?', answer: 'Grounded answer.' },
+        ],
+        fieldsByRef,
+        profileData,
+    );
 
     assert.equal(toApply.length, 2);
     assert.equal(toApply[0].answer, 'Toby');
@@ -331,7 +426,12 @@ test('buildDraftAllApplyPlan keeps notice period deterministic and answers sourc
                 label: "If 'Yes' please indicate clearance level (BS, SC, DV, CTC etc.) or N/A if not applicable.",
                 field_type: 'text',
             },
-            { id: 3, ref: 'f3', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 3,
+                ref: 'f3',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData: {
             ...profileData,
@@ -344,18 +444,35 @@ test('buildDraftAllApplyPlan keeps notice period deterministic and answers sourc
         platformId: 'indeed',
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'screener'), true);
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'preference'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'screener'),
+        true,
+    );
     const answersByRef = new Map(
-        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
     );
 
     assert.equal(answersByRef.get('f0'), '2 weeks');
     assert.equal(answersByRef.get('f1'), 'Indeed');
     assert.equal(plan.llmFields.length, 2);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), false);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f2'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f3'), true);
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f1'),
+        false,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f2'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f3'),
+        true,
+    );
 });
 
 test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformId omitted', () => {
@@ -370,10 +487,13 @@ test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformI
         ],
         profileData,
         questionMemo: {},
-        pageUrl: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module',
+        pageUrl:
+            'https://smartapply.indeed.com/beta/indeedapply/form/questions-module',
     });
     const answersByRef = new Map(
-        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
     );
 
     assert.equal(answersByRef.get('f1'), 'Indeed');
@@ -401,7 +521,9 @@ test('buildDraftAllApplyPlan inverts work-permit questions from legally_authoriz
         },
         questionMemo: {},
     });
-    const preference = plan.applyStages.find((stage) => stage.type === 'preference');
+    const preference = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
 
     assert.equal(preference?.answers?.[0]?.answer, 'No');
     assert.equal(plan.llmFields.length, 0);
@@ -411,8 +533,18 @@ test('buildDraftAllApplyPlan fills salary and Polish notice from preference sett
     const plan = buildDraftAllApplyPlan({
         fields: [
             { id: 0, ref: 'f0', label: 'Expected salary', field_type: 'text' },
-            { id: 1, ref: 'f1', label: 'Okres wypowiedzenia', field_type: 'text' },
-            { id: 2, ref: 'f2', label: 'When can you start?', field_type: 'text' },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Okres wypowiedzenia',
+                field_type: 'text',
+            },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'When can you start?',
+                field_type: 'text',
+            },
             {
                 id: 3,
                 ref: 'f3',
@@ -420,8 +552,18 @@ test('buildDraftAllApplyPlan fills salary and Polish notice from preference sett
                 field_type: 'radio',
                 options: ['Yes', 'No'],
             },
-            { id: 4, ref: 'f4', label: 'What is your current/last salary?', field_type: 'text' },
-            { id: 5, ref: 'f5', label: 'What is your current total package (e.g. Salary + Benefits)', field_type: 'text' },
+            {
+                id: 4,
+                ref: 'f4',
+                label: 'What is your current/last salary?',
+                field_type: 'text',
+            },
+            {
+                id: 5,
+                ref: 'f5',
+                label: 'What is your current total package (e.g. Salary + Benefits)',
+                field_type: 'text',
+            },
         ],
         profileData: {
             ...profileData,
@@ -435,7 +577,9 @@ test('buildDraftAllApplyPlan fills salary and Polish notice from preference sett
         questionMemo: {},
     });
     const answersByRef = new Map(
-        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
     );
 
     assert.equal(answersByRef.get('f0'), '72000');
@@ -465,30 +609,58 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
         },
         application_answers: [
             { question: 'What is your current/last salary?', answer: '40800' },
-            { question: 'What is your current total package (e.g. Salary + Benefits)', answer: '40800' },
-            { question: 'In the past five years, have you spent 28 or more consecutive days outside the UK?', answer: 'No' },
-            { question: 'What is your desired base salary for your next role?', answer: '40800' },
+            {
+                question:
+                    'What is your current total package (e.g. Salary + Benefits)',
+                answer: '40800',
+            },
+            {
+                question:
+                    'In the past five years, have you spent 28 or more consecutive days outside the UK?',
+                answer: 'No',
+            },
+            {
+                question:
+                    'What is your desired base salary for your next role?',
+                answer: '40800',
+            },
         ],
     };
 
     const plan = buildDraftAllApplyPlan({
         fields: [
-            { ref: 'f0', label: 'What is your current notice period/availability?', field_type: 'text' },
+            {
+                ref: 'f0',
+                label: 'What is your current notice period/availability?',
+                field_type: 'text',
+            },
             {
                 ref: 'f1',
                 label: 'Do you require a work permit to live and work in the UK?',
                 field_type: 'radio',
                 options: ['Yes', 'No'],
             },
-            { ref: 'f2', label: 'What is your current/last salary?', field_type: 'text' },
-            { ref: 'f3', label: 'What is your current total package (e.g. Salary + Benefits)', field_type: 'text' },
+            {
+                ref: 'f2',
+                label: 'What is your current/last salary?',
+                field_type: 'text',
+            },
+            {
+                ref: 'f3',
+                label: 'What is your current total package (e.g. Salary + Benefits)',
+                field_type: 'text',
+            },
             {
                 ref: 'f4',
                 label: 'In the past five years, have you spent 28 or more consecutive days outside the UK?',
                 field_type: 'radio',
                 options: ['Yes', 'No'],
             },
-            { ref: 'f5', label: 'What is your desired base salary for your next role?', field_type: 'text' },
+            {
+                ref: 'f5',
+                label: 'What is your desired base salary for your next role?',
+                field_type: 'text',
+            },
             {
                 ref: 'f6',
                 label: 'Do you hold a Current level of Security Clearance?',
@@ -500,7 +672,11 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
                 label: "If 'Yes' please indicate clearance level (BS, SC, DV, CTC etc.) or N/A if not applicable.",
                 field_type: 'text',
             },
-            { ref: 'f8', label: 'Please indicate where you heard about CGI', field_type: 'text' },
+            {
+                ref: 'f8',
+                label: 'Please indicate where you heard about CGI',
+                field_type: 'text',
+            },
             {
                 ref: 'f9',
                 label: 'If you were referred via a CGI employee, please provide their name and staff number if you have it or N/A if not applicable.',
@@ -526,10 +702,22 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
     assert.equal(answersByRef.get('f4'), 'No');
     assert.equal(answersByRef.get('f5'), '40800');
     assert.equal(answersByRef.get('f8'), 'Indeed');
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f6'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f7'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f8'), false);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f9'), true);
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f6'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f7'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f8'),
+        false,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f9'),
+        true,
+    );
     assert.equal(plan.llmFields.length, 3);
     assert.equal(plan.pendingFields.length, 0);
 });
@@ -563,9 +751,18 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
                 ref: 'f3',
                 label: 'What is the highest level of education you have completed?',
                 field_type: 'select',
-                options: ['None', 'GCSE or equivalent', 'A-Level or equivalent'],
+                options: [
+                    'None',
+                    'GCSE or equivalent',
+                    'A-Level or equivalent',
+                ],
             },
-            { id: 4, ref: 'f4', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 4,
+                ref: 'f4',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData: {
             ...profileData,
@@ -577,31 +774,166 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
         questionMemo: {},
     });
 
-    assert.equal(plan.applyStages.some((stage) => stage.type === 'screener'), false);
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'screener'),
+        false,
+    );
     assert.equal(plan.llmFields.length, 5);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f0'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f2'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f3'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f4'), true);
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f0'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f1'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f2'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f3'),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f4'),
+        true,
+    );
 });
 
 test('cover letter question memo does not auto-apply across jobs', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
             { id: 0, ref: 'f0', label: 'Cover letter', field_type: 'textarea' },
-            { id: 1, ref: 'f1', label: 'Why do you want this role?', field_type: 'textarea' },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Why do you want this role?',
+                field_type: 'textarea',
+            },
         ],
         profileData,
         questionMemo: {
-            'Cover letter': 'Dear Hiring Manager at 4Subsea, I am excited to apply...',
+            'Cover letter':
+                'Dear Hiring Manager at 4Subsea, I am excited to apply...',
             'Why do you want this role?': 'I enjoy building reliable products.',
         },
     });
 
     const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
 
-    assert.equal(memoStage?.answers?.some((answer) => /cover letter/i.test(answer.label || '')), false);
-    assert.equal(plan.llmFields.some((field) => /cover letter/i.test(field.label || '')), true);
-    assert.equal(plan.llmFields.some((field) => /why do you want this role/i.test(field.label || '')), false);
+    assert.equal(
+        memoStage?.answers?.some((answer) =>
+            /cover letter/i.test(answer.label || ''),
+        ),
+        false,
+    );
+    assert.equal(
+        plan.llmFields.some((field) => /cover letter/i.test(field.label || '')),
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) =>
+            /why do you want this role/i.test(field.label || ''),
+        ),
+        false,
+    );
+});
+
+test('stale speak-language memo is ignored when profile languages are empty', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Do you speak French ?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Do you speak English',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            structured_data: {
+                ...profileData.structured_data,
+                languages: [],
+            },
+        },
+        questionMemo: {
+            'Do you speak French ?': 'No',
+            'Do you speak English': 'Yes',
+        },
+    });
+
+    const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
+    const screenerStage = plan.applyStages.find(
+        (stage) => stage.type === 'screener',
+    );
+
+    assert.equal(memoStage, undefined);
+    assert.equal(screenerStage, undefined);
+    assert.equal(plan.llmFields.length, 0);
+    assert.equal(plan.pendingFields.length, 2);
+    assert.ok(
+        plan.pendingFields.every(
+            (field) => field.profile_path === 'structured_data.languages',
+        ),
+    );
+});
+
+test('speak-language screener uses profile languages and rejects contradicting memo', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Do you speak French ?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Do you speak English',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            ...profileData,
+            structured_data: {
+                ...profileData.structured_data,
+                languages: [{ language: 'English', proficiency: 'Native' }],
+            },
+        },
+        questionMemo: {
+            'Do you speak French ?': 'Yes',
+            'Do you speak English': 'No',
+        },
+    });
+
+    const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
+    const screenerStage = plan.applyStages.find(
+        (stage) => stage.type === 'screener',
+    );
+    const byRef = Object.fromEntries(
+        (screenerStage?.answers || []).map((answer) => [
+            answer.ref,
+            answer.answer,
+        ]),
+    );
+
+    assert.equal(memoStage, undefined);
+    assert.equal(byRef.f0, 'No');
+    assert.equal(byRef.f1, 'Yes');
+    assert.equal(
+        plan.pendingFields.some((field) => /speak/i.test(field.label || '')),
+        false,
+    );
 });

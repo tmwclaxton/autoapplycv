@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {
     isSourceOfHireQuestionLabel,
+    partitionScreenerHeuristicFields,
     resolveHeuristicScreenerAnswer,
     resolveSourceOfHireAnswer,
     resolveTestModeFallbackAnswer,
@@ -71,15 +72,9 @@ const hybridField = {
     options: ['Yes', 'No'],
 };
 
-assert.equal(
-    resolveLocalHybridComfortAnswer(hybridField, profileData),
-    'Yes',
-);
+assert.equal(resolveLocalHybridComfortAnswer(hybridField, profileData), 'Yes');
 
-assert.equal(
-    resolvePreferenceProfileAnswer(hybridField, profileData),
-    'Yes',
-);
+assert.equal(resolvePreferenceProfileAnswer(hybridField, profileData), 'Yes');
 
 assert.equal(
     resolveHeuristicScreenerAnswer(
@@ -307,7 +302,8 @@ assert.equal(
             ...profileData,
             application_answers: [
                 {
-                    question: 'Describe your experience with distributed systems architecture',
+                    question:
+                        'Describe your experience with distributed systems architecture',
                     answer: 'Built event-driven pipelines on Kafka and AWS.',
                 },
             ],
@@ -622,3 +618,22 @@ assert.equal(
     'nested profile.application_settings must resolve visa sponsorship',
 );
 
+const emptyLanguagePartition = partitionScreenerHeuristicFields(
+    [
+        {
+            ref: 'f1',
+            label: 'Do you speak French ?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+    ],
+    { profile: { structured_data: { languages: [] } } },
+);
+
+assert.equal(emptyLanguagePartition.screenerAnswers.length, 0);
+assert.equal(emptyLanguagePartition.remainingFields.length, 0);
+assert.equal(emptyLanguagePartition.pendingFields.length, 1);
+assert.equal(
+    emptyLanguagePartition.pendingFields[0].profile_path,
+    'structured_data.languages',
+);

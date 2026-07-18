@@ -10,7 +10,10 @@ import {
     resolveAutoApplyPlatformLabel,
 } from './auto-apply-platforms.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
-import { isJobSpecificMemoField, resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
+import {
+    isJobSpecificMemoField,
+    resolveSavedApplicationAnswer,
+} from './draft-all-optimizations.js';
 import { requestDraftField } from './draft-all-stream.js';
 import {
     isGenericTotalExperienceQuestionLabel,
@@ -24,8 +27,13 @@ import {
     resolveProfileMappingForLabel,
     readProfileValue,
 } from './pending-fields.js';
+import {
+    isSpeakLanguageYesNoQuestion,
+    resolveSpeakLanguageFromProfile,
+} from './speak-language-answer.js';
 
 export { isSourceOfHireQuestionLabel };
+export { resolveSpeakLanguageFromProfile } from './speak-language-answer.js';
 
 /** @type {Record<string, string[]>} */
 const PLATFORM_SOURCE_OPTION_ALIASES = {
@@ -58,7 +66,8 @@ export function resolveSourceOfHirePlatformContext(context = null) {
         platformId = resolveAutoApplyPlatformFromUrl(context?.pageUrl);
     }
 
-    const platformLabel = resolveAutoApplyPlatformLabel(platformId) || (explicitLabel || null);
+    const platformLabel =
+        resolveAutoApplyPlatformLabel(platformId) || explicitLabel || null;
 
     return { platformId, platformLabel };
 }
@@ -83,7 +92,9 @@ function optionMatchesSourceAlias(option, alias) {
         return true;
     }
 
-    return new RegExp(`(?:^|\\s)${aliasText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`).test(optionText);
+    return new RegExp(
+        `(?:^|\\s)${aliasText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`,
+    ).test(optionText);
 }
 
 /**
@@ -100,7 +111,8 @@ export function resolveSourceOfHireAnswer(field, context = null) {
         return null;
     }
 
-    const { platformId, platformLabel } = resolveSourceOfHirePlatformContext(context);
+    const { platformId, platformLabel } =
+        resolveSourceOfHirePlatformContext(context);
 
     if (!platformLabel) {
         return null;
@@ -124,7 +136,11 @@ export function resolveSourceOfHireAnswer(field, context = null) {
     }
 
     for (const option of options) {
-        if (JOB_BOARD_SOURCE_OPTION_PATTERNS.some((pattern) => pattern.test(String(option).trim()))) {
+        if (
+            JOB_BOARD_SOURCE_OPTION_PATTERNS.some((pattern) =>
+                pattern.test(String(option).trim()),
+            )
+        ) {
             return option;
         }
     }
@@ -136,18 +152,22 @@ function isSalaryScreenerQuestion(label) {
     const question = String(label || '').toLowerCase();
 
     return (
-        isSalaryQuestionLabel(label)
-        || /salary|compensation|pay rate|hourly|annual|total package/.test(question)
+        isSalaryQuestionLabel(label) ||
+        /salary|compensation|pay rate|hourly|annual|total package/.test(
+            question,
+        )
     );
 }
 
 function isNoticePeriodOrAvailabilityQuestion(label) {
     const question = String(label || '').toLowerCase();
 
-    return /\bnotice period\b/.test(question)
-        || /\bavailability\b/.test(question)
-        || /\bwhen can you start\b/.test(question)
-        || /\bearliest start\b/.test(question);
+    return (
+        /\bnotice period\b/.test(question) ||
+        /\bavailability\b/.test(question) ||
+        /\bwhen can you start\b/.test(question) ||
+        /\bearliest start\b/.test(question)
+    );
 }
 
 function resolveNoticePeriodFromSettings(settings = {}, field = null) {
@@ -172,7 +192,9 @@ function resolveNoticePeriodFromSettings(settings = {}, field = null) {
 }
 
 function parsePositiveSalaryNumber(value) {
-    const match = String(value ?? '').replace(/,/g, '').match(/\d+(?:\.\d+)?/);
+    const match = String(value ?? '')
+        .replace(/,/g, '')
+        .match(/\d+(?:\.\d+)?/);
 
     if (!match) {
         return null;
@@ -223,11 +245,13 @@ function resolveSalaryFromSettings(settings = {}) {
 function isNumericExperienceField(fieldType, domId, label) {
     const question = String(label || '').toLowerCase();
 
-    return fieldType.includes('int')
-        || fieldType === 'number'
-        || domId.includes('numeric')
-        || domId.includes('number-input')
-        || /\bhow many\b/.test(question);
+    return (
+        fieldType.includes('int') ||
+        fieldType === 'number' ||
+        domId.includes('numeric') ||
+        domId.includes('number-input') ||
+        /\bhow many\b/.test(question)
+    );
 }
 
 function resolveGenericTotalExperienceFromSettings(settings = {}) {
@@ -251,103 +275,6 @@ function shouldDeferScreenerQuestionToLlm(label) {
     return false;
 }
 
-function normalizeLanguageToken(value) {
-    return String(value || '')
-        .toLowerCase()
-        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-}
-
-/**
- * "Do you speak French?" / "Do you speak English" Yes/No screeners.
- */
-function extractSpeakLanguageFromLabel(label) {
-    const normalized = normalizeLanguageToken(label);
-
-    if (!normalized) {
-        return null;
-    }
-
-    const match = normalized.match(/\b(?:do you )?(?:speak|fluent in|proficient in)\s+([a-z]{2,}(?:\s+[a-z]{2,})?)\b/);
-
-    if (!match) {
-        return null;
-    }
-
-    const language = match[1].replace(/\s+/g, ' ').trim();
-
-    if (!language || /(?:language|languages|english and|fluently)$/.test(language)) {
-        return null;
-    }
-
-    return language;
-}
-
-function isSpeakLanguageYesNoQuestion(field) {
-    const label = field?.label || field?.question || '';
-    const language = extractSpeakLanguageFromLabel(label);
-
-    if (!language) {
-        return false;
-    }
-
-    const options = Array.isArray(field?.options) ? field.options : [];
-    const hasYes = options.some((option) => /^yes$/i.test(String(option).trim()));
-    const hasNo = options.some((option) => /^no$/i.test(String(option).trim()));
-
-    return hasYes && hasNo;
-}
-
-function profileLanguageNames(profileData) {
-    const raw = readProfileValue(profileData, 'structured_data.languages');
-    const list = Array.isArray(raw) ? raw : [];
-    const names = [];
-
-    for (const entry of list) {
-        if (typeof entry === 'string') {
-            const token = normalizeLanguageToken(entry);
-
-            if (token) {
-                names.push(token);
-            }
-
-            continue;
-        }
-
-        if (entry && typeof entry === 'object') {
-            const token = normalizeLanguageToken(entry.language || entry.name || entry.label);
-
-            if (token) {
-                names.push(token);
-            }
-        }
-    }
-
-    return names;
-}
-
-/**
- * Answer speak-language Yes/No only when profile languages are populated.
- * Prefer leave-pending when the languages list is empty (do not invent No).
- */
-function resolveSpeakLanguageFromProfile(field, profileData) {
-    if (!isSpeakLanguageYesNoQuestion(field)) {
-        return null;
-    }
-
-    const asked = extractSpeakLanguageFromLabel(field?.label || field?.question || '');
-    const names = profileLanguageNames(profileData);
-
-    if (!asked || names.length === 0) {
-        return null;
-    }
-
-    const hasLanguage = names.some((name) => name === asked || name.startsWith(`${asked} `) || asked.startsWith(name));
-
-    return hasLanguage ? 'Yes' : 'No';
-}
-
 function shouldUseProfileSalaryAnswer(answer, label) {
     if (!isSalaryScreenerQuestion(label)) {
         return true;
@@ -359,9 +286,14 @@ function shouldUseProfileSalaryAnswer(answer, label) {
 function normalizeHeuristicAnswerForField(answer, field) {
     const value = String(answer || '').trim();
     const label = field?.question || field?.label || '';
-    const fieldType = String(field?.type || field?.field_type || '').toLowerCase();
-    const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
-    const isNumericField = fieldType.includes('int') ||
+    const fieldType = String(
+        field?.type || field?.field_type || '',
+    ).toLowerCase();
+    const domId = String(
+        field?.dom?.id || field?.dom?.input_id || '',
+    ).toLowerCase();
+    const isNumericField =
+        fieldType.includes('int') ||
         fieldType === 'number' ||
         domId.includes('numeric') ||
         domId.includes('number-input');
@@ -428,20 +360,32 @@ export function resolveHeuristicScreenerAnswer(
     const label = normalizedField.question || normalizedField.label;
 
     // Prefer the live job board over a stale memo from another platform.
-    const sourceOfHireAnswer = resolveSourceOfHireAnswer(normalizedField, platformContext);
+    const sourceOfHireAnswer = resolveSourceOfHireAnswer(
+        normalizedField,
+        platformContext,
+    );
 
     if (isMeaningfulAnswer(sourceOfHireAnswer)) {
-        return normalizeHeuristicAnswerForField(sourceOfHireAnswer, normalizedField);
+        return normalizeHeuristicAnswerForField(
+            sourceOfHireAnswer,
+            normalizedField,
+        );
     }
 
-    const identityAnswer = resolveIdentityProfileAnswer(normalizedField, profileData);
+    const identityAnswer = resolveIdentityProfileAnswer(
+        normalizedField,
+        profileData,
+    );
     const salaryLabel = label;
 
     if (
-        isMeaningfulAnswer(identityAnswer)
-        && shouldUseProfileSalaryAnswer(identityAnswer, salaryLabel)
+        isMeaningfulAnswer(identityAnswer) &&
+        shouldUseProfileSalaryAnswer(identityAnswer, salaryLabel)
     ) {
-        return normalizeHeuristicAnswerForField(identityAnswer, normalizedField);
+        return normalizeHeuristicAnswerForField(
+            identityAnswer,
+            normalizedField,
+        );
     }
 
     const preferenceAnswer = resolvePreferenceProfileAnswer(
@@ -450,10 +394,13 @@ export function resolveHeuristicScreenerAnswer(
     );
 
     if (
-        isMeaningfulAnswer(preferenceAnswer)
-        && shouldUseProfileSalaryAnswer(preferenceAnswer, salaryLabel)
+        isMeaningfulAnswer(preferenceAnswer) &&
+        shouldUseProfileSalaryAnswer(preferenceAnswer, salaryLabel)
     ) {
-        return normalizeHeuristicAnswerForField(preferenceAnswer, normalizedField);
+        return normalizeHeuristicAnswerForField(
+            preferenceAnswer,
+            normalizedField,
+        );
     }
 
     const mapping = resolveProfileMappingForLabel(
@@ -466,10 +413,13 @@ export function resolveHeuristicScreenerAnswer(
         const profileValue = readProfileValue(profileData, mapping.path);
 
         if (
-            isMeaningfulAnswer(profileValue)
-            && shouldUseProfileSalaryAnswer(profileValue, salaryLabel)
+            isMeaningfulAnswer(profileValue) &&
+            shouldUseProfileSalaryAnswer(profileValue, salaryLabel)
         ) {
-            return normalizeHeuristicAnswerForField(profileValue, normalizedField);
+            return normalizeHeuristicAnswerForField(
+                profileValue,
+                normalizedField,
+            );
         }
     }
 
@@ -480,8 +430,8 @@ export function resolveHeuristicScreenerAnswer(
     );
 
     if (
-        isMeaningfulAnswer(savedAnswer)
-        && shouldUseProfileSalaryAnswer(savedAnswer, salaryLabel)
+        isMeaningfulAnswer(savedAnswer) &&
+        shouldUseProfileSalaryAnswer(savedAnswer, salaryLabel)
     ) {
         return normalizeHeuristicAnswerForField(savedAnswer, normalizedField);
     }
@@ -498,14 +448,23 @@ export function resolveHeuristicScreenerAnswer(
         return null;
     }
 
-    const speakLanguageAnswer = resolveSpeakLanguageFromProfile(normalizedField, profileData);
+    const speakLanguageAnswer = resolveSpeakLanguageFromProfile(
+        normalizedField,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(speakLanguageAnswer)) {
-        return normalizeHeuristicAnswerForField(speakLanguageAnswer, normalizedField);
+        return normalizeHeuristicAnswerForField(
+            speakLanguageAnswer,
+            normalizedField,
+        );
     }
 
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
-        const noticeAnswer = resolveNoticePeriodFromSettings(settings, normalizedField);
+        const noticeAnswer = resolveNoticePeriodFromSettings(
+            settings,
+            normalizedField,
+        );
 
         if (!isMeaningfulAnswer(noticeAnswer)) {
             return null;
@@ -525,8 +484,8 @@ export function resolveHeuristicScreenerAnswer(
     }
 
     if (
-        isGenericTotalExperienceQuestionLabel(label)
-        && isNumericExperienceField(fieldType, domId, label)
+        isGenericTotalExperienceQuestionLabel(label) &&
+        isNumericExperienceField(fieldType, domId, label)
     ) {
         const totalYears = resolveGenericTotalExperienceFromSettings(settings);
 
@@ -555,6 +514,7 @@ export function partitionScreenerHeuristicFields(
     void questionMemo;
     const screenerAnswers = [];
     const remainingFields = [];
+    const pendingFields = [];
 
     for (const field of fields || []) {
         if (isJobSpecificMemoField(field)) {
@@ -578,12 +538,34 @@ export function partitionScreenerHeuristicFields(
                 dom: field.dom || null,
                 answer,
             });
-        } else {
-            remainingFields.push(field);
+            continue;
         }
+
+        // Do not invent speak-language Yes/No via NanoGPT when languages are unset.
+        if (
+            isSpeakLanguageYesNoQuestion(field) &&
+            !resolveSpeakLanguageFromProfile(field, profileData)
+        ) {
+            const label = field.label || field.question || '';
+            pendingFields.push({
+                ref: field.ref,
+                label,
+                question: label,
+                field_type: field.field_type || 'radio',
+                options: field.options ?? null,
+                profile_path: 'structured_data.languages',
+                profile_label: 'Languages',
+                dashboard_tab: 'profile',
+                dashboard_anchor: '',
+                reason: 'missing_profile_data',
+            });
+            continue;
+        }
+
+        remainingFields.push(field);
     }
 
-    return { screenerAnswers, remainingFields };
+    return { screenerAnswers, remainingFields, pendingFields };
 }
 
 /**
@@ -615,8 +597,12 @@ export function resolveTestModeFallbackAnswer(
         return null;
     }
 
-    const fieldType = String(field.type || field.field_type || '').toLowerCase();
-    const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
+    const fieldType = String(
+        field.type || field.field_type || '',
+    ).toLowerCase();
+    const domId = String(
+        field?.dom?.id || field?.dom?.input_id || '',
+    ).toLowerCase();
     const settings = profileData?.application_settings || {};
     const options = Array.isArray(field.options) ? field.options : [];
     const label = field.question || field.label || '';
@@ -634,8 +620,8 @@ export function resolveTestModeFallbackAnswer(
     }
 
     if (
-        isGenericTotalExperienceQuestionLabel(label)
-        && isNumericExperienceField(fieldType, domId, label)
+        isGenericTotalExperienceQuestionLabel(label) &&
+        isNumericExperienceField(fieldType, domId, label)
     ) {
         return resolveGenericTotalExperienceFromSettings(settings) || '2';
     }
@@ -718,7 +704,8 @@ function normalizeScreenerAnswer(field, answer, profileData) {
         fieldType: field?.type || field?.field_type,
         domId: field?.dom?.id || field?.dom?.input_id || null,
         options: field?.options,
-        fallbackNoticePeriod: resolveNoticePeriodFromSettings(settings, field) || '2 weeks',
+        fallbackNoticePeriod:
+            resolveNoticePeriodFromSettings(settings, field) || '2 weeks',
     });
 
     return String(normalized ?? '').trim();
@@ -779,7 +766,11 @@ export async function tryAnswerScreenerField(tabId, field, context) {
     }
 
     if (!answer) {
-        answer = resolveTestModeFallbackAnswer(field, profileData, platformContext);
+        answer = resolveTestModeFallbackAnswer(
+            field,
+            profileData,
+            platformContext,
+        );
         source = answer ? 'fallback' : null;
     }
 

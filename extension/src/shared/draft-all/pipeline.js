@@ -9,7 +9,10 @@
  * Profile mapping and preference partitions remain in ../pending-fields.js for now.
  */
 import { partitionScreenerHeuristicFields } from '../auto-apply-screener-answer.js';
-import { compactFieldsForDraft, partitionFieldsByQuestionMemo } from '../draft-all-optimizations.js';
+import {
+    compactFieldsForDraft,
+    partitionFieldsByQuestionMemo,
+} from '../draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
     mergePendingFields,
@@ -58,46 +61,99 @@ export function buildDraftAllApplyPlan({
     platformId = null,
     pageUrl = null,
 }) {
-    const profileGapPending = buildPendingFieldsFromProfileGaps(fields, profileData);
-    let pendingFields = mergePendingFields(existingPendingFields, profileGapPending);
+    const profileGapPending = buildPendingFieldsFromProfileGaps(
+        fields,
+        profileData,
+    );
+    let pendingFields = mergePendingFields(
+        existingPendingFields,
+        profileGapPending,
+    );
     const platformContext = { platformId, pageUrl };
 
-    let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo, profileData);
+    let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(
+        fields,
+        questionMemo,
+        profileData,
+    );
 
-    const referencePartition = partitionReferenceProfileFields(remainingFields, profileData);
+    const referencePartition = partitionReferenceProfileFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = referencePartition.remainingFields;
 
-    const signaturePartition = partitionElectronicSignatureFields(remainingFields, profileData);
+    const signaturePartition = partitionElectronicSignatureFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = signaturePartition.remainingFields;
 
-    const identityPartition = partitionIdentityProfileFields(remainingFields, profileData);
+    const identityPartition = partitionIdentityProfileFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = identityPartition.remainingFields;
 
     // Empty city/postcode/street must pending early - never invent locality via NanoGPT.
-    const missingLocalityPartition = partitionMissingLocalityIdentityFields(remainingFields, profileData);
+    const missingLocalityPartition = partitionMissingLocalityIdentityFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = missingLocalityPartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, missingLocalityPartition.pendingFields);
-    const localityRescueAnswers = missingLocalityPartition.localityAnswers || [];
+    pendingFields = mergePendingFields(
+        pendingFields,
+        missingLocalityPartition.pendingFields,
+    );
+    const localityRescueAnswers =
+        missingLocalityPartition.localityAnswers || [];
 
     // Empty email/phone must pending early - never invent contact details via NanoGPT.
-    const missingContactPartition = partitionMissingContactIdentityFields(remainingFields, profileData);
+    const missingContactPartition = partitionMissingContactIdentityFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = missingContactPartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, missingContactPartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        missingContactPartition.pendingFields,
+    );
     const contactRescueAnswers = missingContactPartition.contactAnswers || [];
 
-    const cityRelocatePartition = partitionCitySpecificRelocateFields(remainingFields, profileData);
+    const cityRelocatePartition = partitionCitySpecificRelocateFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = cityRelocatePartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, cityRelocatePartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        cityRelocatePartition.pendingFields,
+    );
 
-    const onSiteCommutePartition = partitionOnSiteCommuteFields(remainingFields, profileData);
+    const onSiteCommutePartition = partitionOnSiteCommuteFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = onSiteCommutePartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, onSiteCommutePartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        onSiteCommutePartition.pendingFields,
+    );
 
-    const timezoneTrainingPartition = partitionForeignTimezoneTrainingFields(remainingFields, profileData);
+    const timezoneTrainingPartition = partitionForeignTimezoneTrainingFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = timezoneTrainingPartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, timezoneTrainingPartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        timezoneTrainingPartition.pendingFields,
+    );
 
-    const preferencePartition = partitionPreferenceProfileFields(remainingFields, profileData);
+    const preferencePartition = partitionPreferenceProfileFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = preferencePartition.remainingFields;
 
     const screenerPartition = partitionScreenerHeuristicFields(
@@ -107,34 +163,58 @@ export function buildDraftAllApplyPlan({
         platformContext,
     );
     remainingFields = screenerPartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        screenerPartition.pendingFields || [],
+    );
 
-    const agreementPartition = partitionAgreementCheckboxFields(remainingFields);
+    const agreementPartition =
+        partitionAgreementCheckboxFields(remainingFields);
     remainingFields = agreementPartition.remainingFields;
 
     const eeoPartition = partitionEeoDeclineFields(remainingFields);
     remainingFields = eeoPartition.remainingFields;
 
-    const priorEmployerPartition = partitionPriorEmployerContactFields(remainingFields, profileData);
+    const priorEmployerPartition = partitionPriorEmployerContactFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = priorEmployerPartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, priorEmployerPartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        priorEmployerPartition.pendingFields,
+    );
 
-    const marketingConsentPartition = partitionMarketingConsentFields(remainingFields);
+    const marketingConsentPartition =
+        partitionMarketingConsentFields(remainingFields);
     remainingFields = marketingConsentPartition.remainingFields;
 
-    const screeningPartition = partitionScreeningTrapFields(remainingFields, profileData);
+    const screeningPartition = partitionScreeningTrapFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = screeningPartition.remainingFields;
-    pendingFields = mergePendingFields(pendingFields, screeningPartition.pendingFields);
+    pendingFields = mergePendingFields(
+        pendingFields,
+        screeningPartition.pendingFields,
+    );
 
     const applyStages = [];
 
     if (memoAnswers.length > 0) {
-        applyStages.push({ type: 'memo', answers: tagAnswersWithSource(memoAnswers, 'memo') });
+        applyStages.push({
+            type: 'memo',
+            answers: tagAnswersWithSource(memoAnswers, 'memo'),
+        });
     }
 
     if (referencePartition.referenceAnswers.length > 0) {
         applyStages.push({
             type: 'reference',
-            answers: tagAnswersWithSource(referencePartition.referenceAnswers, 'identity'),
+            answers: tagAnswersWithSource(
+                referencePartition.referenceAnswers,
+                'identity',
+            ),
         });
     }
 
@@ -154,28 +234,40 @@ export function buildDraftAllApplyPlan({
     if (signaturePartition.signatureAnswers.length > 0) {
         applyStages.push({
             type: 'signature',
-            answers: tagAnswersWithSource(signaturePartition.signatureAnswers, 'identity'),
+            answers: tagAnswersWithSource(
+                signaturePartition.signatureAnswers,
+                'identity',
+            ),
         });
     }
 
     if (preferencePartition.preferenceAnswers.length > 0) {
         applyStages.push({
             type: 'preference',
-            answers: tagAnswersWithSource(preferencePartition.preferenceAnswers, 'screener'),
+            answers: tagAnswersWithSource(
+                preferencePartition.preferenceAnswers,
+                'screener',
+            ),
         });
     }
 
     if (screenerPartition.screenerAnswers.length > 0) {
         applyStages.push({
             type: 'screener',
-            answers: tagAnswersWithSource(screenerPartition.screenerAnswers, 'screener'),
+            answers: tagAnswersWithSource(
+                screenerPartition.screenerAnswers,
+                'screener',
+            ),
         });
     }
 
     if (agreementPartition.agreementAnswers.length > 0) {
         applyStages.push({
             type: 'agreement',
-            answers: tagAnswersWithSource(agreementPartition.agreementAnswers, 'screener'),
+            answers: tagAnswersWithSource(
+                agreementPartition.agreementAnswers,
+                'screener',
+            ),
         });
     }
 
@@ -189,14 +281,20 @@ export function buildDraftAllApplyPlan({
     if (marketingConsentPartition.marketingConsentAnswers.length > 0) {
         applyStages.push({
             type: 'marketing_consent',
-            answers: tagAnswersWithSource(marketingConsentPartition.marketingConsentAnswers, 'screener'),
+            answers: tagAnswersWithSource(
+                marketingConsentPartition.marketingConsentAnswers,
+                'screener',
+            ),
         });
     }
 
     return {
         pendingFields,
         applyStages,
-        llmFields: remainingFields.length > 0 ? compactFieldsForDraft(remainingFields) : [],
+        llmFields:
+            remainingFields.length > 0
+                ? compactFieldsForDraft(remainingFields)
+                : [],
         remainingFieldCount: remainingFields.length,
         memoAnswerCount: memoAnswers.length,
         skipsLlm: remainingFields.length === 0,
@@ -210,6 +308,10 @@ export function buildDraftAllApplyPlan({
  * @param {Map<string, object>} fieldsByRef
  * @param {object|null} profileData
  */
-export function partitionDraftAllBatchAnswers(answers, fieldsByRef, profileData) {
+export function partitionDraftAllBatchAnswers(
+    answers,
+    fieldsByRef,
+    profileData,
+) {
     return partitionBatchAnswers(answers, fieldsByRef, profileData);
 }
