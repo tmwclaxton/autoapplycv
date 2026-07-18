@@ -230,7 +230,7 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.affirm_local_commute', label: 'Commute to job location', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-commute', keywords: ['comfortable commuting', 'commuting to this job', 'commute to this job', 'willing to commute'] },
     { path: 'application_settings.affirm_local_hybrid', label: 'Hybrid work setting', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-hybrid', keywords: ['comfortable working in a hybrid', 'hybrid setting', 'work in a hybrid'] },
     { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
-    { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
+    { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license', "driver's license", 'valid driver', 'valid driving'] },
     { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
     { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
 ];
@@ -3440,6 +3440,61 @@ export function partitionMissingLocalityIdentityFields(fields, profileData) {
     }
 
     return { pendingFields, remainingFields, localityAnswers };
+}
+
+
+const CONTACT_IDENTITY_PATHS = new Set(['email', 'phone']);
+
+/**
+ * Email/phone identity fields with an empty profile value must leave-pending early.
+ * Do not send them to NanoGPT (it invents contact details).
+ */
+export function isContactIdentityField(field) {
+    const label = field?.label || field?.question || '';
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (fieldType === 'email' || fieldType === 'tel') {
+        return true;
+    }
+
+    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
+
+    return Boolean(mapping && CONTACT_IDENTITY_PATHS.has(mapping.path));
+}
+
+export function partitionMissingContactIdentityFields(fields, profileData) {
+    const pendingFields = [];
+    const remainingFields = [];
+    const contactAnswers = [];
+
+    for (const field of fields || []) {
+        if (!isContactIdentityField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const answer = resolveIdentityProfileAnswer(field, profileData);
+
+        if (isMeaningfulAnswer(answer) && !shouldRejectPhoneAnswerOnField(field, answer)) {
+            contactAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer,
+            });
+            continue;
+        }
+
+        pendingFields.push(createPendingField(
+            field,
+            resolvePendingProfileMapping(field, profileData),
+            'missing_profile_data',
+        ));
+    }
+
+    return { pendingFields, remainingFields, contactAnswers };
 }
 
 function identityPhoneApplyRank(answer) {

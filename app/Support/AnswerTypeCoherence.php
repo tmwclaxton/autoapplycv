@@ -100,6 +100,22 @@ class AnswerTypeCoherence
             return true;
         }
 
+        if ($category === 'email' && self::looksLikePhone($trimmed) && ! self::looksLikeEmail($trimmed)) {
+            return true;
+        }
+
+        if ($category === 'phone' && self::looksLikeEmail($trimmed)) {
+            return true;
+        }
+
+        if ($category === 'locality' && (
+            self::looksLikeEmail($trimmed)
+            || self::looksLikePhone($trimmed)
+            || self::looksLikeSalaryAmount($trimmed)
+        )) {
+            return true;
+        }
+
         if ($category === 'locality' && self::profileCityEmpty($profile)) {
             return true;
         }
@@ -149,7 +165,7 @@ class AnswerTypeCoherence
             return 'notice';
         }
 
-        if (preg_match('/\b(?:expected salary|salary expectation|desired salary|compensation|pay rate|base salary)\b/', $label) === 1
+        if (preg_match('/\b(?:expected salary|salary expectation|desired salary|current salary|last salary|compensation|pay rate|base salary|hourly rate|total package|remuneration|ctc)\b/', $label) === 1
             || (preg_match('/\bsalary\b/', $label) === 1 && ! preg_match('/\bnotice\b/', $label))) {
             return 'salary';
         }
@@ -205,5 +221,17 @@ class AnswerTypeCoherence
         $location = trim((string) ($profile->location ?? ''));
 
         return $city === '' && $location === '';
+    }
+
+    private static function looksLikeEmail(string $answer): bool
+    {
+        return (bool) preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $answer);
+    }
+
+    private static function looksLikePhone(string $answer): bool
+    {
+        $compact = preg_replace('/\s+/', '', $answer) ?? '';
+
+        return (bool) preg_match('/^\+?\d{10,15}$/', $compact);
     }
 }

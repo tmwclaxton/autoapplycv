@@ -59,7 +59,7 @@ class ProfileFieldRegistry
             'application_settings.visa_sponsorship' => self::field('Visa sponsorship', 'preferences', 'field-visa-sponsorship', 'application_settings.visa_sponsorship', 'settings', ['visa sponsorship', 'visa']),
             'application_settings.legally_authorized' => self::field('Legally authorized to work', 'preferences', 'field-legally-authorized', 'application_settings.legally_authorized', 'settings', ['legally authorized', 'work authorization', 'right to work']),
             'application_settings.willing_to_relocate' => self::field('Willing to relocate', 'preferences', 'field-willing-to-relocate', 'application_settings.willing_to_relocate', 'settings', ['willing to relocate', 'relocate']),
-            'application_settings.drivers_license' => self::field('Driving licence', 'preferences', 'field-drivers-license', 'application_settings.drivers_license', 'settings', ['drivers license', 'driving licence', 'driving license']),
+            'application_settings.drivers_license' => self::field('Driving licence', 'preferences', 'field-drivers-license', 'application_settings.drivers_license', 'settings', ['drivers license', 'driving licence', 'driving license', "driver's license", 'valid driver', 'valid driving']),
             'application_settings.notice_period' => self::field('Notice period', 'preferences', 'field-notice-period', 'application_settings.notice_period', 'settings', ['notice period']),
             'application_settings.job_preferences' => self::field('Job preferences', 'preferences', 'field-job-preferences', 'application_settings.job_preferences', 'settings', ['job preferences', 'job preference']),
         ];

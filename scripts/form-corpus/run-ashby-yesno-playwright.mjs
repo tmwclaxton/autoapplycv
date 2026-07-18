@@ -50,11 +50,26 @@ function mountReactLikeAshbyYesNoHtml() {
     const checkbox = container.querySelector('input[type="checkbox"]');
     let selected = null;
 
+    // Match live Ashby: answered Yes/No keeps checkbox.checked=true and value="Yes"|"No".
     Object.defineProperty(checkbox, 'checked', {
       configurable: true,
-      get() { return selected === 'Yes'; },
+      get() { return selected !== null; },
       set(value) {
         if (!value) {
+          selected = null;
+        }
+      },
+    });
+    Object.defineProperty(checkbox, 'value', {
+      configurable: true,
+      get() { return selected || ''; },
+      set(value) {
+        const text = String(value || '').trim();
+        if (/^yes$/i.test(text)) {
+          selected = 'Yes';
+        } else if (/^no$/i.test(text)) {
+          selected = 'No';
+        } else if (!text) {
           selected = null;
         }
       },
@@ -252,7 +267,7 @@ export async function runAshbyYesNoSmoke({ live = false } = {}) {
                 && reactLike.yes.selection === 'Yes'
                 && reactLike.yes.checkboxChecked === true
                 && reactLike.no.selection === 'No'
-                && reactLike.no.checkboxChecked === false
+                && reactLike.no.checkboxChecked === true
                 && fixture.failures.length === 0,
         };
     } finally {

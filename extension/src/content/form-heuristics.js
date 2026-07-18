@@ -1781,7 +1781,20 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const checkbox = container.querySelector('input[type="checkbox"]');
 
+        // Live Ashby stores the choice on checkbox.value ("Yes"/"No") with checked=true.
         if (checkbox?.checked) {
+            const value = String(checkbox.value || '').trim();
+
+            if (/^(yes|no)$/i.test(value)) {
+                const matchingButton = Array.from(container.querySelectorAll('button')).find((button) => {
+                    return optionMatchesAnswer(button.textContent.replace(/\s+/g, ' ').trim(), value);
+                });
+
+                return matchingButton
+                    ? matchingButton.textContent.replace(/\s+/g, ' ').trim()
+                    : value;
+            }
+
             const yesButton = Array.from(container.querySelectorAll('button')).find((button) => {
                 return optionMatchesAnswer(button.textContent.replace(/\s+/g, ' ').trim(), 'yes');
             });
@@ -1804,25 +1817,28 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const selected = readAshbyYesNoSelectedButton(container);
 
-        if (!selected) {
-            return false;
-        }
+        if (selected) {
+            const selection = selected.textContent.replace(/\s+/g, ' ').trim();
 
-        const selection = selected.textContent.replace(/\s+/g, ' ').trim();
-
-        if (!optionMatchesAnswer(selection, booleanAnswer)) {
-            return false;
+            // Trust the visible Yes/No button state. Live Ashby keeps the hidden
+            // checkbox checked=true for both Yes and No (value carries the choice).
+            return optionMatchesAnswer(selection, booleanAnswer);
         }
 
         const checkbox = container.querySelector('input[type="checkbox"]');
 
-        if (!checkbox) {
+        if (!checkbox?.checked) {
+            return false;
+        }
+
+        const value = String(checkbox.value || '').trim();
+
+        if (value && optionMatchesAnswer(value, booleanAnswer)) {
             return true;
         }
 
-        const expectsYes = optionMatchesAnswer(booleanAnswer, 'yes');
-
-        return expectsYes ? checkbox.checked : !checkbox.checked;
+        // Legacy mocks only flip checked for Yes with an empty value.
+        return optionMatchesAnswer(booleanAnswer, 'yes') && value === '';
     }
 
     function readAshbyYesNoValueForInput(input) {
@@ -2888,8 +2904,18 @@ var AutoCVApplyFormHeuristics = (() => {
         const checkbox = container.querySelector('input[type="checkbox"]');
 
         if (checkbox) {
-            const expectsYes = optionMatchesAnswer(booleanAnswer, 'yes');
-            setNativeChecked(checkbox, expectsYes);
+            // Live Ashby: checked=true for any answered Yes/No; value holds "Yes"/"No".
+            const optionLabel = targetButton.textContent.replace(/\s+/g, ' ').trim();
+            setNativeValue(checkbox, optionLabel);
+            setNativeChecked(checkbox, true);
+            targetButton.classList.add('_active_1svni_57');
+
+            for (const candidate of buttons) {
+                if (candidate !== targetButton) {
+                    candidate.classList.remove('_active_1svni_57');
+                }
+            }
+
             checkbox.dispatchEvent(new Event('input', { bubbles: true }));
             checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
@@ -2934,7 +2960,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 });
 
                 clickStrategies[attempt](button);
-                await sleep(attempt === 0 ? 80 : 120);
+                await sleep(attempt === 0 ? 120 : 180);
 
                 if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
                     const container = queryAshbyYesNoContainer(scope);

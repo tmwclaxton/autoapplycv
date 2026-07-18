@@ -19,6 +19,7 @@ import {
     partitionForeignTimezoneTrainingFields,
     partitionEeoDeclineFields,
     partitionIdentityProfileFields,
+    partitionMissingContactIdentityFields,
     partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
     partitionPriorEmployerContactFields,
@@ -78,6 +79,12 @@ export function buildDraftAllApplyPlan({
     pendingFields = mergePendingFields(pendingFields, missingLocalityPartition.pendingFields);
     const localityRescueAnswers = missingLocalityPartition.localityAnswers || [];
 
+    // Empty email/phone must pending early - never invent contact details via NanoGPT.
+    const missingContactPartition = partitionMissingContactIdentityFields(remainingFields, profileData);
+    remainingFields = missingContactPartition.remainingFields;
+    pendingFields = mergePendingFields(pendingFields, missingContactPartition.pendingFields);
+    const contactRescueAnswers = missingContactPartition.contactAnswers || [];
+
     const cityRelocatePartition = partitionCitySpecificRelocateFields(remainingFields, profileData);
     remainingFields = cityRelocatePartition.remainingFields;
     pendingFields = mergePendingFields(pendingFields, cityRelocatePartition.pendingFields);
@@ -134,6 +141,7 @@ export function buildDraftAllApplyPlan({
     const identityAnswers = [
         ...identityPartition.identityAnswers,
         ...localityRescueAnswers,
+        ...contactRescueAnswers,
     ];
 
     if (identityAnswers.length > 0) {

@@ -85,4 +85,27 @@ class AnswerTypeCoherenceTest extends TestCase
 
         $this->assertSame('High Wycombe', $enforced[0]['answer']);
     }
+
+    public function test_rejects_contact_and_salary_bleed_on_locality(): void
+    {
+        $profile = new CvProfile(['city' => 'High Wycombe']);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'City, county', 'field_type' => 'text'],
+            'tmwclaxton@gmail.com',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Email address', 'field_type' => 'email'],
+            '+447700900123',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'What is your current salary?', 'field_type' => 'text'],
+            '2 weeks',
+        ));
+    }
 }

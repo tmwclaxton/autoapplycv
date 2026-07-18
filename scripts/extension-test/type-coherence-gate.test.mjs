@@ -207,3 +207,28 @@ test('identity stage answers are tagged with source', () => {
     assert.ok(identity);
     assert.ok(identity.answers.every((answer) => answer.source === 'identity'));
 });
+
+test('empty profile phone/email pending early and not sent to LLM', () => {
+    const phone = { ref: 'ph', label: 'Phone number', field_type: 'tel' };
+    const email = { ref: 'em', label: 'Email address', field_type: 'email' };
+    const emptyContactProfile = {
+        profile: {
+            full_name: { first: 'Toby', last: 'Claxton' },
+            city: 'High Wycombe',
+            email: '',
+            phone: '',
+        },
+    };
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [phone, email, { ref: 'why', label: 'Why this role?', field_type: 'textarea' }],
+        profileData: emptyContactProfile,
+        questionMemo: {},
+    });
+
+    assert.equal(plan.llmFields.some((item) => item.ref === 'ph' || item.ref === 'em'), false);
+    assert.equal(plan.pendingFields.some((item) => item.ref === 'ph'), true);
+    assert.equal(plan.pendingFields.some((item) => item.ref === 'em'), true);
+    assert.equal(plan.llmFields.some((item) => item.ref === 'why'), true);
+});
+
