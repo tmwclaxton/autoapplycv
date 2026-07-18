@@ -2173,6 +2173,25 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
             cachedProfile.subscription = inventory.subscription;
         }
 
+        // Overnight Auto Apply must not stall on Assist pauses when NanoGPT
+        // inventory briefly returns 502 - use the mechanical snapshot instead.
+        const mechanicalFallback = buildMechanicalInventoryFields(initialCollect.snapshot);
+        const fallbackFields = inventoryFieldsToDraftShape(mechanicalFallback);
+
+        if (fallbackFields.length > 0) {
+            logWarn('background', 'inventory.mechanical-fallback', 'LLM inventory failed; using mechanical fields', {
+                message: inventory.message,
+                fieldCount: fallbackFields.length,
+            }, tabId);
+
+            return {
+                fields: fallbackFields,
+                job,
+                formFrameId,
+                inventorySource: 'mechanical-fallback',
+            };
+        }
+
         return { error: inventory.message || 'Field inventory failed.' };
     }
 
