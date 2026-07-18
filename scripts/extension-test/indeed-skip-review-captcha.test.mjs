@@ -16,7 +16,7 @@ const source = readFileSync(
 
 const processIndeedStart = source.indexOf('async function processIndeedJob');
 assert.ok(processIndeedStart > 0, 'processIndeedJob must exist');
-const processIndeedEnd = source.indexOf('async function processTotaljobsJob', processIndeedStart);
+const processIndeedEnd = source.indexOf('async function processTotalJobsJob', processIndeedStart);
 const processIndeed = source.slice(
     processIndeedStart,
     processIndeedEnd > processIndeedStart ? processIndeedEnd : processIndeedStart + 80_000,
