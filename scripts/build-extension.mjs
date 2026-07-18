@@ -726,9 +726,12 @@ function applyFirefoxManifest(manifest) {
         type: 'module',
     };
     // Firefox uses sidebar_action; Chrome's side_panel / sidePanel are unsupported.
+    // Toolbar action click is wired in background via sidebarAction.open().
+    const actionIcons = manifest.action?.default_icon ?? manifest.icons;
     manifest.sidebar_action = {
         default_panel: 'sidepanel.html',
         default_title: 'AutoCVApply',
+        default_icon: actionIcons,
     };
     delete manifest.side_panel;
     // Firefox does not implement externally_connectable for web pages.

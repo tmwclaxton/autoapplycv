@@ -2717,6 +2717,8 @@ async function openAssistSidePanelForCaptcha(tabId) {
                 tabId,
                 windowId: tab.windowId,
             });
+        } else if (chrome.sidebarAction?.open) {
+            await chrome.sidebarAction.open();
         }
     } catch {
         // Side panel may already be open or the API may reject without a gesture.

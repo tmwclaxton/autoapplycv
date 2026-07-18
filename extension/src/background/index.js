@@ -350,8 +350,16 @@ async function downloadProfileDocument(documentId) {
     return payload;
 }
 
+function supportsChromeSidePanel() {
+    return Boolean(chrome.sidePanel?.setPanelBehavior);
+}
+
+function supportsFirefoxSidebarAction() {
+    return Boolean(chrome.sidebarAction?.open);
+}
+
 function configureSidePanel() {
-    if (!chrome.sidePanel?.setPanelBehavior) {
+    if (!supportsChromeSidePanel()) {
         return;
     }
 
@@ -366,6 +374,13 @@ function configureSidePanel() {
 
     chrome.sidePanel.onClosed?.addListener(() => {
         markSidePanelClosed().catch(() => {});
+    });
+}
+
+// Firefox: no sidePanel / openPanelOnActionClick - open sidebar_action on toolbar click.
+if (supportsFirefoxSidebarAction() && chrome.action?.onClicked) {
+    chrome.action.onClicked.addListener(() => {
+        chrome.sidebarAction.open().catch(() => {});
     });
 }
 
@@ -1131,16 +1146,19 @@ async function openSidePanelForTab(tabId) {
         throw new Error('Open a job application tab first.');
     }
 
-    if (!chrome.sidePanel?.open) {
-        throw new Error('Side panel API is not available in this browser.');
-    }
-
     const tab = await chrome.tabs.get(tabId);
 
-    await chrome.sidePanel.open({
-        tabId,
-        windowId: tab.windowId,
-    });
+    if (chrome.sidePanel?.open) {
+        await chrome.sidePanel.open({
+            tabId,
+            windowId: tab.windowId,
+        });
+    } else if (supportsFirefoxSidebarAction()) {
+        // Requires a user gesture (e.g. toolbar click). Programmatic callers may fail.
+        await chrome.sidebarAction.open();
+    } else {
+        throw new Error('Side panel API is not available in this browser.');
+    }
 
     await rememberSidePanelHostTab({
         tabId,

@@ -34,6 +34,9 @@ class ExtensionBuildTest extends TestCase
         $this->assertSame('module', $firefoxManifest['background']['type'] ?? null);
         $this->assertArrayNotHasKey('service_worker', $firefoxManifest['background'] ?? []);
         $this->assertSame('sidepanel.html', $firefoxManifest['sidebar_action']['default_panel'] ?? null);
+        $this->assertSame('AutoCVApply', $firefoxManifest['sidebar_action']['default_title'] ?? null);
+        $this->assertSame('icons/icon32.png', $firefoxManifest['sidebar_action']['default_icon']['32'] ?? null);
+        $this->assertSame('icons/icon32.png', $firefoxManifest['action']['default_icon']['32'] ?? null);
         $this->assertArrayNotHasKey('side_panel', $firefoxManifest);
         $this->assertArrayNotHasKey('externally_connectable', $firefoxManifest);
         $this->assertNotContains('windows', $firefoxManifest['permissions'] ?? []);
