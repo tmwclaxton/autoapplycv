@@ -50,6 +50,7 @@ import {
     resumeAutoApplyFromInput,
     saveAutoApplySession,
 } from './auto-apply-session.js';
+import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
 import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import {
     clearActiveAutoApplyTiming,
@@ -1001,11 +1002,14 @@ function sanitizeSessionForBroadcast(session) {
     };
 }
 
+/** Default write owner for in-file Indeed/LinkedIn loops (platform runners pass explicit runIds). */
+let sessionWriteOwnerRunId = undefined;
+
 /**
  * @param {((current: import('./auto-apply-session.js').AutoApplySession) => import('./auto-apply-session.js').AutoApplySession)|object} mutator
  * @param {string|null|undefined} [ownerRunId] When set, refuse writes if storage belongs to another run.
  */
-async function updateSession(mutator, ownerRunId = undefined) {
+async function updateSession(mutator, ownerRunId = sessionWriteOwnerRunId) {
     const current = await loadAutoApplySession();
 
     if (!current) {
@@ -1052,7 +1056,7 @@ async function updateSession(mutator, ownerRunId = undefined) {
  * @param {string} message
  * @param {string|null|undefined} [ownerRunId]
  */
-async function logSession(level, message, ownerRunId = undefined) {
+async function logSession(level, message, ownerRunId = sessionWriteOwnerRunId) {
     return updateSession(
         (session) => appendAutoApplyLog(session, level, message),
         ownerRunId,
@@ -8792,10 +8796,27 @@ async function runIndeedAutoApplyLoop(
     runDraftAll,
     profileData = null,
 ) {
+    const previousWriteOwner = sessionWriteOwnerRunId;
+    sessionWriteOwnerRunId = initialSession.runId;
+    const { ownsLatest, shouldStop: shouldStopOwned } = bindAutoApplyRunOwnership(
+        initialSession,
+        {
+            loadAutoApplySession,
+            updateSession,
+            logSession,
+            shouldStop,
+        },
+    );
+
+    try {
     resetWatchdog();
 
     let session = initialSession;
     let tabId = await ensureIndeedTab(session);
+
+    if (await shouldStopOwned(session)) {
+        return;
+    }
 
     session = (await updateSession({ tabId })) || session;
     markWatchdogProgress(session);
@@ -8838,7 +8859,7 @@ async function runIndeedAutoApplyLoop(
     ) {
         session = await loadAutoApplySession();
 
-        if (!session) {
+        if (!ownsLatest(session)) {
             return;
         }
 
@@ -9048,6 +9069,10 @@ async function runIndeedAutoApplyLoop(
 
     session = await loadAutoApplySession();
 
+    if (!ownsLatest(session)) {
+        return;
+    }
+
     session =
         (await updateSession((current) => ({
             ...current,
@@ -9063,6 +9088,9 @@ async function runIndeedAutoApplyLoop(
     if (session) {
         await finalizeAutoApplyAnalyticsSession(session);
     }
+    } finally {
+        sessionWriteOwnerRunId = previousWriteOwner;
+    }
 }
 
 async function runAutoApplyLoop(
@@ -9070,6 +9098,7 @@ async function runAutoApplyLoop(
     runDraftAll,
     profileData = null,
 ) {
+    sessionWriteOwnerRunId = initialSession.runId;
     configureAutoApplyTiming(initialSession.timingLevel);
     await persistActiveAutoApplyTiming(initialSession.timingLevel);
 
@@ -9097,7 +9126,7 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === SIMPLYHIRED_PLATFORM_ID) {
         return runSimplyHiredAutoApplyLoop(
-            buildSimplyHiredRunnerContext(session),
+            buildSimplyHiredRunnerContext(initialSession),
             initialSession,
             runDraftAll,
             profileData,
@@ -9537,7 +9566,7 @@ export async function resetAutoApplySession() {
     });
 }
 
-const FORCE_RESET_WAIT_MS = 15_000;
+const FORCE_RESET_WAIT_MS = 60_000;
 
 export async function clearAutoApplyActivityLog() {
     const session = await loadAutoApplySession();
@@ -9578,17 +9607,24 @@ export async function clearAutoApplyActivityLog() {
 }
 
 export async function forceResetAutoApply() {
+    // Invalidate in-flight writers immediately so a superseded platform cannot
+    // keep mutating the next session while we wait for the old loop to exit.
+    sessionWriteOwnerRunId = undefined;
+
     const session = await loadAutoApplySession();
 
     if (session && isActiveAutoApplyStatus(session.status)) {
-        const updated = await updateSession({
-            stopRequested: true,
-            pauseContext: null,
-            status:
-                session.status === 'paused_for_input'
-                    ? 'running'
-                    : session.status,
-        });
+        const updated = await updateSession(
+            {
+                stopRequested: true,
+                pauseContext: null,
+                status:
+                    session.status === 'paused_for_input'
+                        ? 'running'
+                        : session.status,
+            },
+            session.runId,
+        );
 
         if (updated) {
             broadcastAutoApplyStatus(updated);
