@@ -18,6 +18,12 @@ export function isMarketingOrFutureConsentField(field) {
         return false;
     }
 
+    // Source-of-hire selects often sit near consent copy; never treat them as opt-ins.
+    // Keep this inline to avoid a circular import with pending-fields.js.
+    if (/\b(?:where|how)\s+did\s+you\s+(?:hear|learn|find|see)\b/i.test(label)) {
+        return false;
+    }
+
     return /\b(sms|text messages?|newsletter|(?:email )?marketing(?: communications?| emails?| messages?| consent| material| opt[- ]?in)|promotional emails?|future job opportunities|contact me about|future recruitment|store (?:my|your) data|would like\b.*\bstore\b.*\b(?:contact|future|data)|(?:\d+|twelve|six|three)\s*months?\b.*\b(?:contact|future|opportunit|store)|keep (?:my|your) (?:data|details|information)|talent (?:pool|community)|future contact|przyszł(?:ych|ym|e)\b.*rekrut)/i.test(text);
 }
 
@@ -99,10 +105,8 @@ export function resolveMarketingConsentAnswer(field) {
         return '';
     }
 
-    if (fieldType === 'select' || fieldType === 'radio' || field?.dom?.role === 'combobox') {
-        return 'No';
-    }
-
+    // Do not emit bare No onto non-Yes/No selects (combobox first-option fallback
+    // would invent University Career Page / nationality answers).
     return '';
 }
 

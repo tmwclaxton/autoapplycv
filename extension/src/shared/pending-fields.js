@@ -2813,6 +2813,15 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
+    // Nationality / visa-status dropdowns are not Yes/No legally-authorized radios.
+    if (
+        mapping &&
+        mapping.path === 'application_settings.legally_authorized' &&
+        !fieldHasYesNoOptions(field)
+    ) {
+        return true;
+    }
+
     if (
         mapping?.path === 'application_settings.years_of_experience' &&
         isSkillSpecificYearsExperienceQuestionLabel(label)
@@ -2949,7 +2958,7 @@ function pickWorkAuthStatusOption(field, authorized) {
               .filter(Boolean)
         : [];
 
-    if (options.length < 3) {
+    if (options.length < 2) {
         return '';
     }
 
@@ -3021,12 +3030,9 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
         return statusOption;
     }
 
-    // Multi-option status lists without a safe match must not emit bare Yes/No.
-    if (Array.isArray(field?.options) && field.options.length >= 3) {
-        return '';
-    }
-
-    return yesNoAnswer;
+    // Status / nationality selects must never receive bare Yes/No (combobox
+    // first-option fallback would invent "I am a Polish national", etc.).
+    return '';
 }
 
 function resolveCountrySpecificWorkAuthAnswer(field, profileData) {
@@ -4830,6 +4836,17 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
     }
 
+    // Bare Yes/No from legally_authorized must not fill status/nationality selects.
+    if (
+        mapping.path === 'application_settings.legally_authorized' &&
+        !fieldHasYesNoOptions(field)
+    ) {
+        const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
+        const statusOption = pickWorkAuthStatusOption(field, authorized);
+
+        return statusOption || '';
+    }
+
     const normalized = isStructuredSalaryFormatPrompt(label)
         ? formatStructuredSalaryAnswer(label, raw, profileData)
         : raw;
@@ -5134,9 +5151,28 @@ export function partitionScreeningTrapFields(fields, profileData) {
     return { pendingFields, remainingFields };
 }
 
+function shouldLeaveWorkAuthStatusPending(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isWorkAuthorizationQuestionLabel(label)) {
+        return false;
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return false;
+    }
+
+    const options = Array.isArray(field?.options)
+        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        : [];
+
+    return options.length >= 2;
+}
+
 export function partitionPreferenceProfileFields(fields, profileData) {
     const preferenceAnswers = [];
     const remainingFields = [];
+    const pendingFields = [];
 
     for (const field of fields || []) {
         const answer = resolvePreferenceProfileAnswer(field, profileData);
@@ -5153,12 +5189,25 @@ export function partitionPreferenceProfileFields(fields, profileData) {
                 dom: field.dom || null,
                 answer,
             });
-        } else {
-            remainingFields.push(field);
+            continue;
         }
+
+        if (shouldLeaveWorkAuthStatusPending(field)) {
+            const pending = createPendingField(
+                field,
+                profileMappingByPath('application_settings.legally_authorized'),
+                'missing_profile_data',
+            );
+            pending.pending_hint =
+                'None of the listed work-authorization options match your profile. Choose the closest option for this employer.';
+            pendingFields.push(pending);
+            continue;
+        }
+
+        remainingFields.push(field);
     }
 
-    return { preferenceAnswers, remainingFields };
+    return { preferenceAnswers, remainingFields, pendingFields };
 }
 
 export function partitionBatchAnswers(answers, fieldsByRef, profileData) {

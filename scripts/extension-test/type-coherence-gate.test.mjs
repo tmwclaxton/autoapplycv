@@ -77,6 +77,21 @@ test('classifyFieldExpectation covers locality phone email salary notice', () =>
     );
 });
 
+test('rejects bare Yes/No on non-Yes/No choice selects', () => {
+    const field = {
+        label: 'Please specify your current legal work authorization status.',
+        field_type: 'select',
+        options: [
+            'I am a Polish national',
+            'I hold a valid Polish work permit or visa',
+        ],
+    };
+    const result = evaluateAnswerTypeCoherence(field, 'yes');
+    assert.equal(result.rejected, true);
+    assert.equal(result.reason, 'yes_no_on_choice');
+    assert.equal(shouldRejectAnswerForTypeCoherence(field, 'No'), true);
+});
+
 test('rejects Yes/No on free-text locality phone email date number', () => {
     const cases = [
         [

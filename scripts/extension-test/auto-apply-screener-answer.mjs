@@ -476,6 +476,42 @@ assert.equal(
 );
 
 assert.equal(
+    resolveSourceOfHireAnswer(
+        {
+            label: 'How did you learn about our early careers programme?',
+            field_type: 'select',
+            options: [
+                'University Career Page',
+                'LinkedIn',
+                'Facebook',
+                'Instagram',
+            ],
+            dom: { role: 'combobox' },
+        },
+        { platformId: 'workable', pageUrl: 'https://apply.workable.com/booksy-1/j/B23F702280/apply' },
+    ),
+    'LinkedIn',
+    'source-of-hire prefers LinkedIn when the ATS host is not a listed discovery source',
+);
+
+assert.equal(
+    resolvePreferenceProfileAnswer(
+        {
+            label: 'please specify your current legal work authorization status.',
+            field_type: 'select',
+            options: [
+                'I am a Polish national',
+                'I hold a valid Polish work permit or visa',
+            ],
+            dom: { role: 'combobox' },
+        },
+        profileData,
+    ),
+    '',
+    'work-auth status selects must not receive bare Yes from legally_authorized',
+);
+
+assert.equal(
     resolveHeuristicScreenerAnswer(
         {
             label: 'Where did you hear about this role?',

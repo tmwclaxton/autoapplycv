@@ -114,19 +114,15 @@ export function resolveSourceOfHireAnswer(field, context = null) {
     const { platformId, platformLabel } =
         resolveSourceOfHirePlatformContext(context);
 
-    if (!platformLabel) {
-        return null;
-    }
-
     const options = filterMeaningfulChoiceOptions(field?.options);
 
     if (options.length === 0) {
-        return platformLabel;
+        return platformLabel || null;
     }
 
     const aliases = [
         ...(PLATFORM_SOURCE_OPTION_ALIASES[platformId] || []),
-        platformLabel,
+        ...(platformLabel ? [platformLabel] : []),
     ];
 
     for (const option of options) {
@@ -143,6 +139,28 @@ export function resolveSourceOfHireAnswer(field, context = null) {
         ) {
             return option;
         }
+    }
+
+    // ATS hosts (Workable/Ashby/Greenhouse) are rarely listed as discovery sources.
+    // Prefer a real option such as LinkedIn over free-text that combobox fill cannot match.
+    for (const alias of ['linkedin', 'indeed', 'glassdoor', 'referral']) {
+        const match = options.find((option) =>
+            optionMatchesSourceAlias(option, alias),
+        );
+
+        if (match) {
+            return match;
+        }
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+    const isChoice =
+        fieldType === 'select' ||
+        fieldType === 'radio' ||
+        field?.dom?.role === 'combobox';
+
+    if (isChoice || !platformLabel) {
+        return null;
     }
 
     return platformLabel;

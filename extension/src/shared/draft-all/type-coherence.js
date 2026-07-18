@@ -332,6 +332,16 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         return { coherent: true, reason: null, category, rejected: false };
     }
 
+    // Bare Yes/No on multi-option status / source selects (not Yes/No radios).
+    if (isBareYesNoAnswer(text) && category === 'choice' && !isChoiceYesNoField(field)) {
+        return {
+            coherent: false,
+            reason: 'yes_no_on_choice',
+            category,
+            rejected: true,
+        };
+    }
+
     // Bare Yes/No on free-text locality / contact / date / number / salary / notice.
     if (isBareYesNoAnswer(text) && isFreeTextField(field)) {
         if (

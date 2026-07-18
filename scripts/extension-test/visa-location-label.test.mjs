@@ -69,3 +69,32 @@ test('preference answers No for need-visa sponsorship when setting clear', () =>
     assert.equal(preferenceAnswers[0].answer, 'No');
     assert.equal(remainingFields.length, 0);
 });
+
+test('Polish work-auth status select leaves pending instead of inventing nationality', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            visa_sponsorship: 'no',
+            legally_authorized: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f14',
+        label: 'please specify your current legal work authorization status.',
+        field_type: 'select',
+        options: [
+            'I am a Polish national',
+            'I hold a valid Polish work permit or visa',
+        ],
+        dom: { role: 'combobox' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), '');
+    const { preferenceAnswers, remainingFields, pendingFields } =
+        partitionPreferenceProfileFields([field], profile);
+    assert.equal(preferenceAnswers.length, 0);
+    assert.equal(remainingFields.length, 0);
+    assert.equal(pendingFields.length, 1);
+    assert.equal(pendingFields[0].ref, 'f14');
+    assert.equal(pendingFields[0].reason, 'missing_profile_data');
+});

@@ -4227,19 +4227,24 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function stripSvgBrowserNoise(text) {
+        return String(text || '')
+            .replace(/svgs?\s+not\s+supported\s+by\s+this\s+browser\.?\s*/gi, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
     function optionElementsToLabels(optionElements, limit = 50) {
         const labels = [];
         const seen = new Set();
 
         for (const option of optionElements || []) {
-            const text = (
+            const text = stripSvgBrowserNoise(
                 option.textContent ||
-                option.getAttribute?.('aria-label') ||
-                option.value ||
-                ''
-            )
-                .replace(/\s+/g, ' ')
-                .trim();
+                    option.getAttribute?.('aria-label') ||
+                    option.value ||
+                    '',
+            );
 
             if (text.length === 0 || isInventoryPlaceholderOption(text)) {
                 continue;
@@ -5490,9 +5495,36 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (options.length > 0) {
-            const fallbackText = (options[0].textContent || '')
-                .replace(/\s+/g, ' ')
-                .trim();
+            const answerLooksYesNo = /^(yes|no)$/i.test(
+                String(stringValue || '').trim(),
+            );
+            const optionsLookYesNo = options.some((option) =>
+                /^(yes|no)$/i.test(
+                    stripSvgBrowserNoise(
+                        option.textContent ||
+                            option.getAttribute?.('aria-label') ||
+                            '',
+                    ),
+                ),
+            );
+
+            // Bare Yes/No must not invent the first nationality / source option.
+            if (answerLooksYesNo && !optionsLookYesNo) {
+                heuristicsLog(
+                    'warn',
+                    'apply.combobox',
+                    'Combobox skipped first-option fallback for unmatched Yes/No',
+                    { answerPreview: String(stringValue || '').slice(0, 32) },
+                );
+
+                return false;
+            }
+
+            const fallbackText = stripSvgBrowserNoise(
+                options[0].textContent ||
+                    options[0].getAttribute?.('aria-label') ||
+                    '',
+            );
             heuristicsLog(
                 'warn',
                 'apply.combobox',

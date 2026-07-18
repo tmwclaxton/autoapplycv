@@ -168,6 +168,10 @@ export function buildDraftAllApplyPlan({
         profileData,
     );
     remainingFields = preferencePartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        preferencePartition.pendingFields || [],
+    );
 
     const screenerPartition = partitionScreenerHeuristicFields(
         remainingFields,
