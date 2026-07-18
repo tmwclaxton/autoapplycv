@@ -1,5 +1,7 @@
 import {
+    buildAutoApplyManualResumePanelCopy,
     resolveAutoApplyPauseClarifyingQuestion,
+    resolveAutoApplyPauseComposerLockHint,
 } from './auto-apply-pause-ui.js';
 import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
 import { polishProfileUpdateActions } from './profile-value-polish.js';
@@ -71,8 +73,12 @@ export function initAssistChat({
             composerLockHintEl.textContent = reason || 'Answer in We need your help above first.';
         }
 
+        const manualCopy = locked
+            ? buildAutoApplyManualResumePanelCopy(autoApplyPauseContext)
+            : null;
+
         inputEl.placeholder = locked
-            ? ASSIST_INPUT_LOCKED_PLACEHOLDER
+            ? (manualCopy?.composerPlaceholder || ASSIST_INPUT_LOCKED_PLACEHOLDER)
             : ASSIST_INPUT_PLACEHOLDER;
 
         if (locked) {
@@ -217,10 +223,7 @@ export function initAssistChat({
             return;
         }
 
-        setComposerLocked(
-            true,
-            'Auto Apply is waiting for your answer. Use We need your help above, then Save & fill.',
-        );
+        setComposerLocked(true, resolveAutoApplyPauseComposerLockHint(pauseContext));
         notifyAutoApplyPauseChange();
     }
 

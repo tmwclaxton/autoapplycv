@@ -1,4 +1,5 @@
 import {
+    isManualResumeAutoApplyPause,
     resolveAutoApplyPauseClarifyingDisplay,
     resolveAutoApplyPendingFieldDisplayLabel,
     resolveAutoApplyPendingFieldHint,
@@ -77,6 +78,16 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         listEl.innerHTML = '';
 
         const pauseContext = getAutoApplyPauseContext();
+
+        // CAPTCHA / login / identity pauses use the dedicated Resume panel, not Save & fill.
+        if (isManualResumeAutoApplyPause(pauseContext)) {
+            sectionEl.hidden = true;
+            summaryEl.textContent = '';
+            renderClarifyingQuestion(null, false, []);
+
+            return;
+        }
+
         const hasAutoApplyPause = Boolean(pauseContext?.blockerField?.ref);
         const displayFields = buildDisplayFields(fields, pauseContext);
 

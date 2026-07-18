@@ -1,3 +1,4 @@
+import { resolveAutoApplyPauseReason } from './auto-apply-pause-ui.js';
 import { resolveCurrentQueueJobLabel } from './auto-apply-outcomes.js';
 import { describeTimingLevel } from './auto-apply-timing.js';
 
@@ -10,11 +11,17 @@ function resolvePauseNextAction(pauseContext) {
         return null;
     }
 
-    if (pauseContext.captcha) {
-        return 'CAPTCHA detected - solve in the browser, then resume in Assist.';
+    const pauseReason = resolveAutoApplyPauseReason(pauseContext);
+
+    if (pauseReason === 'captcha') {
+        return 'Solve the CAPTCHA / security check in the browser tab, then tap Resume in Assist.';
     }
 
-    if (pauseContext.identityConfirm) {
+    if (pauseReason === 'login') {
+        return 'Sign in on the job board, then tap Resume in Assist.';
+    }
+
+    if (pauseReason === 'identity_confirm') {
         return 'Confirm updating the job board contact to match your profile, then tap Resume in Assist.';
     }
 
@@ -23,6 +30,29 @@ function resolvePauseNextAction(pauseContext) {
     }
 
     return 'Answer in We need your help, then tap Save & fill to continue.';
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext} pauseContext
+ * @param {string|null} jobLabel
+ * @returns {string}
+ */
+function resolvePauseHeadline(pauseContext, jobLabel) {
+    const pauseReason = resolveAutoApplyPauseReason(pauseContext);
+
+    if (pauseReason === 'captcha') {
+        return 'CAPTCHA / security check';
+    }
+
+    if (pauseReason === 'login') {
+        return 'Sign in required';
+    }
+
+    if (pauseReason === 'identity_confirm') {
+        return 'Confirm contact update';
+    }
+
+    return `Paused on ${pauseContext.job?.title || jobLabel || 'current job'}`;
 }
 
 /**
@@ -46,10 +76,17 @@ export function buildAutoApplyInterventionSummary(session) {
         const stepHint = session.pauseContext.stepFingerprint
             ? `Step: ${session.pauseContext.stepFingerprint}`
             : null;
+        const jobHint = session.pauseContext.job?.title || jobLabel || null;
 
         return {
-            headline: `Paused on ${session.pauseContext.job?.title || jobLabel || 'current job'}`,
-            detail: [stepHint, session.pauseContext.clarifyingQuestion]
+            headline: resolvePauseHeadline(session.pauseContext, jobLabel),
+            detail: [
+                jobHint && resolveAutoApplyPauseReason(session.pauseContext) === 'captcha'
+                    ? `Job: ${jobHint}`
+                    : null,
+                stepHint,
+                session.pauseContext.clarifyingQuestion,
+            ]
                 .filter(Boolean)
                 .join(' - '),
             nextAction: resolvePauseNextAction(session.pauseContext),

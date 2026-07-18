@@ -553,8 +553,31 @@ body {
 }
 
 .shell-assist-panel:has(.pending-fields-section:not([hidden])) .assist-messages-scroll,
-.shell-assist-panel:has(.pending-fields-section:not([hidden])) .assist-composer {
+.shell-assist-panel:has(.pending-fields-section:not([hidden])) .assist-composer,
+.shell-assist-panel:has(.auto-apply-manual-resume-section:not([hidden])) .assist-messages-scroll,
+.shell-assist-panel:has(.auto-apply-manual-resume-section:not([hidden])) .assist-composer {
     display: none;
+}
+
+.auto-apply-manual-resume-section:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 12px 16px 16px;
+}
+
+.auto-apply-manual-resume-actions {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.auto-apply-manual-resume-btn {
+    width: 100%;
 }
 
 .pending-fields-header {
@@ -1382,7 +1405,11 @@ body {
 }
 
 .auto-apply-pause-message {
-    margin: 0;
+    margin: 0 0 10px;
+}
+
+.auto-apply-pause-resume-btn {
+    width: 100%;
 }
 
 .auto-apply-intervention {

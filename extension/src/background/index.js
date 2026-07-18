@@ -854,6 +854,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'AUTO_APPLY_RESUME') {
+        resumeAutoApplyFromPause()
+            .then((session) => sendResponse({
+                success: true,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                running: isAutoApplyRunning(),
+            }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
     if (message.type === 'DEBUG_LOG') {
         if (message.entry) {
             ingestDebugEntry(message.entry);
@@ -1432,6 +1444,14 @@ function sanitizeAutoApplySessionResponse(session) {
                 captcha: Boolean(session.pauseContext.captcha),
                 identityConfirm: Boolean(session.pauseContext.identityConfirm),
                 loginRequired: Boolean(session.pauseContext.loginRequired),
+                pauseReason: session.pauseContext.pauseReason
+                    || (session.pauseContext.captcha
+                        ? 'captcha'
+                        : session.pauseContext.loginRequired
+                            ? 'login'
+                            : session.pauseContext.identityConfirm
+                                ? 'identity_confirm'
+                                : null),
             }
             : null,
     };

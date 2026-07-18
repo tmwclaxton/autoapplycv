@@ -85,15 +85,150 @@ export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
 
 /**
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
+ * @returns {'captcha'|'login'|'identity_confirm'|null}
+ */
+export function resolveAutoApplyPauseReason(pauseContext) {
+    if (!pauseContext) {
+        return null;
+    }
+
+    if (
+        pauseContext.pauseReason === 'captcha'
+        || pauseContext.pauseReason === 'login'
+        || pauseContext.pauseReason === 'identity_confirm'
+    ) {
+        return pauseContext.pauseReason;
+    }
+
+    if (pauseContext.captcha) {
+        return 'captcha';
+    }
+
+    if (pauseContext.loginRequired) {
+        return 'login';
+    }
+
+    if (pauseContext.identityConfirm) {
+        return 'identity_confirm';
+    }
+
+    return null;
+}
+
+/**
+ * Pauses that need a browser action + Resume (not Save & fill on a clarifying question).
+ *
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
+ * @returns {boolean}
+ */
+export function isManualResumeAutoApplyPause(pauseContext) {
+    return resolveAutoApplyPauseReason(pauseContext) !== null;
+}
+
+/**
+ * @typedef {{
+ *   title: string,
+ *   detail: string,
+ *   summary: string,
+ *   buttonLabel: string,
+ *   composerLockHint: string,
+ *   composerPlaceholder: string,
+ *   statusLabel: string,
+ * }} AutoApplyManualResumePanelCopy
+ */
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
+ * @returns {AutoApplyManualResumePanelCopy|null}
+ */
+export function buildAutoApplyManualResumePanelCopy(pauseContext) {
+    const pauseReason = resolveAutoApplyPauseReason(pauseContext);
+
+    if (!pauseContext || !pauseReason) {
+        return null;
+    }
+
+    if (pauseReason === 'captcha') {
+        const detail = String(pauseContext.clarifyingQuestion || pauseContext.questionText || '').trim()
+            || 'Solve the CAPTCHA or security check in the browser tab, then continue Auto Apply.';
+
+        return {
+            title: 'CAPTCHA / security check',
+            detail,
+            summary: 'Auto Apply is paused until you finish the check and tap Resume.',
+            buttonLabel: 'Resume',
+            composerLockHint:
+                'Solve the CAPTCHA / security check in the browser tab, then tap Resume above.',
+            composerPlaceholder:
+                'Solve the CAPTCHA in the browser tab, then tap Resume.',
+            statusLabel: 'Paused - CAPTCHA / security check (solve in browser, then Resume)',
+        };
+    }
+
+    if (pauseReason === 'login') {
+        const detail = String(pauseContext.clarifyingQuestion || pauseContext.questionText || '').trim()
+            || 'Log in on the job board, then continue Auto Apply.';
+
+        return {
+            title: 'Sign in required',
+            detail,
+            summary: 'Auto Apply is paused until you sign in and tap Resume.',
+            buttonLabel: 'Resume',
+            composerLockHint: 'Sign in on the job board, then tap Resume above.',
+            composerPlaceholder: 'Sign in on the job board, then tap Resume.',
+            statusLabel: 'Paused - sign in on the job board, then Resume',
+        };
+    }
+
+    if (pauseReason === 'identity_confirm') {
+        const detail = String(pauseContext.clarifyingQuestion || pauseContext.questionText || '').trim()
+            || 'Confirm updating the job board contact to match your profile.';
+
+        return {
+            title: 'Confirm contact update',
+            detail,
+            summary: 'Tap Resume to update the job board contact and continue Auto Apply.',
+            buttonLabel: 'Resume',
+            composerLockHint: 'Confirm the contact update, then tap Resume above.',
+            composerPlaceholder: 'Confirm the contact update, then tap Resume.',
+            statusLabel: 'Paused - confirm contact update, then Resume',
+        };
+    }
+
+    return null;
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
+ * @returns {string}
+ */
+export function resolveAutoApplyPauseComposerLockHint(pauseContext) {
+    const manualCopy = buildAutoApplyManualResumePanelCopy(pauseContext);
+
+    if (manualCopy) {
+        return manualCopy.composerLockHint;
+    }
+
+    return 'Auto Apply is waiting for your answer. Use We need your help above, then Save & fill.';
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
  * @returns {string}
  */
 export function buildAutoApplyPauseBannerMessage(pauseContext) {
-    if (pauseContext?.captcha) {
-        return 'CAPTCHA detected - solve in the browser, then resume in Assist. Stop still works if you want to cancel this run.';
+    const pauseReason = resolveAutoApplyPauseReason(pauseContext);
+
+    if (pauseReason === 'captcha') {
+        return 'CAPTCHA / security check - solve it in the browser tab, then tap Resume in Assist. Stop still works if you want to cancel this run.';
     }
 
-    if (pauseContext?.identityConfirm) {
-        return 'Indeed contact does not match your signed-in profile. Confirm in We need your help, then tap Resume in Assist. Stop still works if you want to cancel this run.';
+    if (pauseReason === 'login') {
+        return 'Sign-in required on the job board. Log in in the browser, then tap Resume in Assist. Stop still works if you want to cancel this run.';
+    }
+
+    if (pauseReason === 'identity_confirm') {
+        return 'Indeed contact does not match your signed-in profile. Tap Resume in Assist to update the job board contact. Stop still works if you want to cancel this run.';
     }
 
     const fieldLabel = resolveAutoApplyPauseFieldLabel(pauseContext);

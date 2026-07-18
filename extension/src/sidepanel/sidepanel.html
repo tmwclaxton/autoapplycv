@@ -113,6 +113,35 @@
                                 <div id="pending-fields-list" class="pending-fields-list"></div>
                             </section>
 
+                            <section
+                                id="auto-apply-manual-resume-section"
+                                class="pending-fields-section auto-apply-manual-resume-section"
+                                hidden
+                            >
+                                <div class="pending-fields-header">
+                                    <h2 id="auto-apply-manual-resume-title" class="pending-fields-title">
+                                        CAPTCHA / security check
+                                    </h2>
+                                    <p
+                                        id="auto-apply-manual-resume-detail"
+                                        class="pending-fields-clarifying-question"
+                                    ></p>
+                                    <p
+                                        id="auto-apply-manual-resume-summary"
+                                        class="postbox-hint pending-fields-summary"
+                                    ></p>
+                                </div>
+                                <div class="auto-apply-manual-resume-actions">
+                                    <button
+                                        type="button"
+                                        class="postbox-btn auto-apply-manual-resume-btn"
+                                        id="auto-apply-manual-resume-btn"
+                                    >
+                                        Resume
+                                    </button>
+                                </div>
+                            </section>
+
                             <div id="assist-messages-scroll" class="assist-messages-scroll">
                                 <div id="assist-messages" class="assist-messages"></div>
                             </div>
@@ -288,8 +317,16 @@
                                 <p id="auto-apply-intervention-next" class="postbox-hint auto-apply-intervention-next"></p>
                             </div>
                             <div id="auto-apply-pause-banner" class="auto-apply-pause-banner postbox-panel" hidden>
-                                <strong>Paused</strong>
+                                <strong id="auto-apply-pause-banner-title">Paused</strong>
                                 <p id="auto-apply-pause-message" class="postbox-hint auto-apply-pause-message"></p>
+                                <button
+                                    type="button"
+                                    class="postbox-btn auto-apply-pause-resume-btn"
+                                    id="auto-apply-pause-resume-btn"
+                                    hidden
+                                >
+                                    Resume
+                                </button>
                             </div>
                             <div id="auto-apply-activity-toolbar" class="auto-apply-activity-toolbar" hidden>
                                 <button

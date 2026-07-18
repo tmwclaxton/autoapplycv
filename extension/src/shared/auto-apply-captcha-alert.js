@@ -9,7 +9,9 @@
  * @returns {boolean}
  */
 export function isCaptchaAutoApplyPause(pauseContext, reason = null) {
-    return Boolean(pauseContext?.captcha)
+    return pauseContext?.pauseReason === 'captcha'
+        || pauseContext?.pauseReason === 'login'
+        || Boolean(pauseContext?.captcha)
         || Boolean(pauseContext?.loginRequired)
         || reason === 'captcha'
         || reason === 'login';
@@ -30,7 +32,9 @@ export function buildCaptchaAlertKey(pauseContext) {
         pauseContext.job?.jobId || '',
         pauseContext.stepFingerprint || '',
         pauseContext.tabId || '',
-        pauseContext.loginRequired ? 'login' : 'captcha',
+        pauseContext.pauseReason === 'login' || pauseContext.loginRequired
+            ? 'login'
+            : 'captcha',
     ].join('|');
 }
 

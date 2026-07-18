@@ -13,10 +13,13 @@ import {
     resolveValidationBlockerField,
 } from '../../extension/src/shared/auto-apply-blockers.js';
 import {
+    buildAutoApplyManualResumePanelCopy,
     buildAutoApplyPauseBannerMessage,
     buildAutoApplyPauseMessageFingerprint,
     isAutoApplyPauseBlockerField,
+    isManualResumeAutoApplyPause,
     resolveAutoApplyPauseClarifyingDisplay,
+    resolveAutoApplyPauseComposerLockHint,
     resolveAutoApplyPauseComposerValue,
     resolveAutoApplyPendingFieldDisplayLabel,
     resolveAutoApplyPendingFieldHint,
@@ -318,13 +321,47 @@ assert(
 
 const captchaPauseContext = {
     captcha: true,
+    pauseReason: 'captcha',
     clarifyingQuestion: 'Solve the security check in the browser tab.',
     questionText: 'Solve the security check in the browser tab.',
 };
 
 assert(
-    buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('CAPTCHA detected'),
-    'captcha pause banner should mention CAPTCHA detected',
+    isManualResumeAutoApplyPause(captchaPauseContext),
+    'captcha pause should use manual Resume UI',
+);
+assert(
+    isManualResumeAutoApplyPause({ pauseReason: 'captcha' }),
+    'pauseReason captcha alone should use manual Resume UI',
+);
+assert(
+    buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('CAPTCHA'),
+    'captcha pause banner should mention CAPTCHA',
+);
+assert(
+    !buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('We need your help'),
+    'captcha pause banner should not point at We need your help',
+);
+assert(
+    !buildAutoApplyPauseBannerMessage(captchaPauseContext).includes('Save & fill'),
+    'captcha pause banner should not mention Save & fill',
+);
+
+const captchaPanelCopy = buildAutoApplyManualResumePanelCopy(captchaPauseContext);
+
+assert(captchaPanelCopy?.title === 'CAPTCHA / security check', 'captcha panel title');
+assert(captchaPanelCopy?.buttonLabel === 'Resume', 'captcha panel should offer Resume');
+assert(
+    !(captchaPanelCopy?.composerPlaceholder || '').includes('Save & fill'),
+    'captcha composer placeholder should not mention Save & fill',
+);
+assert(
+    resolveAutoApplyPauseComposerLockHint(captchaPauseContext).includes('CAPTCHA'),
+    'captcha composer lock should mention CAPTCHA',
+);
+assert(
+    !resolveAutoApplyPauseComposerLockHint(captchaPauseContext).includes('We need your help'),
+    'captcha composer lock should not point at We need your help',
 );
 
 const identityPauseContext = {
@@ -334,8 +371,30 @@ const identityPauseContext = {
 };
 
 assert(
+    isManualResumeAutoApplyPause(identityPauseContext),
+    'identity pause should use manual Resume UI',
+);
+assert(
     buildAutoApplyPauseBannerMessage(identityPauseContext).includes('Indeed contact'),
     'identity pause banner should mention Indeed contact confirmation',
+);
+assert(
+    buildAutoApplyManualResumePanelCopy(identityPauseContext)?.buttonLabel === 'Resume',
+    'identity pause should offer Resume',
+);
+
+assert(
+    isManualResumeAutoApplyPause({ loginRequired: true }),
+    'login pause should use manual Resume UI',
+);
+assert(
+    !isManualResumeAutoApplyPause({ blockerField: { ref: 'f-1' } }),
+    'clarifying-question pause should not use manual Resume UI',
+);
+assert(
+    resolveAutoApplyPauseComposerLockHint({ blockerField: { ref: 'f-1', label: 'Phone' } })
+        .includes('We need your help'),
+    'clarifying-question lock should still mention We need your help',
 );
 
 assert(

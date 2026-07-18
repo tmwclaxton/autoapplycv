@@ -16,6 +16,7 @@ import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
 import { triggerBrowserDownload } from './file-transfer.js';
 import { formatContentScriptUserError } from './form-frame-messaging.js';
+import { initAutoApplyManualResumePanel } from './auto-apply-manual-resume.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const CAPTCHA_ALERT_STORAGE_KEY = 'autoApplyLastCaptchaAlertKey';
@@ -48,6 +49,7 @@ let documentsPanel = null;
 let assistChat = null;
 let autoApplyPanel = null;
 let pendingFieldsPanel = null;
+let manualResumePanel = null;
 /** @type {object|null} */
 let currentAutoApplyPauseContext = null;
 let connectedApiBase = null;
@@ -841,6 +843,7 @@ chrome.runtime.onMessage.addListener((message) => {
 
         switchToTab('assist');
         assistChat?.handleAutoApplyPaused?.(message.pauseContext);
+        manualResumePanel?.renderManualResumePanel?.();
 
         if (pendingFieldsPanel?.refreshPendingFields) {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});
@@ -853,6 +856,7 @@ chrome.runtime.onMessage.addListener((message) => {
         currentAutoApplyPauseContext = null;
         switchToTab('auto-apply');
         assistChat?.clearAutoApplyPauseContext?.();
+        manualResumePanel?.renderManualResumePanel?.();
 
         if (pendingFieldsPanel?.refreshPendingFields) {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});
@@ -878,6 +882,7 @@ async function restoreAutoApplyPauseUi() {
     currentAutoApplyPauseContext = response.session.pauseContext;
     await maybePlayCaptchaAlert(response.session.pauseContext);
     assistChat?.handleAutoApplyPaused?.(response.session.pauseContext);
+    manualResumePanel?.renderManualResumePanel?.();
 
     if (pendingFieldsPanel?.refreshPendingFields) {
         await pendingFieldsPanel.refreshPendingFields().catch(() => {});
@@ -931,14 +936,23 @@ async function init() {
         });
     }
 
+    if (!manualResumePanel) {
+        manualResumePanel = initAutoApplyManualResumePanel({
+            showMessage,
+            getAutoApplyPauseContext: () => currentAutoApplyPauseContext,
+        });
+    }
+
     if (!assistChat) {
         assistChat = initAssistChat({
             showMessage,
             refreshUsage,
             buildJobPayload,
             getApiBase: () => connectedApiBase,
-            onAutoApplyPauseChange: () => {
+            onAutoApplyPauseChange: (pauseContext) => {
+                currentAutoApplyPauseContext = pauseContext || null;
                 pendingFieldsPanel?.renderPendingFields?.();
+                manualResumePanel?.renderManualResumePanel?.();
             },
         });
     }

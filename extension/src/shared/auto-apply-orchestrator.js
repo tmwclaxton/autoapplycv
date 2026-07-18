@@ -1010,6 +1010,14 @@ function sanitizeSessionForBroadcast(session) {
                   captcha: Boolean(session.pauseContext.captcha),
                   identityConfirm: Boolean(session.pauseContext.identityConfirm),
                   loginRequired: Boolean(session.pauseContext.loginRequired),
+                  pauseReason: session.pauseContext.pauseReason
+                      || (session.pauseContext.captcha
+                          ? 'captcha'
+                          : session.pauseContext.loginRequired
+                              ? 'login'
+                              : session.pauseContext.identityConfirm
+                                  ? 'identity_confirm'
+                                  : null),
               }
             : null,
     };
@@ -2788,6 +2796,7 @@ async function pauseForCaptchaReview(
         lastAttempt: null,
         validationError: null,
         captcha: true,
+        pauseReason: 'captcha',
     };
 
     const logMessage =
@@ -2836,6 +2845,7 @@ async function pauseForLoginRequired(session, tabId, job, platformLabel = 'Reed'
         validationError: null,
         captcha: false,
         loginRequired: true,
+        pauseReason: 'login',
     };
 
     await updateSession((current) =>
@@ -2919,6 +2929,7 @@ async function pauseForIdentityConfirm(
         lastAttempt: null,
         validationError: null,
         identityConfirm: true,
+        pauseReason: 'identity_confirm',
     };
 
     await updateSession((current) =>
@@ -9592,6 +9603,22 @@ async function getProfileForAutoApply() {
     }
 }
 
+function resolveAutoApplyResumeLogMessage(pauseContext) {
+    if (pauseContext?.captcha || pauseContext?.pauseReason === 'captcha') {
+        return 'Resuming Auto Apply after CAPTCHA / security check.';
+    }
+
+    if (pauseContext?.loginRequired || pauseContext?.pauseReason === 'login') {
+        return 'Resuming Auto Apply after sign-in.';
+    }
+
+    if (pauseContext?.identityConfirm || pauseContext?.pauseReason === 'identity_confirm') {
+        return 'Resuming Auto Apply after contact confirmation.';
+    }
+
+    return 'Resuming Auto Apply after your answer.';
+}
+
 export async function resumeAutoApplyFromPause() {
     const session = await loadAutoApplySession();
 
@@ -9599,12 +9626,14 @@ export async function resumeAutoApplyFromPause() {
         return session;
     }
 
+    const resumeLogMessage = resolveAutoApplyResumeLogMessage(session.pauseContext);
+
     const resumed = await updateSession((current) =>
         resumeAutoApplyFromInput(
             appendAutoApplyLog(
                 current,
                 'info',
-                'Resuming Auto Apply after your answer.',
+                resumeLogMessage,
             ),
         ),
     );

@@ -583,8 +583,16 @@ copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 copyFileSync(join(SRC, 'sidepanel/auto-apply.js'), join(DIST, 'auto-apply.js'));
 copyFileSync(
+    join(SRC, 'sidepanel/auto-apply-manual-resume.js'),
+    join(DIST, 'auto-apply-manual-resume.js'),
+);
+copyFileSync(
     join(SRC, 'sidepanel/pending-fields.js'),
     join(DIST, 'pending-fields-panel.js'),
+);
+copyFileSync(
+    join(SRC, 'sidepanel/auto-apply-manual-resume.js'),
+    join(DIST, 'auto-apply-manual-resume.js'),
 );
 
 const iconsDir = join(ROOT, 'extension/icons');

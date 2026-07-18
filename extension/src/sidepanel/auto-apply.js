@@ -5,7 +5,11 @@ import {
 import { resolveAutoApplyControlsState } from './auto-apply-controls-ui.js';
 import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
 import { buildAutoApplyInterventionSummary } from './auto-apply-intervention.js';
-import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
+import {
+    buildAutoApplyManualResumePanelCopy,
+    buildAutoApplyPauseBannerMessage,
+    isManualResumeAutoApplyPause,
+} from './auto-apply-pause-ui.js';
 import {
     AUTO_APPLY_PLATFORM_LIST,
     LINKEDIN_PLATFORM_ID,
@@ -49,7 +53,9 @@ const interventionHeadlineEl = document.getElementById('auto-apply-intervention-
 const interventionDetailEl = document.getElementById('auto-apply-intervention-detail');
 const interventionNextEl = document.getElementById('auto-apply-intervention-next');
 const pauseBannerEl = document.getElementById('auto-apply-pause-banner');
+const pauseBannerTitleEl = document.getElementById('auto-apply-pause-banner-title');
 const pauseMessageEl = document.getElementById('auto-apply-pause-message');
+const pauseResumeBtn = document.getElementById('auto-apply-pause-resume-btn');
 const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
 const activityToolbarEl = document.getElementById('auto-apply-activity-toolbar');
 const activityPanelEl = document.getElementById('auto-apply-activity-panel');
@@ -372,11 +378,35 @@ function renderPauseBanner(session) {
         pauseBannerEl.hidden = true;
         pauseMessageEl.textContent = '';
 
+        if (pauseBannerTitleEl) {
+            pauseBannerTitleEl.textContent = 'Paused';
+        }
+
+        if (pauseResumeBtn) {
+            pauseResumeBtn.hidden = true;
+            pauseResumeBtn.disabled = false;
+            pauseResumeBtn.textContent = 'Resume';
+        }
+
         return;
     }
 
+    const manualCopy = isManualResumeAutoApplyPause(pauseContext)
+        ? buildAutoApplyManualResumePanelCopy(pauseContext)
+        : null;
+
     pauseBannerEl.hidden = false;
     pauseMessageEl.textContent = buildAutoApplyPauseBannerMessage(pauseContext);
+
+    if (pauseBannerTitleEl) {
+        pauseBannerTitleEl.textContent = manualCopy?.title || 'Paused';
+    }
+
+    if (pauseResumeBtn) {
+        pauseResumeBtn.hidden = !manualCopy;
+        pauseResumeBtn.textContent = manualCopy?.buttonLabel || 'Resume';
+        pauseResumeBtn.disabled = false;
+    }
 }
 
 function renderStatusLine(session) {
@@ -387,16 +417,15 @@ function renderStatusLine(session) {
         return;
     }
 
+    const manualPauseCopy = session.status === 'paused_for_input'
+        ? buildAutoApplyManualResumePanelCopy(session.pauseContext)
+        : null;
+
     const labels = {
         idle: 'Idle',
         running: session.stopRequested ? 'Stopping…' : 'Running',
-        paused_for_input: session.pauseContext?.captcha
-            ? 'Paused - CAPTCHA detected (solve in browser)'
-            : session.pauseContext?.loginRequired
-                ? 'Paused - sign in on the job board, then resume'
-            : session.pauseContext?.identityConfirm
-                ? 'Paused - confirm Indeed contact update'
-                : 'Paused - waiting for your answer in Assist',
+        paused_for_input: manualPauseCopy?.statusLabel
+            || 'Paused - waiting for your answer in Assist',
         stopped: 'Stopped',
         completed: 'Completed',
         error: 'Error',
@@ -746,6 +775,31 @@ export function initAutoApplyPanel({ showMessage }) {
     activityToggleEl.addEventListener('click', () => {
         activityPanelManuallyHidden = !activityPanelManuallyHidden;
         renderActivityVisibility(lastRenderedSession);
+    });
+
+    pauseResumeBtn?.addEventListener('click', async () => {
+        if (!pauseResumeBtn || pauseResumeBtn.disabled) {
+            return;
+        }
+
+        pauseResumeBtn.disabled = true;
+        pauseResumeBtn.textContent = 'Resuming…';
+
+        try {
+            const response = await sendRuntimeMessage('AUTO_APPLY_RESUME');
+
+            if (response?.error) {
+                throw new Error(response.error);
+            }
+
+            showMessage('Resuming Auto Apply…', 'success');
+            await refreshStatus();
+        } catch (error) {
+            showMessage(error.message || 'Could not resume Auto Apply.', 'error');
+            pauseResumeBtn.disabled = false;
+            const copy = buildAutoApplyManualResumePanelCopy(lastRenderedSession?.pauseContext);
+            pauseResumeBtn.textContent = copy?.buttonLabel || 'Resume';
+        }
     });
 
     startBtn.addEventListener('click', async () => {
