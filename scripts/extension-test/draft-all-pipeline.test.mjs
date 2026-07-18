@@ -420,6 +420,8 @@ test('buildDraftAllApplyPlan fills salary and Polish notice from preference sett
                 field_type: 'radio',
                 options: ['Yes', 'No'],
             },
+            { id: 4, ref: 'f4', label: 'What is your current/last salary?', field_type: 'text' },
+            { id: 5, ref: 'f5', label: 'What is your current total package (e.g. Salary + Benefits)', field_type: 'text' },
         ],
         profileData: {
             ...profileData,
@@ -440,6 +442,8 @@ test('buildDraftAllApplyPlan fills salary and Polish notice from preference sett
     assert.equal(answersByRef.get('f1'), '4 weeks');
     assert.equal(answersByRef.get('f2'), '4 weeks');
     assert.equal(answersByRef.get('f3'), 'No');
+    assert.equal(answersByRef.get('f4'), '72000');
+    assert.equal(answersByRef.get('f5'), '72000');
     assert.equal(plan.llmFields.length, 0);
 });
 
