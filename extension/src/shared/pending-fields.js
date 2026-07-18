@@ -10,11 +10,23 @@ import {
     isMarketingOrFutureConsentField,
     resolveElectronicSignatureAnswer,
 } from './draft-all/consent-fields.js';
+import {
+    evaluateAnswerTypeCoherence,
+    shouldRejectAnswerForTypeCoherence,
+    shouldRejectYesNoAnswerOnLocationField,
+} from './draft-all/type-coherence.js';
 import { normalizeQuestionLabel } from './draft-all-optimizations.js';
 
 export { isMarketingOrFutureConsentField } from './draft-all/consent-fields.js';
 
 export { isMeaningfulAnswer, isMeaningfulFieldAnswer } from './draft-all/answer-utils.js';
+
+export {
+    evaluateAnswerTypeCoherence,
+    isBareYesNoAnswer,
+    shouldRejectAnswerForTypeCoherence,
+    shouldRejectYesNoAnswerOnLocationField,
+} from './draft-all/type-coherence.js';
 
 function looksLikePhoneAnswer(answer) {
     const compact = String(answer || '').trim().replace(/\s+/g, '');
@@ -1955,11 +1967,6 @@ export function isCityCountyCombinedQuestionLabel(label) {
         && /\bcounty\b/.test(normalized);
 }
 
-/** Bare Yes/No tokens - never valid for free-text city/county/postcode/street fields. */
-export function isBareYesNoAnswer(answer) {
-    return /^(yes|no)$/i.test(String(answer || '').trim());
-}
-
 const LOCATION_IDENTITY_PATHS = new Set([
     'city',
     'location',
@@ -1968,40 +1975,6 @@ const LOCATION_IDENTITY_PATHS = new Set([
     'structured_data.address_line_1',
     'structured_data.state_region',
 ]);
-
-/**
- * Free-text location/contact locality fields must never receive Yes/No from memo or NanoGPT.
- * Choice fields with explicit Yes/No options are left alone.
- */
-export function shouldRejectYesNoAnswerOnLocationField(field, answer) {
-    if (!isBareYesNoAnswer(answer)) {
-        return false;
-    }
-
-    if (fieldHasYesNoOptions(field)) {
-        return false;
-    }
-
-    const fieldType = String(field?.field_type || '').toLowerCase();
-
-    if (fieldType === 'radio' || fieldType === 'checkbox') {
-        return false;
-    }
-
-    const label = field?.label || field?.question || '';
-
-    if (
-        isCityCountyCombinedQuestionLabel(label)
-        || isCityLocationQuestionLabel(label)
-        || isLocationAutocompleteQuestionLabel(label)
-    ) {
-        return true;
-    }
-
-    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
-
-    return Boolean(mapping && LOCATION_IDENTITY_PATHS.has(mapping.path));
-}
 
 function resolveSafeLocationAnswerForField(field, profileData) {
     const label = field?.label || field?.question || '';
@@ -3237,10 +3210,9 @@ export function buildPendingFieldsFromProfileGaps(fields, profileData) {
     return pending;
 }
 
-function createPendingField(field, mapping, reason) {
+function createPendingField(field, mapping, reason, meta = null) {
     const label = dedupeQuestionLabelForDisplay(field.label || field.question || '');
-
-    return {
+    const pending = {
         ref: field.ref,
         label,
         question: label,
@@ -3252,6 +3224,18 @@ function createPendingField(field, mapping, reason) {
         dashboard_anchor: mapping?.dashboard_anchor ?? '',
         reason,
     };
+
+    if (meta && typeof meta === 'object') {
+        if (meta.rejected_answer != null) {
+            pending.rejected_answer = String(meta.rejected_answer);
+        }
+
+        if (meta.reject_reason != null) {
+            pending.reject_reason = String(meta.reject_reason);
+        }
+    }
+
+    return pending;
 }
 
 export function shouldSkipAiDraftAnswer(field, answer, profileData) {
@@ -3327,6 +3311,61 @@ export function partitionIdentityProfileFields(fields, profileData) {
     identityAnswers.sort((left, right) => identityPhoneApplyRank(left) - identityPhoneApplyRank(right));
 
     return { identityAnswers, remainingFields };
+}
+
+/**
+ * Locality/contact address fields with no resolvable profile value must leave-pending early.
+ * Do not send them to NanoGPT (it invents cities when profile city is empty).
+ */
+export function isLocalityIdentityField(field) {
+    const label = field?.label || field?.question || '';
+
+    if (
+        isCityCountyCombinedQuestionLabel(label)
+        || isCityLocationQuestionLabel(label)
+        || isLocationAutocompleteQuestionLabel(label)
+    ) {
+        return true;
+    }
+
+    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
+
+    return Boolean(mapping && LOCATION_IDENTITY_PATHS.has(mapping.path) && mapping.path !== 'country');
+}
+
+export function partitionMissingLocalityIdentityFields(fields, profileData) {
+    const pendingFields = [];
+    const remainingFields = [];
+    const localityAnswers = [];
+
+    for (const field of fields || []) {
+        if (!isLocalityIdentityField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+
+        if (isMeaningfulAnswer(safeLocation)) {
+            localityAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer: safeLocation,
+            });
+            continue;
+        }
+
+        pendingFields.push(createPendingField(
+            field,
+            resolvePendingProfileMapping(field, profileData),
+            'missing_profile_data',
+        ));
+    }
+
+    return { pendingFields, remainingFields, localityAnswers };
 }
 
 function identityPhoneApplyRank(answer) {
@@ -3948,20 +3987,31 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             }
         }
 
-        // Memo/NanoGPT sometimes emit Yes for "City, county" (and similar). Never apply that.
-        if (
-            isMeaningfulAnswer(resolvedAnswer)
-            && shouldRejectYesNoAnswerOnLocationField(field, resolvedAnswer)
-        ) {
-            const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+        // Shared post-answer type-coherence gate (memo / heuristic / NanoGPT).
+        // Prefer leave-pending over wrong fills (Yes on city, salary on notice, etc.).
+        if (isMeaningfulAnswer(resolvedAnswer) && shouldRejectAnswerForTypeCoherence(field, resolvedAnswer)) {
+            const coherence = evaluateAnswerTypeCoherence(field, resolvedAnswer);
 
-            if (isMeaningfulAnswer(safeLocation)) {
-                resolvedAnswer = safeLocation;
+            if (coherence.category === 'locality' || shouldRejectYesNoAnswerOnLocationField(field, resolvedAnswer)) {
+                const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+
+                if (isMeaningfulAnswer(safeLocation)) {
+                    resolvedAnswer = safeLocation;
+                } else {
+                    pending.push(createPendingField(
+                        field,
+                        resolvePendingProfileMapping(field, profileData),
+                        'type_coherence',
+                        { rejected_answer: String(resolvedAnswer), reject_reason: coherence.reason },
+                    ));
+                    continue;
+                }
             } else {
                 pending.push(createPendingField(
                     field,
                     resolvePendingProfileMapping(field, profileData),
-                    'missing_answer',
+                    'type_coherence',
+                    { rejected_answer: String(resolvedAnswer), reject_reason: coherence.reason },
                 ));
                 continue;
             }
@@ -4061,6 +4111,7 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             toApply.push({
                 ...answer,
                 answer: resolvedAnswer,
+                source: answer.source || 'nanogpt',
             });
 
             continue;

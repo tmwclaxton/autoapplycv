@@ -2541,10 +2541,24 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 const draftPhase = `draft.batch-${batchNumber}`;
                 const applyPhase = `apply.batch-${batchNumber}`;
                 let { toApply, pending: batchPending } = partitionDraftAllBatchAnswers(
-                    event.answers,
+                    event.answers.map((answer) => ({ ...answer, source: answer.source || 'nanogpt' })),
                     fieldsByRef,
                     profileData,
                 );
+
+                const coherenceRejected = batchPending.filter((item) => item.reason === 'type_coherence');
+
+                if (coherenceRejected.length > 0) {
+                    logInfo('background', 'draft-all.coherence', 'Rejected incoherent NanoGPT answers', {
+                        batchIndex: event.batch_index,
+                        rejected: coherenceRejected.map((item) => ({
+                            ref: item.ref,
+                            label: item.label,
+                            reject_reason: item.reject_reason,
+                            rejected_answer: item.rejected_answer,
+                        })),
+                    }, tabId);
+                }
 
                 const retriedBatch = await retryEmptyDraftBatchAnswers({
                     batchAnswers: event.answers,

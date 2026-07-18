@@ -4,11 +4,11 @@ const TEXT_LIKE_FIELD_TYPES = new Set(['text', 'email', 'tel', 'url', 'number', 
 import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
 import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
 import { isMarketingOrFutureConsentField, isAgreementCheckboxField } from './draft-all/consent-fields.js';
+import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
 import {
     isEmployerScreeningTrapLabel,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
-    shouldRejectYesNoAnswerOnLocationField,
 } from './pending-fields.js';
 
 const ATS_URL_PATTERNS = [
@@ -173,7 +173,7 @@ export function resolveSavedApplicationAnswer(field, profileData = null, questio
     if (
         !answer
         || shouldRejectPhoneAnswerOnField(field, answer)
-        || shouldRejectYesNoAnswerOnLocationField(field, answer)
+        || shouldRejectAnswerForTypeCoherence(field, answer)
     ) {
         return null;
     }
@@ -248,7 +248,7 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData 
         if (
             answer
             && !shouldRejectPhoneAnswerOnField(field, answer)
-            && !shouldRejectYesNoAnswerOnLocationField(field, answer)
+            && !shouldRejectAnswerForTypeCoherence(field, answer)
         ) {
             memoAnswers.push({
                 id: field.id,

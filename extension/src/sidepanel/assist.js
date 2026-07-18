@@ -409,7 +409,10 @@ export function initAssistChat({
 
             const label = document.createElement('div');
             label.className = 'assist-draft-answer-label';
-            label.textContent = entry.label;
+            const source = String(entry.source || '').trim();
+            label.textContent = source
+                ? `${entry.label} (${source})`
+                : entry.label;
 
             const answerText = document.createElement('div');
             answerText.className = 'assist-draft-answer-text';

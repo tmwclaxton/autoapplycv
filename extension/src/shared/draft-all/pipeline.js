@@ -19,6 +19,7 @@ import {
     partitionForeignTimezoneTrainingFields,
     partitionEeoDeclineFields,
     partitionIdentityProfileFields,
+    partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
     partitionPriorEmployerContactFields,
     partitionReferenceProfileFields,
@@ -29,6 +30,7 @@ import {
     partitionElectronicSignatureFields,
     partitionMarketingConsentFields,
 } from './consent-fields.js';
+import { tagAnswersWithSource } from './type-coherence.js';
 
 /**
  * Plan deterministic Draft All stages before any LLM stream.
@@ -69,6 +71,12 @@ export function buildDraftAllApplyPlan({
 
     const identityPartition = partitionIdentityProfileFields(remainingFields, profileData);
     remainingFields = identityPartition.remainingFields;
+
+    // Empty city/postcode/street must pending early - never invent locality via NanoGPT.
+    const missingLocalityPartition = partitionMissingLocalityIdentityFields(remainingFields, profileData);
+    remainingFields = missingLocalityPartition.remainingFields;
+    pendingFields = mergePendingFields(pendingFields, missingLocalityPartition.pendingFields);
+    const localityRescueAnswers = missingLocalityPartition.localityAnswers || [];
 
     const cityRelocatePartition = partitionCitySpecificRelocateFields(remainingFields, profileData);
     remainingFields = cityRelocatePartition.remainingFields;
@@ -113,39 +121,68 @@ export function buildDraftAllApplyPlan({
     const applyStages = [];
 
     if (memoAnswers.length > 0) {
-        applyStages.push({ type: 'memo', answers: memoAnswers });
+        applyStages.push({ type: 'memo', answers: tagAnswersWithSource(memoAnswers, 'memo') });
     }
 
     if (referencePartition.referenceAnswers.length > 0) {
-        applyStages.push({ type: 'reference', answers: referencePartition.referenceAnswers });
+        applyStages.push({
+            type: 'reference',
+            answers: tagAnswersWithSource(referencePartition.referenceAnswers, 'identity'),
+        });
     }
 
-    if (identityPartition.identityAnswers.length > 0) {
-        applyStages.push({ type: 'identity', answers: identityPartition.identityAnswers });
+    const identityAnswers = [
+        ...identityPartition.identityAnswers,
+        ...localityRescueAnswers,
+    ];
+
+    if (identityAnswers.length > 0) {
+        applyStages.push({
+            type: 'identity',
+            answers: tagAnswersWithSource(identityAnswers, 'identity'),
+        });
     }
 
     if (signaturePartition.signatureAnswers.length > 0) {
-        applyStages.push({ type: 'signature', answers: signaturePartition.signatureAnswers });
+        applyStages.push({
+            type: 'signature',
+            answers: tagAnswersWithSource(signaturePartition.signatureAnswers, 'identity'),
+        });
     }
 
     if (preferencePartition.preferenceAnswers.length > 0) {
-        applyStages.push({ type: 'preference', answers: preferencePartition.preferenceAnswers });
+        applyStages.push({
+            type: 'preference',
+            answers: tagAnswersWithSource(preferencePartition.preferenceAnswers, 'screener'),
+        });
     }
 
     if (screenerPartition.screenerAnswers.length > 0) {
-        applyStages.push({ type: 'screener', answers: screenerPartition.screenerAnswers });
+        applyStages.push({
+            type: 'screener',
+            answers: tagAnswersWithSource(screenerPartition.screenerAnswers, 'screener'),
+        });
     }
 
     if (agreementPartition.agreementAnswers.length > 0) {
-        applyStages.push({ type: 'agreement', answers: agreementPartition.agreementAnswers });
+        applyStages.push({
+            type: 'agreement',
+            answers: tagAnswersWithSource(agreementPartition.agreementAnswers, 'screener'),
+        });
     }
 
     if (eeoPartition.eeoAnswers.length > 0) {
-        applyStages.push({ type: 'eeo', answers: eeoPartition.eeoAnswers });
+        applyStages.push({
+            type: 'eeo',
+            answers: tagAnswersWithSource(eeoPartition.eeoAnswers, 'screener'),
+        });
     }
 
     if (marketingConsentPartition.marketingConsentAnswers.length > 0) {
-        applyStages.push({ type: 'marketing_consent', answers: marketingConsentPartition.marketingConsentAnswers });
+        applyStages.push({
+            type: 'marketing_consent',
+            answers: tagAnswersWithSource(marketingConsentPartition.marketingConsentAnswers, 'screener'),
+        });
     }
 
     return {
