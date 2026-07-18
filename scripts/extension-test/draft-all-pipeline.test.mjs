@@ -310,7 +310,7 @@ test('partitionDraftAllBatchAnswers keeps identity answers over null LLM output'
     assert.equal(pending.length, 0);
 });
 
-test('buildDraftAllApplyPlan keeps notice period deterministic and defers CGI open screeners to LLM', () => {
+test('buildDraftAllApplyPlan keeps notice period deterministic and answers source-of-hire from platform', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
             {
@@ -341,16 +341,19 @@ test('buildDraftAllApplyPlan keeps notice period deterministic and defers CGI op
             },
         },
         questionMemo: {},
+        platformId: 'indeed',
     });
 
     assert.equal(plan.applyStages.some((stage) => stage.type === 'preference'), true);
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'screener'), true);
     const answersByRef = new Map(
         plan.applyStages.flatMap((stage) => stage.answers.map((answer) => [answer.ref, answer.answer])),
     );
 
     assert.equal(answersByRef.get('f0'), '2 weeks');
-    assert.equal(plan.llmFields.length, 3);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), true);
+    assert.equal(answersByRef.get('f1'), 'Indeed');
+    assert.equal(plan.llmFields.length, 2);
+    assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), false);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f2'), true);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f3'), true);
 });
@@ -417,6 +420,7 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
         ],
         profileData: ukProfile,
         questionMemo: {},
+        platformId: 'indeed',
     });
 
     const answersByRef = new Map();
@@ -432,11 +436,12 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
     assert.equal(answersByRef.get('f2'), '40800');
     assert.equal(answersByRef.get('f4'), 'No');
     assert.equal(answersByRef.get('f5'), '40800');
+    assert.equal(answersByRef.get('f8'), 'Indeed');
     assert.equal(plan.llmFields.some((field) => field.ref === 'f6'), true);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f7'), true);
-    assert.equal(plan.llmFields.some((field) => field.ref === 'f8'), true);
+    assert.equal(plan.llmFields.some((field) => field.ref === 'f8'), false);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f9'), true);
-    assert.equal(plan.llmFields.length, 4);
+    assert.equal(plan.llmFields.length, 3);
     assert.equal(plan.pendingFields.length, 0);
 });
 

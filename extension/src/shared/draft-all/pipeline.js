@@ -43,6 +43,8 @@ import {
  *   profileData: object|null,
  *   questionMemo?: Record<string, string>,
  *   existingPendingFields?: Array<object>,
+ *   platformId?: string|null,
+ *   pageUrl?: string|null,
  * }} input
  */
 export function buildDraftAllApplyPlan({
@@ -50,9 +52,12 @@ export function buildDraftAllApplyPlan({
     profileData,
     questionMemo = {},
     existingPendingFields = [],
+    platformId = null,
+    pageUrl = null,
 }) {
     const profileGapPending = buildPendingFieldsFromProfileGaps(fields, profileData);
     let pendingFields = mergePendingFields(existingPendingFields, profileGapPending);
+    const platformContext = { platformId, pageUrl };
 
     let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo, profileData);
 
@@ -84,6 +89,7 @@ export function buildDraftAllApplyPlan({
         remainingFields,
         profileData,
         questionMemo,
+        platformContext,
     );
     remainingFields = screenerPartition.remainingFields;
 

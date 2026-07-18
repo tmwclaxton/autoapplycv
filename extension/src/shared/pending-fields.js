@@ -132,6 +132,23 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
     /\bwhat makes you\b/i,
 ];
 
+const SOURCE_OF_HIRE_QUESTION_PATTERNS = [
+    /\b(?:where|how)\s+did\s+you\s+(?:hear|learn|find|see)\b/i,
+    /\bplease\s+indicate\s+where\s+you\s+heard\b/i,
+    /\bwhere\s+did\s+you\s+find\s+this\s+(?:job|role|opportunity|position|opening)\b/i,
+    /\breferral\s+source\b/i,
+    /\bapplication\s+source\b/i,
+    /\bsource\s+of\s+(?:hire|application)\b/i,
+];
+
+const SOURCE_OF_HIRE_EXCLUDE_PATTERNS = [
+    /\breferred\s+via\b/i,
+    /\bemployee\s+referral\b/i,
+    /\breferral\s+(?:code|name|email|contact)\b/i,
+    /\bwho\s+referred\b/i,
+    /\bstaff\s+number\b/i,
+];
+
 const APPLICATION_SPECIFIC_QUESTION_PATTERNS = [
     /\b(?:interest(?:ed)?|why|motivat|attract|want|join|applying)\b.*\bthis (?:role|position|job|opportunity|opening)\b/i,
     /\bthis (?:role|position|job|opportunity|opening)\b.*\b(?:interest(?:ed)?|why|motivat|attract|appeal|excit)\b/i,
@@ -1495,6 +1512,27 @@ export function partitionPriorEmployerContactFields(fields, profileData) {
     return { pendingFields, remainingFields };
 }
 
+/**
+ * "How/where did you hear about this role?" style questions - answered with the
+ * current job board in Auto Apply / Draft All, not a clarifying pause.
+ *
+ * @param {string|null|undefined} label
+ * @returns {boolean}
+ */
+export function isSourceOfHireQuestionLabel(label) {
+    const text = String(label || '').replace(/\s+/g, ' ').trim();
+
+    if (!text) {
+        return false;
+    }
+
+    if (SOURCE_OF_HIRE_EXCLUDE_PATTERNS.some((pattern) => pattern.test(text))) {
+        return false;
+    }
+
+    return SOURCE_OF_HIRE_QUESTION_PATTERNS.some((pattern) => pattern.test(text));
+}
+
 export function isOpenEndedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -2749,6 +2787,10 @@ export function shouldPromptUserForField(field, profileData) {
         return false;
     }
 
+    if (isSourceOfHireQuestionLabel(label)) {
+        return false;
+    }
+
     const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
 
     if (availabilityPrompt !== null) {
@@ -2791,6 +2833,10 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
 
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+        return false;
+    }
+
+    if (isSourceOfHireQuestionLabel(label)) {
         return false;
     }
 

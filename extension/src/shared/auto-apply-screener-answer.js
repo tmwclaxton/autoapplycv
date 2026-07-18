@@ -4,6 +4,11 @@ import {
     normalizeNoticePeriodAnswer,
 } from './answer-normalization.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
+import {
+    normalizeAutoApplyPlatform,
+    resolveAutoApplyPlatformFromUrl,
+    resolveAutoApplyPlatformLabel,
+} from './auto-apply-platforms.js';
 import { resolvePendingFieldFillAnswer } from './clarifying-fill.js';
 import { isJobSpecificMemoField, resolveSavedApplicationAnswer } from './draft-all-optimizations.js';
 import { requestDraftField } from './draft-all-stream.js';
@@ -13,11 +18,119 @@ import {
     isMeaningfulFieldAnswer,
     isSalaryQuestionLabel,
     isSkillSpecificYearsExperienceQuestionLabel,
+    isSourceOfHireQuestionLabel,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
     readProfileValue,
 } from './pending-fields.js';
+
+export { isSourceOfHireQuestionLabel };
+
+/** @type {Record<string, string[]>} */
+const PLATFORM_SOURCE_OPTION_ALIASES = {
+    indeed: ['indeed', 'indeed.com'],
+    linkedin: ['linkedin', 'linked in', 'linked-in'],
+    reed: ['reed', 'reed.co.uk', 'reed.com'],
+    totaljobs: ['totaljobs', 'total jobs', 'totaljobs.com'],
+    glassdoor: ['glassdoor', 'glassdoor.com'],
+    simplyhired: ['simplyhired', 'simply hired', 'simplyhired.com'],
+    'cv-library': ['cv-library', 'cv library', 'cv-library.co.uk', 'cvl'],
+};
+
+const JOB_BOARD_SOURCE_OPTION_PATTERNS = [
+    /^job\s*boards?$/i,
+    /^online\s+job\s*boards?$/i,
+    /^job\s*sites?$/i,
+    /^job\s+search\s+(?:site|board|website)s?$/i,
+    /^job\s+portal$/i,
+];
+
+/**
+ * @param {{ platformId?: string|null, pageUrl?: string|null, platformLabel?: string|null }|null|undefined} context
+ * @returns {{ platformId: string|null, platformLabel: string|null }}
+ */
+export function resolveSourceOfHirePlatformContext(context = null) {
+    const explicitLabel = String(context?.platformLabel || '').trim();
+    let platformId = normalizeAutoApplyPlatform(context?.platformId);
+
+    if (!platformId) {
+        platformId = resolveAutoApplyPlatformFromUrl(context?.pageUrl);
+    }
+
+    const platformLabel = resolveAutoApplyPlatformLabel(platformId) || (explicitLabel || null);
+
+    return { platformId, platformLabel };
+}
+
+function normalizeSourceOptionText(value) {
+    return String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function optionMatchesSourceAlias(option, alias) {
+    const optionText = normalizeSourceOptionText(option);
+    const aliasText = normalizeSourceOptionText(alias);
+
+    if (!optionText || !aliasText) {
+        return false;
+    }
+
+    if (optionText === aliasText) {
+        return true;
+    }
+
+    return new RegExp(`(?:^|\\s)${aliasText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`).test(optionText);
+}
+
+/**
+ * Prefer a dropdown option for the current job board; otherwise free-text the platform name.
+ *
+ * @param {object|null|undefined} field
+ * @param {{ platformId?: string|null, pageUrl?: string|null, platformLabel?: string|null }|null|undefined} context
+ * @returns {string|null}
+ */
+export function resolveSourceOfHireAnswer(field, context = null) {
+    const label = field?.question || field?.label || '';
+
+    if (!isSourceOfHireQuestionLabel(label)) {
+        return null;
+    }
+
+    const { platformId, platformLabel } = resolveSourceOfHirePlatformContext(context);
+
+    if (!platformLabel) {
+        return null;
+    }
+
+    const options = filterMeaningfulChoiceOptions(field?.options);
+
+    if (options.length === 0) {
+        return platformLabel;
+    }
+
+    const aliases = [
+        ...(PLATFORM_SOURCE_OPTION_ALIASES[platformId] || []),
+        platformLabel,
+    ];
+
+    for (const option of options) {
+        if (aliases.some((alias) => optionMatchesSourceAlias(option, alias))) {
+            return option;
+        }
+    }
+
+    for (const option of options) {
+        if (JOB_BOARD_SOURCE_OPTION_PATTERNS.some((pattern) => pattern.test(String(option).trim()))) {
+            return option;
+        }
+    }
+
+    return platformLabel;
+}
 
 function isSalaryScreenerQuestion(label) {
     const question = String(label || '').toLowerCase();
@@ -193,9 +306,15 @@ function normalizeHeuristicAnswerForField(answer, field) {
  * @param {import('./auto-apply-blockers.js').AutoApplyBlockerField|null|undefined} field
  * @param {object|null|undefined} profileData
  * @param {Record<string, string>|null|undefined} [questionMemo]
+ * @param {{ platformId?: string|null, pageUrl?: string|null, platformLabel?: string|null }|null|undefined} [platformContext]
  * @returns {string|null}
  */
-export function resolveHeuristicScreenerAnswer(field, profileData = null, questionMemo = null) {
+export function resolveHeuristicScreenerAnswer(
+    field,
+    profileData = null,
+    questionMemo = null,
+    platformContext = null,
+) {
     if (!field) {
         return null;
     }
@@ -208,9 +327,17 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         options: field.options ?? null,
         dom: field.dom ?? null,
     };
+    const label = normalizedField.question || normalizedField.label;
+
+    // Prefer the live job board over a stale memo from another platform.
+    const sourceOfHireAnswer = resolveSourceOfHireAnswer(normalizedField, platformContext);
+
+    if (isMeaningfulAnswer(sourceOfHireAnswer)) {
+        return normalizeHeuristicAnswerForField(sourceOfHireAnswer, normalizedField);
+    }
 
     const identityAnswer = resolveIdentityProfileAnswer(normalizedField, profileData);
-    const salaryLabel = normalizedField.question || normalizedField.label;
+    const salaryLabel = label;
 
     if (
         isMeaningfulAnswer(identityAnswer)
@@ -268,7 +395,6 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
         normalizedField.dom?.id || normalizedField.dom?.input_id || '',
     ).toLowerCase();
     const settings = profileData?.application_settings || {};
-    const label = normalizedField.question || normalizedField.label;
 
     if (shouldDeferScreenerQuestionToLlm(label)) {
         return null;
@@ -308,11 +434,13 @@ export function resolveHeuristicScreenerAnswer(field, profileData = null, questi
  * @param {Array<object>} fields
  * @param {object|null|undefined} profileData
  * @param {Record<string, string>|null|undefined} [questionMemo]
+ * @param {{ platformId?: string|null, pageUrl?: string|null, platformLabel?: string|null }|null|undefined} [platformContext]
  */
 export function partitionScreenerHeuristicFields(
     fields,
     profileData = null,
     questionMemo = null,
+    platformContext = null,
 ) {
     void questionMemo;
     const screenerAnswers = [];
@@ -324,7 +452,12 @@ export function partitionScreenerHeuristicFields(
             continue;
         }
 
-        const answer = resolveHeuristicScreenerAnswer(field, profileData, null);
+        const answer = resolveHeuristicScreenerAnswer(
+            field,
+            profileData,
+            null,
+            platformContext,
+        );
 
         if (isMeaningfulFieldAnswer(field, answer)) {
             screenerAnswers.push({
@@ -349,10 +482,20 @@ export function partitionScreenerHeuristicFields(
  *
  * @param {import('./auto-apply-blockers.js').AutoApplyBlockerField|null|undefined} field
  * @param {object|null|undefined} profileData
+ * @param {{ platformId?: string|null, pageUrl?: string|null, platformLabel?: string|null }|null|undefined} [platformContext]
  * @returns {string|null}
  */
-export function resolveTestModeFallbackAnswer(field, profileData = null) {
-    const heuristic = resolveHeuristicScreenerAnswer(field, profileData, null);
+export function resolveTestModeFallbackAnswer(
+    field,
+    profileData = null,
+    platformContext = null,
+) {
+    const heuristic = resolveHeuristicScreenerAnswer(
+        field,
+        profileData,
+        null,
+        platformContext,
+    );
 
     if (isMeaningfulAnswer(heuristic)) {
         return String(heuristic).trim();
@@ -488,13 +631,22 @@ export async function tryAnswerScreenerField(tabId, field, context) {
         clarifyingHint = null,
         questionMemo = null,
         onLog = null,
+        platformId = null,
+        pageUrl = null,
+        platformLabel = null,
     } = context;
 
     if (!field?.ref || typeof sendTabMessage !== 'function') {
         return { applied: false, source: null };
     }
 
-    let answer = resolveHeuristicScreenerAnswer(field, profileData, questionMemo);
+    const platformContext = { platformId, pageUrl, platformLabel };
+    let answer = resolveHeuristicScreenerAnswer(
+        field,
+        profileData,
+        questionMemo,
+        platformContext,
+    );
     let source = answer ? 'heuristic' : null;
 
     if (!answer) {
@@ -517,7 +669,7 @@ export async function tryAnswerScreenerField(tabId, field, context) {
     }
 
     if (!answer) {
-        answer = resolveTestModeFallbackAnswer(field, profileData);
+        answer = resolveTestModeFallbackAnswer(field, profileData, platformContext);
         source = answer ? 'fallback' : null;
     }
 

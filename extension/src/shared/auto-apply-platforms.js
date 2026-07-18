@@ -103,6 +103,46 @@ export function normalizeAutoApplyPlatform(platformId) {
 }
 
 /**
+ * Display name for the Auto Apply job board (e.g. "Indeed", "LinkedIn").
+ *
+ * @param {string|null|undefined} platformId
+ * @returns {string|null}
+ */
+export function resolveAutoApplyPlatformLabel(platformId) {
+    const normalized = normalizeAutoApplyPlatform(platformId);
+
+    if (!normalized) {
+        return null;
+    }
+
+    return AUTO_APPLY_PLATFORMS[normalized]?.label || null;
+}
+
+/**
+ * Infer the Auto Apply platform id from a page URL host.
+ *
+ * @param {string|null|undefined} url
+ * @returns {string|null}
+ */
+export function resolveAutoApplyPlatformFromUrl(url) {
+    if (!url) {
+        return null;
+    }
+
+    for (const platform of AUTO_APPLY_PLATFORM_LIST) {
+        if (!platform.enabled) {
+            continue;
+        }
+
+        if (urlBelongsToPlatform(url, platform.id)) {
+            return platform.id;
+        }
+    }
+
+    return null;
+}
+
+/**
  * @param {string|null|undefined} platformId
  * @returns {boolean}
  */

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import {
+    isSourceOfHireQuestionLabel,
     resolveHeuristicScreenerAnswer,
+    resolveSourceOfHireAnswer,
     resolveTestModeFallbackAnswer,
 } from '../../extension/src/shared/auto-apply-screener-answer.js';
 import {
@@ -378,6 +380,93 @@ assert.equal(
 );
 
 assert.equal(
+    isSourceOfHireQuestionLabel('Where did you hear about this role?'),
+    true,
+);
+assert.equal(
+    isSourceOfHireQuestionLabel('How did you hear about this opportunity?'),
+    true,
+);
+assert.equal(
+    isSourceOfHireQuestionLabel('Please indicate where you heard about CGI'),
+    true,
+);
+assert.equal(
+    isSourceOfHireQuestionLabel(
+        'If you were referred via a CGI employee, please provide their name and staff number if you have it or N/A if not applicable.',
+    ),
+    false,
+    'employee referral name questions are not source-of-hire',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Please indicate where you heard about CGI',
+            type: 'text',
+        },
+        profileData,
+        null,
+        { platformId: 'indeed' },
+    ),
+    'Indeed',
+    'source-of-hire free-text uses the current Auto Apply platform',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Where did you hear about this role?',
+            type: 'select',
+            options: ['LinkedIn', 'Indeed', 'Referral', 'Other'],
+        },
+        profileData,
+        null,
+        { platformId: 'indeed' },
+    ),
+    'Indeed',
+    'source-of-hire select prefers the matching platform option',
+);
+
+assert.equal(
+    resolveSourceOfHireAnswer(
+        {
+            label: 'How did you hear about this job?',
+            options: ['Job board', 'Referral', 'Company website', 'Other'],
+        },
+        { platformId: 'reed' },
+    ),
+    'Job board',
+    'source-of-hire falls back to Job board when the platform option is absent',
+);
+
+assert.equal(
+    resolveSourceOfHireAnswer(
+        {
+            label: 'How did you hear about this job?',
+            options: ['Reed.co.uk', 'LinkedIn', 'Referral', 'Other'],
+        },
+        { platformId: 'reed' },
+    ),
+    'Reed.co.uk',
+    'source-of-hire matches Reed.co.uk-style option labels',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Where did you hear about this role?',
+            type: 'text',
+        },
+        profileData,
+        null,
+        { pageUrl: 'https://www.linkedin.com/jobs/view/123' },
+    ),
+    'LinkedIn',
+    'source-of-hire can derive the platform from the page URL',
+);
+
+assert.equal(
     resolveHeuristicScreenerAnswer(
         {
             label: 'Please indicate where you heard about CGI',
@@ -386,7 +475,7 @@ assert.equal(
         profileData,
     ),
     null,
-    'source-of-hire questions must defer to NanoGPT',
+    'source-of-hire without platform context still defers',
 );
 
 assert.equal(
@@ -396,6 +485,8 @@ assert.equal(
             type: 'text',
         },
         profileData,
+        null,
+        { platformId: 'indeed' },
     ),
     null,
 );
