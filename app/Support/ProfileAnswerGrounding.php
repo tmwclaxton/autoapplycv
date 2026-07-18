@@ -223,6 +223,12 @@ class ProfileAnswerGrounding
             'current location',
             'where are you based',
             'working location',
+            'city, county',
+            'city, state',
+            'city / region',
+            'street address',
+            'postal code',
+            'notice period',
         ];
     }
 
