@@ -112,6 +112,7 @@ class AnswerTypeCoherence
             self::looksLikeEmail($trimmed)
             || self::looksLikePhone($trimmed)
             || self::looksLikeSalaryAmount($trimmed)
+            || self::looksLikeUrl($trimmed)
         )) {
             return true;
         }
@@ -233,5 +234,14 @@ class AnswerTypeCoherence
         $compact = preg_replace('/\s+/', '', $answer) ?? '';
 
         return (bool) preg_match('/^\+?\d{10,15}$/', $compact);
+    }
+
+    private static function looksLikeUrl(string $answer): bool
+    {
+        if (preg_match('/^(https?:\/\/|www\.)/i', $answer) === 1) {
+            return true;
+        }
+
+        return preg_match('/(?:linkedin\.com\/in\/|github\.com\/)/i', $answer) === 1;
     }
 }

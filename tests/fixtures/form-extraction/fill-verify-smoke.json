@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-07T17:18:17.703Z",
+  "generated_at": "2026-07-18T21:23:00.207Z",
   "description": "Per-platform Playwright smoke tier - one critical scenario per ATS/platform.",
   "thresholds": {
     "critical_pass_rate": 1,
@@ -205,7 +205,7 @@
     {
       "id": "web-apply-workable-com-apply-7",
       "platform": "generic-web",
-      "reason": "Generic web form with 76 fields",
+      "reason": "Underrepresented ATS/pattern: workable",
       "field_types": [
         "text",
         "email",

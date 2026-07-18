@@ -558,3 +558,67 @@ assert.equal(
 );
 
 console.log('auto-apply screener answer tests passed');
+
+const languageProfile = {
+    profile: {
+        structured_data: {
+            languages: [
+                { language: 'English', proficiency: 'Native' },
+                { language: 'Spanish', proficiency: 'Conversational' },
+            ],
+        },
+    },
+};
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you speak English',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        languageProfile,
+    ),
+    'Yes',
+    'speak English Yes when English is in profile languages',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you speak French ?',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        languageProfile,
+    ),
+    'No',
+    'speak French No when languages list is present but omits French',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you speak French ?',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        { profile: { structured_data: { languages: [] } } },
+    ),
+    null,
+    'empty languages list must leave speak-language screeners pending',
+);
+
+assert.equal(
+    resolvePreferenceProfileAnswer(
+        {
+            label: "Do you need visa sponsorship for the role's location?",
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        { profile: { application_settings: { visa_sponsorship: 'no' } } },
+    ),
+    'No',
+    'nested profile.application_settings must resolve visa sponsorship',
+);
+

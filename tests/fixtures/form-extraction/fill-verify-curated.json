@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-07T17:18:17.702Z",
+  "generated_at": "2026-07-18T21:23:00.202Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -177,6 +177,23 @@
       "playwright_priority": true
     },
     {
+      "id": "web-boards-greenhouse-io-5120097008",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (62 fields, checkbox+select+combobox+textarea)",
+      "field_types": [
+        "text",
+        "select",
+        "tel",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 62,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
       "id": "web-job-boards-greenhouse-io-5025215008",
       "platform": "greenhouse",
       "reason": "Representative greenhouse form (36 fields, checkbox+combobox+textarea+multiStep)",
@@ -265,27 +282,50 @@
       "playwright_priority": false
     },
     {
-      "id": "web-boards-greenhouse-io-7887176",
+      "id": "web-boards-greenhouse-io-5291852008",
       "platform": "greenhouse",
-      "reason": "Representative greenhouse form (27 fields, checkbox+combobox+textarea+multiStep)",
+      "reason": "Representative greenhouse form (34 fields, select+combobox)",
       "field_types": [
         "text",
-        "textarea",
-        "checkbox"
+        "select",
+        "tel",
+        "number"
       ],
-      "field_count": 27,
+      "field_count": 34,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
       "playwright_priority": false
     },
     {
-      "id": "web-boards-greenhouse-io-8618184002",
+      "id": "web-boards-greenhouse-io-7773766003",
       "platform": "greenhouse",
-      "reason": "Representative greenhouse form (30 fields, combobox+textarea+multiStep)",
+      "reason": "Representative greenhouse form (31 fields, checkbox+select+combobox)",
       "field_types": [
         "text",
-        "textarea"
+        "select",
+        "tel",
+        "checkbox"
+      ],
+      "field_count": 31,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-147",
+      "platform": "ashby",
+      "reason": "Representative ashby form (30 fields, radio+checkbox+select+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox",
+        "number",
+        "select"
       ],
       "field_count": 30,
       "priority": "standard",
@@ -294,15 +334,20 @@
       "playwright_priority": false
     },
     {
-      "id": "web-job-boards-greenhouse-io-4053828006",
-      "platform": "greenhouse",
-      "reason": "Representative greenhouse form (26 fields, checkbox+combobox+textarea+multiStep)",
+      "id": "web-jobs-ashbyhq-com-application-137",
+      "platform": "ashby",
+      "reason": "Representative ashby form (27 fields, radio+checkbox+select+combobox+textarea)",
       "field_types": [
+        "radio",
         "text",
+        "email",
+        "tel",
         "textarea",
-        "checkbox"
+        "checkbox",
+        "number",
+        "select"
       ],
-      "field_count": 26,
+      "field_count": 27,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
@@ -366,6 +411,45 @@
       "playwright_priority": true
     },
     {
+      "id": "web-jobs-ashbyhq-com-application-93",
+      "platform": "ashby",
+      "reason": "Representative ashby form (23 fields, radio+checkbox+select+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "select",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 23,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-108",
+      "platform": "ashby",
+      "reason": "Representative ashby form (22 fields, radio+checkbox+select+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "select",
+        "email",
+        "url",
+        "number",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 22,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
       "id": "web-jobs-ashbyhq-com-application-10",
       "platform": "ashby",
       "reason": "Representative ashby form (24 fields, radio+checkbox+combobox+textarea)",
@@ -377,77 +461,6 @@
         "textarea"
       ],
       "field_count": 24,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-5",
-      "platform": "ashby",
-      "reason": "Representative ashby form (23 fields, radio+combobox+textarea)",
-      "field_types": [
-        "radio",
-        "text",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "field_count": 23,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-7",
-      "platform": "ashby",
-      "reason": "Representative ashby form (19 fields, radio+checkbox+combobox+textarea)",
-      "field_types": [
-        "radio",
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "checkbox"
-      ],
-      "field_count": 19,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-15",
-      "platform": "ashby",
-      "reason": "Representative ashby form (19 fields, radio+checkbox+combobox+textarea)",
-      "field_types": [
-        "radio",
-        "text",
-        "checkbox",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "field_count": 19,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-jobs-ashbyhq-com-application-17",
-      "platform": "ashby",
-      "reason": "Representative ashby form (14 fields, radio+checkbox+combobox+textarea)",
-      "field_types": [
-        "radio",
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "checkbox"
-      ],
-      "field_count": 14,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
@@ -578,12 +591,13 @@
       "playwright_priority": false
     },
     {
-      "id": "web-jobs-smartrecruiters-com-87584664-application-packager",
+      "id": "web-jobs-smartrecruiters-com-83500645-application-services-applications-",
       "platform": "smartrecruiters",
-      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+select+combobox+textarea)",
       "field_types": [
         "text",
         "email",
+        "select",
         "tel",
         "textarea",
         "checkbox"
@@ -595,12 +609,13 @@
       "playwright_priority": false
     },
     {
-      "id": "web-jobs-smartrecruiters-com-109629315-application-developer",
+      "id": "web-jobs-smartrecruiters-com-1383db83-ff5c-43ad-a464-4cc561079024",
       "platform": "smartrecruiters",
-      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+select+combobox+textarea)",
       "field_types": [
         "text",
         "email",
+        "select",
         "tel",
         "textarea",
         "checkbox"
@@ -612,12 +627,13 @@
       "playwright_priority": false
     },
     {
-      "id": "web-jobs-smartrecruiters-com-ced768f4-e3b3-4d72-90a5-55824fa27bb2",
+      "id": "web-jobs-smartrecruiters-com-565a757a-e45f-443c-bd9d-3c6fc184d53c",
       "platform": "smartrecruiters",
-      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+select+combobox+textarea)",
       "field_types": [
         "text",
         "email",
+        "select",
         "tel",
         "textarea",
         "checkbox"
@@ -629,12 +645,13 @@
       "playwright_priority": false
     },
     {
-      "id": "web-jobs-smartrecruiters-com-00690739-17f9-4a31-8457-692f7b4bb37c",
+      "id": "web-jobs-smartrecruiters-com-f0ceed67-f4ea-49a2-8de1-00f0a9d05b1f",
       "platform": "smartrecruiters",
-      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+select+combobox+textarea)",
       "field_types": [
         "text",
         "email",
+        "select",
         "tel",
         "textarea",
         "checkbox"
@@ -646,12 +663,13 @@
       "playwright_priority": false
     },
     {
-      "id": "web-jobs-smartrecruiters-com-0a6dac3d-3758-4281-93f5-9fe4424227c8",
+      "id": "web-jobs-smartrecruiters-com-ea5850a0-f70a-4b0e-97f4-895c9a0b2085",
       "platform": "smartrecruiters",
-      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+select+combobox+textarea)",
       "field_types": [
         "text",
         "email",
+        "select",
         "tel",
         "textarea",
         "checkbox"
@@ -836,25 +854,24 @@
       "playwright_priority": false
     },
     {
-      "id": "syn-corpus2-teamtailor-001",
+      "id": "web-passivelogic-teamtailor-com-2323537-general-application",
       "platform": "teamtailor",
-      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
+      "reason": "Representative teamtailor form (9 fields, radio+select+combobox+textarea)",
       "field_types": [
+        "radio",
         "text",
         "email",
-        "tel",
-        "textarea",
         "select",
-        "radio"
+        "textarea"
       ],
-      "field_count": 6,
+      "field_count": 9,
       "priority": "standard",
-      "verify_engine": "jsdom",
-      "playwright": false,
+      "verify_engine": "playwright",
+      "playwright": true,
       "playwright_priority": false
     },
     {
-      "id": "syn-corpus2-teamtailor-002",
+      "id": "syn-corpus2-teamtailor-001",
       "platform": "teamtailor",
       "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
       "field_types": [
@@ -889,6 +906,40 @@
       "playwright_priority": true
     },
     {
+      "id": "web-wpforms-com-job-application-repeatable-fields-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (20 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 20,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-wpforms-com-brand-ambassador-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (19 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "tel",
+        "email",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 19,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
       "id": "web-www-wpforms-com-job-application-form-template",
       "platform": "wordpress",
       "reason": "Representative wordpress form (17 fields, checkbox+textarea)",
@@ -900,39 +951,6 @@
         "checkbox"
       ],
       "field_count": 17,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-wpforms-com-job-application-form-template",
-      "platform": "wordpress",
-      "reason": "Representative wordpress form (17 fields, checkbox+textarea)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "checkbox"
-      ],
-      "field_count": 17,
-      "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
-      "playwright_priority": false
-    },
-    {
-      "id": "web-wpforms-com-pre-employment-application-form-template",
-      "platform": "wordpress",
-      "reason": "Representative wordpress form (14 fields, checkbox)",
-      "field_types": [
-        "email",
-        "tel",
-        "text",
-        "checkbox"
-      ],
-      "field_count": 14,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
@@ -954,36 +972,38 @@
       "playwright_priority": false
     },
     {
-      "id": "web-apply-workable-com-apply-7",
+      "id": "web-careers-sixflags-icims-com-search",
       "platform": "generic-web",
-      "reason": "Generic web form with 76 fields",
+      "reason": "Generic web form with 120 fields",
       "field_types": [
+        "search",
+        "select",
         "text",
+        "checkbox",
         "email",
         "tel",
-        "textarea",
-        "radio",
-        "checkbox"
+        "textarea"
       ],
-      "field_count": 76,
+      "field_count": 120,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
-      "playwright_priority": true
+      "playwright_priority": false
     },
     {
-      "id": "web-form-jotform-com-240665164082051",
+      "id": "web-huronsd-gov-job-application-online-61",
       "platform": "generic-web",
-      "reason": "Generic web form with 58 fields",
+      "reason": "Generic web form with 81 fields",
       "field_types": [
         "text",
-        "tel",
-        "email",
+        "search",
+        "image",
         "select",
         "radio",
+        "checkbox",
         "textarea"
       ],
-      "field_count": 58,
+      "field_count": 81,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
@@ -1650,6 +1670,19 @@
       "playwright_priority": false
     },
     {
+      "id": "indeed-city-county-locality",
+      "platform": "indeed",
+      "reason": "Indeed Smart Apply City, county locality + street + postcode",
+      "field_types": [
+        "text"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
       "id": "syn-indeed-apply-contact-001",
       "platform": "indeed",
       "reason": "Indeed mosaic apply contact info - postcode, locality combobox, street address",
@@ -1673,6 +1706,24 @@
         "select"
       ],
       "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "live-ashby-capimoney-visa-location-20260718",
+      "platform": "ashby",
+      "reason": "Ashby Yes/No + location combobox; visa label contains role location",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "file",
+        "select",
+        "textarea"
+      ],
+      "field_count": 8,
       "priority": "standard",
       "verify_engine": "jsdom",
       "playwright": false,
@@ -1794,6 +1845,392 @@
         "text",
         "select",
         "email"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0060",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|checkbox-group,combobox,native-inputs,pill-radio|single-page|large)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "radio",
+        "number",
+        "select",
+        "url",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 17,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0026",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0026)",
+      "field_types": [
+        "text",
+        "email",
+        "select",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0014",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0014)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select",
+        "url",
+        "textarea",
+        "checkbox",
+        "date",
+        "number"
+      ],
+      "field_count": 15,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0025",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0025)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url",
+        "select",
+        "textarea"
+      ],
+      "field_count": 15,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0015",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0015)",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "checkbox",
+        "radio",
+        "textarea",
+        "url",
+        "number",
+        "password"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0051",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|combobox,native-inputs,pill-radio|single-page|medium)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url",
+        "select",
+        "number",
+        "date",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0061",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|combobox,native-inputs,pill-radio|single-page|medium)",
+      "field_types": [
+        "search",
+        "email",
+        "tel",
+        "text",
+        "url",
+        "number",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0062",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0062)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "number",
+        "checkbox",
+        "url",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 11,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0054",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|combobox,native-inputs,pill-radio|single-page|large)",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "url",
+        "select",
+        "password",
+        "radio"
+      ],
+      "field_count": 16,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0020",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0020)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "checkbox"
+      ],
+      "field_count": 18,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0027",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0027)",
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "url",
+        "checkbox",
+        "number",
+        "textarea"
+      ],
+      "field_count": 15,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0052",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|combobox,native-inputs|single-page|medium)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url",
+        "select",
+        "textarea"
+      ],
+      "field_count": 15,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0019",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0019)",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "radio",
+        "url",
+        "checkbox",
+        "number",
+        "date"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0028",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|combobox,native-inputs|single-page|medium)",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0053",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|checkbox-group,native-inputs,pill-radio|single-page|medium)",
+      "field_types": [
+        "text",
+        "email",
+        "checkbox",
+        "url",
+        "radio",
+        "number"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0056",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (unknown|native-inputs,pill-radio|single-page|medium)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "number",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0018",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0018)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select",
+        "url"
+      ],
+      "field_count": 10,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0017",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0017)",
+      "field_types": [
+        "email",
+        "textarea",
+        "checkbox",
+        "text",
+        "select"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0021",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0021)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "number",
+        "url"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0022",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0022)",
+      "field_types": [
+        "text",
+        "number",
+        "url"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ai-0023",
+      "platform": "syn-ai",
+      "reason": "syn-ai matrix cell representative (syn-ai-0023)",
+      "field_types": [
+        "email",
+        "text"
       ],
       "field_count": 3,
       "priority": "standard",
@@ -1985,23 +2422,22 @@
       "playwright_priority": false
     },
     {
-      "id": "web-careers-commonspirit-icims-com-intro",
+      "id": "web-careers-stuartmechanical-icims-com-search",
       "platform": "generic-web",
       "reason": "Underrepresented ATS/pattern: icims",
       "field_types": [
-        "search",
         "text",
         "email",
-        "select"
+        "checkbox"
       ],
-      "field_count": 5,
+      "field_count": 12,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
       "playwright_priority": false
     },
     {
-      "id": "web-apply-workable-com-apply-2",
+      "id": "web-apply-workable-com-apply-7",
       "platform": "generic-web",
       "reason": "Underrepresented ATS/pattern: workable",
       "field_types": [
@@ -2012,25 +2448,25 @@
         "radio",
         "checkbox"
       ],
-      "field_count": 53,
+      "field_count": 76,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
-      "playwright_priority": false
+      "playwright_priority": true
     },
     {
-      "id": "web-form-jotform-com-252378100909154",
+      "id": "web-form-jotform-com-240665164082051",
       "platform": "generic-web",
       "reason": "Underrepresented ATS/pattern: jotform",
       "field_types": [
         "text",
-        "select",
         "tel",
         "email",
-        "checkbox",
+        "select",
+        "radio",
         "textarea"
       ],
-      "field_count": 39,
+      "field_count": 58,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,

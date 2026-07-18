@@ -108,4 +108,15 @@ class AnswerTypeCoherenceTest extends TestCase
             '2 weeks',
         ));
     }
+
+    public function test_rejects_url_on_locality(): void
+    {
+        $profile = new CvProfile(['city' => 'High Wycombe']);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'City, county', 'field_type' => 'text'],
+            'https://linkedin.com/in/toby',
+        ));
+    }
 }

@@ -2607,7 +2607,11 @@ export function readProfileValue(profileData, path) {
     const parts = String(path).split('.').filter(Boolean);
 
     if (parts[0] === 'application_settings') {
-        let node = profileData.application_settings ?? {};
+        let node = profileData.application_settings;
+
+        if (node == null || (typeof node === 'object' && Object.keys(node).length === 0)) {
+            node = profileData.profile?.application_settings ?? {};
+        }
 
         for (let index = 1; index < parts.length; index += 1) {
             node = node?.[parts[index]];

@@ -303,6 +303,10 @@ const SYN_INDEED_PICKS = [
     { id: 'syn-indeed-apply-questions-001', reason: 'Indeed employer questions - education single-select, textareas, commute radios' },
 ];
 
+const SYN_ASHBY_LIVE_PICKS = [
+    { id: 'live-ashby-capimoney-visa-location-20260718', reason: 'Ashby Yes/No + location combobox; visa label contains role location' },
+];
+
 const SYN_WEIRD_PICKS = [
     { id: 'syn-weird-006', reason: 'Fields inside closed details accordion' },
     { id: 'syn-weird-007', reason: 'Application form inside native dialog' },
@@ -495,6 +499,10 @@ export function buildCuratedManifest() {
 
     for (const indeedPick of SYN_INDEED_PICKS) {
         addById(indeedPick.id, { reason: indeedPick.reason, priority: 'standard' });
+    }
+
+    for (const ashbyPick of SYN_ASHBY_LIVE_PICKS) {
+        addById(ashbyPick.id, { reason: ashbyPick.reason, priority: 'standard' });
     }
 
     for (const pick of pickBest(byPlatform['syn-weird'] || [], 8, usedIds)) {
