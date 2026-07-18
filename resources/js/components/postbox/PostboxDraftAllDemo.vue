@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
 import { ArrowRight, CheckCircle2, FileText, RotateCcw } from 'lucide-vue-next';
 import { computed, onUnmounted, reactive, ref } from 'vue';
-import { howTo } from '@/routes';
+import { CHROME_WEB_STORE_URL } from '@/lib/site';
 
 type FieldType =
     | 'text'
@@ -331,13 +330,15 @@ onUnmounted(() => {
                                 <RotateCcw class="size-3" />
                                 Reset
                             </button>
-                            <Link
-                                :href="howTo()"
+                            <a
+                                :href="CHROME_WEB_STORE_URL"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 class="postbox-link inline-flex items-center gap-0.5 text-xs font-semibold no-underline hover:underline"
                             >
                                 Get extension
                                 <ArrowRight class="size-3" />
-                            </Link>
+                            </a>
                         </div>
                     </div>
 

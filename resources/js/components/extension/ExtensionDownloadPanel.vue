@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { Chrome, Download } from 'lucide-vue-next';
+import { Chrome, Download, ExternalLink } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { extensionDownloads } from '@/lib/extensionDownloads';
 
@@ -48,7 +48,7 @@ const downloadUrl = computed(() => {
 
 const downloadLabel = computed(() => {
     if (selectedBrowser.value === 'chrome') {
-        return 'Download for Chrome / Edge / Brave';
+        return 'Download zip for Edge / Brave';
     }
 
     if (selectedBrowser.value === 'firefox') {
@@ -139,25 +139,57 @@ function selectBrowser(browser: BrowserChoice): void {
 
         <div v-else class="space-y-5">
             <div class="postbox-panel p-4 sm:p-6">
-                <p class="postbox-label">Step 2 · Download the extension</p>
-                <p class="mt-1 text-sm text-muted-foreground">
-                    This zip is built for
-                    {{
-                        selectedBrowser === 'chrome'
-                            ? 'Chrome, Edge, and Brave'
-                            : 'Firefox'
-                    }}. No browser store required.
-                </p>
+                <p class="postbox-label">Step 2 · Get the extension</p>
 
-                <a
-                    v-if="downloadUrl"
-                    :href="downloadUrl"
-                    download
-                    class="postbox-btn mt-5 inline-flex items-center gap-2"
-                >
-                    <Download class="size-4" aria-hidden="true" />
-                    {{ downloadLabel }}
-                </a>
+                <template v-if="selectedBrowser === 'chrome'">
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Chrome users: install from the Chrome Web Store. Edge
+                        and Brave can use the store listing or the zip below.
+                    </p>
+
+                    <a
+                        :href="extensionDownloads.chromeWebStore"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="postbox-btn mt-5 inline-flex items-center gap-2"
+                    >
+                        <Chrome class="size-4" aria-hidden="true" />
+                        Install from Chrome Web Store
+                        <ExternalLink class="size-3.5" aria-hidden="true" />
+                    </a>
+
+                    <p class="mt-5 text-sm text-muted-foreground">
+                        Prefer a zip? Download and sideload for Edge, Brave, or
+                        offline installs.
+                    </p>
+
+                    <a
+                        v-if="downloadUrl"
+                        :href="downloadUrl"
+                        download
+                        class="postbox-btn-outline mt-3 inline-flex items-center gap-2"
+                    >
+                        <Download class="size-4" aria-hidden="true" />
+                        {{ downloadLabel }}
+                    </a>
+                </template>
+
+                <template v-else>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        This zip is built for Firefox. No browser store
+                        required.
+                    </p>
+
+                    <a
+                        v-if="downloadUrl"
+                        :href="downloadUrl"
+                        download
+                        class="postbox-btn mt-5 inline-flex items-center gap-2"
+                    >
+                        <Download class="size-4" aria-hidden="true" />
+                        {{ downloadLabel }}
+                    </a>
+                </template>
             </div>
 
             <div v-if="showInstructions" class="postbox-panel p-4 sm:p-6">
@@ -168,10 +200,20 @@ function selectBrowser(browser: BrowserChoice): void {
                     class="mt-4 list-decimal space-y-2 pl-5 text-sm text-muted-foreground"
                 >
                     <li>
-                        Extract the downloaded zip to a folder on your computer.
+                        <strong>Chrome:</strong> open
+                        <a
+                            :href="extensionDownloads.chromeWebStore"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="postbox-link"
+                        >
+                            the Chrome Web Store listing
+                        </a>
+                        and click Add to Chrome.
                     </li>
                     <li>
-                        Open
+                        <strong>Edge / Brave (zip):</strong> extract the
+                        downloaded zip, open
                         <code
                             class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >chrome://extensions</code
@@ -180,12 +222,8 @@ function selectBrowser(browser: BrowserChoice): void {
                         <code
                             class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >edge://extensions</code
-                        >.
-                    </li>
-                    <li>Turn on Developer mode.</li>
-                    <li>
-                        Click Load unpacked and choose the extracted folder (it
-                        must contain
+                        >, turn on Developer mode, then Load unpacked and choose
+                        the extracted folder (it must contain
                         <code
                             class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >manifest.json</code
@@ -200,17 +238,17 @@ function selectBrowser(browser: BrowserChoice): void {
                     <li>
                         Developing from source? Run
                         <code
-                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >npm run build:extension</code
                         >
                         and load the
                         <code
-                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >extension/dist</code
                         >
                         folder - not
                         <code
-                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >extension/</code
                         >.
                     </li>

@@ -8,7 +8,7 @@ import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
-import { FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
+import { CHROME_WEB_STORE_URL, FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
 </script>
 
 <template>
@@ -45,11 +45,20 @@ import { FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
             <ol>
                 <li>Sign in and complete your profile in the web app.</li>
                 <li>
-                    Download the extension for Chrome or Firefox from your
-                    dashboard (no browser store required).
+                    <strong>Chrome:</strong> install from the
+                    <a
+                        :href="CHROME_WEB_STORE_URL"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Chrome Web Store
+                    </a>
+                    (or from your dashboard).
+                    <strong>Edge / Brave / Firefox:</strong> download the zip
+                    from your dashboard.
                 </li>
                 <li>
-                    Unzip the download and sideload it:
+                    Zip installs: unzip and sideload -
                     <strong>Chrome / Edge / Brave</strong> via
                     <code>chrome://extensions</code> → Developer mode → Load
                     unpacked; <strong>Firefox</strong> via

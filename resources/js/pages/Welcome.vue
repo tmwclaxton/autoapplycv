@@ -16,7 +16,7 @@ import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
-import { FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
+import { CHROME_WEB_STORE_URL, FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -61,6 +61,15 @@ defineProps<{
                     <FileUp class="size-5" />
                     Upload your CV
                 </Link>
+                <a
+                    :href="CHROME_WEB_STORE_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="postbox-btn-outline w-full sm:w-auto"
+                >
+                    Chrome Web Store
+                    <ArrowRight class="size-4" />
+                </a>
                 <Link
                     :href="howTo()"
                     class="postbox-btn-outline w-full sm:w-auto"

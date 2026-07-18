@@ -11,11 +11,13 @@
 
 <p align="center">
   <a href="https://autocvapply.com"><img src="https://img.shields.io/badge/Website-autocvapply.com-C8102E?style=for-the-badge" alt="Website" /></a>
+  <a href="https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih"><img src="https://img.shields.io/badge/Chrome_Web_Store-Install-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome Web Store" /></a>
   <a href="https://github.com/tmwclaxton/autoapplycv"><img src="https://img.shields.io/badge/GitHub-Source-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
 </p>
 
 <p align="center">
   <a href="https://autocvapply.com">Website</a> ·
+  <a href="https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih">Chrome Web Store</a> ·
   <a href="https://github.com/tmwclaxton/autoapplycv">GitHub</a> ·
   <a href="https://autocvapply.com/how-to">How it works</a> ·
   <a href="https://autocvapply.com/dashboard">Dashboard</a>
@@ -127,19 +129,19 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 
 ## Quick install
 
-> **Recommended:** create a free account at **[autocvapply.com](https://autocvapply.com)**, upload your CV, then download the extension from your dashboard. Chrome Web Store listing is not live yet - sideload via zip for now.
+> **Recommended:** create a free account at **[autocvapply.com](https://autocvapply.com)**, upload your CV, then **[install from the Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih)** (or download a zip from your dashboard for Edge, Brave, or Firefox).
 
 ### Production (autocvapply.com)
 
 1. **[Sign up](https://autocvapply.com)** and upload your CV
-2. Open **Dashboard → Extension** and choose your browser
-3. Download the zip (Chrome, Edge, Brave, or Firefox)
-4. Sideload using the on-screen instructions
-5. Copy your connection JSON (`token` + `api_base`) into the extension sidebar
+2. **[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih)** - or open **Dashboard → Extension** for zip installs
+3. For zip installs: download for your browser and sideload using the on-screen instructions
+4. Copy your connection JSON (`token` + `api_base`) into the extension sidebar
 
 | Browser | Install method | Store listing |
 |---------|----------------|---------------|
-| **Chrome / Edge / Brave** | Download zip from dashboard → Load unpacked | Chrome Web Store - *coming soon* |
+| **Chrome** | [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) → Add to Chrome | [Live](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
+| **Edge / Brave** | Store listing or dashboard zip → Load unpacked | [Chrome Web Store](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
 | **Firefox** | Download zip from dashboard → Load Temporary Add-on | Firefox Add-ons - *coming soon* |
 
 ### From source (developers)
@@ -345,7 +347,7 @@ Practical advice for high-volume applications (no magic numbers - your mileage v
 | **Contact** | [autocvapply.com/contact](https://autocvapply.com/contact) |
 | **GitHub** | [github.com/tmwclaxton/autoapplycv](https://github.com/tmwclaxton/autoapplycv) |
 | **Discord** | [discord.gg/DqqqTv3Spt](https://discord.gg/DqqqTv3Spt) - extension help & community |
-| **Chrome Web Store** | *Listing not published yet - use dashboard zip download* |
+| **Chrome Web Store** | [chromewebstore.google.com/.../autocvapply](https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih) |
 | **Form corpus docs** | [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) |
 | **Extension bridge (MCP)** | [`scripts/extension-bridge/README.md`](scripts/extension-bridge/README.md) |
 | **Job board automation playbook** | [`docs/platform-automation-playbook.md`](docs/platform-automation-playbook.md) |

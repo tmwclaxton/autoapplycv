@@ -632,8 +632,8 @@ async function copyToken() {
         <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Install extension</h2>
             <p class="mb-6 text-sm text-muted-foreground">
-                Choose your browser, download the matching zip, and sideload it
-                without the Chrome Web Store or Firefox Add-ons.
+                Chrome: install from the Chrome Web Store. Edge, Brave, and
+                Firefox: download the matching zip and sideload it.
             </p>
             <ExtensionDownloadPanel />
         </div>

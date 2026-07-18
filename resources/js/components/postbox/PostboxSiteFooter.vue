@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import DiscordIcon from '@/components/DiscordIcon.vue';
 import {
+    CHROME_WEB_STORE_URL,
     FOOTER_LINKS,
     DISCORD_INVITE_URL,
     GITHUB_REPOSITORY_URL,
@@ -49,6 +50,15 @@ const routeMap = {
                 >
                     {{ item.label }}
                 </Link>
+                <span class="text-muted-foreground">·</span>
+                <a
+                    :href="CHROME_WEB_STORE_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="postbox-link"
+                >
+                    Chrome Web Store
+                </a>
                 <span class="text-muted-foreground">·</span>
                 <a
                     :href="DISCORD_INVITE_URL"
