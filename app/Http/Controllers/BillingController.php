@@ -58,6 +58,7 @@ class BillingController extends Controller
             'subscription' => $this->usage->summary($user),
             'billing' => $this->goCardless->billingHistory($user),
             'plans' => SubscriptionTier::marketingPlans(),
+            'plan_change_confirmations' => $this->planChange->checkoutConfirmations($user),
         ]);
     }
 

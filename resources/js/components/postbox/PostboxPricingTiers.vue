@@ -38,6 +38,10 @@ const props = withDefaults(
     },
 );
 
+const emit = defineEmits<{
+    selectPlan: [plan: PricingPlan];
+}>();
+
 const page = usePage();
 const isBilling = computed(() => props.mode === 'billing');
 const authenticated = computed(
@@ -53,6 +57,12 @@ function formatCredits(value: number): string {
 }
 
 function selectPlan(plan: PricingPlan) {
+    if (isBilling.value) {
+        emit('selectPlan', plan);
+
+        return;
+    }
+
     router.post(billing.checkout.url(), { tier: plan.key });
 }
 

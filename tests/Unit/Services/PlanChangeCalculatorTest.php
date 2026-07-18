@@ -96,6 +96,26 @@ class PlanChangeCalculatorTest extends TestCase
         ));
     }
 
+    public function test_checkout_confirmations_include_usage_adjusted_upgrade_amount(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_used' => 0,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $confirmations = $this->calculator()->checkoutConfirmations($user);
+
+        $this->assertSame('upgrade', $confirmations['pro']['action']);
+        $this->assertSame(1000, $confirmations['pro']['amount_due_pence']);
+        $this->assertStringContainsString('£10.00', $confirmations['pro']['description']);
+        $this->assertSame('cancel', $confirmations['free']['action']);
+        $this->assertArrayNotHasKey('starter', $confirmations);
+    }
+
     private function calculator(): PlanChangeCalculator
     {
         return new PlanChangeCalculator(app(AiTokenService::class));

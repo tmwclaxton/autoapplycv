@@ -35,7 +35,9 @@ class SubscriptionTest extends TestCase
             ])
             ->assertJsonPath('props.subscription.tier', 'free')
             ->assertJsonPath('props.subscription.monthly_credits', 250)
-            ->assertJsonPath('props.billing.payments', []);
+            ->assertJsonPath('props.billing.payments', [])
+            ->assertJsonPath('props.plan_change_confirmations.starter.action', 'subscribe')
+            ->assertJsonPath('props.plan_change_confirmations.starter.amount_due_pence', 700);
     }
 
     public function test_paid_checkout_redirects_to_gocardless_for_starter(): void

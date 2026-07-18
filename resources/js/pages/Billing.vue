@@ -51,10 +51,19 @@ interface BillingHistory {
     payments: BillingPayment[];
 }
 
+interface PlanChangeConfirmation {
+    action: string;
+    title: string;
+    description: string;
+    confirm_label: string;
+    amount_due_pence: number;
+}
+
 const props = defineProps<{
     subscription: SubscriptionSummary;
     billing: BillingHistory;
     plans: PricingPlan[];
+    plan_change_confirmations: Record<string, PlanChangeConfirmation>;
 }>();
 
 const page = usePage();
@@ -159,6 +168,25 @@ async function cancelSubscription(): Promise<void> {
     }
 
     router.post('/billing/cancel');
+}
+
+async function selectBillingPlan(plan: PricingPlan): Promise<void> {
+    const quote = props.plan_change_confirmations[plan.key];
+
+    if (quote) {
+        const confirmed = await confirm({
+            title: quote.title,
+            description: quote.description,
+            confirmLabel: quote.confirm_label,
+            variant: quote.action === 'cancel' ? 'destructive' : 'default',
+        });
+
+        if (!confirmed) {
+            return;
+        }
+    }
+
+    router.post(billingRoutes.checkout.url(), { tier: plan.key });
 }
 </script>
 
@@ -379,5 +407,6 @@ async function cancelSubscription(): Promise<void> {
         :can-resume-checkout="subscription.can_resume_checkout"
         mode="billing"
         :is-authenticated="true"
+        @select-plan="selectBillingPlan"
     />
 </template>
