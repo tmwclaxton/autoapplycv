@@ -25,6 +25,30 @@ test('visa sponsorship for role location is sponsorship not locality', () => {
     assert.equal(isLocationAutocompleteQuestionLabel(visaLabel), false);
 });
 
+test('authorised without visa sponsorship is work-auth Yes not sponsorship No', () => {
+    const label =
+        'are you legally authorised to work in the country you wish to work in without the need for visa sponsorship?';
+    assert.equal(isVisaSponsorshipQuestionLabel(label), false);
+    assert.equal(
+        resolvePreferenceProfileAnswer(
+            {
+                ref: 'f0',
+                label,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                country: 'United Kingdom',
+                application_settings: {
+                    legally_authorized: 'yes',
+                    visa_sponsorship: 'no',
+                },
+            },
+        ),
+        'Yes',
+    );
+});
+
 test('identity stage does not fill visa question with city', () => {
     const profile = {
         profile: {

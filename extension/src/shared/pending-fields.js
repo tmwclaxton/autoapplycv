@@ -897,6 +897,19 @@ export function isVisaSponsorshipQuestionLabel(label) {
         return false;
     }
 
+    // "Authorised to work without visa sponsorship" is work-auth capacity
+    // (legally_authorized), not "do you need sponsorship?"
+    if (
+        /\b(?:without|no need for|do not need|don t need)\b.*\b(?:visa\s+)?sponsorship\b/.test(
+            normalized,
+        ) ||
+        /\b(?:authori[sz]ed|eligible|right to work)\b.*\bwithout\b.*\bsponsorship\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
     if (/\bsponsorship\b/.test(normalized)) {
         return (
             /\b(require|requiring|need|needs|needed)\b.*\bsponsorship\b/.test(
@@ -2977,6 +2990,15 @@ function profileMatchesWorkAuthCountryAliases(profileCountry, aliases) {
 
 function isWorkPermitRequirementQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
+
+    // "Authorised without the need for a visa" is capacity, not a permit ask.
+    if (
+        /\b(?:without|no need for|do not need|don t need)\b.*\b(?:visa|work permit|sponsorship)\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
 
     return (
         /\b(require|requiring|need)\b/.test(normalized) &&
