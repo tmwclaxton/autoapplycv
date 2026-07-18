@@ -1299,7 +1299,17 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return true;
         }
 
-        return Boolean(readIndeedReviewRoot());
+        // Stale/hidden mosaic preview nodes can linger across SmartApply steps -
+        // only treat as review when the preview root is visible with review copy.
+        const root = readIndeedReviewRoot();
+
+        if (!(root instanceof HTMLElement) || !isElementVisible(root)) {
+            return false;
+        }
+
+        const heading = normalize(root.querySelector('h1')?.textContent || '');
+
+        return /review your application|please review/i.test(heading);
     }
 
     function readIndeedCaptchaPresent() {
@@ -2079,15 +2089,21 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
-            return {
-                success: false,
-                action: 'blocked',
-                error: submitButton
-                    ? 'Submit click did not confirm on Indeed review step.'
-                    : 'No Submit button found on Indeed review step.',
-                validationErrors: readValidationErrors(),
-                stepFingerprint: previousFingerprint,
-            };
+            // Stale isReviewStep (hidden preview root / URL race) often still has
+            // Continue - fall through instead of failing the whole job.
+            if (!submitButton && readContinueButton()) {
+                // continue below
+            } else {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    error: submitButton
+                        ? 'Submit click did not confirm on Indeed review step.'
+                        : 'No Submit button found on Indeed review step.',
+                    validationErrors: readValidationErrors(),
+                    stepFingerprint: previousFingerprint,
+                };
+            }
         }
 
         const continueButton = readContinueButton();

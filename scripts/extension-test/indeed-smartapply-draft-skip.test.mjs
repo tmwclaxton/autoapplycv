@@ -50,6 +50,16 @@ assert.match(
     /reviewOnly:\s*false/,
     'Review submit must fall back outside mosaic preview root',
 );
+assert.match(
+    indeedSource,
+    /review your application\|please review/,
+    'isIndeedReviewStep must require visible review heading, not stale preview root',
+);
+assert.match(
+    indeedSource,
+    /!submitButton && readContinueButton\(\)/,
+    'Missing Submit on false review must fall through to Continue',
+);
 
 assert.match(
     orchestratorSource,
