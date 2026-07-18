@@ -37,6 +37,7 @@ import {
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
+import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
 import {
     appendAutoApplyLog,
     buildStoppedSessionState,
@@ -50,7 +51,6 @@ import {
     resumeAutoApplyFromInput,
     saveAutoApplySession,
 } from './auto-apply-session.js';
-import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
 import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import {
     clearActiveAutoApplyTiming,

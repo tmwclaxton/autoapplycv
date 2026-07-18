@@ -9,11 +9,6 @@
  * Profile mapping and preference partitions remain in ../pending-fields.js for now.
  */
 import { partitionScreenerHeuristicFields } from '../auto-apply-screener-answer.js';
-import {
-    partitionAgreementCheckboxFields,
-    partitionElectronicSignatureFields,
-    partitionMarketingConsentFields,
-} from './consent-fields.js';
 import { compactFieldsForDraft, partitionFieldsByQuestionMemo } from '../draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
@@ -29,6 +24,11 @@ import {
     partitionReferenceProfileFields,
     partitionScreeningTrapFields,
 } from '../pending-fields.js';
+import {
+    partitionAgreementCheckboxFields,
+    partitionElectronicSignatureFields,
+    partitionMarketingConsentFields,
+} from './consent-fields.js';
 
 /**
  * Plan deterministic Draft All stages before any LLM stream.
