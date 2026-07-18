@@ -32,6 +32,13 @@ class ExtensionBuildTest extends TestCase
         $this->assertSame('121.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
         $this->assertSame(['background.js'], $firefoxManifest['background']['scripts'] ?? null);
         $this->assertSame('background.js', $firefoxManifest['background']['service_worker'] ?? null);
+        $this->assertSame('sidepanel.html', $firefoxManifest['sidebar_action']['default_panel'] ?? null);
+        $this->assertArrayNotHasKey('side_panel', $firefoxManifest);
+        $this->assertArrayNotHasKey('externally_connectable', $firefoxManifest);
+        $this->assertNotContains('windows', $firefoxManifest['permissions'] ?? []);
+        $this->assertNotContains('sidePanel', $firefoxManifest['permissions'] ?? []);
+        $this->assertContains('tabs', $firefoxManifest['permissions'] ?? []);
+        $this->assertContains('storage', $firefoxManifest['permissions'] ?? []);
 
         $chromeManifest = $this->readManifestFromZip($chromeZip);
         $this->assertArrayNotHasKey('browser_specific_settings', $chromeManifest);
@@ -39,6 +46,9 @@ class ExtensionBuildTest extends TestCase
         $this->assertArrayNotHasKey('scripts', $chromeManifest['background'] ?? []);
         $this->assertSame('background.js', $chromeManifest['background']['service_worker'] ?? null);
         $this->assertSame('sidepanel.html', $chromeManifest['side_panel']['default_path'] ?? null);
+        $this->assertContains('windows', $chromeManifest['permissions'] ?? []);
+        $this->assertContains('sidePanel', $chromeManifest['permissions'] ?? []);
+        $this->assertArrayHasKey('externally_connectable', $chromeManifest);
         $this->assertSame('icons/icon32.png', $chromeManifest['icons']['32'] ?? null);
     }
 

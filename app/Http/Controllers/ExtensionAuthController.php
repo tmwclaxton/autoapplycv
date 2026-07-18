@@ -53,10 +53,26 @@ class ExtensionAuthController extends Controller
             $extensionId = (string) $request->session()->get('extension_auth_extension_id', '');
         }
 
-        if ($extensionId === '' || ! preg_match('/^[a-z]{32}$/', $extensionId)) {
+        if ($extensionId === '' || ! $this->isValidExtensionId($extensionId)) {
             abort(422, 'A valid extension_id query parameter is required.');
         }
 
         return $extensionId;
+    }
+
+    /**
+     * Chrome uses a 32-letter id; Firefox uses an email-like or UUID gecko id.
+     */
+    private function isValidExtensionId(string $extensionId): bool
+    {
+        if (preg_match('/^[a-z]{32}$/', $extensionId) === 1) {
+            return true;
+        }
+
+        if (preg_match('/^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?@[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.[a-z]{2,}$/i', $extensionId) === 1) {
+            return true;
+        }
+
+        return preg_match('/^\{[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\}$/i', $extensionId) === 1;
     }
 }

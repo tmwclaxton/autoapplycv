@@ -69,4 +69,43 @@ class ExtensionAuthTest extends TestCase
             'extension_id' => 'not-valid',
         ]))->assertStatus(422);
     }
+
+    public function test_extension_login_accepts_firefox_gecko_extension_id(): void
+    {
+        $extensionId = 'autocvapply@autocvapply.com';
+
+        $this->get(route('extension.login', [
+            'extension_id' => $extensionId,
+        ]))->assertRedirect(route('extension.login.complete', [
+            'extension_id' => $extensionId,
+        ]));
+    }
+
+    public function test_extension_login_accepts_firefox_uuid_extension_id(): void
+    {
+        $extensionId = '{12345678-1234-1234-1234-123456789abc}';
+
+        $this->get(route('extension.login', [
+            'extension_id' => $extensionId,
+        ]))->assertRedirect(route('extension.login.complete', [
+            'extension_id' => $extensionId,
+        ]));
+    }
+
+    public function test_extension_login_complete_accepts_firefox_gecko_extension_id(): void
+    {
+        $user = User::factory()->create();
+        $extensionId = 'autocvapply@autocvapply.com';
+
+        $this->actingAs($user)
+            ->get(route('extension.login.complete', [
+                'extension_id' => $extensionId,
+            ]))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Extension/Connect')
+                ->where('extensionId', $extensionId)
+                ->where('apiBase', rtrim((string) config('app.url'), '/'))
+                ->has('token'));
+    }
 }

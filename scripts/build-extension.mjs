@@ -701,6 +701,17 @@ function buildFirefoxDist() {
 
     const manifestPath = join(firefoxDist, 'manifest.json');
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    applyFirefoxManifest(manifest);
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 4)}\n`);
+
+    return firefoxDist;
+}
+
+/**
+ * Adapt a Chrome MV3 manifest for Firefox / AMO validation.
+ * Strips Chrome-only keys that Firefox warns about or rejects.
+ */
+function applyFirefoxManifest(manifest) {
     manifest.browser_specific_settings = {
         gecko: {
             id: 'autocvapply@autocvapply.com',
@@ -714,14 +725,26 @@ function buildFirefoxDist() {
         scripts: ['background.js'],
         type: 'module',
     };
+    // Firefox uses sidebar_action; Chrome's side_panel / sidePanel are unsupported.
     manifest.sidebar_action = {
         default_panel: 'sidepanel.html',
         default_title: 'AutoCVApply',
     };
+    delete manifest.side_panel;
+    // Firefox does not implement externally_connectable for web pages.
+    delete manifest.externally_connectable;
     delete manifest.action?.default_popup;
-    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 4)}\n`);
 
-    return firefoxDist;
+    // Chrome-only API permissions: windows is implicit with tabs; sidePanel is Chrome-only.
+    const chromeOnlyPermissions = new Set(['windows', 'sidePanel']);
+
+    if (Array.isArray(manifest.permissions)) {
+        manifest.permissions = manifest.permissions.filter(
+            (permission) => !chromeOnlyPermissions.has(permission),
+        );
+    }
+
+    return manifest;
 }
 
 zipDirectory(DIST, CHROME_ZIP);
