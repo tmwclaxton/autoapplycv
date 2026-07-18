@@ -31,7 +31,8 @@ class ExtensionBuildTest extends TestCase
         );
         $this->assertSame('121.0', $firefoxManifest['browser_specific_settings']['gecko']['strict_min_version'] ?? null);
         $this->assertSame(['background.js'], $firefoxManifest['background']['scripts'] ?? null);
-        $this->assertSame('background.js', $firefoxManifest['background']['service_worker'] ?? null);
+        $this->assertSame('module', $firefoxManifest['background']['type'] ?? null);
+        $this->assertArrayNotHasKey('service_worker', $firefoxManifest['background'] ?? []);
         $this->assertSame('sidepanel.html', $firefoxManifest['sidebar_action']['default_panel'] ?? null);
         $this->assertArrayNotHasKey('side_panel', $firefoxManifest);
         $this->assertArrayNotHasKey('externally_connectable', $firefoxManifest);

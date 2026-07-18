@@ -718,10 +718,10 @@ function applyFirefoxManifest(manifest) {
             strict_min_version: '121.0',
         },
     };
-    // Firefox still runs MV3 backgrounds as event pages (service workers disabled).
-    // Dual keys: Chrome uses service_worker; Firefox 121+ uses scripts.
+    // Firefox MV3 backgrounds are event pages only (service workers locked off).
+    // Ship scripts alone - including service_worker can leave no background registered
+    // (about:debugging shows no "Background script" line) and the sidebar stays blank.
     manifest.background = {
-        service_worker: 'background.js',
         scripts: ['background.js'],
         type: 'module',
     };

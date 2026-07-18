@@ -211,7 +211,19 @@ function renderSubscription(subscription) {
 
 async function checkAuth() {
     return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' }, resolve);
+        try {
+            chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    resolve(null);
+
+                    return;
+                }
+
+                resolve(response ?? null);
+            });
+        } catch {
+            resolve(null);
+        }
     });
 }
 
