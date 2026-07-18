@@ -32,6 +32,18 @@ class ExtensionDownloadUrlsTest extends TestCase
         $this->assertMatchesRegularExpression('/\d+\.\d+\.\d+/', $version);
     }
 
+    public function test_download_panel_labels_distinguish_chrome_and_firefox_zips(): void
+    {
+        $source = (string) file_get_contents(
+            resource_path('js/components/extension/ExtensionDownloadPanel.vue'),
+        );
+
+        $this->assertStringContainsString("return 'autoapplycv-chrome.zip'", $source);
+        $this->assertStringContainsString("return 'autoapplycv-firefox.zip'", $source);
+        $this->assertStringContainsString(':download="downloadFilename"', $source);
+        $this->assertStringContainsString('Do not upload the Chrome', $source);
+    }
+
     public function test_nginx_sets_no_cache_headers_for_extension_zips(): void
     {
         $nginx = (string) file_get_contents(base_path('docker/production/nginx.conf'));

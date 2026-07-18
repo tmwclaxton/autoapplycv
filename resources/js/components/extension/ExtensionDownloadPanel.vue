@@ -46,13 +46,25 @@ const downloadUrl = computed(() => {
     return null;
 });
 
-const downloadLabel = computed(() => {
+const downloadFilename = computed(() => {
     if (selectedBrowser.value === 'chrome') {
-        return 'Download zip for Edge / Brave';
+        return 'autoapplycv-chrome.zip';
     }
 
     if (selectedBrowser.value === 'firefox') {
-        return 'Download for Firefox';
+        return 'autoapplycv-firefox.zip';
+    }
+
+    return null;
+});
+
+const downloadLabel = computed(() => {
+    if (selectedBrowser.value === 'chrome') {
+        return 'Download autoapplycv-chrome.zip';
+    }
+
+    if (selectedBrowser.value === 'firefox') {
+        return 'Download autoapplycv-firefox.zip';
     }
 
     return 'Download extension';
@@ -164,9 +176,9 @@ function selectBrowser(browser: BrowserChoice): void {
                     </p>
 
                     <a
-                        v-if="downloadUrl"
+                        v-if="downloadUrl && downloadFilename"
                         :href="downloadUrl"
-                        download
+                        :download="downloadFilename"
                         class="postbox-btn-outline mt-3 inline-flex items-center gap-2"
                     >
                         <Download class="size-4" aria-hidden="true" />
@@ -176,14 +188,19 @@ function selectBrowser(browser: BrowserChoice): void {
 
                 <template v-else>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        This zip is built for Firefox. No browser store
-                        required.
+                        Use
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >autoapplycv-firefox.zip</code
+                        >
+                        for Firefox (and Mozilla AMO). Do not upload the Chrome
+                        zip to AMO.
                     </p>
 
                     <a
-                        v-if="downloadUrl"
+                        v-if="downloadUrl && downloadFilename"
                         :href="downloadUrl"
-                        download
+                        :download="downloadFilename"
                         class="postbox-btn mt-5 inline-flex items-center gap-2"
                     >
                         <Download class="size-4" aria-hidden="true" />
