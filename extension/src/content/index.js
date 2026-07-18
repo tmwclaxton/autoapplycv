@@ -1337,19 +1337,28 @@ contentMessageListener = (message, sender, sendResponse) => {
                 const answer = answers[index];
                 const applyFieldTimeoutMs = applyTimeoutMsForAnswer(answer);
 
-                applied += await Promise.race([
-                    applySingleAnswer(answer),
-                    new Promise((resolve) => {
-                        window.setTimeout(() => {
-                            contentLog('warn', 'apply.batch', 'Field apply timed out; continuing batch', {
-                                ref: answer?.ref,
-                                label: answer?.label,
-                                timeoutMs: applyFieldTimeoutMs,
-                            });
-                            resolve(0);
-                        }, applyFieldTimeoutMs);
-                    }),
-                ]);
+                let timeoutId = null;
+                const timedOut = new Promise((resolve) => {
+                    timeoutId = window.setTimeout(() => {
+                        contentLog('warn', 'apply.batch', 'Field apply timed out; continuing batch', {
+                            ref: answer?.ref,
+                            label: answer?.label,
+                            timeoutMs: applyFieldTimeoutMs,
+                        });
+                        resolve(0);
+                    }, applyFieldTimeoutMs);
+                });
+
+                try {
+                    applied += await Promise.race([
+                        applySingleAnswer(answer),
+                        timedOut,
+                    ]);
+                } finally {
+                    if (timeoutId != null) {
+                        window.clearTimeout(timeoutId);
+                    }
+                }
             }
 
             contentLog('info', 'apply.batch', 'Batch apply complete', {

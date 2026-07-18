@@ -1861,6 +1861,11 @@ export function isLocationAutocompleteQuestionLabel(label) {
         return false;
     }
 
+    // "visa sponsorship for the role's location" is not a city/location field.
+    if (isVisaSponsorshipQuestionLabel(label)) {
+        return false;
+    }
+
     if (isCityLocationQuestionLabel(label)) {
         return true;
     }

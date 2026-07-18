@@ -2930,10 +2930,11 @@ var AutoCVApplyFormHeuristics = (() => {
         const anchor = Array.isArray(buttons) ? buttons[0] : buttons;
         const scope = findAshbyYesNoScope(root, { dataFieldPath, anchor });
 
-        if (!booleanAnswer) {
+        if (booleanAnswer !== 'yes' && booleanAnswer !== 'no') {
             heuristicsLog('warn', 'apply.yesno', 'Could not extract boolean answer', {
                 dataFieldPath,
                 answerPreview: String(answer).slice(0, 80),
+                booleanAnswer,
             });
 
             return false;
