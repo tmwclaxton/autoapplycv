@@ -798,7 +798,8 @@ var AutoCVApplyReedAutoApply = (() => {
                     continue;
                 }
 
-                if (/^(submit|send application|submit application)$/i.test(label)
+                if (/^(submit(?:\s+application)?|send application)$/i.test(label)
+                    || /\bsubmit\s+application\b/i.test(label)
                     || button.matches('[data-qa="submit-application-btn"]')) {
                     return button;
                 }
@@ -807,7 +808,7 @@ var AutoCVApplyReedAutoApply = (() => {
 
         const modalSubmit = document.querySelector('button[data-qa="submit-application-btn"]');
 
-        if (modalSubmit instanceof HTMLElement && !modalSubmit.disabled) {
+        if (modalSubmit instanceof HTMLElement && !modalSubmit.disabled && isElementVisible(modalSubmit)) {
             return modalSubmit;
         }
 
@@ -1101,11 +1102,17 @@ var AutoCVApplyReedAutoApply = (() => {
 
         const validationErrors = readValidationErrors();
         const previousFingerprint = readStepFingerprint();
-        const submitButton = findSubmitButton();
+        let submitButton = findSubmitButton();
         const continueButton = findContinueButton();
         const stepLabel = readStepLabel() || '';
         const isReview = isReedApplicationSummaryStep()
-            || /review|check your application|summary/i.test(stepLabel);
+            || /review|check your application|summary|^application$/i.test(stepLabel);
+
+        // Final summary can paint Submit a beat after the last Continue.
+        if (!submitButton && (isReview || !continueButton)) {
+            await waitForApplyModalContent(8_000);
+            submitButton = findSubmitButton();
+        }
 
         if (submitButton && (isReview || !continueButton)) {
             await clickElement(submitButton);

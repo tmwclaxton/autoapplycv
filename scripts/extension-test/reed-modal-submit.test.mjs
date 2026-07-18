@@ -107,3 +107,10 @@ test('Reed Easy Apply allows long multi-page question wizards', () => {
     assert.match(source, /REED_EASY_APPLY_MAX_STEPS\s*=\s*25/);
     assert.ok(source.includes('while (guard < REED_EASY_APPLY_MAX_STEPS)'));
 });
+
+test('Reed fill-and-advance waits for late Submit on review steps', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+
+    assert.ok(source.includes('await waitForApplyModalContent(8_000)'));
+    assert.ok(source.includes('\\bsubmit\\s+application\\b'));
+});
