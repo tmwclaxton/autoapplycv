@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+    compactFieldsForDraft,
     compactSnapshotForInventory,
     truncateOptionsForApi,
 } from '../../extension/src/shared/draft-all-optimizations.js';
@@ -16,6 +17,20 @@ test('truncateOptionsForApi caps at 64 and keeps Reed/Yes options', () => {
     assert.equal(truncated.length, 64);
     assert.ok(truncated.includes('Reed'));
     assert.ok(truncated.includes('Yes'));
+});
+
+test('compactFieldsForDraft clamps Workable-sized max_chars for API validation', () => {
+    const [field] = compactFieldsForDraft([
+        {
+            id: 9,
+            ref: 'f9',
+            label: 'cover letter',
+            field_type: 'textarea',
+            max_chars: 200000,
+        },
+    ]);
+
+    assert.equal(field.max_chars, 5000);
 });
 
 test('compactSnapshotForInventory truncates oversized options', () => {

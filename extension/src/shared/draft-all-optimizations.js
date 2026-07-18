@@ -36,6 +36,9 @@ const MIN_SINGLE_PAGE_FIELD_COUNT = 5;
 const MIN_INFERRED_JOB_TEXT_LENGTH = 200;
 /** Matches DraftAllApplicationRequest / InventoryApplicationRequest max:64. */
 const MAX_API_FIELD_OPTIONS = 64;
+/** Matches DraftAllApplicationRequest fields.*.max_chars max:5000. */
+const MAX_API_FIELD_MAX_CHARS = 5000;
+const MIN_API_FIELD_MAX_CHARS = 20;
 const PREFERRED_OPTION_PATTERN =
     /^(reed|indeed|linkedin|totaljobs|glassdoor|cv.?library|other|yes|no)$/i;
 
@@ -349,8 +352,19 @@ export function compactFieldsForDraft(fields) {
             field_type: fieldType,
         };
 
-        if (field.max_chars) {
-            compact.max_chars = field.max_chars;
+        const maxChars = Number(field.max_chars);
+
+        if (
+            Number.isFinite(maxChars) &&
+            maxChars >= MIN_API_FIELD_MAX_CHARS
+        ) {
+            // Workable cover-letter fields expose max_chars=200000; sending that
+            // fails DraftAllApplicationRequest and the browser follows a 302 HTML
+            // redirect, which looks like an empty successful NDJSON stream.
+            compact.max_chars = Math.min(
+                MAX_API_FIELD_MAX_CHARS,
+                Math.floor(maxChars),
+            );
         }
 
         if (

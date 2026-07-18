@@ -53,6 +53,21 @@ export async function requestDraftAllStream(body, onEvent) {
         };
     }
 
+    const contentType = String(response.headers.get('content-type') || '');
+
+    if (
+        contentType.includes('text/html') ||
+        (!contentType.includes('ndjson') &&
+            !contentType.includes('json') &&
+            !contentType.includes('octet-stream'))
+    ) {
+        return {
+            ok: false,
+            message:
+                'Draft-all stream returned a non-stream response (often a validation redirect).',
+        };
+    }
+
     if (!response.body) {
         return { ok: false, message: 'Draft-all stream unavailable.' };
     }

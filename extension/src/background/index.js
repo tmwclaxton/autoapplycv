@@ -111,7 +111,6 @@ import {
     resolveProfileMappingForLabel,
     shouldSaveToApplicationAnswers,
 } from './pending-fields.js';
-import { resolveSpeakLanguagePendingSave } from './speak-language-answer.js';
 import { createPerfTimer } from './perf-timer.js';
 import {
     clearSidePanelHostTab,
@@ -124,6 +123,7 @@ import {
     resolveSidePanelOpen,
     shouldPaintFieldHighlights,
 } from './side-panel-state.js';
+import { resolveSpeakLanguagePendingSave } from './speak-language-answer.js';
 import {
     validateCvUpload,
     validateDocumentUpload,
