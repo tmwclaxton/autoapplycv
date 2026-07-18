@@ -5,9 +5,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+    isJobApplicationLocationChoiceLabel,
+    isLocalityIdentityField,
     isLocationAutocompleteQuestionLabel,
     isVisaSponsorshipQuestionLabel,
     partitionIdentityProfileFields,
+    partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
@@ -68,6 +71,41 @@ test('preference answers No for need-visa sponsorship when setting clear', () =>
     assert.equal(preferenceAnswers.length, 1);
     assert.equal(preferenceAnswers[0].answer, 'No');
     assert.equal(remainingFields.length, 0);
+});
+
+test('Lever which-location-are-you-applying-for is job site not residence', () => {
+    const label = 'which location are you applying for?';
+    assert.equal(isJobApplicationLocationChoiceLabel(label), true);
+    assert.equal(isLocationAutocompleteQuestionLabel(label), false);
+    assert.equal(
+        isLocalityIdentityField({
+            ref: 'f0',
+            label,
+            field_type: 'select',
+            options: ['Remote - USA', 'Remote - Canada'],
+        }),
+        false,
+    );
+
+    const profile = {
+        city: 'High Wycombe',
+        location: 'High Wycombe, England',
+        country: 'United Kingdom',
+    };
+    const { localityAnswers, remainingFields } =
+        partitionMissingLocalityIdentityFields(
+            [
+                {
+                    ref: 'f0',
+                    label,
+                    field_type: 'select',
+                    options: ['Remote - USA', 'Remote - Canada'],
+                },
+            ],
+            profile,
+        );
+    assert.equal(localityAnswers.length, 0);
+    assert.equal(remainingFields.length, 1);
 });
 
 test('Polish work-auth status select leaves pending instead of inventing nationality', () => {

@@ -2472,6 +2472,23 @@ export function isCityLocationQuestionLabel(label) {
     return false;
 }
 
+/**
+ * Lever/Greenhouse "which location are you applying for?" is a job-site choice,
+ * not the applicant's city/current location.
+ */
+export function isJobApplicationLocationChoiceLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return (
+        /\b(?:which|what|select)\s+location\b/.test(normalized) &&
+        /\b(?:appl(?:y|ying)|role|job|position|office|team)\b/.test(normalized)
+    ) || /\blocation\s+are\s+you\s+applying\s+for\b/.test(normalized);
+}
+
 export function isLocationAutocompleteQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -2481,6 +2498,10 @@ export function isLocationAutocompleteQuestionLabel(label) {
 
     // "visa sponsorship for the role's location" is not a city/location field.
     if (isVisaSponsorshipQuestionLabel(label)) {
+        return false;
+    }
+
+    if (isJobApplicationLocationChoiceLabel(label)) {
         return false;
     }
 
@@ -4248,6 +4269,10 @@ export function partitionIdentityProfileFields(fields, profileData) {
  */
 export function isLocalityIdentityField(field) {
     const label = field?.label || field?.question || '';
+
+    if (isJobApplicationLocationChoiceLabel(label)) {
+        return false;
+    }
 
     if (
         isCityCountyCombinedQuestionLabel(label) ||

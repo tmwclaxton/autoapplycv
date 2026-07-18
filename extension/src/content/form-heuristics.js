@@ -954,63 +954,174 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const typed = stringValue.split(',')[0].trim() || stringValue;
-
-        element.focus();
-        await fillReactTextControl(element, typed);
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-
         const fieldRoot = element.closest('.application-field');
         const dropdown = fieldRoot?.querySelector('.dropdown-container');
-
-        if (dropdown) {
-            dropdown.style.display = 'block';
-        }
-
-        await sleep(120);
-
-        const results = Array.from(
-            fieldRoot?.querySelectorAll('.dropdown-results > *') || [],
-        ).filter(
-            (node) =>
-                isVisible(node) &&
-                normalize(node.textContent || '').length >= 2,
+        const selectedHidden = fieldRoot?.querySelector(
+            '#selected-location, input[name="selectedLocation"]',
         );
+        const city = stringValue.split(',')[0].trim() || stringValue;
+        const queries = [
+            ...new Set(
+                [
+                    stringValue,
+                    city,
+                    /united kingdom|\buk\b/i.test(stringValue)
+                        ? `${city}, United Kingdom`
+                        : '',
+                    /england|scotland|wales/i.test(stringValue)
+                        ? `${city}, United Kingdom`
+                        : '',
+                ].filter(Boolean),
+            ),
+        ];
 
-        let best = null;
-        let bestScore = -1;
-        const normalizedAnswer = normalizeOption(stringValue);
-        const normalizedTyped = normalizeOption(typed);
+        const readVisibleResults = () =>
+            Array.from(
+                fieldRoot?.querySelectorAll('.dropdown-results > *') || [],
+            ).filter(
+                (node) =>
+                    isVisible(node) &&
+                    normalize(node.textContent || '').length >= 2,
+            );
 
-        for (const result of results) {
-            const text = normalize(result.textContent || '');
-            let score = 0;
+        const noResultsVisible = () => {
+            const empty = fieldRoot?.querySelector('.dropdown-no-results');
 
-            if (normalizedTyped && text.includes(normalizedTyped)) {
-                score += 10;
+            return Boolean(
+                empty &&
+                    isVisible(empty) &&
+                    /no location found/i.test(empty.textContent || ''),
+            );
+        };
+
+        for (const query of queries) {
+            // Do not use fillReactTextControl here - it blurs and cancels Lever's
+            // async geocomplete before dropdown results can appear.
+            element.focus();
+            dispatchPointerClick(element);
+            fillTextControlInstant(element, query);
+            element.dispatchEvent(
+                new InputEvent('input', {
+                    bubbles: true,
+                    cancelable: true,
+                    inputType: 'insertText',
+                    data: query,
+                }),
+            );
+            element.dispatchEvent(
+                new KeyboardEvent('keyup', {
+                    key: 'Unidentified',
+                    bubbles: true,
+                }),
+            );
+
+            if (dropdown) {
+                dropdown.style.display = 'block';
             }
 
-            if (normalizedAnswer && text.includes(normalizedAnswer)) {
-                score += 8;
+            let results = [];
+
+            for (let attempt = 0; attempt < 10; attempt += 1) {
+                await sleep(attempt === 0 ? 200 : 150);
+                results = readVisibleResults();
+
+                if (results.length > 0 || noResultsVisible()) {
+                    break;
+                }
             }
 
-            if (score > bestScore) {
-                bestScore = score;
-                best = result;
-            }
-        }
+            // Instant fill sometimes skips Lever's listener; retry with fast typing.
+            if (results.length === 0 && !noResultsVisible()) {
+                element.focus();
+                setNativeValue(element, '');
+                element.dispatchEvent(
+                    new InputEvent('input', {
+                        bubbles: true,
+                        cancelable: true,
+                        inputType: 'deleteContentBackward',
+                    }),
+                );
+                let typed = '';
 
-        if (best) {
-            nativeClick(best);
+                for (const char of query) {
+                    typed += char;
+                    dispatchInsertedCharacter(element, char, typed);
+                    await sleep(12);
+                }
+
+                for (let attempt = 0; attempt < 10; attempt += 1) {
+                    await sleep(150);
+                    results = readVisibleResults();
+
+                    if (results.length > 0 || noResultsVisible()) {
+                        break;
+                    }
+                }
+            }
+
+            if (results.length === 0) {
+                continue;
+            }
+
+            let best = null;
+            let bestScore = -1;
+            const normalizedAnswer = normalizeOption(stringValue);
+            const normalizedQuery = normalizeOption(query);
+            const normalizedCity = normalizeOption(city);
+
+            for (const result of results) {
+                const text = normalize(result.textContent || '');
+                let score = 0;
+
+                if (normalizedCity && text.includes(normalizedCity)) {
+                    score += 12;
+                }
+
+                if (normalizedQuery && text.includes(normalizedQuery)) {
+                    score += 8;
+                }
+
+                if (normalizedAnswer && text.includes(normalizedAnswer)) {
+                    score += 6;
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    best = result;
+                }
+            }
+
+            const choice = best || results[0];
+            nativeClick(choice);
+            await sleep(80);
             element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-            return (
-                valueMatchesAnswer(element.value, stringValue) ||
-                valueMatchesAnswer(element.value, typed)
-            );
+            const visibleValue = String(element.value || '').trim();
+            const hiddenValue = String(selectedHidden?.value || '').trim();
+
+            if (
+                hiddenValue.length >= 2 ||
+                valueMatchesAnswer(visibleValue, stringValue) ||
+                valueMatchesAnswer(visibleValue, city) ||
+                valueMatchesAnswer(visibleValue, query) ||
+                (visibleValue.length >= 2 && bestScore >= 6)
+            ) {
+                heuristicsLog('info', 'apply.lever-location', 'selected', {
+                    query,
+                    visiblePreview: visibleValue.slice(0, 80),
+                    hiddenPreview: hiddenValue.slice(0, 80),
+                });
+
+                return true;
+            }
         }
 
-        return valueMatchesAnswer(element.value, typed);
+        heuristicsLog('warn', 'apply.lever-location', 'no geocomplete match', {
+            valuePreview: stringValue.slice(0, 80),
+            queriesTried: queries.slice(0, 4),
+        });
+
+        return false;
     }
 
     function isRecruiteeApplyHost(doc = document) {
@@ -3060,13 +3171,9 @@ var AutoCVApplyFormHeuristics = (() => {
             const name = String(
                 element.getAttribute?.('name') || element.name || '',
             );
-            const id = String(element.id || element.getAttribute?.('id') || '');
 
-            if (
-                /^(name|email|phone|location|org)$/i.test(name) ||
-                /^urls\[/i.test(name) ||
-                id === 'location-input'
-            ) {
+            // Keep location-input on char-by-char so Lever geocomplete fires.
+            if (/^(name|email|phone|org)$/i.test(name) || /^urls\[/i.test(name)) {
                 return false;
             }
         }
@@ -7538,6 +7645,17 @@ var AutoCVApplyFormHeuristics = (() => {
             if (
                 !isVisible(combobox) ||
                 isIndeedApplyComboboxFilterInput(combobox)
+            ) {
+                continue;
+            }
+
+            // intl-tel-input country dial (Workable): filled via the tel input's setNumber.
+            if (
+                combobox.classList?.contains('iti__selected-flag') ||
+                combobox.closest?.('.iti__flag-container') ||
+                /telephone country code|phone country code/i.test(
+                    combobox.getAttribute?.('aria-label') || '',
+                )
             ) {
                 continue;
             }
