@@ -300,6 +300,10 @@ copyFileSync(
     join(SRC, 'shared/draft-all-optimizations.js'),
     join(DIST, 'draft-all-optimizations.js'),
 );
+copyFileSync(
+    join(SRC, 'shared/speak-language-answer.js'),
+    join(DIST, 'speak-language-answer.js'),
+);
 mkdirSync(join(DIST, 'draft-all'), { recursive: true });
 copyFileSync(
     join(SRC, 'shared/draft-all/answer-utils.js'),
