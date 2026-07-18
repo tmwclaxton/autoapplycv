@@ -4540,9 +4540,17 @@ function identityPhoneApplyRank(answer) {
 function isUsLocationConfirmationQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
+    // normalizeQuestionLabel turns "u.s." into "u s".
     return (
-        /based in the (?:usa|u\.s\.|united states)/i.test(normalized) ||
-        /confirm you(?:'re| are) based in the (?:usa|u\.s\.)/i.test(normalized)
+        /based in the (?:usa|u\.?\s*s\.?|united states)(?:\s+or\s+canada)?/i.test(
+            normalized,
+        ) ||
+        /will you be based in the (?:usa|u\.?\s*s\.?|united states)(?:\s+or\s+canada)?/i.test(
+            normalized,
+        ) ||
+        /confirm you(?:'re| are| re) based in the (?:usa|u\.?\s*s\.?)/i.test(
+            normalized,
+        )
     );
 }
 
@@ -4594,6 +4602,17 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
     const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
         String(country || '').trim(),
     );
+    const isCanada = /^canada$/i.test(String(country || '').trim());
+    const label = field?.label || field?.question || '';
+    const allowsCanada = /or canada/i.test(normalizeQuestionLabel(label));
+
+    if (fieldHasYesNoOptions(field)) {
+        if (isUs || (allowsCanada && isCanada)) {
+            return 'Yes';
+        }
+
+        return 'No';
+    }
 
     if (isUs) {
         return (

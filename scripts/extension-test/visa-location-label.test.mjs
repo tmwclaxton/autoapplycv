@@ -156,6 +156,24 @@ test('Lever which-location-are-you-applying-for is job site not residence', () =
     assert.equal(remainingFields.length, 1);
 });
 
+test('UK profile answers No to based in the US or Canada Yes/No', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            willing_to_relocate: 'no',
+        },
+    };
+    const field = {
+        ref: 'f8',
+        label: 'if hired by warp, will you be based in the u.s. or canada?',
+        field_type: 'select',
+        options: ['Yes', 'No'],
+        dom: { role: 'combobox' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
+});
+
 test('Polish work-auth status select leaves pending instead of inventing nationality', () => {
     const profile = {
         country: 'United Kingdom',
