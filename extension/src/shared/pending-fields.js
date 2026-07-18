@@ -1955,6 +1955,68 @@ export function isCityCountyCombinedQuestionLabel(label) {
         && /\bcounty\b/.test(normalized);
 }
 
+/** Bare Yes/No tokens - never valid for free-text city/county/postcode/street fields. */
+export function isBareYesNoAnswer(answer) {
+    return /^(yes|no)$/i.test(String(answer || '').trim());
+}
+
+const LOCATION_IDENTITY_PATHS = new Set([
+    'city',
+    'location',
+    'postcode',
+    'country',
+    'structured_data.address_line_1',
+    'structured_data.state_region',
+]);
+
+/**
+ * Free-text location/contact locality fields must never receive Yes/No from memo or NanoGPT.
+ * Choice fields with explicit Yes/No options are left alone.
+ */
+export function shouldRejectYesNoAnswerOnLocationField(field, answer) {
+    if (!isBareYesNoAnswer(answer)) {
+        return false;
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return false;
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (fieldType === 'radio' || fieldType === 'checkbox') {
+        return false;
+    }
+
+    const label = field?.label || field?.question || '';
+
+    if (
+        isCityCountyCombinedQuestionLabel(label)
+        || isCityLocationQuestionLabel(label)
+        || isLocationAutocompleteQuestionLabel(label)
+    ) {
+        return true;
+    }
+
+    const mapping = resolveProfileMappingForLabel(label, null, field?.dom || null);
+
+    return Boolean(mapping && LOCATION_IDENTITY_PATHS.has(mapping.path));
+}
+
+function resolveSafeLocationAnswerForField(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (isCityCountyCombinedQuestionLabel(label)) {
+        return resolveCityCountyLocationValue(profileData);
+    }
+
+    if (isCityLocationQuestionLabel(label) || isLocationAutocompleteQuestionLabel(label)) {
+        return resolveResidenceCityValue(profileData);
+    }
+
+    return resolveProfileFallbackAnswer(field, profileData);
+}
+
 export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
     const city = preferCity
         ? resolveResidenceCityValue(profileData)
@@ -3882,6 +3944,25 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             if (isMeaningfulAnswer(safeLocation)) {
                 resolvedAnswer = safeLocation;
             } else {
+                continue;
+            }
+        }
+
+        // Memo/NanoGPT sometimes emit Yes for "City, county" (and similar). Never apply that.
+        if (
+            isMeaningfulAnswer(resolvedAnswer)
+            && shouldRejectYesNoAnswerOnLocationField(field, resolvedAnswer)
+        ) {
+            const safeLocation = resolveSafeLocationAnswerForField(field, profileData);
+
+            if (isMeaningfulAnswer(safeLocation)) {
+                resolvedAnswer = safeLocation;
+            } else {
+                pending.push(createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'missing_answer',
+                ));
                 continue;
             }
         }

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
  * Regression: Indeed/Glassdoor "City, county" must use profile locality fields.
- * Never fill with surname bleed like "Claxton, Norfolk".
+ * Never fill with surname bleed like "Claxton, Norfolk" or bare Yes/No.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
 import {
+    isBareYesNoAnswer,
     isCityCountyCombinedQuestionLabel,
     looksLikeSurnameAsLocationValue,
     partitionBatchAnswers,
@@ -15,8 +16,11 @@ import {
     resolveCityCountyLocationValue,
     resolveProfileMappingForLabel,
     resolveResidenceCityValue,
+    shouldRejectYesNoAnswerOnLocationField,
     splitFullName,
 } from '../../extension/src/shared/pending-fields.js';
+import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
+import { partitionFieldsByQuestionMemo } from '../../extension/src/shared/draft-all-optimizations.js';
 
 const profile = {
     profile: {
@@ -141,4 +145,74 @@ test('Indeed City, county fixture label maps without last_name bleed', () => {
     assert.equal(identityAnswers[0]?.answer, 'High Wycombe, Buckinghamshire');
     assert.notEqual(identityAnswers[0]?.answer, 'Claxton');
     assert.equal(/claxton/i.test(String(identityAnswers[0]?.answer || '')), false);
+});
+
+test('City, county rejects bare Yes from memo or NanoGPT', () => {
+    const field = {
+        ref: 'cc',
+        label: 'City, county',
+        field_type: 'text',
+        dom: { name: 'location-fields-locality-input' },
+    };
+
+    assert.equal(isBareYesNoAnswer('Yes'), true);
+    assert.equal(shouldRejectYesNoAnswerOnLocationField(field, 'Yes'), true);
+    assert.equal(shouldRejectYesNoAnswerOnLocationField(field, 'High Wycombe'), false);
+
+    const { toApply, pending } = partitionBatchAnswers(
+        [{ ref: 'cc', label: 'City, county', field_type: 'text', answer: 'Yes' }],
+        new Map([['cc', field]]),
+        profile,
+    );
+
+    assert.equal(toApply.length, 1);
+    assert.equal(toApply[0].answer, 'High Wycombe, Buckinghamshire');
+    assert.equal(pending.length, 0);
+
+    const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(
+        [field],
+        { 'City, county': 'Yes' },
+        profile,
+    );
+
+    assert.equal(memoAnswers.length, 0);
+    assert.equal(remainingFields.length, 1);
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [field],
+        profileData: profile,
+        questionMemo: { 'City, county': 'Yes' },
+    });
+    const identity = plan.applyStages.find((stage) => stage.type === 'identity');
+
+    assert.equal(plan.applyStages.some((stage) => stage.type === 'memo'), false);
+    assert.equal(identity?.answers?.[0]?.answer, 'High Wycombe, Buckinghamshire');
+});
+
+test('City, county Yes with empty profile city is not applied', () => {
+    const field = {
+        ref: 'cc',
+        label: 'City, county',
+        field_type: 'text',
+        dom: { name: 'location-fields-locality-input' },
+    };
+    const emptyCityProfile = {
+        profile: {
+            full_name: { first: 'Toby', last: 'Claxton' },
+            city: '',
+            location: '',
+            postcode: 'HP14 4BB',
+            country: 'United Kingdom',
+            structured_data: { address_line_1: 'West Wycombe Road' },
+        },
+    };
+
+    const { toApply, pending } = partitionBatchAnswers(
+        [{ ref: 'cc', label: 'City, county', field_type: 'text', answer: 'Yes' }],
+        new Map([['cc', field]]),
+        emptyCityProfile,
+    );
+
+    assert.equal(toApply.length, 0);
+    assert.equal(pending.length, 1);
 });

@@ -8,6 +8,7 @@ import {
     isEmployerScreeningTrapLabel,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
+    shouldRejectYesNoAnswerOnLocationField,
 } from './pending-fields.js';
 
 const ATS_URL_PATTERNS = [
@@ -169,7 +170,11 @@ export function resolveSavedApplicationAnswer(field, profileData = null, questio
     );
     const answer = matchMemoAnswer(mergedMemo, label);
 
-    if (!answer || shouldRejectPhoneAnswerOnField(field, answer)) {
+    if (
+        !answer
+        || shouldRejectPhoneAnswerOnField(field, answer)
+        || shouldRejectYesNoAnswerOnLocationField(field, answer)
+    ) {
         return null;
     }
 
@@ -240,7 +245,11 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo, profileData 
 
         const answer = matchMemoAnswer(questionMemo, label);
 
-        if (answer && !shouldRejectPhoneAnswerOnField(field, answer)) {
+        if (
+            answer
+            && !shouldRejectPhoneAnswerOnField(field, answer)
+            && !shouldRejectYesNoAnswerOnLocationField(field, answer)
+        ) {
             memoAnswers.push({
                 id: field.id,
                 ref: field.ref,
