@@ -85,9 +85,24 @@ export function profileLanguageNames(profileData) {
     return names;
 }
 
+function isEnglishSpeakingProfileCountry(profileData) {
+    const country = normalizeLanguageToken(
+        readProfileValue(profileData, 'country'),
+    );
+
+    if (!country) {
+        return false;
+    }
+
+    return /^(united kingdom|uk|great britain|england|scotland|wales|united states|usa|u s a|u s|canada|australia|new zealand|ireland|republic of ireland)$/.test(
+        country,
+    );
+}
+
 /**
- * Answer speak-language Yes/No only when profile languages are populated.
- * Prefer leave-pending when the languages list is empty (do not invent No).
+ * Answer speak-language Yes/No when profile languages are populated.
+ * English defaults to Yes for English-speaking profile countries even when the
+ * languages list is empty. Other languages stay pending (do not invent No).
  */
 export function resolveSpeakLanguageFromProfile(field, profileData) {
     if (!isSpeakLanguageYesNoQuestion(field)) {
@@ -99,7 +114,15 @@ export function resolveSpeakLanguageFromProfile(field, profileData) {
     );
     const names = profileLanguageNames(profileData);
 
-    if (!asked || names.length === 0) {
+    if (!asked) {
+        return null;
+    }
+
+    if (names.length === 0) {
+        if (asked === 'english' && isEnglishSpeakingProfileCountry(profileData)) {
+            return 'Yes';
+        }
+
         return null;
     }
 
