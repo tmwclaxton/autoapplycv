@@ -97,9 +97,9 @@ class PlanChangeCalculator
                     || $user->gocardless_mandate_id !== null) {
                     $confirmations[$tier->value] = [
                         'action' => 'cancel',
-                        'title' => 'Switch to Free?',
+                        'title' => 'Downgrade to Free?',
                         'description' => 'Your Direct Debit will be cancelled and you will move to the Free plan.',
-                        'confirm_label' => 'Switch to Free',
+                        'confirm_label' => 'Downgrade to Free',
                         'amount_due_pence' => 0,
                     ];
                 }
@@ -132,9 +132,9 @@ class PlanChangeCalculator
             if ($hasDirectDebit && $this->isDowngradeToPaid($user, $tier)) {
                 $confirmations[$tier->value] = [
                     'action' => 'downgrade',
-                    'title' => 'Switch to '.$tier->label().'?',
+                    'title' => 'Downgrade to '.$tier->label().'?',
                     'description' => 'Your Direct Debit renewals will change to '.$tier->formattedPrice().'. No charge today.',
-                    'confirm_label' => 'Switch plan',
+                    'confirm_label' => 'Downgrade to '.$tier->label(),
                     'amount_due_pence' => 0,
                 ];
 

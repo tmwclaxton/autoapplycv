@@ -66,6 +66,12 @@ function selectPlan(plan: PricingPlan) {
     router.post(billing.checkout.url(), { tier: plan.key });
 }
 
+function currentPlanPricePence(): number {
+    const current = props.plans.find((plan) => plan.key === props.currentTier);
+
+    return current?.price_pence ?? 0;
+}
+
 function planButtonLabel(plan: PricingPlan): string {
     if (isBilling.value) {
         if (
@@ -87,7 +93,19 @@ function planButtonLabel(plan: PricingPlan): string {
             return 'Current plan';
         }
 
-        return plan.is_paid ? 'Upgrade via bank payment' : 'Switch to Free';
+        if (!plan.is_paid) {
+            return 'Downgrade to Free';
+        }
+
+        if (plan.price_pence < currentPlanPricePence()) {
+            return 'Downgrade to ' + plan.name;
+        }
+
+        if (plan.price_pence > currentPlanPricePence()) {
+            return 'Upgrade to ' + plan.name;
+        }
+
+        return 'Switch to ' + plan.name;
     }
 
     if (plan.is_paid) {
