@@ -11,7 +11,9 @@ import { isMeaningfulAnswer } from './answer-utils.js';
  */
 export function isMarketingOrFutureConsentField(field) {
     const label = String(field?.label || field?.question || '');
-    const optionsText = Array.isArray(field?.options) ? field.options.join(' ') : '';
+    const optionsText = Array.isArray(field?.options)
+        ? field.options.join(' ')
+        : '';
     const text = normalizeQuestionLabel(`${label} ${optionsText}`);
 
     if (!text) {
@@ -20,11 +22,15 @@ export function isMarketingOrFutureConsentField(field) {
 
     // Source-of-hire selects often sit near consent copy; never treat them as opt-ins.
     // Keep this inline to avoid a circular import with pending-fields.js.
-    if (/\b(?:where|how)\s+did\s+you\s+(?:hear|learn|find|see)\b/i.test(label)) {
+    if (
+        /\b(?:where|how)\s+did\s+you\s+(?:hear|learn|find|see)\b/i.test(label)
+    ) {
         return false;
     }
 
-    return /\b(sms|text messages?|newsletter|(?:email )?marketing(?: communications?| emails?| messages?| consent| material| opt[- ]?in)|promotional emails?|future job opportunities|contact me about|future recruitment|store (?:my|your) data|would like\b.*\bstore\b.*\b(?:contact|future|data)|(?:\d+|twelve|six|three)\s*months?\b.*\b(?:contact|future|opportunit|store)|keep (?:my|your) (?:data|details|information)|talent (?:pool|community)|future contact|przyszł(?:ych|ym|e)\b.*rekrut)/i.test(text);
+    return /\b(sms|text messages?|newsletter|(?:email )?marketing(?: communications?| emails?| messages?| consent| material| opt[- ]?in)|promotional emails?|future job opportunities|contact me about|future recruitment|store (?:my|your) data|would like\b.*\bstore\b.*\b(?:contact|future|data)|(?:\d+|twelve|six|three)\s*months?\b.*\b(?:contact|future|opportunit|store)|keep (?:my|your) (?:data|details|information)|talent (?:pool|community)|future contact|przyszł(?:ych|ym|e)\b.*rekrut)/i.test(
+        text,
+    );
 }
 
 function marketingConsentFieldOptions(field) {
@@ -37,19 +43,27 @@ function agreementCheckboxFieldText(field) {
     const label = String(field?.label || field?.question || '');
     const context = String(field?.context || '');
     const domName = String(field?.dom?.name || '');
-    const optionsText = Array.isArray(field?.options) ? field.options.join(' ') : '';
+    const optionsText = Array.isArray(field?.options)
+        ? field.options.join(' ')
+        : '';
 
-    return normalizeQuestionLabel(`${label} ${context} ${domName} ${optionsText}`);
+    return normalizeQuestionLabel(
+        `${label} ${context} ${domName} ${optionsText}`,
+    );
 }
 
 function isTechnicalCheckboxOptionValue(option) {
-    const normalized = String(option ?? '').trim().toLowerCase();
+    const normalized = String(option ?? '')
+        .trim()
+        .toLowerCase();
 
-    return normalized === ''
-        || normalized === 'false'
-        || normalized === 'true'
-        || normalized === 'on'
-        || normalized === 'off';
+    return (
+        normalized === '' ||
+        normalized === 'false' ||
+        normalized === 'true' ||
+        normalized === 'on' ||
+        normalized === 'off'
+    );
 }
 
 function isRecruiteeAgreementConsentField(field) {
@@ -69,12 +83,15 @@ function isRecruiteeAgreementConsentField(field) {
 }
 
 function findMarketingConsentDeclineOption(options) {
-    return options.find((option) => (
-        /^(no|n|false)\b/i.test(option)
-        || /^(i )?(?:do not|don't) (?:consent|wish|want)/i.test(option)
-        || /\bdecline\b/i.test(option)
-        || /\bopt[- ]?out\b/i.test(option)
-    )) || '';
+    return (
+        options.find(
+            (option) =>
+                /^(no|n|false)\b/i.test(option) ||
+                /^(i )?(?:do not|don't) (?:consent|wish|want)/i.test(option) ||
+                /\bdecline\b/i.test(option) ||
+                /\bopt[- ]?out\b/i.test(option),
+        ) || ''
+    );
 }
 
 /**
@@ -105,6 +122,17 @@ export function resolveMarketingConsentAnswer(field) {
         return '';
     }
 
+    // Greenhouse react-select often has empty options until opened. Talent
+    // community / future-jobs Yes/No boards still decline from the label alone.
+    const isChoiceField =
+        fieldType === 'radio' ||
+        fieldType === 'select' ||
+        field?.dom?.role === 'combobox';
+
+    if (isChoiceField && options.length === 0) {
+        return 'No';
+    }
+
     // Do not emit bare No onto non-Yes/No selects (combobox first-option fallback
     // would invent University Career Page / nationality answers).
     return '';
@@ -129,8 +157,11 @@ export function isAgreementCheckboxField(field) {
         return false;
     }
 
-    return /\b(i certify|i have read|read and understood|read and understand|hereby confirm|i understand|i agree|i accept|accept the use of my data|applicant statement|terms (?:and|&) conditions|privacy policy|legal agreements?|acknowledge|true complete and correct|wyrażam zgodę|polityk[aę] prywatności)\b/.test(text)
-        && !/\bprzyszł/.test(text);
+    return (
+        /\b(i certify|i have read|read and understood|read and understand|hereby confirm|i understand|i agree|i accept|accept the use of my data|applicant statement|terms (?:and|&) conditions|privacy policy|legal agreements?|acknowledge|true complete and correct|wyrażam zgodę|polityk[aę] prywatności)\b/.test(
+            text,
+        ) && !/\bprzyszł/.test(text)
+    );
 }
 
 export function resolveAgreementCheckboxAnswer(field) {
@@ -142,9 +173,11 @@ export function resolveAgreementCheckboxAnswer(field) {
         .map((option) => String(option ?? '').trim())
         .filter((option) => option !== '');
 
-    const affirmative = options.find((option) => (
-        /^(yes\b|i (?:agree|certify|have read|understand|accept|consent|provide|hereby confirm))/i.test(option)
-    ));
+    const affirmative = options.find((option) =>
+        /^(yes\b|i (?:agree|certify|have read|understand|accept|consent|provide|hereby confirm))/i.test(
+            option,
+        ),
+    );
 
     if (affirmative) {
         return affirmative;
@@ -187,9 +220,11 @@ export function partitionAgreementCheckboxFields(fields) {
  * should never surface as sidebar clarifying questions.
  */
 export function filterMarketingConsentPendingFields(pendingFields = []) {
-    return (pendingFields || []).filter((field) => (
-        !isMarketingOrFutureConsentField(field) && !isAgreementCheckboxField(field)
-    ));
+    return (pendingFields || []).filter(
+        (field) =>
+            !isMarketingOrFutureConsentField(field) &&
+            !isAgreementCheckboxField(field),
+    );
 }
 
 export function partitionMarketingConsentFields(fields) {
@@ -213,6 +248,9 @@ export function partitionMarketingConsentFields(fields) {
                 dom: field.dom || null,
                 answer,
             });
+        } else {
+            // Keep unresolved marketing fields in the pipeline (do not drop).
+            remainingFields.push(field);
         }
     }
 
@@ -283,7 +321,9 @@ export function resolveFullLegalNameFromProfile(profileData) {
         'user.name',
     );
     const split = splitProfileFullName(fullName);
-    const first = readProfileString(profileData, 'first_name', 'profile.first_name') || split.first;
+    const first =
+        readProfileString(profileData, 'first_name', 'profile.first_name') ||
+        split.first;
     const middle = readProfileString(
         profileData,
         'middle_name',
@@ -291,7 +331,9 @@ export function resolveFullLegalNameFromProfile(profileData) {
         'profile.middle_name',
         'profile.middle_initial',
     );
-    const last = readProfileString(profileData, 'last_name', 'profile.last_name') || split.last;
+    const last =
+        readProfileString(profileData, 'last_name', 'profile.last_name') ||
+        split.last;
     const middleInitial = formatMiddleInitial(middle);
     const parts = [first, middleInitial, last].filter(Boolean);
 
@@ -310,21 +352,37 @@ function electronicSignatureFieldText(field) {
         field?.dom?.id,
         field?.dom?.placeholder,
         field?.dom?.question_prefix,
-    ].filter(Boolean).join(' ');
+    ]
+        .filter(Boolean)
+        .join(' ');
 
     return normalizeQuestionLabel(`${label} ${context} ${domHint}`);
 }
 
 function hasCertificationAcknowledgmentLanguage(text) {
-    return /\b(i certify|i acknowledge|certify that all|applicant statement)\b/.test(text)
-        || /\b(correct and complete)\b.*\b(falsification|misrepresentation)\b/.test(text)
-        || /\b(falsification|misrepresentation)\b.*\b(correct and complete)\b/.test(text)
-        || /\belectronic signature acknowledgment\b/.test(text);
+    return (
+        /\b(i certify|i acknowledge|certify that all|applicant statement)\b/.test(
+            text,
+        ) ||
+        /\b(correct and complete)\b.*\b(falsification|misrepresentation)\b/.test(
+            text,
+        ) ||
+        /\b(falsification|misrepresentation)\b.*\b(correct and complete)\b/.test(
+            text,
+        ) ||
+        /\belectronic signature acknowledgment\b/.test(text)
+    );
 }
 
 function hasTypedSignatureInstruction(text) {
-    return /\b(sign by typing|type your (?:full )?legal|electronic signature|e-?signature|typed signature|full legal(?:\s+first)?|middle initial(?:\s+and)?\s+last name|please sign)\b/.test(text)
-        || /\b(?:electronic[_-]?signature|e[_-]?signature|typed[_-]?signature|applicant[_-]?signature)\b/i.test(text);
+    return (
+        /\b(sign by typing|type your (?:full )?legal|electronic signature|e-?signature|typed signature|full legal(?:\s+first)?|middle initial(?:\s+and)?\s+last name|please sign)\b/.test(
+            text,
+        ) ||
+        /\b(?:electronic[_-]?signature|e[_-]?signature|typed[_-]?signature|applicant[_-]?signature)\b/i.test(
+            text,
+        )
+    );
 }
 
 /**
@@ -347,8 +405,11 @@ export function isElectronicSignatureField(field) {
         return false;
     }
 
-    return hasCertificationAcknowledgmentLanguage(text)
-        && (hasTypedSignatureInstruction(text) || /\b(falsification|misrepresentation)\b/.test(text));
+    return (
+        hasCertificationAcknowledgmentLanguage(text) &&
+        (hasTypedSignatureInstruction(text) ||
+            /\b(falsification|misrepresentation)\b/.test(text))
+    );
 }
 
 export function resolveElectronicSignatureAnswer(field, profileData) {
