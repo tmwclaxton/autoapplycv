@@ -1,7 +1,7 @@
 {
   "id": "live-lever-onceuponafarm-general-20260719",
-  "min_fields": 14,
-  "exact_field_count": 14,
+  "min_fields": 22,
+  "exact_field_count": 22,
   "fields": [
     {
       "question": "resume/cv",
@@ -125,7 +125,7 @@
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -146,7 +146,7 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true,
+      "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
@@ -167,33 +167,12 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true,
-      "dom": {
-        "tag": "input",
-        "type": "text",
-        "id": null,
-        "name": "urls[LinkedIn]",
-        "data_testid": null,
-        "sr_data_test": null,
-        "role": null,
-        "data_field_path": null,
-        "placeholder": null,
-        "min": null,
-        "max": null,
-        "question_prefix": null
-      }
-    },
-    {
-      "question": "github url",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
       "required": false,
       "dom": {
         "tag": "input",
         "type": "text",
         "id": null,
-        "name": "urls[GitHub]",
+        "name": "urls[LinkedIn]",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
@@ -226,19 +205,232 @@
       }
     },
     {
-      "question": "while anchorage digital has a remote/hybrid work culture, we require all new employees to onboard in-person. can you commit to onboarding in-person during your first week?",
+      "question": "other url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you currently work at once upon a farm?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "were you referred by someone who works at once upon a farm? if so, who?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "due to current team needs, we are only considering candidates based in the usa. please confirm you're based in the usa.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am based in the USA.",
+        "No, I am not based in the USA, but I'm planning to relocate to the USA.",
+        "No, I am not based in the USA, nor am I open to relocating to the USA."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field2]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work for a u.s. employer (e.g., h-1b, tn, e-3, f-1 visa status)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field3]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field4]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name pronunciation:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field5]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we believe it’s on us to provide an inclusive interview experience for all, including people with disabilities. we are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. please specify any requests for such accommodations here.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[fc74c7d4-b9f8-4431-8451-1a502c0e81b0][field6]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your age range?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[c1006dc8-492f-4d28-ac29-5daeb8c8e4f7][responses][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify my ethnicity as",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Yes, I am able to onboard in-person",
-        "No, I am not willing to onboard in-person"
+        "White / Caucasian",
+        "Hispanic, Latino, or Spanish origin",
+        "Black or African American",
+        "Asian",
+        "Native Hawaiian or other Pacific Islander",
+        "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+        "Middle Eastern or North African",
+        "Some other race, ethnicity, or origin"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "checkbox",
         "id": null,
-        "name": "cards[a25a51cc-82da-4901-8266-40a29fca8dba][field0]",
+        "name": "surveysResponses[c1006dc8-492f-4d28-ac29-5daeb8c8e4f7][responses][field1]",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
@@ -250,20 +442,20 @@
       }
     },
     {
-      "question": "gender",
-      "field_type": "select",
+      "question": "what gender do you identify as?",
+      "field_type": "radio",
       "max_chars": null,
       "options": [
-        "Male",
         "Female",
-        "Decline to self-identify"
+        "Male",
+        "Non-binary"
       ],
       "required": false,
       "dom": {
-        "tag": "select",
-        "type": "select-one",
+        "tag": "input",
+        "type": "radio",
         "id": null,
-        "name": "eeo[gender]",
+        "name": "surveysResponses[c1006dc8-492f-4d28-ac29-5daeb8c8e4f7][responses][field2]",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
@@ -275,25 +467,20 @@
       }
     },
     {
-      "question": "race",
-      "field_type": "select",
+      "question": "disability status: check all that apply",
+      "field_type": "radio",
       "max_chars": null,
       "options": [
-        "Hispanic or Latino",
-        "White (Not Hispanic or Latino)",
-        "Black or African American (Not Hispanic or Latino)",
-        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
-        "Asian (Not Hispanic or Latino)",
-        "American Indian or Alaska Native (Not Hispanic or Latino)",
-        "Two or More Races (Not Hispanic or Latino)",
-        "Decline to self-identify"
+        "I have a disability",
+        "I do not have a disability",
+        "I choose not to identify"
       ],
       "required": false,
       "dom": {
-        "tag": "select",
-        "type": "select-one",
+        "tag": "input",
+        "type": "radio",
         "id": null,
-        "name": "eeo[race]",
+        "name": "surveysResponses[c1006dc8-492f-4d28-ac29-5daeb8c8e4f7][responses][field3]",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
@@ -305,20 +492,20 @@
       }
     },
     {
-      "question": "veteran status",
-      "field_type": "select",
+      "question": "have you served on active duty in the u.s. military?",
+      "field_type": "radio",
       "max_chars": null,
       "options": [
-        "I am a veteran",
-        "I am not a veteran",
-        "Decline to self-identify"
+        "I am a US Veteran",
+        "I am not a US Veteran",
+        "I choose not to disclose"
       ],
       "required": false,
       "dom": {
-        "tag": "select",
-        "type": "select-one",
+        "tag": "input",
+        "type": "radio",
         "id": null,
-        "name": "eeo[veteran]",
+        "name": "surveysResponses[c1006dc8-492f-4d28-ac29-5daeb8c8e4f7][responses][field4]",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
