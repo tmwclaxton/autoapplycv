@@ -20,6 +20,7 @@ import {
     isOptionalSocialNetworkUrlLabel,
     resolveConciseLocationValue,
     resolveIdentityProfileAnswer,
+    resolveJobApplicationLocationAnswer,
     resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
@@ -218,6 +219,80 @@ test('foreign-only job application locations stay pending for UK profile', () =>
                 (stage.answers || []).some((a) => a.ref === 'f0'),
         ),
         false,
+    );
+});
+
+test('Isomorphic office locations prefer-to-be-based is job site not home city', async () => {
+    const label =
+        'in which of our office locations would you prefer to be based? (note that certain jobs may only be available in one location - please check the details before applying)';
+    assert.equal(isJobApplicationLocationChoiceLabel(label), true);
+    assert.equal(isLocationAutocompleteQuestionLabel(label), false);
+    assert.equal(
+        isLocalityIdentityField({
+            ref: 'f6',
+            label,
+            field_type: 'select',
+            options: ['London', 'Lausanne'],
+        }),
+        false,
+    );
+
+    const profile = {
+        city: 'High Wycombe',
+        location: 'High Wycombe, England',
+        country: 'United Kingdom',
+    };
+    const { localityAnswers } = partitionMissingLocalityIdentityFields(
+        [
+            {
+                ref: 'f6',
+                label,
+                field_type: 'select',
+                options: ['London', 'Lausanne'],
+            },
+        ],
+        profile,
+    );
+    assert.equal(localityAnswers.length, 0, 'must not dump home city onto office board');
+    assert.equal(
+        resolveJobApplicationLocationAnswer(
+            {
+                label,
+                field_type: 'select',
+                options: ['London', 'Lausanne'],
+            },
+            profile,
+        ),
+        'London',
+    );
+
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                ref: 'f6',
+                label,
+                field_type: 'select',
+                options: ['London', 'Lausanne'],
+            },
+        ],
+        profileData: profile,
+        questionMemo: {},
+    });
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(
+        answers.some(
+            (item) =>
+                item.ref === 'f6' && /^london$/i.test(String(item.answer).trim()),
+        ),
+        'UK profile must pick London office, not High Wycombe',
+    );
+    assert.ok(
+        !answers.some((item) =>
+            /high wycombe/i.test(String(item.answer || '')),
+        ),
     );
 });
 

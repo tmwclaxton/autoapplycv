@@ -19,6 +19,7 @@ import { requestDraftField } from './draft-all-stream.js';
 import {
     isGenericTotalExperienceQuestionLabel,
     isJobApplicationLocationChoiceLabel,
+    resolveJobApplicationLocationAnswer,
     isMeaningfulAnswer,
     isMeaningfulFieldAnswer,
     isProfileMappingMismatch,
@@ -597,8 +598,21 @@ export function resolveHeuristicScreenerAnswer(
     };
     const label = normalizedField.question || normalizedField.label;
 
-    // Never dump city/location onto job-site boards (foreign-only options pend).
+    // Employer office / job-site boards: pick a listed office (London for UK),
+    // never dump the applicant's home city (live Isomorphic High Wycombe bleed).
     if (isJobApplicationLocationChoiceLabel(label)) {
+        const jobSiteLocation = resolveJobApplicationLocationAnswer(
+            normalizedField,
+            profileData,
+        );
+
+        if (isMeaningfulAnswer(jobSiteLocation)) {
+            return normalizeHeuristicAnswerForField(
+                jobSiteLocation,
+                normalizedField,
+            );
+        }
+
         return null;
     }
 

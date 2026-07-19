@@ -3248,14 +3248,26 @@ export function partitionInterviewAccommodationFields(fields) {
 }
 
 /**
- * Lever/Greenhouse "which location are you applying for?" is a job-site choice,
- * not the applicant's city/current location.
+ * Lever/Greenhouse "which location are you applying for?" / employer office
+ * boards are job-site choices, not the applicant's city/current location.
+ * Isomorphic: "in which of our office locations would you prefer to be based?"
  */
 export function isJobApplicationLocationChoiceLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (!normalized) {
         return false;
+    }
+
+    if (
+        /\bprefer to be based\b/.test(normalized)
+        || /\bour office locations?\b/.test(normalized)
+        || (
+            /\boffice locations?\b/.test(normalized)
+            && /\b(?:prefer|based|which|what|select|choose)\b/.test(normalized)
+        )
+    ) {
+        return true;
     }
 
     return (
@@ -3265,6 +3277,75 @@ export function isJobApplicationLocationChoiceLabel(label) {
             )) ||
         /\blocation\s+are\s+you\s+applying\s+for\b/.test(normalized)
     );
+}
+
+/**
+ * Pick a listed employer office / job-site option compatible with the profile.
+ * Never return the applicant's home city (live Isomorphic High Wycombe bleed).
+ */
+export function resolveJobApplicationLocationAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isJobApplicationLocationChoiceLabel(label)) {
+        return '';
+    }
+
+    const options = Array.isArray(field?.options)
+        ? field.options
+              .map((option) => String(option || '').trim())
+              .filter(Boolean)
+        : [];
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    ).toLowerCase();
+    const profileInUk =
+        /united kingdom|\buk\b|britain|england|scotland|wales/.test(country);
+    const profileInUs = /united states|\busa\b|u\.s\.?a?\.?/.test(country);
+    const profileInCanada = /^canada$/.test(country);
+
+    const patterns = [];
+
+    if (profileInUk) {
+        patterns.push(
+            /\blondon\b/,
+            /\bunited kingdom\b/,
+            /\buk\b/,
+            /\beurope\b/,
+            /\bemea\b/,
+        );
+    } else if (profileInUs) {
+        patterns.push(
+            /\bunited states\b/,
+            /\busa\b/,
+            /\bnew york\b/,
+            /\bsan francisco\b/,
+            /\bamerica\b/,
+        );
+    } else if (profileInCanada) {
+        patterns.push(/\bcanada\b/, /\btoronto\b/, /\bvancouver\b/);
+    }
+
+    patterns.push(
+        /\b(?:worldwide|global|anywhere|any location|remote\s*[- ]?\s*worldwide)\b/,
+        /^remote$/,
+    );
+
+    for (const pattern of patterns) {
+        const match = options.find((option) =>
+            pattern.test(normalizeQuestionLabel(option)),
+        );
+
+        if (match) {
+            return match;
+        }
+    }
+
+    // Options often missing before Greenhouse harvest; UK office boards → London.
+    if (options.length === 0 && profileInUk) {
+        return 'London';
+    }
+
+    return '';
 }
 
 /**
