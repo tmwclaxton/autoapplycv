@@ -2749,6 +2749,79 @@ async function resolveDraftFieldsViaInventory(
     };
 }
 
+/**
+ * Resume/cover-letter attach often remounts Greenhouse embeds and wipes sticky
+ * react-selects. Re-resolve the form frame and re-apply sticky answers last.
+ */
+async function reapplyStickySelectAnswersAfterDocuments({
+    tabId,
+    stickyAnswers,
+    fieldsByRef,
+    profileYears,
+}) {
+    if (!Array.isArray(stickyAnswers) || stickyAnswers.length === 0) {
+        return { formFrameId: null, applied: 0, success: true };
+    }
+
+    invalidateTabFrameCache(tabId);
+    await ensureTabContentScript(tabId);
+    let formFrameId = await findBestFormFrameId(tabId, { force: true });
+    const enrichedAnswers = enrichApplyAnswers(stickyAnswers, fieldsByRef, {
+        profileYears,
+    });
+    let applied = 0;
+    let success = true;
+    let lastError = null;
+
+    for (const pass of [0, 1]) {
+        for (const answer of enrichedAnswers) {
+            let singleResult = await applyDraftBatchToTab(
+                tabId,
+                [answer],
+                formFrameId,
+            );
+
+            if (shouldRecoverFormFrameAndRetryApply(singleResult)) {
+                invalidateTabFrameCache(tabId);
+                await ensureTabContentScript(tabId);
+                formFrameId = await findBestFormFrameId(tabId, {
+                    force: true,
+                });
+                singleResult = await applyDraftBatchToTab(
+                    tabId,
+                    [answer],
+                    formFrameId,
+                );
+            }
+
+            if (singleResult?.success === false) {
+                success = false;
+                lastError = singleResult?.error || lastError;
+            }
+
+            if (pass === 1) {
+                applied += Number(singleResult?.applied || 0);
+            }
+        }
+    }
+
+    logInfo(
+        'background',
+        'draft-all.sticky_select',
+        'Re-applied sticky selects after document fill',
+        {
+            count: stickyAnswers.length,
+            applied,
+            success,
+            error: lastError,
+            formFrameId,
+        },
+        tabId,
+    );
+
+    return { formFrameId, applied, success };
+}
+
 async function runDraftAll(tabId, e2eOptions = null) {
     if (draftAllRunning) {
         // Auto Apply can advance a step while a prior Draft All is still winding
@@ -3095,6 +3168,22 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             if (!isAutoApplyRunning()) {
                 await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
+                const stickyStage = draftPlan.applyStages.find(
+                    (stage) => stage.type === 'sticky_select',
+                );
+                const stickyReplay =
+                    await reapplyStickySelectAnswersAfterDocuments({
+                        tabId,
+                        stickyAnswers: stickyStage?.answers || [],
+                        fieldsByRef,
+                        profileYears,
+                    });
+
+                if (typeof stickyReplay.formFrameId === 'number') {
+                    formFrameId = stickyReplay.formFrameId;
+                }
+
+                totalFieldsFilled += Number(stickyReplay.applied || 0);
             }
 
             const postValidation = await applyPostDraftValidation(
@@ -3491,12 +3580,30 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     tabId,
                 );
                 await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
+                const stickyStage = draftPlan.applyStages.find(
+                    (stage) => stage.type === 'sticky_select',
+                );
+                const stickyReplay =
+                    await reapplyStickySelectAnswersAfterDocuments({
+                        tabId,
+                        stickyAnswers: stickyStage?.answers || [],
+                        fieldsByRef,
+                        profileYears,
+                    });
+
+                if (typeof stickyReplay.formFrameId === 'number') {
+                    formFrameId = stickyReplay.formFrameId;
+                }
+
+                totalFieldsFilled += Number(stickyReplay.applied || 0);
                 perf.end('resume.fill');
                 logInfo(
                     'background',
                     'fill.resume',
                     'Application documents fill complete',
-                    {},
+                    {
+                        stickyReapplied: Number(stickyReplay.applied || 0),
+                    },
                     tabId,
                 );
             } catch (error) {

@@ -93,6 +93,10 @@ test('Draft All does not count failed applies as filled via stageCount', async (
         background,
         /shouldRecoverFormFrameAndRetryApply\(applyResult\)/,
     );
+    assert.match(
+        background,
+        /reapplyStickySelectAnswersAfterDocuments/,
+    );
 });
 
 test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
