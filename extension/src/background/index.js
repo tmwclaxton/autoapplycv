@@ -2545,7 +2545,8 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
 
 /**
  * FirstStage and similar boards gate the form behind a CV-only upload step.
- * Attach the resume, wait for the next step, then re-scan once.
+ * Attach the resume, accept privacy consent, advance Continue through CV
+ * processing, then re-scan once the wizard has real questions.
  */
 async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -2562,12 +2563,115 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
 
     await fillApplicationDocumentsOnTab(tabId, formFrameId, job || null);
     await new Promise((resolve) => {
-        setTimeout(resolve, 2500);
+        setTimeout(resolve, 1500);
     });
+
+    invalidateTabFrameCache(tabId);
+    await ensureTabContentScript(tabId);
+    let nextFrameId = await findBestFormFrameId(tabId, { force: true });
+
+    try {
+        const consentSnap = await collectSnapshotFromTab(tabId, nextFrameId);
+        const consentElement = (consentSnap?.snapshot?.elements || []).find(
+            (element) =>
+                element?.field_type === 'checkbox' &&
+                /acknowledge|privacy|handle my data|consent/i.test(
+                    String(element.question || ''),
+                ),
+        );
+
+        if (consentElement?.ref) {
+            await applyDraftBatchToTab(
+                tabId,
+                [
+                    {
+                        ref: consentElement.ref,
+                        label: consentElement.question,
+                        answer: 'Yes',
+                        field_type: 'checkbox',
+                    },
+                ],
+                nextFrameId,
+            );
+        }
+    } catch (error) {
+        logWarn(
+            'background',
+            'draft-all.resume-gate',
+            'Consent checkbox apply failed (best-effort)',
+            {
+                error: error instanceof Error ? error.message : error,
+            },
+            tabId,
+        );
+    }
+
+    const clickContinue = async () => {
+        try {
+            await sendTabMessage(
+                tabId,
+                { type: 'BRIDGE_CLICK_TEXT', text: 'Continue' },
+                nextFrameId,
+            );
+        } catch {
+            // Continue may not be present yet.
+        }
+    };
+
+    await clickContinue();
+
+    const deadline = Date.now() + 60_000;
+
+    while (Date.now() < deadline) {
+        await new Promise((resolve) => {
+            setTimeout(resolve, 2000);
+        });
+
+        let currentTab;
+
+        try {
+            currentTab = await chrome.tabs.get(tabId);
+        } catch {
+            break;
+        }
+
+        const url = String(currentTab?.url || '');
+
+        // FirstStage wizard steps after CV processing.
+        if (
+            /\/applications\/[^/]+\/(?!uploading(?:\/|$))/i.test(url) &&
+            !/#apply$/i.test(url)
+        ) {
+            break;
+        }
+
+        if (/\/uploading(?:\/|$|\?)/i.test(url)) {
+            invalidateTabFrameCache(tabId);
+            await ensureTabContentScript(tabId);
+            nextFrameId = await findBestFormFrameId(tabId, { force: true });
+            await clickContinue();
+            continue;
+        }
+
+        // Still on the job/apply modal with Ready to Upload / Continue.
+        invalidateTabFrameCache(tabId);
+        await ensureTabContentScript(tabId);
+        nextFrameId = await findBestFormFrameId(tabId, { force: true });
+        await clickContinue();
+    }
+
     invalidateTabFrameCache(tabId);
     await ensureTabContentScript(tabId);
 
-    return collectInitialSnapshot(tabId, tab, null);
+    let refreshedTab = tab;
+
+    try {
+        refreshedTab = await chrome.tabs.get(tabId);
+    } catch {
+        // Keep original tab metadata.
+    }
+
+    return collectInitialSnapshot(tabId, refreshedTab, null);
 }
 
 async function resolveDraftFieldsViaInventory(
