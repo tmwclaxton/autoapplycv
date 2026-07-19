@@ -3447,10 +3447,14 @@ export function isProfileMappingMismatch(field, mapping) {
     }
 
     // Nationality / visa-status dropdowns are not Yes/No legally-authorized radios.
+    // Status pairs like 9fin "Able to work… without sponsorship" still map via
+    // pickWorkAuthStatusOption - only mismatch when no status option exists.
     if (
         mapping &&
         mapping.path === 'application_settings.legally_authorized' &&
-        !fieldHasYesNoOptions(field)
+        !fieldHasYesNoOptions(field) &&
+        !pickWorkAuthStatusOption(field, true) &&
+        !pickWorkAuthStatusOption(field, false)
     ) {
         return true;
     }
@@ -3681,6 +3685,9 @@ function pickWorkAuthStatusOption(field, authorized) {
             /do not require (?:a )?visa|no visa required/i,
             /have the right to work/i,
             /authori[sz]ed to work/i,
+            // 9fin: "Able to work in the UK without sponsorship"
+            /able to work\b/i,
+            /without (?:visa )?sponsorship/i,
         ];
 
         for (const pattern of preferredPatterns) {
@@ -3698,7 +3705,8 @@ function pickWorkAuthStatusOption(field, authorized) {
         (option) =>
             /do not have the right to work/i.test(option) ||
             /no right to work/i.test(option) ||
-            /not (?:currently )?authori[sz]ed/i.test(option),
+            /not (?:currently )?authori[sz]ed/i.test(option) ||
+            /sponsorship required/i.test(option),
     );
 
     return noRight || '';
