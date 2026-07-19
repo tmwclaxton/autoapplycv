@@ -3096,7 +3096,12 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         }),
                     ),
                     fieldsByRef,
-                    profileData,
+                    {
+                        ...profileData,
+                        job: job || profileData?.job || null,
+                        company:
+                            job?.company || profileData?.company || null,
+                    },
                 );
                 answersToApply = partitioned.toApply;
                 pendingFields = mergePendingFields(
@@ -3396,7 +3401,14 @@ async function runDraftAll(tabId, e2eOptions = null) {
                                 source: answer.source || 'nanogpt',
                             })),
                             fieldsByRef,
-                            profileData,
+                            {
+                                ...profileData,
+                                job: job || profileData?.job || null,
+                                company:
+                                    job?.company ||
+                                    profileData?.company ||
+                                    null,
+                            },
                             {
                                 priorAnswers: [...appliedAnswersByRef.values()],
                             },
