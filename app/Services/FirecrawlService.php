@@ -183,6 +183,15 @@ class FirecrawlService
             return self::isOfficialChromeWebStoreUrl($url, $path);
         }
 
+        $blocked = config('blog.sources.blocked_host_suffixes', []);
+        if (is_array($blocked)) {
+            foreach ($blocked as $suffix) {
+                if (is_string($suffix) && $suffix !== '' && self::hostMatchesSuffix($host, $suffix)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

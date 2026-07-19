@@ -94,11 +94,20 @@ class FirecrawlServiceTest extends TestCase
                 'url' => 'https://autocvapply.com/blog',
                 'description' => 'Product blog.',
             ],
+            [
+                'title' => 'Competitor autofill product',
+                'url' => 'https://jobcopilot.com/top-tools-autofill-job-applications/',
+                'description' => 'Blocked competitor host.',
+            ],
         ]);
 
         $urls = array_column($results, 'url');
         $this->assertNotContains(
             'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+            $urls,
+        );
+        $this->assertNotContains(
+            'https://jobcopilot.com/top-tools-autofill-job-applications/',
             $urls,
         );
         $this->assertContains(

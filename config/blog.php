@@ -52,6 +52,27 @@ return [
             'greenhouse.io',
             'lever.co',
         ],
+
+        /*
+         * Competitor autofill / auto-apply product sites - never persist as Sources.
+         * Chrome Web Store listings are handled separately (only official AutoCVApply allowed).
+         */
+        'blocked_host_suffixes' => [
+            'jobcopilot.com',
+            'loopcv.pro',
+            'loopcv.com',
+            'lazyapply.com',
+            'sonara.ai',
+            'autojob.io',
+            'jobright.ai',
+            'jobwizard.ai',
+            'simplify.jobs',
+            'massapply.com',
+            'applyall.com',
+            'tealdohr.com',
+            'aiapply.co',
+            'easy-apply-automater.com',
+        ],
     ],
 
     /*
