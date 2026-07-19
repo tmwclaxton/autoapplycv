@@ -2543,12 +2543,42 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     };
 }
 
+/**
+ * FirstStage and similar boards gate the form behind a CV-only upload step.
+ * Attach the resume, wait for the next step, then re-scan once.
+ */
+async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
+    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+        message: 'Uploading CV to continue the application…',
+    });
+
+    logInfo(
+        'background',
+        'draft-all.resume-gate',
+        'CV-upload step detected; attaching resume before re-scan',
+        { formFrameId },
+        tabId,
+    );
+
+    await fillApplicationDocumentsOnTab(tabId, formFrameId, job || null);
+    await new Promise((resolve) => {
+        setTimeout(resolve, 2500);
+    });
+    invalidateTabFrameCache(tabId);
+    await ensureTabContentScript(tabId);
+
+    return collectInitialSnapshot(tabId, tab, null);
+}
+
 async function resolveDraftFieldsViaInventory(
     tabId,
     tab,
     settings,
     perf = null,
+    options = {},
 ) {
+    const resumeGateAttempted = options.resumeGateAttempted === true;
+
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
         message: 'Scanning form and extracting job details…',
     });
@@ -2609,9 +2639,47 @@ async function resolveDraftFieldsViaInventory(
     applyCachedSubscription(jobContext.subscription);
 
     const job = jobContext.job;
-    const formFrameId = initialCollect.formFrameId;
+    let formFrameId = initialCollect.formFrameId;
+    let snapshot = initialCollect.snapshot;
+    let gateAttempted = resumeGateAttempted;
 
-    if (!initialCollect.snapshot?.elements?.length) {
+    const applyResumeGateRescan = async () => {
+        if (gateAttempted) {
+            return false;
+        }
+
+        gateAttempted = true;
+        const rescanned = await tryResumeUploadGateAndRescan(
+            tabId,
+            tab,
+            formFrameId,
+            job,
+        );
+
+        if (!rescanned?.success || !rescanned.snapshot) {
+            return false;
+        }
+
+        snapshot = rescanned.snapshot;
+        formFrameId =
+            typeof rescanned.formFrameId === 'number'
+                ? rescanned.formFrameId
+                : formFrameId;
+        void refreshFieldHighlightsForTab(tabId);
+
+        return true;
+    };
+
+    const snapshotElements = snapshot?.elements || [];
+    const onlyFileElements =
+        snapshotElements.length > 0 &&
+        snapshotElements.every((element) => element.field_type === 'file');
+
+    if (!snapshotElements.length || onlyFileElements) {
+        await applyResumeGateRescan();
+    }
+
+    if (!snapshot?.elements?.length) {
         return { error: 'No application questions found on this page.' };
     }
 
@@ -2619,11 +2687,14 @@ async function resolveDraftFieldsViaInventory(
         message: 'Scanning form fields…',
     });
 
-    const mechanicalFields = buildMechanicalInventoryFields(
-        initialCollect.snapshot,
-    );
+    let mechanicalFields = buildMechanicalInventoryFields(snapshot);
 
-    if (canUseMechanicalInventory(initialCollect.snapshot)) {
+    if (canUseMechanicalInventory(snapshot)) {
+        if (mechanicalFields.length === 0) {
+            await applyResumeGateRescan();
+            mechanicalFields = buildMechanicalInventoryFields(snapshot);
+        }
+
         perf?.start('inventory.mechanical');
         perf?.end('inventory.mechanical');
 
@@ -2633,7 +2704,7 @@ async function resolveDraftFieldsViaInventory(
             'Using mechanical field inventory',
             {
                 fieldCount: mechanicalFields.length,
-                elementCount: initialCollect.snapshot.elements.length,
+                elementCount: snapshot.elements.length,
             },
             tabId,
         );
@@ -2649,7 +2720,7 @@ async function resolveDraftFieldsViaInventory(
 
     const inventoryPayload = {
         job,
-        snapshot: compactSnapshotForInventory(initialCollect.snapshot),
+        snapshot: compactSnapshotForInventory(snapshot),
         settings,
         page_title: tab.title,
     };
@@ -2707,9 +2778,7 @@ async function resolveDraftFieldsViaInventory(
 
         // Overnight Auto Apply must not stall on Assist pauses when NanoGPT
         // inventory briefly returns 502 - use the mechanical snapshot instead.
-        const mechanicalFallback = buildMechanicalInventoryFields(
-            initialCollect.snapshot,
-        );
+        const mechanicalFallback = buildMechanicalInventoryFields(snapshot);
         const fallbackFields = inventoryFieldsToDraftShape(mechanicalFallback);
 
         if (fallbackFields.length > 0) {
@@ -2738,13 +2807,13 @@ async function resolveDraftFieldsViaInventory(
     applyCachedSubscription(inventory.subscription);
 
     const fields = inventoryFieldsToDraftShape(
-        enrichFieldsWithSnapshotDom(inventory.fields, initialCollect.snapshot),
+        enrichFieldsWithSnapshotDom(inventory.fields, snapshot),
     );
 
     if (fields.length === 0) {
         return {
             error:
-                (initialCollect.snapshot?.elements?.length || 0) > 0
+                (snapshot?.elements?.length || 0) > 0
                     ? 'No empty questions to fill on this page.'
                     : 'No application questions found on this page.',
         };
@@ -3102,8 +3171,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     {
                         ...profileData,
                         job: job || profileData?.job || null,
-                        company:
-                            job?.company || profileData?.company || null,
+                        company: job?.company || profileData?.company || null,
                     },
                 );
                 answersToApply = partitioned.toApply;
@@ -3679,7 +3747,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
                     return {
                         ref,
-                        label: field?.label || field?.question || 'cover letter',
+                        label:
+                            field?.label || field?.question || 'cover letter',
                         answer: null,
                     };
                 }),
@@ -3760,10 +3829,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             // Identity/memo may already be on the page; only hard-fail when
             // nothing was applied and cover-letter recovery also found nothing.
-            if (
-                totalFieldsFilled === 0 &&
-                appliedAnswersByRef.size === 0
-            ) {
+            if (totalFieldsFilled === 0 && appliedAnswersByRef.size === 0) {
                 return { error: result.message || 'Draft-all failed.' };
             }
         }

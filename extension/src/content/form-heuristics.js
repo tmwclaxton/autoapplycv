@@ -4588,7 +4588,10 @@ var AutoCVApplyFormHeuristics = (() => {
                 stringValue,
             );
 
-            if (filled || workableSelectIsCommitted(mountedCombobox, stringValue)) {
+            if (
+                filled ||
+                workableSelectIsCommitted(mountedCombobox, stringValue)
+            ) {
                 return true;
             }
         }
@@ -5247,7 +5250,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
             root?.setAttribute('data-open', 'false');
 
-            if (beforeValue && String(element.value || '').trim() !== beforeValue) {
+            if (
+                beforeValue &&
+                String(element.value || '').trim() !== beforeValue
+            ) {
                 setNativeValue(element, beforeValue);
             }
 
@@ -6914,6 +6920,13 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     function getQuestionLabel(element) {
+        if (
+            element?.type === 'file' &&
+            isCvOnlyUploadPanelText(getFileUploadPanelText(element))
+        ) {
+            return 'CV / Resume';
+        }
+
         const smsConsentLabel = getSmsConsentQuestionLabel(element);
 
         if (smsConsentLabel.length >= 3) {
@@ -11233,6 +11246,61 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     /**
+     * FirstStage / OpenDigital and similar boards open with a CV-only upload
+     * panel before any email/name fields. Nearby copy is the only signal.
+     */
+    function getFileUploadPanelText(element) {
+        if (!element) {
+            return '';
+        }
+
+        let node = element.parentElement;
+
+        for (let depth = 0; node && depth < 6; depth += 1) {
+            const text = String(node.textContent || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (text.length >= 12) {
+                return text.slice(0, 500);
+            }
+
+            node = node.parentElement;
+        }
+
+        return '';
+    }
+
+    function isCvOnlyUploadPanelText(text) {
+        const normalized = String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+
+        if (!normalized) {
+            return false;
+        }
+
+        if (
+            /\bcover letter\b/.test(normalized) &&
+            !/\b(resume|cv)\b/.test(normalized)
+        ) {
+            return false;
+        }
+
+        return (
+            /\bstep\s*1:\s*upload cv\b/.test(normalized) ||
+            /\bupload cv\b/.test(normalized) ||
+            /\bupload your (cv|resume)\b/.test(normalized) ||
+            (/\bwe will use your cv\b/.test(normalized) &&
+                /\b(drag and drop|choose a)\b/.test(normalized)) ||
+            (/\b(drag and drop|choose)\b/.test(normalized) &&
+                /\b\.(docx|pdf)\b/.test(normalized) &&
+                /\b(cv|resume)\b/.test(normalized))
+        );
+    }
+
+    /**
      * Custom upload UIs often clip the native file input (Ashby resume). Still inventory it
      * when it has a real question label and is not the autofill helper dropzone.
      */
@@ -11245,6 +11313,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        if (isCvOnlyUploadPanelText(getFileUploadPanelText(element))) {
+            return true;
+        }
+
         return getQuestionLabel(element).length >= 3;
     }
 
@@ -11253,7 +11325,8 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const identity = `${element.name || ''} ${element.id || ''}`.toLowerCase();
+        const identity =
+            `${element.name || ''} ${element.id || ''}`.toLowerCase();
         const dataUi = String(
             element.closest?.('[data-ui]')?.getAttribute?.('data-ui') || '',
         ).toLowerCase();
@@ -11270,6 +11343,10 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (/resume|\.cv\b|\bcv\b/.test(identity)) {
+            return true;
+        }
+
+        if (isCvOnlyUploadPanelText(getFileUploadPanelText(element))) {
             return true;
         }
 
@@ -11839,10 +11916,7 @@ var AutoCVApplyFormHeuristics = (() => {
             return Boolean(selection);
         }
 
-        if (
-            fieldType === 'file' ||
-            target.type === 'file'
-        ) {
+        if (fieldType === 'file' || target.type === 'file') {
             return isApplicationFileInputFilled(target);
         }
 
@@ -13202,6 +13276,11 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (isReedApplyScreeningForm(root)) {
+            return true;
+        }
+
+        // FirstStage and similar: CV upload is the whole first step.
+        if (findApplicationResumeFileInput(root)) {
             return true;
         }
 
