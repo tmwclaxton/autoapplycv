@@ -61,7 +61,10 @@ test('Hively other-than-English free text answers No when languages empty', () =
         structured_data: { languages: [] },
     };
 
-    assert.equal(resolveAdditionalLanguagesFreeTextAnswer(field, profile), 'No');
+    assert.equal(
+        resolveAdditionalLanguagesFreeTextAnswer(field, profile),
+        'None',
+    );
     assert.equal(
         resolveHeuristicScreenerAnswer(field, profile, null, { platformId: 'lever' }),
         'No',

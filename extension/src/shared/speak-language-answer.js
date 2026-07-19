@@ -238,8 +238,9 @@ export function isAdditionalLanguagesFreeTextQuestion(field) {
 }
 
 /**
- * List non-English profile languages, or answer No when the list is empty for
- * English-speaking countries (Hively free-text fluency prompt).
+ * List non-English profile languages, or answer "None" when the list is empty for
+ * English-speaking countries (Hively free-text fluency prompt). Prefer "None"
+ * over bare "No" so free-text type-coherence does not treat it as a Yes/No bleed.
  */
 export function resolveAdditionalLanguagesFreeTextAnswer(field, profileData) {
     if (!isAdditionalLanguagesFreeTextQuestion(field)) {
@@ -255,7 +256,7 @@ export function resolveAdditionalLanguagesFreeTextAnswer(field, profileData) {
     }
 
     if (isEnglishSpeakingProfileCountry(profileData)) {
-        return 'No';
+        return 'None';
     }
 
     return null;
