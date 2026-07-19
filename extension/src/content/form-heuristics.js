@@ -958,6 +958,11 @@ var AutoCVApplyFormHeuristics = (() => {
         // selection is mousedown on .dropdown-location, and blur clears the
         // field when the dropdown is still open without a selection.
         const LEVER_LOCATION_SEARCH_DEBOUNCE_MS = 550;
+        // Cap wall time so Draft All APPLY_DRAFT_BATCH cannot hang for minutes
+        // when geocomplete XHR stalls or High Wycombe-style queries yield nothing.
+        const LEVER_LOCATION_BUDGET_MS = 12000;
+        const startedAt = Date.now();
+        const budgetExceeded = () => Date.now() - startedAt >= LEVER_LOCATION_BUDGET_MS;
         const fieldRoot =
             element.closest('.application-field') ||
             element.closest('.application-question') ||
@@ -971,22 +976,20 @@ var AutoCVApplyFormHeuristics = (() => {
                 '#selected-location, input[name="selectedLocation"]',
             );
         const city = stringValue.split(',')[0].trim() || stringValue;
+        const isUk = /united kingdom|\buk\b|england|scotland|wales/i.test(
+            stringValue,
+        );
+        const cityIsLondon = normalizeOption(city) === 'london';
+        // City-first: short queries match Lever's index faster than full address
+        // strings. Never fall back to London when the profile city is elsewhere -
+        // that wasted retries and left Draft All stuck on APPLY_DRAFT_BATCH.
         const queries = [
             ...new Set(
                 [
-                    stringValue,
                     city,
-                    /united kingdom|\buk\b/i.test(stringValue)
-                        ? `${city}, United Kingdom`
-                        : '',
-                    /england|scotland|wales/i.test(stringValue)
-                        ? `${city}, United Kingdom`
-                        : '',
-                    /united kingdom|\buk\b|england|scotland|wales/i.test(
-                        stringValue,
-                    )
-                        ? 'London, United Kingdom'
-                        : '',
+                    isUk ? `${city}, United Kingdom` : '',
+                    stringValue !== city ? stringValue : '',
+                    isUk && cityIsLondon ? 'London, United Kingdom' : '',
                 ].filter(Boolean),
             ),
         ];
@@ -1050,6 +1053,10 @@ var AutoCVApplyFormHeuristics = (() => {
         };
 
         for (const query of queries) {
+            if (budgetExceeded()) {
+                break;
+            }
+
             element.focus();
             dispatchPointerClick(element);
             clearLeverLocationField();
@@ -1062,9 +1069,17 @@ var AutoCVApplyFormHeuristics = (() => {
             let typed = '';
 
             for (const char of query) {
+                if (budgetExceeded()) {
+                    break;
+                }
+
                 typed += char;
                 dispatchInsertedCharacter(element, char, typed);
                 await sleep(18);
+            }
+
+            if (budgetExceeded()) {
+                break;
             }
 
             // Wait for Lever's 500ms keydown debounce before polling XHR results.
@@ -1072,8 +1087,12 @@ var AutoCVApplyFormHeuristics = (() => {
 
             let results = [];
 
-            for (let attempt = 0; attempt < 20; attempt += 1) {
-                await sleep(attempt === 0 ? 100 : 150);
+            for (let attempt = 0; attempt < 10; attempt += 1) {
+                if (budgetExceeded()) {
+                    break;
+                }
+
+                await sleep(attempt === 0 ? 100 : 120);
                 results = readVisibleResults();
 
                 if (results.length > 0 || noResultsVisible()) {
@@ -1105,15 +1124,6 @@ var AutoCVApplyFormHeuristics = (() => {
 
                 if (normalizedAnswer && text.includes(normalizedAnswer)) {
                     score += 6;
-                }
-
-                if (
-                    query.startsWith('London') &&
-                    normalizedCity &&
-                    normalizedCity !== 'london' &&
-                    text.includes('london')
-                ) {
-                    score -= 4;
                 }
 
                 if (score > bestScore) {
@@ -1179,6 +1189,8 @@ var AutoCVApplyFormHeuristics = (() => {
         heuristicsLog('warn', 'apply.lever-location', 'no geocomplete match', {
             valuePreview: stringValue.slice(0, 80),
             queriesTried: queries.slice(0, 5),
+            budgetMs: LEVER_LOCATION_BUDGET_MS,
+            elapsedMs: Date.now() - startedAt,
         });
 
         return false;
@@ -12143,6 +12155,30 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (isLeverLocationInput(element)) {
             return setLeverLocationValue(element, value);
+        }
+
+        // Lever exposes a hidden custom-pronouns text input alongside checkboxes.
+        // Filling "He/him" into it truncates ("He/hi") and races the checkbox path.
+        if (
+            isLeverJobsHost(element.ownerDocument || document) &&
+            element.id === 'customPronounsTextField'
+        ) {
+            const pronoun = String(value || '').trim();
+            const isStandardPronoun =
+                /^(he\/him|she\/her|they\/them|xe\/xem|ze\/hir|ey\/em|hir\/hir|fae\/faer|hu\/hu|use name only)$/i.test(
+                    pronoun,
+                );
+
+            if (isStandardPronoun || !pronoun) {
+                heuristicsLog(
+                    'info',
+                    'apply.setFieldValue',
+                    'skipped Lever custom pronouns text for standard option',
+                    { valuePreview: pronoun.slice(0, 40) },
+                );
+
+                return true;
+            }
         }
 
         if (isTotaljobsGenesisFormInput(element) && element.type !== 'tel') {

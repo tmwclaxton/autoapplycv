@@ -19,16 +19,18 @@ const source = readFileSync(
 test('setLeverLocationValue waits for keydown debounce and commits via mousedown', () => {
     assert.match(source, /async function setLeverLocationValue/);
     assert.match(source, /LEVER_LOCATION_SEARCH_DEBOUNCE_MS\s*=\s*550/);
+    assert.match(source, /LEVER_LOCATION_BUDGET_MS\s*=\s*12000/);
     assert.match(source, /dispatchInsertedCharacter/);
     assert.match(source, /dispatchReactSelectOptionMouseDown/);
     assert.match(source, /selectedHidden/);
     assert.match(source, /clearLeverLocationField/);
     assert.match(source, /\.dropdown-location/);
-    assert.doesNotMatch(
-        source.slice(
-            source.indexOf('async function setLeverLocationValue'),
-            source.indexOf('function isRecruiteeApplyHost'),
-        ),
-        /nativeClick\(choice\)/,
+    const fnSlice = source.slice(
+        source.indexOf('async function setLeverLocationValue'),
+        source.indexOf('function isRecruiteeApplyHost'),
     );
+    // City-first query order; no London fallback for non-London UK cities.
+    assert.match(fnSlice, /cityIsLondon/);
+    assert.match(fnSlice, /isUk && cityIsLondon/);
+    assert.doesNotMatch(fnSlice, /nativeClick\(choice\)/);
 });
