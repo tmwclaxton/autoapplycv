@@ -32,5 +32,8 @@ test('setLeverLocationValue waits for keydown debounce and commits via mousedown
     // City-first query order; no London fallback for non-London UK cities.
     assert.match(fnSlice, /cityIsLondon/);
     assert.match(fnSlice, /isUk && cityIsLondon/);
+    // Prefer High Wycombe over bare Wycombe substring matches.
+    assert.match(fnSlice, /resultCity === normalizedCity/);
+    assert.match(fnSlice, /normalizedCity\.includes\(resultCity\)/);
     assert.doesNotMatch(fnSlice, /nativeClick\(choice\)/);
 });

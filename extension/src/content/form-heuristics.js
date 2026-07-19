@@ -1112,10 +1112,25 @@ var AutoCVApplyFormHeuristics = (() => {
 
             for (const result of results) {
                 const text = normalize(result.textContent || '');
+                const resultCity = normalizeOption(
+                    String(result.textContent || '').split(',')[0] || '',
+                );
                 let score = 0;
 
-                if (normalizedCity && text.includes(normalizedCity)) {
+                // Exact city match beats substring traps like Wycombe vs High Wycombe.
+                if (normalizedCity && resultCity === normalizedCity) {
+                    score += 24;
+                } else if (normalizedCity && text.includes(normalizedCity)) {
                     score += 12;
+                }
+
+                if (
+                    normalizedCity.includes(' ') &&
+                    resultCity &&
+                    resultCity !== normalizedCity &&
+                    normalizedCity.includes(resultCity)
+                ) {
+                    score -= 14;
                 }
 
                 if (normalizedQuery && text.includes(normalizedQuery)) {
