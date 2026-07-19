@@ -36,6 +36,7 @@ import {
     partitionPriorEmployerContactFields,
     partitionReferenceProfileFields,
     partitionScreeningTrapFields,
+    partitionSkillSpecificYearsExperienceFields,
 } from '../pending-fields.js';
 import {
     partitionAgreementCheckboxFields,
@@ -182,6 +183,11 @@ export function buildDraftAllApplyPlan({
         screeningPartition.pendingFields,
     );
 
+    // Skill/tool years (Figma, etc.) before preference can copy total YOE.
+    const skillYearsPartition =
+        partitionSkillSpecificYearsExperienceFields(remainingFields);
+    remainingFields = skillYearsPartition.remainingFields;
+
     const preferencePartition = partitionPreferenceProfileFields(
         remainingFields,
         profileData,
@@ -314,6 +320,7 @@ export function buildDraftAllApplyPlan({
         ...(preferencePartition.clearAnswers || []),
         ...(optionalSocialPartition.clearAnswers || []),
         ...(accommodationPartition.clearAnswers || []),
+        ...(skillYearsPartition.clearAnswers || []),
     ];
 
     if (clearAnswers.length > 0) {

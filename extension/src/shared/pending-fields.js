@@ -1502,11 +1502,63 @@ export function isYearsExperienceQuestionLabel(label) {
     );
 }
 
+/**
+ * True when the ask scopes years to a skill/tool (Figma, C++, etc.), not total career years.
+ * "years of experience in figma" must not map to application_settings.years_of_experience.
+ */
+export function isSkillScopedYearsExperienceLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/\byears? of (?:work )?experience\s+(?:in|with|using)\b/.test(normalized)) {
+        return true;
+    }
+
+    // "How many years of work experience do you have with C++?"
+    if (
+        /\bhow many years\b/.test(normalized) &&
+        /\b(?:with|in|using)\b/.test(normalized) &&
+        !/\btotal\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    // "How many years of Go / Figma / Python experience…"
+    if (
+        /\bhow many years of\b/.test(normalized) &&
+        /\bexperience\b/.test(normalized) &&
+        !/\bhow many years of (?:work |professional |software(?: development)? |total |overall )?experience\b/.test(
+            normalized,
+        )
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
 export function isGenericTotalExperienceQuestionLabel(label) {
     const normalized = normalizeLabelForMapping(label);
 
     if (!normalized) {
         return false;
+    }
+
+    if (isSkillScopedYearsExperienceLabel(label)) {
+        return false;
+    }
+
+    // Broad career-years asks (software development / professional / total).
+    if (
+        /\bhow many years\b/.test(normalized) &&
+        /\b(?:software(?:\s+development)?|professional|work|total|overall)\s+experience\b/.test(
+            normalized,
+        )
+    ) {
+        return true;
     }
 
     const totalExperienceMapping = PROFILE_FIELD_MAPPINGS.find(
@@ -1522,10 +1574,86 @@ export function isGenericTotalExperienceQuestionLabel(label) {
 }
 
 export function isSkillSpecificYearsExperienceQuestionLabel(label) {
+    if (isSkillScopedYearsExperienceLabel(label)) {
+        return true;
+    }
+
     return (
         isYearsExperienceQuestionLabel(label) &&
         !isGenericTotalExperienceQuestionLabel(label)
     );
+}
+
+/**
+ * Tool-scoped years must stay blank without a matching profile skill - never copy
+ * total years_of_experience or let NanoGPT invent (live Ashby Real Figma years).
+ * Broad "software development experience" still uses total YOE via preference/screener.
+ */
+export function partitionSkillSpecificYearsExperienceFields(fields) {
+    const remainingFields = [];
+    const clearAnswers = [];
+
+    for (const field of fields || []) {
+        const label = field?.label || field?.question || '';
+
+        if (isSkillScopedYearsExperienceLabel(label)) {
+            clearAnswers.push({
+                ...field,
+                answer: '__CLEAR__',
+            });
+            continue;
+        }
+
+        remainingFields.push(field);
+    }
+
+    return { remainingFields, clearAnswers };
+}
+
+/**
+ * "Are you currently serving the notice? If yes, how soon can you join?"
+ * Default No / not serving - do not dump a career essay into the follow-up.
+ */
+export function isServingNoticeFollowUpQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/currently serving (?:the |your )?notice/.test(normalized)) {
+        return true;
+    }
+
+    return (
+        /\bserving (?:the |your )?notice\b/.test(normalized) &&
+        /\b(?:how soon|join|start|available)\b/.test(normalized)
+    );
+}
+
+export function resolveServingNoticeFollowUpAnswer(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isServingNoticeFollowUpQuestionLabel(label)) {
+        return '';
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return 'No';
+    }
+
+    const fieldType = String(field?.field_type || field?.type || '').toLowerCase();
+
+    if (
+        fieldType === 'text' ||
+        fieldType === 'textarea' ||
+        fieldType === '' ||
+        fieldType === 'input'
+    ) {
+        return 'No';
+    }
+
+    return pickLocalizedYesNoOption(field, false) || 'No';
 }
 
 export function isAvailabilityQuestionLabel(label) {

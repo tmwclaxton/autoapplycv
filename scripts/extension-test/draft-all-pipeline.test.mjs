@@ -938,22 +938,35 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
         questionMemo: {},
     });
 
+    // Broad software-development years use profile YOE; tool-scoped Go years clear.
+    const screenerStage = plan.applyStages.find((stage) => stage.type === 'screener');
+    assert.ok(screenerStage);
     assert.equal(
-        plan.applyStages.some((stage) => stage.type === 'screener'),
-        false,
+        screenerStage.answers.some(
+            (answer) => answer.ref === 'f1' && String(answer.answer) === '5',
+        ),
+        true,
     );
-    assert.equal(plan.llmFields.length, 5);
+    assert.equal(
+        plan.applyStages.some(
+            (stage) =>
+                stage.type === 'clear' &&
+                stage.answers.some((answer) => answer.ref === 'f2'),
+        ),
+        true,
+    );
+    assert.equal(plan.llmFields.length, 3);
     assert.equal(
         plan.llmFields.some((field) => field.ref === 'f0'),
         true,
     );
     assert.equal(
         plan.llmFields.some((field) => field.ref === 'f1'),
-        true,
+        false,
     );
     assert.equal(
         plan.llmFields.some((field) => field.ref === 'f2'),
-        true,
+        false,
     );
     assert.equal(
         plan.llmFields.some((field) => field.ref === 'f3'),

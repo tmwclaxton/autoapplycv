@@ -19,6 +19,8 @@ import {
     isEmployerScreeningTrapLabel,
     isInterviewAccommodationQuestionLabel,
     isOptionalSocialNetworkUrlLabel,
+    isServingNoticeFollowUpQuestionLabel,
+    isSkillSpecificYearsExperienceQuestionLabel,
     isSourceOfHireOtherFollowUpLabel,
     isSourceOfHireQuestionLabel,
     isUsLocationConfirmationQuestion,
@@ -304,6 +306,18 @@ export function partitionFieldsByQuestionMemo(
 
         // Interview accommodation free-text must stay blank (no career essays).
         if (isInterviewAccommodationQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Skill/tool years must not reuse a stale total-YOE memo value.
+        if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Serving-notice follow-ups use heuristics, not career-essay memos.
+        if (isServingNoticeFollowUpQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }

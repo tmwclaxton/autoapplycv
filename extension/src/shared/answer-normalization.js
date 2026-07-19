@@ -47,6 +47,121 @@ function isNumericNoticePeriodField(options = {}) {
         || domId.includes('numeric');
 }
 
+/**
+ * Parse free-text notice answers into calendar days (2 weeks → 14).
+ * @param {string} answer
+ * @returns {number|null}
+ */
+export function parseNoticePeriodToDays(answer) {
+    const text = String(answer ?? '').trim().toLowerCase();
+
+    if (!text) {
+        return null;
+    }
+
+    if (/^(immediately|immediate|asap|available now)\b/.test(text)) {
+        return 0;
+    }
+
+    const weeks = text.match(/^(\d{1,2})\s*(?:weeks?|wks?)\b/);
+
+    if (weeks) {
+        return Number(weeks[1]) * 7;
+    }
+
+    const months = text.match(/^(\d{1,2})\s*(?:months?|mos?)\b/);
+
+    if (months) {
+        return Number(months[1]) * 30;
+    }
+
+    const days = text.match(/^(\d{1,3})\s*(?:days?|d)\b/);
+
+    if (days) {
+        return Number(days[1]);
+    }
+
+    if (/^\d{1,2}$/.test(text)) {
+        // Bare integers on notice questions are treated as weeks elsewhere.
+        return Number(text) * 7;
+    }
+
+    return null;
+}
+
+/**
+ * Map "2 weeks" onto radio options like "30 Days" / "Immediately Available".
+ * Never selects "Currently Serving Notice".
+ * @param {string} answer
+ * @param {string[]|null|undefined} options
+ * @returns {string|null}
+ */
+export function mapNoticePeriodAnswerToChoiceOption(answer, options) {
+    const choiceOptions = filterMeaningfulChoiceOptions(options);
+
+    if (choiceOptions.length === 0) {
+        return null;
+    }
+
+    const exact = findExactChoiceOptionMatch(answer, choiceOptions);
+
+    if (exact) {
+        return exact;
+    }
+
+    const targetDays = parseNoticePeriodToDays(answer);
+
+    if (targetDays == null) {
+        return null;
+    }
+
+    /** @type {{ option: string, days: number }[]} */
+    const dayOptions = [];
+
+    for (const option of choiceOptions) {
+        const text = String(option || '').trim();
+
+        if (!text || /currently serving/i.test(text)) {
+            continue;
+        }
+
+        if (/immediately|available now|asap/i.test(text)) {
+            dayOptions.push({ option: text, days: 0 });
+            continue;
+        }
+
+        const dayMatch = text.match(/(\d+)\s*days?/i);
+
+        if (dayMatch) {
+            dayOptions.push({ option: text, days: Number(dayMatch[1]) });
+            continue;
+        }
+
+        const weekMatch = text.match(/(\d+)\s*weeks?/i);
+
+        if (weekMatch) {
+            dayOptions.push({ option: text, days: Number(weekMatch[1]) * 7 });
+        }
+    }
+
+    if (dayOptions.length === 0) {
+        return null;
+    }
+
+    const ge = dayOptions
+        .filter((entry) => entry.days >= targetDays)
+        .sort((left, right) => left.days - right.days);
+
+    if (ge.length > 0) {
+        return ge[0].option;
+    }
+
+    return dayOptions.sort(
+        (left, right) =>
+            Math.abs(left.days - targetDays) - Math.abs(right.days - targetDays),
+    )[0].option;
+}
+
 export function normalizeNoticePeriodAnswer(label, answer, options = {}) {
     const text = String(answer ?? '').trim();
 
@@ -56,6 +171,12 @@ export function normalizeNoticePeriodAnswer(label, answer, options = {}) {
 
     if (isNumericNoticePeriodField(options) && /^\d+$/.test(text)) {
         return text;
+    }
+
+    const mappedChoice = mapNoticePeriodAnswerToChoiceOption(text, options.options);
+
+    if (mappedChoice) {
+        return mappedChoice;
     }
 
     const profileYears = String(options.profileYears ?? '').trim();

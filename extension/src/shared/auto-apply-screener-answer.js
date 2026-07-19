@@ -20,12 +20,14 @@ import {
     isJobApplicationLocationChoiceLabel,
     isMeaningfulAnswer,
     isMeaningfulFieldAnswer,
+    isProfileMappingMismatch,
     isSalaryQuestionLabel,
     isSkillSpecificYearsExperienceQuestionLabel,
     isSourceOfHireQuestionLabel,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
     resolvePriorEmployerRelationshipAnswer,
+    resolveServingNoticeFollowUpAnswer,
     resolveProfileMappingForLabel,
     readProfileValue,
 } from './pending-fields.js';
@@ -378,6 +380,7 @@ function normalizeHeuristicAnswerForField(answer, field) {
             return normalizeNoticePeriodAnswer(label, value, {
                 fieldType: field?.type || field?.field_type,
                 domId: field?.dom?.id || field?.dom?.input_id,
+                options: field?.options ?? null,
                 profileYears: null,
                 fallbackNoticePeriod: '2 weeks',
             });
@@ -439,6 +442,21 @@ export function resolveHeuristicScreenerAnswer(
         );
     }
 
+    const servingNoticeFollowUpAnswer =
+        resolveServingNoticeFollowUpAnswer(normalizedField);
+
+    if (isMeaningfulAnswer(servingNoticeFollowUpAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            servingNoticeFollowUpAnswer,
+            normalizedField,
+        );
+    }
+
+    // Skill/tool years must not inherit total YOE via keyword mapping.
+    if (shouldDeferScreenerQuestionToLlm(label)) {
+        return null;
+    }
+
     // Prefer the live job board over a stale memo from another platform.
     const sourceOfHireAnswer = resolveSourceOfHireAnswer(
         normalizedField,
@@ -489,7 +507,7 @@ export function resolveHeuristicScreenerAnswer(
         normalizedField.dom,
     );
 
-    if (mapping?.path) {
+    if (mapping?.path && !isProfileMappingMismatch(normalizedField, mapping)) {
         const profileValue = readProfileValue(profileData, mapping.path);
 
         if (
@@ -523,10 +541,6 @@ export function resolveHeuristicScreenerAnswer(
         normalizedField.dom?.id || normalizedField.dom?.input_id || '',
     ).toLowerCase();
     const settings = profileData?.application_settings || {};
-
-    if (shouldDeferScreenerQuestionToLlm(label)) {
-        return null;
-    }
 
     const speakLanguageAnswer = resolveSpeakLanguageFromProfile(
         normalizedField,
