@@ -7147,7 +7147,15 @@ var AutoCVApplyFormHeuristics = (() => {
      */
     function scoreComboboxOptionMatch(optionText, answer) {
         const option = normalizeOption(optionText);
-        const normalizedAnswer = normalizeOption(extractBooleanAnswer(answer));
+        // Strip parentheticals before normalizeOption - that helper removes
+        // "(" / ")" so "(Russell Group)" would otherwise become required tokens.
+        const answerWithoutParens = String(answer ?? '').replace(
+            /\([^)]*\)/g,
+            ' ',
+        );
+        const normalizedAnswer = normalizeOption(
+            extractBooleanAnswer(answerWithoutParens),
+        );
 
         if (
             !option ||
@@ -7166,7 +7174,8 @@ var AutoCVApplyFormHeuristics = (() => {
             return 800;
         }
 
-        const answerTokens = normalizedAnswer
+        const answerForTokens = normalizedAnswer;
+        const answerTokens = answerForTokens
             .split(/\s+/)
             .filter((token) => token.length >= 2);
         const optionTokens = option.split(/\s+/).filter(Boolean);
@@ -7178,7 +7187,7 @@ var AutoCVApplyFormHeuristics = (() => {
         // Contained options ("Queen's University" inside "Queen's University
         // Belfast") only count when they still carry every distinctive token,
         // or the answer has none (short generic answers).
-        if (normalizedAnswer.length >= 3 && normalizedAnswer.includes(option)) {
+        if (answerForTokens.length >= 3 && answerForTokens.includes(option)) {
             const optionSetForContainment = new Set(optionTokens);
             const missingDistinctive = distinctiveAnswerTokens.some(
                 (token) => !optionSetForContainment.has(token),
@@ -7212,13 +7221,14 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         // "Queen's University Belfast" must not match "Queen's University - Canada"
-        // just because the first two tokens overlap.
+        // just because the first two tokens overlap. Every distinctive answer
+        // token (belfast, wycombe, ...) must appear; option may add admin regions.
         if (distinctiveAnswerTokens.length > 0) {
-            const distinctiveCovered = distinctiveAnswerTokens.filter(
-                (token) => optionSet.has(token),
+            const distinctiveCovered = distinctiveAnswerTokens.filter((token) =>
+                optionSet.has(token),
             ).length;
 
-            if (distinctiveCovered === 0) {
+            if (distinctiveCovered < distinctiveAnswerTokens.length) {
                 return 0;
             }
 
@@ -7251,18 +7261,21 @@ var AutoCVApplyFormHeuristics = (() => {
             return true;
         }
 
-        // Only use includes for meaningful multi-character tokens to avoid
-        // "none of the above".includes("on") style false positives.
-        if (
-            option.length >= 3 &&
-            (option.includes(normalizedAnswer) ||
-                (normalizedAnswer.length >= 3 &&
-                    normalizedAnswer.includes(option)))
-        ) {
+        // Prefer the scored matcher so multi-token names cannot false-positive
+        // via includes() ("Queen's University" ⊂ "Queen's University Belfast").
+        if (scoreComboboxOptionMatch(optionText, answer) >= 100) {
             return true;
         }
 
-        if (scoreComboboxOptionMatch(optionText, answer) >= 100) {
+        // Single-token options ("Engineering") may still be contained in a
+        // longer answer without clearing the multi-token distinctive gate.
+        const optionTokenCount = option.split(/\s+/).filter(Boolean).length;
+
+        if (
+            optionTokenCount === 1 &&
+            option.length >= 3 &&
+            normalizedAnswer.includes(option)
+        ) {
             return true;
         }
 
