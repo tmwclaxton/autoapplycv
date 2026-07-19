@@ -8743,7 +8743,7 @@ var AutoCVApplyFormHeuristics = (() => {
         const host = outermostShadowHost(element);
         const scope =
             host?.closest?.(
-                'spl-form-field, oc-input, oc-textarea, oc-phone-number, oc-location-autocomplete, [data-test*="personal-info"], [data-test*="first-name"], [formcontrolname]',
+                'spl-form-field, oc-input, oc-textarea, oc-phone-number, oc-location-autocomplete, spl-autocomplete, [data-test*="personal-info"], [data-test*="first-name"], [formcontrolname]',
             ) || host;
 
         if (!scope) {
@@ -8754,6 +8754,17 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (aria.length >= 2) {
             return aria;
+        }
+
+        // Motocol one-click City uses <spl-autocomplete label="City"> without a
+        // visible <label> node.
+        const attrLabel = normalize(scope.getAttribute?.('label') || '');
+
+        if (
+            attrLabel.length >= 2 &&
+            !/form\s*element|no matches found/i.test(attrLabel)
+        ) {
+            return attrLabel;
         }
 
         const labelEl = scope.querySelector?.(
