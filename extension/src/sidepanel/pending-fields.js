@@ -199,6 +199,13 @@ export function initPendingFieldsPanel({
             hint.textContent = field.profile_label
                 ? `Saved to your profile as ${field.profile_label.toLowerCase()}.`
                 : 'Saved to your profile when you submit.';
+        } else if (
+            field.reason === 'location_clarify' ||
+            field.reason === 'screening_clarify' ||
+            field.reason === 'missing_profile_data'
+        ) {
+            const reasonLabel = String(field.reason).replaceAll('_', ' ');
+            hint.textContent = `Needs your input (${reasonLabel}). Saved to Application Q&A when you submit.`;
         } else {
             hint.textContent =
                 'Saved to Application Q&A on your dashboard for future forms.';
