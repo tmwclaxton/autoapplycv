@@ -413,3 +413,50 @@ test('rejects url on locality free text', () => {
         'non_locality_on_locality',
     );
 });
+
+test('rejects notice or salary bleed onto locality free text', () => {
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            { label: 'City, county', field_type: 'text' },
+            '2 weeks',
+        ).reason,
+        'non_locality_on_locality',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            { label: 'Postcode', field_type: 'text' },
+            '55000',
+        ).reason,
+        'non_locality_on_locality',
+    );
+});
+
+test('rejects url on phone or email free text', () => {
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            { label: 'Phone number', field_type: 'tel' },
+            'https://linkedin.com/in/toby',
+        ).reason,
+        'url_on_phone',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            { label: 'Email address', field_type: 'email' },
+            'https://github.com/toby',
+        ).reason,
+        'url_on_email',
+    );
+});
+
+test('rejects salary amount on years-of-experience number field', () => {
+    assert.equal(
+        evaluateAnswerTypeCoherence(
+            {
+                label: 'How many years of experience?',
+                field_type: 'number',
+            },
+            '55000',
+        ).reason,
+        'salary_on_number',
+    );
+});

@@ -400,11 +400,26 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         };
     }
 
+    if (
+        (category === 'phone' || category === 'email')
+        && isFreeTextField(field)
+        && looksLikeUrlAnswer(text)
+        && !looksLikeEmailAnswer(text)
+    ) {
+        return {
+            coherent: false,
+            reason: `url_on_${category}`,
+            category,
+            rejected: true,
+        };
+    }
+
     if (category === 'locality' && isFreeTextField(field)) {
         if (
             looksLikeEmailAnswer(text)
             || looksLikePhoneAnswer(text)
             || looksLikeSalaryAmountAnswer(text)
+            || looksLikeNoticePeriodAnswer(text)
             || looksLikeUrlAnswer(text)
         ) {
             return {
@@ -414,6 +429,20 @@ export function evaluateAnswerTypeCoherence(field, answer) {
                 rejected: true,
             };
         }
+    }
+
+    // Numeric years/count fields must not swallow salary or notice text.
+    if (
+        category === 'number'
+        && isFreeTextField(field)
+        && looksLikeSalaryAmountAnswer(text)
+    ) {
+        return {
+            coherent: false,
+            reason: 'salary_on_number',
+            category,
+            rejected: true,
+        };
     }
 
     if (category === 'date' && isFreeTextField(field) && isBareYesNoAnswer(text)) {
