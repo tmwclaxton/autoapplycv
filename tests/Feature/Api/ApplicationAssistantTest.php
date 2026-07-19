@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Api;
 
+use App\Exceptions\NanoGptRequestException;
 use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\ApplicationAssistantService;
 use App\Services\NanoGptService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\ConnectionException;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -206,6 +208,70 @@ class ApplicationAssistantTest extends TestCase
         $this->assertStringContainsString('Relevant experience', $userPrompt);
         $this->assertStringContainsString('Yours faithfully', $userPrompt);
         $this->assertStringContainsString('Do not include contact blocks', $userPrompt);
+    }
+
+    public function test_cover_letter_maps_nanogpt_unavailable_to_json_503(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Alex Developer',
+            'summary' => 'Experienced Laravel engineer.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatWithUsage')
+                ->once()
+                ->andThrow(new NanoGptRequestException(
+                    message: 'AI is temporarily unavailable. Please try again shortly.',
+                    statusCode: 503,
+                    errorCode: NanoGptRequestException::CODE_UNAVAILABLE,
+                    providerStatus: 503,
+                ));
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/cover-letter', [
+                'job' => [
+                    'description' => 'Build APIs with Laravel and PostgreSQL for a growing product team.',
+                ],
+            ])
+            ->assertStatus(503)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('code', NanoGptRequestException::CODE_UNAVAILABLE)
+            ->assertJsonPath('error', 'AI is temporarily unavailable. Please try again shortly.')
+            ->assertJsonPath('provider_status', 503);
+
+        $this->assertSame(0, $user->fresh()->ai_tokens_used);
+    }
+
+    public function test_ats_score_maps_nanogpt_timeout_to_json_504(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'formatted_cv_text' => 'Alex Developer - Laravel engineer',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->andThrow(NanoGptRequestException::fromTimeout(
+                    new ConnectionException('cURL error 28'),
+                    45,
+                ));
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/ats-score', [
+                'job_description' => 'Senior Laravel engineer remote UK role with competitive salary and PostgreSQL.',
+            ])
+            ->assertStatus(504)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('code', NanoGptRequestException::CODE_TIMEOUT)
+            ->assertJsonPath('error', 'AI request timed out after 45s. Please try again shortly.');
+
+        $this->assertSame(0, $user->fresh()->ai_tokens_used);
     }
 
     public function test_api_can_generate_tailored_resume(): void

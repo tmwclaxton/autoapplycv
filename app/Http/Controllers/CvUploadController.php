@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NanoGptRequestException;
 use App\Http\Requests\StoreCvUploadRequest;
 use App\Models\CvProfile;
 use App\Models\CvUpload;
@@ -21,6 +22,7 @@ use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CvUploadController extends Controller
 {
@@ -66,15 +68,30 @@ class CvUploadController extends Controller
             (int) $file->getSize(),
         );
 
-        $parsed = $this->parseWithAi(
-            $user,
-            $rawText,
-            $file->getClientOriginalName(),
-            $extractedUrls,
-            $request,
-            $extracted['ocr_used'],
-            $contentHash,
-        );
+        $parseWarning = null;
+
+        try {
+            $parsed = $this->parseWithAi(
+                $user,
+                $rawText,
+                $file->getClientOriginalName(),
+                $extractedUrls,
+                $request,
+                $extracted['ocr_used'],
+                $contentHash,
+            );
+        } catch (NanoGptRequestException $exception) {
+            Log::warning('CV upload AI parsing unavailable', [
+                'user_id' => $user->id,
+                'code' => $exception->errorCode,
+                'status' => $exception->statusCode,
+                'provider_status' => $exception->providerStatus,
+                'message' => $exception->getMessage(),
+            ]);
+
+            $parsed = null;
+            $parseWarning = $exception->getMessage().' Your CV file and raw text were saved - try uploading again in a moment or edit the profile manually.';
+        }
 
         $existingProfile = CvProfile::query()->where('user_id', $user->id)->first();
 
@@ -100,7 +117,8 @@ class CvUploadController extends Controller
         ];
 
         if ($parsed === null && $rawText !== '') {
-            $response['warning'] = 'We saved your CV but AI parsing timed out or failed. Your raw text is stored - try uploading again in a moment or edit the profile manually.';
+            $response['warning'] = $parseWarning
+                ?? 'We saved your CV but AI parsing timed out or failed. Your raw text is stored - try uploading again in a moment or edit the profile manually.';
         }
 
         return response()->json($response);

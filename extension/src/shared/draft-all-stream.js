@@ -48,7 +48,7 @@ export async function requestDraftAllStream(body, onEvent) {
 
         return {
             ok: false,
-            message: data.error || data.message || 'Draft-all request failed.',
+            message: assistUnavailableMessage(response.status, data, 'Draft-all request failed.'),
             subscription: data.subscription,
         };
     }
@@ -129,7 +129,7 @@ export async function requestJobContext(body) {
     if (!response.ok || !data.success) {
         return {
             ok: false,
-            message: data.error || data.message || 'Job context extraction failed.',
+            message: assistUnavailableMessage(response.status, data, 'Job context extraction failed.'),
             subscription: data.subscription,
         };
     }
@@ -139,6 +139,18 @@ export async function requestJobContext(body) {
         job: data.job || {},
         subscription: data.subscription,
     };
+}
+
+function assistUnavailableMessage(status, data, fallback) {
+    if (status === 504 || data?.code === 'nanogpt_timeout') {
+        return data?.error || data?.message || 'AI request timed out. Please try again shortly.';
+    }
+
+    if (status === 503 || data?.code === 'nanogpt_unavailable') {
+        return data?.error || data?.message || 'AI is temporarily unavailable. Please try again shortly.';
+    }
+
+    return data?.error || data?.message || fallback;
 }
 
 export async function requestFieldInventory(body) {
@@ -174,7 +186,7 @@ export async function requestFieldInventory(body) {
     if (!response.ok || !data.success) {
         return {
             ok: false,
-            message: data.error || data.message || 'Field inventory failed.',
+            message: assistUnavailableMessage(response.status, data, 'Field inventory failed.'),
             subscription: data.subscription,
         };
     }
@@ -293,7 +305,7 @@ export async function requestDraftField(body) {
     }
 
     if (!response.ok || !data.success) {
-        throw new Error(data.error || data.message || 'Quick Answer failed.');
+        throw new Error(assistUnavailableMessage(response.status, data, 'Quick Answer failed.'));
     }
 
     return data;

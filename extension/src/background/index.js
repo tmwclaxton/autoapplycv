@@ -179,8 +179,16 @@ async function loadQuestionMemo() {
     return questionMemo;
 }
 
-function apiErrorMessage(data, fallbackMessage) {
-    return data.message || data.error || fallbackMessage;
+function apiErrorMessage(data, fallbackMessage, status = 0) {
+    if (status === 504 || data?.code === 'nanogpt_timeout') {
+        return data?.error || data?.message || 'AI request timed out. Please try again shortly.';
+    }
+
+    if (status === 503 || data?.code === 'nanogpt_unavailable') {
+        return data?.error || data?.message || 'AI is temporarily unavailable. Please try again shortly.';
+    }
+
+    return data?.error || data?.message || fallbackMessage;
 }
 
 async function uploadCv(filePayload) {
@@ -220,7 +228,7 @@ async function uploadCv(filePayload) {
             throw new Error('Session expired. Please log in again.');
         }
 
-        throw new Error(apiErrorMessage(data, 'CV upload failed.'));
+        throw new Error(apiErrorMessage(data, 'CV upload failed.', response.status));
     }
 
     invalidateProfileCache();
@@ -279,7 +287,7 @@ async function uploadProfileDocument(message) {
             throw new Error('Session expired. Please log in again.');
         }
 
-        throw new Error(apiErrorMessage(data, 'Document upload failed.'));
+        throw new Error(apiErrorMessage(data, 'Document upload failed.', response.status));
     }
 
     invalidateProfileCache();
@@ -3121,7 +3129,7 @@ async function postAssist(path, body) {
     }
 
     if (!response.ok) {
-        throw new Error(data.error || data.message || 'AI assist failed');
+        throw new Error(apiErrorMessage(data, 'AI assist failed.', response.status));
     }
 
     applyCachedSubscription(data.subscription);

@@ -42,13 +42,13 @@ return [
 
     'job_context_model' => 'google/gemini-3.1-flash-lite:ttfs',
 
-    'extraction_timeout' => (int) env('CV_EXTRACTION_TIMEOUT_SECONDS', 120),
+    'extraction_timeout' => 45,
 
     'extraction_cache_ttl' => 86400,
 
-    'vision_timeout' => (int) env('CV_VISION_TIMEOUT_SECONDS', 120),
+    'vision_timeout' => 45,
 
-    'upload_time_limit' => (int) env('CV_UPLOAD_TIME_LIMIT_SECONDS', 300),
+    'upload_time_limit' => 180,
 
     'ocr_enabled' => filter_var(env('CV_OCR_ENABLED', true), FILTER_VALIDATE_BOOL),
 

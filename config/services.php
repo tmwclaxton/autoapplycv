@@ -44,8 +44,12 @@ return [
     'nanogpt' => [
         'api_key' => env('NANOGPT_API_KEY'),
         'base_url' => env('NANOGPT_BASE_URL', 'https://nano-gpt.com/api/v1'),
-        'timeout' => (int) env('NANOGPT_TIMEOUT_SECONDS', 120),
-        'connect_timeout' => (int) env('NANOGPT_CONNECT_TIMEOUT_SECONDS', 15),
+        // Keep under typical reverse-proxy limits so clients get JSON 503/504 instead of opaque 502/499.
+        'timeout' => 45,
+        'connect_timeout' => 8,
+        // Total HTTP attempts for idempotent chat completions on timeout/503/429.
+        'retry_attempts' => 3,
+        'retry_delay_ms' => [300, 900],
         'image_base_url' => env('NANOGPT_IMAGE_BASE_URL', 'https://nano-gpt.com/v1'),
         'image_model' => env('NANOGPT_IMAGE_MODEL', 'recraft-ai/recraft-v4.1/text-to-image'),
         'image_size' => env('NANOGPT_IMAGE_SIZE', '1024x576'),

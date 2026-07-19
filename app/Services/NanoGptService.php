@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NanoGptRequestException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -30,8 +31,8 @@ class NanoGptService
      */
     public function chatStream(array $messages, callable $onDelta, array $options = [], ?array &$usage = null): ?string
     {
-        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
-        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
+        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 45));
+        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 8));
 
         try {
             $response = $this->postChatCompletions(
@@ -41,28 +42,14 @@ class NanoGptService
                 connectTimeout: $connectTimeout,
                 stream: true,
             );
-        } catch (ConnectionException $exception) {
-            Log::error('NanoGPT stream connection error', [
-                'message' => $exception->getMessage(),
-            ]);
-
-            return null;
+        } catch (NanoGptRequestException $exception) {
+            throw $exception;
         } catch (Throwable $exception) {
             Log::error('NanoGPT stream request failed', [
                 'message' => $exception->getMessage(),
             ]);
 
-            return null;
-        }
-
-        if (! $response->successful()) {
-            Log::error('NanoGPT stream API error', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-                'model' => (string) ($options['model'] ?? $this->defaultModel),
-            ]);
-
-            return null;
+            throw NanoGptRequestException::fromThrowable($exception, $timeout);
         }
 
         $body = $response->toPsrResponse()->getBody();
@@ -170,8 +157,8 @@ class NanoGptService
      */
     public function chatWithUsage(array $messages, array $options = []): ?array
     {
-        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
-        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
+        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 45));
+        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 8));
         $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
 
         try {
@@ -182,29 +169,14 @@ class NanoGptService
                 connectTimeout: $connectTimeout,
                 stream: false,
             );
-        } catch (ConnectionException $exception) {
-            Log::error('NanoGPT connection error', [
-                'message' => $exception->getMessage(),
-                'timeout' => $timeout,
-            ]);
-
-            return null;
+        } catch (NanoGptRequestException $exception) {
+            throw $exception;
         } catch (Throwable $exception) {
             Log::error('NanoGPT request failed', [
                 'message' => $exception->getMessage(),
             ]);
 
-            return null;
-        }
-
-        if (! $response->successful()) {
-            Log::error('NanoGPT API error', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-                'model' => $requestedModel,
-            ]);
-
-            return null;
+            throw NanoGptRequestException::fromThrowable($exception, $timeout);
         }
 
         $content = $response->json('choices.0.message.content');
@@ -385,7 +357,7 @@ class NanoGptService
         ], [
             'model' => config('cv.vision_model'),
             'temperature' => 0,
-            'timeout' => (int) config('cv.vision_timeout', 120),
+            'timeout' => (int) config('cv.vision_timeout', 45),
         ]);
 
         $content = $result['content'] ?? null;
@@ -398,6 +370,88 @@ class NanoGptService
      * @param  array<string, mixed>  $options
      */
     private function postChatCompletions(
+        array $messages,
+        array $options,
+        int $timeout,
+        int $connectTimeout,
+        bool $stream,
+    ): Response {
+        $attempts = max(1, (int) config('services.nanogpt.retry_attempts', 3));
+        /** @var list<int> $delays */
+        $delays = array_values(array_map(
+            static fn (mixed $delay): int => max(0, (int) $delay),
+            (array) config('services.nanogpt.retry_delay_ms', [300, 900]),
+        ));
+
+        $lastResponse = null;
+
+        for ($attempt = 1; $attempt <= $attempts; $attempt++) {
+            try {
+                $response = $this->sendChatCompletionsOnce(
+                    messages: $messages,
+                    options: $options,
+                    timeout: $timeout,
+                    connectTimeout: $connectTimeout,
+                    stream: $stream,
+                );
+            } catch (ConnectionException $exception) {
+                Log::warning('NanoGPT connection error', [
+                    'message' => $exception->getMessage(),
+                    'timeout' => $timeout,
+                    'attempt' => $attempt,
+                    'max_attempts' => $attempts,
+                    'stream' => $stream,
+                ]);
+
+                if ($attempt >= $attempts) {
+                    throw NanoGptRequestException::fromTimeout($exception, $timeout);
+                }
+
+                $this->sleepBeforeRetry($delays, $attempt);
+
+                continue;
+            }
+
+            $lastResponse = $response;
+
+            if ($response->successful()) {
+                return $response;
+            }
+
+            $status = $response->status();
+
+            Log::error('NanoGPT API error', [
+                'status' => $status,
+                'body' => mb_substr($response->body(), 0, 500),
+                'model' => (string) ($options['model'] ?? $this->defaultModel),
+                'attempt' => $attempt,
+                'max_attempts' => $attempts,
+                'stream' => $stream,
+            ]);
+
+            if (! $this->shouldRetryStatus($status) || $attempt >= $attempts) {
+                throw NanoGptRequestException::fromResponse($response);
+            }
+
+            $this->sleepBeforeRetry($delays, $attempt);
+        }
+
+        if ($lastResponse instanceof Response) {
+            throw NanoGptRequestException::fromResponse($lastResponse);
+        }
+
+        throw new NanoGptRequestException(
+            message: 'AI request failed. Please try again shortly.',
+            statusCode: 503,
+            errorCode: NanoGptRequestException::CODE_UNAVAILABLE,
+        );
+    }
+
+    /**
+     * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
+     * @param  array<string, mixed>  $options
+     */
+    private function sendChatCompletionsOnce(
         array $messages,
         array $options,
         int $timeout,
@@ -456,6 +510,29 @@ class NanoGptService
         return $response ?? $request->post("{$this->baseUrl}/chat/completions", array_merge($payload, [
             'model' => $model,
         ]));
+    }
+
+    private function shouldRetryStatus(int $status): bool
+    {
+        return in_array($status, [408, 425, 429, 500, 502, 503, 504], true);
+    }
+
+    /**
+     * @param  list<int>  $delays
+     */
+    private function sleepBeforeRetry(array $delays, int $attempt): void
+    {
+        if ($delays === []) {
+            return;
+        }
+
+        $delayMs = $delays[min($attempt - 1, count($delays) - 1)] ?? 0;
+
+        if ($delayMs <= 0) {
+            return;
+        }
+
+        usleep($delayMs * 1000);
     }
 
     /**

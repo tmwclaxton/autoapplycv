@@ -147,9 +147,20 @@ export async function requestAutoApplyAtsScore(jobDescription, rolePreferences =
     }
 
     if (!response.ok || !data.success || !data.result) {
+        let error = data.error || data.message || 'Could not score job fit.';
+
+        if (response.status === 504 || data.code === 'nanogpt_timeout') {
+            error = data.error || data.message || 'AI request timed out while scoring job fit. Please try again shortly.';
+        } else if (response.status === 503 || data.code === 'nanogpt_unavailable') {
+            error = data.error || data.message || 'AI is temporarily unavailable for job fit scoring. Please try again shortly.';
+        }
+
         return {
             ok: false,
-            error: data.error || data.message || 'Could not score job fit.',
+            temporary: response.status === 503 || response.status === 504
+                || data.code === 'nanogpt_timeout'
+                || data.code === 'nanogpt_unavailable',
+            error,
             subscription: data.subscription || undefined,
         };
     }

@@ -2,19 +2,30 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\NanoGptRequestException;
 use App\Services\NanoGptService;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class NanoGptServiceTest extends TestCase
 {
-    public function test_chat_with_usage_falls_back_to_base_model_when_fast_tier_is_rejected(): void
+    protected function setUp(): void
     {
+        parent::setUp();
+
         config([
             'services.nanogpt.api_key' => 'test-key',
             'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+            'services.nanogpt.timeout' => 45,
+            'services.nanogpt.connect_timeout' => 8,
+            'services.nanogpt.retry_attempts' => 3,
+            'services.nanogpt.retry_delay_ms' => [0, 0],
         ]);
+    }
 
+    public function test_chat_with_usage_falls_back_to_base_model_when_fast_tier_is_rejected(): void
+    {
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
                 ->push(['error' => ['message' => 'Invalid request parameters.']], 400)
@@ -41,11 +52,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_with_usage_falls_back_to_base_model_when_speed_tier_is_rejected(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
                 ->push(['error' => ['message' => 'Invalid request parameters.']], 400)
@@ -72,11 +78,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_with_usage_falls_back_from_rejected_speed_to_throughput_for_deepseek(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
                 ->push(['error' => ['message' => 'Invalid request parameters.']], 400)
@@ -105,11 +106,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_with_usage_uses_throughput_tier_when_accepted(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [
@@ -131,11 +127,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_with_usage_reads_credits_from_x_nanogpt_pricing(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [
@@ -163,11 +154,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_with_usage_prefers_x_nanogpt_pricing_over_usage_cost(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [
@@ -190,13 +176,78 @@ class NanoGptServiceTest extends TestCase
         $this->assertSame(0.0034, $result['credits'] ?? null);
     }
 
-    public function test_chat_json_retries_without_response_format_only_when_first_request_fails(): void
+    public function test_chat_with_usage_retries_transient_503_then_succeeds(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => 'Recovered']],
+                    ],
+                    'usage' => ['total_tokens' => 8],
+                ], 200),
         ]);
 
+        $result = app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'Say hi'],
+        ]);
+
+        $this->assertSame('Recovered', $result['content'] ?? null);
+        Http::assertSentCount(2);
+    }
+
+    public function test_chat_with_usage_throws_unavailable_after_retry_budget_exhausted(): void
+    {
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'error' => ['message' => 'all_fallbacks_failed'],
+            ], 503),
+        ]);
+
+        try {
+            app(NanoGptService::class)->chatWithUsage([
+                ['role' => 'user', 'content' => 'Say hi'],
+            ]);
+            $this->fail('Expected NanoGptRequestException.');
+        } catch (NanoGptRequestException $exception) {
+            $this->assertSame(503, $exception->statusCode);
+            $this->assertSame(NanoGptRequestException::CODE_UNAVAILABLE, $exception->errorCode);
+            $this->assertSame(503, $exception->providerStatus);
+            $this->assertStringContainsString('temporarily unavailable', $exception->getMessage());
+        }
+
+        Http::assertSentCount(3);
+    }
+
+    public function test_chat_with_usage_throws_timeout_after_connection_failures(): void
+    {
+        $attempts = 0;
+
+        Http::fake(function () use (&$attempts) {
+            $attempts++;
+
+            throw new ConnectionException('cURL error 28: Operation timed out after 45002 milliseconds');
+        });
+
+        try {
+            app(NanoGptService::class)->chatWithUsage([
+                ['role' => 'user', 'content' => 'Say hi'],
+            ], [
+                'timeout' => 45,
+            ]);
+            $this->fail('Expected NanoGptRequestException.');
+        } catch (NanoGptRequestException $exception) {
+            $this->assertSame(504, $exception->statusCode);
+            $this->assertSame(NanoGptRequestException::CODE_TIMEOUT, $exception->errorCode);
+            $this->assertStringContainsString('timed out after 45s', $exception->getMessage());
+        }
+
+        $this->assertSame(3, $attempts);
+    }
+
+    public function test_chat_json_retries_transient_503_with_response_format(): void
+    {
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
                 ->push(['error' => ['message' => 'Service unavailable.']], 503)
@@ -214,15 +265,11 @@ class NanoGptServiceTest extends TestCase
 
         $this->assertSame('Alex Developer', $result['full_name'] ?? null);
         Http::assertSentCount(2);
+        Http::assertSent(fn ($request) => ($request->data()['response_format']['type'] ?? null) === 'json_object');
     }
 
     public function test_chat_json_loose_skips_response_format(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [
@@ -243,11 +290,6 @@ class NanoGptServiceTest extends TestCase
 
     public function test_chat_json_does_not_retry_when_json_decode_fails_but_response_succeeded(): void
     {
-        config([
-            'services.nanogpt.api_key' => 'test-key',
-            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
-        ]);
-
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [

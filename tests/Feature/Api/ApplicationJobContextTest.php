@@ -66,7 +66,7 @@ class ApplicationJobContextTest extends TestCase
                 'page_url' => 'https://jobs.example.com/apply',
                 'page_text' => 'Some posting text.',
             ])
-            ->assertStatus(502)
+            ->assertStatus(503)
             ->assertJsonPath('success', false);
     }
 }

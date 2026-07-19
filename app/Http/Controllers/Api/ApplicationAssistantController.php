@@ -69,7 +69,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate answers right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->usage->recordCredit($user, $cost);
@@ -105,7 +105,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not inventory form fields right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         if (($result['source'] ?? 'llm') === 'llm') {
@@ -144,7 +144,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not extract job context from this page. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->nanoGptUsage->record($user, 'assist.job-context', $extracted['usage'], 0);
@@ -199,7 +199,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not respond right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->usage->recordCredit($user, $cost);
@@ -344,7 +344,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate an answer right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->usage->recordCredit($user, $cost);
@@ -472,7 +472,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate a cover letter right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->usage->recordCredit($user, $cost);
@@ -517,7 +517,7 @@ class ApplicationAssistantController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate a tailored resume right now. Try again shortly.',
-            ], 502);
+            ], 503);
         }
 
         $this->nanoGptUsage->record($user, 'assist.tailored-resume', $resumeResult['usage'], 0);
