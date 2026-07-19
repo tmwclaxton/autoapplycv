@@ -2971,6 +2971,38 @@ function resolveSafeLocationAnswerForField(field, profileData) {
     return resolveProfileFallbackAnswer(field, profileData);
 }
 
+/**
+ * When profile.location truncates the city ("Wycombe, England") but city is the
+ * fuller name ("High Wycombe"), splice the fuller city into the location string.
+ */
+export function enrichLocationCityPrefix(location, city) {
+    const locationText = String(location || '').trim();
+    const cityText = String(city || '').trim();
+
+    if (!locationText || !cityText || !/,/.test(locationText)) {
+        return locationText;
+    }
+
+    const parts = locationText.split(',').map((part) => part.trim()).filter(Boolean);
+    const locationCity = parts[0] || '';
+
+    if (!locationCity) {
+        return locationText;
+    }
+
+    const cityKey = cityText.toLowerCase();
+    const locationKey = locationCity.toLowerCase();
+
+    if (
+        cityKey !== locationKey &&
+        (cityKey.endsWith(` ${locationKey}`) || cityKey.endsWith(locationKey))
+    ) {
+        return [cityText, ...parts.slice(1)].join(', ');
+    }
+
+    return locationText;
+}
+
 export function resolveConciseLocationValue(
     profileData,
     { preferCity = false } = {},
@@ -2993,10 +3025,10 @@ export function resolveConciseLocationValue(
     }
 
     // Prefer a multi-part profile.location over composing "City, Country".
-    // Ashby typeahead matched "High Wycombe, England" / fuller geocode strings
-    // but failed on the shorter city+country composition during Draft All.
+    // Enrich truncated location cities (location="Wycombe, England" +
+    // city="High Wycombe") so Ashby/Lever typeahead can match.
     if (location && /,/.test(location)) {
-        return location;
+        return enrichLocationCityPrefix(location, city);
     }
 
     const parts = [];

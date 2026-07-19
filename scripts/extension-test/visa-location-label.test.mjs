@@ -451,6 +451,19 @@ test('concise location prefers multi-part profile.location over city+country', (
     );
 });
 
+test('concise location restores High Wycombe when location truncates to Wycombe', () => {
+    const profile = {
+        city: 'High Wycombe',
+        country: 'United Kingdom',
+        location: 'Wycombe, England',
+    };
+
+    assert.equal(
+        resolveConciseLocationValue(profile),
+        'High Wycombe, England',
+    );
+});
+
 test('SmartRecruiters linked in maps to linkedin_url', () => {
     const profile = {
         linkedin_url: 'https://www.linkedin.com/in/toby-claxton/',
