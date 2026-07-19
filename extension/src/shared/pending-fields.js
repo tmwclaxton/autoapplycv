@@ -3647,8 +3647,26 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
 }
 
 /**
+ * Free-text "Do you require work authorization?" (Warp Greenhouse).
+ * Prefer a deterministic Yes/No from job country + profile before pending.
+ */
+export function isRequireWorkAuthorizationFreeTextLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return (
+        /\b(require|requiring|need)\b/.test(normalized) &&
+        /\bwork authori[sz]ation\b/.test(normalized)
+    );
+}
+
+/**
  * Free-text "Do you require work authorization?" is ambiguous and job-country
- * dependent. Leave it pending instead of dumping legally_authorized Yes/No.
+ * dependent. Leave it pending instead of dumping legally_authorized Yes/No -
+ * unless resolveRequireWorkAuthorizationFreeTextAnswer can decide.
  */
 function shouldLeaveWorkAuthFreeTextPending(field) {
     const label = field?.label || field?.question || '';
@@ -3668,9 +3686,83 @@ function shouldLeaveWorkAuthFreeTextPending(field) {
 
     return (
         isWorkAuthorizationQuestionLabel(label) ||
-        (/\b(require|requiring|need)\b/.test(normalizeQuestionLabel(label)) &&
-            /\bwork authori[sz]ation\b/.test(normalizeQuestionLabel(label)))
+        isRequireWorkAuthorizationFreeTextLabel(label)
     );
+}
+
+/**
+ * Answer free-text "require work authorization?" from job location + profile.
+ * UK applicant on a US/Canada-only role → Yes. Local to the job country → No.
+ *
+ * @param {{ label?: string, question?: string, context?: string, job_posting_location?: string, field_type?: string }|null|undefined} field
+ * @param {object|null|undefined} profileData
+ * @returns {string}
+ */
+export function resolveRequireWorkAuthorizationFreeTextAnswer(
+    field,
+    profileData,
+) {
+    const label = field?.label || field?.question || '';
+
+    if (!isRequireWorkAuthorizationFreeTextLabel(label)) {
+        return '';
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (
+        fieldType &&
+        fieldType !== 'text' &&
+        fieldType !== 'textarea' &&
+        fieldType !== 'input'
+    ) {
+        return '';
+    }
+
+    const haystack = normalizeQuestionLabel(
+        `${label} ${field?.context || ''} ${field?.job_posting_location || ''}`,
+    );
+    const profileCountry = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    ).toLowerCase();
+
+    for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
+        if (!haystackMentionsWorkAuthCountry(haystack, aliases)) {
+            continue;
+        }
+
+        const profileInCountry = profileMatchesWorkAuthCountryAliases(
+            profileCountry,
+            aliases,
+        );
+
+        return profileInCountry ? 'No' : 'Yes';
+    }
+
+    // US/Canada remote boards often omit country words in the free-text label
+    // but set job_posting_location (live Warp Greenhouse).
+    if (
+        /\b(?:u\.?s\.?a?\.?|united states|canada)\b/.test(haystack) &&
+        !profileInUnitedStates(profileData) &&
+        !/^canada$/.test(profileCountry)
+    ) {
+        return 'Yes';
+    }
+
+    const sponsorship = readProfileValue(
+        profileData,
+        'application_settings.visa_sponsorship',
+    );
+
+    if (sponsorship === true || /^yes\b/i.test(String(sponsorship || ''))) {
+        return 'Yes';
+    }
+
+    if (sponsorship === false || /^no\b/i.test(String(sponsorship || ''))) {
+        return 'No';
+    }
+
+    return '';
 }
 
 function resolveCountrySpecificWorkAuthAnswer(field, profileData) {
@@ -6004,6 +6096,23 @@ export function partitionPreferenceProfileFields(fields, profileData) {
         }
 
         if (shouldLeaveWorkAuthFreeTextPending(field)) {
+            const freeTextAuth = resolveRequireWorkAuthorizationFreeTextAnswer(
+                field,
+                profileData,
+            );
+
+            if (isMeaningfulAnswer(freeTextAuth)) {
+                preferenceAnswers.push({
+                    ref: field.ref,
+                    label: field.label || field.question || '',
+                    field_type: field.field_type,
+                    options: field.options ?? null,
+                    dom: field.dom || null,
+                    answer: freeTextAuth,
+                });
+                continue;
+            }
+
             const pending = createPendingField(
                 field,
                 profileMappingByPath('application_settings.legally_authorized'),
