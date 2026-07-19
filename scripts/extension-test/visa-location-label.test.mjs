@@ -17,6 +17,7 @@ import {
     partitionIdentityProfileFields,
     partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
+    partitionSkillSpecificYearsExperienceFields,
     isOptionalSocialNetworkUrlLabel,
     resolveConciseLocationValue,
     resolveIdentityProfileAnswer,
@@ -24,6 +25,7 @@ import {
     resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
+    resolveRightToWorkStatusFreeTextAnswer,
 } from '../../extension/src/shared/pending-fields.js';
 
 const visaLabel = "Do you need visa sponsorship for the role's location?";
@@ -635,4 +637,51 @@ test('optional Facebook/Twitter URL labels are skipped not essayed', () => {
         answered.some((a) => a.ref === 'f9' && a.answer === '__CLEAR__'),
     );
     assert.equal(plan.remainingFieldCount, 1);
+});
+
+test('Smarkets RTW free-text uses legally_authorized status sentence', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            legally_authorized: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f9',
+        label: 'what is your rtw in the uk?',
+        field_type: 'text',
+    };
+
+    assert.match(
+        resolveRightToWorkStatusFreeTextAnswer(field, profile),
+        /right to work in the UK/i,
+    );
+    assert.match(
+        resolvePreferenceProfileAnswer(field, profile),
+        /right to work in the UK/i,
+    );
+
+    const partitioned = partitionPreferenceProfileFields([field], profile);
+    assert.equal(partitioned.preferenceAnswers.length, 1);
+    assert.match(
+        partitioned.preferenceAnswers[0].answer,
+        /right to work in the UK/i,
+    );
+});
+
+test('skill-scoped years always become pending even when not marked required', () => {
+    const partitioned = partitionSkillSpecificYearsExperienceFields([
+        {
+            ref: 'f11',
+            label:
+                'how many years of experience do you have working with python or rust?',
+            field_type: 'text',
+            required: false,
+        },
+    ]);
+
+    assert.equal(partitioned.remainingFields.length, 0);
+    assert.equal(partitioned.clearAnswers.length, 1);
+    assert.equal(partitioned.pendingFields.length, 1);
+    assert.equal(partitioned.pendingFields[0].reason, 'missing_profile_data');
 });

@@ -503,6 +503,8 @@ const PROFILE_FIELD_MAPPINGS = [
             'work permit',
             'authorized to work',
             'authorised to work',
+            // Smarkets Ashby: "What is your RTW in the UK?"
+            'rtw',
         ],
     },
     {
@@ -1924,16 +1926,13 @@ export function partitionSkillSpecificYearsExperienceFields(fields) {
             answer: '__CLEAR__',
         });
 
-        if (field?.required) {
-            const pending = createPendingField(
-                field,
-                null,
-                'missing_profile_data',
-            );
-            pending.pending_hint =
-                'Enter how many years of experience you have with this specific skill/tool. We do not invent this from your total years of experience.';
-            pendingFields.push(pending);
-        }
+        // Always sidebar-pending (not only when inventory marks required). Ashby
+        // often omits required until submit; otherwise these resurface as
+        // unfilledRequired with a wrong total-years mapping (live Smarkets).
+        const pending = createPendingField(field, null, 'missing_profile_data');
+        pending.pending_hint =
+            'Enter how many years of experience you have with this specific skill/tool. We do not invent this from your total years of experience.';
+        pendingFields.push(pending);
     }
 
     return { remainingFields, clearAnswers, pendingFields };
@@ -3989,7 +3988,7 @@ function isWorkAuthorizationQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (
-        !/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|work permit)\b/.test(
+        !/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|work permit|rtw)\b/.test(
             normalized,
         )
     ) {
@@ -4277,6 +4276,28 @@ export function isRequireWorkAuthorizationFreeTextLabel(label) {
 }
 
 /**
+ * Free-text status asks like Smarkets "What is your RTW in the UK?".
+ */
+export function isRightToWorkStatusFreeTextLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (isRequireWorkAuthorizationFreeTextLabel(label)) {
+        return false;
+    }
+
+    return (
+        (/\brtw\b/.test(normalized) || /\bright to work\b/.test(normalized)) &&
+        /\b(what|describe|status|explain|detail|uk|united kingdom|us|usa)\b/.test(
+            normalized,
+        )
+    );
+}
+
+/**
  * Free-text "Do you require work authorization?" is ambiguous and job-country
  * dependent. Leave it pending instead of dumping legally_authorized Yes/No -
  * unless resolveRequireWorkAuthorizationFreeTextAnswer can decide.
@@ -4299,7 +4320,8 @@ function shouldLeaveWorkAuthFreeTextPending(field) {
 
     return (
         isWorkAuthorizationQuestionLabel(label) ||
-        isRequireWorkAuthorizationFreeTextLabel(label)
+        isRequireWorkAuthorizationFreeTextLabel(label) ||
+        isRightToWorkStatusFreeTextLabel(label)
     );
 }
 
@@ -4311,6 +4333,57 @@ function shouldLeaveWorkAuthFreeTextPending(field) {
  * @param {object|null|undefined} profileData
  * @returns {string}
  */
+/**
+ * Short free-text for "What is your RTW in the UK?" from legally_authorized.
+ *
+ * @param {{ label?: string, question?: string, field_type?: string }|null|undefined} field
+ * @param {object|null|undefined} profileData
+ * @returns {string}
+ */
+export function resolveRightToWorkStatusFreeTextAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isRightToWorkStatusFreeTextLabel(label)) {
+        return '';
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (
+        fieldType &&
+        fieldType !== 'text' &&
+        fieldType !== 'textarea' &&
+        fieldType !== 'input'
+    ) {
+        return '';
+    }
+
+    const authorized = readProfileValue(
+        profileData,
+        'application_settings.legally_authorized',
+    );
+    const yes =
+        authorized === true ||
+        authorized === 1 ||
+        /^yes\b/i.test(String(authorized || '').trim());
+
+    if (!yes) {
+        return '';
+    }
+
+    const haystack = normalizeQuestionLabel(label);
+
+    if (/\b(?:uk|united kingdom|britain|british)\b/.test(haystack)) {
+        return 'I have the right to work in the UK without sponsorship.';
+    }
+
+    if (/\b(?:u\.?s\.?a?\.?|united states)\b/.test(haystack)) {
+        return 'I am authorized to work in the United States.';
+    }
+
+    return 'I have the right to work without sponsorship.';
+}
+
 export function resolveRequireWorkAuthorizationFreeTextAnswer(
     field,
     profileData,
@@ -6804,6 +6877,18 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return '';
     }
 
+    // Free-text RTW status ("What is your RTW in the UK?") - short sentence, not Yes/No.
+    if (mapping.path === 'application_settings.legally_authorized') {
+        const rightToWorkStatus = resolveRightToWorkStatusFreeTextAnswer(
+            field,
+            profileData,
+        );
+
+        if (isMeaningfulAnswer(rightToWorkStatus)) {
+            return rightToWorkStatus;
+        }
+    }
+
     // Free-text work-auth asks are employer/country specific; do not dump Yes/No.
     if (
         mapping.path === 'application_settings.legally_authorized' &&
@@ -7292,6 +7377,23 @@ export function partitionPreferenceProfileFields(fields, profileData) {
                 options: field.options ?? null,
                 dom: field.dom || null,
                 answer: DRAFT_FIELD_CLEAR_SENTINEL,
+            });
+            continue;
+        }
+
+        const rightToWorkStatus = resolveRightToWorkStatusFreeTextAnswer(
+            field,
+            profileData,
+        );
+
+        if (isMeaningfulAnswer(rightToWorkStatus)) {
+            preferenceAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer: rightToWorkStatus,
             });
             continue;
         }
