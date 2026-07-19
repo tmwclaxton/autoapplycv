@@ -92,6 +92,11 @@ class ProfileDocumentTest extends TestCase
         $frontend = $document->toFrontendArray();
         $this->assertSame(route('profile.documents.preview', $document), $frontend['preview_url']);
         $this->assertSame(route('profile.documents.download', $document), $frontend['download_url']);
+        $this->assertNotNull($frontend['created_at']);
+        $this->assertSame(
+            $document->created_at?->toIso8601String(),
+            $frontend['created_at'],
+        );
     }
 
     #[Test]

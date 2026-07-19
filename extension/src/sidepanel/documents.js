@@ -34,6 +34,35 @@ export function initDocumentsPanel({
     let categories = [...defaultCategories];
     let deletingId = null;
 
+    function formatDocumentDate(value) {
+        if (!value) {
+            return null;
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return null;
+        }
+
+        return date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+        });
+    }
+
+    function documentMetaLabel(doc) {
+        const parts = [doc.category_label, doc.file_size_label];
+        const addedOn = formatDocumentDate(doc.created_at);
+
+        if (addedOn) {
+            parts.push(addedOn);
+        }
+
+        return parts.filter(Boolean).join(' · ');
+    }
+
     function setUploading(next) {
         uploadBtn.disabled = next;
         uploadBtn.textContent = next ? 'Uploading…' : 'Choose file';
@@ -102,7 +131,7 @@ export function initDocumentsPanel({
 
             const meta = document.createElement('div');
             meta.className = 'document-item-meta';
-            meta.textContent = `${doc.category_label} · ${doc.file_size_label}`;
+            meta.textContent = documentMetaLabel(doc);
 
             body.append(title, meta);
 

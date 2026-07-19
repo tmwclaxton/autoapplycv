@@ -129,7 +129,7 @@ class ExtensionDocumentApiTest extends TestCase
             ->assertJsonPath('document_categories.0.value', ProfileDocumentCategory::Cv->value)
             ->assertJsonStructure([
                 'documents' => [
-                    ['id', 'download_url'],
+                    ['id', 'download_url', 'created_at'],
                 ],
                 'document_categories' => [
                     ['value', 'label'],

@@ -54,6 +54,34 @@ const fileAccept = computed(() =>
         : documentAcceptAttribute(),
 );
 
+function formatDocumentDate(value: string | null): string | null {
+    if (!value) {
+        return null;
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
+function documentMetaLabel(profileDocument: ProfileDocument): string {
+    const parts = [
+        profileDocument.category_label,
+        profileDocument.file_size_label,
+        formatDocumentDate(profileDocument.created_at),
+    ];
+
+    return parts.filter(Boolean).join(' · ');
+}
+
 function openFilePicker(): void {
     uploadError.value = null;
     fileInput.value?.click();
@@ -334,8 +362,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                             {{ document.original_filename }}
                         </p>
                         <p class="mt-1 text-xs text-muted-foreground">
-                            {{ document.category_label }} ·
-                            {{ document.file_size_label }}
+                            {{ documentMetaLabel(document) }}
                         </p>
                         <p
                             v-if="document.notes"
