@@ -236,6 +236,53 @@ test('buildDraftAllApplyPlan answers country-specific US work auth from profile 
     assert.equal(plan.skipsLlm, true);
 });
 
+test('buildDraftAllApplyPlan answers vacancy-country work auth from job_posting_location', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'Are you eligible to work in the country where this vacancy is posted?',
+                field_type: 'select',
+                options: ['Yes', 'No'],
+                job_posting_location: 'Warsaw, Poland',
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'Will you now or in the future require company sponsorship for a visa or work authorization to work in the country where this role is based?',
+                field_type: 'select',
+                options: ['Yes', 'No'],
+                job_posting_location: 'Warsaw, Poland',
+            },
+        ],
+        profileData: {
+            ...profileData,
+            country: 'United Kingdom',
+            application_settings: {
+                ...profileData.application_settings,
+                visa_sponsorship: 'no',
+                legally_authorized: 'yes',
+            },
+        },
+        questionMemo: {},
+    });
+
+    const preference = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
+    assert.ok(preference);
+    assert.deepEqual(
+        preference.answers
+            .map((answer) => ({ ref: answer.ref, answer: answer.answer }))
+            .sort((a, b) => a.ref.localeCompare(b.ref)),
+        [
+            { ref: 'f0', answer: 'No' },
+            { ref: 'f1', answer: 'Yes' },
+        ],
+    );
+});
+
 test('buildDraftAllApplyPlan maps UK right-to-work status dropdowns to citizen option not Yes', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [

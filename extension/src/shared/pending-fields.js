@@ -3460,8 +3460,51 @@ function isJobPostingRelativeWorkAuthQuestion(label) {
         /location posted/.test(normalized) ||
         /country for which you applied/.test(normalized) ||
         /country for which you are applying/.test(normalized) ||
-        /country for which you(?:'re| are) applying/.test(normalized)
+        /country for which you(?:'re| are) applying/.test(normalized) ||
+        /country where this (?:vacancy|role|job|position) is (?:posted|based|located)/.test(
+            normalized,
+        ) ||
+        /work in the country where this (?:vacancy|role|job|position)/.test(
+            normalized,
+        )
     );
+}
+
+/** Resolve named work-auth country aliases from a job posting location string. */
+function resolveJobPostingLocationCountryAliases(jobPostingLocation) {
+    const haystack = String(jobPostingLocation || '')
+        .toLowerCase()
+        .trim();
+
+    if (!haystack) {
+        return null;
+    }
+
+    for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
+        if (haystackMentionsWorkAuthCountry(haystack, aliases)) {
+            return aliases;
+        }
+    }
+
+    // City-only postings (e.g. "Warsaw, Poland" already matches poland; bare
+    // "Warsaw" still needs the office-city hint map).
+    const cityHints = {
+        warsaw: ['poland'],
+        warszaw: ['poland'],
+        prague: ['czech republic', 'czechia'],
+        berlin: ['germany'],
+        munich: ['germany'],
+        paris: ['france'],
+        amsterdam: ['netherlands'],
+    };
+
+    for (const [city, aliases] of Object.entries(cityHints)) {
+        if (haystack.includes(city)) {
+            return aliases;
+        }
+    }
+
+    return null;
 }
 
 function isCountrySpecificWorkAuthQuestion(label, context = '') {
@@ -3787,8 +3830,19 @@ function resolveCountrySpecificWorkAuthAnswer(field, profileData) {
         return resolveWorkAuthYesNoForCountry(field, profileCountry, aliases);
     }
 
+    // "Eligible to work in the country where this vacancy is posted" with
+    // job_posting_location=Warsaw, Poland (Veeam) - use job country, not LLM Yes.
     if (isJobPostingRelativeWorkAuthQuestion(label)) {
-        return '';
+        const jobAliases =
+            resolveJobPostingLocationCountryAliases(jobPostingLocation);
+
+        if (jobAliases) {
+            return resolveWorkAuthYesNoForCountry(
+                field,
+                profileCountry,
+                jobAliases,
+            );
+        }
     }
 
     return '';
@@ -5380,7 +5434,8 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
     const profileCountry = normalizeCountryNameForApply(
         readProfileValue(profileData, 'country'),
     ).toLowerCase();
-    const haystack = `${label || ''}`.toLowerCase();
+    const jobPostingLocation = field?.job_posting_location || '';
+    const haystack = `${label || ''} ${jobPostingLocation}`.toLowerCase();
     const legallyAuthorized = readProfileValue(
         profileData,
         'application_settings.legally_authorized',
@@ -5391,10 +5446,14 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
 
     // UK sponsorship asks are always No for this product's UK-first profiles.
     // Live Ashby 9fin kept answering Yes from a global visa_sponsorship flag.
+    // Do not treat job_posting_location=United Kingdom the same when the label
+    // is vacancy-relative for a non-UK role - only label UK mentions.
+    const labelHaystack = `${label || ''}`.toLowerCase();
+
     if (
-        /\b(?:the\s+)?u\.?k\.?\b/.test(haystack) ||
-        /\bunited kingdom\b/.test(haystack) ||
-        /\bgreat britain\b/.test(haystack)
+        /\b(?:the\s+)?u\.?k\.?\b/.test(labelHaystack) ||
+        /\bunited kingdom\b/.test(labelHaystack) ||
+        /\bgreat britain\b/.test(labelHaystack)
     ) {
         return 'No';
     }
@@ -5415,8 +5474,28 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
             return 'No';
         }
 
-        // Question names a foreign country - use visa_sponsorship below.
-        break;
+        // Foreign job country (e.g. Veeam Warsaw for UK profile) - need
+        // sponsorship even when the global visa_sponsorship flag is No.
+        return 'Yes';
+    }
+
+    // Vacancy-relative sponsorship with city-only location (Warsaw).
+    if (isJobPostingRelativeWorkAuthQuestion(label)) {
+        const jobAliases =
+            resolveJobPostingLocationCountryAliases(jobPostingLocation);
+
+        if (jobAliases) {
+            const profileInCountry = profileMatchesWorkAuthCountryAliases(
+                profileCountry,
+                jobAliases,
+            );
+
+            if (profileInCountry || (!profileCountry && authorizedAtHome)) {
+                return 'No';
+            }
+
+            return 'Yes';
+        }
     }
 
     const raw = readProfileValue(
