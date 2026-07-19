@@ -1001,7 +1001,8 @@ var AutoCVApplyFormHeuristics = (() => {
         // when geocomplete XHR stalls or High Wycombe-style queries yield nothing.
         const LEVER_LOCATION_BUDGET_MS = 12000;
         const startedAt = Date.now();
-        const budgetExceeded = () => Date.now() - startedAt >= LEVER_LOCATION_BUDGET_MS;
+        const budgetExceeded = () =>
+            Date.now() - startedAt >= LEVER_LOCATION_BUDGET_MS;
         const fieldRoot =
             element.closest('.application-field') ||
             element.closest('.application-question') ||
@@ -4193,7 +4194,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
                 // Force inert checkbox/value sync between click strategies when
                 // the visible button did not stick (empty-value Ashby checkboxes).
-                if (scope && syncAshbyYesNoInertDom(scope, booleanAnswer, root)) {
+                if (
+                    scope &&
+                    syncAshbyYesNoInertDom(scope, booleanAnswer, root)
+                ) {
                     if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
                         heuristicsLog(
                             'info',
@@ -5463,7 +5467,8 @@ var AutoCVApplyFormHeuristics = (() => {
                     200,
                     Math.min(
                         1800,
-                        GREENHOUSE_LOCATION_BUDGET_MS - (Date.now() - startedAt),
+                        GREENHOUSE_LOCATION_BUDGET_MS -
+                            (Date.now() - startedAt),
                     ),
                 );
                 options = await waitForComboboxOptions(doc, element, waitMs);
@@ -5498,7 +5503,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
                 if (normalizedCity && resultCity === normalizedCity) {
                     score += 24;
-                } else if (normalizedCity && normalizeOption(optionText).includes(normalizedCity)) {
+                } else if (
+                    normalizedCity &&
+                    normalizeOption(optionText).includes(normalizedCity)
+                ) {
                     score += 12;
                 }
 
@@ -5512,11 +5520,17 @@ var AutoCVApplyFormHeuristics = (() => {
                     score -= 14;
                 }
 
-                if (normalizedQuery && normalizeOption(optionText).includes(normalizedQuery)) {
+                if (
+                    normalizedQuery &&
+                    normalizeOption(optionText).includes(normalizedQuery)
+                ) {
                     score += 8;
                 }
 
-                if (normalizedAnswer && normalizeOption(optionText).includes(normalizedAnswer)) {
+                if (
+                    normalizedAnswer &&
+                    normalizeOption(optionText).includes(normalizedAnswer)
+                ) {
                     score += 6;
                 }
 
@@ -6247,6 +6261,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return clearComboboxFieldValue(element);
         }
 
+        if (isGreenhouseLocationCombobox(element)) {
+            return setGreenhouseLocationValue(element, value);
+        }
+
         heuristicsLog('debug', 'apply.combobox', 'Starting combobox fill', {
             valuePreview: String(value).slice(0, 80),
             ariaControls: element.getAttribute('aria-controls'),
@@ -6531,25 +6549,6 @@ var AutoCVApplyFormHeuristics = (() => {
             );
         }
 
-        if (isGreenhouseLocationCombobox(element)) {
-            const committed = await commitGreenhouseLocationValue(
-                element,
-                stringValue,
-            );
-            heuristicsLog(
-                committed ? 'info' : 'warn',
-                'apply.combobox',
-                committed
-                    ? 'Greenhouse location typed value committed'
-                    : 'Greenhouse location fill failed',
-                {
-                    typedValue: element.value?.slice(0, 80),
-                },
-            );
-
-            return committed;
-        }
-
         // Last Ashby Places retry: city token + longer geocode window.
         if (isAshbyLocationCombobox(element) && canType) {
             const cityOnly =
@@ -6571,10 +6570,15 @@ var AutoCVApplyFormHeuristics = (() => {
                 scoreOpenComboboxOptions(options));
 
             if (bestOption && bestScore >= 100) {
-                heuristicsLog('info', 'apply.combobox', 'Ashby location option matched on retry', {
-                    optionText: bestOptionText,
-                    score: bestScore,
-                });
+                heuristicsLog(
+                    'info',
+                    'apply.combobox',
+                    'Ashby location option matched on retry',
+                    {
+                        optionText: bestOptionText,
+                        score: bestScore,
+                    },
+                );
 
                 const committed = await commitComboboxOptionSelection(
                     element,
@@ -12335,6 +12339,12 @@ var AutoCVApplyFormHeuristics = (() => {
                 return setSmartRecruitersLocationValue(element, value);
             }
 
+            if (isGreenhouseLocationCombobox(element)) {
+                const filled = await setGreenhouseLocationValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
             const filled = await setAshbyComboboxValue(element, value);
 
             return filled && verifyFieldApplied(element, 'select', value);
@@ -12907,8 +12917,7 @@ var AutoCVApplyFormHeuristics = (() => {
         const chosenSelect = isChosenEnhancedSelect(element);
         const workableAddressSubfield =
             isWorkableHiddenAddressSubfield(element);
-        const smartRecruitersLocation =
-            isSmartRecruitersLocationInput(element);
+        const smartRecruitersLocation = isSmartRecruitersLocationInput(element);
         const greenhouseFormControl =
             isGreenhouseApplicationFormControl(element);
 
