@@ -2,8 +2,10 @@
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import { Check, Loader2, Upload } from 'lucide-vue-next';
 import { computed, nextTick, ref } from 'vue';
+import CvParsingProgress from '@/components/cv/CvParsingProgress.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
+import { useCvParsingProgress } from '@/composables/useCvParsingProgress';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile } from '@/types/cvProfile';
@@ -42,6 +44,12 @@ const selectedFile = ref<File | null>(null);
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const documents = ref<ProfileDocument[]>([...props.documents]);
 const isSaving = ref(false);
+
+const {
+    stages: parsingStages,
+    currentIndex: parsingStageIndex,
+    hint: parsingHint,
+} = useCvParsingProgress(isUploading);
 
 const steps = [
     { key: 'upload', label: 'Upload' },
@@ -243,12 +251,17 @@ async function saveProfile() {
                 @change="onFileInput"
             />
 
-            <div v-if="isUploading" class="flex flex-col items-center gap-4">
-                <Loader2 class="size-10 animate-spin text-postbox-red" />
-                <p class="font-bold text-postbox-navy">Reading your CV…</p>
-                <p class="text-sm text-muted-foreground">
-                    Usually under a minute - large CVs can take a bit longer.
-                </p>
+            <div
+                v-if="isUploading"
+                class="flex flex-col items-center"
+                aria-live="polite"
+                aria-busy="true"
+            >
+                <CvParsingProgress
+                    :stages="parsingStages"
+                    :current-index="parsingStageIndex"
+                    :hint="parsingHint"
+                />
             </div>
             <div v-else class="flex flex-col items-center gap-4">
                 <div
