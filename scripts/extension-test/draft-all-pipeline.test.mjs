@@ -1423,3 +1423,44 @@ test('enrichPercentageFromClassificationAnswers derives lower-bound % from First
         false,
     );
 });
+
+test('enrichPercentageFromClassificationAnswers uses prior-stage classification answers', () => {
+    const fieldsByRef = new Map([
+        [
+            'f11',
+            {
+                ref: 'f11',
+                label: 'what was your numeric percentage average?',
+                field_type: 'text',
+            },
+        ],
+        [
+            'f12',
+            {
+                ref: 'f12',
+                label: 'what was your degree classification?',
+                field_type: 'select',
+            },
+        ],
+    ]);
+
+    const { toApply, pending } = partitionDraftAllBatchAnswers(
+        [{ ref: 'f11', answer: null }],
+        fieldsByRef,
+        profileData,
+        {
+            priorAnswers: [
+                {
+                    ref: 'f12',
+                    answer: 'First-Class Honours (First or 1st) (70% and above)',
+                },
+            ],
+        },
+    );
+
+    assert.equal(toApply.find((item) => item.ref === 'f11')?.answer, '70');
+    assert.equal(
+        pending.some((item) => item.ref === 'f11'),
+        false,
+    );
+});

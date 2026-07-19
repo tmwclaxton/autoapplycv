@@ -3048,6 +3048,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
         });
         pendingFields = draftPlan.pendingFields;
         let totalFieldsFilled = 0;
+        const appliedAnswersByRef = new Map();
 
         const profileYears =
             profileData?.application_settings?.years_of_experience ?? null;
@@ -3245,6 +3246,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
             // Never fall back to stageCount - applied:0 must stay 0 so false
             // "Fill complete" success cannot mask Greenhouse iframe remounts.
             totalFieldsFilled += Number(applyResult?.applied || 0);
+
+            for (const answer of answersToApply || []) {
+                if (answer?.ref && isMeaningfulAnswer(answer.answer)) {
+                    appliedAnswersByRef.set(answer.ref, answer);
+                }
+            }
+
             pushDraftAnswersToSidepanelChat(0, answersToApply, fieldsByRef);
 
             if (stage.type === 'eeo') {
@@ -3389,6 +3397,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
                             })),
                             fieldsByRef,
                             profileData,
+                            {
+                                priorAnswers: [...appliedAnswersByRef.values()],
+                            },
                         );
 
                     const coherenceRejected = batchPending.filter(
@@ -3459,6 +3470,12 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
                     for (const subscription of retriedBatch.subscriptions) {
                         applyCachedSubscription(subscription);
+                    }
+
+                    for (const answer of toApply || []) {
+                        if (answer?.ref && isMeaningfulAnswer(answer.answer)) {
+                            appliedAnswersByRef.set(answer.ref, answer);
+                        }
                     }
 
                     pendingFields = mergePendingFields(

@@ -82,17 +82,33 @@ function isDegreeClassificationQuestion(label) {
     );
 }
 
+function extractPercentFromClassificationAnswer(answer) {
+    const match = String(answer || '').match(/(\d{1,3})\s*%/);
+
+    if (!match) {
+        return '';
+    }
+
+    const value = Number(match[1]);
+
+    return Number.isFinite(value) && value >= 0 && value <= 100
+        ? String(value)
+        : '';
+}
+
 /**
- * When NanoGPT leaves "numeric percentage average" empty but the same batch
- * answered degree classification with a % band ("70% and above"), derive the
- * lower-bound number so required education fields are not left pending.
+ * When NanoGPT leaves "numeric percentage average" empty but degree
+ * classification was answered with a % band ("70% and above") - in this batch
+ * or an earlier Draft All stage - derive the lower-bound number.
  *
  * @param {Array<{ ref?: string, label?: string, answer?: string|null }>} answers
  * @param {Map<string, object>} fieldsByRef
+ * @param {{ priorAnswers?: Array<{ ref?: string, label?: string, answer?: string|null }> }} [options]
  */
 export function enrichPercentageFromClassificationAnswers(
     answers,
     fieldsByRef,
+    options = {},
 ) {
     const list = Array.isArray(answers) ? answers : [];
 
@@ -100,9 +116,13 @@ export function enrichPercentageFromClassificationAnswers(
         return list;
     }
 
+    const classificationSources = [
+        ...list,
+        ...(Array.isArray(options.priorAnswers) ? options.priorAnswers : []),
+    ];
     let derivedPercent = '';
 
-    for (const item of list) {
+    for (const item of classificationSources) {
         if (!isMeaningfulAnswer(item?.answer)) {
             continue;
         }
@@ -114,15 +134,10 @@ export function enrichPercentageFromClassificationAnswers(
             continue;
         }
 
-        const match = String(item.answer).match(/(\d{1,3})\s*%/);
+        derivedPercent = extractPercentFromClassificationAnswer(item.answer);
 
-        if (match) {
-            const value = Number(match[1]);
-
-            if (Number.isFinite(value) && value >= 0 && value <= 100) {
-                derivedPercent = String(value);
-                break;
-            }
+        if (derivedPercent) {
+            break;
         }
     }
 
@@ -618,10 +633,12 @@ export function partitionDraftAllBatchAnswers(
     answers,
     fieldsByRef,
     profileData,
+    options = {},
 ) {
     const enriched = enrichPercentageFromClassificationAnswers(
         answers,
         fieldsByRef,
+        options,
     );
 
     return partitionBatchAnswers(enriched, fieldsByRef, profileData);
