@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
     DEFAULT_MIN_FIT_SCORE,
     formatAutoApplyFitLogMessage,
+    formatFitUnavailableContinueMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
@@ -24,7 +25,7 @@ const cases = [
         },
     },
     {
-        name: 'skip short job description when fit gate enabled',
+        name: 'continue unscored when job description too short',
         fn: () => {
             assert.equal(
                 resolveAutoApplyFitDecision({
@@ -33,7 +34,22 @@ const cases = [
                     score: 90,
                     jobDescriptionLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT - 1,
                 }),
-                'skip_short_description',
+                'continue_unscored',
+            );
+        },
+    },
+    {
+        name: 'continue unscored when ATS score fails',
+        fn: () => {
+            assert.equal(
+                resolveAutoApplyFitDecision({
+                    fitCheckEnabled: true,
+                    minFitScore: 60,
+                    score: null,
+                    jobDescriptionLength: 500,
+                    scoreFailed: true,
+                }),
+                'continue_unscored',
             );
         },
     },
@@ -108,6 +124,17 @@ const cases = [
             assert.equal(
                 formatAutoApplyFitLogMessage('Junior Dev', 'Beta', 41, 60, false, 'weak on Kubernetes'),
                 'Skipped Junior Dev at Beta - fit 41/100 (min 60) - weak on Kubernetes',
+            );
+        },
+    },
+    {
+        name: 'formats fit unavailable continue message',
+        fn: () => {
+            assert.equal(
+                formatFitUnavailableContinueMessage(
+                    'Could not score this job description. Add more CV text and try again.',
+                ),
+                'Fit score unavailable - continuing apply (Could not score this job description. Add more CV text and try again.)',
             );
         },
     },

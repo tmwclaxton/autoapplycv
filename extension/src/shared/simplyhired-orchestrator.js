@@ -42,6 +42,7 @@ export function createSimplyHiredOrchestrator(deps) {
         resolveJobDescriptionFromMetaResponse,
         MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
         formatAutoApplyFitLogMessage,
+        formatFitUnavailableContinueMessage,
         requestAutoApplyAtsScore,
         resolveAutoApplyFitDecision,
         summarizeAtsFitReason,
@@ -653,13 +654,12 @@ export function createSimplyHiredOrchestrator(deps) {
         if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
             await logSession(
                 'warn',
-                `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
+                formatFitUnavailableContinueMessage(
+                    `${job.title}: job description too short (${description.length} chars)`,
+                ),
             );
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: { reason: 'short_job_description' },
-            }, tabId);
 
-            return { proceed: false, reason: 'short_job_description', score: null };
+            return { proceed: true, score: null };
         }
 
         const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
@@ -669,9 +669,9 @@ export function createSimplyHiredOrchestrator(deps) {
                 throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
             }
 
-            await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+            await logSession('warn', formatFitUnavailableContinueMessage(scoreResult.error));
 
-            return { proceed: false, reason: 'fit_score_failed', score: null };
+            return { proceed: true, score: null };
         }
 
         const fitDecision = resolveAutoApplyFitDecision({

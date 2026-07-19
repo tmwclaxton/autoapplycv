@@ -24,21 +24,35 @@ function notifyAtsSubscription(subscription) {
 export const DEFAULT_MIN_FIT_SCORE = 10;
 
 /**
- * @param {{ fitCheckEnabled?: boolean, minFitScore?: number, score?: number|null, jobDescriptionLength?: number }} input
- * @returns {'apply'|'skip_low_score'|'skip_short_description'|'skip_disabled'|'needs_score'}
+ * Log line when ATS fit cannot be scored - Auto Apply continues instead of skipping.
+ * @param {string} [detail]
+ * @returns {string}
+ */
+export function formatFitUnavailableContinueMessage(detail = '') {
+    const trimmed = typeof detail === 'string' ? detail.trim() : '';
+    const suffix = trimmed ? ` (${trimmed})` : '';
+
+    return `Fit score unavailable - continuing apply${suffix}`;
+}
+
+/**
+ * @param {{ fitCheckEnabled?: boolean, minFitScore?: number, score?: number|null, jobDescriptionLength?: number, scoreFailed?: boolean }} input
+ * @returns {'apply'|'skip_low_score'|'continue_unscored'|'skip_disabled'|'needs_score'}
  */
 export function resolveAutoApplyFitDecision({
     fitCheckEnabled = false,
     minFitScore = DEFAULT_MIN_FIT_SCORE,
     score = null,
     jobDescriptionLength = 0,
+    scoreFailed = false,
 }) {
     if (!fitCheckEnabled) {
         return 'skip_disabled';
     }
 
-    if (jobDescriptionLength < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
-        return 'skip_short_description';
+    // Empty/short JD or ATS API failure: continue apply (do not skip).
+    if (scoreFailed || jobDescriptionLength < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+        return 'continue_unscored';
     }
 
     if (typeof score !== 'number' || Number.isNaN(score)) {

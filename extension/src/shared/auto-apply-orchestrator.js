@@ -15,6 +15,7 @@ import {
 import {
     configureAutoApplyAtsSubscriptionHandler,
     formatAutoApplyFitLogMessage,
+    formatFitUnavailableContinueMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
@@ -404,19 +405,12 @@ async function evaluateJobFit(tabId, job, session) {
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
-            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
-        );
-        await recordAnalyticsEvent(
-            session,
-            'skipped',
-            job,
-            {
-                metadata: { reason: 'short_job_description' },
-            },
-            tabId,
+            formatFitUnavailableContinueMessage(
+                `${job.title}: job description too short (${description.length} chars)`,
+            ),
         );
 
-        return { proceed: false, reason: 'short_job_description', score: null };
+        return { proceed: true, score: null };
     }
 
     const scoreResult = await requestAutoApplyAtsScore(
@@ -433,10 +427,10 @@ async function evaluateJobFit(tabId, job, session) {
 
         await logSession(
             'warn',
-            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+            formatFitUnavailableContinueMessage(scoreResult.error),
         );
 
-        return { proceed: false, reason: 'fit_score_failed', score: null };
+        return { proceed: true, score: null };
     }
 
     await logSession(
@@ -4761,19 +4755,12 @@ async function evaluateIndeedJobFit(tabId, job, session) {
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
-            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
-        );
-        await recordAnalyticsEvent(
-            session,
-            'skipped',
-            job,
-            {
-                metadata: { reason: 'short_job_description' },
-            },
-            tabId,
+            formatFitUnavailableContinueMessage(
+                `${job.title}: job description too short (${description.length} chars)`,
+            ),
         );
 
-        return { proceed: false, reason: 'short_job_description', score: null };
+        return { proceed: true, score: null };
     }
 
     const scoreResult = await requestAutoApplyAtsScore(
@@ -4790,10 +4777,10 @@ async function evaluateIndeedJobFit(tabId, job, session) {
 
         await logSession(
             'warn',
-            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+            formatFitUnavailableContinueMessage(scoreResult.error),
         );
 
-        return { proceed: false, reason: 'fit_score_failed', score: null };
+        return { proceed: true, score: null };
     }
 
     await logSession(
@@ -6087,19 +6074,12 @@ async function evaluateTotalJobsJobFit(tabId, job, session) {
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
-            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
-        );
-        await recordAnalyticsEvent(
-            session,
-            'skipped',
-            job,
-            {
-                metadata: { reason: 'short_job_description' },
-            },
-            tabId,
+            formatFitUnavailableContinueMessage(
+                `${job.title}: job description too short (${description.length} chars)`,
+            ),
         );
 
-        return { proceed: false, reason: 'short_job_description', score: null };
+        return { proceed: true, score: null };
     }
 
     const scoreResult = await requestAutoApplyAtsScore(
@@ -6116,10 +6096,10 @@ async function evaluateTotalJobsJobFit(tabId, job, session) {
 
         await logSession(
             'warn',
-            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+            formatFitUnavailableContinueMessage(scoreResult.error),
         );
 
-        return { proceed: false, reason: 'fit_score_failed', score: null };
+        return { proceed: true, score: null };
     }
 
     await logSession(
@@ -6903,19 +6883,12 @@ async function evaluateReedJobFit(tabId, job, session) {
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
-            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
-        );
-        await recordAnalyticsEvent(
-            session,
-            'skipped',
-            job,
-            {
-                metadata: { reason: 'short_job_description' },
-            },
-            tabId,
+            formatFitUnavailableContinueMessage(
+                `${job.title}: job description too short (${description.length} chars)`,
+            ),
         );
 
-        return { proceed: false, reason: 'short_job_description', score: null };
+        return { proceed: true, score: null };
     }
 
     const scoreResult = await requestAutoApplyAtsScore(
@@ -6932,10 +6905,10 @@ async function evaluateReedJobFit(tabId, job, session) {
 
         await logSession(
             'warn',
-            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+            formatFitUnavailableContinueMessage(scoreResult.error),
         );
 
-        return { proceed: false, reason: 'fit_score_failed', score: null };
+        return { proceed: true, score: null };
     }
 
     await logSession(
@@ -7873,19 +7846,12 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
             'warn',
-            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
-        );
-        await recordAnalyticsEvent(
-            session,
-            'skipped',
-            job,
-            {
-                metadata: { reason: 'short_job_description' },
-            },
-            tabId,
+            formatFitUnavailableContinueMessage(
+                `${job.title}: job description too short (${description.length} chars)`,
+            ),
         );
 
-        return { proceed: false, reason: 'short_job_description', score: null };
+        return { proceed: true, score: null };
     }
 
     const scoreResult = await requestAutoApplyAtsScore(
@@ -7902,10 +7868,10 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
 
         await logSession(
             'warn',
-            `Skipped ${job.title} - could not score fit (${scoreResult.error}).`,
+            formatFitUnavailableContinueMessage(scoreResult.error),
         );
 
-        return { proceed: false, reason: 'fit_score_failed', score: null };
+        return { proceed: true, score: null };
     }
 
     const fitDecision = resolveAutoApplyFitDecision({
@@ -9905,6 +9871,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     formatIndeedSkipLogMessage,
     formatAutoApplyFitLogMessage,
+    formatFitUnavailableContinueMessage,
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
@@ -9948,6 +9915,7 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     formatIndeedSkipLogMessage,
     formatAutoApplyFitLogMessage,
+    formatFitUnavailableContinueMessage,
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,

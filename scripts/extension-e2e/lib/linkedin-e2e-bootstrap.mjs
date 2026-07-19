@@ -259,7 +259,7 @@ export function validateLinkedInSearchUrl(urlString, filters) {
 }
 
 export function findFitGateLogEntry(log = []) {
-    return log.find((entry) => /Scored .+ - \d+\/100|Skipped .+ fit \d+\/100|too short to score fit/i.test(entry.message || '')) || null;
+    return log.find((entry) => /Scored .+ - \d+\/100|Skipped .+ fit \d+\/100|too short to score fit|Fit score unavailable - continuing apply/i.test(entry.message || '')) || null;
 }
 
 export function findAtsFitScoreLogEntry(log = []) {

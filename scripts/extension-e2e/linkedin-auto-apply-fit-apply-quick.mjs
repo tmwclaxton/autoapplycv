@@ -182,7 +182,7 @@ async function main() {
         }).catch(() => {});
 
         if (!report.fit_passed_log) {
-            const shortOnly = (report.log || []).some((entry) => /too short to score fit/i.test(entry.message || ''));
+            const shortOnly = (report.log || []).some((entry) => /Fit score unavailable - continuing apply|too short to score fit/i.test(entry.message || ''));
 
             throw new Error(shortOnly
                 ? 'Never scored a job (descriptions too short). Reload extension/dist.'

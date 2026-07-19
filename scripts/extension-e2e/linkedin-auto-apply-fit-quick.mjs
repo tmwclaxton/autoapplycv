@@ -190,7 +190,7 @@ async function main() {
         }).catch(() => {});
 
         if (!report.ats_score_observed && report.applied === 0) {
-            const shortOnly = (report.log || []).some((entry) => /too short to score fit/i.test(entry.message || ''));
+            const shortOnly = (report.log || []).some((entry) => /Fit score unavailable - continuing apply|too short to score fit/i.test(entry.message || ''));
 
             throw new Error(shortOnly
                 ? 'Fit gate ran but job descriptions stayed too short. Reload extension/dist and retry.'
