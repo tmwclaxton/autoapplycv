@@ -136,8 +136,17 @@ test('applyDraftBatchToTab forwards scaled timeout to sendTabMessage', async () 
 
 test('scoreFrame prefers form hosts and ignores invalid counts', () => {
     assert.equal(scoreFrame(null, true), -1);
+    assert.equal(scoreFrame(0, false), -1);
     assert.equal(scoreFrame(3, false), 3);
     assert.equal(scoreFrame(2, true), 1_000_002);
+    assert.ok(
+        scoreFrame(
+            5,
+            true,
+            'https://job-boards.greenhouse.io/embed/job_app?for=ripple',
+        ) >
+            scoreFrame(5, true, 'https://ripple.com/careers/job/1'),
+    );
 });
 
 test('invalidateTabFrameCache clears all entries when tabId omitted', () => {

@@ -1,12 +1,32 @@
 import { logDebug, logInfo } from './debug-log.js';
 import { isInjectableBrowserTabUrl } from './side-panel-host-tab.js';
 
-export function scoreFrame(count, isFormHost) {
+export function scoreFrame(count, isFormHost, frameUrl = '') {
     if (typeof count !== 'number') {
         return -1;
     }
 
-    return (isFormHost ? 1_000_000 : 0) + Math.max(0, count);
+    const n = Math.max(0, count);
+
+    // Empty non-hosts must not win over unscored frames (live Ripple Greenhouse
+    // embed: main marketing page scored 0 and trapped inventory on frame 0).
+    if (n === 0 && !isFormHost) {
+        return -1;
+    }
+
+    let score = (isFormHost ? 1_000_000 : 0) + n;
+    const url = String(frameUrl || '');
+
+    // Prefer Greenhouse/Ashby embed iframes over the parent careers shell.
+    if (
+        /job-boards\.greenhouse\.io\/embed|boards\.greenhouse\.io\/embed|jobs\.ashbyhq\.com\/.*\/application/i.test(
+            url,
+        )
+    ) {
+        score += 500_000;
+    }
+
+    return score;
 }
 
 const FRAME_CACHE_TTL_MS = 60_000;
@@ -131,7 +151,10 @@ async function pingTabContentScript(tabId) {
  *
  * @returns {Promise<{ injected: boolean, skipped: boolean }>}
  */
-export async function injectManifestContentScripts(tabId) {
+export async function injectManifestContentScripts(
+    tabId,
+    { forceAllFrames = false, frameIds = null } = {},
+) {
     if (typeof chrome?.scripting?.executeScript !== 'function') {
         throw new Error('chrome.scripting.executeScript is unavailable.');
     }
@@ -147,18 +170,33 @@ export async function injectManifestContentScripts(tabId) {
         throw new Error('AutoCVApply cannot run on this page.');
     }
 
-    try {
-        await pingTabContentScript(tabId);
+    const targetFrameIds = Array.isArray(frameIds)
+        ? frameIds.filter((id) => typeof id === 'number')
+        : null;
 
-        return { injected: false, skipped: true };
-    } catch (error) {
-        if (!isMissingContentScriptError(error instanceof Error ? error.message : error)) {
-            throw error;
+    // Top-frame ping can succeed while late Greenhouse/Ashby iframes still lack
+    // a content script. Prefer injecting only those frameIds to avoid
+    // redeclaring const bindings in the already-live top frame.
+    if (!forceAllFrames && (!targetFrameIds || targetFrameIds.length === 0)) {
+        try {
+            await pingTabContentScript(tabId);
+
+            return { injected: false, skipped: true };
+        } catch (error) {
+            if (
+                !isMissingContentScriptError(
+                    error instanceof Error ? error.message : error,
+                )
+            ) {
+                throw error;
+            }
         }
     }
 
     const manifest = chrome.runtime.getManifest();
-    const groups = Array.isArray(manifest.content_scripts) ? manifest.content_scripts : [];
+    const groups = Array.isArray(manifest.content_scripts)
+        ? manifest.content_scripts
+        : [];
 
     for (const group of groups) {
         const files = Array.isArray(group.js) ? group.js.filter(Boolean) : [];
@@ -167,11 +205,16 @@ export async function injectManifestContentScripts(tabId) {
             continue;
         }
 
+        const target =
+            targetFrameIds && targetFrameIds.length > 0
+                ? { tabId, frameIds: targetFrameIds }
+                : {
+                      tabId,
+                      allFrames: group.all_frames === true || forceAllFrames,
+                  };
+
         await chrome.scripting.executeScript({
-            target: {
-                tabId,
-                allFrames: group.all_frames === true,
-            },
+            target,
             files,
         });
     }
@@ -499,6 +542,63 @@ export async function sendIndeedApplyFlowMessage(tabId, message, options = {}) {
     return sendTabMessage(tabId, message, frameId, { timeoutMs });
 }
 
+async function probeFrameDraftableCount(tabId, frameId, frameUrl = '') {
+    try {
+        const response = await sendTabMessage(
+            tabId,
+            { type: 'COUNT_DRAFTABLE_FIELDS' },
+            frameId,
+            { timeoutMs: FRAME_PROBE_TIMEOUT_MS },
+        );
+
+        if (!response?.success) {
+            logDebug(
+                'background',
+                'frame.discovery',
+                'Frame probe unsuccessful',
+                { frameId, frameUrl },
+                tabId,
+            );
+
+            return null;
+        }
+
+        const score = scoreFrame(
+            response.count,
+            response.isFormHost === true,
+            frameUrl,
+        );
+
+        logDebug(
+            'background',
+            'frame.discovery',
+            'Frame scored',
+            {
+                frameId,
+                frameUrl,
+                count: response.count,
+                isFormHost: response.isFormHost,
+                score,
+            },
+            tabId,
+        );
+
+        return { frameId, score, count: response.count || 0 };
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        logDebug(
+            'background',
+            'frame.discovery',
+            'Frame probe threw',
+            { frameId, frameUrl, error: message },
+            tabId,
+        );
+
+        return { frameId, score: -1, missingScript: isMissingContentScriptError(message) };
+    }
+}
+
 export async function findBestFormFrameId(tabId, { force = false } = {}) {
     if (!force) {
         const cachedFrameId = readCachedFrameId(tabId);
@@ -516,7 +616,11 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
         return 0;
     }
 
-    const frameIds = frames.map((frame) => frame.frameId);
+    const frameMeta = frames.map((frame) => ({
+        frameId: frame.frameId,
+        url: frame.url || '',
+    }));
+    const frameIds = frameMeta.map((frame) => frame.frameId);
 
     logDebug('background', 'frame.discovery', 'Probing frames for draftable fields', {
         tabId,
@@ -551,42 +655,53 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
         }
     }
 
-    const scoredFrames = await Promise.all(
-        frameIds.map(async (frameId) => {
-            try {
-                const response = await sendTabMessage(tabId, { type: 'COUNT_DRAFTABLE_FIELDS' }, frameId, {
-                    timeoutMs: FRAME_PROBE_TIMEOUT_MS,
-                });
-
-                if (!response?.success) {
-                    logDebug('background', 'frame.discovery', 'Frame probe unsuccessful', { frameId }, tabId);
-
-                    return null;
-                }
-
-                const score = scoreFrame(response.count, response.isFormHost === true);
-
-                logDebug('background', 'frame.discovery', 'Frame scored', {
-                    frameId,
-                    count: response.count,
-                    isFormHost: response.isFormHost,
-                    score,
-                }, tabId);
-
-                return {
-                    frameId,
-                    score,
-                };
-            } catch (error) {
-                logDebug('background', 'frame.discovery', 'Frame probe threw', {
-                    frameId,
-                    error: error instanceof Error ? error.message : error,
-                }, tabId);
-
-                return null;
-            }
-        }),
+    let scoredFrames = await Promise.all(
+        frameMeta.map((frame) =>
+            probeFrameDraftableCount(tabId, frame.frameId, frame.url),
+        ),
     );
+
+    const missingFrameIds = scoredFrames
+        .filter((result) => result?.missingScript === true)
+        .map((result) => result.frameId);
+
+    if (missingFrameIds.length > 0) {
+        try {
+            const injectResult = await injectManifestContentScripts(tabId, {
+                frameIds: missingFrameIds,
+            });
+
+            logInfo(
+                'background',
+                'frame.discovery',
+                'Injected content scripts into frames missing receivers',
+                {
+                    tabId,
+                    frameIds: missingFrameIds,
+                    injected: injectResult.injected,
+                },
+                tabId,
+            );
+            await sleep(250);
+            scoredFrames = await Promise.all(
+                frameMeta.map((frame) =>
+                    probeFrameDraftableCount(tabId, frame.frameId, frame.url),
+                ),
+            );
+        } catch (error) {
+            logDebug(
+                'background',
+                'frame.discovery',
+                'Missing-frame reinject failed',
+                {
+                    tabId,
+                    frameIds: missingFrameIds,
+                    error: error instanceof Error ? error.message : error,
+                },
+                tabId,
+            );
+        }
+    }
 
     let bestFrameId = 0;
     let bestScore = -1;
@@ -598,8 +713,9 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
         }
     }
 
-    // Never cache a failed probe as frame 0 - that traps Draft All / inventory on dead frames.
-    if (bestScore >= 0) {
+    // Never cache empty/failed probes as frame 0 - that traps Draft All on
+    // careers shells that wrap Greenhouse embeds (Ripple #grnhse_iframe).
+    if (bestScore > 0) {
         cacheFrameId(tabId, bestFrameId);
     } else {
         invalidateTabFrameCache(tabId);
@@ -608,7 +724,7 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
     logInfo('background', 'frame.discovery', 'Best frame selected after scoring', {
         bestFrameId,
         bestScore,
-        cached: bestScore >= 0,
+        cached: bestScore > 0,
     }, tabId);
 
     return bestFrameId;
