@@ -37,6 +37,12 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
+import {
+    fillApplicationDocumentsSequence,
+    normalizeCoverLetterJobPayload,
+    resolveCoverLetterAttachPayload,
+    shouldFillApplicationDocumentsDuringDraftAll,
+} from './cover-letter-attach.js';
 import { buildDraftCoverLetterText } from './cover-letter-draft.js';
 import { buildCoverLetterPdfBytes, buildCoverLetterPdfFileName } from './cover-letter-pdf.js';
 import {
@@ -627,6 +633,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             text: typeof message.text === 'string' ? message.text : null,
             persist: message.persist !== false,
             forceProfile: message.forceProfile !== false,
+            generate:
+                typeof message.generate === 'boolean' ? message.generate : null,
         }).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -2470,7 +2478,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     ? `Fill complete (${draftPlan.memoAnswerCount} field(s) from saved answers).`
                     : 'No fields required AI drafting.';
 
-            if (!isAutoApplyRunning()) {
+            if (shouldFillApplicationDocumentsDuringDraftAll()) {
                 await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
             }
 
@@ -2662,7 +2670,10 @@ async function runDraftAll(tabId, e2eOptions = null) {
             if (event.type === 'complete' && event.subscription) {
                 applyCachedSubscription(event.subscription);
 
-                if (!resumePromise && !isAutoApplyRunning()) {
+                if (
+                    !resumePromise &&
+                    shouldFillApplicationDocumentsDuringDraftAll()
+                ) {
                     perf.start('resume.fill');
                     resumePromise = fillApplicationDocumentsOnTab(tabId, formFrameId, job)
                         .then(() => {
@@ -2717,7 +2728,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         if (resumePromise) {
             void resumePromise;
-        } else if (!isAutoApplyRunning()) {
+        } else if (shouldFillApplicationDocumentsDuringDraftAll()) {
             try {
                 perf.start('resume.fill');
                 logDebug('background', 'fill.resume', 'Sending application document fills to tab', { formFrameId }, tabId);
@@ -2980,18 +2991,28 @@ function coverLetterSourceKey(job = {}) {
     return `${String(job?.title || '').trim().toLowerCase()}|${String(job?.company || '').trim().toLowerCase()}`;
 }
 
-async function persistCoverLetterDocument({ job = null, bytes = null, text = null, fileName = null }) {
-    const sourceKey = coverLetterSourceKey(job || {});
+async function persistCoverLetterDocument({
+    job = null,
+    bytes = null,
+    text = null,
+    fileName = null,
+}) {
+    const normalizedJob = normalizeCoverLetterJobPayload(job);
+    const sourceKey = coverLetterSourceKey(normalizedJob);
 
     if (savedCoverLetterSourceKeys.has(sourceKey)) {
-        return { saved: false, duplicate: true };
+        return { saved: false, duplicate: true, document: null };
     }
 
     try {
         const apiToken = await getApiToken();
         const apiBase = await getStoredApiBase();
         const payload = {
-            job: job || {},
+            job: {
+                title: normalizedJob.title,
+                company: normalizedJob.company,
+                link: normalizedJob.link,
+            },
         };
 
         if (typeof text === 'string' && text.trim() !== '') {
@@ -3000,7 +3021,11 @@ async function persistCoverLetterDocument({ job = null, bytes = null, text = nul
             payload.file_base64 = arrayBufferToBase64(bytes);
             payload.file_name = fileName;
         } else {
-            return { saved: false, duplicate: false, error: 'Cover letter content missing.' };
+            return {
+                saved: false,
+                duplicate: false,
+                error: 'Cover letter content missing.',
+            };
         }
 
         const response = await fetch(`${apiBase}/api/profile/cover-letters`, {
@@ -3017,80 +3042,172 @@ async function persistCoverLetterDocument({ job = null, bytes = null, text = nul
         if (response.ok) {
             savedCoverLetterSourceKeys.add(sourceKey);
             invalidateProfileCache();
-        } else {
-            logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
-                status: response.status,
-                message: data.message || data.error || null,
-            });
+
+            return {
+                success: true,
+                saved: Boolean(data.saved),
+                duplicate: Boolean(data.duplicate),
+                document: data.document || null,
+            };
         }
 
-        return data;
-    } catch (error) {
-        logWarn('background', 'cover-letter.save', 'Cover letter document save failed', {
-            error: error instanceof Error ? error.message : error,
-        });
+        logWarn(
+            'background',
+            'cover-letter.save',
+            'Cover letter document save failed',
+            {
+                status: response.status,
+                message: data.message || data.error || null,
+            },
+        );
 
-        return { saved: false, duplicate: false };
+        return {
+            saved: false,
+            duplicate: false,
+            document: null,
+            error: data.message || data.error || 'Cover letter save failed.',
+        };
+    } catch (error) {
+        logWarn(
+            'background',
+            'cover-letter.save',
+            'Cover letter document save failed',
+            {
+                error: error instanceof Error ? error.message : error,
+            },
+        );
+
+        return { saved: false, duplicate: false, document: null };
     }
 }
 
-async function getCoverLetterDocument(job = null, {
-    text = null,
-    persist = true,
-    forceProfile = true,
-} = {}) {
+
+async function getCoverLetterDocument(
+    job = null,
+    { text = null, persist = true, forceProfile = true, generate = null } = {},
+) {
     if (forceProfile) {
         invalidateProfileCache();
     }
 
-    const profileData = await getProfile();
-    const profile = profileData?.profile || profileData || {};
-    const letterText = typeof text === 'string' && text.trim() !== ''
-        ? text.trim()
-        : buildDraftCoverLetterText(profileData, job || {});
-    const design = profile.cover_letter_design ?? profileData?.cover_letter_design;
-    const font = profile.cover_letter_font ?? profileData?.cover_letter_font;
-    const bytes = buildCoverLetterPdfBytes(letterText, {
-        profile,
-        job: job || {},
-        design,
-        font,
-    });
-    const fileName = buildCoverLetterPdfFileName({
-        jobTitle: job?.title || null,
-        company: job?.company || null,
+    const normalizedJob = normalizeCoverLetterJobPayload(job);
+    const hasProvidedText = typeof text === 'string' && text.trim() !== '';
+    const shouldGenerate =
+        generate === null ? !hasProvidedText : Boolean(generate);
+
+    const resolved = await resolveCoverLetterAttachPayload({
+        job: normalizedJob,
+        text: hasProvidedText ? text.trim() : null,
+        generate: shouldGenerate,
+        assistCoverLetter,
+        downloadProfileDocument,
+        getProfile,
+        buildDraftCoverLetterText,
+        buildCoverLetterPdfBytes,
+        buildCoverLetterPdfFileName,
+        arrayBufferToBase64,
     });
 
-    if (persist) {
-        void persistCoverLetterDocument({ job, bytes, fileName });
+    let savedDocument = null;
+    let documentSaved = false;
+    let documentDuplicate = false;
+
+    if (persist && resolved.source === 'assist_saved_document') {
+        // Cover-tab assist path already persisted via the API.
+        documentSaved = true;
+        documentDuplicate = false;
+    } else if (persist && resolved?.text) {
+        // Prefer text so the server builds the designed PDF (same as Cover tab).
+        const persistResult = await persistCoverLetterDocument({
+            job: resolved.job || normalizedJob,
+            text: resolved.text,
+            fileName: resolved.fileName,
+        });
+        savedDocument = persistResult?.document || null;
+        documentSaved = Boolean(persistResult?.saved);
+        documentDuplicate = Boolean(persistResult?.duplicate);
+
+        if (
+            !documentSaved &&
+            !documentDuplicate &&
+            resolved?.bytes &&
+            !persistResult?.error
+        ) {
+            const bytesResult = await persistCoverLetterDocument({
+                job: resolved.job || normalizedJob,
+                bytes: resolved.bytes,
+                fileName: resolved.fileName,
+            });
+            savedDocument = bytesResult?.document || savedDocument;
+            documentSaved = Boolean(bytesResult?.saved);
+            documentDuplicate = Boolean(bytesResult?.duplicate);
+        }
+
+        if (documentSaved || documentDuplicate) {
+            invalidateProfileCache();
+        }
     }
 
+    logInfo(
+        'background',
+        'cover-letter.document',
+        'Resolved cover letter PDF',
+        {
+            source: resolved.source,
+            fileName: resolved.fileName,
+            generated: shouldGenerate,
+            documentSaved,
+            documentDuplicate,
+            documentId: savedDocument?.id || null,
+        },
+    );
+
     return {
-        base64: `data:application/pdf;base64,${arrayBufferToBase64(bytes)}`,
-        fileName,
-        mimeType: 'application/pdf',
-        design,
-        font,
+        base64: resolved.base64,
+        fileName: resolved.fileName,
+        mimeType: resolved.mimeType || 'application/pdf',
+        design: resolved.design,
+        font: resolved.font,
+        source: resolved.source,
+        saved_document: savedDocument,
+        document_saved: documentSaved,
+        document_duplicate: documentDuplicate,
     };
 }
 
+
 async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
-    if (isAutoApplyRunning()) {
+    if (!shouldFillApplicationDocumentsDuringDraftAll()) {
         return;
     }
 
-    try {
-        await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
-    } catch {
-        // Best-effort profile fill after draft apply.
-    }
-
-    try {
-        await sendTabMessage(tabId, { type: 'FILL_COVER_LETTER', job }, formFrameId);
-    } catch {
-        // Best-effort cover letter fill when the form has a cover letter upload.
-    }
+    // Resume attach remounts Greenhouse/Teamtailor forms - wait before CL.
+    await fillApplicationDocumentsSequence({
+        fillResume: async () => {
+            try {
+                await sendTabMessage(
+                    tabId,
+                    { type: 'FILL_RESUME' },
+                    formFrameId,
+                );
+            } catch {
+                // Best-effort profile fill after draft apply.
+            }
+        },
+        fillCoverLetter: async () => {
+            try {
+                await sendTabMessage(
+                    tabId,
+                    { type: 'FILL_COVER_LETTER', job },
+                    formFrameId,
+                );
+            } catch {
+                // Best-effort cover letter fill when the form has a cover letter upload.
+            }
+        },
+    });
 }
+
 
 async function assistCoverLetter(message) {
     return postAssist('/api/applications/assist/cover-letter', {

@@ -7237,7 +7237,18 @@ var AutoCVApplyFormHeuristics = (() => {
         let value = '';
         let checked = false;
 
-        if (type === 'checkbox' || type === 'radio') {
+        if (type === 'file') {
+            const files = element.files;
+
+            if (files?.length > 0) {
+                value = Array.from(files)
+                    .map((file) => file.name || 'attached')
+                    .filter(Boolean)
+                    .join(', ');
+            } else {
+                value = String(element.value || '').trim();
+            }
+        } else if (type === 'checkbox' || type === 'radio') {
             checked = Boolean(element.checked);
             value = checked ? String(element.value || 'on') : '';
 
@@ -7285,7 +7296,7 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     function collectReadableFieldValueControls(root = document) {
-        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
+        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset']);
         const controls = [];
         let index = 0;
 
@@ -7304,7 +7315,7 @@ var AutoCVApplyFormHeuristics = (() => {
     function collectReadableFieldValueControlsAllFrames() {
         const controls = [];
         let index = 0;
-        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
+        const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset']);
 
         forEachIframeDocument((doc) => {
             for (const element of querySelectorAllDeep(doc, 'input, textarea, select')) {

@@ -79,4 +79,56 @@ class CoverLetterDocumentServiceTest extends TestCase
         $this->assertSame($first['document']->id, $second['document']?->id);
         $this->assertDatabaseCount('profile_documents', 1);
     }
+
+    #[Test]
+    public function test_save_prunes_oldest_cover_letter_when_vault_is_full(): void
+    {
+        config(['cv.max_profile_documents' => 2]);
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Alex Developer',
+        ]);
+
+        $service = app(CoverLetterDocumentService::class);
+
+        $first = $service->saveFromText($user, [
+            'title' => 'Role One',
+            'company' => 'Acme',
+            'link' => 'https://jobs.example.com/one',
+        ], 'Dear Hiring Manager, letter one body with enough words.');
+
+        $this->assertTrue($first['saved']);
+
+        ProfileDocument::factory()->for($user)->create([
+            'category' => ProfileDocumentCategory::Cv,
+            'title' => 'Resume',
+            'original_filename' => 'resume.pdf',
+            'stored_path' => 'profile-documents/'.$user->id.'/resume.pdf',
+            'mime_type' => 'application/pdf',
+            'file_size' => 12,
+        ]);
+
+        $this->assertDatabaseCount('profile_documents', 2);
+
+        $third = $service->saveFromText($user, [
+            'title' => 'Role Two',
+            'company' => 'Ripple',
+            'link' => 'https://jobs.example.com/two',
+        ], 'Dear Hiring Manager, letter two body with enough words.');
+
+        $this->assertTrue($third['saved']);
+        $this->assertDatabaseCount('profile_documents', 2);
+        $this->assertDatabaseMissing('profile_documents', [
+            'id' => $first['document']->id,
+        ]);
+        $this->assertDatabaseHas('profile_documents', [
+            'id' => $third['document']->id,
+            'category' => ProfileDocumentCategory::CoverLetter->value,
+        ]);
+        $this->assertDatabaseHas('profile_documents', [
+            'category' => ProfileDocumentCategory::Cv->value,
+            'title' => 'Resume',
+        ]);
+    }
 }

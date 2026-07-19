@@ -79,6 +79,10 @@ class CoverLetterDocumentService
 
         $maxDocuments = (int) config('cv.max_profile_documents', 25);
 
+        // Draft All / Cover tab must keep saving new letters. When the vault is
+        // full, drop the oldest cover letter(s) first - never resumes/CVs.
+        $this->makeRoomForCoverLetter($user, $maxDocuments);
+
         if ($user->profileDocuments()->count() >= $maxDocuments) {
             return [
                 'saved' => false,
@@ -112,6 +116,32 @@ class CoverLetterDocumentService
             'duplicate' => false,
             'document' => $document,
         ];
+    }
+
+    /**
+     * Free vault slots by deleting oldest auto-generated cover letters.
+     */
+    public function makeRoomForCoverLetter(User $user, ?int $maxDocuments = null): void
+    {
+        $maxDocuments ??= (int) config('cv.max_profile_documents', 25);
+        $overflow = $user->profileDocuments()->count() - $maxDocuments + 1;
+
+        if ($overflow <= 0) {
+            return;
+        }
+
+        $oldestCoverLetters = ProfileDocument::query()
+            ->where('user_id', $user->id)
+            ->where('category', ProfileDocumentCategory::CoverLetter)
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->limit($overflow)
+            ->get();
+
+        foreach ($oldestCoverLetters as $document) {
+            $document->deleteStoredFile();
+            $document->delete();
+        }
     }
 
     /**
