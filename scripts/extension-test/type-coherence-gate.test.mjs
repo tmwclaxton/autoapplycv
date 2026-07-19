@@ -1110,10 +1110,15 @@ test('job-specific essays are cleared before LLM and preferred first name uses f
             label: 'why do you want to join figma?',
             field_type: 'textarea',
         },
+        {
+            ref: 'f8',
+            label: 'describe a role you were in or a project you led that brought out your absolute best work?',
+            field_type: 'textarea',
+        },
         { ref: 'f2', label: 'email', field_type: 'email' },
     ]);
 
-    assert.equal(clearPlan.clearAnswers.length, 2);
+    assert.equal(clearPlan.clearAnswers.length, 3);
     assert.ok(
         clearPlan.clearAnswers.every((item) => item.answer === '__CLEAR__'),
     );

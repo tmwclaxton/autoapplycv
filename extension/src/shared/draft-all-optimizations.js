@@ -176,6 +176,20 @@ export function isJobSpecificMemoField(field) {
         return true;
     }
 
+    // Behavioral / culture STAR essays are per-application; stale memos from
+    // another board must not refill (Ashby UK staff: 4 long-form prompts).
+    if (
+        /\bdescribe (?:a|an|the|one)\b/.test(label) ||
+        /\btell (?:us|me) about a (?:time|situation|project|role)\b/.test(
+            label,
+        ) ||
+        /\bwhat.?s something\b/.test(label) ||
+        /\bculture (?:and )?values\b/.test(label) ||
+        /\bour values\b/.test(label)
+    ) {
+        return true;
+    }
+
     return false;
 }
 
