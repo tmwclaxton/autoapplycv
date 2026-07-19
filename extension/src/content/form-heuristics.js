@@ -6920,10 +6920,7 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     function getQuestionLabel(element) {
-        if (
-            element?.type === 'file' &&
-            isCvOnlyUploadPanelText(getFileUploadPanelText(element))
-        ) {
+        if (element?.type === 'file' && hasCvOnlyUploadPanelNear(element)) {
             return 'CV / Resume';
         }
 
@@ -11248,29 +11245,10 @@ var AutoCVApplyFormHeuristics = (() => {
     /**
      * FirstStage / OpenDigital and similar boards open with a CV-only upload
      * panel before any email/name fields. Nearby copy is the only signal.
+     *
+     * Prefer compact ancestors. Huge page roots often start with the JD, so
+     * matching only the first N chars misses "Step 1: Upload CV" at the end.
      */
-    function getFileUploadPanelText(element) {
-        if (!element) {
-            return '';
-        }
-
-        let node = element.parentElement;
-
-        for (let depth = 0; node && depth < 6; depth += 1) {
-            const text = String(node.textContent || '')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            if (text.length >= 12) {
-                return text.slice(0, 500);
-            }
-
-            node = node.parentElement;
-        }
-
-        return '';
-    }
-
     function isCvOnlyUploadPanelText(text) {
         const normalized = String(text || '')
             .replace(/\s+/g, ' ')
@@ -11300,6 +11278,52 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function hasCvOnlyUploadPanelNear(element) {
+        if (!element) {
+            return false;
+        }
+
+        const siblingBits = [
+            element.parentElement?.previousElementSibling,
+            element.parentElement?.parentElement?.querySelector?.(
+                '.font-display, [class*="font-display"]',
+            ),
+        ]
+            .filter(Boolean)
+            .map((node) => String(node.textContent || ''))
+            .join(' ');
+
+        if (isCvOnlyUploadPanelText(siblingBits)) {
+            return true;
+        }
+
+        let node = element.parentElement;
+        let hugeAncestorText = '';
+
+        for (let depth = 0; node && depth < 8; depth += 1) {
+            const text = String(node.textContent || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (text.length < 12) {
+                node = node.parentElement;
+                continue;
+            }
+
+            if (text.length <= 1500) {
+                if (isCvOnlyUploadPanelText(text)) {
+                    return true;
+                }
+            } else if (!hugeAncestorText) {
+                hugeAncestorText = text;
+            }
+
+            node = node.parentElement;
+        }
+
+        return isCvOnlyUploadPanelText(hugeAncestorText);
+    }
+
     /**
      * Custom upload UIs often clip the native file input (Ashby resume). Still inventory it
      * when it has a real question label and is not the autofill helper dropzone.
@@ -11313,7 +11337,7 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        if (isCvOnlyUploadPanelText(getFileUploadPanelText(element))) {
+        if (hasCvOnlyUploadPanelNear(element)) {
             return true;
         }
 
@@ -11346,7 +11370,7 @@ var AutoCVApplyFormHeuristics = (() => {
             return true;
         }
 
-        if (isCvOnlyUploadPanelText(getFileUploadPanelText(element))) {
+        if (hasCvOnlyUploadPanelNear(element)) {
             return true;
         }
 

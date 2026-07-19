@@ -95,3 +95,29 @@ test('photo/avatar dropzone is not treated as FirstStage CV upload', () => {
 
     assert.equal(resume, null);
 });
+
+test('FirstStage CV upload still matches when JD text precedes the panel', () => {
+    const jd = `${'About the role. '.repeat(80)}Essential Python experience.`;
+    const dom = new JSDOM(
+        `<!doctype html><html><body>
+      <main><p>${jd}</p></main>
+      <div class="panel">
+        <div class="font-display">Step 1: Upload CV</div>
+        <p>We will use your CV to fill as much of the application form as possible for you.</p>
+        <p>Drag and drop or choose a .docx .pdf file to upload</p>
+        <div class="text-center">
+          <input type="file" accept=".pdf,.docx" />
+          <button type="button">Choose file</button>
+        </div>
+      </div>
+    </body></html>`,
+        { url: 'https://wayve.firststage.co/jobs/example/view' },
+    );
+    const heuristics = loadHeuristics(dom);
+    const resume = heuristics.findApplicationResumeFileInput(
+        dom.window.document,
+    );
+
+    assert.ok(resume, 'expected resume input despite large preceding JD');
+    assert.equal(heuristics.frameHasApplicationForm(dom.window.document), true);
+});
