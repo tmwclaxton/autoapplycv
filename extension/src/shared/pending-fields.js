@@ -18,6 +18,7 @@ import {
     resolveElectronicSignatureAnswer,
 } from './draft-all/consent-fields.js';
 import {
+    classifyFieldExpectation,
     evaluateAnswerTypeCoherence,
     shouldRejectAnswerForTypeCoherence,
     shouldRejectYesNoAnswerOnLocationField,
@@ -3852,12 +3853,16 @@ export function isProfileMappingMismatch(field, mapping) {
     // Nationality / visa-status dropdowns are not Yes/No legally-authorized radios.
     // Status pairs like 9fin "Able to work… without sponsorship" still map via
     // pickWorkAuthStatusOption - only mismatch when no status option exists.
+    // Greenhouse often inventories Yes/No comboboxes with options still null
+    // (live Grafana "eligible to work in your country of residence?") - those
+    // binary labels must still map from legally_authorized.
     if (
         mapping &&
         mapping.path === 'application_settings.legally_authorized' &&
         !fieldHasYesNoOptions(field) &&
         !pickWorkAuthStatusOption(field, true) &&
-        !pickWorkAuthStatusOption(field, false)
+        !pickWorkAuthStatusOption(field, false) &&
+        classifyFieldExpectation(field) !== 'yes_no_choice'
     ) {
         return true;
     }
@@ -5717,6 +5722,12 @@ function profileValueForApply(mapping, profileData, field = null) {
         return '';
     }
 
+    // Booleans must not become the strings "true"/"false" - Yes/No gates then
+    // fail /^yes\b/ and invert to No (live Grafana residence work-auth).
+    if (typeof value === 'boolean') {
+        return value ? 'Yes' : 'No';
+    }
+
     return String(value).trim();
 }
 
@@ -6758,11 +6769,20 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
     }
 
     // Bare Yes/No from legally_authorized must not fill status/nationality selects.
+    // Greenhouse Yes/No comboboxes often have options still null at inventory
+    // time - binary labels still get Yes/No (live Grafana residence eligibility).
     if (
         mapping.path === 'application_settings.legally_authorized' &&
         !fieldHasYesNoOptions(field)
     ) {
         const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
+
+        if (classifyFieldExpectation(field) === 'yes_no_choice') {
+            return authorized
+                ? pickLocalizedYesNoOption(field, true) || 'Yes'
+                : pickLocalizedYesNoOption(field, false) || 'No';
+        }
+
         const statusOption = pickWorkAuthStatusOption(field, authorized);
 
         return statusOption || '';

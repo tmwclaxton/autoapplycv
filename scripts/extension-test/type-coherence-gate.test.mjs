@@ -902,6 +902,20 @@ test('security clearance Yes/No does not inherit legally_authorized', async () =
         'application_settings.legally_authorized',
     );
 
+    // Greenhouse often inventories this Yes/No before option harvest (options null).
+    assert.equal(
+        resolvePreferenceProfileAnswer(
+            {
+                label: workAuthLabel,
+                field_type: 'select',
+                options: null,
+                dom: { role: 'combobox' },
+            },
+            profileData,
+        ),
+        'Yes',
+    );
+
     const plan = buildDraftAllApplyPlan({
         fields: [
             {
@@ -910,6 +924,14 @@ test('security clearance Yes/No does not inherit legally_authorized', async () =
                 label: clearanceLabel,
                 field_type: 'radio',
                 options: ['Yes', 'No'],
+            },
+            {
+                id: 2,
+                ref: 'f9',
+                label: workAuthLabel,
+                field_type: 'select',
+                options: null,
+                dom: { role: 'combobox' },
             },
         ],
         profileData,
@@ -927,6 +949,15 @@ test('security clearance Yes/No does not inherit legally_authorized', async () =
             .flatMap((stage) => stage.answers || [])
             .some((answer) => answer.ref === 'f1'),
         false,
+    );
+    assert.ok(
+        plan.applyStages
+            .flatMap((stage) => stage.answers || [])
+            .some(
+                (answer) =>
+                    answer.ref === 'f9' && /^yes$/i.test(String(answer.answer)),
+            ),
+        'residence work-auth Yes/No with null options must filter-pass from legally_authorized',
     );
 });
 

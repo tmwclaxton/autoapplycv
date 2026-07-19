@@ -57,13 +57,15 @@ test('buildDraftAllApplyPlan applies memo, reference, and identity before LLM fi
         },
     });
 
-    assert.equal(plan.applyStages.length, 3);
+    assert.equal(plan.applyStages.length, 4);
     assert.equal(plan.applyStages[0].type, 'memo');
     assert.equal(plan.applyStages[1].type, 'reference');
     assert.equal(plan.applyStages[2].type, 'identity');
+    assert.equal(plan.applyStages[3].type, 'clear');
     assert.equal(plan.memoAnswerCount, 1);
     assert.equal(plan.applyStages[1].answers[0].answer, 'Jane Referee');
     assert.equal(plan.applyStages[2].answers[0].answer, 'Toby');
+    assert.equal(plan.applyStages[3].answers[0].ref, 'f3');
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].label, 'Cover letter');
     assert.equal(plan.skipsLlm, false);
