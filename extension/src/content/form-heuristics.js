@@ -6952,9 +6952,12 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         const doc = element.ownerDocument || document;
-        const mainText = String(doc.body?.innerText || '').replace(/\s+/g, ' ');
+        // Prefer textContent: JSDOM (and some headless paths) leave innerText empty.
+        const mainText = String(
+            doc.body?.innerText || doc.body?.textContent || '',
+        ).replace(/\s+/g, ' ');
         const assistantQuestion = mainText.match(
-            /Assistant\d{1,2}:\d{2}\s+((?:Can you|Could you|Please|Describe|What|How|Tell|Explain)[^?]{10,320}\?)/i,
+            /Assistant\s*\d{1,2}:\d{2}\s+((?:Can you|Could you|Please|Describe|What|How|Tell|Explain)[^?]{10,320}\?)/i,
         );
 
         if (assistantQuestion?.[1]) {
