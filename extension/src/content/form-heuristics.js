@@ -12862,16 +12862,18 @@ var AutoCVApplyFormHeuristics = (() => {
             hidden.removeAttribute('value');
             hidden.removeAttribute('name');
             hidden.dispatchEvent(new Event('change', { bubbles: true }));
-            finalHidden = String(hidden.value || '').trim();
             heuristicsLog(
                 'warn',
                 'apply.combobox',
                 'Workable combobox clear stripped hidden submit name',
                 {
                     restoredName: hidden.dataset.autocvapplyName || '',
-                    hiddenPreview: finalHidden.slice(0, 40),
+                    staleValuePreview: finalHidden.slice(0, 40),
                 },
             );
+
+            // Name removed: value may still linger in React state but will not submit.
+            return true;
         }
 
         heuristicsLog(
