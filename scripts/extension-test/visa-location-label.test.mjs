@@ -17,6 +17,8 @@ import {
     partitionIdentityProfileFields,
     partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
+    isOptionalSocialNetworkUrlLabel,
+    resolveConciseLocationValue,
     resolveIdentityProfileAnswer,
     resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
@@ -434,4 +436,64 @@ test('Polish work-auth status select leaves pending instead of inventing nationa
     assert.equal(clearAnswers.length, 1);
     assert.equal(clearAnswers[0].ref, 'f14');
     assert.equal(clearAnswers[0].answer, '__CLEAR__');
+});
+
+test('concise location prefers multi-part profile.location over city+country', () => {
+    const profile = {
+        city: 'High Wycombe',
+        country: 'United Kingdom',
+        location: 'High Wycombe, England',
+    };
+
+    assert.equal(
+        resolveConciseLocationValue(profile),
+        'High Wycombe, England',
+    );
+});
+
+test('SmartRecruiters linked in maps to linkedin_url', () => {
+    const profile = {
+        linkedin_url: 'https://www.linkedin.com/in/toby-claxton/',
+    };
+
+    assert.equal(
+        resolveProfileMappingForLabel('linked in', profile)?.path,
+        'linkedin_url',
+    );
+    assert.equal(
+        resolveIdentityProfileAnswer(
+            { label: 'linked in', field_type: 'text' },
+            profile,
+        ),
+        'https://www.linkedin.com/in/toby-claxton/',
+    );
+});
+
+test('optional Facebook/Twitter URL labels are skipped not essayed', () => {
+    assert.equal(isOptionalSocialNetworkUrlLabel('facebook'), true);
+    assert.equal(isOptionalSocialNetworkUrlLabel('twitter'), true);
+    assert.equal(isOptionalSocialNetworkUrlLabel('message'), false);
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            { ref: 'f8', label: 'linked in', field_type: 'text' },
+            { ref: 'f9', label: 'facebook', field_type: 'text' },
+            { ref: 'f10', label: 'twitter', field_type: 'text' },
+            { ref: 'f12', label: 'message', field_type: 'textarea' },
+        ],
+        profileData: {
+            linkedin_url: 'https://www.linkedin.com/in/toby-claxton/',
+        },
+        questionMemo: {},
+        existingPendingFields: [],
+        pageUrl: 'https://jobs.smartrecruiters.com/x',
+    });
+    const answeredRefs = plan.applyStages
+        .flatMap((stage) => stage.answers || [])
+        .map((answer) => answer.ref);
+
+    assert.ok(answeredRefs.includes('f8'));
+    assert.ok(!answeredRefs.includes('f9'));
+    assert.ok(!answeredRefs.includes('f10'));
+    assert.equal(plan.remainingFieldCount, 1);
 });

@@ -30,6 +30,7 @@ import {
     partitionMissingContactIdentityFields,
     partitionMissingLocalityIdentityFields,
     partitionMissingNameIdentityFields,
+    partitionOptionalAbsentSocialUrlFields,
     partitionPreferenceProfileFields,
     partitionPriorEmployerContactFields,
     partitionReferenceProfileFields,
@@ -253,6 +254,10 @@ export function buildDraftAllApplyPlan({
     const marketingConsentPartition =
         partitionMarketingConsentFields(remainingFields);
     remainingFields = marketingConsentPartition.remainingFields;
+
+    // Drop optional Facebook/Twitter URL fields so NanoGPT cannot invent essays.
+    remainingFields =
+        partitionOptionalAbsentSocialUrlFields(remainingFields).remainingFields;
 
     const applyStages = [];
 

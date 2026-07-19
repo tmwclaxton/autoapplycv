@@ -324,7 +324,8 @@ const PROFILE_FIELD_MAPPINGS = [
         label: 'LinkedIn',
         dashboard_tab: 'profile',
         dashboard_anchor: 'field-linkedin-url',
-        keywords: ['linkedin', 'profil linkedin'],
+        // SmartRecruiters uses "linked in" with a space.
+        keywords: ['linkedin', 'linked in', 'profil linkedin'],
     },
     {
         path: '_profile_link.github',
@@ -2577,6 +2578,49 @@ export function isCityLocationQuestionLabel(label) {
 }
 
 /**
+ * Optional Facebook/Twitter/etc. profile URL fields. Without a matching profile
+ * link, leave blank - never send to NanoGPT (Motocol invented long essays).
+ */
+export function isOptionalSocialNetworkUrlLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized || normalized.length > 48) {
+        return false;
+    }
+
+    if (
+        /\b(message|why|describe|experience|cover letter|interested)\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
+    return (
+        /^(facebook|twitter|instagram|tiktok|x)\b/.test(normalized) ||
+        /\b(facebook|twitter|instagram|tiktok)\s*(url|profile|link|handle)?$/.test(
+            normalized,
+        )
+    );
+}
+
+export function partitionOptionalAbsentSocialUrlFields(fields) {
+    const remainingFields = [];
+
+    for (const field of fields || []) {
+        const label = field?.label || field?.question || '';
+
+        if (isOptionalSocialNetworkUrlLabel(label)) {
+            continue;
+        }
+
+        remainingFields.push(field);
+    }
+
+    return { remainingFields };
+}
+
+/**
  * Lever/Greenhouse "which location are you applying for?" is a job-site choice,
  * not the applicant's city/current location.
  */
@@ -2940,6 +2984,13 @@ export function resolveConciseLocationValue(
 
     if (preferCity && city) {
         return city;
+    }
+
+    // Prefer a multi-part profile.location over composing "City, Country".
+    // Ashby typeahead matched "High Wycombe, England" / fuller geocode strings
+    // but failed on the shorter city+country composition during Draft All.
+    if (location && /,/.test(location)) {
+        return location;
     }
 
     const parts = [];
