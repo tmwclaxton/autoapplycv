@@ -187,7 +187,7 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
 ];
 
 const SOURCE_OF_HIRE_QUESTION_PATTERNS = [
-    /\b(?:where|how)\s+did\s+you\s+(?:hear|learn|find|see)\b/i,
+    /\b(?:where|how)\s+did\s+you\s+(?:first\s+)?(?:hear|learn|find|see)\b/i,
     /\bplease\s+indicate\s+where\s+you\s+heard\b/i,
     /\bwhere\s+did\s+you\s+find\s+this\s+(?:job|role|opportunity|position|opening)\b/i,
     /\breferral\s+source\b/i,

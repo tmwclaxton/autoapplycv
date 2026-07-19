@@ -411,6 +411,27 @@ assert.equal(
     true,
 );
 assert.equal(
+    isSourceOfHireQuestionLabel(
+        'How did you first learn about Affirm as an employer?',
+    ),
+    true,
+    'Affirm first-learn wording is source-of-hire',
+);
+assert.equal(
+    resolveSourceOfHireAnswer(
+        {
+            label: 'how did you first learn about affirm as an employer?',
+            field_type: 'select',
+            options: ['Affirm blog', 'LinkedIn', 'Indeed', 'Other'],
+        },
+        {
+            pageUrl:
+                'https://job-boards.greenhouse.io/affirm/jobs/7737155003',
+        },
+    ),
+    'LinkedIn',
+);
+assert.equal(
     isSourceOfHireQuestionLabel('Please indicate where you heard about CGI'),
     true,
 );
