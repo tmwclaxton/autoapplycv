@@ -1,0 +1,223 @@
+{
+  "id": "https-job-boards-eu-greenhouse-io-ecoworks-jobs-4166910101",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "vorname",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nachname",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-mail",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "land",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefon",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_4775981101",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "website",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_4775982101",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "indem ich dieses kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass ecoworks meine daten speichert und verarbeitet, um meine eignung im zusammenhang mit meiner aktuellen bewerbung z",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Indem ich dieses Kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass ecoworks meine Daten speichert und verarbeitet, um meine Eignung im Zusammenhang mit meiner aktuellen Bewerbung zu prüfen.*"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "gdpr_processing_consent_given_1",
+        "name": "gdpr_processing_consent_given",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "indem ich dieses kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass ecoworks meine daten für zukünftige beschäftigungsmöglichkeiten bis zu 180 tage nach abschluss der prüfung meiner",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Indem ich dieses Kontrollkästchen ankreuze, erkläre ich mich damit einverstanden, dass ecoworks meine Daten für zukünftige Beschäftigungsmöglichkeiten bis zu 180 Tage nach Abschluss der Prüfung meiner aktuellen Bewerbung speichert."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "gdpr_retention_consent_given_1",
+        "name": "gdpr_retention_consent_given",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

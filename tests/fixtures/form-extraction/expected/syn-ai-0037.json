@@ -1,0 +1,380 @@
+{
+  "id": "syn-ai-0037",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Jane Smith",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "you@example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+1 (555) 000-0000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Where do you work now?",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin username",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "username",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://yourportfolio.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "0",
+        "min": "0",
+        "max": "30",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "desired annual salary",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 120000",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you prepare?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Researched the company",
+        "Reviewed my portfolio",
+        "Both",
+        "Haven't prepared yet"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "skills and tools",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Figma",
+        "Sketch",
+        "Framer",
+        "Prototyping",
+        "Design systems"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "skill",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github profile url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://github.com/yourhandle",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dribbble profile url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://dribbble.com/yourhandle",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "earliest start date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "MM/YYYY",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "notice period",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 2 weeks",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "decoy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "decoy",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work authorization",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "radiogroup",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

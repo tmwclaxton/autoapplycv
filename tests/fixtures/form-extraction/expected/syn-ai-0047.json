@@ -1,0 +1,53 @@
+{
+  "id": "syn-ai-0047",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "email for newsletter",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "decoy-email",
+        "name": "newsletter-email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "your@email.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree to receive emails",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree to receive emails"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "newsletter-consent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

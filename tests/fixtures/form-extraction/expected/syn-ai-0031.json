@@ -1,0 +1,341 @@
+{
+  "id": "syn-ai-0031",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "field name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-name",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Jane Smith",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "field email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "field-email",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "you@company.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone-local",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "555-0123",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "field location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select …",
+        "San Francisco, CA",
+        "New York, NY",
+        "Austin, TX",
+        "Remote - US",
+        "Remote - Global"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-location",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio or personal website url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-portfolio",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://portfolio.example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e.g. 6",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-exp",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 6",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "referral-select",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select …",
+        "LinkedIn",
+        "Employee Referral",
+        "Other — please specify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "referral-select",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us how you found us",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ref-other-text",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Tell us how you found us",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume / cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "field-resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "field linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-linkedin",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "linkedin.com/in/yourprofile",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "female",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "demo",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "expected salary (usd)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-salary",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Expected salary (USD)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anything else we should know? optional notes or cover letter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field-notes",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Optional notes or cover letter",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "earliest start date (e.g. jan 2025)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-start-date",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Earliest start date (e.g. Jan 2025)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-company",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Current company (optional)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

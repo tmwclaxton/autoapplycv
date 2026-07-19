@@ -1,0 +1,409 @@
+{
+  "id": "syn-ai-0038",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstName",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Katarina",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastName",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Lindqvist",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "emailPlaceholder",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "you@company.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "🇸🇪 +46",
+        "🇺🇸 +1",
+        "🇬🇧 +44",
+        "🇩🇪 +49"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "phoneCode",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phoneNumber",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "701234567",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://linkedin.com/in/...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Stockholm",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "postal code e.g. 111 22",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "postalCode",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 111 22",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "0–2",
+        "3–5",
+        "6–9",
+        "10+"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "yearsExp",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url https://...",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "portfolio",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url https://github.com/...",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "https://github.com/...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "salary expectation (sek) e.g. 140000",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "salaryExp",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 140000",
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other skill name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "otherSkillName",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. Rust",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "skill level",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Beginner",
+        "Intermediate",
+        "Expert"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "skillLevel",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "swedish proficiency",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select level",
+        "A1 – Beginner",
+        "A2 – Elementary",
+        "B1 – Intermediate",
+        "B2 – Upper intermediate",
+        "C1 – Advanced",
+        "Native"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "swedishLevel",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "any note? e.g. sfi completed",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "swedishNote",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. SFI completed",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "newsletter email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "your.email@example.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "top skill",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "skillCombobox",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

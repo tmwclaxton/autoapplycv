@@ -1,0 +1,93 @@
+{
+  "id": "https-www-glassdoor-co-uk-job-index-htm",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "find your perfect job",
+      "field_type": "select",
+      "max_chars": 128,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchBar-jobTitle",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Find your perfect job",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search bar location",
+      "field_type": "select",
+      "max_chars": 128,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchBar-location",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "City, county, region or remote",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "united kingdom",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select your country",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

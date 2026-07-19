@@ -1,0 +1,138 @@
+{
+  "id": "https-lecedre1-recruitee-com-o-candidature-spontanee-fh-c-new",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-2",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Prénom et nom",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-3",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre adresse e-mail",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-4",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre numéro de téléphone",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-14",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dites-nous à quel type d'emploi vous aspirez (commercial, acheteur, administratif, informatique, rh, communication, comptabilité, assurances, finances... ) et où souhaiteriez-vous exercer cette emploi (région) ?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6905470.content-15",
+        "name": "candidate.openQuestionAnswers.6905470.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vous êtes ?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Femme",
+        "Homme"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.6905471.multiContent-16-0",
+        "name": "candidate.openQuestionAnswers.6905471.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

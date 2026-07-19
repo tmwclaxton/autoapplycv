@@ -1,0 +1,393 @@
+{
+  "id": "https-moleculent-1651476998-teamtailor-com-jobs-8007305-computational-biology-sc",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when would you be able to start?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_0_text",
+        "name": "candidate[answers_attributes][0][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a swedish working permit?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_1_text",
+        "name": "candidate[answers_attributes][1][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "range-custom_number",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": "range-custom_number",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "25",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of relevant industrial experience do you have?",
+      "field_type": "range",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "range",
+        "id": "candidate_answers_attributes_2_range",
+        "name": "candidate[answers_attributes][2][range]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "25",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "shortly descibe your experience in the field of immunology and espacally if you have experience in oncoimmunology.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_3_text",
+        "name": "candidate[answers_attributes][3][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_first_name",
+        "name": "candidate[first_name]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_last_name",
+        "name": "candidate[last_name]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidate_email",
+        "name": "candidate[email]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidate_phone",
+        "name": "candidate[phone]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+46 70 123 45 67",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_location",
+        "name": "candidate[location][query]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Start typing your address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "candidate_resume_remote_url",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "candidate_file_remote_url",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_job_applications_attributes_0_cover_letter",
+        "name": "candidate[job_applications_attributes][0][cover_letter]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": ".by submitting this application, i agree that i have read the privacy policy and confirm that moleculent store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Moleculent store my personal details to be able to process my job application.*"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given",
+        "name": "candidate[consent_given]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yes, moleculent can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Moleculent can contact me directly about specific future job opportunities."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given_future_jobs",
+        "name": "candidate[consent_given_future_jobs]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "commit",
+      "field_type": "submit",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "submit",
+        "id": null,
+        "name": "commit",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

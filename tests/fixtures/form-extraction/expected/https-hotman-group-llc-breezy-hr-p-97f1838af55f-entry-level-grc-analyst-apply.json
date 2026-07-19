@@ -1,0 +1,986 @@
+{
+  "id": "https-hotman-group-llc-breezy-hr-p-97f1838af55f-entry-level-grc-analyst-apply",
+  "min_fields": 41,
+  "exact_field_count": 41,
+  "fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "main-attachment",
+        "name": "cResume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Phone Number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By providing your phone number you agree to receive informational text messages from Hotman Group. Hotman Group will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "smsConsent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cSalary",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Desired Salary",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cSummary",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cCoverLetter",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the u.s. without employer sponsorship, now or in the future?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you ever require h1b visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_1",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_2",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_2",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this position is fully remote. describe your current home workspace.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I have a private room with a door I can close, used exclusively or primarily as my workspace",
+        "I have a dedicated desk or area but the room is shared and I cannot always close a door",
+        "I do not have a dedicated workspace -- I work wherever I happen to be",
+        "I typically work from coffee shops, libraries, or shared spaces outside my home"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which microsoft 365 applications do you use regularly? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Word",
+        "Excel",
+        "Outlook",
+        "Teams",
+        "SharePoint / OneDrive",
+        "PowerPoint",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_5",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_6",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "High school diploma or GED",
+        "Some college, no degree",
+        "Associate degree",
+        "Bachelor's degree",
+        "Master's degree or higher",
+        "Trade, technical, or vocational certification"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following cybersecurity or grc certifications do you currently hold? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Security+",
+        "CC (Certified in Cybersecurity -- ISC2)",
+        "SSCP",
+        "CISA",
+        "CISM",
+        "CRISC",
+        "CISSP",
+        "CCP (Certified CMMC Professional)",
+        "CCA (Certified CMMC Assessor)",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently bound by a non-compete, non-solicitation, or similar agreement that could restrict your ability to work for hotman group or its clients?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you consent to a background check as a condition of employment or contract engagement?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to provide professional references?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_11",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_12",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_12",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_13",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_13",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_14",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_14",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_15",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_15",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you finish an assigned task. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hold it until someone asks -- you do not want to send something before it has been fully reviewed",
+        "Send it to whoever assigned it and move on to the next thing",
+        "Do a final self-review to make sure it is solid, then send it",
+        "Let the relevant team members know it is done, summarize what was completed, and flag anything they should be aware of"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_16",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a client emails you with a question and you do not have a complete answer yet. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Wait to respond until you have a complete, accurate answer",
+        "Acknowledge receipt and let them know when they can expect a full response",
+        "Forward it to your manager to handle",
+        "Reply and ask them to follow up if they have not heard from you in a few days"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_17",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you are working remotely and realize you accidentally sent a draft document containing client names to the wrong email address. what do you do first?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Delete it from your sent folder and then email the recipient asking them to disregard it",
+        "Email the recipient and ask them to delete it without mentioning it to anyone internally",
+        "Notify your manager immediately",
+        "Wait to see if the recipient responds before deciding how to handle it"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_18",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you are reviewing a list of risk items a client maintains. you notice the risk scores have been reduced across the board but you cannot find any record of new controls being added or existing ones being improved. what do you do first?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Accept the scores as current -- the client manages their own risk register",
+        "Ask the client directly what changed to justify the lower scores",
+        "Cross-reference the scores against available documentation before drawing any conclusion, then flag it to your manager",
+        "Note it as a minor observation and move on"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_19",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "it is friday afternoon and a client sends an urgent message saying a laptop with sensitive information was stolen. they are asking what to do. you are the only one available. what do you do first?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Tell them to contain the situation immediately, have the employee confirm no further sharing occurred, document everything they know right now, and let them know you are looping in your team as soon as possible",
+        "Ask them a series of clarifying questions to fully understand the situation before saying anything",
+        "Walk them through what you know about data breach response and help them start assessing the situation",
+        "Tell them you will have someone follow up with them first thing Monday"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_20",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you have been working on a deliverable for three days. your manager tells you it needs to be completely reworked. what is your first thought?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I wish the expectations had been more clearly communicated when I started",
+        "I want to understand the gap between what I delivered and what was expected so I can fix it and avoid it next time",
+        "I feel frustrated but I get back to work and make the changes",
+        "I wonder where the communication broke down between us"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_21",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you are asked to format and proofread a report that someone else on the team wrote. what is your reaction?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Happy to help -- that is part of working on a team",
+        "A little frustrated but I will do it without complaint",
+        "I would want to know why it could not go to someone more junior",
+        "I would do it but let my manager know it is probably not the best use of my time"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_22",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "it is your first week. you are asked to sit in on a client meeting and take notes. how do you feel about it?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Completely fine -- I will absorb everything I can about how the team works and how the client communicates",
+        "A little underwhelmed, but I understand I need to earn trust before I can contribute more",
+        "I would probably ask if there is a way for me to contribute more actively in the meeting",
+        "I would wonder whether I am being utilized to my full potential"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_23",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_24",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_24",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_25",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_25",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following have you done in the past 12 months? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Earned a cybersecurity or GRC certification",
+        "Currently studying for a certification",
+        "Built a home lab or sandbox environment",
+        "Attended a conference, webinar, or industry event in this field",
+        "Completed a structured online course (Coursera, SANS, Cybrary, etc.)",
+        "Read 3 or more books on security, risk, audit, or compliance",
+        "Wrote an article, blog post, or tutorial on a security or GRC topic",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_26",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes what energizes you most about the way you work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Solving a hard one-time problem and finding the right answer",
+        "Getting through the work in front of me efficiently so there is room for what comes next",
+        "Delivering something useful even when it means going beyond what was specifically asked",
+        "Going deep on a topic until I fully understand every dimension before I act"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_27",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of these sounds most like the kind of work you want to do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Working through a defined checklist on a known framework and delivering a clean result",
+        "Getting clients through their requirements as efficiently as possible",
+        "Helping clients understand their risk posture and build programs that actually work",
+        "Becoming a deep specialist in one or two compliance areas"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_28",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are you most hoping to get out of this role?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hands-on experience applying GRC frameworks across real clients in multiple industries",
+        "A clearly defined advancement path with benchmarks for when I move to the next level",
+        "Predictable hours and a stable, well-defined work environment",
+        "Structured training and close mentorship from senior leadership on a day-to-day basis"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_29",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_30",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": null,
+        "name": "section_1778618113026_question_30",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_31",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_31",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

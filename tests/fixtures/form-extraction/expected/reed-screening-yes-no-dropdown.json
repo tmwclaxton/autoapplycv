@@ -1,0 +1,37 @@
+{
+  "id": "reed-screening-yes-no-dropdown",
+  "min_fields": 1,
+  "exact_field_count": 1,
+  "fields": [
+    {
+      "question": "do you hold a full uk driving license?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,89 @@
+{
+  "id": "https-jobs-jobvite-com-careers-liferay-jobs",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "region:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Region",
+        "Asia Pacific",
+        "Europe",
+        "Latin America"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-region",
+        "name": "r",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Location",
+        "Brazil, Recife",
+        "Germany, Frankfurt",
+        "Japan, Tokyo",
+        "Spain, Madrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-location",
+        "name": "l",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "category:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Category",
+        "Company Operations",
+        "Marketing",
+        "Operations",
+        "Sales"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-category",
+        "name": "c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,923 @@
+{
+  "id": "https-hotman-group-llc-breezy-hr-p-21f548c0018f-cmmc-nist-consultant-analyst-app",
+  "min_fields": 39,
+  "exact_field_count": 39,
+  "fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "main-attachment",
+        "name": "cResume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Phone Number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By providing your phone number you agree to receive informational text messages from Hotman Group. Hotman Group will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "smsConsent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "desired salary",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cSalary",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Desired Salary",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "csummary",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cSummary",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cCoverLetter",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the u.s. without employer sponsorship, now or in the future?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you ever require h1b visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_1",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_2",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_2",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this position is fully remote. describe your current home workspace.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I have a private room with a door I can close, used exclusively or primarily as my workspace",
+        "I have a dedicated desk or area but the room is shared and I cannot always close a door",
+        "I do not have a dedicated workspace -- I work wherever I happen to be",
+        "I typically work from coffee shops, libraries, or shared spaces outside my home"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which microsoft 365 applications do you use regularly? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Word",
+        "Excel",
+        "Outlook",
+        "Teams",
+        "SharePoint / OneDrive",
+        "PowerPoint",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_5",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_6",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1778618113026_question_6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "High school diploma or GED",
+        "Some college, no degree",
+        "Associate degree",
+        "Bachelor's degree",
+        "Master's degree or higher",
+        "Trade, technical, or vocational certification"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following cybersecurity or grc certifications do you currently hold? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Security+",
+        "CC (Certified in Cybersecurity -- ISC2)",
+        "SSCP",
+        "CISA",
+        "CISM",
+        "CRISC",
+        "CISSP",
+        "CCP (Certified CMMC Professional)",
+        "CCA (Certified CMMC Assessor)",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently bound by a non-compete, non-solicitation, or similar agreement that could restrict your ability to work for hotman group or its clients?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you consent to a background check as a condition of employment or contract engagement?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to provide professional references?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_11",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_12",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_12",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_13",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_13",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_14",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_14",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_15",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_15",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_16",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_16",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_17",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_17",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a client asks you to mark several nist sp 800-171 practices as implemented in their ssp because they plan to implement the controls within the next 90 days. they say their previous consultant did it this way. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Mark them as implemented -- the client has confirmed their intent and 90 days is a reasonable window",
+        "Mark them as implemented with a note that implementation is planned -- that way the record reflects the situation",
+        "Explain that practices cannot be marked as implemented until they are actually in place, document the planned controls as part of the POA&M instead, and note the target dates there",
+        "Escalate to your engagement lead before responding since this involves a documentation integrity question"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_18",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you are mid-engagement and a client's it team tells you that a system containing cui was not included in the original scoping discussion. it is clearly within the cui boundary. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Stay focused on the original scope -- what was not included in scoping is not your responsibility on this engagement",
+        "Document what you found, flag it to your engagement lead immediately, and raise it with the client as a scoping gap that needs to be addressed",
+        "Address it yourself within your current engagement to make sure the client is protected",
+        "Mention it verbally to the client without documenting it or looping in your engagement lead"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_19",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a client wants to use a cloud service that is not fedramp authorized to store and process cui. they say it is widely used in their industry and they have not had any issues. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Document their preference and proceed -- it is their environment and their risk to accept",
+        "Explain the DFARS and CMMC requirements around CUI protection clearly, document your recommendation against it, and let them make an informed decision with full awareness of the compliance and contractual risk",
+        "Escalate to your engagement lead before responding since this involves a significant compliance risk",
+        "Flag it as a low-priority observation since the client has assessed the risk themselves"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_20",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "you have been on an engagement for a month and feel like you are not being given enough responsibility. the work assigned to you feels below your capability. what do you do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Keep delivering on what is in front of you and trust that more responsibility will follow as you demonstrate your work",
+        "Identify what you would need to demonstrate to take on more and start building toward it within your current assignments",
+        "Raise it with your manager and ask when you can expect to be given more complex work",
+        "Start assessing whether other engagements or firms would give you more responsibility sooner"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_21",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following have you done in the past 12 months? select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Earned a cybersecurity or GRC certification",
+        "Currently studying for a certification",
+        "Attended a conference, webinar, or industry event in this field",
+        "Completed a structured course or training program related to CMMC, NIST, or federal compliance",
+        "Followed CMMC rulemaking updates or DoD guidance releases as they were published",
+        "Wrote an article, blog post, or internal guidance document on a compliance topic",
+        "None of the above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1778618113026_question_22",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_23",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_23",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_24",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_24",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes what energizes you most about the way you work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Solving a hard one-time compliance problem and finding the right answer",
+        "Getting through engagements as efficiently as possible so there is room for the next one",
+        "Delivering work that genuinely moves a client toward a defensible compliance posture, even when that means going beyond what was scoped",
+        "Going deep on CMMC and NIST until you are the most knowledgeable person on any engagement"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_25",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of these sounds most like the kind of work you want to do?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Working through a defined control set and producing clean, accurate documentation",
+        "Getting clients through their assessments as efficiently as possible",
+        "Helping clients build compliance programs that are defensible, practical, and actually reduce risk",
+        "Becoming the deepest technical expert on CMMC and NIST in any room you are in"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_26",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are you most hoping to get out of this role?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hands-on experience supporting real CMMC and federal compliance engagements across a range of client environments",
+        "A clearly defined advancement path with benchmarks for progression",
+        "Predictable hours and a stable, well-defined scope of work",
+        "Close mentorship and day-to-day guidance from senior leadership on delivery decisions"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1778618113026_question_27",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_28",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": null,
+        "name": "section_1778618113026_question_28",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1778618113026_question_29",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1778618113026_question_29",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

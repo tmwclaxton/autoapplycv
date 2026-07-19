@@ -1,0 +1,170 @@
+{
+  "id": "https-institutminestelecom-recruitee-com-o-candidature-spontanee-1-c-new",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-6",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Prénom et nom",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-7",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre adresse e-mail",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-8",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre numéro de téléphone",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "photo",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.photo-9",
+        "name": "candidate.photo",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-21",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ma candidature concerne le domaine suivant :",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Ressources Humaines",
+        "Comptabilité Finances Achat",
+        "Secrétariat / Administratif",
+        "Informatique",
+        "International / Langues",
+        "Laboratoire / Recherche",
+        "Centre de documentation",
+        "Communication",
+        "Enseignement",
+        "Logistique/ Bâtiment",
+        "Autres"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.3106076.multiContent-22-0",
+        "name": "candidate.openQuestionAnswers.3106076.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "accords juridiques",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Je reconnais avoir pris connaissance des informations suivantes. Les informations recueillies sur ce formulaire font l'objet d'un traitement géré par la Direction des Ressources Humaines de l’Institut Mines-Télécom, et dont la finalité est la gestion des candidatures. Le responsable de traitement est l'Institut Mines-Télécom (IMT). La durée légale de conservation de ces données est de 2 ans pour les candidatures non retenues. Conformément au Règlement (UE) 2016/679 (Règlement Général sur la Protection des Données), vous pouvez exercer vos droits d'accès, de rectification, de suppression, de portabilité et de limitation en vous adressant au Délégué à la Protection des Données de l’Institut Mines-Télécom : dpo@imt.fr"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

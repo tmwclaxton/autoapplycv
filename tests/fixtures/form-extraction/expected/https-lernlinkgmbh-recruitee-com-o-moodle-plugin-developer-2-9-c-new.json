@@ -1,0 +1,228 @@
+{
+  "id": "https-lernlinkgmbh-recruitee-com-o-moodle-plugin-developer-2-9-c-new",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "vor- und nachname",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-3",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Vor- und Nachname",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e-mail-adresse",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-4",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ihre E-Mail-Adresse",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefonnummer",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-5",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Telefonnummer",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lebenslauf",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.cv-9",
+        "name": "candidate.cv",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "anschreiben",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-15",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i understand, that i need experience with moodle development",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Ja",
+        "Nein"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5444754.flag-16-0",
+        "name": "candidate.openQuestionAnswers.5444754.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you experienced in passing validation checks on github and publishing plugins on moodle.org/plugins?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Ja",
+        "Nein"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5444755.flag-17-0",
+        "name": "candidate.openQuestionAnswers.5444755.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "add here the link to the official moodle coding guide - we will not answer if this field is empty",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.5444756.content-18",
+        "name": "candidate.openQuestionAnswers.5444756.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you familiar with and able to follow the moodle coding style?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Ja",
+        "Nein"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5444757.flag-19-0",
+        "name": "candidate.openQuestionAnswers.5444757.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "provide your moodle protfolio: links to github repos, moodle.org/plugin examples e.g. -we will not answer if this field is empty",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.5444758.content-20",
+        "name": "candidate.openQuestionAnswers.5444758.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

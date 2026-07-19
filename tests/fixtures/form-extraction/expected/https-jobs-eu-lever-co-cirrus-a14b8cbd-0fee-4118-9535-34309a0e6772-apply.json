@@ -1,0 +1,472 @@
+{
+  "id": "https-jobs-eu-lever-co-cirrus-a14b8cbd-0fee-4118-9535-34309a0e6772-apply",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "resume-upload-input",
+        "name": "resume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you based within commutable distance of the work location listed in the job posting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am located within a commutable distance to this office",
+        "No, I am not located within a commutable distance to this office"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[0d08ff62-4f50-457d-9c1e-574744fab2e9][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you answered no the above question, are you willing to relocate before beginning employment with cirrus logic?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am willing to relocate to a commutable distance of this office.",
+        "No, I am not willing to relocate."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[0d08ff62-4f50-457d-9c1e-574744fab2e9][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you a us citizen, legal permanent resident, asylee, or refugee?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[d18c1078-1ee3-486d-8bbd-8194671db544][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you answered no to the above question, what type of visa are you on:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "H1B visa",
+        "F1 or OPT/CPT",
+        "TN visa",
+        "O1 visa",
+        "J1 visa",
+        "H4 with EAD",
+        "AOS EAD",
+        "L2",
+        "Other",
+        "N/A - I am a US citizen, legal permanent resident, asylee or refugee"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[d18c1078-1ee3-486d-8bbd-8194671db544][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cirrus logic is committed to safeguarding your personal information. various data protection laws require us to share detailed information about how we process the personal information that we may collect about you during our recruitment and onboarding processes. this invariably results in long, formal notices using technical and legal jargon, so in summary: a. we will only ask you for relevant information; b. we endeavor to only share relevant information within the cirrus logic group of companies, and with trusted third parties, as needed to enable us to administer the recruitment process and, for successful candidates, the subsequent onboarding process; c. we work hard to review our processes and systems to ensure we keep secure the information you provide to us, and we commit to deleting it in line with established retention periods; and d. we are here to answer any questions you may have around how your personal information is used, shared, stored or deleted during the recruitment process. you can contact us via your recruitment contact or by using our data.protection@cirrus.com email address. for more on what personal data we collect, who processes it and why, and what we might do with it, please take a look at our recruitment privacy notice (complete with technical and legal jargon!) here https://cirrus.com/gdpr-privacy-notice/.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Acknowledged"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[9d175a52-dea2-4ea2-a8ed-3c82fb6fb552][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race/ethnicity",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hispanic or Latino",
+        "White (Not Hispanic or Latino)",
+        "Black or African American (Not Hispanic or Latino)",
+        "Asian (Not Hispanic or Latino)",
+        "Native Hawaiian or other Pacific Islander (Not Hispanic or Latino)",
+        "American Indian or Alaska Native (Not Hispanic or Latino)",
+        "2 or more races",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sex",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran status",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I identify as one or more of the classifications of protected veteran listed above.",
+        "I am not a protected veteran.",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field2]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "disability status",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes. I have a disability or have had one in the past.",
+        "No. I do not have a disability and have not had one in the past.",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field3]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

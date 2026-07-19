@@ -1,0 +1,512 @@
+{
+  "id": "https-securitas-teamtailor-com-jobs-7676694-senior-data-scientist-applications-n",
+  "min_fields": 23,
+  "exact_field_count": 23,
+  "fields": [
+    {
+      "question": "analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current location?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_0_text",
+        "name": "candidate[answers_attributes][0][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "depending on where you live - are you able to work in a hybrid working model from our malmö/stockholm office?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_1_text",
+        "name": "candidate[answers_attributes][1][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your proficiency in english?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_2_text",
+        "name": "candidate[answers_attributes][2][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "range-custom_number",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": "range-custom_number",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "5",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "on a scale of 0 to 5, how would you rate your python proficiency?",
+      "field_type": "range",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "range",
+        "id": "candidate_answers_attributes_3_range",
+        "name": "candidate[answers_attributes][3][range]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "5",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which cloud platforms do you have experience working with? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "AWS",
+        "GCP",
+        "Azure",
+        "None"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_answers_attributes_4_choices_1",
+        "name": "candidate[answers_attributes][4][choices][]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following genai areas have you worked with? please select all that apply.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience with mentoring junior team members?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "boolean-32989192-true",
+        "name": "candidate[answers_attributes][6][boolean]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_answers_attributes_7_text",
+        "name": "candidate[answers_attributes][7][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please indicate your desired compensation range for this role (sek/gross).",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_8_text",
+        "name": "candidate[answers_attributes][8][text]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "locations",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Malmö",
+        "Stockholm",
+        "Sweden"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_location_ids_29902",
+        "name": "candidate[location_ids][]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[first name]",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_first_name",
+        "name": "candidate[first_name]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[last name]",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_last_name",
+        "name": "candidate[last_name]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[email]",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidate_email",
+        "name": "candidate[email]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidate_phone",
+        "name": "candidate[phone]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+44 7400 123456",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "candidate[location][query]",
+      "field_type": "select",
+      "max_chars": 200,
+      "options": [
+        "London, United Kingdom",
+        "City of London, London, United Kingdom",
+        "London Heathrow Airport, Hounslow, United Kingdom"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_location",
+        "name": "candidate[location][query]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Start typing your address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "candidate_resume_remote_url",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional files",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "candidate_file_remote_url",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_job_applications_attributes_0_cover_letter",
+        "name": "candidate[job_applications_attributes][0][cover_letter]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "commit",
+      "field_type": "submit",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "submit",
+        "id": null,
+        "name": "commit",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "iti-0__search-input",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

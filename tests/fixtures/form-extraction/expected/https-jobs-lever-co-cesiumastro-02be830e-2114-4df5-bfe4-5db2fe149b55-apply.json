@@ -1,0 +1,417 @@
+{
+  "id": "https-jobs-lever-co-cesiumastro-02be830e-2114-4df5-bfe4-5db2fe149b55-apply",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "resume-upload-input",
+        "name": "resume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "by submitting your application, you hereby certify that the facts set forth in the above employment application are true and complete to the best of your knowledge. i certify that the information on this application is accurate and complete to the best of my knowledge and agree to have any of the information verified by cesiumastro (the “company”). by my signature below, i authorize any references submitted by me to the company in support of this application to provide any and all information concerning my previous employment and any other pertinent information that they may have. further, i release the company and any other parties, agents, or persons from any and all liability or claims arising out of the disclosure or use of references or other information provided to the company during the process of verifying the statements made in this application. i understand that any misrepresentation, falsification, or material omission of information on this application may result in my failure to receive an offer or, if i am hired, will result in my dismissal from employment. furthermore, if hired, in consideration of my employment i agree to conform to the policies, rules and standards of the company, including applicable safety rules. i acknowledge that i have personally completed this application, i have read all of the above statements, and understand them and agree to the terms and conditions therein. i confirm that i understand that my application may be subject to security checks under government regulations applicable in the aerospace and defense industry sectors.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[d3e791aa-90fd-44b7-96ec-910e5db54ed3][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require immigration sponsorship for employment with cesiumastro?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[a466c661-e0ed-4eec-93f1-4933045ed2b3][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i have applied for employment with cesiumastro inc. (the “company”), including any subsidiary entities. in consideration of the company's accepting and evaluating my application for employment, i hereby agree that i will comply with and be legally bound by the following terms and condition of this agreement: 1. maintaining the confidentiality of company proprietary information. i understand that cesiumastro inc. is an innovative company engaged in research and development, and that the company's innovations and other proprietary information (as defined below) provide the company with a competitive advantage in the marketplace. accordingly, i agree to hold in strictest confidence, and not to disclose or make any use of at any time, any of the company’s proprietary information which i may acquire or learn during my interview(s) or the application process for employment. the term “proprietary information” shall mean any and all trade secrets, confidential knowledge, data or any other proprietary information pertaining to any business of the company or any of its customers, vendors, consultants, licensees or affiliates. 2. maintaining confidentiality of proprietary information of former employers or otherwise acquired by me prior to my employment with the company. i represent and agree that i will not breach any agreement to keep in confidence any third-party proprietary information, knowledge or data acquired by me in confidence or in trust prior to my application for employment with the company. i will not improperly use, disclose or bring to the company, or induce the company to use, any confidential or proprietary information, documents or materials belonging to any previous employer or third parties.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree with the above obligations related to protection of Proprietary Information."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[3165114e-e438-4caa-ac6a-4d2ce1b748ef][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[gender]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Race Hispanic or LatinoA person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.White (Not Hispanic or Latino)A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.Black or African American (Not Hispanic or Latino)A person having origins in any of the black racial groups of Africa.Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.Asian (Not Hispanic or Latino)A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.Decline to self-identify",
+        "White (Not Hispanic or Latino)A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",
+        "Black or African American (Not Hispanic or Latino)A person having origins in any of the black racial groups of Africa.",
+        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",
+        "Asian (Not Hispanic or Latino)A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",
+        "American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.",
+        "Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "eeo[race]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "I identify as one or more of the classifications of protected veteran listed above",
+        "I am not a protected veteran",
+        "I decline to self-identify for protected veteran status"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[veteran]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "disability status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disabilitySelectElement",
+        "name": "eeo[disability]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignature]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignatureDate]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "MM/DD/YYYY",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "by applying for this position, your data will be processed as per cesiumastro's .",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By applying for this position, your data will be processed as per CesiumAstro's ."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[store]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cesiumastro has my consent to contact me about future job opportunities.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "CesiumAstro has my consent to contact me about future job opportunities."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

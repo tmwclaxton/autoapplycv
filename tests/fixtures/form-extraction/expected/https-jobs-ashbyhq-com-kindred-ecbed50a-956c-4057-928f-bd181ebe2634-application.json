@@ -1,0 +1,482 @@
+{
+  "id": "https-jobs-ashbyhq-com-kindred-ecbed50a-956c-4057-928f-bd181ebe2634-application",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "will you now or in the future require kindred to sponsor an immigration case in order to employ you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c8a255ef-176e-42d3-8b57-47a0738ba3ea",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name (legal)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "938afce6-11c1-45ba-8956-9dec70df1ab3",
+        "name": "938afce6-11c1-45ba-8956-9dec70df1ab3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "938afce6-11c1-45ba-8956-9dec70df1ab3",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "c208a0e6-3328-4179-a7d5-5cb6519ea9dc",
+        "name": "c208a0e6-3328-4179-a7d5-5cb6519ea9dc",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c208a0e6-3328-4179-a7d5-5cb6519ea9dc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are the pronouns that you would like our team to use when addressing you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Prefer not to say",
+        "Not represented here",
+        "She/Her",
+        "He/Him",
+        "They/Them",
+        "Xe/Xem",
+        "Ze/Hir"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "15fadc00-a884-45db-82ff-e0522e9e7b90_7b930ff7-8e78-44b6-aee8-acc4b826435b-labeled-radio-0",
+        "name": "15fadc00-a884-45db-82ff-e0522e9e7b90_7b930ff7-8e78-44b6-aee8-acc4b826435b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "49530f53-1dac-4f13-9f3c-74b11a713099",
+        "name": "49530f53-1dac-4f13-9f3c-74b11a713099",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "49530f53-1dac-4f13-9f3c-74b11a713099",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5c3bc488-743d-495c-a495-1bdc4dbb86f9",
+        "name": "5c3bc488-743d-495c-a495-1bdc4dbb86f9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "5c3bc488-743d-495c-a495-1bdc4dbb86f9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "19bd58ae-0c3b-4ff4-87a8-a006ec345394",
+        "name": "19bd58ae-0c3b-4ff4-87a8-a006ec345394",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "19bd58ae-0c3b-4ff4-87a8-a006ec345394",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0d955d89-a903-40e3-b02f-4a60e36b3c8c",
+        "name": "0d955d89-a903-40e3-b02f-4a60e36b3c8c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "0d955d89-a903-40e3-b02f-4a60e36b3c8c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b2d6d9d5-b091-4c8e-978f-57da50ec7047",
+        "name": "b2d6d9d5-b091-4c8e-978f-57da50ec7047",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "b2d6d9d5-b091-4c8e-978f-57da50ec7047",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what attracts you to this opportunity at kindred?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "2ba21efc-924b-4cb8-be71-271c8a90e51a",
+        "name": "2ba21efc-924b-4cb8-be71-271c8a90e51a",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "2ba21efc-924b-4cb8-be71-271c8a90e51a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Under 30",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68-labeled-radio-0",
+        "name": "c965cff5-e060-4491-8428-9cc8164e3bd5_cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-Binary",
+        "Another Gender Identity",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "c965cff5-e060-4491-8428-9cc8164e3bd5_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_0a90dc7e-908c-449f-9151-95612d844b10-labeled-radio-0",
+        "name": "c965cff5-e060-4491-8428-9cc8164e3bd5_0a90dc7e-908c-449f-9151-95612d844b10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bisexual",
+        "Lesbian",
+        "Gay",
+        "Queer",
+        "Heterosexual / straight",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-0",
+        "name": "Bisexual",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian or Asian American",
+        "Black or African American",
+        "Hispanic or Latine",
+        "Indigenous or Native American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-0",
+        "name": "Asian or Asian American",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Person with disability",
+        "Neurodiverse",
+        "Veteran",
+        "Parent",
+        "Refugee or immigrant",
+        "None of the above",
+        "I prefer not to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c965cff5-e060-4491-8428-9cc8164e3bd5_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-0",
+        "name": "Person with disability",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

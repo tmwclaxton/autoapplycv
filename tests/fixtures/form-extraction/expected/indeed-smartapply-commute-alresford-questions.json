@@ -1,0 +1,122 @@
+{
+  "id": "indeed-smartapply-commute-alresford-questions",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "what specifically about first option software or this specific role made you want to apply?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:ra6:",
+        "name": "q_2708d4b32286a99f972aec889187bfb6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you able to reliably commute to our office in alresford (near winchester) at least twice a week?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:ra9:",
+        "name": "q_21cdb7a8c060fddaf3f44bd664d62728",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of node.js experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "number-input-:rac:",
+        "name": "q_8b81412486876a82f7e181dfafa39956",
+        "data_testid": "input-q_8b81412486876a82f7e181dfafa39956-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "99",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of typescript experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "number-input-:raf:",
+        "name": "q_b8460769844b6e68dda46a0e670ae655",
+        "data_testid": "input-q_b8460769844b6e68dda46a0e670ae655-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "99",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "None",
+        "GCSE or equivalent",
+        "A-Level or equivalent"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "single-select-question-:r9o:",
+        "name": null,
+        "data_testid": "input-q_756962030c754bc50f9c36ce31f6907f-select-list-select-list",
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

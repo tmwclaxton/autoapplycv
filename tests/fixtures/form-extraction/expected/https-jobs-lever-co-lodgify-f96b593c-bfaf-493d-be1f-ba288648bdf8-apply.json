@@ -1,0 +1,528 @@
+{
+  "id": "https-jobs-lever-co-lodgify-f96b593c-bfaf-493d-be1f-ba288648bdf8-apply",
+  "min_fields": 22,
+  "exact_field_count": 22,
+  "fields": [
+    {
+      "question": "resume/cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "resume-upload-input",
+        "name": "resume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your level of english?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Native/Near Native",
+        "Advanced/Professional",
+        "Intermediate/Conversational",
+        "Basic"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[02843f29-7bf8-4c73-b05c-ba618a4f1e98][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what country are you based in?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[73a4d6ff-1d90-434e-939c-53093a5684f7][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently based in barcelona or willing to relocate for this position?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I'm based in Barcelona",
+        "I am actively exploring relocation opportunities in Barcelona",
+        "I am actively exploring relocation opportunities in Barcelona (or anywhere in Spain)",
+        "I am open to relocating if the role requires it and aligns with my career aspirations.",
+        "I'm not open to relocating at the moment"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[73a4d6ff-1d90-434e-939c-53093a5684f7][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship to work in spain?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I would require visa sponsorship",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[73a4d6ff-1d90-434e-939c-53093a5684f7][field2]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Lodgify Careers Page",
+        "LinkedIn",
+        "Social Media (Instagram/TikTok/Twitter)",
+        "Career Fair",
+        "University Portal",
+        "Other Job Portal (Indeed, etc.)",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[34edd210-381b-46e0-b5cd-84e53499bcb5][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we are committed to fostering an inclusive workplace. to help meet diversity goals and comply with reporting requirements, we invite you to voluntarily share demographic information. participation is optional and will not impact your hiring process or employment opportunity. your responses will remain confidential and help us learn how we can expand diversity in our candidate pool while ensuring equal opportunities. what gender do you identify as?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Other",
+        "I prefer not to disclose"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[c91a397a-b3f5-4cbe-aefc-283020a59d27][field0]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which seniority level adjusts best to your experience?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Intern",
+        "Junior",
+        "Mid-level",
+        "Senior",
+        "Team Lead",
+        "Manager",
+        "Head of Department"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field1]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you currently own or manage one or more vacation rental properties?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field2]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes (optional), we'd love to know about your experience!",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field3]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your level of english?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Native /Near native",
+        "Professional / Advanced",
+        "Intermediate / Conversational",
+        "Basic"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field4]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in which location of the following ones are you based in:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Latin America & Caribbean",
+        "Usa & Canada",
+        "Europe & UK",
+        "Middle East & Africa",
+        "Asia-Pacific"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field6]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if the role requires, would you be willing to relocate to barcelona for this role?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No need, I’m already based in Barcelona and ready to work!",
+        "No, I’m not looking to relocate at the moment.",
+        "Yes, I am open to relocating, but would require visa sponsorship to work in Spain.",
+        "Yes, I am open to relocating and hold an EU passport."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field7]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which annual salary range are you expecting for a role at lodgify? please include currency in your answer.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[14f09104-0c88-4bee-9f2e-23e4ee258eff][field8]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your response",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yes, lodgify can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Lodgify can contact me about future job opportunities for up to 2 yearsPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

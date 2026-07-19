@@ -1,0 +1,1202 @@
+{
+  "id": "https-www-reed-co-uk-jobs-software-engineer-jobs-in-london",
+  "min_fields": 49,
+  "exact_field_count": 49,
+  "fields": [
+    {
+      "question": "e.g. \"it support\"",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "keywords",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. \"it support\"",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "town or postcode",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "location",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "town or postcode",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select a proximity",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "0 miles",
+        "1 miles",
+        "3 miles",
+        "5 miles",
+        "10 miles",
+        "15 miles",
+        "20 miles",
+        "30 miles",
+        "50 miles"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "proximity",
+        "name": "proximity",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select a salary from",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "£ Any",
+        "Up to £10,000",
+        "£12,000",
+        "£14,000",
+        "£16,000",
+        "£18,000",
+        "£20,000",
+        "£22,000",
+        "£24,000",
+        "£26,000",
+        "£28,000",
+        "£30,000",
+        "£32,000",
+        "£34,000",
+        "£36,000",
+        "£38,000",
+        "£40,000",
+        "£42,000",
+        "£44,000",
+        "£46,000",
+        "£48,000",
+        "£50,000",
+        "£55,000",
+        "£60,000",
+        "£65,000",
+        "£70,000",
+        "£75,000",
+        "£80,000",
+        "£85,000",
+        "£90,000"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "salaryFrom",
+        "name": "salaryFrom",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select a salary to",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "£ Any",
+        "Up to £10,000",
+        "£12,000",
+        "£14,000",
+        "£16,000",
+        "£18,000",
+        "£20,000",
+        "£22,000",
+        "£24,000",
+        "£26,000",
+        "£28,000",
+        "£30,000",
+        "£32,000",
+        "£34,000",
+        "£36,000",
+        "£38,000",
+        "£40,000",
+        "£42,000",
+        "£44,000",
+        "£46,000",
+        "£48,000",
+        "£50,000",
+        "£55,000",
+        "£60,000",
+        "£65,000",
+        "£70,000",
+        "£75,000",
+        "£80,000",
+        "£85,000",
+        "£90,000"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "salaryTo",
+        "name": "salaryTo",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "permanent(937)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Permanent(937)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "perm",
+        "name": "perm",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "temporary(17)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Temporary(17)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "temp",
+        "name": "temp",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "contract(175)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Contract(175)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "contract",
+        "name": "contract",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full-time(1,128)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Full-time(1,128)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "fullTime",
+        "name": "fullTime",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "part-time(12)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Part-time(12)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "partTime",
+        "name": "partTime",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work from home(211)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Work from home(211)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "remoteWorkingOption",
+        "name": "remoteWorkingOption",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "agency(665)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Agency(665)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "agency",
+        "name": "agency",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "employer(464)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Employer(464)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "direct",
+        "name": "direct",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jobs without salary displayed",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Jobs without salary displayed"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "excludeSalaryDescriptions",
+        "name": "excludeSalaryDescriptions",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "training courses(128)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Training courses(128)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hideTrainingJobs",
+        "name": "hideTrainingJobs",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "survey jobs",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Survey jobs"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hideSurveyJobs",
+        "name": "hideSurveyJobs",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select date posted within",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Anytime",
+        "Today (259)",
+        "Last three days (291)",
+        "Last week (434)",
+        "Last two weeks (605)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "dateCreatedOffSet",
+        "name": "dateCreatedOffSet",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "it & telecoms(815)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "IT & Telecoms(815)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.52",
+        "name": "parentSectorIds.52",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "engineering(87)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Engineering(87)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.12",
+        "name": "parentSectorIds.12",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "strategy & consultancy(86)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Strategy & Consultancy(86)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.1755",
+        "name": "parentSectorIds.1755",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "banking(34)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Banking(34)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.5",
+        "name": "parentSectorIds.5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "construction & property(20)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Construction & Property(20)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.146",
+        "name": "parentSectorIds.146",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "financial services(9)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Financial Services(9)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.117",
+        "name": "parentSectorIds.117",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "admin, secretarial & pa(8)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Admin, Secretarial & PA(8)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.3",
+        "name": "parentSectorIds.3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sales(8)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sales(8)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.30",
+        "name": "parentSectorIds.30",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "recruitment consultancy(8)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Recruitment Consultancy(8)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.338",
+        "name": "parentSectorIds.338",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "manufacturing(7)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Manufacturing(7)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.168",
+        "name": "parentSectorIds.168",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "media, digital & creative(7)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Media, Digital & Creative(7)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.71",
+        "name": "parentSectorIds.71",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "energy(6)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Energy(6)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.1961",
+        "name": "parentSectorIds.1961",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "general insurance(5)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "General Insurance(5)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.16",
+        "name": "parentSectorIds.16",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "transport & logistics(4)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Transport & Logistics(4)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.11",
+        "name": "parentSectorIds.11",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "graduate training & internships(4)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Graduate Training & Internships(4)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.169",
+        "name": "parentSectorIds.169",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Legal(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.101",
+        "name": "parentSectorIds.101",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "social care(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Social Care(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.34",
+        "name": "parentSectorIds.34",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "retail(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Retail(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.90",
+        "name": "parentSectorIds.90",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "accountancy (qualified)(1)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Accountancy (Qualified)(1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.100",
+        "name": "parentSectorIds.100",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.21",
+        "name": "parentSectorIds.21",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "apprenticeships(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Apprenticeships(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.1964",
+        "name": "parentSectorIds.1964",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "estate agency(1)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Estate Agency(1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.1962",
+        "name": "parentSectorIds.1962",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "marketing & pr(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing & PR(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.18",
+        "name": "parentSectorIds.18",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "customer service(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Customer Service(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.66",
+        "name": "parentSectorIds.66",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "education(1)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Education(1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.68",
+        "name": "parentSectorIds.68",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "motoring & automotive(1)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Motoring & Automotive(1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.1700",
+        "name": "parentSectorIds.1700",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "scientific(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Scientific(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.89",
+        "name": "parentSectorIds.89",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "charity & voluntary(1)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Charity & Voluntary(1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "parentSectorIds.500",
+        "name": "parentSectorIds.500",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "graduate",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Graduate"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "graduate",
+        "name": "graduate",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "early bird(8)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Early bird(8)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "isEarlyBird",
+        "name": "isEarlyBird",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "easy apply",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Easy apply"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "isEasyApply",
+        "name": "isEasyApply",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "visa sponsorship(2)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Visa sponsorship(2)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "visaSponsorship",
+        "name": "visaSponsorship",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

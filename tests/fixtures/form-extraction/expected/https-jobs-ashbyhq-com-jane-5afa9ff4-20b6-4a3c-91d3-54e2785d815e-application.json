@@ -1,0 +1,716 @@
+{
+  "id": "https-jobs-ashbyhq-com-jane-5afa9ff4-20b6-4a3c-91d3-54e2785d815e-application",
+  "min_fields": 32,
+  "exact_field_count": 32,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "currentCompany",
+        "name": "currentCompany",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "currentCompany",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what industry are you currently working in, or what was your most recent industry?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "df0dc1d4-7418-4c90-9871-2bd3747bf548",
+        "name": "df0dc1d4-7418-4c90-9871-2bd3747bf548",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "df0dc1d4-7418-4c90-9871-2bd3747bf548",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what city are you currently based in?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cdb5f391-8806-4c76-b930-1de83d15791b",
+        "name": "cdb5f391-8806-4c76-b930-1de83d15791b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "cdb5f391-8806-4c76-b930-1de83d15791b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what country are you based in?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "currentLocation",
+        "name": "currentLocation",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "currentLocation",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what province are you based in?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "4a17b61c-8153-4152-97b8-26f6b2eee75d",
+        "name": "4a17b61c-8153-4152-97b8-26f6b2eee75d",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "4a17b61c-8153-4152-97b8-26f6b2eee75d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "phone",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional information",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "additionalInformation",
+        "name": "additionalInformation",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "additionalInformation",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "at jane, we openly embrace the use of ai in our day-to-day work and throughout the interview process, including transcription tools that help us stay present and focus on deeper, more meaningful conversations. are you comfortable with this?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I’m comfortable with this and excited to move forward",
+        "No, this approach isn’t for me right now."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3dfab55c-cab3-4356-894e-22d2943796bc_1130bb47-5134-4231-b2e8-308193367378-labeled-radio-0",
+        "name": "3dfab55c-cab3-4356-894e-22d2943796bc_1130bb47-5134-4231-b2e8-308193367378",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "as part of your application, we’d love to hear from you directly by recording a video of yourself. the question: in 60–120 seconds, tell us why you're excited about this role at jane, and what draws you to customer support specifically. you might consider: what stood out to you about jane or our mission what excites you about doing meaningful support work why this kind of fast-paced, real-time problem solving appeals to you how your values or strengths align with the way we work we want to know why this role, here, now, not just that you're looking for “a remote job in tech.” we recommend using loom to record the video and share the link here.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "75c33c6c-0114-40be-8d99-61af4911d59f",
+        "name": "75c33c6c-0114-40be-8d99-61af4911d59f",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "75c33c6c-0114-40be-8d99-61af4911d59f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "again creating another video of youself. in under 90 seconds, walk us through how you'd troubleshoot a situation where a customer says, 'your software isn't working.' you can't see their screen. what would you do first, second, and third?",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "ebea817d-798f-456e-b24f-77b64f7b161e",
+        "name": "ebea817d-798f-456e-b24f-77b64f7b161e",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "ebea817d-798f-456e-b24f-77b64f7b161e",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's the toughest job you've had? what made it challenging, and what did you learn that stuck with you?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "3b17f383-6f20-4421-a412-0aa3d0a6a418",
+        "name": "3b17f383-6f20-4421-a412-0aa3d0a6a418",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "3b17f383-6f20-4421-a412-0aa3d0a6a418",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about a time you had to learn a new tool or system on your own. how did you go about it?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "5cd0d888-b7e5-4a5f-b6fc-dcd678fa1804",
+        "name": "5cd0d888-b7e5-4a5f-b6fc-dcd678fa1804",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "5cd0d888-b7e5-4a5f-b6fc-dcd678fa1804",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role involves back-to-back customer calls, structured schedules, and frequent context-switching — all while working remotely. what's your strategy for staying energized and focused in that environment? tell us about a time you've managed something similar.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "bb63cd64-421a-46a0-a49a-aa5d335c32b4",
+        "name": "bb63cd64-421a-46a0-a49a-aa5d335c32b4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "bb63cd64-421a-46a0-a49a-aa5d335c32b4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about a time you noticed a customer (or teammate) was headed toward a problem before it happened. what did you do, and what was the result?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "2b325e46-31cc-4b14-9851-0ea1eaaa8db6",
+        "name": "2b325e46-31cc-4b14-9851-0ea1eaaa8db6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "2b325e46-31cc-4b14-9851-0ea1eaaa8db6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you currently use ai or technology to work smarter? give us a specific example where it meaningfully changed your approach or output. what excites you, and what concerns you the most about ai?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e4baf77e-5613-4661-bdb6-3411608b8964",
+        "name": "e4baf77e-5613-4661-bdb6-3411608b8964",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "e4baf77e-5613-4661-bdb6-3411608b8964",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "c89c658a-7514-4409-8f17-1b5c74d62522",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c89c658a-7514-4409-8f17-1b5c74d62522",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we would love to know! 😊",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I have used Jane as a patient",
+        "I've worked with Jane in a clinic",
+        "LinkedIn",
+        "Jane Employee",
+        "Indeed"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3dfab55c-cab3-4356-894e-22d2943796bc_a4db2ad4-9522-45dd-9b83-5026f378d932-labeled-radio-0",
+        "name": "3dfab55c-cab3-4356-894e-22d2943796bc_a4db2ad4-9522-45dd-9b83-5026f378d932",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "566cf653-7512-4871-8a39-0f7c3e3f6a2b",
+        "name": "566cf653-7512-4871-8a39-0f7c3e3f6a2b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "566cf653-7512-4871-8a39-0f7c3e3f6a2b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please let us know if you have any pre-booked vacations that we should know about:",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "0665fec8-7f37-4516-b001-607d16bc608f",
+        "name": "0665fec8-7f37-4516-b001-607d16bc608f",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "0665fec8-7f37-4516-b001-607d16bc608f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please specify which timezone you're in:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Pacific Standard Time",
+        "Mountain Standard Time",
+        "Central Standard Time",
+        "Eastern Standard Time",
+        "Newfoundland Standard Time"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3dfab55c-cab3-4356-894e-22d2943796bc_ee20d7bd-6957-4e15-a02a-4d7eef69c178-labeled-radio-0",
+        "name": "3dfab55c-cab3-4356-894e-22d2943796bc_ee20d7bd-6957-4e15-a02a-4d7eef69c178",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when would you be available to start if selected for this position? (considering we generally have a hiring cohort at the beginning of a month and half way through)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f5f54250-563a-4b55-93ca-8da96c81e35e",
+        "name": "f5f54250-563a-4b55-93ca-8da96c81e35e",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "f5f54250-563a-4b55-93ca-8da96c81e35e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i acknowledge that i am available to work tuesday to saturday between the hours of 7-7 within my timezone",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I acknlowledge",
+        "No, but I would love for Jane to keep my application for future opportunities"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3dfab55c-cab3-4356-894e-22d2943796bc_1b331906-bcf5-4ef7-9400-0f503816c5a9-labeled-radio-0",
+        "name": "3dfab55c-cab3-4356-894e-22d2943796bc_1b331906-bcf5-4ef7-9400-0f503816c5a9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am legally authorized to work in Canada",
+        "No, I am not legally authorized to work in Canada (Please note: we’re not able to offer sponsorship at this time)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "3dfab55c-cab3-4356-894e-22d2943796bc_ea0ca1c2-935d-4951-9889-c980e43c8501-labeled-radio-0",
+        "name": "3dfab55c-cab3-4356-894e-22d2943796bc_ea0ca1c2-935d-4951-9889-c980e43c8501",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following best describes your gender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Woman",
+        "Man",
+        "Non-Binary / Gender-Non-conforming",
+        "Prefer Not To Say",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "db4e232f-e559-4698-8c10-879e819cb953_8d7dcc65-3a0b-476a-b679-574b869780bb-labeled-radio-0",
+        "name": "db4e232f-e559-4698-8c10-879e819cb953_8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you selected “other\", you can describe your gender in your own words below (optional).",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "44eb105d-5866-4e8f-9694-513db6da46c0",
+        "name": "44eb105d-5866-4e8f-9694-513db6da46c0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "44eb105d-5866-4e8f-9694-513db6da46c0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you part of the 2slgbtqia+ community?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Prefer Not To Say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "db4e232f-e559-4698-8c10-879e819cb953_0a90dc7e-908c-449f-9151-95612d844b10-labeled-radio-0",
+        "name": "db4e232f-e559-4698-8c10-879e819cb953_0a90dc7e-908c-449f-9151-95612d844b10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please select the race or ethnicity that you identify with most.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "f5d3fa42-6564-4517-8888-f40f5c1defa7",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you selected “another racial or ethnic identity not listed”, you can describe your identity in your own words below (optional).",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "49d524ba-b68f-4d76-a5d7-46b16328525f",
+        "name": "49d524ba-b68f-4d76-a5d7-46b16328525f",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "49d524ba-b68f-4d76-a5d7-46b16328525f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as a person with a disability (including apparent or non-apparent)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Prefer Not To Say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "db4e232f-e559-4698-8c10-879e819cb953_e6349e2d-e03d-4110-9153-5efc5cb0180d-labeled-radio-0",
+        "name": "db4e232f-e559-4698-8c10-879e819cb953_e6349e2d-e03d-4110-9153-5efc5cb0180d",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

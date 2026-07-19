@@ -1,0 +1,221 @@
+{
+  "id": "indeed-smartapply-screener-true-false-multiselect",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "where are you based? (town/city)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1a:",
+        "name": "q_a4706ecad8f67ea57c384ce5e352a49a",
+        "data_testid": "input-q_a4706ecad8f67ea57c384ce5e352a49a-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role is hybrid and based in brighton 3 days a week, can you commit to this?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "True",
+        "False"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r1d:-0",
+        "name": "q_8f260c238f3a387fd4e58c299dc970e2",
+        "data_testid": "input-q_8f260c238f3a387fd4e58c299dc970e2-single-select-question-:r1d:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what interested you in applying for this role?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:r1i:",
+        "name": "q_a4a5c2dd9c398e0a9c34d7d608af5f8d",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you require sponsorship for right to work in the uk?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "True",
+        "False"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r1l:-0",
+        "name": "q_9aaf4102ca35891f57bd36f147478f5b",
+        "data_testid": "input-q_9aaf4102ca35891f57bd36f147478f5b-single-select-question-:r1l:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in your own words, briefly describe a recent project you have been involved in within the last year. what was your role, what did you contribute, and what was the outcome?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:r1q:",
+        "name": "q_61506dbe4dec4fd492ec107dc402c38d",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you led the design, development, and delivery of a software project end-to-end?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "True",
+        "False"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r2i:-0",
+        "name": "q_ce9ca619b40a0d9af799d5bd5640960e",
+        "data_testid": "input-q_ce9ca619b40a0d9af799d5bd5640960e-single-select-question-:r2i:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please select one of the following:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am not based locally and not looking to relocate.",
+        "I am looking to relocate to this area.",
+        "I am looking for a remote role.",
+        "I am open to relocation.",
+        "I am based within 25 miles of the job location and able to commute to work."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r2n:-0",
+        "name": "q_0e467a1b384040514741586a13be946b",
+        "data_testid": "input-q_0e467a1b384040514741586a13be946b-single-select-question-:r2n:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "to continue our journey as being an employer of choice, please let us know your gender status by selecting on of the options below. the data will help us to make informed decisions about how we advertise our jobs.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female",
+        "Non-Binary"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "single-select-question-:rt:",
+        "name": null,
+        "data_testid": "input-q_7ce3396eb29eda629eaec7022ca047ba-select-list-select-list",
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please tick which areas you have experience with.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "multi-select-question-:r1t:",
+        "name": null,
+        "data_testid": "input-q_4f86d67f98508db82697c9bce74cd105-select-list-select-list",
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

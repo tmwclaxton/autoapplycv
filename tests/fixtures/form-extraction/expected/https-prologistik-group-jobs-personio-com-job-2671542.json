@@ -1,0 +1,394 @@
+{
+  "id": "https-prologistik-group-jobs-personio-com-job-2671542",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-first_name",
+        "name": "first_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Vorname",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-last_name",
+        "name": "last_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Nachname",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "field-email",
+        "name": "email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "yourmail@domain.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "telefon",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-phone",
+        "name": "phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "+49 176 123 4455",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-location",
+        "name": "location",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ort",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "verfügbar ab ( ) verfügbar ab",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-available_from",
+        "name": "available_from",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Verfügbar ab",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_1230273",
+        "name": "custom_attribute_1230273",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "LinkedIn",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wie bist du auf uns aufmerksam geworden?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Bitte auswählen",
+        "Stepstone",
+        "LinkedIn",
+        "XING",
+        "kununu",
+        "meinestadt.de",
+        "Arbeitsagentur",
+        "get in IT",
+        "Azubiyo",
+        "stellenwerk",
+        "jobteaser",
+        "it-jobs.de",
+        "Messe",
+        "Google",
+        "indeed"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_2353393",
+        "name": "custom_attribute_2353393",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gehaltsvorstellung rahmen",
+      "field_type": "text",
+      "max_chars": 5000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-custom_attribute_3591947",
+        "name": "custom_attribute_3591947",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Gehaltsvorstellung Rahmen",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "liegt dein wohnort in deutschland, in österreich oder in der schweiz?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Bitte auswählen",
+        "Ja",
+        "Nein"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3375999",
+        "name": "custom_attribute_3375999",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wie stufst du dein deutsches sprachniveau ein?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Bitte auswählen",
+        "A1 (Anfänger): Kann einfache alltägliche Ausdrücke verstehen und verwenden sowie grundlegende Fragen stellen und beantworten.",
+        "A2 (Grundlegende Kenntnisse): Kann häufig gebrauchte Sätze und Ausdrücke verstehen und mich in einfachen, routinemäßigen Situationen verständigen.",
+        "B1 (Fortgeschrittene Sprachverwendung): Kann die Hauptpunkte verstehen und mich über vertraute Themen zusammenhängend äußern.",
+        "B2 (Selbstständige Sprachverwendung): Kann komplexere Texte verstehen und mich klar und detailliert zu vielen Themen äußern.",
+        "C1 (Fortgeschrittenes Niveau): Kann anspruchsvolle Texte verstehen und mich spontan, fließend und präzise ausdrücken.",
+        "C2 (Annähernd muttersprachliche bis muttersprachliche Kenntnisse): Kann alles mühelos verstehen und mich differenziert, präzise und fließend ausdrücken."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field-custom_attribute_3375998",
+        "name": "custom_attribute_3375998",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cv",
+        "name": "documents.cv",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-cover-letter",
+        "name": "documents.cover-letter",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "employment reference",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-employment-reference",
+        "name": "documents.employment-reference",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "urkunde",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-certificate",
+        "name": "documents.certificate",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other file",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "doc-input-other",
+        "name": "documents.other",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select language, current: deutsch",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

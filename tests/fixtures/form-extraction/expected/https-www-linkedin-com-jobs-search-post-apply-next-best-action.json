@@ -1,0 +1,238 @@
+{
+  "id": "https-www-linkedin-com-jobs-search-post-apply-next-best-action",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "filter results by: distance",
+      "field_type": "range",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "range",
+        "id": "distance-filter-bar-slider",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "5",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: date posted",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Any time Filter by Any time",
+        "Past month Filter by Past month",
+        "Past week Filter by Past week",
+        "Past 24 hours Filter by Past 24 hours"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "timePostedRange-",
+        "name": "date-posted-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: experience level",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Internship Filter by Internship",
+        "Entry level Filter by Entry level",
+        "Associate Filter by Associate",
+        "Mid-Senior level Filter by Mid-Senior level",
+        "Director Filter by Director",
+        "Executive Filter by Executive"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "experience-1",
+        "name": "experience-level-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: salary",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "£20,000+ Filter by £20,000+",
+        "£30,000+ Filter by £30,000+",
+        "£40,000+ Filter by £40,000+",
+        "£50,000+ Filter by £50,000+",
+        "£60,000+ Filter by £60,000+",
+        "£70,000+ Filter by £70,000+",
+        "£80,000+ Filter by £80,000+",
+        "£90,000+ Filter by £90,000+",
+        "£100,000+ Filter by £100,000+"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "salaryBucketV2-41",
+        "name": "salary-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: company",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Add a company",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: remote",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hybrid Filter by Hybrid",
+        "On-site Filter by On-site",
+        "Remote Filter by Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "workplaceType-3",
+        "name": "remote-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "set job alert for software engineer in london",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Set job alert for Software engineer in London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "adToggle_ember30",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search by title, skill, or company",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London Area, United Kingdom",
+        "London, Canada Metropolitan Area",
+        "Greater London, England, United Kingdom"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jobs-search-box-keyword-id-ember101",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city, state, or zip code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London Area, United Kingdom",
+        "London, Canada Metropolitan Area",
+        "Greater London, England, United Kingdom"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jobs-search-box-location-id-ember101",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "View next page"
+    }
+  ],
+  "vet_notes": []
+}

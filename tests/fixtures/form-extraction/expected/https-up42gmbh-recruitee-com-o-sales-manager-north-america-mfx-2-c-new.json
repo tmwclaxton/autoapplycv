@@ -1,0 +1,261 @@
+{
+  "id": "https-up42gmbh-recruitee-com-o-sales-manager-north-america-mfx-2-c-new",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-5",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-6",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-7",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your phone number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.cv-11",
+        "name": "candidate.cv",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-17",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a background or experience in gis, remote sensing, or geospatial science?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7068256.flag-18-0",
+        "name": "candidate.openQuestionAnswers.7068256.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a valid work permission to be employed in the us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7068257.flag-19-0",
+        "name": "candidate.openQuestionAnswers.7068257.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently based in the us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7068259.flag-20-0",
+        "name": "candidate.openQuestionAnswers.7068259.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you first hear about this job opening at up42?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Glassdoor",
+        "Indeed",
+        "Women+ in Geospatial (WG+)",
+        "UP42 Careers Website",
+        "Employee Referral",
+        "Google",
+        "LinkedIn (Recruiter outreach)",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7068261.content-21-0",
+        "name": "candidate.openQuestionAnswers.7068261.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you chose \"other\", please specify where you found this job opening:",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.7068262.content-22",
+        "name": "candidate.openQuestionAnswers.7068262.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "your participation in the recruitment procedure imperatively requires the collection of your personal data. we will process your personal data exclusively for reasons of the recrui",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Your participation in the recruitment procedure imperatively requires the collection of your personal data. We will process your personal data exclusively for reasons of the recruitment process. You can find details in our privacy policy. By checking the box, you declare that you read and understand the Applicant privacy policy of UP42."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.openQuestionAnswers.7068255.flag",
+        "data_testid": "legal-input-field-value-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

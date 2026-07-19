@@ -1,0 +1,596 @@
+{
+  "id": "https-sepsis-alliance-breezy-hr-p-6b40e1948f17-member-advisory-board-apply",
+  "min_fields": 24,
+  "exact_field_count": 24,
+  "fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "main-attachment",
+        "name": "cResume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Phone Number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By providing your phone number you agree to receive informational text messages from Sepsis Alliance. Sepsis Alliance will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "smsConsent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fullAddress",
+        "name": "cAddress",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_0",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1662073691954_question_0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_1",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1662073691954_question_1",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location/time zone",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Eastern",
+        "Central",
+        "Mountain Daylight",
+        "Mountain Standard",
+        "Pacific",
+        "Alaska",
+        "Hawaii-Aleutian",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1662073691954_question_2",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have current or past experience on a board or advisory board?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1662073691954_question_3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following areas reflect your expertise? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nonprofit Management",
+        "Finance/Accounting",
+        "Fundraising/Development",
+        "Strategic Planning",
+        "Legal/Compliance",
+        "Marketing/Communications",
+        "Media/Public Relations",
+        "Technology/IT Systems",
+        "Public Health/Healthcare",
+        "Policy/Advocacy",
+        "HR/People Operations",
+        "Diversity, Equity, & Inclusion (DEI)",
+        "Program Design/Evaluation",
+        "Event Planning"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1662073691954_question_4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_5",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1662073691954_question_5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_6",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1662073691954_question_6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_7",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1662073691954_question_7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how would you most like to support the organization? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Providing strategic advice and feedback",
+        "Serving as a thought partner and leadership",
+        "Supporting fundraising and donor outreach",
+        "Helping build strategic partnerships",
+        "Mentoring or coaching staff",
+        "Reviewing policies, plans, or materials",
+        "Contributing to program development and evaluation",
+        "Speaking or representing the organization at events",
+        "Participating in working groups or special initiatives",
+        "Sharing subject matter expertise on request"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1662073691954_question_8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred style of contribution",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Strategic (vision, planning, advising)",
+        "Tactical (hands-on, project-based support)",
+        "A combination of both",
+        "Not sure yet"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1662073691954_question_9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_10",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "? undefined:undefined ?",
+        "Monthly",
+        "Quarterly",
+        "As needed/ad hoc",
+        "During scheduled advisory board meetings only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "section_1662073691954_question_10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_11",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1662073691954_question_11",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you open to helping connect us with any of the following, when appropriate? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Philanthropic foundations",
+        "Corporate sponsors or CSR teams",
+        "Government agencies or elected officials",
+        "Nonprofit peer organizations",
+        "Healthcare systems or providers",
+        "Academic or research institutions",
+        "Advocacy or policy networks",
+        "High-net-worth individuals or major donors",
+        "Media or public relations professionals",
+        "Social media influencers or public figures",
+        "Volunteers or grassroots community leaders",
+        "Event venues or production contact",
+        "Technology of software vendors",
+        "Not at this time"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1662073691954_question_12",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_13",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1662073691954_question_13",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1662073691954_question_14",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1662073691954_question_14",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "White (not Hispanic or Latino)",
+        "Black or African-American (not Hispanic or Latino)",
+        "Asian (not Hispanic or Latino)",
+        "American Indian or Alaskan Native (not Hispanic or Latino)",
+        "Native Hawaiian or other Pacific islander (not Hispanic or Latino)",
+        "Two or more races/ethnicities (not Hispanic or Latino)",
+        "Hispanic or Latino (including Black individuals whose origins are Hispanic)",
+        "I don't wish to answer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "race_white",
+        "name": "race_ethnicity",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female",
+        "I don't wish to answer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "gender_male",
+        "name": "gender",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

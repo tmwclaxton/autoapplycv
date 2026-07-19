@@ -1,0 +1,103 @@
+{
+  "id": "indeed-true-false-eligibility-radios",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "location (city, state, country)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:ru:",
+        "name": "q_884d9804999fc47a3c2694e49ad2536a",
+        "data_testid": "input-q_884d9804999fc47a3c2694e49ad2536a-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r11:",
+        "name": "q_48a4befbf7072adbf7f95f00a61693fe",
+        "data_testid": "input-q_48a4befbf7072adbf7f95f00a61693fe-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you eligible to work in the uk i.e. uk citizen, settled status or holder of permanent work visa?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "True",
+        "False"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r14:-0",
+        "name": "q_1bb484f0d0fc8af42848bab248ad9211",
+        "data_testid": "input-q_1bb484f0d0fc8af42848bab248ad9211-single-select-question-:r14:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you comfortable working in a hybrid 2 days a week in our king's cross office?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "True",
+        "False"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r19:-0",
+        "name": "q_43052eefd0796c3abf313a62c5d2a0f7",
+        "data_testid": "input-q_43052eefd0796c3abf313a62c5d2a0f7-single-select-question-:r19:-0",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}
