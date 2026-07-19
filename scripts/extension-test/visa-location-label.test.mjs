@@ -464,6 +464,28 @@ test('concise location restores High Wycombe when location truncates to Wycombe'
     );
 });
 
+test('UK profile declines USA-based confirmation even when willing_to_relocate is yes', () => {
+    const field = {
+        ref: 'f12',
+        label: "due to current team needs, we are only considering candidates based in the usa. please confirm you're based in the usa.",
+        field_type: 'radio',
+        options: [
+            'Yes, I am based in the USA.',
+            "No, I am not based in the USA, but I'm planning to relocate to the USA.",
+            'No, I am not based in the USA, nor am I open to relocating to the USA.',
+        ],
+    };
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: { willing_to_relocate: 'yes' },
+    };
+
+    assert.equal(
+        resolvePreferenceProfileAnswer(field, profile),
+        'No, I am not based in the USA, nor am I open to relocating to the USA.',
+    );
+});
+
 test('SmartRecruiters linked in maps to linkedin_url', () => {
     const profile = {
         linkedin_url: 'https://www.linkedin.com/in/toby-claxton/',

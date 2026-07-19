@@ -2627,6 +2627,54 @@ export function partitionOptionalAbsentSocialUrlFields(fields) {
 }
 
 /**
+ * Optional interview accessibility/accommodation free-text - leave blank.
+ * NanoGPT often dumps a career essay here (live Once Upon a Farm Lever).
+ */
+export function isInterviewAccommodationQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /reasonable accommodations?/.test(normalized) ||
+        (/accommodations?/.test(normalized) &&
+            /\b(?:interview|hiring process|candidates?|disability|disabilities)\b/.test(
+                normalized,
+            ))
+    ) {
+        return true;
+    }
+
+    return (
+        /inclusive interview experience/.test(normalized) &&
+        /accommodations?/.test(normalized)
+    );
+}
+
+export function partitionInterviewAccommodationFields(fields) {
+    const remainingFields = [];
+    const clearAnswers = [];
+
+    for (const field of fields || []) {
+        const label = field?.label || field?.question || '';
+
+        if (isInterviewAccommodationQuestionLabel(label)) {
+            clearAnswers.push({
+                ...field,
+                answer: '__CLEAR__',
+            });
+            continue;
+        }
+
+        remainingFields.push(field);
+    }
+
+    return { remainingFields, clearAnswers };
+}
+
+/**
  * Lever/Greenhouse "which location are you applying for?" is a job-site choice,
  * not the applicant's city/current location.
  */
@@ -4956,12 +5004,6 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
     const country = normalizeCountryNameForApply(
         readProfileValue(profileData, 'country'),
     );
-    const willingRaw = readProfileValue(
-        profileData,
-        'application_settings.willing_to_relocate',
-    );
-    const willingRelocate =
-        willingRaw === true || /^yes\b/i.test(String(willingRaw || '').trim());
     const isUs = /^(united states|usa|u\.s\.|u\.s\.a\.?)$/i.test(
         String(country || '').trim(),
     );
@@ -4974,22 +5016,20 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
         );
     }
 
-    if (willingRelocate) {
-        return (
-            options.find((option) =>
-                /planning to relocate|open to relocating to the usa/i.test(
-                    String(option),
-                ),
-            ) || ''
-        );
-    }
-
+    // Do not treat generic willing_to_relocate (default yes) as US relocation.
+    // Once Upon a Farm otherwise selected "planning to relocate to the USA"
+    // for UK remotes.
     return (
         options.find((option) =>
             /nor am i open to relocating|not based in the usa, nor/i.test(
                 String(option),
             ),
-        ) || ''
+        ) ||
+        options.find((option) =>
+            /not based in the usa/i.test(String(option)) &&
+            !/planning to relocate|open to relocating/i.test(String(option)),
+        ) ||
+        ''
     );
 }
 
