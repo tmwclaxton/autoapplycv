@@ -350,6 +350,35 @@ test('mergePendingFields collapses remapped refs that share the same DOM id', ()
     assert.equal(merged[0].reason, 'missing_profile_data');
 });
 
+test('mergePendingFields collapses same-label pendings when DOM id is missing', () => {
+    const merged = mergePendingFields(
+        [
+            {
+                ref: 'f9',
+                label: 'do you require work authorization?',
+                field_type: 'text',
+                reason: 'missing_answer',
+            },
+        ],
+        [
+            {
+                ref: 'f10',
+                label: 'do you require work authorization?',
+                field_type: 'text',
+                reason: 'missing_profile_data',
+                profile_path: 'application_settings.legally_authorized',
+            },
+        ],
+    );
+
+    assert.equal(merged.length, 1);
+    assert.equal(merged[0].reason, 'missing_profile_data');
+    assert.equal(
+        merged[0].profile_path,
+        'application_settings.legally_authorized',
+    );
+});
+
 test('buildDraftAllApplyPlan auto-fills electronic certification signature from profile', () => {
     const certifyLabel =
         'I certify that all of the information I have provided is correct and complete. Please sign by typing your Full Legal First, Middle Initial, and Last Name.';

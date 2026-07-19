@@ -4808,6 +4808,15 @@ function createPendingField(field, mapping, reason, meta = null) {
         reason,
     };
 
+    // Keep DOM identity so mergePendingFields can collapse remapped refs.
+    if (field?.dom && typeof field.dom === 'object') {
+        pending.dom = {
+            id: field.dom.id ?? null,
+            name: field.dom.name ?? null,
+            data_field_path: field.dom.data_field_path ?? null,
+        };
+    }
+
     if (meta && typeof meta === 'object') {
         if (meta.rejected_answer != null) {
             pending.rejected_answer = String(meta.rejected_answer);
@@ -6369,6 +6378,7 @@ export function buildPendingFieldsFromUnfilledSnapshot(
 
 export function pendingFieldKey(field) {
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
+    const fieldType = String(field?.field_type || field?.type || '').trim();
     const domId = String(
         field?.dom?.id ||
             field?.dom?.name ||
@@ -6382,9 +6392,57 @@ export function pendingFieldKey(field) {
         return `dom:${domId}::${label}`;
     }
 
+    // Same label+type without DOM still collapses (createPendingField used to
+    // omit dom, leaving duplicate sidebar rows after ref remaps).
+    if (label) {
+        return `label:${label}::${fieldType}`;
+    }
+
     const ref = String(field?.ref || '').trim();
 
     return `${ref}::${label}`;
+}
+
+function preferPendingField(existing, incoming) {
+    if (!existing) {
+        return incoming;
+    }
+
+    if (!incoming) {
+        return existing;
+    }
+
+    const reasonRank = (reason) => {
+        const value = String(reason || '');
+
+        if (value === 'screening_clarify' || value === 'location_clarify') {
+            return 3;
+        }
+
+        if (value === 'missing_profile_data') {
+            return 2;
+        }
+
+        if (value === 'missing_answer') {
+            return 1;
+        }
+
+        return 0;
+    };
+
+    if (reasonRank(incoming.reason) > reasonRank(existing.reason)) {
+        return incoming;
+    }
+
+    if (reasonRank(incoming.reason) < reasonRank(existing.reason)) {
+        return existing;
+    }
+
+    if (incoming.profile_path && !existing.profile_path) {
+        return incoming;
+    }
+
+    return existing;
 }
 
 export function filterPendingFieldsForInventory(pendingFields, fields) {
@@ -6412,7 +6470,8 @@ export function mergePendingFields(existing, incoming) {
             continue;
         }
 
-        merged.set(pendingFieldKey(field), field);
+        const key = pendingFieldKey(field);
+        merged.set(key, preferPendingField(merged.get(key), field));
     }
 
     return Array.from(merged.values());
