@@ -58,7 +58,11 @@ function isPhoneRelatedField(field) {
         return true;
     }
 
-    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone|telefon|téléphone)\b/i.test(
+    if (isDeviceManagementQuestionLabel(label)) {
+        return false;
+    }
+
+    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|mobile(?:\s*number)?|cell(?:\s*phone)?|telephone|telefon|téléphone)\b/i.test(
         normalized,
     );
 }
@@ -147,6 +151,8 @@ const GENERIC_SALARY_KEYWORDS = [
     'expected salary',
     'salary expectation',
     'salary expectations',
+    // Common employer typo (Octopus Energy LinkedIn Easy Apply).
+    'salary expecations',
     'desired salary',
     'salary requirement',
     'minimum salary requirement',
@@ -350,13 +356,13 @@ const PROFILE_FIELD_MAPPINGS = [
         dashboard_anchor: 'field-phone',
         keywords: [
             'phone',
-            'mobile',
+            'mobile phone',
+            'mobile number',
             'telephone',
             'contact number',
-            'cell',
+            'cell phone',
             'telefon',
             'téléphone',
-            'telephone',
         ],
     },
     {
@@ -721,7 +727,7 @@ const USER_SPECIFIC_LABEL_PATTERNS = [
     /notice period/i,
     /expected (?:weekly |monthly |annual |yearly )?salary/i,
     /(?:weekly|monthly|annual|yearly) (?:salary|wage|compensation)/i,
-    /salary expectation/i,
+    /salary expec/i,
     /desired (?:weekly |monthly |annual |yearly )?salary/i,
     /compensation expectation/i,
     /current(?:ly)? (?:drawn )?salary/i,
@@ -1890,6 +1896,19 @@ export function isSkillScopedYearsExperienceLabel(label) {
         return true;
     }
 
+    // Octopus / LinkedIn: "How many years … supporting/managing Macbooks…"
+    // or "years of experience you have working in [enterprise IT] setting".
+    if (
+        /\bhow many years\b/.test(normalized) &&
+        /\b(?:supporting|managing|troubleshooting|macbooks?|macos|enterprise\s+it|such a setting)\b/.test(
+            normalized,
+        ) &&
+        !/\btotal\b/.test(normalized) &&
+        !/\b(?:overall|career)\s+experience\b/.test(normalized)
+    ) {
+        return true;
+    }
+
     // "How many years of Go / Figma / Python experience…"
     // Not "industry / professional / work experience" (OpenAI live).
     if (
@@ -1914,6 +1933,28 @@ export function isSkillScopedYearsExperienceLabel(label) {
     }
 
     return false;
+}
+
+/**
+ * "mobile device management" / MDM essays must never map to profile.phone via
+ * the bare "mobile" keyword (live Octopus Energy LinkedIn Easy Apply).
+ */
+export function isDeviceManagementQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return (
+        /\bmdm\b/.test(normalized) ||
+        /\bmobile device management\b/.test(normalized) ||
+        /\bdevice management\b/.test(normalized) ||
+        (/\bmobile\b/.test(normalized) &&
+            /\b(?:device|devices|endpoint|jamf|intune|workspace one)\b/.test(
+                normalized,
+            ))
+    );
 }
 
 export function isGenericTotalExperienceQuestionLabel(label) {
@@ -4026,7 +4067,13 @@ const NAMED_WORK_AUTH_COUNTRIES = [
 function haystackMentionsWorkAuthCountry(haystack, aliases) {
     for (const alias of aliases) {
         if (alias === 'us') {
-            if (/\b(?:the |in )?us\b/.test(haystack)) {
+            // Require a country cue - bare "us" matches pronouns in "tell us" /
+            // "helps us explore" (live Octopus Energy RTW label).
+            if (
+                /\b(?:the |in |for |to |within |from )us\b/.test(haystack) ||
+                /\busa\b/.test(haystack) ||
+                /\bu\.s\.a?\b/.test(haystack)
+            ) {
                 return true;
             }
 
@@ -4188,6 +4235,15 @@ function profileMatchesWorkAuthCountryAliases(profileCountry, aliases) {
 function isWorkPermitRequirementQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
+    // Status radios ("current right to work status") often mention visa/need in
+    // helper copy without asking whether a permit is required.
+    if (
+        /\bright to work status\b/.test(normalized) ||
+        /\bcurrent right to work\b/.test(normalized)
+    ) {
+        return false;
+    }
+
     // "Authorised without the need for a visa" is capacity, not a permit ask.
     if (
         /\b(?:without|no need for|do not need|don t need)\b.*\b(?:visa|work permit|sponsorship)\b/.test(
@@ -4225,6 +4281,10 @@ function pickWorkAuthStatusOption(field, authorized) {
     if (authorized) {
         const preferredPatterns = [
             /uk\/?irish citizen/i,
+            // Octopus Energy: "I'm a UK or Irish National"
+            /uk or irish national/i,
+            /i'?m a uk\b/i,
+            /irish national/i,
             /british citizen/i,
             /i am a (?:uk|british|irish) citizen/i,
             /\bcitizen\b/i,
@@ -4256,7 +4316,9 @@ function pickWorkAuthStatusOption(field, authorized) {
             /do not have the right to work/i.test(option) ||
             /no right to work/i.test(option) ||
             /not (?:currently )?authori[sz]ed/i.test(option) ||
-            /sponsorship required/i.test(option),
+            /sponsorship required/i.test(option) ||
+            /will need visa sponsorship/i.test(option) ||
+            /need (?:visa )?sponsorship to start/i.test(option),
     );
 
     return noRight || '';
@@ -4777,6 +4839,11 @@ export function resolveProfileMappingForLabel(
 
     // Job-site boards are not the applicant's city/current location.
     if (isJobApplicationLocationChoiceLabel(label)) {
+        return null;
+    }
+
+    // MDM / mobile-device essays must never resolve to profile.phone.
+    if (isDeviceManagementQuestionLabel(label)) {
         return null;
     }
 
@@ -7005,11 +7072,11 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
     // Bare Yes/No from legally_authorized must not fill status/nationality selects.
     // Greenhouse Yes/No comboboxes often have options still null at inventory
     // time - binary labels still get Yes/No (live Grafana residence eligibility).
-    // Skip for RTW free-text (already handled above / via resolveRightToWork…).
+    // Prefer structured status options even when the label also looks like free-text
+    // RTW ("right to work status" + options) - Octopus Energy LinkedIn Easy Apply.
     if (
         mapping.path === 'application_settings.legally_authorized' &&
-        !fieldHasYesNoOptions(field) &&
-        !isRightToWorkStatusFreeTextLabel(label)
+        !fieldHasYesNoOptions(field)
     ) {
         const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
 
@@ -7021,7 +7088,16 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
         const statusOption = pickWorkAuthStatusOption(field, authorized);
 
-        return statusOption || '';
+        if (statusOption) {
+            return statusOption;
+        }
+
+        // Free-text RTW was handled earlier; do not dump bare Yes/No onto status asks.
+        if (isRightToWorkStatusFreeTextLabel(label)) {
+            return '';
+        }
+
+        return '';
     }
 
     const normalized = isStructuredSalaryFormatPrompt(label)
@@ -7752,13 +7828,19 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             isMeaningfulAnswer(resolvedAnswer) &&
             shouldRejectPhoneAnswerOnField(field, resolvedAnswer)
         ) {
-            pending.push(
-                createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'missing_answer',
-                ),
+            // Do not attach profile_path=phone - that re-applies the number into
+            // the essay/MDM field on resume (live Octopus Energy).
+            const pendingPhoneBleed = createPendingField(
+                field,
+                null,
+                'type_coherence',
             );
+            pendingPhoneBleed.reject_reason = 'phone_on_non_phone';
+            pendingPhoneBleed.rejected_answer = String(resolvedAnswer).slice(
+                0,
+                80,
+            );
+            pending.push(pendingPhoneBleed);
             continue;
         }
 

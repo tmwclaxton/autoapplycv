@@ -58,8 +58,47 @@ class YearsExperienceAnswerNormalizer
 
     public static function isSkillSpecificYearsExperienceQuestion(string $label): bool
     {
+        if (self::isSkillScopedYearsExperienceQuestion($label)) {
+            return true;
+        }
+
         return self::isYearsExperienceQuestion($label)
             && ! self::isGenericTotalExperienceQuestion($label);
+    }
+
+    /**
+     * Tool / domain-scoped years (Macbook support, Figma, enterprise IT) - not total career YOE.
+     */
+    public static function isSkillScopedYearsExperienceQuestion(string $label): bool
+    {
+        $normalized = mb_strtolower(trim(preg_replace('/\s+/u', ' ', $label) ?? ''));
+
+        if ($normalized === '' || self::extractYearsExperienceThreshold($label) !== null) {
+            return false;
+        }
+
+        if (preg_match('/\byears? of (?:work )?experience\s+(?:in|with|using)\b/i', $normalized) === 1) {
+            return true;
+        }
+
+        if (
+            preg_match('/\bhow many years\b/i', $normalized) === 1
+            && preg_match('/\b(?:with|in|using)\b/i', $normalized) === 1
+            && preg_match('/\btotal\b/i', $normalized) !== 1
+        ) {
+            return true;
+        }
+
+        // Octopus: Macbook/macOS support years, enterprise IT setting years.
+        if (
+            preg_match('/\bhow many years\b/i', $normalized) === 1
+            && preg_match('/\b(?:supporting|managing|troubleshooting|macbooks?|macos|enterprise\s+it|such a setting)\b/i', $normalized) === 1
+            && preg_match('/\btotal\b/i', $normalized) !== 1
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function isGenericTotalExperienceQuestion(string $label): bool
@@ -71,6 +110,10 @@ class YearsExperienceAnswerNormalizer
         }
 
         if (self::extractYearsExperienceThreshold($label) !== null) {
+            return false;
+        }
+
+        if (self::isSkillScopedYearsExperienceQuestion($label)) {
             return false;
         }
 

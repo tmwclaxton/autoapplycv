@@ -59,6 +59,11 @@ import {
     logInfo,
     logWarn,
 } from './debug-log.js';
+import {
+    applyDraftAnswerVetVerdicts,
+    DRAFT_ALL_ANSWER_VET_ENABLED,
+    selectAnswersForVetting,
+} from './draft-all/answer-vet.js';
 import { filterMarketingConsentPendingFields } from './draft-all/consent-fields.js';
 import {
     collectMissingCoverLetterRetryRefs,
@@ -85,6 +90,7 @@ import {
     requestAssistChatStream,
     requestFieldInventory,
     requestJobContext,
+    requestVetDraftAnswers,
 } from './draft-all-stream.js';
 import {
     appendDraftChatQueueEntry,
@@ -3185,6 +3191,112 @@ async function fillDocumentsThenReapplyStickyAnswers({
     };
 }
 
+/**
+ * NanoGPT quality gate for free-text + risky Yes/No before DOM fill.
+ * Fail-open on network/API errors so type-coherence still applies.
+ */
+async function vetDraftAnswersBeforeApply({
+    toApply,
+    fieldsByRef,
+    job,
+    settings,
+    profileData,
+    tabId,
+    batchIndex = null,
+}) {
+    if (!DRAFT_ALL_ANSWER_VET_ENABLED || !Array.isArray(toApply) || toApply.length === 0) {
+        return { toApply, pending: [] };
+    }
+
+    const candidates = selectAnswersForVetting(toApply, fieldsByRef);
+
+    if (candidates.length === 0) {
+        return { toApply, pending: [] };
+    }
+
+    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+        message: `Vetting ${candidates.length} draft answer(s)…`,
+    });
+
+    try {
+        const result = await requestVetDraftAnswers({
+            job: job || {
+                title: 'Unknown role',
+                company: profileData?.job?.company || 'Unknown company',
+            },
+            candidates: candidates.map((answer) => ({
+                ref: answer.ref || null,
+                label: answer.label || '',
+                field_type: answer.field_type || null,
+                options: answer.options || null,
+                answer: answer.answer,
+            })),
+            settings: settings || {},
+        });
+
+        if (!result.ok) {
+            logWarn(
+                'background',
+                'draft-all.vet',
+                'Answer vetting skipped (fail-open)',
+                {
+                    batchIndex,
+                    message: result.message || null,
+                    candidateCount: candidates.length,
+                },
+                tabId,
+            );
+
+            return { toApply, pending: [] };
+        }
+
+        applyCachedSubscription(result.subscription);
+
+        const applied = applyDraftAnswerVetVerdicts(
+            toApply,
+            result.verdicts,
+            fieldsByRef,
+        );
+
+        if (applied.rejected > 0 || applied.revised > 0) {
+            logInfo(
+                'background',
+                'draft-all.vet',
+                'Answer vetting adjusted draft fills',
+                {
+                    batchIndex,
+                    candidateCount: candidates.length,
+                    revised: applied.revised,
+                    rejected: applied.rejected,
+                    reasons: (result.verdicts || [])
+                        .filter((row) => row.verdict !== 'ok')
+                        .map((row) => ({
+                            ref: row.ref,
+                            verdict: row.verdict,
+                            reason: row.reason,
+                        })),
+                },
+                tabId,
+            );
+        }
+
+        return { toApply: applied.toApply, pending: applied.pending };
+    } catch (error) {
+        logWarn(
+            'background',
+            'draft-all.vet',
+            'Answer vetting failed (fail-open)',
+            {
+                batchIndex,
+                error: error instanceof Error ? error.message : String(error),
+            },
+            tabId,
+        );
+
+        return { toApply, pending: [] };
+    }
+}
+
 async function runDraftAll(tabId, e2eOptions = null) {
     if (draftAllRunning) {
         // Auto Apply can advance a step while a prior Draft All is still winding
@@ -3396,6 +3508,27 @@ async function runDraftAll(tabId, e2eOptions = null) {
                                       : stage.type === 'marketing_consent'
                                         ? 'apply.marketing_consent'
                                         : 'apply.identity';
+
+            if (
+                stage.type === 'preference' ||
+                stage.type === 'screener' ||
+                stage.type === 'memo'
+            ) {
+                const vettedStage = await vetDraftAnswersBeforeApply({
+                    toApply: answersToApply,
+                    fieldsByRef,
+                    job,
+                    settings,
+                    profileData,
+                    tabId,
+                    batchIndex: `stage:${stage.type}`,
+                });
+                answersToApply = vettedStage.toApply;
+                pendingFields = mergePendingFields(
+                    pendingFields,
+                    vettedStage.pending,
+                );
+            }
 
             perf.start(perfPhase);
             const enrichedAnswers = enrichApplyAnswers(
@@ -3751,6 +3884,21 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     for (const subscription of retriedBatch.subscriptions) {
                         applyCachedSubscription(subscription);
                     }
+
+                    const vettedBatch = await vetDraftAnswersBeforeApply({
+                        toApply,
+                        fieldsByRef,
+                        job,
+                        settings,
+                        profileData,
+                        tabId,
+                        batchIndex: event.batch_index,
+                    });
+                    toApply = vettedBatch.toApply;
+                    batchPending = mergePendingFields(
+                        batchPending,
+                        vettedBatch.pending,
+                    );
 
                     for (const answer of toApply || []) {
                         if (answer?.ref && isMeaningfulAnswer(answer.answer)) {

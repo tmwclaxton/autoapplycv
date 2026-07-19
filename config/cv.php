@@ -107,6 +107,10 @@ return [
         // Smaller batches + higher completion budget avoid truncated JSON on long textareas.
         'draft_all_batch_size' => 4,
         'draft_all_max_tokens' => 4096,
+        // NanoGPT quality gate after draft answers (phone-in-essay, invented tool Yes/scores).
+        'draft_all_answer_vet_enabled' => true,
+        'draft_all_answer_vet_max_fields' => 12,
+        'draft_all_answer_vet_max_tokens' => 2048,
     ],
 
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),

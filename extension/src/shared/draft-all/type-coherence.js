@@ -583,6 +583,34 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         };
     }
 
+    // Phone / email / URL must never land in essays (MDM example, motivation, etc.).
+    if (
+        category === 'free_text'
+        && isFreeTextField(field)
+        && looksLikePhoneAnswer(text)
+        && !looksLikeEmailAnswer(text)
+    ) {
+        return {
+            coherent: false,
+            reason: 'phone_on_free_text',
+            category,
+            rejected: true,
+        };
+    }
+
+    if (
+        category === 'free_text'
+        && isFreeTextField(field)
+        && looksLikeEmailAnswer(text)
+    ) {
+        return {
+            coherent: false,
+            reason: 'email_on_free_text',
+            category,
+            rejected: true,
+        };
+    }
+
     if (category === 'phone' && isFreeTextField(field) && looksLikeEmailAnswer(text)) {
         return {
             coherent: false,
@@ -705,6 +733,8 @@ export function shouldRejectEssayMissingTargetCompany(
             label,
         ) &&
         !/\bwhat interests you (?:about|in)\b/.test(label) &&
+        !/\bwhat stands out\b/.test(label) &&
+        !/\bworking at\b/.test(label) &&
         !/\badditional information\b/.test(label)
     ) {
         return false;

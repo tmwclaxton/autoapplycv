@@ -325,6 +325,10 @@ copyFileSync(
     join(SRC, 'shared/draft-all/type-coherence.js'),
     join(DIST, 'draft-all/type-coherence.js'),
 );
+copyFileSync(
+    join(SRC, 'shared/draft-all/answer-vet.js'),
+    join(DIST, 'draft-all/answer-vet.js'),
+);
 writeFileSync(
     join(DIST, 'draft-all-pipeline.js'),
     readFileSync(join(SRC, 'shared/draft-all/pipeline.js'), 'utf8')

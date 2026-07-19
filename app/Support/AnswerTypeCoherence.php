@@ -116,6 +116,26 @@ class AnswerTypeCoherence
             return true;
         }
 
+        // Essays / free-text must never receive a bare phone or email (Octopus MDM).
+        if (
+            in_array($fieldType, ['text', 'textarea'], true)
+            && $category !== 'phone'
+            && $category !== 'email'
+            && self::looksLikePhone($trimmed)
+            && ! self::looksLikeEmail($trimmed)
+        ) {
+            return true;
+        }
+
+        if (
+            in_array($fieldType, ['text', 'textarea'], true)
+            && $category !== 'phone'
+            && $category !== 'email'
+            && self::looksLikeEmail($trimmed)
+        ) {
+            return true;
+        }
+
         if ($category === 'phone' && self::looksLikeEmail($trimmed)) {
             return true;
         }
@@ -186,7 +206,11 @@ class AnswerTypeCoherence
             return 'email';
         }
 
-        if ($fieldType === 'tel' || preg_match('/\b(?:phone|mobile|telephone|telefon|téléphone)\b/', $label) === 1) {
+        // "mobile device management" is an essay, not a phone field.
+        if (
+            preg_match('/\b(?:mdm|mobile device|device management)\b/', $label) !== 1
+            && ($fieldType === 'tel' || preg_match('/\b(?:phone|mobile phone|mobile number|telephone|telefon|téléphone)\b/', $label) === 1)
+        ) {
             return 'phone';
         }
 
@@ -210,7 +234,7 @@ class AnswerTypeCoherence
 
         // English + German salary / Gehaltsvorstellungen (Teamtailor number fields).
         if (
-            preg_match('/\b(?:expected salary|salary expectation|desired salary|current salary|last salary|compensation|pay rate|base salary|hourly rate|total package|remuneration|ctc|oczekiwania finansowe|wynagrodzenie|gehaltsvorstellungen|gehaltsvorstellung|jahreslohn|jahresgehalt|monatsgehalt)\b/', $label) === 1
+            preg_match('/\b(?:expected salary|salary expec|desired salary|current salary|last salary|compensation|pay rate|base salary|hourly rate|total package|remuneration|ctc|oczekiwania finansowe|wynagrodzenie|gehaltsvorstellungen|gehaltsvorstellung|jahreslohn|jahresgehalt|monatsgehalt)\b/', $label) === 1
             || (preg_match('/\b(?:gehalt|salary)\b/', $label) === 1 && preg_match('/\bnotice\b/', $label) !== 1)
             || (preg_match('/\bbrutto\b/', $label) === 1 && preg_match('/\b(?:lohn|gehalt|jahres)\b/', $label) === 1)
         ) {

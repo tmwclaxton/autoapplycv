@@ -247,4 +247,20 @@ class AnswerTypeCoherenceTest extends TestCase
             '2 weeks',
         ));
     }
+
+    public function test_rejects_phone_on_mdm_essay_free_text(): void
+    {
+        $profile = new CvProfile([
+            'phone' => '+447837370669',
+        ]);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            [
+                'label' => 'Can you share an example of how you have used, troubleshooted or implemented mobile device management?',
+                'field_type' => 'textarea',
+            ],
+            '+447837370669',
+        ));
+    }
 }

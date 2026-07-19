@@ -329,6 +329,48 @@ export async function requestDraftField(body) {
     return data;
 }
 
+/**
+ * Batched NanoGPT quality gate for proposed Draft All answers.
+ * Fail-open: returns ok:false so callers keep type-coherence-filtered answers.
+ */
+export async function requestVetDraftAnswers(body) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    let response;
+
+    try {
+        response = await fetch(`${apiBase}/api/applications/assist/vet-answers`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${apiToken}`,
+            },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        return { ok: false, message: 'Cannot reach AutoCVApply.' };
+    }
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || !data.success) {
+        return {
+            ok: false,
+            message: data.error || data.message || 'Answer vetting failed.',
+            subscription: data.subscription,
+        };
+    }
+
+    return {
+        ok: true,
+        verdicts: Array.isArray(data.verdicts) ? data.verdicts : [],
+        usage: data.usage || null,
+        subscription: data.subscription,
+    };
+}
+
 export async function patchProfile(body) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
