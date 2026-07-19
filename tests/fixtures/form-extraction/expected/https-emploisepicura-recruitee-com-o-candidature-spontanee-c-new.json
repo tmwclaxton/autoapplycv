@@ -1,0 +1,372 @@
+{
+  "id": "https-emploisepicura-recruitee-com-o-candidature-spontanee-c-new",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "linkedin",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LinkedIn"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "54",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "youtube",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "YouTube"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "56",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "nom complet",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-3",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Prénom et nom",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "adresse e-mail",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-4",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre adresse e-mail",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "numéro de téléphone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-5",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Votre numéro de téléphone",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lettre de motivation",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-15",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "fonction sollicitée",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Acheteur",
+        "Agent de prévention et de sécurité",
+        "Aide polyvalent en cuisine/commis de cuisine",
+        "Aide-comptable",
+        "Aide-cuisinier",
+        "Architecte",
+        "Assistant pharmaceutico-technique",
+        "Assistant social",
+        "Audiologue",
+        "Autre fonction",
+        "Chargé de communication",
+        "Chauffeur",
+        "Comptable",
+        "Conseiller en prévention",
+        "Conseiller support IT/Helpdesk",
+        "Cuisinier",
+        "Développeur",
+        "Diététicien",
+        "Électricien",
+        "Employé administratif",
+        "Employé au service du personnel/RH",
+        "Employé d'accueil",
+        "Employé logistique",
+        "Ergothérapeute",
+        "Informaticien",
+        "Ingénieur",
+        "Kinésithérapeute",
+        "Logopède",
+        "Magasinier",
+        "Menuisier",
+        "Neuropsychologue",
+        "Ouvrier polyvalent",
+        "Pharmacien",
+        "Plombier",
+        "Physicien médical",
+        "Psychologue",
+        "Qualiticien",
+        "Secrétaire de direction",
+        "Secrétaire médical",
+        "Technicien biomédical",
+        "Technicien de surface",
+        "Technicien en imagerie médicale",
+        "Technologue de laboratoire"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.5699207.multiContent-16-0",
+        "name": "candidate.openQuestionAnswers.5699207.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "votre situation",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Disponible",
+        "En fonction",
+        "En cours de formation"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5699205.content-17-0",
+        "name": "candidate.openQuestionAnswers.5699205.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "etes-vous sous contrat d'emploi avec epicura?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Oui",
+        "Non"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5699206.flag-18-0",
+        "name": "candidate.openQuestionAnswers.5699206.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sur quel(s) site(s) voulez-vous travailler?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Ath",
+        "Baudour",
+        "Hornu"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.5699208.multiContent-19-0",
+        "name": "candidate.openQuestionAnswers.5699208.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "quel type de contrat recherchez-vous ?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Contrat à durée indéterminée (CDI)",
+        "Contrat à durée déterminée (CDD)",
+        "Contrat étudiant"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.5699209.multiContent-20-0",
+        "name": "candidate.openQuestionAnswers.5699209.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "êtes-vous titulaire du permis b ?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Oui",
+        "Non"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5699210.flag-21-0",
+        "name": "candidate.openQuestionAnswers.5699210.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "possédez-vous un véhicule?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Oui",
+        "Non"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5699211.flag-22-0",
+        "name": "candidate.openQuestionAnswers.5699211.flag",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "votre numéro de registre national ou date de naissance",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "input-candidate.openQuestionAnswers.5699212.content-23",
+        "name": "candidate.openQuestionAnswers.5699212.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

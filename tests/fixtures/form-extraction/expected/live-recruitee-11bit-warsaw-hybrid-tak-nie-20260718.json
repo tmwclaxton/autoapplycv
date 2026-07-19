@@ -1,0 +1,347 @@
+{
+  "id": "live-recruitee-11bit-warsaw-hybrid-tak-nie-20260718",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-3",
+        "name": "candidate.name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "input-candidate.email-4",
+        "name": "candidate.email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "input-candidate.phone-5",
+        "name": "candidate.phone",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your phone number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cv or resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.cv-9",
+        "name": "candidate.cv",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.coverLetterFile-15",
+        "name": "candidate.coverLetterFile",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "to stanowisko wymaga pracy u nas w biurze w warszawie w modelu hybrydowym - 3 dni w biurze, 2 dni zdalnie. czy jest to dla ciebie w porządku?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Tak",
+        "Nie"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6531893.content-16-0",
+        "name": "candidate.openQuestionAnswers.6531893.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio (link)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6531894.content-17",
+        "name": "candidate.openQuestionAnswers.6531894.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio (file)",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "input-candidate.openQuestionAnswers.6531895.file-18",
+        "name": "candidate.openQuestionAnswers.6531895.file",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "czy masz już doświadczenie w zarządzaniu zespołem? jeśli tak, to jakiej był wielkości oraz jaki to był zespół (pod kątem domeny, ról w zespole, doświadczenia pracowników)?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6531896.content-21",
+        "name": "candidate.openQuestionAnswers.6531896.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "czy masz doświadczenie z 'combat design' lub pracy nad grą, w której jest combat?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6531897.content-22",
+        "name": "candidate.openQuestionAnswers.6531897.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jak wyglądają twoje oczekiwania finansowe? podaj proszę: rodzaj umowy/netto-brutto/kwota miesięczna-roczna",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6531898.content-23",
+        "name": "candidate.openQuestionAnswers.6531898.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kiedy możesz dołączyć do naszego zespołu? jaka jest twoja dostępność/okres wypowiedzenia?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.6531899.content-24",
+        "name": "candidate.openQuestionAnswers.6531899.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gdzie widziałeś/aś nasze ogłoszenie? gdzie się z nim spotkałeś/aś?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Strona 11 bit studios",
+        "Facebook",
+        "Instagram",
+        "Twitter",
+        "Linkedin",
+        "Skillshot",
+        "ArtStation",
+        "Indeed",
+        "Pracuj.pl",
+        "Rocket Jobs",
+        "Just Join IT",
+        "No Fluff Jobs",
+        "8 bit job board",
+        "Znajomi/Rodzina",
+        "Reklamy w internecie",
+        "Targi/Eventy",
+        "Inne"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.6531900.multiContent-25-0",
+        "name": "candidate.openQuestionAnswers.6531900.multiContent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jeśli zaznaczyłeś/aś \"inne\" będziemy wdzięczni za podpowiedź czym jest \"inne\". :)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.6531901.content-26",
+        "name": "candidate.openQuestionAnswers.6531901.content",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w cv) w celu prowadzenia rekrutacji na stanowisko wskazane w ogłoszeniu przez firm",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Wyrażam zgodę na wykorzystanie moich danych osobowych zawartych w zgłoszeniu rekrutacyjnym (w tym w CV) w celu prowadzenia rekrutacji na stanowisko wskazane w ogłoszeniu przez firmę 11 bit studios S.A. (tutaj znajdziesz naszą Politykę Prywatności)."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.openQuestionAnswers.6531891.flag",
+        "data_testid": "legal-input-field-value-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

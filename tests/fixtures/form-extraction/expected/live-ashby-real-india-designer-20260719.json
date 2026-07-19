@@ -1,0 +1,634 @@
+{
+  "id": "live-ashby-real-india-designer-20260719",
+  "min_fields": 28,
+  "exact_field_count": 28,
+  "fields": [
+    {
+      "question": "are you willing to undergo a background check, in accordance with local laws/regulations?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "19e1e18f-570e-4824-976c-0de6c9dfd52c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to work at the time zone/shifts mentioned in the job posting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "abb9a178-8649-4198-a813-5580a225bd60",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "were you referred to this career opportunity by someone at real?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "970eceb4-87f7-455d-8daf-5cdcc5da6b68",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio link",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "bd31fc23-a14a-4250-a0ff-96f65ddea096",
+        "name": "bd31fc23-a14a-4250-a0ff-96f65ddea096",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "bd31fc23-a14a-4250-a0ff-96f65ddea096",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal first name (as per aadhaar card)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "6ee8593c-928a-41cc-9971-1546b3956462",
+        "name": "6ee8593c-928a-41cc-9971-1546b3956462",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "6ee8593c-928a-41cc-9971-1546b3956462",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal last name (as per aadhaar card)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4be6b999-a50a-4254-9366-ec410e0710a5",
+        "name": "4be6b999-a50a-4254-9366-ec410e0710a5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "4be6b999-a50a-4254-9366-ec410e0710a5",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "095e43a0-2ead-4489-abae-387a6bbc0398",
+        "name": "095e43a0-2ead-4489-abae-387a6bbc0398",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "095e43a0-2ead-4489-abae-387a6bbc0398",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i consent to receiving text messages",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I consent to receiving text messages",
+        "No - I do not consent to receiving text messages"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "communicationConsent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c07de04b-a2ba-4e3a-a35f-512bf6c20f15",
+        "name": "c07de04b-a2ba-4e3a-a35f-512bf6c20f15",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c07de04b-a2ba-4e3a-a35f-512bf6c20f15",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zip / postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "10c07297-8a60-4d4b-ae9a-73417c274723",
+        "name": "10c07297-8a60-4d4b-ae9a-73417c274723",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "10c07297-8a60-4d4b-ae9a-73417c274723",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently an indian citizen or otherwise legally authorized to work in india?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am a citizen of India",
+        "I am an OCI/PIO (Overseas Citizen of India) card holder",
+        "I am on a valid work visa",
+        "I am not currently authorized to work in India and would require appropriate authorization to obtain employment"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1091a885-e1c7-42fb-a8c5-c95642867c63_a7270094-bc57-4007-98ad-ef8ee611318b-labeled-radio-0",
+        "name": "1091a885-e1c7-42fb-a8c5-c95642867c63_a7270094-bc57-4007-98ad-ef8ee611318b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current fixed salary?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "69df0798-5187-495f-b4df-3b57fe7c4cf6",
+        "name": "69df0798-5187-495f-b4df-3b57fe7c4cf6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "69df0798-5187-495f-b4df-3b57fe7c4cf6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "3e82925f-ceed-4de0-8cbc-7f9ce46878d0",
+        "name": "3e82925f-ceed-4de0-8cbc-7f9ce46878d0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "3e82925f-ceed-4de0-8cbc-7f9ce46878d0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your official notice period?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Immediately Available",
+        "30 Days",
+        "45 Days",
+        "60 Days",
+        "90 Days",
+        "Currently Serving Notice"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1091a885-e1c7-42fb-a8c5-c95642867c63_5898fa34-0a95-44f9-8261-b404eaaa87e6-labeled-radio-0",
+        "name": "1091a885-e1c7-42fb-a8c5-c95642867c63_5898fa34-0a95-44f9-8261-b404eaaa87e6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently serving the notice? if yes, how soon can you join?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fcca7e15-fea9-4a4b-95f1-8ec7072fb82a",
+        "name": "fcca7e15-fea9-4a4b-95f1-8ec7072fb82a",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "fcca7e15-fea9-4a4b-95f1-8ec7072fb82a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "total years of experience",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "19677f6c-eb85-47ab-985c-56101fee089b",
+        "name": "19677f6c-eb85-47ab-985c-56101fee089b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "19677f6c-eb85-47ab-985c-56101fee089b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience in figma",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "7a2e8fcc-a423-498e-80b8-6314f8420559",
+        "name": "7a2e8fcc-a423-498e-80b8-6314f8420559",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "7a2e8fcc-a423-498e-80b8-6314f8420559",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience in interaction design",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "076f6013-29ea-4759-97aa-aa901df31d16",
+        "name": "076f6013-29ea-4759-97aa-aa901df31d16",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "076f6013-29ea-4759-97aa-aa901df31d16",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience in after effects?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Would love to learn"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1091a885-e1c7-42fb-a8c5-c95642867c63_110a2863-fe5f-4e8f-ba4a-a919160770d0-labeled-radio-0",
+        "name": "1091a885-e1c7-42fb-a8c5-c95642867c63_110a2863-fe5f-4e8f-ba4a-a919160770d0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which ai tools have you used so far for research, architecture, prototyping, and design workflows? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Claude",
+        "Gemini",
+        "ChatGPT",
+        "Midjourney",
+        "Adobe Firefly",
+        "Figma AI",
+        "Runway",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "1091a885-e1c7-42fb-a8c5-c95642867c63_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-0",
+        "name": "Claude",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you now or have you ever worked for real or any of our other companies?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c290de96-4020-47dc-adc3-5b511cbdd861",
+        "name": "c290de96-4020-47dc-adc3-5b511cbdd861",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c290de96-4020-47dc-adc3-5b511cbdd861",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you related to a current real employee?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "d09fb413-d8bd-406c-9ee9-526d2c128fe3",
+        "name": "d09fb413-d8bd-406c-9ee9-526d2c128fe3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "d09fb413-d8bd-406c-9ee9-526d2c128fe3",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you answered yes to the question above, tell us the name of the employee at real who referred you.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "51cc9ce3-1ed0-4275-bf4f-f05d71c405d4",
+        "name": "51cc9ce3-1ed0-4275-bf4f-f05d71c405d4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "51cc9ce3-1ed0-4275-bf4f-f05d71c405d4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "2ef67cfe-686a-4088-ae03-c724e0d28a1f",
+        "name": "2ef67cfe-686a-4088-ae03-c724e0d28a1f",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "2ef67cfe-686a-4088-ae03-c724e0d28a1f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

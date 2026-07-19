@@ -1,0 +1,159 @@
+{
+  "id": "https-aller-weser-klinik-softgarden-io-de-vacancies",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "stichwortsuche",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword_search",
+        "name": "jobSearch:jobSearchContainer:keyword_search",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job search:job search container:geo location search wrapper:geo location search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "geoLocation_search",
+        "name": "jobSearch:jobSearchContainer:geoLocation_search_wrapper:geoLocation_search",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job search:job search container:geo location search wrapper:geo location radius",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "1 km",
+        "5 km",
+        "10 km",
+        "25 km",
+        "50 km",
+        "75 km",
+        "100 km"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id1",
+        "name": "jobSearch:jobSearchContainer:geoLocation_search_wrapper:geoLocationRadius",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zielgruppe oder jobkategorie auswählen",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Auszubildende (3)",
+        "Schüler/in (3)",
+        "Berufseinsteiger (12)",
+        "Berufserfahrene (8)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-multiple",
+        "id": "selector_0",
+        "name": "audience[]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zielgruppe oder jobkategorie auswählen",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Ärztlicher Dienst (3)",
+        "Ausbildung / Studium / FSJ / BFD (6)",
+        "Funktionsdienst (3)",
+        "Pflege (12)",
+        "sonstige Berufe im Gesundheitswesen (1)",
+        "Verwaltung (1)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-multiple",
+        "id": "selector_1",
+        "name": "jobcategory[]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zielgruppe oder jobkategorie auswählen",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Search.NotRubricated (8)",
+        "Search.NotRubricated (1)",
+        "Search.NotRubricated (17)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-multiple",
+        "id": "selector_2",
+        "name": "sg_company_id[]",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

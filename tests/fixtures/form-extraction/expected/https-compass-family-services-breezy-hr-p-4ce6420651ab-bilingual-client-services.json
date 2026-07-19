@@ -1,0 +1,638 @@
+{
+  "id": "https-compass-family-services-breezy-hr-p-4ce6420651ab-bilingual-client-services",
+  "min_fields": 26,
+  "exact_field_count": 26,
+  "fields": [
+    {
+      "question": "cresume main-attachment",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "main-attachment",
+        "name": "cResume",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Phone Number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "personal details",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By providing your phone number you agree to receive informational text messages from Compass Family Services. Compass Family Services will send updates about your application via SMS. Message & data rates may apply, reply STOP to opt out at any time."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "smsConsent",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_0",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1653435341921_question_0",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your personal pronouns?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "She/her",
+        "He/his",
+        "They/Them",
+        "Other",
+        "Prefer not to share at this time"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_1",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you either a us citizen or have a us work authorization that does not require employer sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am a citizen or have US work authorization.",
+        "No, I do not have US work authorization.",
+        "I'm not sure."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1653435341921_question_2",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you find out about this job opening? (check any that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Indeed",
+        "LinkedIn",
+        "Handshake",
+        "Referred by a Compass staff member, volunteer, donor or client",
+        "School or alumni network",
+        "Workforce development organization (JVS, Goodwill, Upwardly Global, etc.)",
+        "Social Media",
+        "Compass website",
+        "Other job board (besides LinkedIn, Indeed or Handshake)",
+        "I am a current or former Compass employee or volunteer",
+        "I am a current or former Compass client",
+        "Other, not listed above"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_3",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_4",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_1653435341921_question_4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how would you describe your level of spanish proficiency?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Native Speaker or Fluent",
+        "Professional proficiency (able to have extended conversations and email exchanges on complex topics)",
+        "Conversational (able to have conversations about straightforward topics)",
+        "None or less than conversational"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1653435341921_question_5",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of these work schedules are you open to?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Monday - Friday",
+        "Sunday - Thursday (Fri/Sat off)",
+        "Tuesday - Saturday (Sun/Mon off)",
+        "Day shift (9am-5pm or 10am-6pm)",
+        "Afternoon swing shift (1pm - 9pm)",
+        "Night swing shift (4pm - midnight)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of these san francisco neighborhoods are you open to working in?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Civic Center area",
+        "Tenderloin",
+        "Hayes Valley"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you interested in roles that are fully on-site (no remote days)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am open to working on-site every day.",
+        "No, I need one remote day per week.",
+        "No, I need at least two remote days per week."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1653435341921_question_8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which salary ranges are you open to?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "$27 - $29 per hour",
+        "$29 - $31 per hour",
+        "$31 -$33 per hour",
+        "$33 per hour or higher"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "some of our roles require the ability to drive around the bay area, using cars rented through our zipcar membership. do you have a valid ca driver's license and ability to be approved as a zipcar driver?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I'm not sure"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_1653435341921_question_10",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you more interested in working with adults, kids, or both?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I'm interested in roles where most of my time will be spent planning and leading activities for children.",
+        "I'm interested in roles where I'll be primarily working with the adult members of the family.",
+        "I'm not sure / It depends on the position."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "section_1653435341921_question_11",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_12",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1653435341921_question_12",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_13",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1653435341921_question_13",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_14",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1653435341921_question_14",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "section_1653435341921_question_15",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "section_1653435341921_question_15",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "race or ethnicity",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "White (not Hispanic or Latino)",
+        "Black or African-American (not Hispanic or Latino)",
+        "Asian (not Hispanic or Latino)",
+        "American Indian or Alaskan Native (not Hispanic or Latino)",
+        "Native Hawaiian or other Pacific islander (not Hispanic or Latino)",
+        "Two or more races/ethnicities (not Hispanic or Latino)",
+        "Hispanic or Latino (including Black individuals whose origins are Hispanic)",
+        "I don't wish to answer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "race_white",
+        "name": "race_ethnicity",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female",
+        "I don't wish to answer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "gender_male",
+        "name": "gender",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i identify as one or more of the classifications of protected veterans listed above",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I IDENTIFY AS ONE OR MORE OF THE CLASSIFICATIONS OF PROTECTED VETERANS LISTED ABOVE",
+        "I AM NOT A PROTECTED VETERAN",
+        "I CHOOSE NOT TO SELF-IDENTIFY MY PROTECTED VETERAN STATUS"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "vet_yes",
+        "name": "eeoc.veteran_status",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yes, i have a disability (or previously had a disability)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "YES, I HAVE A DISABILITY (or previously had a disability)",
+        "NO, I DON'T HAVE A DISABILITY",
+        "I do not want to answer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "disability_yes",
+        "name": "eeoc.disability_status",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}
