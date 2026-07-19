@@ -6943,20 +6943,29 @@ export function partitionPreferenceProfileFields(fields, profileData) {
         let answer = resolvePreferenceProfileAnswer(field, profileData);
         const label = field?.label || field?.question || '';
 
-        if (isMeaningfulAnswer(answer)) {
+        // Expand bare notice digits ("2" -> "2 weeks") on availability free-text
+        // only. Do not re-normalize Yes/No YOE radios (that turns Yes into "7").
+        if (
+            isMeaningfulAnswer(answer) &&
+            (isNoticePeriodStyleQuestion(label) ||
+                isAvailabilityQuestionLabel(label))
+        ) {
             answer = normalizeFieldAnswerForQuestion(label, answer, {
                 fieldType: field?.field_type,
                 options: field?.options ?? null,
                 domId: field?.dom?.id,
-                profileYears: readProfileValue(
-                    profileData,
-                    'application_settings.years_of_experience',
-                ),
             });
         }
 
+        // Prefer leave-pending over wrong fills, but never reject an answer that
+        // already matches a listed option (Yes among relocate variants is valid).
+        const answerMatchesOption = Array.isArray(field?.options)
+            ? Boolean(findExactChoiceOptionMatch(answer, field.options))
+            : false;
+
         if (
             isMeaningfulAnswer(answer) &&
+            !answerMatchesOption &&
             shouldRejectAnswerForTypeCoherence(field, answer)
         ) {
             pendingFields.push(
