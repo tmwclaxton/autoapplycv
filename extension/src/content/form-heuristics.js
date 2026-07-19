@@ -9614,6 +9614,195 @@ var AutoCVApplyFormHeuristics = (() => {
         return tag === 'spl-phone-field' || tag === 'oc-phone-number';
     }
 
+    function findSmartRecruitersLocationHost(element) {
+        let current = element;
+
+        while (current) {
+            const tag = String(current.tagName || '').toLowerCase();
+
+            if (
+                tag === 'oc-location-autocomplete' ||
+                (tag === 'spl-autocomplete' &&
+                    /location/i.test(
+                        String(
+                            current.getAttribute?.('data-test') ||
+                                current.getAttribute?.('data-sr-id') ||
+                                current.id ||
+                                '',
+                        ),
+                    ))
+            ) {
+                return current;
+            }
+
+            const root = current.getRootNode?.();
+
+            if (root instanceof ShadowRoot && root.host) {
+                current = root.host;
+                continue;
+            }
+
+            current = current.parentElement;
+        }
+
+        return null;
+    }
+
+    function isSmartRecruitersLocationInput(element) {
+        if (!element || !isSmartRecruitersOneclickContext(element)) {
+            return false;
+        }
+
+        return Boolean(findSmartRecruitersLocationHost(element));
+    }
+
+    function findSmartRecruitersLocationTextInput(host) {
+        if (!host) {
+            return null;
+        }
+
+        if (host.tagName?.toLowerCase() === 'input') {
+            return host;
+        }
+
+        const shadowInput = host.shadowRoot?.querySelector(
+            'input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"])',
+        );
+
+        if (shadowInput) {
+            return shadowInput;
+        }
+
+        return (
+            querySelectorAllDeep(
+                host,
+                'input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"])',
+            )[0] || null
+        );
+    }
+
+    async function setSmartRecruitersLocationValue(element, value) {
+        const stringValue = String(value || '').trim();
+
+        if (!stringValue || !isSmartRecruitersLocationInput(element)) {
+            return false;
+        }
+
+        const host = findSmartRecruitersLocationHost(element) || element;
+        const textInput = findSmartRecruitersLocationTextInput(host) || element;
+        const city = stringValue.split(',')[0].trim() || stringValue;
+        const query = city.length >= 3 ? city : stringValue;
+
+        textInput.focus();
+        dispatchPointerClick(textInput);
+        await fillReactTextControl(textInput, query);
+        await sleep(600);
+
+        const optionSelectors = [
+            '[role="option"]',
+            '[data-test*="option"]',
+            'li[class*="option"]',
+            'button[class*="option"]',
+            '.spl-autocomplete__option',
+            '[class*="autocomplete"] [class*="option"]',
+        ];
+        let options = [];
+
+        for (const selector of optionSelectors) {
+            options = querySelectorAllDeep(
+                textInput.ownerDocument || document,
+                selector,
+            ).filter((node) => normalize(node.textContent || '').length >= 2);
+
+            if (options.length > 0) {
+                break;
+            }
+        }
+
+        const normalizedQuery = normalize(query);
+        const match =
+            options.find((node) =>
+                normalize(node.textContent || '').includes(normalizedQuery),
+            ) || options[0];
+
+        if (match) {
+            dispatchPointerClick(match);
+            await sleep(120);
+
+            const readback = String(
+                textInput.value ||
+                    readSmartRecruitersControlValue(textInput) ||
+                    '',
+            ).trim();
+
+            if (readback.length >= 2) {
+                heuristicsLog(
+                    'info',
+                    'apply.location',
+                    'smartrecruiters location selected',
+                    {
+                        query,
+                        readbackPreview: readback.slice(0, 80),
+                    },
+                );
+
+                return true;
+            }
+        }
+
+        textInput.dispatchEvent(
+            new KeyboardEvent('keydown', {
+                key: 'ArrowDown',
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+            }),
+        );
+        await sleep(40);
+        textInput.dispatchEvent(
+            new KeyboardEvent('keydown', {
+                key: 'Enter',
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+            }),
+        );
+        await sleep(120);
+
+        const keyboardReadback = String(
+            textInput.value || readSmartRecruitersControlValue(textInput) || '',
+        ).trim();
+
+        if (keyboardReadback.length >= 2) {
+            heuristicsLog(
+                'info',
+                'apply.location',
+                'smartrecruiters location keyboard-selected',
+                {
+                    query,
+                    readbackPreview: keyboardReadback.slice(0, 80),
+                },
+            );
+
+            return true;
+        }
+
+        heuristicsLog(
+            'warn',
+            'apply.location',
+            'smartrecruiters location fill did not commit',
+            {
+                query,
+                optionCount: options.length,
+            },
+        );
+
+        return (
+            keyboardReadback.length >= 2 ||
+            String(textInput.value || '').trim().length >= 2
+        );
+    }
+
     function findSmartRecruitersPhoneTelInput(host) {
         if (!host) {
             return null;
@@ -11571,6 +11760,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (isSmartRecruitersPhoneInput(element)) {
             return setSmartRecruitersPhoneValue(element, value);
+        }
+
+        if (isSmartRecruitersLocationInput(element)) {
+            return setSmartRecruitersLocationValue(element, value);
         }
 
         if (element.type === 'tel' && isSmartRecruitersPhoneInput(element)) {
