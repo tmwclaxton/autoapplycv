@@ -1023,8 +1023,8 @@ var AutoCVApplyFormHeuristics = (() => {
 
             return Boolean(
                 empty &&
-                    display !== 'none' &&
-                    /no location found/i.test(empty.textContent || ''),
+                display !== 'none' &&
+                /no location found/i.test(empty.textContent || ''),
             );
         };
 
@@ -1560,12 +1560,47 @@ var AutoCVApplyFormHeuristics = (() => {
         return '';
     }
 
+    function getWorkableAddressSubfieldLabel(element) {
+        const identity = String(
+            element?.id ||
+                element?.name ||
+                element?.getAttribute?.('data-ui') ||
+                '',
+        ).toLowerCase();
+
+        if (/^(city|town)$/i.test(identity)) {
+            return 'City';
+        }
+
+        if (/^(postcode|postalcode|zip|zipcode)$/i.test(identity)) {
+            return 'Postcode';
+        }
+
+        if (/^(country)$/i.test(identity)) {
+            return 'Country';
+        }
+
+        if (/^(state|region|admin_area)$/i.test(identity)) {
+            return 'Region';
+        }
+
+        return '';
+    }
+
     function getWorkableQuestionLabel(element) {
         if (
             !element ||
             !isWorkableApplyHost(element.ownerDocument || document)
         ) {
             return '';
+        }
+
+        // Clipped Places companions inherit the wrong nearby label unless we
+        // name them from id/name before scanning siblings.
+        const addressSubfieldLabel = getWorkableAddressSubfieldLabel(element);
+
+        if (addressSubfieldLabel) {
+            return addressSubfieldLabel;
         }
 
         const choiceGroup = getWorkableChoiceGroup(element);
@@ -2701,9 +2736,7 @@ var AutoCVApplyFormHeuristics = (() => {
             return 'no';
         }
 
-        const yesMatch = normalized.match(
-            /\b(yes|yeah|yep|true|tak|oui|ja)\b/,
-        );
+        const yesMatch = normalized.match(/\b(yes|yeah|yep|true|tak|oui|ja)\b/);
         const noMatch = normalized.match(/\b(no|nope|false|nie|non|nein)\b/);
 
         if (yesMatch && !noMatch) {
@@ -3247,7 +3280,10 @@ var AutoCVApplyFormHeuristics = (() => {
             );
 
             // Keep location-input on char-by-char so Lever geocomplete fires.
-            if (/^(name|email|phone|org)$/i.test(name) || /^urls\[/i.test(name)) {
+            if (
+                /^(name|email|phone|org)$/i.test(name) ||
+                /^urls\[/i.test(name)
+            ) {
                 return false;
             }
         }
@@ -3565,9 +3601,7 @@ var AutoCVApplyFormHeuristics = (() => {
             '.select__single-value, .select__multi-value__label',
         );
 
-        return (
-            singleValue?.textContent?.replace(/\s+/g, ' ').trim() || null
-        );
+        return singleValue?.textContent?.replace(/\s+/g, ' ').trim() || null;
     }
 
     function isReactSelectPlaceholderVisible(element) {
@@ -4656,7 +4690,10 @@ var AutoCVApplyFormHeuristics = (() => {
 
     function stripSvgBrowserNoise(text) {
         return String(text || '')
-            .replace(/svgs?\s+not\s+supported\s+by\s+this\s+browser\.?\s*/gi, '')
+            .replace(
+                /svgs?\s+not\s+supported\s+by\s+this\s+browser\.?\s*/gi,
+                '',
+            )
             .replace(/\s+/g, ' ')
             .trim();
     }
@@ -5906,11 +5943,7 @@ var AutoCVApplyFormHeuristics = (() => {
         let { bestOption, bestOptionText, bestScore } =
             scoreOpenComboboxOptions(options);
 
-        if (
-            !(bestOption && bestScore >= 100) &&
-            !isYesNoAnswer &&
-            canType
-        ) {
+        if (!(bestOption && bestScore >= 100) && !isYesNoAnswer && canType) {
             await typeComboboxFilterText(element, stringValue);
             await pauseMs(120);
             options = collectOpenComboboxOptions();
@@ -6134,7 +6167,10 @@ var AutoCVApplyFormHeuristics = (() => {
                 );
             const siblingText = sibling?.textContent || '';
 
-            if (siblingText && siblingText.trim().length > String(raw || '').trim().length) {
+            if (
+                siblingText &&
+                siblingText.trim().length > String(raw || '').trim().length
+            ) {
                 raw = siblingText;
             }
         }
@@ -7014,8 +7050,7 @@ var AutoCVApplyFormHeuristics = (() => {
             // Prefer the longest exact-ish option so "nor am I open to relocating"
             // wins over the earlier "planning to relocate" No radio.
             const specificity =
-                score * 10 +
-                Math.max(optionText.length, optionValue.length);
+                score * 10 + Math.max(optionText.length, optionValue.length);
 
             if (specificity > bestScore) {
                 bestScore = specificity;
@@ -11727,8 +11762,10 @@ var AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
+            // Include clipped city/postcode/country companions so Draft All can
+            // fill them from profile when Places autocomplete does not run.
             if (isWorkableHiddenAddressSubfield(element)) {
-                return false;
+                return true;
             }
 
             if (isChosenSearchInput(element)) {
@@ -12042,6 +12079,8 @@ var AutoCVApplyFormHeuristics = (() => {
         const recruiteeFormControl = isRecruiteeApplicationFormControl(element);
         const leverSurveyControl = isLeverDeferredSurveyControl(element);
         const chosenSelect = isChosenEnhancedSelect(element);
+        const workableAddressSubfield =
+            isWorkableHiddenAddressSubfield(element);
 
         if (isSiteSearchChrome(element) || isJobBoardNavSearchInput(element)) {
             return false;
@@ -12059,7 +12098,8 @@ var AutoCVApplyFormHeuristics = (() => {
             !styledChoice &&
             !recruiteeFormControl &&
             !leverSurveyControl &&
-            !chosenSelect
+            !chosenSelect &&
+            !workableAddressSubfield
         ) {
             return false;
         }
