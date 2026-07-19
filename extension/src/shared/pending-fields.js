@@ -1390,6 +1390,34 @@ export function isEmployerScreeningTrapLabel(label) {
     );
 }
 
+/**
+ * Employer-specific travel comfort (defence weekly UK travel, % travel, etc.)
+ * without a dedicated preference setting - leave pending instead of inventing Yes.
+ */
+export function isEmployerSpecificTravelComfortLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /\btravel throughout\b/.test(normalized) &&
+        /\b(?:weekly|defence|defense)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    if (
+        /\b(?:willing|able|comfortable) to travel\b/.test(normalized) &&
+        /\b(?:\d+\s*%|percent|up to\s+\d+|days?\s+per)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
 /** Never apply an LLM guess to employer screening traps. */
 export function shouldClarifyScreeningTrap(field, answer, profileData = null) {
     const label = field?.label || field?.question || '';
@@ -4133,6 +4161,139 @@ function resolveUsLocationAnswer(field, profileData) {
     return isUs ? 'Yes' : 'No';
 }
 
+const LISTED_LOCATION_COUNTRY_ALIASES = [
+    {
+        canonical: 'united kingdom',
+        aliases: [
+            'united kingdom',
+            'uk',
+            'u.k.',
+            'britain',
+            'great britain',
+            'england',
+            'scotland',
+            'wales',
+            'northern ireland',
+        ],
+    },
+    { canonical: 'france', aliases: ['france'] },
+    {
+        canonical: 'germany',
+        aliases: ['germany', 'deutschland'],
+    },
+    {
+        canonical: 'netherlands',
+        aliases: ['netherlands', 'holland', 'the netherlands'],
+    },
+    { canonical: 'spain', aliases: ['spain'] },
+    { canonical: 'ireland', aliases: ['ireland', 'republic of ireland'] },
+    { canonical: 'belgium', aliases: ['belgium'] },
+    { canonical: 'sweden', aliases: ['sweden'] },
+    { canonical: 'poland', aliases: ['poland', 'polska'] },
+];
+
+/**
+ * Dataiku-style: "Are you currently located in France, United Kingdom, Germany, Netherlands?"
+ */
+export function isListedCountriesLocationQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (isUsLocationQuestion(label) || isUsLocationConfirmationQuestion(label)) {
+        return false;
+    }
+
+    if (
+        !/\b(?:currently )?(?:located|based|living|residing) in\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
+    // Need at least two country tokens in the list.
+    const listed = LISTED_LOCATION_COUNTRY_ALIASES.filter((entry) =>
+        entry.aliases.some((alias) =>
+            new RegExp(
+                `(?:^|\\s)${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`,
+                'i',
+            ).test(` ${normalized} `),
+        ),
+    );
+
+    return listed.length >= 2;
+}
+
+export function resolveListedCountriesLocationAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isListedCountriesLocationQuestion(label)) {
+        return '';
+    }
+
+    const normalized = normalizeQuestionLabel(label);
+    const profileCountry = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    );
+    const profileLocation = profileLocationTokens(profileData);
+    const options = Array.isArray(field?.options)
+        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        : [];
+
+    const listed = LISTED_LOCATION_COUNTRY_ALIASES.filter((entry) =>
+        entry.aliases.some((alias) =>
+            new RegExp(
+                `(?:^|\\s)${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`,
+                'i',
+            ).test(` ${normalized} `),
+        ),
+    );
+
+    const profileInList = listed.some(
+        (entry) =>
+            profileMatchesWorkAuthCountryAliases(
+                profileCountry,
+                entry.aliases,
+            ) ||
+            entry.aliases.some((alias) =>
+                new RegExp(
+                    `(?:^|\\s)${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`,
+                    'i',
+                ).test(` ${profileLocation} `),
+            ),
+    );
+
+    if (profileInList) {
+        const yesOption = options.find((option) => /^yes\b/i.test(option));
+
+        return yesOption || 'Yes';
+    }
+
+    const relocateOption = options.find((option) =>
+        /willing to relocate|relocate/i.test(option),
+    );
+    const willing = readProfileValue(
+        profileData,
+        'application_settings.willing_to_relocate',
+    );
+
+    if (
+        relocateOption &&
+        (willing === true || /^yes\b/i.test(String(willing || '').trim()))
+    ) {
+        return relocateOption;
+    }
+
+    const remoteOption = options.find((option) =>
+        /remotely from another country|work remotely/i.test(option),
+    );
+
+    return remoteOption || '';
+}
+
 export function resolveProfileMappingForLabel(
     label,
     profileData = null,
@@ -6037,6 +6198,15 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
     }
 
+    const listedCountriesAnswer = resolveListedCountriesLocationAnswer(
+        field,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(listedCountriesAnswer)) {
+        return listedCountriesAnswer;
+    }
+
     const countrySpecificWorkAuthAnswer = resolveCountrySpecificWorkAuthAnswer(
         field,
         profileData,
@@ -6461,6 +6631,7 @@ export function partitionScreeningTrapFields(fields, profileData) {
 
         if (
             isEmployerScreeningTrapLabel(label) ||
+            isEmployerSpecificTravelComfortLabel(label) ||
             (isSecurityClearanceQuestionLabel(label) &&
                 !profileInUnitedStates(profileData)) ||
             (isItarEligibilityQuestionLabel(label) &&

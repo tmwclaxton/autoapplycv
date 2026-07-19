@@ -510,6 +510,68 @@ test('available from is notice not date and rejects bare integers', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
 });
 
+test('listed EU/UK location Yes/No fills Yes for UK profiles', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+    const { isListedCountriesLocationQuestion } = await import(
+        '../../extension/src/shared/pending-fields.js'
+    );
+
+    const label =
+        'are you currently located in france, united kingdom, germany, netherlands?';
+    assert.equal(isListedCountriesLocationQuestion(label), true);
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 7,
+                ref: 'f7',
+                label,
+                field_type: 'select',
+                options: [
+                    'Yes',
+                    "No, but I'm willing to relocate",
+                    'No, I would prefer to work remotely from another country',
+                ],
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.ok(
+        plan.applyStages
+            .flatMap((stage) => stage.answers || [])
+            .some((item) => item.ref === 'f7' && item.answer === 'Yes'),
+    );
+});
+
+test('defence weekly travel comfort stays screening_clarify', async () => {
+    const { partitionScreeningTrapFields } = await import(
+        '../../extension/src/shared/pending-fields.js'
+    );
+
+    const { pendingFields } = partitionScreeningTrapFields(
+        [
+            {
+                ref: 'f2',
+                label: 'if applying for our defence team, you may be travel throughout the uk on a weekly basis, please confirm this is something you are comfortable with',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        { profile: { country: 'United Kingdom' } },
+    );
+
+    assert.equal(pendingFields[0]?.reason, 'screening_clarify');
+});
+
 test('4+ years Yes/No coerces from profile years and country intend maps to country', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'
