@@ -325,6 +325,10 @@ writeFileSync(
     join(DIST, 'draft-all-pipeline.js'),
     readFileSync(join(SRC, 'shared/draft-all/pipeline.js'), 'utf8')
         .replace(
+            "from './answer-utils.js'",
+            "from './draft-all/answer-utils.js'",
+        )
+        .replace(
             "from './consent-fields.js'",
             "from './draft-all/consent-fields.js'",
         )
