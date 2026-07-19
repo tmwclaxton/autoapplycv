@@ -44,3 +44,24 @@ test('infers Fairfood Freiburg from Personio jobs subdomain', () => {
     assert.equal(inferred?.company, 'Fairfood Freiburg');
     assert.equal(inferred?.source, 'personio');
 });
+
+test('infers company from Teamtailor and Recruitee subdomains', () => {
+    assert.equal(
+        tryInferJobContextFromPage({
+            page_url:
+                'https://aignostics.teamtailor.com/jobs/7825590-senior-product-manager/applications/new',
+            page_title: 'Senior Product Manager - Aignostics',
+            page_text: '',
+        })?.company,
+        'Aignostics',
+    );
+    assert.equal(
+        tryInferJobContextFromPage({
+            page_url:
+                'https://aikidosecurity.recruitee.com/o/solutions-engineer-pre-sales-us/c/new',
+            page_title: 'Aikido Security - Solutions Engineer',
+            page_text: '',
+        })?.company,
+        'Aikidosecurity',
+    );
+});

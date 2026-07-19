@@ -42,7 +42,8 @@ const ATS_URL_PATTERNS = [
     { pattern: /boards\.greenhouse\.io\/([^/?#]+)/i, source: 'greenhouse' },
     { pattern: /job-boards\.greenhouse\.io\/([^/?#]+)/i, source: 'greenhouse' },
     { pattern: /jobs\.lever\.co\/([^/?#]+)/i, source: 'lever' },
-    { pattern: /(?:^|\.)teamtailor\.com\/jobs/i, source: 'teamtailor' },
+    // aignostics.teamtailor.com/jobs/...
+    { pattern: /([a-z0-9-]+)\.teamtailor\.com\b/i, source: 'teamtailor' },
     { pattern: /jobs\.smartrecruiters\.com/i, source: 'smartrecruiters' },
     // apply.workable.com/booksy-1/j/... - strip trailing -1 account suffixes later.
     { pattern: /(?:^|\.)workable\.com\/([^/?#]+)/i, source: 'workable' },
@@ -51,6 +52,8 @@ const ATS_URL_PATTERNS = [
         pattern: /([a-z0-9-]+)\.jobs\.personio\.(?:de|com)\b/i,
         source: 'personio',
     },
+    // aikidosecurity.recruitee.com/o/...
+    { pattern: /([a-z0-9-]+)\.recruitee\.com\b/i, source: 'recruitee' },
 ];
 
 const MIN_SINGLE_PAGE_FIELD_COUNT = 5;
