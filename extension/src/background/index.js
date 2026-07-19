@@ -2843,6 +2843,12 @@ async function fillDocumentsThenReapplyStickyAnswers({
 }) {
     await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
 
+    // Teamtailor/Greenhouse resume upload remounts the form after S3 finishes;
+    // replaying immediately loses gender/EEO radios that looked filled.
+    await new Promise((resolve) => {
+        setTimeout(resolve, 1500);
+    });
+
     const identityAnswers =
         draftPlan?.applyStages?.find((stage) => stage.type === 'identity')
             ?.answers || [];
@@ -2882,23 +2888,37 @@ async function fillDocumentsThenReapplyStickyAnswers({
     const stickyAnswers =
         draftPlan?.applyStages?.find((stage) => stage.type === 'sticky_select')
             ?.answers || [];
-    const stickyReplay = await reapplyStickySelectAnswersAfterDocuments({
-        tabId,
-        stickyAnswers,
-        fieldsByRef,
-        profileYears,
-    });
+    let stickyApplied = 0;
+    let stickySuccess = true;
 
-    if (typeof stickyReplay.formFrameId === 'number') {
-        nextFrameId = stickyReplay.formFrameId;
+    for (const pass of [0, 1]) {
+        if (pass === 1) {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 900);
+            });
+        }
+
+        const stickyReplay = await reapplyStickySelectAnswersAfterDocuments({
+            tabId,
+            stickyAnswers,
+            fieldsByRef,
+            profileYears,
+        });
+
+        stickyApplied += Number(stickyReplay.applied || 0);
+        stickySuccess = stickySuccess && stickyReplay.success !== false;
+
+        if (typeof stickyReplay.formFrameId === 'number') {
+            nextFrameId = stickyReplay.formFrameId;
+        }
     }
 
     return {
         formFrameId: nextFrameId,
-        applied: identityApplied + Number(stickyReplay.applied || 0),
+        applied: identityApplied + stickyApplied,
         identityApplied,
-        stickyApplied: Number(stickyReplay.applied || 0),
-        success: stickyReplay.success !== false,
+        stickyApplied,
+        success: stickySuccess,
     };
 }
 
