@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { resolveSpeakLanguageFromProfile } from '../../extension/src/shared/speak-language-answer.js';
+import {
+    resolveAdditionalLanguagesFreeTextAnswer,
+    resolveSpeakLanguageFromProfile,
+} from '../../extension/src/shared/speak-language-answer.js';
+import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 
 test('UK profile answers Yes to speak English when languages list is empty', () => {
     const field = {
@@ -45,4 +49,42 @@ test('populated languages still drive Yes/No for non-English asks', () => {
     };
 
     assert.equal(resolveSpeakLanguageFromProfile(field, profile), 'Yes');
+});
+
+test('Hively other-than-English free text answers No when languages empty', () => {
+    const field = {
+        label: 'other than english, do you speak more than one language fluently? which ones?',
+        field_type: 'textarea',
+    };
+    const profile = {
+        country: 'United Kingdom',
+        structured_data: { languages: [] },
+    };
+
+    assert.equal(resolveAdditionalLanguagesFreeTextAnswer(field, profile), 'No');
+    assert.equal(
+        resolveHeuristicScreenerAnswer(field, profile, null, { platformId: 'lever' }),
+        'No',
+    );
+});
+
+test('other-than-English free text lists non-English profile languages', () => {
+    const field = {
+        label: 'other than english, do you speak more than one language fluently? which ones?',
+        field_type: 'textarea',
+    };
+    const profile = {
+        country: 'United Kingdom',
+        structured_data: {
+            languages: [
+                { language: 'English' },
+                { language: 'Spanish', proficiency: 'conversational' },
+            ],
+        },
+    };
+
+    assert.equal(
+        resolveAdditionalLanguagesFreeTextAnswer(field, profile),
+        'Spanish',
+    );
 });

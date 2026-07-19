@@ -30,11 +30,15 @@ import {
 } from './pending-fields.js';
 import {
     isSpeakLanguageYesNoQuestion,
+    resolveAdditionalLanguagesFreeTextAnswer,
     resolveSpeakLanguageFromProfile,
 } from './speak-language-answer.js';
 
 export { isSourceOfHireQuestionLabel };
-export { resolveSpeakLanguageFromProfile } from './speak-language-answer.js';
+export {
+    resolveAdditionalLanguagesFreeTextAnswer,
+    resolveSpeakLanguageFromProfile,
+} from './speak-language-answer.js';
 
 /** @type {Record<string, string[]>} */
 const PLATFORM_SOURCE_OPTION_ALIASES = {
@@ -521,6 +525,18 @@ export function resolveHeuristicScreenerAnswer(
     if (isMeaningfulAnswer(speakLanguageAnswer)) {
         return normalizeHeuristicAnswerForField(
             speakLanguageAnswer,
+            normalizedField,
+        );
+    }
+
+    const additionalLanguagesAnswer = resolveAdditionalLanguagesFreeTextAnswer(
+        normalizedField,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(additionalLanguagesAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            additionalLanguagesAnswer,
             normalizedField,
         );
     }

@@ -100,6 +100,64 @@ function isEnglishSpeakingProfileCountry(profileData) {
 }
 
 /**
+ * Free-text "other than English, which languages do you speak?" style prompts.
+ * Distinct from Yes/No "Do you speak French?" screeners.
+ */
+export function isAdditionalLanguagesFreeTextQuestion(field) {
+    const label = normalizeLanguageToken(field?.label || field?.question || '');
+    const fieldType = String(field?.field_type || field?.type || '').toLowerCase();
+
+    if (!label) {
+        return false;
+    }
+
+    if (
+        fieldType &&
+        fieldType !== 'text' &&
+        fieldType !== 'textarea' &&
+        fieldType !== 'input'
+    ) {
+        return false;
+    }
+
+    if (isSpeakLanguageYesNoQuestion(field)) {
+        return false;
+    }
+
+    return (
+        (/\bother than english\b/.test(label) &&
+            /\b(?:language|languages|speak|fluent)\b/.test(label)) ||
+        (/\b(?:which|what)\s+languages?\b/.test(label) &&
+            /\b(?:speak|fluent|proficient)\b/.test(label)) ||
+        /\blanguages?\s+do\s+you\s+speak\b/.test(label)
+    );
+}
+
+/**
+ * List non-English profile languages, or answer No when the list is empty for
+ * English-speaking countries (Hively free-text fluency prompt).
+ */
+export function resolveAdditionalLanguagesFreeTextAnswer(field, profileData) {
+    if (!isAdditionalLanguagesFreeTextQuestion(field)) {
+        return null;
+    }
+
+    const names = profileLanguageNames(profileData).filter(
+        (name) => name !== 'english',
+    );
+
+    if (names.length > 0) {
+        return names.map((name) => titleCaseLanguage(name)).join(', ');
+    }
+
+    if (isEnglishSpeakingProfileCountry(profileData)) {
+        return 'No';
+    }
+
+    return null;
+}
+
+/**
  * Answer speak-language Yes/No when profile languages are populated.
  * English defaults to Yes for English-speaking profile countries even when the
  * languages list is empty. Other languages stay pending (do not invent No).
