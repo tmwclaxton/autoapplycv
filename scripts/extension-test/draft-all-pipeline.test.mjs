@@ -822,6 +822,54 @@ test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of Link
     assert.equal(plan.skipsLlm, true);
 });
 
+test('buildDraftAllApplyPlan clears hear-about additional-info companions when source is LinkedIn', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f9',
+                label: 'where did you hear about iso?',
+                field_type: 'checkbox',
+                options: [
+                    'Press article / publication',
+                    'DeepMind website',
+                    'LinkedIn',
+                    'Twitter',
+                    'Other',
+                ],
+            },
+            {
+                id: 1,
+                ref: 'f10',
+                label: 'where did you hear about iso? (additional info)',
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {
+            'where did you hear about iso? (additional info)': 'LinkedIn',
+        },
+        pageUrl:
+            'https://job-boards.greenhouse.io/isomorphiclabs/jobs/5561630004',
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
+    );
+    const clearAnswers = plan.applyStages.find(
+        (stage) => stage.type === 'clear',
+    )?.answers;
+
+    assert.equal(answersByRef.get('f9'), 'LinkedIn');
+    assert.equal(clearAnswers?.[0]?.ref, 'f10');
+    assert.equal(clearAnswers?.[0]?.answer, '__CLEAR__');
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f10'),
+        false,
+    );
+});
+
 test('buildDraftAllApplyPlan inverts work-permit questions from legally_authorized', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [

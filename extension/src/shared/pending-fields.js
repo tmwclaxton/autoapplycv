@@ -207,6 +207,8 @@ const SOURCE_OF_HIRE_EXCLUDE_PATTERNS = [
     /\breferral\s+(?:code|name|email|contact)\b/i,
     /\bwho\s+referred\b/i,
     /\bstaff\s+number\b/i,
+    // Companion free-text next to a hear-about checkbox/select (Isomorphic).
+    /\badditional\s+info(?:rmation)?\b/i,
 ];
 
 const APPLICATION_SPECIFIC_QUESTION_PATTERNS = [
@@ -2846,8 +2848,8 @@ export function isSourceOfHireQuestionLabel(label) {
 }
 
 /**
- * Follow-up free-text after a source-of-hire "Other" choice.
- * Skip NanoGPT when the primary source answer is not Other.
+ * Follow-up free-text after a source-of-hire choice (Other / conference /
+ * referral / "additional info"). Clear when the primary answer is LinkedIn etc.
  *
  * @param {string|null|undefined} label
  * @returns {boolean}
@@ -2859,13 +2861,32 @@ export function isSourceOfHireOtherFollowUpLabel(label) {
         return false;
     }
 
-    if (!/\bif\b/.test(normalized) || !/\bother\b/.test(normalized)) {
-        return false;
+    const isHearAbout =
+        /\b(hear|came across|find|found|learn|source|refer)\b/.test(
+            normalized,
+        ) || /\bwhere did you hear\b/.test(normalized);
+
+    // Classic "If Other, please explain" essays.
+    if (
+        /\bif\b/.test(normalized) &&
+        /\bother\b/.test(normalized) &&
+        isHearAbout
+    ) {
+        return true;
     }
 
-    return /\b(hear|came across|find|found|learn|source|refer)\b/.test(
-        normalized,
-    );
+    // Greenhouse "Where did you hear about Iso? (Additional info)" companions.
+    if (
+        isHearAbout &&
+        (/\badditional info(?:rmation)?\b/.test(normalized) ||
+            /\bplease (?:specify|explain|describe|provide|let us know)\b/.test(
+                normalized,
+            ))
+    ) {
+        return true;
+    }
+
+    return false;
 }
 
 /**
