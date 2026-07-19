@@ -136,6 +136,42 @@ test('agreement partition removes field from LLM-bound remaining list', () => {
     assert.equal(remainingFields[0].ref, 'f5');
 });
 
+const ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD = {
+    ref: 'f6',
+    label: 'as an ai-first company, we embrace tools like gemini. however, our interview process is designed to understand your unique expertise and problem-solving skills, as well as what motivates you. therefore, we ask that you refrain from using any ai tools, transcription services, or other assistants during your interview and assessment process, unless you\'ve made prior arrangements with our talent team for specific needs or accommodations. (if you require any adjustments, please discuss this with the talent team during your initial screening call.)',
+    field_type: 'checkbox',
+    options: [
+        'By checking this box and proceeding with your application, you confirm that you have read and agreed to these terms and will not use any AI tools or assistants during the interview and assessment process.',
+    ],
+    required: true,
+    dom: {
+        tag: 'input',
+        type: 'checkbox',
+        id: 'question_13625889004[]',
+        name: 'question_13625889004[]',
+    },
+};
+
+test('Isomorphic Labs AI interview terms checkbox auto-accepts via agreement partition', () => {
+    assert.equal(isAgreementCheckboxField(ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD), true);
+    assert.equal(isMarketingOrFutureConsentField(ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD), false);
+
+    const answer = resolveAgreementCheckboxAnswer(ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD);
+
+    assert.match(answer, /^By checking this box/i);
+
+    const { agreementAnswers, remainingFields } = partitionAgreementCheckboxFields([
+        ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD,
+    ]);
+
+    assert.equal(agreementAnswers.length, 1);
+    assert.equal(remainingFields.length, 0);
+    assert.equal(
+        shouldPromptUserForMissingDraftAnswer(ISOMORPHIC_AI_INTERVIEW_TERMS_FIELD, {}),
+        false,
+    );
+});
+
 test('Framestore fixture agreement checkbox fills via consent wildcard on apply', async () => {
     const html = readFileSync(
         join(ROOT, 'tests/fixtures/form-extraction/html/https-framestore-recruitee-com-o-vfx-production-coordinator-07-2026-c-new.html'),
